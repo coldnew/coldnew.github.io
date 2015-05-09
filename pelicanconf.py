@@ -70,6 +70,27 @@ STATIC_EXCLUDE_SOURCES = False
 PLUGIN_PATHS = ['plugins', 'plugins/pelican-plugins']
 PLUGINS = [
     # ...
-#    'minify' # pelican-minify
+    #    'minify' # pelican-minify
     # ...
 ]
+
+
+# Social widget
+SOCIAL = (
+    ('Bitbucket', 'https://bitbucket.org/coldnew'),
+    ('GitHub', 'https://github.com/coldnew'),
+    ('EMAIL', 'mailto:coldnew.tw@gmail.com'),
+)
+
+# Share
+SHARE = True
+
+# Disqus
+DISQUS_SITENAME = 'coldnew'
+DISQUS_LOAD_LATER = True
+
+# Google Analytics
+GOOGLE_ANALYTICS='UA-42122243-1'
+
+# License
+CC_LICENSE = "CC-BY-NC"
