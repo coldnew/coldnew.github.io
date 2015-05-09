@@ -50,7 +50,7 @@ gulp.task('server', function() {
     connect.server({
         root: ['output'],
         port:8000,
-        livereload: true
+        livereload: false
     });
 });
 
@@ -179,9 +179,9 @@ gulp.task('watch', ['server'], function() {
     // Watch contents
     gulp.watch(config.src_content, ['publish']);
 
-    // // Watch any files in dist/, reload on change
-    gulp.watch(['output/**/*']).on('change',function(file){
-        gulp.src(file.path)
-            .pipe(connect.reload());
-    });
+    // // // Watch any files in dist/, reload on change
+    // gulp.watch(['output/**/*']).on('change',function(file){
+    //     gulp.src(file.path)
+    //         .pipe(connect.reload());
+    // });
 });
