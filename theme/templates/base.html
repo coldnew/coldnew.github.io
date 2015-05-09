@@ -1,0 +1,54 @@
+<!-- -*- mode: jinja2; -*- -->
+<!DOCTYPE html>
+
+<html lang="{% block html_lang %}{{ DEFAULT_LANG }}{% endblock %}">
+  <head>
+    <title>{% block title %}{{ SITENAME }}{% endblock %}</title>
+
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {# Favicons are a touchy subject. For reasoning for the following code, see: http://stackoverflow.com/a/23851464/872397 #}
+    {% if FAVICON %}
+      <link href="{{ SITEURL }}/{{ FAVICON }}" rel="icon">
+    {% endif %}
+
+    {% block canonical_rel %}{% endblock %}
+
+    {% block meta %}
+      <meta name="author" content="{{ AUTHOR }}" />
+    {% endblock %}
+
+    {# js scripts #}
+    <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/blogit.min.css" type="text/css"/>
+    <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/blogit.min.js" type="text/javascript"></script>
+
+    {# rss/atom #}
+    {% include 'includes/feeds.html' %}
+
+  </head>
+  <body>
+    {# navigator #}
+    {% include 'navigator.html' %}
+
+    <div class="container{% if BOOTSTRAP_FLUID %}-fluid{% endif %}">
+      <div class="row">
+        <div class="col-sm-9">
+          {% block breadcrumbs %}
+          {% endblock %}
+
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+    {% include 'includes/disqus_script.html' %}
+    {% include 'includes/ga.html' %}
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
