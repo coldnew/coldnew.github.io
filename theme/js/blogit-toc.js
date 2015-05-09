@@ -29,5 +29,4 @@
     if (content) {
         $(".table-of-contents").prepend(header + content + footer);
     }
-
 })();
