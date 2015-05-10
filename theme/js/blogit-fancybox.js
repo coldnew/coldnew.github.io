@@ -1,4 +1,5 @@
-// blogit fancybox suport
+// fancybox suport
+'use strict';
 
 $(document).ready(function() {
     $(".fancybox").fancybox();
@@ -9,5 +10,4 @@ $(document).ready(function() {
             $(this).wrapAll('<a class="fancybox" href="' + this.src + '"></a>');
         });
     });
-
 });
