@@ -1,6 +1,5 @@
 // Generate table-of-contents for blogit
-
-(function () {
+$(document).ready(function() {
     var header =
             "<nav role='navigation' class='table-of-contents'>" +
             "<h2>Table of Contents</h2>" +
@@ -29,4 +28,4 @@
     if (content) {
         $(".table-of-contents").prepend(header + content + footer);
     }
-})();
+});
