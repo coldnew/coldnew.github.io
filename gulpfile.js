@@ -177,7 +177,7 @@ gulp.task('watch', ['server'], function() {
     gulp.watch(config.src_images, ['images']);
 
     // Watch contents
-    gulp.watch(config.src_content, ['publish']);
+//    gulp.watch(config.src_content, ['publish']);
 
     // // // Watch any files in dist/, reload on change
     // gulp.watch(['output/**/*']).on('change',function(file){
