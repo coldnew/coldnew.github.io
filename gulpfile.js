@@ -24,6 +24,7 @@ var gulp = require('gulp'),
     shell = require('gulp-shell'),
     ghpages = require('gulp-gh-pages'),
     streamqueue = require('streamqueue'),
+    browserSync = require('browser-sync').create(),
     run = require('gulp-run');
 
 var config = {
@@ -153,6 +154,19 @@ gulp.task('deploy', function(){
         }));
 });
 
+// Static server
+// http://www.browsersync.io/docs/options/
+gulp.task('browser-sync', function() {
+    browserSync.init({
+        server: {
+            baseDir: "./output"
+        },
+        ui: {
+            port: 8080
+        }
+    });
+});
+
 // Clean
 gulp.task('clean', function(cb) {
     //    del(['static/css', 'static/js', 'static/images'], cb)
@@ -181,8 +195,8 @@ gulp.task('watch', ['server'], function() {
 
     // Watch any files in dist/, reload on change
     // TODO: BUG?
-    gulp.watch(['output/**/*']).on('change',function(file){
-        gulp.src(file.path)
-            .pipe(connect.reload());
-    });
+    // gulp.watch(['output/**/*']).on('change',function(file){
+    //     gulp.src(file.path)
+    //         .pipe(connect.reload());
+    // });
 });
