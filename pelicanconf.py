@@ -92,8 +92,5 @@ DISQUS_LOAD_LATER = True
 # Google Analytics
 GOOGLE_ANALYTICS = 'UA-42122243-1'
 
-# lloogg
-LLOOGG = '2b0e4f72854'
-
 # License
 CC_LICENSE = "CC-BY-NC"
