@@ -3,7 +3,6 @@
 var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     util = require('gulp-util'),
-    rev = require('gulp-rev'),
     connect = require('gulp-connect'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
@@ -127,15 +126,6 @@ gulp.task('images', function() {
         .pipe(gulp.dest(config.output_images_dir))
         .pipe(notify({ message: 'Images task complete' }));
 });
-
-// // Revision
-// gulp.task('rev', ['css','js'], function() {
-//     return gulp.src(['static/**/*.css', 'static/**/*.js'])
-//         .pipe(rev())
-//         .pipe(gulp.dest('static'))
-//         .pipe(rev.manifest())
-//         .pipe(gulp.dest('static'));
-// });
 
 // publish
 gulp.task('publish', function() {
