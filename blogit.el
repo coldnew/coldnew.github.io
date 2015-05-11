@@ -36,8 +36,12 @@
 (setq coldnew/blogit-final-output-directory
       (f-join blogit~config-directory "output"))
 
-;; Clear all info in `blogt-publish-project-alist' we will set it later.
-(setq blogit-publish-project-alist nil)
+;; trigger pelican regenerate output
+(add-hook 'blogit-after-publish-hook
+          (lambda()
+            (shell-command (concat
+                            "pelican -s " (f-join blogit~config-directory "pelicanconf.py")))
+            ))
 
 ;; Main blogit source
 (add-to-list 'blogit-publish-project-alist
