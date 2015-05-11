@@ -8,6 +8,9 @@
   {% else %}
     <meta name="author" content="{{ AUTHOR }}" />
   {% endif %}
+  {% if article.generator %}
+    <meta name="generator" content="{{ article.generator }}"/>
+  {% endif %}
   {% if article.tags %}
     <meta name="keywords" content="{{ article.tags|join(',')|striptags }}" />
   {% endif %}
@@ -57,7 +60,7 @@
         </div>
 
         {# TODO: #}
-        {% include 'includes/toc.html' %}
+        {# {% include 'includes/toc.html' %} #}
         {{ article.content }}
 
       </div>
@@ -67,8 +70,11 @@
       {% include 'includes/addthis.html' %}
       {% include 'includes/shariff.html' %}
       {# {% include 'includes/comments.html' %} #}
-      {% include 'includes/disqus.html' %}
     </article>
   </section>
 
+{% endblock %}
+
+{% block scripts %}
+  {% include 'includes/disqus.html' %}
 {% endblock %}
