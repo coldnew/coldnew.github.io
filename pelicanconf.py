@@ -72,6 +72,7 @@ PLUGINS = [
     # ...
     #    'minify' # pelican-minify
     # ...
+    "optimize_images"
 ]
 
 
