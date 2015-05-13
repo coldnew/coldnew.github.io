@@ -127,13 +127,15 @@ gulp.task('images', function() {
         .pipe(notify({ message: 'Images task complete' }));
 });
 
-// publish
+// publish release version
 gulp.task('publish', function() {
-    run("pelican -s pelicanconf.py").exec();
+    // NOTE: I use `publishconf.py` instad of `pelicanconf.py` here for building
+    // deploy release
+    run("pelican -s publishconf.py").exec();
 });
 
 // deploy
-gulp.task('deploy', function(){
+gulp.task('deploy', ['publish'], function(){
     // TODO: republish content with release version
     // then deploy
     return gulp.src('output/**/*')
@@ -179,14 +181,4 @@ gulp.task('watch', ['server'], function() {
 
     // Watch image files
     gulp.watch(config.src_images, ['images']);
-
-    // Watch contents
-    //    gulp.watch(config.src_content, ['publish']);
-
-    // Watch any files in dist/, reload on change
-    // TODO: BUG?
-    // gulp.watch(['output/**/*']).on('change',function(file){
-    //     gulp.src(file.path)
-    //         .pipe(connect.reload());
-    // });
 });
