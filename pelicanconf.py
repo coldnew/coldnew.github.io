@@ -63,16 +63,12 @@ STATIC_PATHS = [ 'data' ]
 STATIC_EXCLUDE_SOURCES = False
 
 ## Some plugins not list here, use pip to install
-#
-#   pip install --user pelican-minify
-#
-
 PLUGIN_PATHS = ['plugins', 'plugins/pelican-plugins']
 PLUGINS = [
     # ...
     #    'minify' # pelican-minify
     # ...
-    "optimize_images"
+    "optimize_images",
 ]
 
 
@@ -89,9 +85,6 @@ SHARE = True
 # Disqus
 DISQUS_SITENAME = 'coldnew'
 DISQUS_LOAD_LATER = True
-
-# Google Analytics
-GOOGLE_ANALYTICS = 'UA-42122243-1'
 
 # License
 CC_LICENSE = "CC-BY-NC"
