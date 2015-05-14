@@ -143,7 +143,7 @@ gulp.task('gh-pages', function(){
 
 gulp.task('deploy', function() {
     runSequence(
-        'clean',
+        // 'clean',  // no need to clean all files
         // copy theme file should triggger after publish
         'publish', ['fonts', 'js', 'css', 'images'],
         'gh-pages'
