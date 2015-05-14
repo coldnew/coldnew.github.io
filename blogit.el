@@ -30,7 +30,7 @@
 ;; Personal config (not offical support by blogit)
 
 (setq coldnew/blogit-compact-dir
-      (f-join blogit~config-directory "sources"))
+      (f-join blogit~config-directory "src"))
 
 ;; final output for pelican
 (setq coldnew/blogit-final-output-directory

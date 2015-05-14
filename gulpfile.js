@@ -126,14 +126,12 @@ gulp.task('publish', function(cb) {
 });
 
 // deploy
+// ref: https://github.com/kud/kud.github.io
 gulp.task('gh-pages', function(){
     return gulp.src('output/**/*')
         .pipe(ghpages({
-            remoteUrl: "git@github.com:coldnew/coldnew.github.io.git",
-            // TODO: since github only allow master branch for xxx.github.io, replace it later
-            branch: "g1",
+            branch: "master",
             cacheDir: '.deploy'
-            // ref: https://github.com/kud/kud.github.io
         }));
 });
 
