@@ -68,7 +68,9 @@ PLUGINS = [
     # ...
     #    'minify' # pelican-minify
     # ...
-    "optimize_images",
+#    "optimize_images",
+    'clean_summary',
+    "org-pelican",
 ]
 
 
@@ -88,3 +90,7 @@ DISQUS_LOAD_LATER = True
 
 # License
 CC_LICENSE = "CC-BY-NC"
+
+# org-pelican
+ORG_PELICAN_COPY_ORG_FILE = True
+ORG_PELICAN_COPY_ORG_HTML_FILE = True
