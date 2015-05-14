@@ -3,7 +3,6 @@
 var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     util = require('gulp-util'),
-    connect = require('gulp-connect'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
@@ -45,15 +44,6 @@ var config = {
 
 // update package.json from gulp
 sync(gulp);
-
-// livereload server
-gulp.task('server', function() {
-    connect.server({
-        root: ['output'],
-        port:8000,
-        livereload: true
-    });
-});
 
 // Fonts
 gulp.task('fonts', function() {
@@ -158,7 +148,7 @@ gulp.task('deploy', function() {
 
 // Static server
 // http://www.browsersync.io/docs/options/
-gulp.task('browser-sync', function() {
+gulp.task('server', function() {
     browserSync.init({
         server: {
             baseDir: "./output"
