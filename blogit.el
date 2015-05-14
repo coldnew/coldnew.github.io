@@ -85,6 +85,3 @@
                :html-head-include-scripts nil
                :html-head-include-default-style nil
                :recursive t))
-
-;; Readme file for github
-;; TODO:
