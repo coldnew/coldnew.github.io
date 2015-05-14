@@ -114,7 +114,11 @@ gulp.task('css', function() {
 
 // Images
 gulp.task('images', function() {
-    return gulp.src(config.src_images)
+    return gulp.src([config.src_images,
+                     // fancybox
+                     'bower_components/fancybox/source/*.gif',
+                     'bower_components/fancybox/source/*.png',
+                    ])
         .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
         .pipe(gulp.dest(config.output_images_dir))
         .pipe(notify({ message: 'Images task complete' }));
