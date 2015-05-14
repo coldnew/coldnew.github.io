@@ -11,18 +11,18 @@ sys.path.append(os.curdir)
 from pelicanconf import *
 
 SITEURL = 'http://coldnew.github.io'
+
 RELATIVE_URLS = False
 
-DELETE_OUTPUT_DIRECTORY = True
+DELETE_OUTPUT_DIRECTORY = False # I do this in gulp
 
 # Google Analytics
 GOOGLE_ANALYTICS = 'UA-42122243-1'
 
 # Extra plugins for optimize output
-
-PLUGINS = [
+PLUGINS.extend([
     # ...
     'minify', # pelican-minify
     # ...
-    "optimize_images",
-]
+#    "optimize_images",
+])

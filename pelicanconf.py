@@ -4,8 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = u'Yen-Chin,Lee'
 SITENAME = u"coldnew's blog"
-#SITEURL = 'http://coldnew.github.io'
-SITEURL = 'http://localhost:8000'
+SITEURL = 'http://localhost:3000'
 
 PATH = 'content'
 
@@ -65,14 +64,8 @@ STATIC_EXCLUDE_SOURCES = False
 ## Some plugins not list here, use pip to install
 PLUGIN_PATHS = ['plugins', 'plugins/pelican-plugins']
 PLUGINS = [
-    # ...
-    #    'minify' # pelican-minify
-    # ...
-#    "optimize_images",
-    'clean_summary',
     "org-pelican",
 ]
-
 
 # Social widget
 SOCIAL = (
