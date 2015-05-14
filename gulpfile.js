@@ -96,6 +96,8 @@ gulp.task('css', function() {
 
     var libraries = gulp.src([
         'bower_components/font-awesome/css/font-awesome.min.css',
+        // fancybox
+        'bower_components/fancybox/source/jquery.fancybox.css',
     ]);
 
     // merge all streams in order
