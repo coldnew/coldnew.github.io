@@ -24,6 +24,7 @@ var gulp = require('gulp'),
     ghpages = require('gulp-gh-pages'),
     streamqueue = require('streamqueue'),
     browserSync = require('browser-sync').create(),
+    runSequence = require('run-sequence'),
     run = require('gulp-run');
 
 var config = {
@@ -128,22 +129,29 @@ gulp.task('images', function() {
 });
 
 // publish release version
-gulp.task('publish', function() {
+gulp.task('publish', function(cb) {
     // NOTE: I use `publishconf.py` instad of `pelicanconf.py` here for building
     // deploy release
-    run("pelican -s publishconf.py").exec();
+    return run("pelican -s publishconf.py").exec();
 });
 
 // deploy
-gulp.task('deploy', ['publish'], function(){
-    // TODO: republish content with release version
-    // then deploy
+gulp.task('gh-pages', function(){
     return gulp.src('output/**/*')
         .pipe(ghpages({
             remoteUrl: "git@github.com:coldnew/coldnew.github.io.git",
             // TODO: since github only allow master branch for xxx.github.io, replace it later
             branch: "gh-pages"
         }));
+});
+
+gulp.task('deploy', function() {
+    runSequence(
+        'clean',
+        // copy theme file should triggger after publish
+        'publish', ['fonts', 'js', 'css', 'images'],
+        'gh-pages'
+    );
 });
 
 // Static server
@@ -161,18 +169,16 @@ gulp.task('browser-sync', function() {
 
 // Clean
 gulp.task('clean', function(cb) {
-    //    del(['static/css', 'static/js', 'static/images'], cb)
-    del(['output/**'], cb);
+    del(['output/**'], cb)
 });
 
 // Default task
-gulp.task('default', ['clean'], function() {
-    gulp.start('fonts', 'js', 'css', 'images', 'publish');
+gulp.task('default', function() {
+    runSequence('clean', ['fonts', 'js', 'css', 'images']);
 });
 
 // Watch
 gulp.task('watch', ['server'], function() {
-
     // Watch .less files
     gulp.watch(config.src_less, ['css']);
 
