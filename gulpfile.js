@@ -141,7 +141,9 @@ gulp.task('gh-pages', function(){
         .pipe(ghpages({
             remoteUrl: "git@github.com:coldnew/coldnew.github.io.git",
             // TODO: since github only allow master branch for xxx.github.io, replace it later
-            branch: "gh-pages"
+            branch: "g1",
+            cacheDir: '.deploy'
+            // ref: https://github.com/kud/kud.github.io
         }));
 });
 
