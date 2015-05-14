@@ -45,11 +45,11 @@
 
 ;; Main blogit source
 (add-to-list 'blogit-publish-project-alist
-             `("article" ;; an identifier
+             `("article"
                :base-directory ,blogit-source-directory
-               :base-extension "org" ;; export org files
+               :base-extension "org"
                :publishing-function (org-pelican-publish-to-html org-org-publish-to-org)
-               :auto-sitemap nil ;; don't generate a sitemap (kind of an index per folder)
+               :auto-sitemap nil
                :publishing-directory ,blogit-output-directory
                :headline-levels 4 ;; Just the default for this project.
                :auto-preamble nil ;; Don't add any kind of html before the content
@@ -58,7 +58,7 @@
                :html-doctype "html5" ;; set doctype to html5
                :html-html5-fancy t
                :creator-info nil ;; don't insert creator's info
-               :htmlized-source t
+               :htmlized-source nil
                :auto-postamble nil ;; Don't add any kind of html after the content
                :html-postamble nil ;; same thing
                :timestamp nil ;;
