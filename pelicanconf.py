@@ -51,7 +51,7 @@ RELATIVE_URLS = True
 # be generate by gulp
 THEME = "theme"
 THEME_STATIC_PATHS = []
-DEFAULT_CATEGORY = 'tech';
+DEFAULT_CATEGORY = 'misc';
 
 # File paths
 STATIC_PATHS = [ 'data' ]
