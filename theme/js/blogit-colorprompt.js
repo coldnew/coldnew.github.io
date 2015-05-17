@@ -1,7 +1,6 @@
-'use strict';
-
 // Color Bash prompt in example block
-function colorShellPrompt () {
+$(document).ready(function () {
+    'use strict';
 
     // prevent selectable in shell prompt
     function span (x) {
@@ -14,35 +13,27 @@ function colorShellPrompt () {
 
     var userHighlight  = span ('<font color=\"lightgreen\">$1</font><font color=\"lightblue\">$2</font>');
     var rootHighlight  = span ('<font color=\"crimson\">$1</font><font color=\"lightblue\">$2</font>');
-    var block = document.getElementsByClassName('example');
-    for(var i = 0, l = block.length; i < l; i++) {
-        // highlight `user@hostname directory $'
-        block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.+)\/([^/]+)[$])/, userHighlight);
-        // highlight `user@hostname ~ $'
-        block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.*)([^/]+)[$])/, userHighlight);
-        // highlight `root@hostname #'
-        block[i].innerHTML = block[i].innerHTML.replace(/^(root@\w*)(\s*[:~](.+)\/([^/]+)[#])/, rootHighlight);
-        // highlight `hostname #'
-        block[i].innerHTML = block[i].innerHTML.replace(/^(\w*)(\s*[:~](.+)\/([^/]+)[#])/, rootHighlight);
-        // highlight `hostname directory #' (Gentoo Linux root)
-        block[i].innerHTML = block[i].innerHTML.replace(/^(\w*)(\s*\w* [#])/, rootHighlight);
-    }
-    // TODO: clean code
-    var block = document.getElementsByClassName('src src-sh');
-    for(var i = 0, l = block.length; i < l; i++) {
-        // highlight `user@hostname directory $'
-        block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.+)\/([^/]+)[$])/, userHighlight);
-        // highlight `user@hostname ~ $'
-        block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.*)([^/]+)[$])/, userHighlight);
-        // highlight `root@hostname #'
-        block[i].innerHTML = block[i].innerHTML.replace(/^(root@\w*)(\s*[:~](.+)\/([^/]+)[#])/, rootHighlight);
-        // highlight `hostname #'
-        block[i].innerHTML = block[i].innerHTML.replace(/^(\w*)(\s*[:~](.+)\/([^/]+)[#])/, rootHighlight);
-        // highlight `hostname directory #' (Gentoo Linux root)
-        block[i].innerHTML = block[i].innerHTML.replace(/^(\w*)(\s*\w* [#])/, rootHighlight);
-    }
-}
 
-$(document).ready(function () {
-    colorShellPrompt();
+    function color_shell_prompt_internal(block) {
+        for(var i = 0, l = block.length; i < l; i++) {
+            // highlight `user@hostname directory $'
+            block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.+)\/([^/]+)[$])/, userHighlight);
+            // highlight `user@hostname ~ $'
+            block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.*)([^/]+)[$])/, userHighlight);
+            // highlight `root@hostname #'
+            block[i].innerHTML = block[i].innerHTML.replace(/^(root@\w*)(\s*[:~](.+)\/([^/]+)[#])/, rootHighlight);
+            // highlight `hostname #'
+            block[i].innerHTML = block[i].innerHTML.replace(/^(\w*)(\s*[:~](.+)\/([^/]+)[#])/, rootHighlight);
+            // highlight `hostname directory #' (Gentoo Linux root)
+            block[i].innerHTML = block[i].innerHTML.replace(/^(\w*)(\s*\w* [#])/, rootHighlight);
+        }
+    }
+
+    color_shell_prompt_internal(
+        document.getElementsByClassName('example')
+    );
+
+    color_shell_prompt_internal(
+        document.getElementsByClassName('src src-sh')
+    );
 });

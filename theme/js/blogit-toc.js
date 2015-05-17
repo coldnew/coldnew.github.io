@@ -1,5 +1,6 @@
 // Generate table-of-contents for blogit
 $(document).ready(function() {
+    'use strict';
     var header =
             "<nav role='navigation' class='table-of-contents'>" +
             "<h2>Table of Contents</h2>" +
