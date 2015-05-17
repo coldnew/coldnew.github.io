@@ -14,7 +14,8 @@ $(document).ready(function () {
     var userHighlight  = span ('<font color=\"lightgreen\">$1</font><font color=\"lightblue\">$2</font>');
     var rootHighlight  = span ('<font color=\"crimson\">$1</font><font color=\"lightblue\">$2</font>');
 
-    function color_shell_prompt_internal(block) {
+    function color_shell_prompt(className) {
+        var block = document.getElementsByClassName(className);
         for(var i = 0, l = block.length; i < l; i++) {
             // highlight `user@hostname directory $'
             block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.+)\/([^/]+)[$])/, userHighlight);
@@ -29,11 +30,7 @@ $(document).ready(function () {
         }
     }
 
-    color_shell_prompt_internal(
-        document.getElementsByClassName('example')
-    );
-
-    color_shell_prompt_internal(
-        document.getElementsByClassName('src src-sh')
-    );
+    // color some class with shellprompt
+    color_shell_prompt('example');
+    color_shell_prompt('src src-sh');
 });
