@@ -134,6 +134,11 @@ gulp.task('publish', function(cb) {
 // deploy
 // ref: https://github.com/kud/kud.github.io
 gulp.task('gh-pages', function(){
+    // backward compability (copy output/rss.xml to output/index.xml)
+    gulp.src('output/rss.xml')
+        .pipe(rename('index.xml'))
+        .pipe(gulp.dest('output'));
+
     return gulp.src('output/**/*')
         .pipe(ghpages({
             branch: "master",
