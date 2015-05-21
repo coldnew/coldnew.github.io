@@ -1,6 +1,7 @@
 ;;; config.el for emacs-blogit
 
 (require 'blogit)
+(require 'ox-pelican)
 (require 'f)
 
 ;; current dir
@@ -70,7 +71,7 @@
              `("static" ;; identifier for static files
                :base-directory  ,blogit-source-directory
                :publishing-directory ,blogit-output-directory
-               :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|fzz\\|sh"
+               :base-extension any
                :publishing-function org-publish-attachment
                :recursive t))
 
