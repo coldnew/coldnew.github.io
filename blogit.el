@@ -1,7 +1,7 @@
 ;;; config.el for emacs-blogit
 
 (require 'blogit)
-(require 'ox-pelican)
+(require 'org-pelican)
 (require 'f)
 
 ;; current dir
