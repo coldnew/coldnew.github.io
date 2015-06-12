@@ -8,9 +8,9 @@ SITEURL = 'http://localhost:3000'
 
 PATH = 'content'
 
-TIMEZONE = 'Europe/Paris'
+TIMEZONE = 'Asia/Taipei'
 
-DEFAULT_LANG = u'zh-TW'
+DEFAULT_LANG = u'zh_TW'
 
 # Feed  setup
 CATEGORY_FEED_ATOM = None
