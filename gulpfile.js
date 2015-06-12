@@ -134,8 +134,8 @@ gulp.task('publish', function(cb) {
 // deploy
 // ref: https://github.com/kud/kud.github.io
 gulp.task('gh-pages', function(){
-    // backward compability (copy output/rss.xml to output/index.xml)
-    gulp.src('output/rss.xml')
+    // backward compability this is for planet linux TW
+    gulp.src('output/feeds/all-zh_TW.rss.xml')
         .pipe(rename('index.xml'))
         .pipe(gulp.dest('output'));
 
