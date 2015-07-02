@@ -132,8 +132,16 @@ gulp.task('publish', function(cb) {
 });
 
 // deploy
+gulp.task('fixup', function(){
+    // backward compability this is for planet linux TW
+    return gulp.src('output/feeds/all-zh_TW.rss.xml')
+        .pipe(rename('index.xml'))
+        .pipe(gulp.dest('output'));
+});
+
 // ref: https://github.com/kud/kud.github.io
 gulp.task('gh-pages', function(){
+    // TODO: remove
     // backward compability this is for planet linux TW
     gulp.src('output/feeds/all-zh_TW.rss.xml')
         .pipe(rename('index.xml'))
@@ -151,7 +159,8 @@ gulp.task('deploy', function() {
         // 'clean',  // no need to clean all files
         // copy theme file should triggger after publish
         'publish', ['fonts', 'js', 'css', 'images'],
-        'gh-pages'
+        // for deploy
+        'fixup', 'gh-pages'
     );
 });
 
