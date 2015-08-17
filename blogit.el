@@ -37,12 +37,17 @@
 (setq coldnew/blogit-final-output-directory
       (f-join blogit~config-directory "output"))
 
+(add-hook 'blogit-before-publish-hook
+          (lambda()
+            ;; disable vim-empty-lines-mode
+            (global-vim-empty-lines-mode)))
+
 ;; trigger pelican regenerate output
 (add-hook 'blogit-after-publish-hook
           (lambda()
             (shell-command (concat
                             "pelican -s " (f-join blogit~config-directory "pelicanconf.py")))
-            ))
+            (global-vim-empty-lines-mode 1)))
 
 ;; Main blogit source
 (add-to-list 'blogit-publish-project-alist
