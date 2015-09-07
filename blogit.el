@@ -35,7 +35,9 @@
       (f-join blogit-source-directory "compact"))
 
 (setq coldnew/blogit-blog-directory
-      (f-join blogit-source-directory "blog"))
+      ;;(f-join blogit-source-directory "blog")
+      (expand-file-name "~/Org/blog")
+      )
 
 ;; final output for pelican
 (setq coldnew/blogit-final-output-directory
