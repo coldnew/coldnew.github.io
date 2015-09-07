@@ -43,6 +43,11 @@
 
 (add-hook 'blogit-before-publish-hook
           (lambda()
+            ;; simple fix when recreate these dir
+            (shell-command (concat
+                            "touch " (f-join blogit~config-directory "cache/.keep")))
+            (shell-command (concat
+                            "touch " (f-join blogit~config-directory "content/.keep")))
             ;; disable vim-empty-lines-mode
             (global-vim-empty-lines-mode)))
 
