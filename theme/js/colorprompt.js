@@ -18,9 +18,9 @@ $(document).ready(function () {
         var block = document.getElementsByClassName(className);
         for(var i = 0, l = block.length; i < l; i++) {
             // highlight `user@hostname directory $'
-            block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.+)\/([^/]+)[$])/, userHighlight);
+            block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.+)\/([^/]+)[$]\s)/, userHighlight);
             // highlight `user@hostname ~ $'
-            block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.*)([^/]+)[$])/, userHighlight);
+            block[i].innerHTML = block[i].innerHTML.replace(/^(\w*@\w*)(\s*[:~](.*)([^/]+)[$]\s)/, userHighlight);
             // highlight `root@hostname #'
             block[i].innerHTML = block[i].innerHTML.replace(/^(root@\w*)(\s*[:~](.+)\/([^/]+)[#])/, rootHighlight);
             // highlight `hostname #'
