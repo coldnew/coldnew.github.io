@@ -49,7 +49,7 @@
             (make-directory (f-join blogit~config-directory "cache") t)
             (make-directory (f-join blogit~config-directory "content") t)
             ;; disable vim-empty-lines-mode
-            (global-vim-empty-lines-mode)))
+            (global-vim-empty-lines-mode -1)))
 
 ;; trigger pelican regenerate output
 (add-hook 'blogit-after-publish-hook
