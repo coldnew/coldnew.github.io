@@ -18,7 +18,8 @@
 
 ;; org-mode source of your blog.
 (setq blogit-source-directory
-      (expand-file-name "~/Org/blog"))
+      ;;(expand-file-name "~/Org/blog")
+      (f-join blogit~config-directory "src"))
 
 ;; template dir
 (setq blogit-template-directory
@@ -30,8 +31,11 @@
 ;;;;;;;;;;;;;
 ;; Personal config (not offical support by blogit)
 
-(setq coldnew/blogit-compact-dir
-      (f-join blogit~config-directory "src"))
+(setq coldnew/blogit-compact-directory
+      (f-join blogit-source-directory "compact"))
+
+(setq coldnew/blogit-blog-directory
+      (f-join blogit-source-directory "blog"))
 
 ;; final output for pelican
 (setq coldnew/blogit-final-output-directory
@@ -51,8 +55,8 @@
 
 ;; Main blogit source
 (add-to-list 'blogit-publish-project-alist
-             `("article"
-               :base-directory ,blogit-source-directory
+             `("blog"
+               :base-directory ,coldnew/blogit-blog-directory
                :base-extension "org"
                :publishing-function (org-pelican-publish-to-html org-org-publish-to-org)
                :auto-sitemap nil
@@ -69,12 +73,12 @@
                :html-postamble nil ;; same thing
                :timestamp nil ;;
                :exclude-tags ("noexport" "todo"))
-             :recursive nil)
+               :recursive nil)
 
 ;; basic static source (ex: images, data)
 (add-to-list 'blogit-publish-project-alist
-             `("static" ;; identifier for static files
-               :base-directory  ,blogit-source-directory
+             `("blog-static" ;; identifier for static files
+               :base-directory  ,coldnew/blogit-blog-directory
                :publishing-directory ,blogit-output-directory
                :base-extension any
                :publishing-function org-publish-attachment
@@ -83,7 +87,7 @@
 ;; some old pages need to be redirect
 (add-to-list 'blogit-publish-project-alist
              `("backward-compability"
-               :base-directory ,coldnew/blogit-compact-dir
+               :base-directory ,coldnew/blogit-compact-directory
                :base-extension "org"
                :publishing-function org-html-publish-to-html
                :publishing-directory ,coldnew/blogit-final-output-directory

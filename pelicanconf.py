@@ -63,9 +63,7 @@ STATIC_EXCLUDE_SOURCES = False
 
 ## Some plugins not list here, use pip to install
 PLUGIN_PATHS = ['plugins', 'plugins/pelican-plugins']
-PLUGINS = [
-    "org-pelican",
-]
+PLUGINS = []
 
 # Social widget
 SOCIAL = (
