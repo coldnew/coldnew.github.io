@@ -14,6 +14,7 @@ $(document).ready(function () {
     var userHighlight  = span ('<font color=\"lightgreen\">$1</font><font color=\"lightblue\">$2</font>');
     var rootHighlight  = span ('<font color=\"crimson\">$1</font><font color=\"lightblue\">$2</font>');
 
+    // https://regex101.com/#javascript
     function color_shell_prompt(className) {
         var block = document.getElementsByClassName(className);
         for(var i = 0, l = block.length; i < l; i++) {

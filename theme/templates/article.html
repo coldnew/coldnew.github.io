@@ -51,28 +51,42 @@
              {{ article.title }}
           </a>
         </h1>
-      </header>
-      <div class="entry-content">
-        <div class="panel">
-          <div class="panel-body">
-            {% include "includes/article_info.html" %}
-          </div>
+        <div class="metadata">
+          {# {% include "includes/article_info.html" %} #}
+          <span class="published">
+            <i class="glyphicon glyphicon-time" style="color:gray"></i>
+            <time datetime="{{ article.date.isoformat() }}"> {{ article.locale_date }}</time>
+          </span>
+          {# Tags List #}
+          {% if article.tags %}
+            <i class="glyphicon glyphicon-tag" style="color:gray"></i>
+            {% for tag in article.tags %}
+              <a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>
+              {% if not loop.last %}
+                <i class="glyphicon glyphicon-tag" style="color:gray">  </i>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
         </div>
+      </header>
 
-        {# TODO: #}
-        {# {% include 'includes/toc.html' %} #}
-        {{ article.content }}
+      {# TODO: #}
+      {# {% include 'includes/toc.html' %} #}
+      {{ article.content }}
 
-      </div>
+      {# </div> #}
       <!-- /.entry-content -->
-      {% include 'includes/related-posts.html' %}
-      {% include 'includes/series.html' %}
-      {% include 'includes/addthis.html' %}
-      {% include 'includes/shariff.html' %}
+      {# {% include 'includes/related-posts.html' %} #}
+      {# {% include 'includes/series.html' %} #}
+      {# {% include 'includes/addthis.html' %} #}
+      {# {% include 'includes/shariff.html' %} #}
 
+
+      {# Comments #}
       {% include 'includes/disqus.html' %}
-    </article>
-  </section>
+
+</article>
+</section>
 
 {% endblock %}
 
