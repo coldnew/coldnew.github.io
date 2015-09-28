@@ -1,7 +1,7 @@
 ;;; config.el for emacs-blogit
 
 (require 'blogit)
-(require 'org-pelican)
+(require 'org-hexo)
 (require 'f)
 
 ;; current dir
@@ -19,8 +19,9 @@
 
 ;; org-mode source of your blog.
 (setq blogit-source-directory
-      ;;(expand-file-name "~/Org/blog")
-      (f-join blogit~config-directory "tmp"))
+      (expand-file-name "~/Org/blog")
+;;      (f-join blogit~config-directory "tmp")
+      )
 
 ;; template dir
 (setq blogit-template-directory
@@ -31,11 +32,6 @@
 
 ;;;;;;;;;;;;;
 ;; Personal config (not offical support by blogit)
-
-(setq coldnew/blogit-blog-directory
-      (f-join blogit-source-directory "blog")
-      ;;(expand-file-name "~/Org/blog")
-      )
 
 ;; final output for pelican
 (setq coldnew/blogit-final-output-directory
@@ -60,9 +56,9 @@
 ;; Main blogit source
 (add-to-list 'blogit-publish-project-alist
              `("blog"
-               :base-directory ,coldnew/blogit-blog-directory
+               :base-directory ,blogit-source-directory
                :base-extension "org"
-               :publishing-function (org-hexo-publish-to-md org-org-publish-to-org)
+               :publishing-function org-hexo-publish-to-md
                :auto-sitemap nil
                :publishing-directory ,blogit-output-directory
                :headline-levels 4 ;; Just the default for this project.
@@ -79,11 +75,12 @@
                :exclude-tags ("noexport" "todo"))
                :recursive nil)
 
-;; basic static source (ex: images, data)
-(add-to-list 'blogit-publish-project-alist
-             `("blog-static" ;; identifier for static files
-               :base-directory  ,coldnew/blogit-blog-directory
-               :publishing-directory ,coldnew/blogit-final-output-directory
-               :base-extension any
-               :publishing-function org-publish-attachment
-               :recursive t))
+;; ;; basic static source (ex: images, data)
+;; (add-to-list 'blogit-publish-project-alist
+;;              `("blog-static" ;; identifier for static files
+;;                :base-directory  ,blogit-source-directory
+;;                :publishing-directory ,coldnew/blogit-final-output-directory
+;;                :base-extension any
+;;                :exclude "*.org"
+;;                :publishing-function org-publish-attachment
+;;                :recursive t))
