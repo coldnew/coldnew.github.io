@@ -4,6 +4,16 @@
 (require 'org-hexo)
 (require 'f)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; hexo options
+
+(setq org-hexo-overwrite-updated t)
+
+(setq org-hexo-htmlize-src-block t)
+(setq org-hexo-enable-htmlize t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; current dir
 (setq blogit~config-directory
       (file-name-directory (or load-file-name (buffer-file-name))))
