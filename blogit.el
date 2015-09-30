@@ -68,7 +68,7 @@
              `("blog"
                :base-directory ,blogit-source-directory
                :base-extension "org"
-               :publishing-function org-hexo-publish-to-md
+               :publishing-function org-hexo-publish-to-markdown
                :auto-sitemap nil
                :publishing-directory ,blogit-output-directory
                :headline-levels 4 ;; Just the default for this project.
