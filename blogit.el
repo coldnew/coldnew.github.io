@@ -53,6 +53,7 @@
 ;;            (make-directory (f-join blogit~config-directory "cache") t)
 ;;            (make-directory (f-join blogit~config-directory "content") t)
             ;; disable vim-empty-lines-mode
+            (whitespace-mode -1)
             (global-vim-empty-lines-mode -1)))
 
 ;; trigger pelican regenerate output
@@ -60,7 +61,7 @@
           (lambda()
 ;;            (shell-command (concat
 ;;                            "pelican -s " (f-join blogit~config-directory "pelicanconf.py")))
-
+            (global-whitespace-mode -1)
             (global-vim-empty-lines-mode 1)))
 
 ;; Main blogit source
@@ -68,7 +69,8 @@
              `("blog"
                :base-directory ,blogit-source-directory
                :base-extension "org"
-               :publishing-function org-hexo-publish-to-markdown
+               ;;               :publishing-function org-hexo-publish-to-markdown
+               :publishing-function org-hexo-publish-to-html
                :auto-sitemap nil
                :publishing-directory ,blogit-output-directory
                :headline-levels 4 ;; Just the default for this project.
