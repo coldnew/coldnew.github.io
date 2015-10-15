@@ -27,11 +27,18 @@
 (setq blogit-output-directory
       (f-join blogit~config-directory "source/_posts"))
 
+(setq blogit-output-draft-directory
+      (f-join blogit~config-directory "source/_drafts"))
+
 ;; org-mode source of your blog.
 (setq blogit-source-directory
       (expand-file-name "~/Org/blog")
 ;;      (f-join blogit~config-directory "tmp")
       )
+
+(setq blogit-draft-directory
+      (expand-file-name "~/Org/draft"))
+
 
 ;; template dir
 (setq blogit-template-directory
@@ -49,18 +56,12 @@
 
 (add-hook 'blogit-before-publish-hook
           (lambda()
-            ;; simple fix when recreate these dir
-;;            (make-directory (f-join blogit~config-directory "cache") t)
-;;            (make-directory (f-join blogit~config-directory "content") t)
-            ;; disable vim-empty-lines-mode
             (whitespace-mode -1)
             (global-vim-empty-lines-mode -1)))
 
 ;; trigger pelican regenerate output
 (add-hook 'blogit-after-publish-hook
           (lambda()
-;;            (shell-command (concat
-;;                            "pelican -s " (f-join blogit~config-directory "pelicanconf.py")))
             (global-whitespace-mode -1)
             (global-vim-empty-lines-mode 1)))
 
@@ -85,14 +86,25 @@
                :html-postamble nil ;; same thing
                :timestamp nil ;;
                :exclude-tags ("noexport" "todo"))
-               :recursive nil)
+             :recursive nil)
 
-;; ;; basic static source (ex: images, data)
-;; (add-to-list 'blogit-publish-project-alist
-;;              `("blog-static" ;; identifier for static files
-;;                :base-directory  ,blogit-source-directory
-;;                :publishing-directory ,coldnew/blogit-final-output-directory
-;;                :base-extension any
-;;                :exclude "*.org"
-;;                :publishing-function org-publish-attachment
-;;                :recursive t))
+(add-to-list 'blogit-publish-project-alist
+             `("draft"
+               :base-directory ,blogit-draft-directory
+               :base-extension "org"
+               :publishing-function org-hexo-publish-to-html
+               :auto-sitemap nil
+               :publishing-directory ,blogit-output-draft-directory
+               :headline-levels 4 ;; Just the default for this project.
+               :auto-preamble nil ;; Don't add any kind of html before the content
+               :export-with-tags t
+               :todo-keywords nil
+               :html-doctype "html5" ;; set doctype to html5
+               :html-html5-fancy t
+               :creator-info nil ;; don't insert creator's info
+               :htmlized-source nil
+               :auto-postamble nil ;; Don't add any kind of html after the content
+               :html-postamble nil ;; same thing
+               :timestamp nil ;;
+               :exclude-tags ("noexport" "todo"))
+               :recursive nil)
