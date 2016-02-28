@@ -62,13 +62,15 @@
 (add-hook 'blogit-before-publish-hook
           (lambda()
             (whitespace-mode -1)
-            (global-vim-empty-lines-mode -1)))
+            ;;(global-vim-empty-lines-mode -1)
+            ))
 
 ;; trigger pelican regenerate output
 (add-hook 'blogit-after-publish-hook
           (lambda()
             (global-whitespace-mode -1)
-            (global-vim-empty-lines-mode 1)))
+            ;;(global-vim-empty-lines-mode 1)
+            ))
 
 ;; Main blogit source
 (add-to-list 'blogit-publish-project-alist
@@ -136,7 +138,7 @@
              :recursive nil)
 
 (add-to-list 'blogit-publish-project-alist
-             `("note"
+             `("pratice"
                :base-directory ,blogit-pratice-directory
                :base-extension "org"
                :publishing-function org-hexo-publish-to-html
@@ -152,6 +154,6 @@
                :htmlized-source nil
                :auto-postamble nil ;; Don't add any kind of html after the content
                :html-postamble nil ;; same thing
-               :timestamp nil ;;
+               :timestamp nil      ;;
                :exclude-tags ("noexport" "todo"))
              :recursive nil)
