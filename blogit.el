@@ -61,6 +61,11 @@
 
 (add-hook 'blogit-before-publish-hook
           (lambda()
+            ;; remove all draft data
+            (delete-directory blogit-output-draft-directory t nil)
+            ;; recreate directory
+            (make-directory blogit-output-draft-directory t)
+            ;; disable whitespace mode
             (whitespace-mode -1)
             ;;(global-vim-empty-lines-mode -1)
             ))
