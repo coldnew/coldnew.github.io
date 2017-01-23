@@ -42,6 +42,9 @@
 (setq blogit-note-directory
       (expand-file-name "~/Org/note"))
 
+(setq blogit-life-directory
+      (expand-file-name "~/Org/life"))
+
 (setq blogit-pratice-directory
       (expand-file-name "~/Org/pratice"))
 
@@ -160,5 +163,26 @@
                :auto-postamble nil ;; Don't add any kind of html after the content
                :html-postamble nil ;; same thing
                :timestamp nil      ;;
+               :exclude-tags ("noexport" "todo"))
+             :recursive nil)
+
+(add-to-list 'blogit-publish-project-alist
+             `("life"
+               :base-directory ,blogit-life-directory
+               :base-extension "org"
+               :publishing-function org-hexo-publish-to-html
+               :auto-sitemap nil
+               :publishing-directory ,blogit-output-directory
+               :headline-levels 4 ;; Just the default for this project.
+               :auto-preamble nil ;; Don't add any kind of html before the content
+               :export-with-tags t
+               :todo-keywords nil
+               :html-doctype "html5" ;; set doctype to html5
+               :html-html5-fancy t
+               :creator-info nil ;; don't insert creator's info
+               :htmlized-source nil
+               :auto-postamble nil ;; Don't add any kind of html after the content
+               :html-postamble nil ;; same thing
+               :timestamp nil ;;
                :exclude-tags ("noexport" "todo"))
              :recursive nil)
