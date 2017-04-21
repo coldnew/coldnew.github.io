@@ -19,6 +19,19 @@
 ;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ;;; Commentary:
+
+;;;; Install packages
+
+(package-install 'qml-mode)
+(package-install 'clojure-mode)
+(package-install 'python-mode)
+(package-install 'newlisp-mode)
+(package-install 'yaml-mode)
+(package-install 'js2-mode)
+(package-install 'dot-mode)
+(package-install 'verilog-mode)
+
+
 
 (defvar config-path
   (file-name-directory (or load-file-name (buffer-file-name))))
@@ -30,6 +43,7 @@
 ;; use night-coldnew theme
 (load-theme 'night-coldnew t)
 
+
 ;;;; u-mode is some example I write for my blog post
 (require 'generic-x)
 
