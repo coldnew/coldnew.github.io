@@ -1,5 +1,6 @@
 
 (require 'org-hexo)
+(require 'org-hexo-org)
 (require 'f)
 
 

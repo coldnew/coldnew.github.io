@@ -33,7 +33,7 @@
 ;; org-mode source of your blog.
 (setq blogit-source-directory
       (expand-file-name "~/Org/blog")
-;;      (f-join blogit~config-directory "tmp")
+      ;; (f-join blogit~config-directory "tmp")
       )
 
 (setq blogit-draft-directory
@@ -81,12 +81,34 @@
             ))
 
 ;; Main blogit source
+;; (add-to-list 'blogit-publish-project-alist
+;;              `("blog"
+;;                :base-directory ,blogit-source-directory
+;;                :base-extension "org"
+;;                ;;               :publishing-function org-hexo-publish-to-markdown
+;;                :publishing-function org-hexo-publish-to-html
+;;                :auto-sitemap nil
+;;                :publishing-directory ,blogit-output-directory
+;;                :headline-levels 4 ;; Just the default for this project.
+;;                :auto-preamble nil ;; Don't add any kind of html before the content
+;;                :export-with-tags t
+;;                :todo-keywords nil
+;;                :html-doctype "html5" ;; set doctype to html5
+;;                :html-html5-fancy t
+;;                :creator-info nil ;; don't insert creator's info
+;;                :htmlized-source nil
+;;                :auto-postamble nil ;; Don't add any kind of html after the content
+;;                :html-postamble nil ;; same thing
+;;                :timestamp nil ;;
+;;                :exclude-tags ("noexport" "todo"))
+;;              :recursive nil)
+
 (add-to-list 'blogit-publish-project-alist
-             `("blog"
+             `("blog-org"
                :base-directory ,blogit-source-directory
                :base-extension "org"
                ;;               :publishing-function org-hexo-publish-to-markdown
-               :publishing-function org-hexo-publish-to-html
+               :publishing-function org-hexo-publish-to-org
                :auto-sitemap nil
                :publishing-directory ,blogit-output-directory
                :headline-levels 4 ;; Just the default for this project.
@@ -103,86 +125,86 @@
                :exclude-tags ("noexport" "todo"))
              :recursive nil)
 
-(add-to-list 'blogit-publish-project-alist
-             `("draft"
-               :base-directory ,blogit-draft-directory
-               :base-extension "org"
-               :publishing-function org-hexo-publish-to-html
-               :auto-sitemap nil
-               :publishing-directory ,blogit-output-draft-directory
-               :headline-levels 4 ;; Just the default for this project.
-               :auto-preamble nil ;; Don't add any kind of html before the content
-               :export-with-tags t
-               :todo-keywords nil
-               :html-doctype "html5" ;; set doctype to html5
-               :html-html5-fancy t
-               :creator-info nil ;; don't insert creator's info
-               :htmlized-source nil
-               :auto-postamble nil ;; Don't add any kind of html after the content
-               :html-postamble nil ;; same thing
-               :timestamp nil ;;
-               :exclude-tags ("noexport" "todo"))
-             :recursive nil)
+;; (add-to-list 'blogit-publish-project-alist
+;;              `("draft"
+;;                :base-directory ,blogit-draft-directory
+;;                :base-extension "org"
+;;                :publishing-function org-hexo-publish-to-html
+;;                :auto-sitemap nil
+;;                :publishing-directory ,blogit-output-draft-directory
+;;                :headline-levels 4 ;; Just the default for this project.
+;;                :auto-preamble nil ;; Don't add any kind of html before the content
+;;                :export-with-tags t
+;;                :todo-keywords nil
+;;                :html-doctype "html5" ;; set doctype to html5
+;;                :html-html5-fancy t
+;;                :creator-info nil ;; don't insert creator's info
+;;                :htmlized-source nil
+;;                :auto-postamble nil ;; Don't add any kind of html after the content
+;;                :html-postamble nil ;; same thing
+;;                :timestamp nil ;;
+;;                :exclude-tags ("noexport" "todo"))
+;;              :recursive nil)
 
-(add-to-list 'blogit-publish-project-alist
-             `("note"
-               :base-directory ,blogit-note-directory
-               :base-extension "org"
-               :publishing-function org-hexo-publish-to-html
-               :auto-sitemap nil
-               :publishing-directory ,blogit-output-directory
-               :headline-levels 4 ;; Just the default for this project.
-               :auto-preamble nil ;; Don't add any kind of html before the content
-               :export-with-tags t
-               :todo-keywords nil
-               :html-doctype "html5" ;; set doctype to html5
-               :html-html5-fancy t
-               :creator-info nil ;; don't insert creator's info
-               :htmlized-source nil
-               :auto-postamble nil ;; Don't add any kind of html after the content
-               :html-postamble nil ;; same thing
-               :timestamp nil ;;
-               :exclude-tags ("noexport" "todo"))
-             :recursive nil)
+;; (add-to-list 'blogit-publish-project-alist
+;;              `("note"
+;;                :base-directory ,blogit-note-directory
+;;                :base-extension "org"
+;;                :publishing-function org-hexo-publish-to-html
+;;                :auto-sitemap nil
+;;                :publishing-directory ,blogit-output-directory
+;;                :headline-levels 4 ;; Just the default for this project.
+;;                :auto-preamble nil ;; Don't add any kind of html before the content
+;;                :export-with-tags t
+;;                :todo-keywords nil
+;;                :html-doctype "html5" ;; set doctype to html5
+;;                :html-html5-fancy t
+;;                :creator-info nil ;; don't insert creator's info
+;;                :htmlized-source nil
+;;                :auto-postamble nil ;; Don't add any kind of html after the content
+;;                :html-postamble nil ;; same thing
+;;                :timestamp nil ;;
+;;                :exclude-tags ("noexport" "todo"))
+;;              :recursive nil)
 
-(add-to-list 'blogit-publish-project-alist
-             `("pratice"
-               :base-directory ,blogit-pratice-directory
-               :base-extension "org"
-               :publishing-function org-hexo-publish-to-html
-               :auto-sitemap nil
-               :publishing-directory ,blogit-output-directory
-               :headline-levels 4 ;; Just the default for this project.
-               :auto-preamble nil ;; Don't add any kind of html before the content
-               :export-with-tags t
-               :todo-keywords nil
-               :html-doctype "html5" ;; set doctype to html5
-               :html-html5-fancy t
-               :creator-info nil ;; don't insert creator's info
-               :htmlized-source nil
-               :auto-postamble nil ;; Don't add any kind of html after the content
-               :html-postamble nil ;; same thing
-               :timestamp nil      ;;
-               :exclude-tags ("noexport" "todo"))
-             :recursive nil)
+;; (add-to-list 'blogit-publish-project-alist
+;;              `("pratice"
+;;                :base-directory ,blogit-pratice-directory
+;;                :base-extension "org"
+;;                :publishing-function org-hexo-publish-to-html
+;;                :auto-sitemap nil
+;;                :publishing-directory ,blogit-output-directory
+;;                :headline-levels 4 ;; Just the default for this project.
+;;                :auto-preamble nil ;; Don't add any kind of html before the content
+;;                :export-with-tags t
+;;                :todo-keywords nil
+;;                :html-doctype "html5" ;; set doctype to html5
+;;                :html-html5-fancy t
+;;                :creator-info nil ;; don't insert creator's info
+;;                :htmlized-source nil
+;;                :auto-postamble nil ;; Don't add any kind of html after the content
+;;                :html-postamble nil ;; same thing
+;;                :timestamp nil      ;;
+;;                :exclude-tags ("noexport" "todo"))
+;;              :recursive nil)
 
-(add-to-list 'blogit-publish-project-alist
-             `("life"
-               :base-directory ,blogit-life-directory
-               :base-extension "org"
-               :publishing-function org-hexo-publish-to-html
-               :auto-sitemap nil
-               :publishing-directory ,blogit-output-directory
-               :headline-levels 4 ;; Just the default for this project.
-               :auto-preamble nil ;; Don't add any kind of html before the content
-               :export-with-tags t
-               :todo-keywords nil
-               :html-doctype "html5" ;; set doctype to html5
-               :html-html5-fancy t
-               :creator-info nil ;; don't insert creator's info
-               :htmlized-source nil
-               :auto-postamble nil ;; Don't add any kind of html after the content
-               :html-postamble nil ;; same thing
-               :timestamp nil ;;
-               :exclude-tags ("noexport" "todo"))
-             :recursive nil)
+;; (add-to-list 'blogit-publish-project-alist
+;;              `("life"
+;;                :base-directory ,blogit-life-directory
+;;                :base-extension "org"
+;;                :publishing-function org-hexo-publish-to-html
+;;                :auto-sitemap nil
+;;                :publishing-directory ,blogit-output-directory
+;;                :headline-levels 4 ;; Just the default for this project.
+;;                :auto-preamble nil ;; Don't add any kind of html before the content
+;;                :export-with-tags t
+;;                :todo-keywords nil
+;;                :html-doctype "html5" ;; set doctype to html5
+;;                :html-html5-fancy t
+;;                :creator-info nil ;; don't insert creator's info
+;;                :htmlized-source nil
+;;                :auto-postamble nil ;; Don't add any kind of html after the content
+;;                :html-postamble nil ;; same thing
+;;                :timestamp nil ;;
+;;                :exclude-tags ("noexport" "todo"))
+;;              :recursive nil)
