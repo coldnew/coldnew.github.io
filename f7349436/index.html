@@ -1,0 +1,1091 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="raspberry pi,newlisp,c,python," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許多不同的設計， 本篇文章使用 Raspbian 作為 Raspberry Pi 的系統，並透過 Python、C 語言與 newlisp 幾種類型的範例，來展示如何在 Raspberry Pi 下透過 GPIO 來操作 GPIO。     注意: 在這篇文章的範例，都必須以 root 權限 運行。     使用設備">
+<meta name="keywords" content="raspberry pi,newlisp,c,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="讓你的 Raspberry Pi 透過 GPIO 閃爍 LED 燈">
+<meta property="og:url" content="https://coldnew.github.io/f7349436/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許多不同的設計， 本篇文章使用 Raspbian 作為 Raspberry Pi 的系統，並透過 Python、C 語言與 newlisp 幾種類型的範例，來展示如何在 Raspberry Pi 下透過 GPIO 來操作 GPIO。     注意: 在這篇文章的範例，都必須以 root 權限 運行。     使用設備">
+<meta property="og:image" content="https://coldnew.github.io/f7349436/rpi_simpleled_bb.png">
+<meta property="og:image" content="https://coldnew.github.io/f7349436/rpi_simpleled_schem.png">
+<meta property="og:updated_time" content="2017-04-21T02:07:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="讓你的 Raspberry Pi 透過 GPIO 閃爍 LED 燈">
+<meta name="twitter:description" content="Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許多不同的設計， 本篇文章使用 Raspbian 作為 Raspberry Pi 的系統，並透過 Python、C 語言與 newlisp 幾種類型的範例，來展示如何在 Raspberry Pi 下透過 GPIO 來操作 GPIO。     注意: 在這篇文章的範例，都必須以 root 權限 運行。     使用設備">
+<meta name="twitter:image" content="https://coldnew.github.io/f7349436/rpi_simpleled_bb.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 讓你的 Raspberry Pi 透過 GPIO 閃爍 LED 燈 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/f7349436/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              讓你的 Raspberry Pi 透過 GPIO 閃爍 LED 燈
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2017-04-21T10:07:56+08:00" content="2017-04-21">
+            2017-04-21
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/f7349436/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="f7349436/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody">
+
+<p>
+Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許多不同的設計，
+本篇文章使用 Raspbian 作為 Raspberry Pi 的系統，並透過 Python、C
+語言與 newlisp 幾種類型的範例，來展示如何在 Raspberry Pi 下透過 GPIO 來操作 GPIO。
+</p>
+
+<div class="alert alert-info">
+<p>
+注意: 在這篇文章的範例，都必須以 <b>root 權限</b> 運行。
+</p>
+</div>
+
+<div id="outline-container-org7b12779" class="outline-2">
+<h2 id="org7b12779">使用設備</h2>
+<div class="outline-text-2" id="text-org7b12779">
+<p>
+要完成本篇文章所描述的部份，你需要以下幾種器材
+</p>
+
+<ul class="org-ul">
+<li>1. Raspberry Pi</li>
+
+<li>2. LED</li>
+
+<li>3. 電阻 220 Ω 或其他適合阻值</li>
+
+<li>4. 麵包板</li>
+
+<li>5. 單蕊線</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge5b537b" class="outline-2">
+<h2 id="orge5b537b">硬體線路</h2>
+<div class="outline-text-2" id="text-orge5b537b">
+<p>
+下面的硬體線路使用 <a href="http://fritzing.org/" target="_blank" rel="external">Fritzing</a> 軟體來繪製， 我們連接 Raspberry Pi 的 GPIO4
+(Pin 7) 到 LED 的陽極並加上一個保護 LED 用的限流電阻 220 Ω。(<a href="rpi_simpleled.fzz">下載設計檔案</a>)
+</p>
+
+<div class="row "><div class="col-md-7 ">
+
+<p>
+<b>麵包板連線</b>
+</p>
+
+
+<div class="figure">
+<p><img src="rpi_simpleled_bb.png">
+</p>
+</div>
+
+</div><div class="col-md-4">
+
+<p>
+<b>電路連接</b>
+</p>
+
+
+<div class="figure">
+<p><img src="rpi_simpleled_schem.png">
+</p>
+</div>
+</div> </div>
+</div>
+</div>
+
+<div id="outline-container-orgfc8c224" class="outline-2">
+<h2 id="orgfc8c224">使用 Linux Kernel 提供的 sysfs 來控制 GPIO</h2>
+<div class="outline-text-2" id="text-orgfc8c224">
+<p>
+在要寫程式之前，我們先來使用 Linux Kernel 提供的 sysfs 來控制 GPIO。
+</p>
+
+<ul class="org-ul">
+<li><p>
+首先先將 GPIO4 設定成可以用 sysfs 控制
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">echo</span> 4 &gt; /sys/class/gpio/export
+</pre>
+</div></li>
+
+<li><p>
+設定 GPIO4 為輸出腳
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">echo</span> out &gt; /sys/class/gpio/gpio4/direction
+</pre>
+</div></li>
+
+<li><p>
+設定 GPIO4 輸出值為 1 (0: 低電位, 1: 高電位)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">echo</span> 1 &gt; /sys/class/gpio/gpio4/value
+</pre>
+</div></li>
+
+<li><p>
+設定 GPIO4 輸出值為 0 (0: 低電位, 1: 高電位)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">echo</span> 0 &gt; /sys/class/gpio/gpio4/value
+</pre>
+</div></li>
+
+<li><p>
+取消建立出來的 GPIO4 node
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">echo</span> 4 &gt; /sys/class/gpio/unexport
+</pre>
+</div></li>
+</ul>
+
+<p>
+在你執行以上第 3 步的時候，你可以看到 LED 亮了起來，直到第 4 步時，才又變
+回原本的狀態。
+</p>
+
+<p>
+若想要使用 Bash 來控制 GPIO，則可以採用此種方式。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3825c3a" class="outline-2">
+<h2 id="org3825c3a">使用 debugfs 來觀看目前的 GPIO 設定</h2>
+<div class="outline-text-2" id="text-org3825c3a">
+<p>
+我們可以使用 debugfs 來察看目前的 GPIO 設定，首先掛載 debugfs
+</p>
+
+<pre class="example">
+root@raspberrypi:/home/pi# mount -t debugfs debug /d
+</pre>
+
+<p>
+接著就可以使用
+</p>
+
+<pre class="example">
+root@raspberrypi:/home/pi# cat /d/gpio
+</pre>
+
+<p>
+來取得目前 GPIO 的狀況
+</p>
+
+<pre class="example">
+root@raspberrypi:/home/pi# cat /d/gpio
+GPIOs 0-53, bcm2708_gpio:
+ gpio-4  (sysfs                ) out hi
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf9dfe77" class="outline-2">
+<h2 id="orgf9dfe77">使用 C 語言控制 GPIO (不使用外部函式庫)</h2>
+<div class="outline-text-2" id="text-orgf9dfe77">
+<p>
+C 語言因為提供了指標，可以任意的去修改記憶體的某個部份，因此我們也可
+以透過修改記憶體區塊的方式，來設定我們的 GPIO。
+</p>
+
+<p>
+以下程式修改自 <a href="http://elinux.org/RPi_Low-level_peripherals" target="_blank" rel="external">elinux</a> 的範例，首先點亮 GPIO4 上的 LED 一秒後，再關閉。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Modified from http://elinux.org/RPi_Low-level_peripherals </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;stdio.h&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;stdlib.h&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;fcntl.h&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;sys/mman.h&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;unistd.h&gt;</span>
+
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">BCM2708_PERI_BASE</span>        0x20000000
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">GPIO_BASE</span>                (BCM2708_PERI_BASE + 0x200000) <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">GPIO controller </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">PAGE_SIZE</span>  (4 * 1024)
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">BLOCK_SIZE</span> (4 * 1024)
+
+<span style="color: #fff59d;">int</span>  <span style="color: #aaccff;">mem_fd</span>;
+<span style="color: #fff59d;">void</span> *<span style="color: #aaccff;">gpio_map</span>;
+
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">I/O access </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">unsigned</span> *<span style="color: #aaccff;">gpio</span>;
+
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">GPIO setup macros. Always use INP_GPIO(x) before using OUT_GPIO(x) or SET_GPIO_ALT(x,y) </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">INP_GPIO</span>(<span style="color: #aaccff;">g</span>) *(gpio+((g)/10)) &amp;= ~(7&lt;&lt;(((g)%10)*3))
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">OUT_GPIO</span>(<span style="color: #aaccff;">g</span>) *(gpio+((g)/10)) |=  (1&lt;&lt;(((g)%10)*3))
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">SET_GPIO_ALT</span>(<span style="color: #aaccff;">g</span>,<span style="color: #aaccff;">a</span>) *(gpio+(((g)/10))) |= (((a)&lt;=3?(a)+4:(a)==4?3:2)&lt;&lt;(((g)%10)*3))
+
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">GPIO_SET</span> *(gpio+7)   <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">sets   bits which are 1 ignores bits which are 0 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">GPIO_CLR</span> *(gpio+10)  <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">clears bits which are 1 ignores bits which are 0 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+
+<span style="color: #97abc6; font-style: italic;">/**</span>
+<span style="color: #97abc6; font-style: italic;"> * Set up a memory regions to access GPIO</span>
+<span style="color: #97abc6; font-style: italic;"> *</span>
+<span style="color: #97abc6; font-style: italic;"> */</span>
+<span style="color: #fff59d;">void</span> <span style="color: #aaccff;">setup_io</span>()
+{
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">open /dev/mem </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        <span style="color: #aaffaa;">if</span> ((mem_fd = open(<span style="color: #aadddd;">"/dev/mem"</span>, O_RDWR|O_SYNC) ) &lt; 0) {
+                printf(<span style="color: #aadddd;">"can't open /dev/mem \n"</span>);
+                exit(-1);
+        }
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">mmap GPIO </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        gpio_map = mmap(
+                <span style="color: #ccaaff;">NULL</span>,             <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Any adddress in our space will do </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                BLOCK_SIZE,       <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Map length </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                PROT_READ|PROT_WRITE, <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Enable reading &amp; writting to mapped memory </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                MAP_SHARED,       <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Shared with other processes </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                mem_fd,           <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">File to map </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                GPIO_BASE         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Offset to GPIO peripheral </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                );
+
+        close(mem_fd); <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">No need to keep mem_fd open after mmap </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+
+        <span style="color: #aaffaa;">if</span> (gpio_map == MAP_FAILED) {
+                printf(<span style="color: #aadddd;">"mmap error %d\n"</span>, (<span style="color: #fff59d;">int</span>)gpio_map); <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">errno also set! </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                exit(-1);
+        }
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Always use volatile pointer! </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        gpio = (<span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">unsigned</span> *)gpio_map;
+}
+
+<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span>(<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> **<span style="color: #aaccff;">argv</span>)
+{
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set up gpi pointer for direct register access </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        setup_io();
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Must use INP_GPIO before we can use OUT_GPIO </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        INP_GPIO(g);
+        OUT_GPIO(g);
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set GPIO4 to 1 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        GPIO_SET = 1 &lt;&lt; 4;
+        sleep(1);
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Clear GPIO 4 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        GPIO_CLR = 1 &lt;&lt; 4;
+        sleep(1);
+
+        <span style="color: #aaffaa;">return</span> 0;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9afd70b" class="outline-2">
+<h2 id="org9afd70b">使用 C 語言控制 GPIO (使用 BCM2835 函式庫)</h2>
+<div class="outline-text-2" id="text-org9afd70b">
+<p>
+<a href="http://www.airspayce.com/mikem/bcm2835/" target="_blank" rel="external">BCM2835 C library</a> 是針對 BCM2835 CPU 用的 C 語言函式庫，透過他你可以輕鬆
+的使用 C 語言去控制 Raspberry Pi 的 GPIO、I²C 等裝置，第一次使用這個函式庫
+時，需要自己下載來編譯。
+</p>
+
+<pre class="example">
+wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.25.tar.gz
+tar zxvf bcm2835-1.25.tar.gz
+cd bcm2835-1.25
+./configure
+make
+sudo make install
+</pre>
+
+<p>
+接著我們就可以寫如下的 C 語言程式來閃爍我們的 LED。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Compile with: gcc blink.c -o blink -l bcm2835 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;bcm2835.h&gt;</span>
+
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Blinks on RPi pin 7 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">PIN</span> RPI_GPIO_P1_7
+
+<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span>(<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> **<span style="color: #aaccff;">argv</span>) {
+
+        <span style="color: #aaffaa;">if</span> ( <span style="color: #ff3333;">!</span>bcm2835_init() ) {
+                perror(<span style="color: #aadddd;">"Error"</span>);
+                <span style="color: #aaffaa;">return</span> 1;
+        }
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set the pin to be an output </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP);
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Blink LED </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        <span style="color: #aaffaa;">while</span> (1) {
+                <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Turn on LED </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                bcm2835_gpio_write(PIN, HIGH);
+                <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Delay 500ms </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                delay(500);
+                <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Turn off LED </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                bcm2835_gpio_write(PIN, LOW);
+                <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Delay 500ms </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                delay(500);
+        }
+
+        <span style="color: #aaffaa;">return</span> 0;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgff1a5c4" class="outline-2">
+<h2 id="orgff1a5c4">使用 Python 控制 GPIO</h2>
+<div class="outline-text-2" id="text-orgff1a5c4">
+<p>
+在 Raspbian 發行版當中，已經預先將 RPi.GPIO 模組包入，因此你可以直接
+寫以下的 python 程式來控制 GPIO4，要注意的是，RPi.GPIO 設定的 GPIO 是採
+用 Pin number，也就是說若我要修改 GPIO4 (Pin 7)，則實際上呼叫 Rpi.GPIO
+的號碼為 <b>7</b> ，而不是 <b>4</b> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #aaffaa;">import</span> RPi.GPIO <span style="color: #aaffaa;">as</span> GPIO
+<span style="color: #aaffaa;">import</span> time
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">blinking function</span>
+<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">blink</span>(pin):
+    GPIO.output(pin,GPIO.HIGH)
+    time.sleep(<span style="color: #c6cccc; background-color: #202020;">1</span>)
+    GPIO.output(pin,GPIO.LOW)
+    time.sleep(<span style="color: #c6cccc; background-color: #202020;">1</span>)
+    <span style="color: #aaffaa;">return</span>
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">to use Raspberry Pi board pin numbers</span>
+GPIO.setmode(GPIO.BOARD)
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">set up GPIO output channel, we set GPIO4 (Pin 7) to OUTPUT</span>
+GPIO.setup(<span style="color: #c6cccc; background-color: #202020;">7</span>, GPIO.OUT)
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">blink GPIO4 (Pin 7) 50 times</span>
+<span style="color: #aaffaa;">for</span> i <span style="color: #aaffaa;">in</span> <span style="color: #ccaaff;">range</span>(<span style="color: #c6cccc; background-color: #202020;">0</span>,<span style="color: #c6cccc; background-color: #202020;">50</span>):
+    blink(<span style="color: #c6cccc; background-color: #202020;">7</span>)
+
+GPIO.cleanup()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org44e5fe8" class="outline-2">
+<h2 id="org44e5fe8">使用 newlisp 控制 GPIO</h2>
+<div class="outline-text-2" id="text-org44e5fe8">
+<p>
+newlisp 是屬於 script language，若不透過他的 FFI (Foreign Function
+Interface)，則要在 newlisp 下控制 GPIO 的最好方法就是更改 sysfs 下的 GPIO
+資訊。
+</p>
+
+<p>
+我們可以使用 <a href="https://github.com/gatesphere/raspi-gpio-newlisp" target="_blank" rel="external">raspi-gpio</a> 模組來簡化 nwelisp 下修改 GPIO 資訊的步驟，首先
+先下載 raspi-gpio.lsp
+</p>
+
+<pre class="example">
+wget https://raw.github.com/gatesphere/raspi-gpio-newlisp/master/raspi-gpio.lsp
+</pre>
+
+<p>
+接著你就可以寫以下的 newlisp 程式來閃爍 LED
+</p>
+
+<div class="org-src-container">
+<pre class="src src-newlisp"><span style="color: #9ac; font-style: italic;">#!/usr/bin/env newlisp</span>
+
+(<span style="color: #aaffaa;">load</span> <span style="color: #aadddd;">"raspi-gpio.lsp"</span>)
+
+(<span style="color: #aaccff;">define</span> (blink gpio)
+  <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Make GPIO to 1</span>
+  (GPIO:digital-write gpio GPIO:high)
+  <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">delay 500ms</span>
+  (<span style="color: #aaffaa;">sleep</span> 500)
+  <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Make GPIO to 0</span>
+  (GPIO:digital-write gpio GPIO:low)
+  <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">delay 500ms</span>
+  (<span style="color: #aaffaa;">sleep</span> 500))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Enable use GPIO4</span>
+(GPIO:enable-pin 4)
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Set GPIO4 as output</span>
+(GPIO:pin-mode 4 GPIO:out)
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Blink GPIO4 50 times</span>
+(<span style="color: #aaffaa;">dotimes</span> (x 50) (blink 4))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Disable use GPIO4</span>
+(GPIO:disable-pin 4)
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">End of Application</span>
+(<span style="color: #aaffaa;">exit</span>)
+</pre>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/raspberry-pi/" rel="tag">#raspberry pi</a>
+          
+            <a href="/tags/newlisp/" rel="tag">#newlisp</a>
+          
+            <a href="/tags/c/" rel="tag">#c</a>
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/f0528f55/" rel="prev">讓你的 Raspberry Pi 透過 I²C 讀取 eeprom</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/1ad4bf6d/" rel="next">在 x86 下 chroot 到 ARM 平台的 rootfs</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org7b12779"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge5b537b"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfc8c224"><span class="nav-text">使用 Linux Kernel 提供的 sysfs 來控制 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3825c3a"><span class="nav-text">使用 debugfs 來觀看目前的 GPIO 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf9dfe77"><span class="nav-text">使用 C 語言控制 GPIO (不使用外部函式庫)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9afd70b"><span class="nav-text">使用 C 語言控制 GPIO (使用 BCM2835 函式庫)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgff1a5c4"><span class="nav-text">使用 Python 控制 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org44e5fe8"><span class="nav-text">使用 newlisp 控制 GPIO</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'coldnew';
+      var disqus_identifier = 'f7349436/';
+      var disqus_title = '讓你的 Raspberry Pi 透過 GPIO 閃爍 LED 燈';
+      var disqus_url = 'https://coldnew.github.io/f7349436/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+</body>
+</html>

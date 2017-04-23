@@ -1,0 +1,1277 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="android,cyanogenmod,htc onex," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="CyanogenMod 是目前最為風行的 Android 第三方改版，原本由 Steve Kondik 創 辦開發，並加入了許多 xda 社群的改版，該團隊也在最近成立了公司 CyanogenMod Inc.    本篇文章以 CyanogenMod 9 (簡稱 CM9) 為主，並使用 HTC One X (Endeavoru) 作為編譯的目標機型。由於目前的 HTC One X 所安裝的">
+<meta name="keywords" content="android,cyanogenmod,htc onex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="編譯 CyanogenMod 9 (ICS) 並安裝到 HTC One X 手機">
+<meta property="og:url" content="https://coldnew.github.io/c57d2c00/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="CyanogenMod 是目前最為風行的 Android 第三方改版，原本由 Steve Kondik 創 辦開發，並加入了許多 xda 社群的改版，該團隊也在最近成立了公司 CyanogenMod Inc.    本篇文章以 CyanogenMod 9 (簡稱 CM9) 為主，並使用 HTC One X (Endeavoru) 作為編譯的目標機型。由於目前的 HTC One X 所安裝的">
+<meta property="og:updated_time" content="2017-04-21T02:07:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="編譯 CyanogenMod 9 (ICS) 並安裝到 HTC One X 手機">
+<meta name="twitter:description" content="CyanogenMod 是目前最為風行的 Android 第三方改版，原本由 Steve Kondik 創 辦開發，並加入了許多 xda 社群的改版，該團隊也在最近成立了公司 CyanogenMod Inc.    本篇文章以 CyanogenMod 9 (簡稱 CM9) 為主，並使用 HTC One X (Endeavoru) 作為編譯的目標機型。由於目前的 HTC One X 所安裝的">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 編譯 CyanogenMod 9 (ICS) 並安裝到 HTC One X 手機 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/c57d2c00/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              編譯 CyanogenMod 9 (ICS) 並安裝到 HTC One X 手機
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2017-04-21T10:07:57+08:00" content="2017-04-21">
+            2017-04-21
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/c57d2c00/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="c57d2c00/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody">
+
+<p>
+<a href="http://www.cyanogenmod.org/" target="_blank" rel="external">CyanogenMod</a> 是目前最為風行的 Android 第三方改版，原本由 Steve Kondik 創
+辦開發，並加入了許多 <a href="http://www.xda-developers.com" target="_blank" rel="external">xda</a> 社群的改版，該團隊也在最近成立了公司 CyanogenMod Inc.
+</p>
+
+<p>
+本篇文章以 <code>CyanogenMod 9</code> (簡稱 <code>CM9</code>) 為主，並使用 <code>HTC One X
+(Endeavoru)</code> 作為編譯的目標機型。由於目前的 HTC One X 所安裝的 HBOOT 僅
+適用於 Android 4.2 以上的版本，若想要依據本篇文章的方式編譯 CM9，你同時
+需要將你的 HTC One X 進行 HBOOT 降級的動作。
+</p>
+
+<div id="outline-container-org8638cb6" class="outline-2">
+<h2 id="org8638cb6">建立你的開發環境</h2>
+<div class="outline-text-2" id="text-org8638cb6">
+<p>
+要能夠編譯 CyanogenMod, 首先要先把開發環境建立好，才能夠在編譯的過程中
+順順利利的，以下列出幾個常用的 Linux 建立編譯環境所需要額外安裝的套件。
+</p>
+
+<div class="alert">
+<p>
+為了能夠正確編譯你的 CyanogenMod 或是 Android，請使用 <b>64-bit</b>
+的 Linux 系統。
+</p>
+
+</div>
+
+<ul class="org-ul">
+<li><p>
+Debian /Ubuntu Linux
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo apt-get install                                            <span style="color: #aadddd;">\</span>
+    build-essential pkg-config zlib1g-dev libusb-dev libqt4-dev <span style="color: #aadddd;">\</span>
+    autoconf libtool git-core gnupg sun-java6-jdk flex bison    <span style="color: #aadddd;">\</span>
+    gperf libsdl-dev libesd0-dev libwxgtk2.6-dev zip curl       <span style="color: #aadddd;">\</span>
+    libncurses5-dev ia32-libs lib32z1-dev lib32ncurses5-dev     <span style="color: #aadddd;">\</span>
+    gcc-multilib g++-multilib
+</pre>
+</div></li>
+
+<li><p>
+Gentoo Linux
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">emerge -v                                              <span style="color: #aadddd;">\</span>
+    schedtool cmake bison curl git sun-jdk             <span style="color: #aadddd;">\</span>
+    gnupg flex bison gperf libsdl squashfs-tools       <span style="color: #aadddd;">\</span>
+    ncurses zlib perl-Switch zip unzip wxGTK           <span style="color: #aadddd;">\</span>
+    emul-linux-x86-baselibs emul-linux-x86-compat emul-linux-x86-cpplibs
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7d528ef" class="outline-2">
+<h2 id="org7d528ef">取得 repo 工具</h2>
+<div class="outline-text-2" id="text-org7d528ef">
+<p>
+不論你是要編譯 Android、CyanogenMod 或是 Firefox OS、Ubuntu Touch，你都
+會需要 <code>repo</code> 這個命令，因此若你沒有這個命令的話，趕快安裝他吧 :)
+</p>
+
+<p>
+下面的指令會將 repo 放到 <code>~/bin</code> 下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">curl http://commondatastorage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo
+chmod a+x ~/bin/repo
+<span style="color: #ccaaff;">export</span> <span style="color: #aaccff;">PATH</span>=<span style="color: #aadddd;">"${PATH}:~/bin"</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8de74c5" class="outline-2">
+<h2 id="org8de74c5">取得必須的原始碼</h2>
+<div class="outline-text-2" id="text-org8de74c5">
+<div class="alert">
+<p>
+本篇文章所編譯的為 CM9 的版本，相對應的版本為 Android 4.0 (ICS)，由於目
+前的 HTC One X 幾乎都升級到 Android 4.2 (JB) 的版本，要使用 CM9 你必須知道
+如何將 HBOOT 降版，或是將本篇文章編譯的版本改成 CM-10.2。
+</p>
+
+</div>
+
+<ul class="org-ul">
+<li><p>
+建立編譯用的目錄 <code>cm9</code> 並切換進去
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">mkdir cm9 &amp;&amp; <span style="color: #ccaaff;">cd</span> cm9
+</pre>
+</div></li>
+
+<li><p>
+取得 manifest
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">repo init -u git://github.com/CyanogenMod/android.git -b cm-9.1.0
+</pre>
+</div></li>
+
+<li><p>
+下載程式碼
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">repo sync
+</pre>
+</div></li>
+
+<li><p>
+取得預先編譯好的 app
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">cd</span> vendor/cm &amp;&amp; ./get-prebuilts
+</pre>
+</div></li>
+
+<li><p>
+取得 HTC One X kernel 和其他可能需要的原始碼
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">source</span> build/envsetup.sh
+breakfast endeavoru
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org119c9d8" class="outline-2">
+<h2 id="org119c9d8">取得官方提供的二進制檔案</h2>
+<div class="outline-text-2" id="text-org119c9d8">
+<p>
+要取得手機裡面特殊的二進制文件有兩種作法，一個是從你的手機裡面取出，另
+外一個則是使用別人已經 <b>備份</b> 在網路上的檔案。由於我們這次要編譯的是比
+較過時的 CM9，建議使用網路上的檔案，才不會出現 firmware 和 ROM 不批配的狀況。
+</p>
+
+<ul class="org-ul">
+<li><p>
+下載別人整理好的二進制檔案
+</p>
+
+<p>
+在 Github 上可以找到一些已經整理好 HTC One X 二進制檔的 repo，
+修改 <code>.repo/local_manifest.xml</code> ，讓他變成下面這樣
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml"><span style="color: #aadddd;">&lt;?</span><span style="color: #aaffaa;">xml</span><span style="color: #aadddd;"> </span><span style="color: #97abc6; font-style: italic;">version="1.0" encoding="UTF-8"</span><span style="color: #aadddd;">?&gt;</span>
+&lt;<span style="color: #aaccff;">manifest</span>&gt;
+  &lt;<span style="color: #aaccff;">project</span> <span style="color: #aaccff;">name</span>=<span style="color: #aadddd;">"CyanogenMod/android_device_htc_endeavoru"</span> <span style="color: #aaccff;">path</span>=<span style="color: #aadddd;">"device/htc/endeavoru"</span> <span style="color: #aaccff;">remote</span>=<span style="color: #aadddd;">"github"</span> <span style="color: #aaccff;">revision</span>=<span style="color: #aadddd;">"ics"</span> /&gt;
+  &lt;<span style="color: #aaccff;">project</span> <span style="color: #aaccff;">name</span>=<span style="color: #aadddd;">"coldnew/android_vendor_htc_endeavoru"</span> <span style="color: #aaccff;">path</span>=<span style="color: #aadddd;">"vendor/htc/endeavoru"</span> <span style="color: #aaccff;">remote</span>=<span style="color: #aadddd;">"github"</span> <span style="color: #aaccff;">revision</span>=<span style="color: #aadddd;">"ics"</span> /&gt;
+&lt;/<span style="color: #aaccff;">manifest</span>&gt;
+</pre>
+</div>
+
+<p>
+接著再使用 repo 命令來取得原始碼
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">repo sync
+</pre>
+</div></li>
+
+<li><p>
+直接從手機裡面取得二進制檔案
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">cd</span> device/htc/endeavoru &amp;&amp; ./extract-files.sh
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7767a3c" class="outline-2">
+<h2 id="org7767a3c">編譯 CyanogenMod</h2>
+<div class="outline-text-2" id="text-org7767a3c">
+<p>
+要編譯 CyanogenMod，你只需要再下以下命令，並等待你的 ROM 編譯好即可
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">croot
+brunch endeavoru
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc485161" class="outline-2">
+<h2 id="orgc485161">下載到 HTC One X</h2>
+<div class="outline-text-2" id="text-orgc485161">
+<div class="alert alert-info">
+<p>
+本篇文章所編譯的 CyanogenMod 版本為 <b>CM9</b> ，實際上相對應的 Android 版本
+即為 <b>Android 4.0 (ICS)</b> ，因為 HTC 在 Android 4.0 與 4.2 上面的 HBOOT 有差
+異，你必須將你的 HBOOT 降版，才能夠將 CM9 裝到你的手機，並成功開機。
+</p>
+</div>
+
+<p>
+若你的 HTC 手機裡面已經將 recovery 更改為 <a href="http://teamw.in/project/twrp2/95" target="_blank" rel="external">TWRP</a> 或是 <a href="http://www.clockworkmod.com/rommanager" target="_blank" rel="external">CWM</a> 的話，你可以直
+接複製編譯好的 ROM 檔案到你的手機裡面，並使用這些 recovery tool 來
+安裝新的 image (HBOOT 要先降版本)，具體的檔案路徑如下:
+</p>
+
+<pre class="example">
+out/target/product/endeavoru/cm-9-20131027-UNOFFICIAL-endeavoru.zip
+</pre>
+
+<p>
+除此之外，你也可以使用 fastboot 命令來燒錄新的 image，以下是操作流程
+</p>
+
+<ul class="org-ul">
+<li><p>
+1. 重新開機到 bootloader
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">adb reboot-bootloader
+</pre>
+</div></li>
+
+<li><p>
+2. 查看是否有找到裝置
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">fastboot devices
+</pre>
+</div></li>
+
+<li><p>
+3. 燒錄你的新的 image
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">fastboot flash boot boot.img
+fastboot flash system system.img
+</pre>
+</div></li>
+
+<li><p>
+4. 清除 cache 和 user-data
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">fastboot erase userdata
+fastboot erase cache
+</pre>
+</div></li>
+
+<li><p>
+5. 重新啟動你的手機
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">fastboot reboot
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga067831" class="outline-2">
+<h2 id="orga067831">可能會遇到的編譯問題</h2>
+<div class="outline-text-2" id="text-orga067831">
+<p>
+編譯 Android 的時候，很多時候會冒出一些奇奇怪怪的問題，下面是我編譯
+CyanogenMod 9 以及 Android ICS 時，遇到問題以及解決方案的整理。
+</p>
+
+<ul class="org-ul">
+<li><p>
+編譯 <code>doclava</code> 時，被告知以下錯誤訊息
+</p>
+
+<p>
+若你編譯時，遇到 doclava 出現以下錯誤
+</p>
+
+<pre class="example">
+xternal/doclava/src/com/google/doclava/ClassInfo.java:20: package com.sun.javadoc does not exist
+import com.sun.javadoc.ClassDoc;
+                      ^
+</pre>
+
+<p>
+解決的方案:
+</p>
+
+<ul class="org-ul">
+<li><p>
+1. 檢查你使用的 java-vm 是否為 <code>sun-jdk (jdk 6)</code>
+</p>
+
+<p>
+如果你是使用 openjdk 或是 icedtea，是有可能編譯不過的。
+</p></li>
+
+<li><p>
+2. 確認你的環境變數
+</p>
+
+<p>
+在我的 Gentoo 系統上，我遇到這個編譯問題時，是因為環境變數指向
+java-vm 的位置錯誤，因此我修改了環境變數如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">export</span> <span style="color: #aaccff;">JAVA_HOME</span>=<span style="color: #aadddd;">"/usr/lib/jvm/sun-jdk-1.6"</span>
+<span style="color: #ccaaff;">export</span> <span style="color: #aaccff;">PATH</span>=<span style="color: #aadddd;">"${JAVA_HOME}/bin:$PATH"</span>
+</pre>
+</div></li>
+</ul></li>
+
+<li><p>
+編譯 llvm 時出錯
+</p>
+
+<p>
+若在編譯 llvm 時遇到以下錯誤
+</p>
+
+<pre class="example">
+external/llvm/include/llvm/ADT/PointerUnion.h:56:10: error: comparison between ‘ enum llvm::PointerLikeTypeTraits&lt;clang::QualifiedTemplateName*&gt;::&lt;anonymous&gt;’ and ‘ enum llvm::PointerLikeTypeTraits&lt;clang::DependentTemplateName*&gt;::&lt;anonymous&gt;’ [-Werror=enum-compare]
+external/llvm/include/llvm/ADT/PointerUnion.h:56:10: error: enumeral mismatch in conditional expression: ‘ llvm::PointerLikeTypeTraits&lt;clang::QualifiedTemplateName*&gt;::&lt;anonymous enum&gt;’ vs ‘ llvm::PointerLikeTypeTraits&lt;clang::DependentTemplateName*&gt;::&lt;anonymous enum&gt;’ [-Werror=enum-compare]
+</pre>
+
+<p>
+這種錯誤可能跟系統的 gcc 參數、配置等有關，比較簡單的解決方案為：
+</p>
+
+<p>
+編輯 <code>frameworks/compile/slang/Android.mk</code> 將 <code>-Werror</code> 移除掉並重新
+編譯即可。
+</p></li>
+
+<li><p>
+編譯 dalvik 時出錯
+</p>
+
+<p>
+若出現如以下錯誤
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">dalvik/vm/native/dalvik_system_Zygote.cpp: In <span style="color: #aaffaa;">function</span> &#8216; int setrlimitsFromArray(ArrayObject*)&#8217;:
+dalvik/vm/native/dalvik_system_Zygote.cpp:199:19: error: aggregate &#8216; setrlimitsFromArray(ArrayObject*)::rlimit rlim &#8217; has incomplete type and cannot be defined
+     struct rlimit rlim;
+                   ^
+</pre>
+</div>
+
+<p>
+這個參數似乎也是和系統比較相關，修正方式很簡單，請參考以下 patch
+</p>
+
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/dalvik/vm/native/dalvik_system_Zygote.cpp b/dalvik/vm/native/dalvik_system_Zygote.cpp</span>
+<span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/dalvik/vm/native/dalvik_system_Zygote.cpp</span>
+<span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/dalvik/vm/native/dalvik_system_Zygote.cpp</span>
+<span style="color: #aaaaaa; background-color: #202020;">@@ -19,3 +19,4 @@</span>
+<span style="color: #dddddd;">  */</span>
+<span style="color: #dddddd;"> #include "Dalvik.h"</span>
+<span style="color: #dddddd;"> #include "native/InternalNativePriv.h"</span>
+<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">#include &lt;sys/resource.h&gt;</span>
+
+<span style="color: #dddddd;"> #include</span>
+<span style="color: #dddddd;"> #if (__GNUC__ == 4 &amp;&amp; __GNUC_MINOR__ == 7)</span>
+</pre>
+</div></li>
+
+<li><p>
+執行 make 後出現以下錯誤
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">build/core/java.mk:20: *** dalvik/dexgen: Invalid LOCAL_SDK_VERSION <span style="color: #aadddd;">'4'</span> Choices are: current .  Stop.
+</pre>
+</div>
+
+<p>
+遇到此種問題的時候，首先先移除你的 prebuilt 資料夾，並重新下載
+</p>
+
+<pre class="example">
+rm -rf prebuilt
+repo sync prebuilt
+</pre></li>
+
+<li><p>
+遇到 _FORTIFY_SOURCE 這樣的問題
+</p>
+
+<p>
+如果你有遇到如以下的錯誤訊息
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">error: <span style="color: #aadddd;">"_FORTIFY_SOURCE"</span> redefined [-Werror]
+</pre>
+</div>
+
+<p>
+按照以下 patch 去修改 <code>build/core/combo/HOST_linux-x86.mk</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/core/combo/HOST_linux-x86.mk b/core/combo/HOST_linux-x86.mk</span>
+<span style="color: #dddddd;">index 5ae4972..7df2893 100644</span>
+<span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/core/combo/HOST_linux-x86.mk</span>
+<span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/core/combo/HOST_linux-x86.mk</span>
+<span style="color: #aaaaaa; background-color: #202020;">@@ -53,6 +53,6 @@</span><span style="color: #aaaaaa; background-color: #202020;"> HOST_GLOBAL_CFLAGS += \</span>
+<span style="color: #dddddd;">        -include $(call select-android-config-h,linux-x86)</span>
+
+<span style="color: #dddddd;"> # Disable new longjmp in glibc 2.11 and later. See bug 2967937.</span>
+<span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">HOST_GLOBAL_CFLAGS += -D_FORTIFY_SOURCE=0</span>
+<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">HOST_GLOBAL_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0</span>
+
+<span style="color: #dddddd;"> HOST_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined</span>
+</pre>
+</div></li>
+
+<li><p>
+編譯 mesa3d 出錯
+</p>
+
+<p>
+如果編譯 mesa3d 下的 linker.cpp 產生如以下的錯誤
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">external/mesa3d/src/glsl/linker.cpp:623:33: warning:   by &#12302; virtual ir_visitor_status remap_variables(ir_instruction*, gl_shader*, hash_table*)::remap_visitor::visit(ir_dereference_variable*)&#12303; [-Woverloaded-virtual]
+external/mesa3d/src/glsl/linker.cpp: In <span style="color: #aaffaa;">function</span> &#12302; void assign_varying_locations(gl_shader_program*, gl_shader*, gl_shader*)&#12303;:
+external/mesa3d/src/glsl/linker.cpp:1394:49: error: expected primary-expression before &#12302;,&#12303; token
+external/mesa3d/src/glsl/linker.cpp:1394:50: error: &#12302; varyings<span style="color: #aadddd;">' was not declared in this scope</span>
+<span style="color: #aadddd;">external/mesa3d/src/glsl/linker.cpp:1394:58: error: &#12302; offsetof'</span> was not declared<span style="color: #aaffaa;"> in</span> this scope
+external/mesa3d/src/glsl/linker.cpp:1395:48: error: expected primary-expression before &#12302;,&#12303; token
+external/mesa3d/src/glsl/linker.cpp:1412:47: error: expected primary-expression before &#12302;,&#12303; token
+</pre>
+</div>
+
+<p>
+修改 <code>external/mesa3d/src/glsl/linker.cpp</code> 成如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/src/glsl/linker.cpp b/src/glsl/linker.cpp</span>
+<span style="color: #dddddd;">index f8b6962..cfdd3d3 100644</span>
+<span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/src/glsl/linker.cpp</span>
+<span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/src/glsl/linker.cpp</span>
+<span style="color: #aaaaaa; background-color: #202020;">@@ -67,7 +67,7 @@</span>
+<span style="color: #dddddd;"> #include &lt;cstdio&gt;</span>
+<span style="color: #dddddd;"> #include &lt;cstdarg&gt;</span>
+<span style="color: #dddddd;"> #include &lt;climits&gt;</span>
+<span style="color: #ff3333; font-weight: bold;">-</span>
+<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">#include &lt;stddef.h&gt;</span>
+<span style="color: #dddddd;"> #include &lt;pixelflinger2/pixelflinger2_interface.h&gt;</span>
+
+<span style="color: #dddddd;"> extern "C" {</span>
+</pre>
+</div></li>
+
+<li><p>
+編譯 oprofile 時出錯
+</p>
+
+<p>
+在編譯 oprofile 時，如果遇到以下錯誤
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">external/oprofile/libpp/format_output.h:94:22: error&#65306;reference&#12300;counts&#12301;cannot be declared&#12300;mutable&#12301; [-fpermissive]
+</pre>
+</div>
+
+<p>
+修改 <code>external/oprofile/libpp/format_output.h</code> 成如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/libpp/format_output.h b/libpp/format_output.h</span>
+<span style="color: #dddddd;">index b6c4592..8e527d5 100644</span>
+<span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/libpp/format_output.h</span>
+<span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/libpp/format_output.h</span>
+<span style="color: #aaaaaa; background-color: #202020;">@@ -91,7 +91,7 @@</span><span style="color: #aaaaaa; background-color: #202020;"> protected:</span>
+<span style="color: #dddddd;">                symbol_entry const &amp; symbol;</span>
+<span style="color: #dddddd;">                sample_entry const &amp; sample;</span>
+<span style="color: #dddddd;">                size_t pclass;</span>
+<span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">               mutable counts_t &amp; counts;</span>
+<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">               counts_t &amp; counts;</span>
+<span style="color: #dddddd;">                extra_images const &amp; extra;</span>
+<span style="color: #dddddd;">                double diff;</span>
+<span style="color: #dddddd;">        };</span>
+</pre>
+</div></li>
+
+<li><p>
+編譯 gtest 時出錯
+</p>
+
+<p>
+如果遇到以下錯誤
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">external/gtest/src/../include/gtest/internal/gtest-param-util.h:122:11: error: &#12300;ptrdiff_t&#12301;does not name a ty
+</pre>
+</div>
+
+<p>
+修改 <code>external/gtest/include/gtest/internal/gtest-param-util.h</code> 成如
+下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/include/gtest/internal/gtest-param-util.h b/include/gtest/internal/gtest-param-util.h</span>
+<span style="color: #dddddd;">index 5559ab4..405dc4d 100644</span>
+<span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/include/gtest/internal/gtest-param-util.h</span>
+<span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/include/gtest/internal/gtest-param-util.h</span>
+<span style="color: #aaaaaa; background-color: #202020;">@@ -37,6 +37,7 @@</span>
+<span style="color: #dddddd;"> #include &lt;iterator&gt;</span>
+<span style="color: #dddddd;"> #include &lt;utility&gt;</span>
+<span style="color: #dddddd;"> #include &lt;vector&gt;</span>
+<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">#include &lt;cstddef&gt;</span>
+
+<span style="color: #dddddd;"> #include &lt;gtest/internal/gtest-port.h&gt;</span>
+</pre>
+</div></li>
+
+<li><p>
+遇到 ParamName 錯誤
+</p>
+
+<p>
+如果遇到以下問題
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">frameworks/compile/slang/slang_rs_export_foreach.cpp:249:23: error: variable &#12302; ParamName<span style="color: #aadddd;">' set but not used [-Werror=unused-but-set-variable]</span>
+</pre>
+</div>
+
+<p>
+修改 <code>frameworks/compile/slang/slang_rs_export_foreach.cpp</code> 成如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/slang_rs_export_foreach.cpp b/slang_rs_export_foreach.cpp</span>
+<span style="color: #dddddd;">index a4025ca..0dbf954 100644</span>
+<span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/slang_rs_export_foreach.cpp</span>
+<span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/slang_rs_export_foreach.cpp</span>
+<span style="color: #aaaaaa; background-color: #202020;">@@ -246,7 +246,6 @@</span><span style="color: #aaaaaa; background-color: #202020;"> RSExportForEach *RSExportForEach::Create(RSContext *Context,</span>
+<span style="color: #dddddd;">                                     clang::SourceLocation(),</span>
+<span style="color: #dddddd;">                                     &amp;Ctx.Idents.get(Id));</span>
+
+<span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">      llvm::StringRef ParamName = PVD-&gt;getName();</span>
+<span style="color: #dddddd;">       clang::FieldDecl *FD =</span>
+<span style="color: #dddddd;">           clang::FieldDecl::Create(Ctx,</span>
+<span style="color: #dddddd;">                                    RD,</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdc3cb49" class="outline-2">
+<h2 id="orgdc3cb49">後記</h2>
+<div class="outline-text-2" id="text-orgdc3cb49">
+<p>
+最近一直在嘗試移植 Firefox OS 給我的 HTC One X 使用，為了能更加了解整
+個編譯流程，以及確認我改的 manifest 是否正確，因此我是從 CyanogenMod 開始
+來研究整個移植的步驟，此篇文章僅紀錄這整個流程。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgde4d860" class="outline-2">
+<h2 id="orgde4d860">參考資料</h2>
+<div class="outline-text-2" id="text-orgde4d860">
+<p>
+<code>[1]</code> <a href="http://wiki.cyanogenmod.org/w/Build_for_endeavoru" target="_blank" rel="external">How To Build CyanogenMod Android for HTC One X ("endeavoru") </a>
+</p>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag">#android</a>
+          
+            <a href="/tags/cyanogenmod/" rel="tag">#cyanogenmod</a>
+          
+            <a href="/tags/htc-onex/" rel="tag">#htc onex</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/8b9ce9b9/" rel="prev">COSCUP 2013 "Org-Mode - emacs 下的瑞士軍刀" 投影片</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/32c1fa12/" rel="next">替你的 eshell prompt 上色</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8638cb6"><span class="nav-text">建立你的開發環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7d528ef"><span class="nav-text">取得 repo 工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8de74c5"><span class="nav-text">取得必須的原始碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org119c9d8"><span class="nav-text">取得官方提供的二進制檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7767a3c"><span class="nav-text">編譯 CyanogenMod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc485161"><span class="nav-text">下載到 HTC One X</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga067831"><span class="nav-text">可能會遇到的編譯問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdc3cb49"><span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgde4d860"><span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'coldnew';
+      var disqus_identifier = 'c57d2c00/';
+      var disqus_title = '編譯 CyanogenMod 9 (ICS) 並安裝到 HTC One X 手機';
+      var disqus_url = 'https://coldnew.github.io/c57d2c00/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+</body>
+</html>

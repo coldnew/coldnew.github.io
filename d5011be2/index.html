@@ -1,0 +1,864 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="org-mode,emacs,elisp," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 org-mode 中使用表格非常簡潔明快，唯一的缺點是在表格中，中英文會出現對齊不良的 狀況，這是因為我們設定的中英字體大小無法匹配，導致如下圖左的狀況:             原始的 org table 中英文對齊狀況              修改後 org table 中英文對齊狀況        要解決這樣的問題，有以下幾種方案:    1. 修改字體，製作出中英文大小匹配的字">
+<meta name="keywords" content="org-mode,emacs,elisp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解決 org-mode 表格內中英文對齊的問題">
+<meta property="og:url" content="https://coldnew.github.io/d5011be2/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 org-mode 中使用表格非常簡潔明快，唯一的缺點是在表格中，中英文會出現對齊不良的 狀況，這是因為我們設定的中英字體大小無法匹配，導致如下圖左的狀況:             原始的 org table 中英文對齊狀況              修改後 org table 中英文對齊狀況        要解決這樣的問題，有以下幾種方案:    1. 修改字體，製作出中英文大小匹配的字">
+<meta property="og:image" content="https://coldnew.github.io/d5011be2/org_table_font_origin.png">
+<meta property="og:image" content="https://coldnew.github.io/d5011be2/org_table_font_adjust.png">
+<meta property="og:updated_time" content="2017-04-21T02:07:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解決 org-mode 表格內中英文對齊的問題">
+<meta name="twitter:description" content="在 org-mode 中使用表格非常簡潔明快，唯一的缺點是在表格中，中英文會出現對齊不良的 狀況，這是因為我們設定的中英字體大小無法匹配，導致如下圖左的狀況:             原始的 org table 中英文對齊狀況              修改後 org table 中英文對齊狀況        要解決這樣的問題，有以下幾種方案:    1. 修改字體，製作出中英文大小匹配的字">
+<meta name="twitter:image" content="https://coldnew.github.io/d5011be2/org_table_font_origin.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 解決 org-mode 表格內中英文對齊的問題 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/d5011be2/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              解決 org-mode 表格內中英文對齊的問題
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2017-04-21T10:07:56+08:00" content="2017-04-21">
+            2017-04-21
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/d5011be2/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="d5011be2/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody">
+
+<p>
+在 org-mode 中使用表格非常簡潔明快，唯一的缺點是在表格中，中英文會出現對齊不良的
+狀況，這是因為我們設定的中英字體大小無法匹配，導致如下圖左的狀況:
+</p>
+
+<div class="row "><div class="col-md-6 ">
+
+
+<div class="figure">
+<p><img src="org_table_font_origin.png">
+</p>
+</div>
+
+<div class="org-center">
+<p>
+<b>原始的 org table 中英文對齊狀況</b>
+</p>
+</div>
+
+</div><div class="col-md-6">
+
+
+<div class="figure">
+<p><img src="org_table_font_adjust.png">
+</p>
+</div>
+
+<div class="org-center">
+<p>
+<b>修改後 org table 中英文對齊狀況</b>
+</p>
+</div>
+
+</div> </div>
+
+<p>
+要解決這樣的問題，有以下幾種方案:
+</p>
+
+<ul class="org-ul">
+<li>1. 修改字體，製作出中英文大小匹配的字體</li>
+
+<li>2. 使用終端版本的 emacs</li>
+
+<li>3. 調整字體的大小，使其匹配</li>
+</ul>
+
+<p>
+第一種方案非常不優雅，因為你必須自己製作新的字體，產生所謂的 <b>混種字體</b>
+，很可惜的，網路上流傳的解法以第一種居多。為了更加優雅的解決這個問題，
+我採用第三種方案，先找尋中英字體可以匹配的大小，在使用 elisp 去根據匹
+配的資料進行調整字體大小。以下是我用的 elisp code:
+</p>
+
+<div id="outline-container-orgf7e76a3" class="outline-2">
+<h2 id="orgf7e76a3">定義和字體相關的變數</h2>
+<div class="outline-text-2" id="text-orgf7e76a3">
+<p>
+首先先定義自己想使用的中英文字體
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-english-font</span> <span style="color: #aadddd;">"Monaco"</span>
+  <span style="color: #97abc6; font-style: italic;">"The font name of English."</span>)
+
+(<span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-cjk-font</span> <span style="color: #aadddd;">"Hiragino Sans GB W3"</span>
+  <span style="color: #97abc6; font-style: italic;">"The font name for CJK."</span>)
+</pre>
+</div>
+
+<p>
+為了可以在 org-mode 的表格中縮放字體也不會有中英文排版亂掉的情況，我的
+字體設定是以 pair 的形式來進行設定， <b>emacs-font-size-pair</b> 存放預設的
+字體，若有使用我自訂的字體放大/縮小命令，則這個變數也會更著被修改。
+</p>
+
+<p>
+<b>emacs-font-size-pair-list</b> 則是經過測試確定能夠匹配良好的字體對，後面
+的 elisp 將根據這個字體對來調整你的字體大小。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-font-size-pair</span> '(15 . 18)
+  <span style="color: #97abc6; font-style: italic;">"Default font size pair for (english . chinese)"</span>)
+
+(<span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-font-size-pair-list</span>
+  '(( 5 .  6) (10 . 12)
+    (13 . 16) (15 . 18) (17 . 20)
+    (19 . 22) (20 . 24) (21 . 26)
+    (24 . 28) (26 . 32) (28 . 34)
+    (30 . 36) (34 . 40) (36 . 44))
+  <span style="color: #97abc6; font-style: italic;">"This list is used to store matching (englis . chinese) font-size."</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc29c9e8" class="outline-2">
+<h2 id="orgc29c9e8">在圖形介面下調整字體設定</h2>
+<div class="outline-text-2" id="text-orgc29c9e8">
+<p>
+這邊主要定義 <b>set-font</b> 這個函式，他會根據傳送給他的字體資訊，即時設定
+整個 emacs 的字體大小，這樣也不會有切換 buffer，但是字體確沒有跟著之前的
+設定而變大/變小的狀況出現。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">font-exist-p</span> (fontname)
+  <span style="color: #97abc6; font-style: italic;">"Test if this font is exist or not."</span>
+  (<span style="color: #aaffaa;">if</span> (<span style="color: #aaffaa;">or</span> (not fontname) (string= fontname <span style="color: #aadddd;">""</span>))
+      nil
+    (<span style="color: #aaffaa;">if</span> (not (x-list-fonts fontname)) nil t)))
+
+(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">set-font</span> (english chinese size-pair)
+  <span style="color: #97abc6; font-style: italic;">"Setup emacs English and Chinese font on x window-system."</span>
+
+  (<span style="color: #aaffaa;">if</span> (font-exist-p english)
+      (set-frame-font (format <span style="color: #aadddd;">"%s:pixelsize=%d"</span> english (car size-pair)) t))
+
+  (<span style="color: #aaffaa;">if</span> (font-exist-p chinese)
+      (<span style="color: #aaffaa;">dolist</span> (charset '(kana han symbol cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset
+                          (font-spec <span style="color: #ccaaff;">:family</span> chinese <span style="color: #ccaaff;">:size</span> (cdr size-pair))))))
+</pre>
+</div>
+
+<p>
+<b>set-font</b> 函式完成後，我們可以來設定預設的中英字體與大小了。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Setup font size based on emacs-font-size-pair</span>
+(set-font emacs-english-font emacs-cjk-font emacs-font-size-pair)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdf76dce" class="outline-2">
+<h2 id="orgdf76dce">使用 C-= 或是 C&#x2013; 來調整字體大小</h2>
+<div class="outline-text-2" id="text-orgdf76dce">
+<p>
+能夠設定字體後，接著我們必須根據我們設定字體的規則，另外定義一個改變字
+體的函式，這個函式將根據 <b>emacs-font-size-pair-list</b> 去找尋前一個/後一
+個字體，並調用 <b>set-font</b> 函式去調整字體。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">emacs-step-font-size</span> (step)
+  <span style="color: #97abc6; font-style: italic;">"Increase/Decrease emacs's font size."</span>
+  (<span style="color: #aaffaa;">let</span> ((scale-steps emacs-font-size-pair-list))
+    (<span style="color: #aaffaa;">if</span> (&lt; step 0) (<span style="color: #aaffaa;">setq</span> scale-steps (reverse scale-steps)))
+    (<span style="color: #aaffaa;">setq</span> emacs-font-size-pair
+          (<span style="color: #aaffaa;">or</span> (cadr (member emacs-font-size-pair scale-steps))
+              emacs-font-size-pair))
+    (<span style="color: #aaffaa;">when</span> emacs-font-size-pair
+      (message <span style="color: #aadddd;">"emacs font size set to %.1f"</span> (car emacs-font-size-pair))
+      (set-font emacs-english-font emacs-cjk-font emacs-font-size-pair))))
+</pre>
+</div>
+
+<p>
+接著，定義兩個可以在 emacs 下使用 <b>M-x</b> 呼叫的命令，透過這兩個命令去放大
+/縮小我們所設定的字體對。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">increase-emacs-font-size</span> ()
+  <span style="color: #97abc6; font-style: italic;">"Decrease emacs's font-size acording emacs-font-size-pair-list."</span>
+  (<span style="color: #aaffaa;">interactive</span>) (emacs-step-font-size 1))
+
+(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">decrease-emacs-font-size</span> ()
+  <span style="color: #97abc6; font-style: italic;">"Increase emacs's font-size acording emacs-font-size-pair-list."</span>
+  (<span style="color: #aaffaa;">interactive</span>) (emacs-step-font-size -1))
+</pre>
+</div>
+
+<p>
+最後，綁定到自己習慣的按鍵，就大功告成啦 :)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="color: #aadddd;">"C-="</span>) 'increase-emacs-font-size)
+(global-set-key (kbd <span style="color: #aadddd;">"C--"</span>) 'decrease-emacs-font-size)
+</pre>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/org-mode/" rel="tag">#org-mode</a>
+          
+            <a href="/tags/emacs/" rel="tag">#emacs</a>
+          
+            <a href="/tags/elisp/" rel="tag">#elisp</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/32c1fa12/" rel="prev">替你的 eshell prompt 上色</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/d3964884/" rel="next">在 Gentoo Linux 下開發 Launchpad MSP430 程式</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf7e76a3"><span class="nav-text">定義和字體相關的變數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc29c9e8"><span class="nav-text">在圖形介面下調整字體設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdf76dce"><span class="nav-text">使用 C-= 或是 C– 來調整字體大小</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'coldnew';
+      var disqus_identifier = 'd5011be2/';
+      var disqus_title = '解決 org-mode 表格內中英文對齊的問題';
+      var disqus_url = 'https://coldnew.github.io/d5011be2/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+</body>
+</html>

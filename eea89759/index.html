@@ -1,0 +1,1451 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="clojure," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="看完 ClojuTRE 2015 的 Unknown pearls from the Clojure standard library - Renzo Borgatti 演講後，來紀錄個筆記。">
+<meta name="keywords" content="clojure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unknown perls from the Clojure standard library 筆記">
+<meta property="og:url" content="https://coldnew.github.io/eea89759/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="看完 ClojuTRE 2015 的 Unknown pearls from the Clojure standard library - Renzo Borgatti 演講後，來紀錄個筆記。">
+<meta property="og:image" content="https://coldnew.github.io/eea89759/inspect-tree.png">
+<meta property="og:updated_time" content="2017-04-21T02:08:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unknown perls from the Clojure standard library 筆記">
+<meta name="twitter:description" content="看完 ClojuTRE 2015 的 Unknown pearls from the Clojure standard library - Renzo Borgatti 演講後，來紀錄個筆記。">
+<meta name="twitter:image" content="https://coldnew.github.io/eea89759/inspect-tree.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Unknown perls from the Clojure standard library 筆記 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/eea89759/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Unknown perls from the Clojure standard library 筆記
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2017-04-21T10:08:13+08:00" content="2017-04-21">
+            2017-04-21
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/eea89759/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="eea89759/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody">
+
+<p>
+看完 <a href="http://clojutre.org/2015/" target="_blank" rel="external">ClojuTRE 2015</a> 的 <a href="https://www.youtube.com/watch?v=QI9Fc5TT87A" target="_blank" rel="external">Unknown pearls from the Clojure standard library - Renzo Borgatti</a> 演講後，來紀錄個筆記。
+</p>
+
+<a id="more"></a>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/QI9Fc5TT87A" frameborder="0" allowfullscreen></iframe>
+
+<p>
+這場演講介紹了一些在 clojure.core 裡面的函式，這些函式平常可能不太有機會用到，但是可以協助我們除錯程式的問題。
+</p>
+
+<p>
+投影片: <a href="https://github.com/reborg/clojuTRE-2015/raw/master/slides/renzo-borgatti-stdlib.pdf" target="_blank" rel="external">下載連結</a>
+</p>
+
+<div id="outline-container-orgec77d4b" class="outline-2">
+<h2 id="orgec77d4b">destructure</h2>
+<div class="outline-text-2" id="text-orgec77d4b">
+<p>
+<a href="http://clojure.org/guides/destructuring" target="_blank" rel="external">destructure</a> (解構) 在 Clojure 裡面是個非常實用的功能，可以方便我們對資料直接指派變數去代替它，如下:
+</p>
+
+<div class="row "><div class="col-md-6 ">
+
+<p>
+<b>No destructuring</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">let</span> [data [1 2 3]
+      a (nth data 0)
+      b (nth data 1)
+      c (nth data 2)]
+  (println <span style="color: #aadddd;">"a:"</span> a <span style="color: #aadddd;">"b:"</span> b <span style="color: #aadddd;">"c:"</span> c))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; a: 1 b: 2 c: 3</span>
+</pre>
+</div>
+
+</div><div class="col-md-6">
+
+<p>
+<b>With destructuring</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"> (<span style="color: #aaffaa;">let</span> [[a b c] [1 2 3]]
+   (println <span style="color: #aadddd;">"a:"</span> a <span style="color: #aadddd;">"b:"</span> b <span style="color: #aadddd;">"c:"</span> c))
+ <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; a: 1 b: 2 c: 3</span>
+ &#65279;
+ &#65279;
+ &#65279;
+</pre>
+</div>
+
+</div> </div>
+
+<p>
+我們可以透過 <a href="https://clojuredocs.org/clojure.core/destructure" target="_blank" rel="external">destructure</a> 去觀察一個東西是如何被解構的，這邊是投影片給的範例:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(destructure '[[x y &amp; others] v])
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; [v2 v</span>
+<span style="color: #5f5f5f; font-style: italic;">;;     </span><span style="color: #9ac; font-style: italic;">x (nth v2 0 nil)</span>
+<span style="color: #5f5f5f; font-style: italic;">;;     </span><span style="color: #9ac; font-style: italic;">y (nth v2 1 nil)</span>
+<span style="color: #5f5f5f; font-style: italic;">;;     </span><span style="color: #9ac; font-style: italic;">others (nthnext v2 2)]</span>
+</pre>
+</div>
+
+<p>
+當然投影片給的是整理後的結果，實際上我執行得到的結果是這樣的
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">[vec__23596
+ v
+ seq__23597
+ (<span style="color: #fff59d;">clojure.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>seq vec__23596)
+ first__23598
+ (<span style="color: #fff59d;">clojure.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>first seq__23597)
+ seq__23597
+ (<span style="color: #fff59d;">clojure.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>next seq__23597)
+ x
+ first__23598
+ first__23598
+ (<span style="color: #fff59d;">clojure.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>first seq__23597)
+ seq__23597
+ (<span style="color: #fff59d;">clojure.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>next seq__23597)
+ y
+ first__23598
+ others
+ seq__23597]
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org89fc798" class="outline-2">
+<h2 id="org89fc798">reductions</h2>
+<div class="outline-text-2" id="text-org89fc798">
+<p>
+我們在 Clojure 中很常用 <a href="http://clojuredocs.org/clojure.core/reduce" target="_blank" rel="external">reduce</a> 去將一個函數作用到 list 上的每兩個元素上，然後返回最後的結果，最常見的簡單函數就是一個 list 的元素全部相加
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(reduce + (range 10))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 45</span>
+</pre>
+</div>
+
+<p>
+而 <a href="http://clojuredocs.org/clojure.core/reduce" target="_blank" rel="external">reduce</a> 的運作過程，則可以透過 <a href="https://clojuredocs.org/clojure.core/reductions" target="_blank" rel="external">reductions</a> 來協助我們進行查看，可以看到這邊最後得到的 <code>45</code> 就是我們想要的結果。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(reductions + (range 10))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;  (0 1 3 6 10 15 21 28 36 45)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaede9be" class="outline-2">
+<h2 id="orgaede9be">test</h2>
+<div class="outline-text-2" id="text-orgaede9be">
+<p>
+在 Clojure 中，我們可以在 <a href="http://clojure.org/reference/metadata" target="_blank" rel="external">metadata</a> 中設定好對一個函數的測試方式，然後呼叫 <a href="https://clojuredocs.org/clojure.core/test" target="_blank" rel="external">test</a> 對該函數進行測試，這項功能很適合用在小函式的一些 assertion 測試上。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">add+</span>
+  {<span style="color: #ccaaff;">:test</span> #(<span style="color: #aaffaa;">do</span>
+            (assert (= (add+ 2 3) 5))
+            (assert (= (add+ 4 4) 8)))}
+  [x y] (+ x y))
+
+(test #'add+) <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&lt;= trigger</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; </span><span style="color: #9ac; font-style: italic;">:ok</span>
+</pre>
+</div>
+
+<p>
+你也可以透過 <a href="https://clojuredocs.org/clojure.core/meta" target="_blank" rel="external">meta</a> 去查看你這個函式的 metadata 或是測試用的函式資訊
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(meta #'addd+)
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;</span>
+{<span style="color: #ccaaff;">:arglists</span> ([x y]),
+ <span style="color: #ccaaff;">:test</span> #function[<span style="color: #fff59d;">hello.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>fn--23678],
+ <span style="color: #ccaaff;">:line</span> 350,
+ <span style="color: #ccaaff;">:column</span> 4,
+ <span style="color: #ccaaff;">:file</span> <span style="color: #aadddd;">"/home/coldnew/Workspace/hello/src/hello/cpre.clj"</span>,
+ <span style="color: #ccaaff;">:name</span> add+,
+ <span style="color: #ccaaff;">:ns</span> #namespace[<span style="color: #fff59d;">hello.core</span>]}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5af4101" class="outline-2">
+<h2 id="org5af4101">clojure.pprint/cl-format</h2>
+<div class="outline-text-2" id="text-org5af4101">
+<p>
+<a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="external">clojure.pprint/cl-format</a> 是 Clojure 移植 Common Lisp 的 format 函式，對於同時寫 Clojure 和 ClojureScript 的開發者而言， <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="external">cl-format</a> 可以同時用於 Clojure 和 ClojureScript 上，方便了不少。
+</p>
+
+<p>
+(註:  <a href="http://dev.clojure.org/jira/browse/CLJS-324" target="_blank" rel="external">CLJS-324 ISSUE</a> 尚未被解決前，Clojure 的 <a href="https://clojuredocs.org/clojure.core/format" target="_blank" rel="external">format</a> 是無法用於 ClojureScript 上的)
+</p>
+
+<p>
+如果要更多關於 <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="external">cl-format</a> 的使用，可以看看  <a href="http://www.gigamonkeys.com/book/a-few-format-recipes.html" target="_blank" rel="external">Praticle Common Lisp</a> 一書，我在 <a href="http://coldnew.github.io/blog/2016/03-27_leftpad/">clojure/clojurescript 與 left-pad</a> 一文亦有提到如何透過 <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="external">cl-format</a> 實作 Clojure/ClojureScript 皆可以用的 leftpad 函式。
+</p>
+
+<p>
+投影片上給的範例則是這樣:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #fff59d;">clojure.pprint</span><span style="color: #c6cccc; background-color: #202020;">/</span>cl-format <span style="color: #ccaaff;">nil</span> <span style="color: #aadddd;">"~</span><span style="color: #aadddd;">:r</span><span style="color: #aadddd;">"</span> 1234)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; one thousand, two hundred thirty-fourth</span>
+
+(<span style="color: #fff59d;">clojure.pprint</span><span style="color: #c6cccc; background-color: #202020;">/</span>cl-format <span style="color: #ccaaff;">nil</span> <span style="color: #aadddd;">"~@r"</span> 1234)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; MCCXXXIV</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org867564b" class="outline-2">
+<h2 id="org867564b">clojure.java.browse/browse-url</h2>
+<div class="outline-text-2" id="text-org867564b">
+<p>
+<a href="https://clojuredocs.org/clojure.java.browse/browse-url" target="_blank" rel="external">clojure.java.browse/browse-url</a> 會呼叫系統預設的瀏覽器，開啟你所指定的網頁。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #fff59d;">clojure.java.browse</span><span style="color: #c6cccc; background-color: #202020;">/</span>browse-url <span style="color: #aadddd;">"http://localhost:3000"</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org960f1f8" class="outline-2">
+<h2 id="org960f1f8">clojure.java.javadoc/javadoc</h2>
+<div class="outline-text-2" id="text-org960f1f8">
+<p>
+Clojure 畢竟是 JVM 上的語言，有時候我們需要查看一些 javadoc，或是查看 Clojure 內部的 Java 實現，可以透過 <a href="https://clojuredocs.org/clojure.java.javadoc/javadoc" target="_blank" rel="external">clojure.java.javadoc/javadoc</a> 來查看
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #fff59d;">clojure.java.javadoc</span><span style="color: #c6cccc; background-color: #202020;">/</span>javadoc (list* 1 []))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; open clojure.lang.Cons Javadoc</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org19f5127" class="outline-2">
+<h2 id="org19f5127">clojure.reflect/reflect</h2>
+<div class="outline-text-2" id="text-org19f5127">
+<p>
+老實說我看了還是不知道這是什麼，也許是和 Java 的 <a href="http://stackoverflow.com/questions/37628/what-is-reflection-and-why-is-it-useful" target="_blank" rel="external">reflection</a> 有關，不過我們還是可以在 <a href="https://clojuredocs.org/clojure.reflect/reflect" target="_blank" rel="external">clojure.reflect/reflect</a> 的文檔中看出一些東西
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(require '[<span style="color: #fff59d;">clojure.reflect</span> <span style="color: #ccaaff;">:refer</span> [reflect]])
+(require '[<span style="color: #fff59d;">clojure.pprint</span> <span style="color: #ccaaff;">:refer</span> [print-table]])
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Here we have a simple function that prints the</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">important bits of the class definition in a table.</span>
+(<span style="color: #aaffaa;">-&gt;&gt;</span> <span style="color: #fff59d;">String</span>
+     reflect
+     <span style="color: #ccaaff;">:members</span>
+     print-table)
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|                    </span><span style="color: #9ac; font-style: italic;">:name</span><span style="color: #9ac; font-style: italic;"> |           </span><span style="color: #9ac; font-style: italic;">:return-type</span><span style="color: #9ac; font-style: italic;"> | </span><span style="color: #9ac; font-style: italic;">:declaring-class</span><span style="color: #9ac; font-style: italic;"> |                                       </span><span style="color: #9ac; font-style: italic;">:parameter-types</span><span style="color: #9ac; font-style: italic;"> |                       </span><span style="color: #9ac; font-style: italic;">:exception-types</span><span style="color: #9ac; font-style: italic;"> |                        </span><span style="color: #9ac; font-style: italic;">:flags</span><span style="color: #9ac; font-style: italic;"> |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|--------------------------+------------------------+------------------+--------------------------------------------------------+----------------------------------------+-------------------------------|</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|               replaceAll |       java.lang.String | java.lang.String |                    [java.lang.String java.lang.String] |                                     [] |                    #{</span><span style="color: #9ac; font-style: italic;">:public</span><span style="color: #9ac; font-style: italic;">} |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|   CASE_INSENSITIVE_ORDER |                        | java.lang.String |                                                        |                                        |     #{</span><span style="color: #9ac; font-style: italic;">:public</span><span style="color: #9ac; font-style: italic;"> </span><span style="color: #9ac; font-style: italic;">:static</span><span style="color: #9ac; font-style: italic;"> </span><span style="color: #9ac; font-style: italic;">:final</span><span style="color: #9ac; font-style: italic;">} |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|                  indexOf |                    int | java.lang.String |                    [char&lt;&gt; int int char&lt;&gt; int int int] |                                     [] |                    #{</span><span style="color: #9ac; font-style: italic;">:static</span><span style="color: #9ac; font-style: italic;">} |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|           codePointCount |                    int | java.lang.String |                                              [int int] |                                     [] |                    #{</span><span style="color: #9ac; font-style: italic;">:public</span><span style="color: #9ac; font-style: italic;">} |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|                 getChars |                   void | java.lang.String |                                   [int int char&lt;&gt; int] |                                     [] |                    #{</span><span style="color: #9ac; font-style: italic;">:public</span><span style="color: #9ac; font-style: italic;">} |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|            regionMatches |                boolean | java.lang.String |                         [int java.lang.String int int] |                                     [] |                    #{</span><span style="color: #9ac; font-style: italic;">:public</span><span style="color: #9ac; font-style: italic;">} |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|                  isEmpty |                boolean | java.lang.String |                                                     [] |                                     [] |                    #{</span><span style="color: #9ac; font-style: italic;">:public</span><span style="color: #9ac; font-style: italic;">} |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|              codePointAt |                    int | java.lang.String |                                                  [int] |                                     [] |                    #{</span><span style="color: #9ac; font-style: italic;">:public</span><span style="color: #9ac; font-style: italic;">} |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|              lastIndexOf |                    int | java.lang.String |                                     [java.lang.String] |                                     [] |                    #{</span><span style="color: #9ac; font-style: italic;">:public</span><span style="color: #9ac; font-style: italic;">} |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">|               startsWith |                boolean | java.lang.String |                                 [java.lang.String int] |                                     [] |                    #{</span><span style="color: #9ac; font-style: italic;">:public</span><span style="color: #9ac; font-style: italic;">} |</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">...etc</span>
+</pre>
+</div>
+
+<p>
+講者在投影片中給的範例則是這個: (注意到結果是節錄呦~)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(require '[<span style="color: #fff59d;">clojure.reflect</span> <span style="color: #ccaaff;">:refer</span> [reflect]])
+(println (with-out-str (<span style="color: #fff59d;">clojure.pprint</span><span style="color: #c6cccc; background-color: #202020;">/</span>write (reflect <span style="color: #ccaaff;">:a</span>))))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">extract from a typical output:</span>
+{<span style="color: #ccaaff;">:name</span> invoke,
+ <span style="color: #ccaaff;">:return-type</span> <span style="color: #fff59d;">java.lang.Object</span>,
+ <span style="color: #ccaaff;">:declaring-class</span> <span style="color: #fff59d;">clojure.lang.Keyword</span>,
+ <span style="color: #ccaaff;">:parameter-types</span> [<span style="color: #fff59d;">java.lang.Object</span> <span style="color: #fff59d;">java.lang.Object</span>],
+ <span style="color: #ccaaff;">:exception-types</span> [],
+ <span style="color: #ccaaff;">:flags</span> #{<span style="color: #ccaaff;">:public</span> <span style="color: #ccaaff;">:final</span>}}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbbbf6e4" class="outline-2">
+<h2 id="orgbbbf6e4">clojure.inspector/inspect-tree</h2>
+<div class="outline-text-2" id="text-orgbbbf6e4">
+<p>
+我們在處理一些樹狀資料時(ex: JSON 格式)，有個圖示化的工具可以方便瀏覽所有資訊，這邊可以透過 <a href="https://clojuredocs.org/clojure.inspector/inspect-tree" target="_blank" rel="external">clojure.inspector/inspect-tree</a> 來查看
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(require '[<span style="color: #fff59d;">clojure.inspector</span> <span style="color: #ccaaff;">:as</span> i])
+
+(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">m</span> {<span style="color: #ccaaff;">:a</span> <span style="color: #aadddd;">"a"</span>
+        <span style="color: #ccaaff;">:b</span> {<span style="color: #ccaaff;">:c</span> <span style="color: #aadddd;">"c"</span>
+            <span style="color: #ccaaff;">:d</span> [1 2 3]
+            <span style="color: #ccaaff;">:e</span> {<span style="color: #ccaaff;">:f</span> <span style="color: #aadddd;">"f"</span>
+                <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"g"</span>
+                <span style="color: #ccaaff;">:h</span> <span style="color: #aadddd;">"h"</span>}}
+        <span style="color: #ccaaff;">:i</span> [1 2 3]
+        <span style="color: #ccaaff;">:l</span> {<span style="color: #ccaaff;">:m</span> <span style="color: #aadddd;">"m"</span>
+            <span style="color: #ccaaff;">:n</span> <span style="color: #aadddd;">"n"</span>}
+        <span style="color: #ccaaff;">:o</span> [{<span style="color: #ccaaff;">:p</span> <span style="color: #aadddd;">"p"</span> <span style="color: #ccaaff;">:q</span> <span style="color: #aadddd;">"q"</span>}]})
+
+(<span style="color: #fff59d;">i</span><span style="color: #c6cccc; background-color: #202020;">/</span>inspect-tree m)
+</pre>
+</div>
+
+<p>
+這樣呼叫，會得到如下的視窗
+</p>
+
+
+<div class="figure">
+<p><img src="inspect-tree.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org09cb5b2" class="outline-2">
+<h2 id="org09cb5b2">clojure.lang.PersistentQueue</h2>
+<div class="outline-text-2" id="text-org09cb5b2">
+<p>
+<a href="https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/PersistentQueue.java" target="_blank" rel="external">clojure.lang.persistentQueue</a> 是 Clojure 下並未寫在 doc 上面的 Queue 實現 (java) ，我們可以用它來實作我們需要的 queue (佇列) 功能
+</p>
+
+
+<p>
+基本上，你有以下幾種方法可以對你的 PersistentQueue 進行處理
+</p>
+
+<ul class="org-ul">
+<li><p>
+peek
+</p>
+
+<p>
+取得 queue 最頂端的資料(head)
+</p></li>
+
+<li><p>
+pop
+</p>
+
+<p>
+回傳不包含最頂端資料(head)的一個新的 PersistentQueue
+</p></li>
+
+<li><p>
+conj
+</p>
+
+<p>
+將資料加入到 queue 的尾巴
+</p></li>
+
+<li><p>
+empty?
+</p>
+
+<p>
+檢測 queue 是否為空的
+</p></li>
+
+<li><p>
+seq
+</p>
+
+<p>
+將 queue 的資料變成序列 (sequence)
+</p></li>
+</ul>
+
+<p>
+投影片上，講者是舉這範例:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">e</span> (<span style="color: #fff59d;">clojure.lang.PersistentQueue</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">EMPTY</span>))
+(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">buf</span> (reduce conj e (range 10)))
+
+(peek buf)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 0</span>
+
+(peek (pop buf))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 1</span>
+
+(peek (pop (pop buf)))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 2</span>
+</pre>
+</div>
+
+<p>
+而 <a href="http://stackoverflow.com/questions/3136453/immutable-queue-in-clojure" target="_blank" rel="external">StackOverflow</a> 則是有人舉出了如何透過  <a href="https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/PersistentQueue.java" target="_blank" rel="external">clojure.lang.persistentQueue</a> 實現自己的 queue 函式
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">queue</span>
+  ([] <span style="color: #fff59d;">clojure.lang.PersistentQueue</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">EMPTY</span>)
+  ([coll] (reduce conj <span style="color: #fff59d;">clojure.lang.PersistentQueue</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">EMPTY</span> coll)))
+
+(<span style="color: #aaffaa;">defmethod</span> <span style="color: #aaccff;">print-method</span> <span style="color: #fff59d;">clojure.lang.PersistentQueue</span>
+  [q ^<span style="color: #fff59d;">java.io.Writer</span> w]
+  (<span style="color: #ff8888;">.write</span> w <span style="color: #aadddd;">"#queue "</span>)
+  (print-method (sequence q) w))
+
+(comment
+  (<span style="color: #aaffaa;">let</span> [<span style="color: #ccaaff;">*data-readers*</span> {'queue #'queue}]
+    (read-string (pr-str (queue [1 2 3])))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4260cba" class="outline-2">
+<h2 id="org4260cba">fnil</h2>
+<div class="outline-text-2" id="text-org4260cba">
+<p>
+我們在用 Clojure 處理東西的時候，有時候可能是資料本身就是 nil 的情況，這種狀況下對 nil 進行處理可能就會導致 Exception 的狀況發生
+</p>
+
+<p>
+在傳統的 LISP 中，常以 <code>or</code> 作為一個保護，一旦遇到 nil 的情況，則回傳預設值
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">or</span> <span style="color: #ccaaff;">nil</span> 10)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 10</span>
+</pre>
+</div>
+
+<p>
+<a href="https://clojuredocs.org/clojure.core/fnil" target="_blank" rel="external">fnil</a> 則是用來替你的函式多加一層保護，讓函式遇到 nil 的狀況可以避免一些 Exception 的發生
+</p>
+
+<p>
+講者在投影片上提供的範例是這樣的:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">m</span> {<span style="color: #ccaaff;">:host</span> <span style="color: #aadddd;">"127.0.0.1"</span> <span style="color: #ccaaff;">:port</span> <span style="color: #ccaaff;">nil</span>})
+(update m <span style="color: #ccaaff;">:port</span> (fnil #(<span style="color: #fff59d;">Integer</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">parseInt</span> <span style="color: #aaccff;">%</span>) <span style="color: #aadddd;">"80"</span>))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; {</span><span style="color: #9ac; font-style: italic;">:host</span><span style="color: #9ac; font-style: italic;"> "127.0.0.1", </span><span style="color: #9ac; font-style: italic;">:port</span><span style="color: #9ac; font-style: italic;"> 80}</span>
+
+(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">m</span> {<span style="color: #ccaaff;">:host</span> <span style="color: #aadddd;">"127.0.0.1"</span> <span style="color: #ccaaff;">:port</span> <span style="color: #aadddd;">"8008"</span>})
+(update m <span style="color: #ccaaff;">:port</span> (fnil #(<span style="color: #fff59d;">Integer</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">parseInt</span> <span style="color: #aaccff;">%</span>) <span style="color: #aadddd;">"80"</span>))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; {</span><span style="color: #9ac; font-style: italic;">:host</span><span style="color: #9ac; font-style: italic;"> "127.0.0.1", </span><span style="color: #9ac; font-style: italic;">:port</span><span style="color: #9ac; font-style: italic;"> 8008}</span>
+</pre>
+</div>
+
+<p>
+不過我們也可以將其拆開來看，這樣會更好理解
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #fff59d;">Integer</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">parseInt</span> <span style="color: #aadddd;">"10"</span>)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 10</span>
+
+(<span style="color: #fff59d;">Integer</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">parseInt</span> <span style="color: #ccaaff;">nil</span>)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;  Unhandled java.lang.NumberFormatException</span>
+
+((fnil #(<span style="color: #fff59d;">Integer</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">parseInt</span> <span style="color: #aaccff;">%</span>) 80) <span style="color: #aadddd;">"1000"</span>)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 1000</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9da67a3" class="outline-2">
+<h2 id="org9da67a3">counted?</h2>
+<div class="outline-text-2" id="text-org9da67a3">
+<p>
+<a href="https://clojuredocs.org/clojure.core/counted_q" target="_blank" rel="external">counted?</a> 是 O(1) 的操作，用來查看目標是否具有實作 <a href="https://clojuredocs.org/clojure.core/count" target="_blank" rel="external">count</a> 函式
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(counted? [<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:b</span> <span style="color: #ccaaff;">:c</span>])
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; true</span>
+
+(counted? '(<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:b</span> <span style="color: #ccaaff;">:c</span>))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; true</span>
+
+(counted? {<span style="color: #ccaaff;">:a</span> 1 <span style="color: #ccaaff;">:b</span> 2 <span style="color: #ccaaff;">:c</span> 3})
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; true</span>
+
+(counted? #{<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:b</span> <span style="color: #ccaaff;">:c</span>})
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; true</span>
+
+(counted? <span style="color: #aadddd;">"asdf"</span>)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; false</span>
+
+(counted? (into-array <span style="color: #fff59d;">Integer</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">TYPE</span> [1 2 3]))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; false</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5c560a0" class="outline-2">
+<h2 id="org5c560a0">reversible?</h2>
+<div class="outline-text-2" id="text-org5c560a0">
+<p>
+[[<a href="https://clojuredocs.org/clojure.core/reversible_q%5D%5Breversibl%5B%5Bfile" target="_blank" rel="external">https://clojuredocs.org/clojure.core/reversible_q][reversibl[[file</a>:][]]] 也是 O(1) 的操作，用來查看目標是否有實作 <a href="https://clojuredocs.org/clojure.core/reversible_q" target="_blank" rel="external">reversible</a> 函式
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(reversible? [])
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;  true</span>
+
+(reversible? (sorted-map))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;  true</span>
+
+(reversible? (sorted-set))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;  true</span>
+
+(reversible? '())
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;  false</span>
+
+(reversible? {})
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;  false</span>
+
+(reversible? #{})
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;  false</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf73182a" class="outline-2">
+<h2 id="orgf73182a">vector-of</h2>
+<div class="outline-text-2" id="text-orgf73182a">
+<p>
+<a href="https://clojuredocs.org/clojure.core/vector-of" target="_blank" rel="external">vector-of</a> 會根據你提供的類型 (permitive type) 來將參數轉換成相對應型別的向量 (vector)
+</p>
+
+<p>
+可以使用的類型有 <code>:int</code> , <code>:long</code> , <code>:float</code> , <code>:double</code> , <code>:byte</code> , <code>:short</code> , <code>:char</code> , <code>:boolean</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(conj (vector-of <span style="color: #ccaaff;">:int</span>) 1 2 3)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; [1 2 3]  ; &lt;-- note, these are unboxed internally</span>
+
+(vector-of <span style="color: #ccaaff;">:int</span> 1 2 3)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; [1 2 3]  ; same here</span>
+
+(vector-of <span style="color: #ccaaff;">:float</span> 1 2 3)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; [1.0 2.0 3.0]</span>
+
+(type (conj (vector-of <span style="color: #ccaaff;">:int</span>) 1 2 3))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; clojure.core.Vec</span>
+
+(type (conj (vector-of <span style="color: #ccaaff;">:float</span>) 1 2 3))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; clojure.core.Vec</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9cc0af2" class="outline-2">
+<h2 id="org9cc0af2">clojure.set/rename-keys</h2>
+<div class="outline-text-2" id="text-org9cc0af2">
+<p>
+<a href="https://clojuredocs.org/clojure.set/rename-keys" target="_blank" rel="external">clojure.set/rename-keys</a> 可以用來改變目前現有的 hash-map 的關鍵字 (keyword) 名稱
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(require '<span style="color: #fff59d;">clojure.set</span>)
+
+(<span style="color: #fff59d;">clojure.set</span><span style="color: #c6cccc; background-color: #202020;">/</span>rename-keys {<span style="color: #ccaaff;">:a</span> 1, <span style="color: #ccaaff;">:b</span> 2} {<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:new-a</span>, <span style="color: #ccaaff;">:b</span> <span style="color: #ccaaff;">:new-b</span>})
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; {</span><span style="color: #9ac; font-style: italic;">:new-a</span><span style="color: #9ac; font-style: italic;"> 1, </span><span style="color: #9ac; font-style: italic;">:new-b</span><span style="color: #9ac; font-style: italic;"> 2}</span>
+
+(<span style="color: #fff59d;">cloure.set</span><span style="color: #c6cccc; background-color: #202020;">/</span>rename-keys {<span style="color: #ccaaff;">:a</span> 1} {<span style="color: #ccaaff;">:b</span> <span style="color: #ccaaff;">:new-b</span>})
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; {</span><span style="color: #9ac; font-style: italic;">:a</span><span style="color: #9ac; font-style: italic;"> 1}</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">You need to be careful about key collisions.  You probably shouldn't</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">depend on the exact behavior.</span>
+(<span style="color: #fff59d;">clojure.set</span><span style="color: #c6cccc; background-color: #202020;">/</span>rename-keys {<span style="color: #ccaaff;">:a</span> 1 <span style="color: #ccaaff;">:b</span> 2} {<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:b</span>})
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; {</span><span style="color: #9ac; font-style: italic;">:b</span><span style="color: #9ac; font-style: italic;"> 1}</span>
+
+(<span style="color: #fff59d;">clojure.set</span><span style="color: #c6cccc; background-color: #202020;">/</span>rename-keys  {<span style="color: #ccaaff;">:a</span> 1 <span style="color: #ccaaff;">:b</span> 2}  {<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:b</span> <span style="color: #ccaaff;">:b</span> <span style="color: #ccaaff;">:a</span>})
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; {</span><span style="color: #9ac; font-style: italic;">:a</span><span style="color: #9ac; font-style: italic;"> 1}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf297cff" class="outline-2">
+<h2 id="orgf297cff">clojure.data/diff</h2>
+<div class="outline-text-2" id="text-orgf297cff">
+<p>
+<a href="https://clojuredocs.org/clojure.data/diff" target="_blank" rel="external">clojure.data/diff</a> 用來對兩個序列(sequence)進行比較，並回傳比較的結果
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(require '<span style="color: #fff59d;">clojure.data</span>)
+
+(<span style="color: #fff59d;">clojure.data</span><span style="color: #c6cccc; background-color: #202020;">/</span>diff {<span style="color: #ccaaff;">:a</span> 1 <span style="color: #ccaaff;">:b</span> 2} {<span style="color: #ccaaff;">:a</span> 3 <span style="color: #ccaaff;">:b</span> 2 <span style="color: #ccaaff;">:c</span> 3})
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; ({</span><span style="color: #9ac; font-style: italic;">:a</span><span style="color: #9ac; font-style: italic;"> 1} {</span><span style="color: #9ac; font-style: italic;">:a</span><span style="color: #9ac; font-style: italic;"> 3, </span><span style="color: #9ac; font-style: italic;">:c</span><span style="color: #9ac; font-style: italic;"> 3} {</span><span style="color: #9ac; font-style: italic;">:b</span><span style="color: #9ac; font-style: italic;"> 2})</span>
+
+(<span style="color: #fff59d;">clojure.data</span><span style="color: #c6cccc; background-color: #202020;">/</span>diff [1 2 3] [5 9 3 2 3 7])
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; [[1 2] [5 9 nil 2 3 7] [nil nil 3]]</span>
+
+(<span style="color: #fff59d;">clojure.data</span><span style="color: #c6cccc; background-color: #202020;">/</span>diff (set [1 2 3]) (set [5 9 3 2 3 7]))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; [#{1}  #{7 9 5}        #{3 2}]</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6ea7df0" class="outline-2">
+<h2 id="org6ea7df0">munge</h2>
+<div class="outline-text-2" id="text-org6ea7df0">
+<p>
+<a href="https://clojuredocs.org/clojure.core/munge" target="_blank" rel="external">munge</a> 這個函式並未有文檔，因此只能實際看看用途了
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">foo</span> [] (println <span style="color: #aadddd;">"foo"</span>))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;  #'user/foo</span>
+
+foo
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; #&lt;user$foo user$foo@a0dc71&gt;</span>
+
+(munge foo)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; "user_DOLLARSIGN_foo_CIRCA_a0dc71"</span>
+
+
+(<span style="color: #aaffaa;">doseq</span> [c (remove #(<span style="color: #fff59d;">Character</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">isLetterOrDigit</span> <span style="color: #aaccff;">%</span>) (map char (range 32 127)))]
+  (println c <span style="color: #aadddd;">"-&gt;"</span> (munge c)))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Prints:</span>
+<span style="color: #5f5f5f; font-style: italic;">;;   </span><span style="color: #9ac; font-style: italic;">-&gt;</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">! -&gt; _BANG_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">" -&gt; _DOUBLEQUOTE_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;"># -&gt; _SHARP_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">$ -&gt; $</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">% -&gt; _PERCENT_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&amp; -&gt; _AMPERSAND_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">' -&gt; _SINGLEQUOTE_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">( -&gt; (</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">) -&gt; )</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">* -&gt; _STAR_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">+ -&gt; _PLUS_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">, -&gt; ,</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">- -&gt; _</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">. -&gt; .</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">/ -&gt; _SLASH_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">: -&gt; _COLON_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">; -&gt; ;</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&lt; -&gt; _LT_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">= -&gt; _EQ_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&gt; -&gt; _GT_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">? -&gt; _QMARK_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">@ -&gt; _CIRCA_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">[ -&gt; _LBRACK_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">\ -&gt; _BSLASH_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">] -&gt; _RBRACK_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">^ -&gt; _CARET_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">_ -&gt; _</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">` -&gt; `</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">{ -&gt; _LBRACE_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">| -&gt; _BAR_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">} -&gt; _RBRACE_</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">~ -&gt; _TILDE_</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga34881d" class="outline-2">
+<h2 id="orga34881d">gensym</h2>
+<div class="outline-text-2" id="text-orga34881d">
+<p>
+<a href="https://clojuredocs.org/clojure.core/gensym" target="_blank" rel="external">gensym</a> 會產生不衝突名稱的 symbol，這個應該是在 macro 實現時，Clojure 所使用到的函式
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(gensym <span style="color: #aadddd;">"foo"</span>)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; foo2020</span>
+
+(gensym <span style="color: #aadddd;">"foo"</span>)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; foo2027</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3f1d359" class="outline-2">
+<h2 id="org3f1d359">seque</h2>
+<div class="outline-text-2" id="text-org3f1d359">
+<p>
+<a href="https://clojuredocs.org/clojure.core/seque" target="_blank" rel="external">seque</a> 是一種 <code>阻塞隊列(Linked Blocking Queue, LBQ)</code> 的實作，這種實現是線程安全(thread safe)的，可以確保資料先進先出(first in first out, FIFO) 的狀況。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">let</span> [start (<span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">nanoTime</span>)
+      q (seque
+         (iterate
+          #(<span style="color: #aaffaa;">do</span> (<span style="color: #fff59d;">Thread</span><span style="color: #c6cccc; background-color: #202020;">/</span>sleep 400) (inc <span style="color: #aaccff;">%</span>))
+          0))]
+  (println <span style="color: #aadddd;">"sleep five seconds..."</span>)
+  (<span style="color: #fff59d;">Thread</span><span style="color: #c6cccc; background-color: #202020;">/</span>sleep 5000)
+  (<span style="color: #aaffaa;">doseq</span> [i (take 20 q)]
+    (println (int (/ (- (<span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">nanoTime</span>) start) 1e7))
+             <span style="color: #aadddd;">":"</span> i)))
+
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">The iterate form returns a lazy seq that delays nearly a half-second</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">before returning each subsequent item.  Here seque starts a thread</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">generating the lazy seq.</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">The body of the let allows the seque thread to get ahead by five seconds</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">before it begins consuming the seq using doseq.  The doseq prints a</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">timestamp and the value from the seq when it becomes available.  The</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">first 11 or so are available almost instantly, until the consuming</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">doseq catches up with the producing iterate, at which point the consumer</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">blocks for 400ms before each item can be printed.</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">sleep five seconds...</span>
+500 : 0
+500 : 1
+500 : 2
+500 : 3
+500 : 4
+500 : 5
+500 : 6
+500 : 7
+500 : 8
+500 : 9
+500 : 10
+500 : 11
+520 : 12
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">......</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org78e1c6d" class="outline-2">
+<h2 id="org78e1c6d">clojure.zip/zippers</h2>
+<div class="outline-text-2" id="text-org78e1c6d">
+<p>
+clojure.zip 是用來處理樹狀結構用函式庫，這篇文章有很好的解釋: <a href="http://blog.lambdaliu.com/posts-output/2016-04-05-understand-clojure-zipper-with-picture/" target="_blank" rel="external">(λx.Liu)Blog=Hacking: Understand clojure.zip with picture</a>
+</p>
+
+<p>
+<a href="https://clojuredocs.org/clojure.zip/zipper" target="_blank" rel="external">clojure.zip/zipper</a> 則是用來將資料包裝起來，這樣我們就可以透過 clojure.zip 來處理這些樹狀資料
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">zp</span> (<span style="color: #fff59d;">clojure.zip</span><span style="color: #c6cccc; background-color: #202020;">/</span>zipper vector? seq (<span style="color: #aaffaa;">fn</span> [_ c] c)
+                            [[1 2 3] [<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:b</span>] 2 3 [40 50 60]]))
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; [[[1 2 3] [</span><span style="color: #9ac; font-style: italic;">:a</span><span style="color: #9ac; font-style: italic;"> </span><span style="color: #9ac; font-style: italic;">:b</span><span style="color: #9ac; font-style: italic;">] 2 3 [40 50 60]] nil]</span>
+
+
+(<span style="color: #fff59d;">clojure.zip</span><span style="color: #c6cccc; background-color: #202020;">/</span>down zp)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;</span>
+[[1 2 3]
+ {<span style="color: #ccaaff;">:l</span> [],
+  <span style="color: #ccaaff;">:pnodes</span> [[[1 2 3] [<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:b</span>] 2 3 [40 50 60]]],
+  <span style="color: #ccaaff;">:ppath</span> <span style="color: #ccaaff;">nil</span>,
+  <span style="color: #ccaaff;">:r</span> ([<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:b</span>] 2 3 [40 50 60])}]
+
+
+(<span style="color: #aaffaa;">-&gt;</span> zp
+    <span style="color: #fff59d;">clojure.zip</span><span style="color: #c6cccc; background-color: #202020;">/</span>down
+    first)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;</span>
+[1 2 3]
+
+
+(<span style="color: #aaffaa;">-&gt;</span> zp
+    <span style="color: #fff59d;">clojure.zip</span><span style="color: #c6cccc; background-color: #202020;">/</span>down
+    <span style="color: #fff59d;">clojure.zip</span><span style="color: #c6cccc; background-color: #202020;">/</span>right)
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;</span>
+[[<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:b</span>]
+ {<span style="color: #ccaaff;">:l</span> [[1 2 3]],
+  <span style="color: #ccaaff;">:pnodes</span> [[[1 2 3] [<span style="color: #ccaaff;">:a</span> <span style="color: #ccaaff;">:b</span>] 2 3 [40 50 60]]],
+  <span style="color: #ccaaff;">:ppath</span> <span style="color: #ccaaff;">nil</span>,
+  <span style="color: #ccaaff;">:r</span> (2 3 [40 50 60])}]
+</pre>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/clojure/" rel="tag">#clojure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/c3e8558e/" rel="prev">zybo board 開發記錄: 使用 Yocto 建立系統</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/fec9a5ee/" rel="next">ClojuTRE 2016 演講筆記</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgec77d4b"><span class="nav-text">destructure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org89fc798"><span class="nav-text">reductions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaede9be"><span class="nav-text">test</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5af4101"><span class="nav-text">clojure.pprint/cl-format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org867564b"><span class="nav-text">clojure.java.browse/browse-url</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org960f1f8"><span class="nav-text">clojure.java.javadoc/javadoc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org19f5127"><span class="nav-text">clojure.reflect/reflect</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbbbf6e4"><span class="nav-text">clojure.inspector/inspect-tree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org09cb5b2"><span class="nav-text">clojure.lang.PersistentQueue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4260cba"><span class="nav-text">fnil</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9da67a3"><span class="nav-text">counted?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5c560a0"><span class="nav-text">reversible?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf73182a"><span class="nav-text">vector-of</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9cc0af2"><span class="nav-text">clojure.set/rename-keys</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf297cff"><span class="nav-text">clojure.data/diff</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6ea7df0"><span class="nav-text">munge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga34881d"><span class="nav-text">gensym</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3f1d359"><span class="nav-text">seque</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org78e1c6d"><span class="nav-text">clojure.zip/zippers</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'coldnew';
+      var disqus_identifier = 'eea89759/';
+      var disqus_title = 'Unknown perls from the Clojure standard library 筆記';
+      var disqus_url = 'https://coldnew.github.io/eea89759/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+</body>
+</html>

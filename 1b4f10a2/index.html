@@ -1,0 +1,1367 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="clojurescript,nodejs," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 在 clojure 下使用 JLine 2.x 實現互動式命令 一文中我們提到了如何在 clojure 實 現像 bash 那樣的互動式命令，這次來談談如何在 clojurescript 與 node.js 中辦到相同 的事情。    node.js 本身已經提供了 readline 模組，該模組雖然功能不如 JLine 2.x 完整，但是實 作一個簡單的互動式命令已經非常足夠，本文將講解如">
+<meta name="keywords" content="clojurescript,nodejs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 clojurescript 下使用 readline 實現互動式命令 - Node.js 篇">
+<meta property="og:url" content="https://coldnew.github.io/1b4f10a2/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 在 clojure 下使用 JLine 2.x 實現互動式命令 一文中我們提到了如何在 clojure 實 現像 bash 那樣的互動式命令，這次來談談如何在 clojurescript 與 node.js 中辦到相同 的事情。    node.js 本身已經提供了 readline 模組，該模組雖然功能不如 JLine 2.x 完整，但是實 作一個簡單的互動式命令已經非常足夠，本文將講解如">
+<meta property="og:updated_time" content="2017-04-21T02:08:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 clojurescript 下使用 readline 實現互動式命令 - Node.js 篇">
+<meta name="twitter:description" content="在 在 clojure 下使用 JLine 2.x 實現互動式命令 一文中我們提到了如何在 clojure 實 現像 bash 那樣的互動式命令，這次來談談如何在 clojurescript 與 node.js 中辦到相同 的事情。    node.js 本身已經提供了 readline 模組，該模組雖然功能不如 JLine 2.x 完整，但是實 作一個簡單的互動式命令已經非常足夠，本文將講解如">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 在 clojurescript 下使用 readline 實現互動式命令 - Node.js 篇 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/1b4f10a2/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              在 clojurescript 下使用 readline 實現互動式命令 - Node.js 篇
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2017-04-21T10:08:00+08:00" content="2017-04-21">
+            2017-04-21
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/1b4f10a2/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="1b4f10a2/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody">
+
+<p>
+在 <a href="http://coldnew.github.io/blog/2015/10-01_clojure_jline/">在 clojure 下使用 JLine 2.x 實現互動式命令</a> 一文中我們提到了如何在 clojure 實
+現像 bash 那樣的互動式命令，這次來談談如何在 clojurescript 與 node.js 中辦到相同
+的事情。
+</p>
+
+<p>
+node.js 本身已經提供了 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組，該模組雖然功能不如 <a href="https://github.com/jline/jline2/" target="_blank" rel="external">JLine 2.x</a> 完整，但是實
+作一個簡單的互動式命令已經非常足夠，本文將講解如何在 clojurescript 下使用 node.js
+的 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-orgd2ed3f5" class="outline-2">
+<h2 id="orgd2ed3f5">建立我們的專案</h2>
+<div class="outline-text-2" id="text-orgd2ed3f5">
+<p>
+首先我們使用 lein 建立我們的專案，專案名稱為 <i>readline</i> :
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ lein new readline
+</pre>
+
+<p>
+專案建立完成後，我們要稍微修改一下 <i>project.clj</i> ，在 <code>:dependencies</code> 欄位加上
+clojurescript 的依賴，並且加入 cljsbuild 的一些設定。
+</p>
+
+<p>
+在 cljsbuild 設定中，我們指定編譯目標為 <code>:nodejs</code> ，並且使用 <code>:none</code> 最佳化來加
+快編譯速度，當編譯完成後，產生出來的 javascript 設定存放到 <code>target/readline.js</code>
+。
+</p>
+
+<p>
+(你可以在 <a href="https://github.com/clojure/clojurescript" target="_blank" rel="external">這裡</a> 找到最新的 clojurescript 版本資訊)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">readline</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
+  <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"FIXME: write description"</span>
+  <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
+  <span style="color: #ccaaff;">:license</span> {<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
+            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span>}
+  <span style="color: #ccaaff;">:dependencies</span> [[<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span>]
+                 [<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojurescript <span style="color: #aadddd;">"1.7.122"</span>]]
+
+  <span style="color: #ccaaff;">:cljsbuild</span> {<span style="color: #ccaaff;">:builds</span>
+              [{<span style="color: #ccaaff;">:source-paths</span> [<span style="color: #aadddd;">"src"</span>]
+                <span style="color: #ccaaff;">:compiler</span> {<span style="color: #ccaaff;">:output-to</span> <span style="color: #aadddd;">"target/readline.js"</span>
+                           <span style="color: #ccaaff;">:output-dir</span> <span style="color: #aadddd;">"target"</span>
+                           <span style="color: #ccaaff;">:source-map</span> <span style="color: #aadddd;">"target/readline.js.map"</span>
+                           <span style="color: #ccaaff;">:target</span> <span style="color: #ccaaff;">:nodejs</span>
+                           <span style="color: #ccaaff;">:optimizations</span> <span style="color: #ccaaff;">:none</span>
+                           <span style="color: #ccaaff;">:pretty-print</span> <span style="color: #ccaaff;">true</span>}}]})
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd32cfd7" class="outline-2">
+<h2 id="orgd32cfd7">基本的 clojurescript 程式框架</h2>
+<div class="outline-text-2" id="text-orgd32cfd7">
+<p>
+clojurescript 在 node.js 下有一些部分和 clojure 不太一樣需要特別注意，一個
+clojurescript on node.js 的基本框架是這樣的：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.core</span>
+  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
+(enable-console-print!)
+
+(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
+  (println <span style="color: #aadddd;">"Hello World!"</span>))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
+(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+</pre>
+</div>
+
+<p>
+在這個基本框架中，我們打開 <code>(enable-console-print!)</code> 這功能讓我們可以在
+clojurescript 中使用 <code>println</code> 函式輸出資訊，同時透過指定 <code>*main-cli-fn*</code> 這個全
+域變數來讓 clojurescript 編譯器知道程式的進入點在哪?
+</p>
+
+<p>
+了解了基本 clojurescript 在 node.js 上的架構後，再來說說要怎樣執行這個程式。我們
+在前面設定了編譯最佳化為 <code>:none</code> 也就是不進行最佳化，這種狀況的產生出來的
+javascript 檔案由於不會將 Google Closure 函式庫包入進產生出來的
+<code>target/readline.js</code> 裡面，因此是不能單獨執行的。
+</p>
+
+<p>
+為了解決這個問題，我們另外加入一個名為 <code>run-core.js</code> 的檔案來作為 wrapper，我們
+在裡面指定了要執行我們程式時需要載入的函式庫，並直接執行該程式的 main 函式。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js">require(<span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span>);
+require(<span style="color: #aadddd;">"./target/readline.js"</span>);
+require(<span style="color: #aadddd;">"./target/readline/core"</span>);
+readline.core._main();
+</pre>
+</div>
+
+<p>
+完成後，我們可以使用 <code>lein cljsbuild once</code> 來編譯這個程式。
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/readline $ lein cljsbuild once
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.847 seconds.
+</pre>
+
+<p>
+當然，你也可以使用 <code>lein cljsbuild auto</code> 來進行編輯後自動編譯， <code>:none</code> 最佳化在
+這個狀況下非常有優勢，可以達到一改完程式馬上就編譯完的狀況。
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/readline $ lein cljsbuild auto
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.238 seconds.
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 0.221 seconds.
+</pre>
+
+<p>
+當編譯完成後，我們就可以透過執行 run-core.js 來測試我們的
+<code>src/readline/core.cljs</code> 。
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/readline $ node run-core.js
+Hello World!
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org8cbc25f" class="outline-2">
+<h2 id="org8cbc25f">Example 0: 顯示使用者輸入</h2>
+<div class="outline-text-2" id="text-org8cbc25f">
+<p>
+對於互動式命令的實現，第一個程式就會是怎樣將使用者的輸入顯示出來。但是和使用
+<a href="https://github.com/jline/jline2/" target="_blank" rel="external">jline2</a> 時不一樣，node.js 下是以事件驅動為主，因此基本的顯示使用者輸入資訊的程式
+變成這個樣子:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example0</span>
+  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
+(enable-console-print!)
+
+(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
+  (<span style="color: #aaffaa;">let</span> [readline (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span>)
+        rl (<span style="color: #ff8888;">.createInterface</span> readline
+                             (clj-&gt;js {<span style="color: #ccaaff;">:input</span>  (<span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
+                                       <span style="color: #ccaaff;">:output</span> (<span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)}))]
+    (<span style="color: #aaffaa;">doto</span> rl
+      (<span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span>)
+      (<span style="color: #ff8888;">.prompt</span>)
+      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
+           (<span style="color: #aaffaa;">fn</span> [line]
+             (println (str <span style="color: #aadddd;">"You enter: "</span> line))
+             (<span style="color: #ff8888;">.close</span> rl)))
+      )))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
+(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+</pre>
+</div>
+
+<p>
+對於這樣的程式，我們可以這樣來理解:
+</p>
+
+<p>
+在程式的一開始，我們透過 <code>cljs.nodejs</code> 的功能載入 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組，並透過其
+<a href="https://nodejs.org/api/readline.html#readline_readline_createinterface_options" target="_blank" rel="external">.createInterface</a> 呼叫去設定我們的輸入與輸出訊號流，我們將這個 interface 命名為
+<code>rl</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">let</span> [readline (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span>)
+      rl (<span style="color: #ff8888;">.createInterface</span> readline
+                           (clj-&gt;js {<span style="color: #ccaaff;">:input</span>  (<span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
+                                     <span style="color: #ccaaff;">:output</span> (<span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)}))]
+    <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip</span>
+    )
+</pre>
+</div>
+
+<p>
+在這邊的程式有一個有趣的地方，就是我們使用了 <code>clj-&gt;js</code> 函式，該函式會將 clojure
+的型態轉換成相對應的 javascript 型態，你可以在 clojurescript 的 repl 裡面試試，在
+此例中，clojurescript 編譯器會將其轉換成使用 <code>#js</code> 這個 <a href="https://yobriefca.se/blog/2014/05/19/the-weird-and-wonderful-characters-of-clojure/" target="_blank" rel="external">dispach macro</a> 並搭配
+JSON 形式的物件。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(clj-&gt;js {<span style="color: #ccaaff;">:a</span> <span style="color: #aadddd;">"testA"</span> <span style="color: #ccaaff;">:b</span> <span style="color: #aadddd;">"testB"</span>})
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; #js {</span><span style="color: #9ac; font-style: italic;">:b</span><span style="color: #9ac; font-style: italic;"> "testB", </span><span style="color: #9ac; font-style: italic;">:a</span><span style="color: #9ac; font-style: italic;"> "testA"}</span>
+</pre>
+</div>
+
+<p>
+有了 <code>rl</code> 這個 readline 模組的 Interface 後，我們就可以透過他的函式去進行相對應
+的事情，在這邊使用了 <a href="https://clojuredocs.org/clojure.core/doto" target="_blank" rel="external">doto</a> 將需要呼叫 rl 物件的部分都寫在一起。
+</p>
+
+<p>
+於是我們設定好 prompt 的內容，並顯示出 prompt 後，透過 <a href="https://nodejs.org/api/readline.html#readline_event_line" target="_blank" rel="external">line</a> 這個事件去處理接收到
+的訊息，由於 node.js 是屬於 ASYNC 設計，在這一行後面的程式都還是會被執行到，並不
+會卡在這個事件無法結束。
+</p>
+
+<p>
+當第一次收到使用者輸入後，會觸發我們所設定的 callback，顯示使用者輸入的訊息並離
+開這個 Interface。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">doto</span> rl
+  (<span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span>)
+  (<span style="color: #ff8888;">.prompt</span>)
+  (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
+       (<span style="color: #aaffaa;">fn</span> [line]
+         (println (str <span style="color: #aadddd;">"You enter: "</span> line))
+         (<span style="color: #ff8888;">.close</span> rl)))
+  <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">non-blocking, you can add anything here</span>
+  )
+</pre>
+</div>
+
+<p>
+接下來我們直接透過 <code>lein cljsbuild once</code> 編譯這隻程式。
+</p>
+<pre class="example">
+coldnew@Rosia ~/readline $ lein cljsbuild once
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.847 seconds.
+</pre>
+
+<p>
+完成後添加我們的執行程式用 wrapper: <code>run-example0.js</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-js">require(<span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span>);
+require(<span style="color: #aadddd;">"./target/readline.js"</span>);
+require(<span style="color: #aadddd;">"./target/readline/example0"</span>);
+readline.example0._main();
+</pre>
+</div>
+
+<p>
+我們可以直接執行這個程式看看是否真的有接收到使用者輸入後並結束程式。
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/readline $ node run-example0.js
+user&gt; hello node.js
+You enter: hello node.js
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org021fbd8" class="outline-2">
+<h2 id="org021fbd8">Example 1: 無窮迴圈讀取輸入</h2>
+<div class="outline-text-2" id="text-org021fbd8">
+<p>
+和 <a href="http://coldnew.github.io/blog/2015/10-01_clojure_jline/">在 clojure 下使用 JLine 2.x 實現互動式命令</a> 一文中的 Example 1 不同的地方在於
+由於 Node.js 的設計，我們並不需要針對使用者的輸入而外撰寫迴圈，因此我們的
+Example 1 和 Example 0 大抵是相同的。
+</p>
+
+<p>
+為了讓程式執行狀況可以和 clojure 那篇文章一樣，我們另外添加了 <a href="https://nodejs.org/api/readline.html#readline_rl_close" target="_blank" rel="external">close</a> 的事件，當收
+到離開的訊息時提示使用者程式結束。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example1</span>
+  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
+(enable-console-print!)
+
+(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
+  (<span style="color: #aaffaa;">let</span> [readline (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span>)
+        rl (<span style="color: #ff8888;">.createInterface</span> readline
+                             (clj-&gt;js {<span style="color: #ccaaff;">:input</span>  (<span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
+                                       <span style="color: #ccaaff;">:output</span> (<span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)}))]
+    (<span style="color: #aaffaa;">doto</span> rl
+      (<span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span>)
+      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
+           (<span style="color: #aaffaa;">fn</span> [line]
+             (<span style="color: #aaffaa;">case</span> line
+               <span style="color: #aadddd;">"quit"</span> (<span style="color: #ff8888;">.close</span> rl)
+               <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
+               (<span style="color: #aaffaa;">do</span>
+                 (println (str <span style="color: #aadddd;">"You enter: "</span> line))
+                 (<span style="color: #ff8888;">.prompt</span> rl)))))
+      <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">show info after enter quit</span>
+      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"close"</span> (<span style="color: #aaffaa;">fn</span>[]
+                     (println <span style="color: #aadddd;">"Exit application."</span>)))
+      (<span style="color: #ff8888;">.prompt</span>)
+      )))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
+(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+</pre>
+</div>
+
+<p>
+於是我們直接透過 <code>lein cljsbuild once</code> 來編譯這隻程式。
+</p>
+<pre class="example">
+coldnew@Rosia ~/readline $ lein cljsbuild once
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.847 seconds.
+</pre>
+
+<p>
+完成後添加我們的執行程式用 wrapper: <code>run-example1.js</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-js">require(<span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span>);
+require(<span style="color: #aadddd;">"./target/readline.js"</span>);
+require(<span style="color: #aadddd;">"./target/readline/example1"</span>);
+readline.example1._main();
+</pre>
+</div>
+
+<p>
+我們可以直接執行這個程式看看是否真的有接收到使用者輸入後並結束程式。
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/readline $ node run-example1.js
+user&gt; test
+You enter: test
+user&gt; hi
+You enter: hi
+user&gt; quit
+Exit application.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org69e21d5" class="outline-2">
+<h2 id="org69e21d5">Example 2: 遮蔽使用者輸入</h2>
+<div class="outline-text-2" id="text-org69e21d5">
+<p>
+在互動式命令中，輸入密碼的時候我們不是不顯示密碼，不然就是將密碼轉換成 <code>*</code> 進行
+顯示，那在 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 下要怎樣作呢？由於 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 並未提供此類的功能，因
+此我們必須換個方式來實作。
+</p>
+
+<p>
+先來看看完整程式碼:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example2</span>
+  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]
+            [<span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str]))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
+(enable-console-print!)
+
+(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
+  (<span style="color: #aaffaa;">let</span> [readline (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span>)
+        rl (<span style="color: #ff8888;">.createInterface</span> readline
+                             (clj-&gt;js {<span style="color: #ccaaff;">:input</span>  (<span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
+                                       <span style="color: #ccaaff;">:output</span> (<span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)}))]
+    (<span style="color: #ff8888;">.on</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdin <span style="color: #aadddd;">"data"</span>
+         (<span style="color: #aaffaa;">fn</span> [c]
+           (<span style="color: #aaffaa;">if</span>  (<span style="color: #aaffaa;">or</span> (<span style="color: #aaffaa;">and</span> (&gt;= c \<span style="color: #ccaaff;">A</span>) (&lt;= c \<span style="color: #ccaaff;">Z</span>))
+                    (<span style="color: #aaffaa;">and</span> (&gt;= c <span style="color: #aadddd;">\a</span>) (&lt;= c <span style="color: #aadddd;">\z</span>))
+                    (<span style="color: #aaffaa;">and</span> (&gt;= c <span style="color: #aadddd;">\0</span>) (&lt;= c <span style="color: #aadddd;">\9</span>)))
+             (<span style="color: #ff8888;">.write</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdout <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\b</span><span style="color: #aadddd;">*"</span>))))
+
+    (<span style="color: #aaffaa;">doto</span> rl
+      (<span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span>)
+      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
+           (<span style="color: #aaffaa;">fn</span> [line]
+             (<span style="color: #aaffaa;">case</span> line
+               <span style="color: #aadddd;">"quit"</span> (<span style="color: #ff8888;">.close</span> rl)
+               <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
+               (<span style="color: #aaffaa;">do</span>
+                 (println (str <span style="color: #aadddd;">"You enter: "</span> line))
+                 (<span style="color: #ff8888;">.prompt</span> rl)))))
+      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"close"</span> #(println <span style="color: #aadddd;">"Exit application."</span>))
+      (<span style="color: #ff8888;">.prompt</span>)
+      )))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
+(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+</pre>
+</div>
+
+<p>
+在這個程式中，我們增加了監控 <a href="https://nodejs.org/api/process.html#process_process_stdin" target="_blank" rel="external">process.stdin</a> 的 data 事件，當接收的訊息屬於
+[a-zA-Z0-9] 的範圍的時候，輸出 <code>\b*</code> 這樣的組合。
+</p>
+
+<p>
+<code>\b</code> 其實就是鍵盤上的 <code>&lt;backspace&gt;</code> 按鍵，也就是說我們清掉輸入的訊息，並填上 <code>*</code>
+字元。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #ff8888;">.on</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdin <span style="color: #aadddd;">"data"</span>
+     (<span style="color: #aaffaa;">fn</span> [c]
+       (<span style="color: #aaffaa;">if</span>  (<span style="color: #aaffaa;">or</span> (<span style="color: #aaffaa;">and</span> (&gt;= c \<span style="color: #ccaaff;">A</span>) (&lt;= c \<span style="color: #ccaaff;">Z</span>))
+                (<span style="color: #aaffaa;">and</span> (&gt;= c <span style="color: #aadddd;">\a</span>) (&lt;= c <span style="color: #aadddd;">\z</span>))
+                (<span style="color: #aaffaa;">and</span> (&gt;= c <span style="color: #aadddd;">\0</span>) (&lt;= c <span style="color: #aadddd;">\9</span>)))
+         (<span style="color: #ff8888;">.write</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdout <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\b</span><span style="color: #aadddd;">*"</span>))))
+</pre>
+</div>
+
+<p>
+我們直接透過 <code>lein cljsbuild once</code> 來編譯這隻程式。
+</p>
+<pre class="example">
+coldnew@Rosia ~/readline $ lein cljsbuild once
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.847 seconds.
+</pre>
+
+<p>
+完成後添加我們的執行程式用 wrapper: <code>run-example2.js</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-js">require(<span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span>);
+require(<span style="color: #aadddd;">"./target/readline.js"</span>);
+require(<span style="color: #aadddd;">"./target/readline/example2"</span>);
+readline.example2._main();
+</pre>
+</div>
+
+<p>
+讓我們趕快來測試程式看看是不是所有輸入的資訊都被轉換成 <code>*</code> 了?
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/readline $ node run-example2.js
+user&gt; ********
+You enter: asdadasd
+user&gt; ****
+Exit application.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7a5b00c" class="outline-2">
+<h2 id="org7a5b00c">Example 3: 簡易的 shell</h2>
+<div class="outline-text-2" id="text-org7a5b00c">
+<p>
+經過前面的範例，想必各位對 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 的基本使用已經心裡有數了，那麼就讓我們
+來個複雜一點的程式來作個結束吧。我們要實現一個簡單的 shell，這個 shell 只有 3 種
+指令：ls、clear、echo。
+</p>
+
+<p>
+在講解前，先讓我們看看整體程式是長怎樣的:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example3</span>
+  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]
+            [<span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str]))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
+(enable-console-print!)
+
+(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
+  (<span style="color: #aaffaa;">let</span> [fs (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span>)
+        readline (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span>)
+        rl (<span style="color: #ff8888;">.createInterface</span> readline
+                             (clj-&gt;js {<span style="color: #ccaaff;">:input</span>  (<span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
+                                       <span style="color: #ccaaff;">:output</span> (<span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)}))]
+    (<span style="color: #aaffaa;">doto</span> rl
+      (<span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span>)
+      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
+           (<span style="color: #aaffaa;">fn</span> [line]
+             (<span style="color: #aaffaa;">let</span> [line-seq (<span style="color: #fff59d;">str</span><span style="color: #c6cccc; background-color: #202020;">/</span>split line #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span>)]
+               (<span style="color: #aaffaa;">case</span> (first line-seq)
+                 <span style="color: #aadddd;">"quit"</span> (<span style="color: #ff8888;">.close</span> rl)
+                 <span style="color: #aadddd;">"ls"</span> (<span style="color: #ff8888;">.readdir</span> fs (<span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
+                                (<span style="color: #aaffaa;">fn</span> [err items]
+                                  (<span style="color: #aaffaa;">doseq</span> [f items]
+                                    (println (str f)))
+                                  (<span style="color: #ff8888;">.prompt</span> rl)))
+                 <span style="color: #aadddd;">"clear"</span> (<span style="color: #aaffaa;">do</span> (println <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[2J]</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[H"</span>) (<span style="color: #ff8888;">.prompt</span> rl))
+                 <span style="color: #aadddd;">"echo"</span>  (<span style="color: #aaffaa;">do</span> (println (str (second line-seq))) (<span style="color: #ff8888;">.prompt</span> rl))
+                 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
+                 (<span style="color: #aaffaa;">do</span>
+                   (println (str <span style="color: #aadddd;">"No such command!! You enter: "</span> line))
+                   (<span style="color: #ff8888;">.prompt</span> rl))))))
+      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"close"</span> #(println <span style="color: #aadddd;">"Exit application."</span>))
+      (<span style="color: #ff8888;">.prompt</span>)
+      )))
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
+(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+</pre>
+</div>
+
+<p>
+在這個範例之前，我們都是直接去對 <code>line</code> 變數進行比較，但是在 shell 裡面，一行程
+式可以被解析為一道命令與許多參數，因此我們要先將 <code>line</code> 裡面的訊息切成許多序列
+(sequence)，序列的第一個即為 <code>命令</code> ，剩下的則是參數。
+</p>
+
+<p>
+clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" target="_blank" rel="external">split</a> 函式可以很方便的將字串切割成序列 (sequence)。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>split <span style="color: #aadddd;">"echo test"</span> #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span>)
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; ["echo" "test"]</span>
+</pre>
+</div>
+
+<p>
+將輸入的資訊切割成序列 (sequence) 後，我們就可以使用 <a href="https://clojuredocs.org/clojure.core/first" target="_blank" rel="external">first</a> 去取得序列的第一個項
+目，也就是使用者實際輸入的命令，我們將其導入 <a href="https://clojuredocs.org/clojure.core/case" target="_blank" rel="external">case</a> 進行判斷，若有符合的資訊則根據
+批配項目進行相對應的函式，反之則提示說沒有該命令存在。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #aaffaa;">case</span> (first line-seq)
+  <span style="color: #aadddd;">"quit"</span> (<span style="color: #ff8888;">.close</span> rl)
+  <span style="color: #aadddd;">"ls"</span> (<span style="color: #ff8888;">.readdir</span> fs (<span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
+                 (<span style="color: #aaffaa;">fn</span> [err items]
+                   (<span style="color: #aaffaa;">doseq</span> [f items]
+                     (println (str f)))
+                   (<span style="color: #ff8888;">.prompt</span> rl)))
+  <span style="color: #aadddd;">"clear"</span> (<span style="color: #aaffaa;">do</span> (println <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[2J</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[H"</span>) (<span style="color: #ff8888;">.prompt</span> rl))
+  <span style="color: #aadddd;">"echo"</span>  (<span style="color: #aaffaa;">do</span> (println (str (second line-seq))) (<span style="color: #ff8888;">.prompt</span> rl))
+  <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
+  (<span style="color: #aaffaa;">do</span>
+    (println (str <span style="color: #aadddd;">"No such command!! You enter: "</span> line))
+    (<span style="color: #ff8888;">.prompt</span> rl)))
+</pre>
+</div>
+
+<p>
+我們先從 clear 命令開始，由於 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 似乎沒有提供直接將整個 console 清空的功能，因此我們使用
+<a href="http://www.termsys.demon.co.uk/vtansi.htm" target="_blank" rel="external">VT100 terminal</a> 控制指令來將螢幕清空並將游標移動到起始位置:
+</p>
+
+<ul class="org-ul">
+<li>Erase Screen    <code>&lt;ESC&gt;[2J</code></li>
+
+<li>Cursor Home     <code>&lt;ESC&gt;[H</code></li>
+</ul>
+
+<p>
+而 echo 命令則是透過 <a href="https://clojuredocs.org/clojure.core/second" target="_blank" rel="external">second</a> 方法去取得我們切割出來的命令序列 (sequence) 中的第二
+個項目，並將之印出來。
+</p>
+
+<p>
+ls 命令則是當中最為複雜的一個，我們首先透過 [[<a href="https://nodejs.org/api/process.html#process_process_cwd%5D%5Bprocess.cwd%5B%5Bfile" target="_blank" rel="external">https://nodejs.org/api/process.html#process_process_cwd][process.cwd[[file</a>:][]]] 去取得當前目錄的位址:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; "/Data/cljs_readline"</span>
+</pre>
+</div>
+
+<p>
+知道了當前目錄後，我們再將其透過  的<a href="https://clojuredocs.org/clojure.java.io/file" target="_blank" rel="external"> file</a> 將目錄內容轉換成序列
+(sequence)。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #ff8888;">.readdir</span> (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span>) (<span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process) (<span style="color: #aaffaa;">fn</span> [err items] (vec items)))
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; [".gitignore" "doc" "LICENSE" "project.clj" "README.md" "resources" "src" "test"]</span>
+</pre>
+</div>
+
+<p>
+有了序列 (sequence) 以後，接下來就使用 <a href="https://clojuredocs.org/clojure.core/doseq" target="_blank" rel="external">doseq</a> 去遍歷這整個序列 (sequence) ，並將
+資訊印出來，這樣我們的 ls 命令就完成了。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #ff8888;">.readdir</span> (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span> (<span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
+                          (<span style="color: #aaffaa;">fn</span> [err items]
+                            (<span style="color: #aaffaa;">doseq</span> [f items]
+                              (println (str f)))
+                            (<span style="color: #ff8888;">.prompt</span> rl))))
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; .gitignore</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; doc</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; LICENSE</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; project.clj</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; README.md</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; resources</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; src</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; test</span>
+</pre>
+</div>
+
+<p>
+於是我們透過 <code>lein cljsbuild once</code> 來編譯這隻程式。
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/readline $ lein cljsbuild once
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.847 seconds.
+</pre>
+
+<p>
+完成後添加我們的執行程式用 wrapper: <code>run-example3.js</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-js">require(<span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span>);
+require(<span style="color: #aadddd;">"./target/readline.js"</span>);
+require(<span style="color: #aadddd;">"./target/readline/example3"</span>);
+readline.example3._main();
+</pre>
+</div>
+
+<p>
+我們可以直接執行這個程式來看看我們寫出來的簡單的 shell。
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/readline $ node run-example1.js
+user&gt; echo hi
+hi
+user&gt;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org781fc50" class="outline-2">
+<h2 id="org781fc50">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-org781fc50">
+<p>
+本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
+</p>
+
+<pre class="example">
+git clone https://github.com/coldnew/blog-tutorial-examples.git
+</pre>
+
+<p>
+並切換到 <code>2015/cljs_readline</code> 資料夾去
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/cljs_readline
+</pre>
+</div>
+
+<p>
+程式的執行方式則和本篇文章相同 ~ Have Fun~~
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6431741" class="outline-2">
+<h2 id="org6431741">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org6431741">
+<p>
+<code>[1]</code> <a href="https://nodejs.org/api/readline.html#readline_readline" target="_blank" rel="external">Node.js v4.1.1 Documentation - Readline</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="http://itbilu.com/nodejs/core/41CUGeaP.html" target="_blank" rel="external">行讀取模塊 readline</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/" target="_blank" rel="external">ClojureScript: JavaScript Interop</a>
+</p>
+
+<p>
+<code>[4]</code> <a href="https://yobriefca.se/blog/2014/05/19/the-weird-and-wonderful-characters-of-clojure/" target="_blank" rel="external">The Weird and Wonderful Characters of Clojure</a>
+</p>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/clojurescript/" rel="tag">#clojurescript</a>
+          
+            <a href="/tags/nodejs/" rel="tag">#nodejs</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/a8484432/" rel="prev">在 clojure 下使用 JLine 2.x 實現互動式命令</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2e8bd675/" rel="next">qpm - Qt 下的套件管理程式</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd2ed3f5"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd32cfd7"><span class="nav-text">基本的 clojurescript 程式框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8cbc25f"><span class="nav-text">Example 0: 顯示使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org021fbd8"><span class="nav-text">Example 1: 無窮迴圈讀取輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org69e21d5"><span class="nav-text">Example 2: 遮蔽使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7a5b00c"><span class="nav-text">Example 3: 簡易的 shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org781fc50"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6431741"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'coldnew';
+      var disqus_identifier = '1b4f10a2/';
+      var disqus_title = '在 clojurescript 下使用 readline 實現互動式命令 - Node.js 篇';
+      var disqus_url = 'https://coldnew.github.io/1b4f10a2/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+</body>
+</html>

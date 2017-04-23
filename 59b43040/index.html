@@ -1,0 +1,960 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="linux,osx,ssh," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="OpenShift 是由 RedHat 所提供的 PaaS 平台服務，除了提供無限流量以外，亦支援使用 SSH 登入，本文將簡單解釋如何在 Mac OSX 以及 Linux 下，將 OpenShift 作為跳板並利 用 SSH 作為 Socks5 的代理伺服器，去下載那些不好下載的檔案 or&amp;#x2026;中國網友的說法:翻 牆。    如果你是 Windows 的用戶，請參閱:  利用 Ope">
+<meta name="keywords" content="linux,osx,ssh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 OpenShift 的 SSH 來架設跳板">
+<meta property="og:url" content="https://coldnew.github.io/59b43040/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="OpenShift 是由 RedHat 所提供的 PaaS 平台服務，除了提供無限流量以外，亦支援使用 SSH 登入，本文將簡單解釋如何在 Mac OSX 以及 Linux 下，將 OpenShift 作為跳板並利 用 SSH 作為 Socks5 的代理伺服器，去下載那些不好下載的檔案 or&amp;#x2026;中國網友的說法:翻 牆。    如果你是 Windows 的用戶，請參閱:  利用 Ope">
+<meta property="og:image" content="https://coldnew.github.io/59b43040/select_app.png">
+<meta property="og:image" content="https://coldnew.github.io/59b43040/set_pub.png">
+<meta property="og:image" content="https://coldnew.github.io/59b43040/c_app.png">
+<meta property="og:image" content="https://coldnew.github.io/59b43040/s_app.png">
+<meta property="og:image" content="https://coldnew.github.io/59b43040/pref.png">
+<meta property="og:image" content="https://coldnew.github.io/59b43040/osx.png">
+<meta property="og:image" content="https://coldnew.github.io/59b43040/gnome3.png">
+<meta property="og:image" content="https://coldnew.github.io/59b43040/fa.png">
+<meta property="og:image" content="https://coldnew.github.io/59b43040/fb.png">
+<meta property="og:image" content="https://coldnew.github.io/59b43040/findip.png">
+<meta property="og:updated_time" content="2015-11-09T16:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 OpenShift 的 SSH 來架設跳板">
+<meta name="twitter:description" content="OpenShift 是由 RedHat 所提供的 PaaS 平台服務，除了提供無限流量以外，亦支援使用 SSH 登入，本文將簡單解釋如何在 Mac OSX 以及 Linux 下，將 OpenShift 作為跳板並利 用 SSH 作為 Socks5 的代理伺服器，去下載那些不好下載的檔案 or&amp;#x2026;中國網友的說法:翻 牆。    如果你是 Windows 的用戶，請參閱:  利用 Ope">
+<meta name="twitter:image" content="https://coldnew.github.io/59b43040/select_app.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 使用 OpenShift 的 SSH 來架設跳板 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/59b43040/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              使用 OpenShift 的 SSH 來架設跳板
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2015-11-10T00:00:00+08:00" content="2015-11-10">
+            2015-11-10
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/59b43040/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="59b43040/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody">
+
+<p>
+<a href="https://www.openshift.com/" target="_blank" rel="external">OpenShift</a> 是由 <a href="http://www.redhat.com" target="_blank" rel="external">RedHat</a> 所提供的 PaaS 平台服務，除了提供無限流量以外，亦支援使用
+SSH 登入，本文將簡單解釋如何在 Mac OSX 以及 Linux 下，將 OpenShift 作為跳板並利
+用 SSH 作為 Socks5 的代理伺服器，去下載那些不好下載的檔案 or&#x2026;中國網友的說法:翻
+牆。
+</p>
+
+<p>
+如果你是 Windows 的用戶，請參閱:  <a href="http://blog.allenchou.cc/openshift-ssh-proxy/" target="_blank" rel="external">利用 OpenShift 的 SSH 架設跳板</a> 一文。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-org193dbff" class="outline-2">
+<h2 id="org193dbff">在 OpenShift 建立應用程式</h2>
+<div class="outline-text-2" id="text-org193dbff">
+<p>
+在註冊完 <a href="https://www.openshift.com/" target="_blank" rel="external">OpenShift</a> 後，我們要建立一個簡單的程式來讓我們可以透過 SSH 登入
+OpenShift，這裡選用 <code>Do-It-Yourself</code> 這個類型
+</p>
+
+
+<div class="figure">
+<p><img src="select_app.png">
+</p>
+</div>
+
+<p>
+接下來隨便設定一個 URL, 並建立這個程式
+</p>
+
+
+<div class="figure">
+<p><img src="set_pub.png">
+</p>
+</div>
+
+<p>
+因為我們只是要使用他的 SSH 功能，因此選擇 <code>Continue to the application overview
+page</code> 功能到設定頁面即可
+</p>
+
+
+<div class="figure">
+<p><img src="c_app.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5a78237" class="outline-2">
+<h2 id="org5a78237">使用 SSH 登入 OpenShift</h2>
+<div class="outline-text-2" id="text-org5a78237">
+<p>
+進入你的 Application 裡面，你會在 Remote Access 那邊看到使用 ssh 登入用的
+路徑與命令，我們設定完 ssh 金鑰後就是用這組命令去登入 OpenShift 裡面
+</p>
+
+
+<div class="figure">
+<p><img src="s_app.png">
+</p>
+</div>
+
+<p>
+那要怎樣上傳公匙給 OpenShift 呢？我是直接使用 OpenShift 提供的命令 <code>rhc</code> ，這個
+命令可以透過 <code>gem</code> 進行安裝
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ sudo gem install rhc
+Fetching: net-ssh-2.9.2.gem (100%)
+Successfully installed net-ssh-2.9.2
+Fetching: net-scp-1.2.1.gem (100%)
+Successfully installed net-scp-1.2.1
+......
+Done installing documentation for archive-tar-minitar, commander, highline, httpclient, net-scp, net-ssh, net-ssh-gateway, net-ssh-multi, open4, rhc after 29 seconds
+10 gems installed
+</pre>
+
+<p>
+接下來就可以使用 <code>rhc setup</code> 讓 rhc 命令幫你自動將公鑰送到 OpenShift 伺服器上
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ rhc setup
+    OpenShift Client Tools (RHC) Setup Wizard
+
+This wizard will help you upload your SSH keys, set your application namespace, and check that other programs like Git
+are properly installed.
+
+If you have your own OpenShift server, you can specify it now. Just hit enter to use the server for OpenShift Online:
+openshift.redhat.com.
+Enter the server hostname: |openshift.redhat.com|
+
+You can add more servers later using 'rhc server'.
+RSA 1024 bit CA certificates are loaded due to old openssl compatibility
+
+Login to openshift.redhat.com: coldnew.tw@gmail.com
+Password:
+</pre>
+
+<p>
+完成後，你就可以使用剛剛建立的 Application 的 SSH 登入方式登入你的 OpenShift 伺服器
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ ssh 5a409bf87b28e194ca00d005@diy-coldnew.rhcloud.com
+
+    *********************************************************************
+
+    You are accessing a service that is for use only by authorized users.
+    If you do not have authorization, discontinue use at once.
+    Any use of the services is subject to the applicable terms of the
+    agreement which can be found at:
+    https://www.openshift.com/legal
+
+    *********************************************************************
+
+    Welcome to OpenShift shell
+
+    This shell will assist you in managing OpenShift applications.
+
+    !!! IMPORTANT !!! IMPORTANT !!! IMPORTANT !!!
+    Shell access is quite powerful and it is possible for you to
+    accidentally damage your application.  Proceed with care!
+    If worse comes to worst, destroy your application with "rhc app delete"
+    and recreate it
+    !!! IMPORTANT !!! IMPORTANT !!! IMPORTANT !!!
+
+    Type "help" for more info.
+
+
+[diy-coldnew.rhcloud.com 5a409bf87b28e194ca00d005]\&gt;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgfb95ce7" class="outline-2">
+<h2 id="orgfb95ce7">使用 ssh -D 來建立 SOCKS5</h2>
+<div class="outline-text-2" id="text-orgfb95ce7">
+<p>
+不管是 Linux 還是 Mac OSX 以及 BSD，我們都可以直接使用 <code>ssh -D</code> 來建立我們的
+SOCKS5 伺服器，假如我們要將本地端的 <code>10800</code> port 串向 OpenShift 的 ssh server，則
+可以這樣作
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ ssh -D 10800 5a409bf87b28e194ca00d005@diy-coldnew.rhcloud.com
+
+...... skip
+
+[diy-coldnew.rhcloud.com 5a409bf87b28e194ca00d005]\&gt;
+</pre>
+
+<p>
+你會發現到我們還是登入到了 OpenShift 伺服器，只要在你不關掉這個連線，那你建立的
+SOCKS5 就會一直保持。如果你想在同一個 shell 下繼續做事，你可以加上 <code>-f</code> 參數讓你
+的 ssh 程式執行在背景中。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org077121d" class="outline-2">
+<h2 id="org077121d">在 Mac OSX 下設定 SOCKS5 proxy</h2>
+<div class="outline-text-2" id="text-org077121d">
+<p>
+在剛剛的範例中，我們已經建立了本地端的 <code>10800</code> port 作為 proxy 導向 OpenShift，
+現在要在 Mac OSX 下進行剩下的設定。
+</p>
+
+<p>
+首先進入到 <i>System Preferences</i>
+</p>
+
+
+<div class="figure">
+<p><img src="pref.png">
+</p>
+</div>
+
+<p>
+選擇 <i>Network</i> 進入到你的 Wifi 設定，填上 proxy 資訊並按下 <i>Apply</i> 按鈕後設定就完成了
+</p>
+
+
+<div class="figure">
+<p><img src="osx.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf4e38f9" class="outline-2">
+<h2 id="orgf4e38f9">在 Linux 下設定 SOCKS5 proxy</h2>
+<div class="outline-text-2" id="text-orgf4e38f9">
+<p>
+如果你使用 GNOME 3，則可以到 <i>Settings</i> 的 <i>Network</i> 選項來進行設定
+</p>
+
+
+<div class="figure">
+<p><img src="gnome3.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org00d4fe6" class="outline-2">
+<h2 id="org00d4fe6">在 Firefox 下設定 SOCKS5 proxy</h2>
+<div class="outline-text-2" id="text-org00d4fe6">
+<p>
+如果你不想改動系統設定，只想設定 Firefox 的話，則可以到 <i>偏好設定</i> 裡面去設定，
+首先進入到 <i>進階</i> 頁面
+</p>
+
+
+<div class="figure">
+<p><img src="fa.png">
+</p>
+</div>
+
+<p>
+接著點選 <i>連線 -&gt; 設定</i> ，並加上我們的 proxy 資訊
+</p>
+
+
+<div class="figure">
+<p><img src="fb.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbd4488d" class="outline-2">
+<h2 id="orgbd4488d">檢查自己的 IP 是否改變</h2>
+<div class="outline-text-2" id="text-orgbd4488d">
+<p>
+按照前面的設定，完成了以後你可以到 <a href="http://www.whatismypublicip.com/" target="_blank" rel="external">http://www.whatismypublicip.com/</a> 之類的網站檢
+查自己的 IP 是否改變了!
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="findip.png">
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2725d24" class="outline-2">
+<h2 id="org2725d24">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org2725d24">
+<p>
+<code>[1]</code> <a href="http://blog.allenchou.cc/openshift-ssh-proxy/" target="_blank" rel="external">利用 OpenShift 的 SSH 架設跳板</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="https://thomashunter.name/blog/really-simple-ssh-proxy-socks5/" target="_blank" rel="external">Really simple SSH proxy (SOCKS5)</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="http://skaypo.blogspot.tw/2013/08/openshift-ssh.html" target="_blank" rel="external">利用 Openshift 的 SSH 翻牆</a>
+</p>
+
+<p>
+<code>[4]</code> [[<a href="http://blog.longwin.com.tw/2010/01/linux-ssh-socks-firefox-pidgin-2010/%5D%5BLinux" target="_blank" rel="external">http://blog.longwin.com.tw/2010/01/linux-ssh-socks-firefox-pidgin-2010/][Linux</a> 透過 SSH SOCKS 連線 來 使用 Firefox / Pidgin(MSN, GTalk.[[file:][]]]
+</p>
+
+<p>
+<code>[5]</code> <a href="http://www.catonmat.net/blog/linux-socks5-proxy/" target="_blank" rel="external">Turn any Linux computer into SOCKS5 proxy in one command</a>
+</p>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+            <a href="/tags/osx/" rel="tag">#osx</a>
+          
+            <a href="/tags/ssh/" rel="tag">#ssh</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/53ea73fa/" rel="prev">使用 Leiningen 作為 Java 構建工具</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/3f0d4d16/" rel="next">在 Gentoo Linux 下使用 crossdev 建立自己的 toolchain</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org193dbff"><span class="nav-text">在 OpenShift 建立應用程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5a78237"><span class="nav-text">使用 SSH 登入 OpenShift</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfb95ce7"><span class="nav-text">使用 ssh -D 來建立 SOCKS5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org077121d"><span class="nav-text">在 Mac OSX 下設定 SOCKS5 proxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf4e38f9"><span class="nav-text">在 Linux 下設定 SOCKS5 proxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org00d4fe6"><span class="nav-text">在 Firefox 下設定 SOCKS5 proxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbd4488d"><span class="nav-text">檢查自己的 IP 是否改變</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2725d24"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'coldnew';
+      var disqus_identifier = '59b43040/';
+      var disqus_title = '使用 OpenShift 的 SSH 來架設跳板';
+      var disqus_url = 'https://coldnew.github.io/59b43040/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+</body>
+</html>

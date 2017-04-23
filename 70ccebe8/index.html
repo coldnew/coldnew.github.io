@@ -1,0 +1,950 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="rtos,zephyr,osx," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 Zephyr RTOS 開發記錄: 基本環境建立 一文中提到了我們如何安裝 Zephyr SDK 到 Linux 系統來進行開發，那如果我想要在 Mac OSX 上面開發要怎麼辦呢？    由於 Zephyr SDK 目前僅提供 Linux 的版本，因此在 Mac OSX 中我們必須自己透過 crosstool-ng 去編譯我們自己的 SDK。">
+<meta name="keywords" content="rtos,zephyr,osx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zephyr RTOS 開發記錄: Mac OSX 下 SDK 編譯">
+<meta property="og:url" content="https://coldnew.github.io/70ccebe8/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 Zephyr RTOS 開發記錄: 基本環境建立 一文中提到了我們如何安裝 Zephyr SDK 到 Linux 系統來進行開發，那如果我想要在 Mac OSX 上面開發要怎麼辦呢？    由於 Zephyr SDK 目前僅提供 Linux 的版本，因此在 Mac OSX 中我們必須自己透過 crosstool-ng 去編譯我們自己的 SDK。">
+<meta property="og:image" content="https://coldnew.github.io/70ccebe8/menuconfig-osx.png">
+<meta property="og:updated_time" content="2017-04-21T02:08:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zephyr RTOS 開發記錄: Mac OSX 下 SDK 編譯">
+<meta name="twitter:description" content="在 Zephyr RTOS 開發記錄: 基本環境建立 一文中提到了我們如何安裝 Zephyr SDK 到 Linux 系統來進行開發，那如果我想要在 Mac OSX 上面開發要怎麼辦呢？    由於 Zephyr SDK 目前僅提供 Linux 的版本，因此在 Mac OSX 中我們必須自己透過 crosstool-ng 去編譯我們自己的 SDK。">
+<meta name="twitter:image" content="https://coldnew.github.io/70ccebe8/menuconfig-osx.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Zephyr RTOS 開發記錄: Mac OSX 下 SDK 編譯 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/70ccebe8/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Zephyr RTOS 開發記錄: Mac OSX 下 SDK 編譯
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2017-04-21T10:08:13+08:00" content="2017-04-21">
+            2017-04-21
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/70ccebe8/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="70ccebe8/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody">
+
+<p>
+在 <a href="http://coldnew.github.io/blog/2016/02/21_zephyr/">Zephyr RTOS 開發記錄: 基本環境建立</a> 一文中提到了我們如何安裝 <a href="https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/" target="_blank" rel="external">Zephyr SDK</a> 到 Linux 系統來進行開發，那如果我想要在 Mac OSX 上面開發要怎麼辦呢？
+</p>
+
+<p>
+由於 <a href="https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/" target="_blank" rel="external">Zephyr SDK</a> 目前僅提供 Linux 的版本，因此在 Mac OSX 中我們必須自己透過 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 去編譯我們自己的 SDK。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-orge94817d" class="outline-2">
+<h2 id="orge94817d">安裝依賴的相關套件</h2>
+<div class="outline-text-2" id="text-orge94817d">
+<p>
+第一步要做的，當然就是安裝相關套件啦，這點我們直接透過 <a href="http://brew.sh/" target="_blank" rel="external">homebrew</a> 來安裝
+</p>
+
+<pre class="example">
+coldnew@MacOSX ~ $ brew install gettext qemu help2man mpfr gmp coreutils wget
+</pre>
+
+<p>
+接下來我們要安裝 GNU 的 grep 命令來替代系統內建的 grep 命令
+</p>
+
+<pre class="example">
+coldnew@MacOSX ~ $ brew tap homebrew/dupes
+coldnew@MacOSX ~ $ brew install grep --default-names
+</pre>
+
+<p>
+接著，安裝我們需要用的程式: <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a>
+</p>
+
+<pre class="example">
+coldnew@MacOSX ~ $ brew install crosstool-ng
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd858d87" class="outline-2">
+<h2 id="orgd858d87">建立編譯環境</h2>
+<div class="outline-text-2" id="text-orgd858d87">
+<p>
+安裝好 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 後，我們需要建立一個 <code>Case Sensitive</code> 的 HFS+ 硬碟來讓 MacOSX 可以順利編譯，以下為我建立這顆硬碟所用的命令 (佔 10G 的硬碟空間)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">hdiutil create -volname CrossToolNG -type SPARSE <span style="color: #aadddd;">\</span>
+        -fs <span style="color: #aadddd;">'Case-sensitive Journaled HFS+'</span> <span style="color: #aadddd;">\</span>
+        -size 10g CrossToolNG.sparseimage
+</pre>
+</div>
+
+<p>
+完成後，打開 <code>CrossToolNG.sparseimage</code> 這個映像檔，他會被掛載到 <code>/Volumes/CrossToolNG</code> 去
+</p>
+
+<pre class="example">
+coldnew@MacOSX ~ $ open CrossToolNG.sparseimage
+</pre>
+
+<p>
+接著我們就切換到 <code>/Volumes/CrossToolNG</code> 來準備進行我們的編譯，順便建立一個 <code>src</code> 資料夾讓 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 存放他下載的原始碼
+</p>
+
+<pre class="example">
+coldnew@MacOSX ~ $ cd /Volumes/CrossToolNG &amp;&amp; mkdir src
+</pre>
+
+<p>
+我們先複製 <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr</a> 裡面提供的設定檔到當前目錄
+</p>
+
+<pre class="example">
+coldnew@MacOSX /Volumes/CrossToolNG $ cp ${ZEPHYR_BASE}/scripts/cross_compiler/x86.config .config
+</pre>
+
+<p>
+如果你有什麼設定要修正的話，可以使用 <code>ct-ng menuconfig</code> 來進行修改
+</p>
+
+<pre class="example">
+coldnew@MacOSX /Volumes/CrossToolNG $ ct-ng menuconfig
+</pre>
+
+
+<div class="figure">
+<p><img src="menuconfig-osx.png">
+</p>
+</div>
+
+<p>
+另外，在進行編譯前要確認以下幾個設定是否和你編譯目錄 (/Volumes/CrossToolNG) 一致
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #aaccff;">CT_LOCAL_TARBALLS_DIR</span>=<span style="color: #aadddd;">"/Volumes/CrossToolNG/src"</span>
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">CT_SAVE_TARBALLS is not set</span>
+<span style="color: #aaccff;">CT_WORK_DIR</span>=<span style="color: #aadddd;">"${CT_TOP_DIR}/.build"</span>
+<span style="color: #aaccff;">CT_PREFIX_DIR</span>=<span style="color: #aadddd;">"/Volumes/CrossToolNG/x-tools/${CT_TARGET}"</span>
+<span style="color: #aaccff;">CT_INSTALL_DIR</span>=<span style="color: #aadddd;">"${CT_PREFIX_DIR}"</span>
+</pre>
+</div>
+
+<p>
+都確認沒問題後，就開始我們的編譯吧 gogogo ~
+</p>
+
+<pre class="example">
+coldnew@MacOSX /Volumes/CrossToolNG $ ct-ng build
+</pre>
+
+<p>
+接著你可以去泡杯咖啡或出去走走，編譯工具鍊 (toolchain) 很花時間的
+</p>
+</div>
+</div>
+
+<div id="outline-container-org34bdbf8" class="outline-2">
+<h2 id="org34bdbf8">設定編譯環境</h2>
+<div class="outline-text-2" id="text-org34bdbf8">
+<p>
+完成編譯我們要的工具鍊 (toolchain) 後，我們可以在 <code>/Volumes/CrossToolNG</code> 看到以下的資料夾，其中 <code>x-tools</code> 就是我們編譯出來的結果
+</p>
+
+<pre class="example">
+coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
+. &lt;b&gt;
+├── build.log &lt;g&gt;
+├── config -&gt; /usr/local/Cellar/crosstool-ng/1.22.0/lib/crosstool-ng-1.22.0/config &lt;lb&gt;
+├── config.gen &lt;b&gt;
+├── src &lt;b&gt;
+└── x-tools &lt;b&gt;
+
+4 directories, 1 file
+</pre>
+
+<p>
+最後，在你的 <code>~/.zephyrrc</code> 設定這些環境變數就可以去嘗試編譯你的 <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr kernel</a> 看看囉 ~
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@MacOSX ~ $ vim ~/.zephyrrc
+
+<span style="color: #ccaaff;">export</span> <span style="color: #aaccff;">XTOOLS_TOOLCHAIN_PATH</span>=/Volumes/CrossToolNG/x-tools
+<span style="color: #ccaaff;">export</span> <span style="color: #aaccff;">ZEPHYR_SDK_INSTALL_DIR</span>=${<span style="color: #aaccff;">XTOOLS_TOOLCHAIN_PATH</span>}
+<span style="color: #ccaaff;">export</span> <span style="color: #aaccff;">ZEPHYR_GCC_VARIANT</span>=xtools
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4a7838d" class="outline-2">
+<h2 id="org4a7838d">可能會遇到的錯誤</h2>
+<div class="outline-text-2" id="text-org4a7838d">
+<p>
+在 Mac OSX 下編譯非 Apple 官方的東西常常會出現一堆奇怪的錯誤，有時是因為 XCode 的改動，有時是因為你透過 <a href="http://brew.sh/" target="_blank" rel="external">homebrew</a> 安裝了其他命令和 Mac OSX 內建的有衝突。
+</p>
+
+<p>
+下面紀錄我在這次編譯遇到的錯誤:
+</p>
+</div>
+
+<div id="outline-container-org8ee88e2" class="outline-3">
+<h3 id="org8ee88e2">stat: cannot read file system information for '%Lp'</h3>
+<div class="outline-text-3" id="text-org8ee88e2">
+<p>
+如果你遇到了這個問題，哪很有可能是因為你的系統同時也裝了 <a href="http://www.gnu.org/software/coreutils/coreutils.html" target="_blank" rel="external">GNU coreutils</a> 導致 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 調用的命令是 GNU 的 <code>stat</code> 命令，而不是系統內建的 stat 命令。
+</p>
+
+<pre class="example">
+[INFO ]  Performing some trivial sanity checks
+[INFO ]  Build started 20160229.010627
+[INFO ]  Building environment variables
+[EXTRA]  Preparing working directories
+[00:01] / stat: cannot read file system information for '%Lp': No such file or directory
+[ERROR]
+[ERROR]  &gt;&gt;
+[ERROR]  &gt;&gt;  Build failed in step '(top-level)'
+[ERROR]  &gt;&gt;
+[ERROR]  &gt;&gt;  Error happened in: CT_DoForceRmdir[scripts/functions@460]
+[ERROR]  &gt;&gt;        called from: main[scripts/crosstool-NG.sh@238]
+[ERROR]  &gt;&gt;
+[ERROR]  &gt;&gt;  For more info on this error, look at the file: 'build.log'
+[ERROR]  &gt;&gt;  There is a list of known issues, some with workarounds, in:
+[ERROR]  &gt;&gt;      '/usr/local/Cellar/crosstool-ng/1.22.0/share/doc/crosstool-ng/crosstool-ng-1.22.0/B - Known issues.txt'
+[ERROR]
+[ERROR]  (elapsed: 0:00.70)
+[00:01] / make: *** [build] Error 1
+</pre>
+
+<p>
+我們可以透過 <code>which</code> 命令去檢查是否真的用到  <a href="http://www.gnu.org/software/coreutils/coreutils.html" target="_blank" rel="external">GNU coreutils</a> 的 <code>stat</code> 命令
+</p>
+
+<pre class="example">
+coldnew@MacOSX ~ $ which stat
+/usr/local/opt/coreutils/libexec/gnubin/stat
+</pre>
+
+<p>
+我自己由於不常用 <i>stat</i> 命令，所以選擇移除已經編譯好的 stat 連結，改用系統內建的 <i>stat</i>
+</p>
+
+<pre class="example">
+coldnew@MacOSX ~ $ rm /usr/local/opt/coreutils/libexec/gnubin/stat
+</pre>
+
+<p>
+<a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 要找的 <i>stat</i> 則是在 <code>/usr/bin</code> 下
+</p>
+
+<pre class="example">
+coldnew@MacOSX ~ $ which stat
+/usr/bin/stat
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org80601b4" class="outline-3">
+<h3 id="org80601b4">ld: library not found for -lcrt0.o</h3>
+<div class="outline-text-3" id="text-org80601b4">
+<p>
+<a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr</a> 提供的 <code>.config</code> 有打開靜態連結 (static link) 相關的設定，於是你會遇到這樣的狀況，解法參考 <a href="https://github.com/crosstool-ng/crosstool-ng/issues/31" target="_blank" rel="external">issue #31</a> 移除 static link 相關設定。
+</p>
+
+<pre class="example">
+[INFO ]  Performing some trivial sanity checks
+[INFO ]  Build started 20160229.011000
+[INFO ]  Building environment variables
+[EXTRA]  Preparing working directories
+[ERROR]    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+[ERROR]
+[ERROR]  &gt;&gt;
+[ERROR]  &gt;&gt;  Build failed in step 'Checking that gcc can compile a trivial statically linked program (CT_WANTS_STATIC_LINK)'
+[ERROR]  &gt;&gt;        called in step '(top-level)'
+[ERROR]  &gt;&gt;
+[ERROR]  &gt;&gt;  Error happened in: CT_DoExecLog[scripts/functions@216]
+[ERROR]  &gt;&gt;        called from: main[scripts/crosstool-NG.sh@554]
+[ERROR]  &gt;&gt;
+[ERROR]  &gt;&gt;  For more info on this error, look at the file: 'build.log'
+[ERROR]  &gt;&gt;  There is a list of known issues, some with workarounds, in:
+[ERROR]  &gt;&gt;      '/usr/local/Cellar/crosstool-ng/1.22.0/share/doc/crosstool-ng/crosstool-ng-1.22.0/B - Known issues.txt'
+[ERROR]
+[ERROR]  (elapsed: 0:03.48)
+[00:05] / make: *** [build] Error 1
+</pre>
+
+<p>
+我自己是將 <code>.config</code> 裡面這兩個靜態連結 (static link) 相關的函式庫設定為取消後就可以正常編譯囉~
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #aaccff;">CT_WANTS_STATIC_LINK</span>=n
+<span style="color: #aaccff;">CT_CC_GCC_STATIC_LIBSTDCXX</span>=n
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org93e19f3" class="outline-2">
+<h2 id="org93e19f3">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org93e19f3">
+<p>
+<code>[1]</code> <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr Project Website</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="http://linuxgizmos.com/zephyr-a-tiny-open-source-iot-rtos/" target="_blank" rel="external">Meet Linux's little brother: Zephyr, a tiny open-source IoT RTOS</a>
+</p>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/rtos/" rel="tag">#rtos</a>
+          
+            <a href="/tags/zephyr/" rel="tag">#zephyr</a>
+          
+            <a href="/tags/osx/" rel="tag">#osx</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/7f7c0c84/" rel="prev">Zephyr RTOS 開發記錄: 基本環境建立</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/7c811780/" rel="next">clojure/clojurescript 與 left-pad</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge94817d"><span class="nav-text">安裝依賴的相關套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd858d87"><span class="nav-text">建立編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org34bdbf8"><span class="nav-text">設定編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4a7838d"><span class="nav-text">可能會遇到的錯誤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org8ee88e2"><span class="nav-text">stat: cannot read file system information for '%Lp'</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org80601b4"><span class="nav-text">ld: library not found for -lcrt0.o</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org93e19f3"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'coldnew';
+      var disqus_identifier = '70ccebe8/';
+      var disqus_title = 'Zephyr RTOS 開發記錄: Mac OSX 下 SDK 編譯';
+      var disqus_url = 'https://coldnew.github.io/70ccebe8/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+</body>
+</html>

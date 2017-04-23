@@ -1,0 +1,1138 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="fpga,xilinx,zybo,zynq,verilog," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在進入到這種混搭 ARM/FPGA 的開發板的世界之前，很多人都是從純粹的 FPGA 開發板玩起，因此也讓我們看看如何僅透過可程式邏輯(Programmable Logic, PL) 來對 Zybo board 上面的 LED 進行閃爍控制。">
+<meta name="keywords" content="fpga,xilinx,zybo,zynq,verilog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍">
+<meta property="og:url" content="https://coldnew.github.io/6c5717d7/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在進入到這種混搭 ARM/FPGA 的開發板的世界之前，很多人都是從純粹的 FPGA 開發板玩起，因此也讓我們看看如何僅透過可程式邏輯(Programmable Logic, PL) 來對 Zybo board 上面的 LED 進行閃爍控制。">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/zybo_led.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/zynq_axi_gpio_led.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/create_prj0.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/create_prj1.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/new_prj.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/new_prj2.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/new_prj3.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/create_prj2.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/add_sources1.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/add_sources2.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/add_sources3.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/clock_source.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/dl_constraints.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/create_prj2.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/add_constraints1.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/add_constraints2.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/gen_bitstream.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/hwm1.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/qspi.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/hwm2.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/hwm3.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/hwm4.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/hwm5.png">
+<meta property="og:image" content="https://coldnew.github.io/6c5717d7/result.gif">
+<meta property="og:updated_time" content="2017-04-21T02:08:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍">
+<meta name="twitter:description" content="在進入到這種混搭 ARM/FPGA 的開發板的世界之前，很多人都是從純粹的 FPGA 開發板玩起，因此也讓我們看看如何僅透過可程式邏輯(Programmable Logic, PL) 來對 Zybo board 上面的 LED 進行閃爍控制。">
+<meta name="twitter:image" content="https://coldnew.github.io/6c5717d7/zybo_led.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/6c5717d7/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2017-04-21T10:08:10+08:00" content="2017-04-21">
+            2017-04-21
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/zybo-board/" itemprop="url" rel="index">
+                  <span itemprop="name">zybo-board</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/6c5717d7/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="6c5717d7/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody">
+
+<p>
+在進入到這種混搭 ARM/FPGA 的開發板的世界之前，很多人都是從純粹的 FPGA 開發板玩起，因此也讓我們看看如何僅透過可程式邏輯(Programmable Logic, PL) 來對 Zybo board 上面的 LED 進行閃爍控制。
+</p>
+
+<a id="more"></a>
+
+<p>
+本文將採用業界比較常用的 Verilog 進行示範。
+</p>
+
+<div id="outline-container-org2bbc697" class="outline-2">
+<h2 id="org2bbc697">開發目標</h2>
+<div class="outline-text-2" id="text-org2bbc697">
+<p>
+我們要透過純粹的可程式邏輯(Programmable Logic, PL) 去控制 LED，也就是說，我們只寫硬體描述語言 Verilog 來控制 Zybo board 上面的 LED，讓他依照我們設定的頻率進行閃爍/亮滅。
+</p>
+
+
+<div class="figure">
+<p><img src="zybo_led.png">
+</p>
+</div>
+
+<p>
+根據 <a href="https://reference.digilentinc.com/_media/zybo/zybo_rm.pdf" target="_blank" rel="external">ZYBO FPGA Board Reference Manual</a> 上面的資訊，我們想要控制的這四個在板子上的 LED 都是位於可程式邏輯區(Programmable Logic, PL)可以碰觸到的地方，如果你想要透過 Zynq 去對這些 LED 進行控制，你就會需要透過  AXI GPIO 的幫助，就像這樣:
+</p>
+
+
+<div class="figure">
+<p><img src="zynq_axi_gpio_led.png">
+</p>
+</div>
+
+<p>
+關於如何在 Zynq 下面控制這幾個 LED，這部份我們將下一篇文章再來提及。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6aae300" class="outline-2">
+<h2 id="org6aae300">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org6aae300">
+<p>
+我們首先當然是建立我們的專案了，在進行這一步前，請先確定你有按照 <a href="https://coldnew.github.io/zybo-board/vivado_zybo_setting_file/">讓 Vivado 有 Zybo Board 的設定檔</a> 一文所說，將 Zybo board 的設計導入。
+</p>
+
+<p>
+啟動了 Vivado 後，點選 <code>Create Project</code> 。
+</p>
+
+
+<div class="figure">
+<p><img src="create_prj0.png">
+</p>
+</div>
+
+<p>
+接下來指定好你的專案名稱與路徑
+</p>
+
+
+<div class="figure">
+<p><img src="create_prj1.png">
+</p>
+</div>
+
+
+<p>
+選擇 <code>RTL Project</code>
+</p>
+
+
+<div class="figure">
+<p><img src="new_prj.png">
+</p>
+</div>
+
+
+<p>
+在開發板選項中，選擇 <code>Zybo Board</code>
+</p>
+
+
+<div class="figure">
+<p><img src="new_prj2.png">
+</p>
+</div>
+
+<p>
+完成專案建立
+</p>
+
+
+<div class="figure">
+<p><img src="new_prj3.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0fd6d39" class="outline-2">
+<h2 id="org0fd6d39">撰寫程式</h2>
+<div class="outline-text-2" id="text-org0fd6d39">
+<p>
+在專案建立完後，接下來就是添加並撰寫我們的 Verilog 程式，點選 <code>Project Manager -&gt; Add sources</code> 來增加檔案
+</p>
+
+
+<div class="figure">
+<p><img src="create_prj2.png">
+</p>
+</div>
+
+
+<p>
+由於我們要增加的是可程式邏輯的設計檔，因此選擇 <code>Add or create design sources</code>
+</p>
+
+
+<div class="figure">
+<p><img src="add_sources1.png">
+</p>
+</div>
+
+<p>
+選擇 <code>Create File</code> 去建立 <code>top.v</code> 這個檔案，這也同時是我們的主程式
+</p>
+
+
+<div class="figure">
+<p><img src="add_sources2.png">
+</p>
+</div>
+
+
+<p>
+建立好 top.v 後，點選它來進行編輯
+</p>
+
+
+<div class="figure">
+<p><img src="add_sources3.png">
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7cd032a" class="outline-3">
+<h3 id="org7cd032a">top.v</h3>
+<div class="outline-text-3" id="text-org7cd032a">
+<p>
+在我們的主程式 top.v 中，我們定義了一組暫存器用來存放當前計數的狀態，每計數 125 百萬次後，就讓 led 暫存器的數值增加，反之則是讓計數器的內容增加。
+</p>
+
+<p>
+選擇計數 125 百萬次的原因，在於我們會把 <code>clk</code> 這個輸入，連結到 <code>125M Hz</code> 的時脈輸入，這個時脈是由 50M Hz 的石英振盪器經過 Ethernet PHY 後所產生的
+</p>
+
+
+<div class="figure">
+<p><img src="clock_source.png">
+</p>
+</div>
+
+<p>
+也就是說，由於我們的時脈輸入將會設定為 125 MHz，因此讓計數器計數 125 百萬次後調整 LED 暫存器的資訊，相當於 <code>每 1 秒</code> 修改一次 LED 暫存器的內容
+</p>
+
+<p>
+我們的 top.v 程式如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-verilog"><span style="color: #ff8888;">`timescale</span> 1ns / 1ps
+
+<span style="color: #aaffaa;">module</span> <span style="color: #aaccff;">top</span>(<span style="color: #fff59d;">output</span> [3:0] led,
+           <span style="color: #fff59d;">input</span> clk);
+
+   <span style="color: #fff59d;">reg</span> [3:0]     led;
+   <span style="color: #fff59d;">reg</span> [26:0]    counter;
+
+   <span style="color: #aaffaa;">always</span> <span style="color: #fff59d;">@</span>(<span style="color: #aaffaa;">posedge</span> clk) <span style="color: #fff59d;">begin</span>
+      <span style="color: #aaffaa;">if</span> (counter == 27'd1250000000) <span style="color: #fff59d;">begin</span>
+         led &lt;= led + 1;
+         counter &lt;= 0;
+      <span style="color: #fff59d;">end</span>
+      <span style="color: #aaffaa;">else</span> <span style="color: #fff59d;">begin</span>
+         counter &lt;= counter +1;
+      <span style="color: #fff59d;">end</span>
+   <span style="color: #fff59d;">end</span>
+
+<span style="color: #aaffaa;">endmodule</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeaf47d9" class="outline-2">
+<h2 id="orgeaf47d9">加入 Constraints</h2>
+<div class="outline-text-2" id="text-orgeaf47d9">
+<p>
+我們撰寫好了 Verilog 模組 top.v，接下來就是要讓這模組的 I/O 和 Zybo board 的腳位對應到，我們先連結到 <a href="https://reference.digilentinc.com/zybo:zybo" target="_blank" rel="external">Zybo Resource Center</a> 去下載 <code>Master XDC</code> 檔案。
+</p>
+
+
+<div class="figure">
+<p><img src="dl_constraints.png">
+</p>
+</div>
+
+<p>
+你也可以直接透過 wget 命令下載並解壓出 <code>ZYBO_Master.xdc</code> 這個檔案，它就是本節要加入的 Constraints 檔
+</p>
+
+<pre class="example">
+coldnew@gentoo /tmp $ wget https://reference.digilentinc.com/_media/zybo/zybo_master_xdc.zip
+coldnew@gentoo /tmp $ unzip zybo_master_xdc.zip
+Archive:  zybo_master_xdc.zip
+  inflating: ZYBO_Master.xdc
+</pre>
+
+<p>
+接下來一樣選擇 <code>Project Manager -&gt; Add sources</code> 來增加檔案
+</p>
+
+
+<div class="figure">
+<p><img src="create_prj2.png">
+</p>
+</div>
+
+<p>
+這次我們要增加的是 Constraints 檔，因此選擇 <code>Add or create constraints</code>
+</p>
+
+
+<div class="figure">
+<p><img src="add_constraints1.png">
+</p>
+</div>
+
+<p>
+透過 <code>Add Files</code> 添加剛剛下載的 ZYBO_Master.xdc 檔案
+</p>
+
+
+<div class="figure">
+<p><img src="add_constraints2.png">
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgadb8763" class="outline-3">
+<h3 id="orgadb8763">ZYBO_Master.xdc</h3>
+<div class="outline-text-3" id="text-orgadb8763">
+<p>
+在 ZYBO_Master.xdc 裡面，預設所有對應接腳都是被註解掉的，這邊我們反註解我們需要的 clk 以及 led 接腳，要注意到這邊的 I/O 名稱要對應到前面所寫的 top.v 裡面的 I/O 名稱。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">Clock signal</span>
+<span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_L11P_T1_SRCC_35</span>
+set_property PACKAGE_PIN L16 [get_ports clk]
+set_property IOSTANDARD LVCMOS33 [get_ports clk]
+<span style="color: #5f5f5f; font-style: italic;">#</span><span style="color: #9ac; font-style: italic;">create_clock -add -name sys_clk_pin -period 8.00 -waveform {0 4} [get_ports clk]</span>
+
+<span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">LEDs</span>
+<span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_L23P_T3_35</span>
+set_property PACKAGE_PIN M14 [get_ports {led[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {led[0]}]
+
+<span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_L23N_T3_35</span>
+set_property PACKAGE_PIN M15 [get_ports {led[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {led[1]}]
+
+<span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_0_35</span>
+set_property PACKAGE_PIN G14 [get_ports {led[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {led[2]}]
+
+<span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_L3N_T0_DQS_AD1N_35</span>
+set_property PACKAGE_PIN D18 [get_ports {led[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {led[3]}]
+</pre>
+</div>
+
+<p>
+這樣我們就把 Verilog 模組和實際硬體對應的部份解決了
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9861b14" class="outline-2">
+<h2 id="org9861b14">產生位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-org9861b14">
+<p>
+前面的處理都好了後，接下來點選 <code>Program and Debug -&gt; Generate Bitstream</code> 去讓 Vivado 將這個專案產生出位元流 (bitstream)，ZYNQ 會根據 bitstream 的資訊對 FPGA 進行設定。
+</p>
+
+
+<div class="figure">
+<p><img src="gen_bitstream.png">
+</p>
+</div>
+
+<p>
+當 bitstream 產生完成後，會彈出一個視窗，這邊我們選擇 <code>Open Harware Manager</code> 進入到下載程序
+</p>
+
+
+<div class="figure">
+<p><img src="hwm1.png">
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfce497f" class="outline-2">
+<h2 id="orgfce497f">下載到 Zybo board</h2>
+<div class="outline-text-2" id="text-orgfce497f">
+<p>
+確定此時你有將 Zybo board 接到電腦，並且你 <code>JP5</code> 設定在 <code>QSPI</code> 模式下，就像這樣
+</p>
+
+
+<div class="figure">
+<p><img src="qspi.png">
+</p>
+</div>
+
+<p>
+點選 <code>Open target</code> 選擇我們的目標開發板
+</p>
+
+
+<div class="figure">
+<p><img src="hwm2.png">
+</p>
+</div>
+
+<p>
+選擇 Auto Connect 讓 Vivado 自行尋找下載目標
+</p>
+
+
+<div class="figure">
+<p><img src="hwm3.png">
+</p>
+</div>
+
+<p>
+Vivado 告訴我們找到了一台使用 <code>xc7z010</code> IC 的板子，就是我們的 Zybo board，選擇這個進行燒錄
+</p>
+
+
+<div class="figure">
+<p><img src="hwm4.png">
+</p>
+</div>
+
+<p>
+在下載前，Vivado 會在確認一次 bitstream 的位置，確認無誤後點選 <code>Program</code> 進行燒錄
+</p>
+
+
+<div class="figure">
+<p><img src="hwm5.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1397977" class="outline-2">
+<h2 id="org1397977">結果</h2>
+<div class="outline-text-2" id="text-org1397977">
+<p>
+在你執行 <i>Program device</i> 後，Vivado 會將剛剛產生的 bitstream 下載到我們的 Zybo Board 並執行它，最後完成的成果如下
+</p>
+
+
+<div class="figure">
+<p><img src="result.gif">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf05f285" class="outline-2">
+<h2 id="orgf05f285">取得程式碼</h2>
+<div class="outline-text-2" id="text-orgf05f285">
+<p>
+本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="external">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
+</p>
+
+<div data-theme="default" data-height="" data-width="400" data-github="coldnew/zybo-examples" class="github-card"></div>
+<script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+</div>
+</div>
+
+
+<div id="outline-container-orgdaba49c" class="outline-2">
+<h2 id="orgdaba49c">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgdaba49c">
+<p>
+<code>[1]</code> <a href="http://johanngoetz.blogspot.tw/2014/04/first-steps-with-zybo-development-board.html" target="_blank" rel="external">FPGA Programming: First Steps with the ZYBO Development Board</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="http://www.borisivanov.com/fpga/verilog_zybo1.pdf" target="_blank" rel="external">Simple Verilog example useing Vivado 2015 with zybo FPGA board v0.1</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="http://ece.gmu.edu/coursewebpages/ECE/ECE699_SW_HW/S15/viewgraphs/ECE699_lecture_3.pdf" target="_blank" rel="external">ECE 699: Lecture 3 General Purpose Input Output GPIO</a>
+</p>
+
+<p>
+<code>[4]</code> <a href="http://www.beyond-circuits.com/wordpress/tutorial/tutorial1/" target="_blank" rel="external">Tutorial 1: The Simplest FPGA in the World | Beyond Circuits</a>
+</p>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fpga/" rel="tag">#fpga</a>
+          
+            <a href="/tags/xilinx/" rel="tag">#xilinx</a>
+          
+            <a href="/tags/zybo/" rel="tag">#zybo</a>
+          
+            <a href="/tags/zynq/" rel="tag">#zynq</a>
+          
+            <a href="/tags/verilog/" rel="tag">#verilog</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/cd57308/" rel="prev">zybo board 開發記錄: 讓 Vivado 有 Zybo Board 的設定檔</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/dec85bd3/" rel="next">zybo board 開發記錄: Zynq 與 LED 閃爍控制</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2bbc697"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6aae300"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0fd6d39"><span class="nav-text">撰寫程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org7cd032a"><span class="nav-text">top.v</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgeaf47d9"><span class="nav-text">加入 Constraints</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgadb8763"><span class="nav-text">ZYBO_Master.xdc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9861b14"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfce497f"><span class="nav-text">下載到 Zybo board</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1397977"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf05f285"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdaba49c"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'coldnew';
+      var disqus_identifier = '6c5717d7/';
+      var disqus_title = 'zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍';
+      var disqus_url = 'https://coldnew.github.io/6c5717d7/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+</body>
+</html>
