@@ -107,7 +107,7 @@
 <meta property="og:image" content="https://coldnew.github.io/dec85bd3/d5.png">
 <meta property="og:image" content="https://coldnew.github.io/dec85bd3/result.gif">
 <meta property="og:image" content="https://coldnew.github.io/dec85bd3/s.png">
-<meta property="og:updated_time" content="2017-04-25T01:17:55.000Z">
+<meta property="og:updated_time" content="2017-04-25T02:50:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zybo board 開發記錄: Zynq 與 LED 閃爍控制">
 <meta name="twitter:description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。">
@@ -247,7 +247,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2017-04-25T09:17:55+08:00" content="2017-04-25">
+          <time itemprop="dateCreated" datetime="2017-04-25T10:50:49+08:00" content="2017-04-25">
             2017-04-25
           </time>
         </span>
@@ -258,7 +258,7 @@
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                 <a href="/categories/zybo-board/" itemprop="url" rel="index">
-                  <span itemprop="name">zybo-board</span>
+                  <span itemprop="name">zybo board 開發記錄</span>
                 </a>
               </span>
 
@@ -300,9 +300,9 @@
 本文主要參考自 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="external">Digilentinc</a> 的 <a href="https://reference.digilentinc.com/zybo/gsg" target="_blank" rel="external">Getting Start Guide</a> 並加入我自己試玩的一些心得。
 </p>
 
-<div id="outline-container-orga2c7eb2" class="outline-2">
-<h2 id="orga2c7eb2">開發目標</h2>
-<div class="outline-text-2" id="text-orga2c7eb2">
+<div id="outline-container-orgaf1d8d0" class="outline-2">
+<h2 id="orgaf1d8d0">開發目標</h2>
+<div class="outline-text-2" id="text-orgaf1d8d0">
 <p>
 我們要透過 Zynq 上的 ARM 處理器，也就是 處理系統 (Processing System, PS)去控制 LED，具體目標與電路資訊如下:
 </p>
@@ -325,9 +325,9 @@
 </div>
 </div>
 
-<div id="outline-container-org6170b25" class="outline-2">
-<h2 id="org6170b25">認識 AXI 匯流排</h2>
-<div class="outline-text-2" id="text-org6170b25">
+<div id="outline-container-orgdca9dda" class="outline-2">
+<h2 id="orgdca9dda">認識 AXI 匯流排</h2>
+<div class="outline-text-2" id="text-orgdca9dda">
 <p>
 AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a href="http://www.zynqbook.com/" target="_blank" rel="external">The Zynq Book</a> p.28)
 </p>
@@ -348,9 +348,9 @@ AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a h
 </div>
 </div>
 
-<div id="outline-container-org790c98d" class="outline-2">
-<h2 id="org790c98d">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org790c98d">
+<div id="outline-container-orgd124845" class="outline-2">
+<h2 id="orgd124845">建立我們的專案</h2>
+<div class="outline-text-2" id="text-orgd124845">
 <p>
 我們首先當然是建立我們的專案了，在進行這一步前，請先確定你有按照 <a href="https://coldnew.github.io/zybo-board/vivado_zybo_setting_file/">讓 Vivado 有 Zybo Board 的設定檔</a> 一文所說，將 Zybo board 的設計導入。
 </p>
@@ -409,9 +409,9 @@ AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a h
 </div>
 </div>
 
-<div id="outline-container-orgee961e6" class="outline-2">
-<h2 id="orgee961e6">建立 Block Design</h2>
-<div class="outline-text-2" id="text-orgee961e6">
+<div id="outline-container-orgbce42ee" class="outline-2">
+<h2 id="orgbce42ee">建立 Block Design</h2>
+<div class="outline-text-2" id="text-orgbce42ee">
 <p>
 當我們的設計需要用到 Zynq 的處理器系統(Processing System, PS)時候，就需要透過 Block Design 來建立我們的電路設計，首先點選 <code>IP Integrator -&gt; Create Block Design</code> 。
 </p>
@@ -546,9 +546,9 @@ AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a h
 </div>
 </div>
 
-<div id="outline-container-org6b5799b" class="outline-2">
-<h2 id="org6b5799b">加入 Constraints</h2>
-<div class="outline-text-2" id="text-org6b5799b">
+<div id="outline-container-org26b8d97" class="outline-2">
+<h2 id="org26b8d97">加入 Constraints</h2>
+<div class="outline-text-2" id="text-org26b8d97">
 <p>
 在 <a href="http://coldnew.github.io/zybo-board/pl_led/">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a> 一文有提到如何取得 Constraints 檔案，不過為了讓這篇文章完整，我們再講一次。
 </p>
@@ -605,9 +605,9 @@ Archive:  zybo_master_xdc.zip
 </div>
 </div>
 
-<div id="outline-container-orgf08f668" class="outline-3">
-<h3 id="orgf08f668">ZYBO_Master.xdc</h3>
-<div class="outline-text-3" id="text-orgf08f668">
+<div id="outline-container-org28b6631" class="outline-3">
+<h3 id="org28b6631">ZYBO_Master.xdc</h3>
+<div class="outline-text-3" id="text-org28b6631">
 <p>
 在 ZYBO_Master.xdc 裡面，預設所有對應接腳都是被註解掉的，這邊我們反註解我們需要的 led 接腳，要記得一下這邊的 I/O 名稱，我們等等要和產生出來的 HDL Wrapper 進行對應的工作。
 </p>
@@ -639,9 +639,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports {led[3]}]
 </div>
 </div>
 
-<div id="outline-container-orgd0b4b38" class="outline-2">
-<h2 id="orgd0b4b38">產生 HDL Wrapper</h2>
-<div class="outline-text-2" id="text-orgd0b4b38">
+<div id="outline-container-orgd983ade" class="outline-2">
+<h2 id="orgd983ade">產生 HDL Wrapper</h2>
+<div class="outline-text-2" id="text-orgd983ade">
 <p>
 接下來我們要透過 Block Design 產生我們的 HDL wrapper，對你的 Block Design 檔案點選右鍵，選擇 <code>Create HDL Wrapper</code> 。它會根據你專案設定的語言 (VHDL 或是 Verilog) 來產生相對的 HDL 程式碼。
 </p>
@@ -740,9 +740,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports {led[3]}]
 </div>
 </div>
 
-<div id="outline-container-orgf1c691b" class="outline-2">
-<h2 id="orgf1c691b">產生位元流 (bitstream)</h2>
-<div class="outline-text-2" id="text-orgf1c691b">
+<div id="outline-container-orgcdf761b" class="outline-2">
+<h2 id="orgcdf761b">產生位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-orgcdf761b">
 <p>
 前面的處理都好了後，接下來點選 <code>Program and Debug -&gt; Generate Bitstream</code> 去讓 Vivado 將這個專案產生出位元流 (bitstream)，ZYNQ 會根據 bitstream 的資訊對 FPGA 進行設定。
 </p>
@@ -789,9 +789,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports {led[3]}]
 </div>
 </div>
 
-<div id="outline-container-orgb868a68" class="outline-2">
-<h2 id="orgb868a68">Xilinx SDK</h2>
-<div class="outline-text-2" id="text-orgb868a68">
+<div id="outline-container-orga621a86" class="outline-2">
+<h2 id="orga621a86">Xilinx SDK</h2>
+<div class="outline-text-2" id="text-orga621a86">
 <p>
 我們啟動 Xilinx SDK 後，可以先看到一些像是位址映射 (Address Map) 的資訊
 </p>
@@ -862,9 +862,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports {led[3]}]
 </div>
 </div>
 
-<div id="outline-container-orgd353ce0" class="outline-3">
-<h3 id="orgd353ce0">建立 main.c</h3>
-<div class="outline-text-3" id="text-orgd353ce0">
+<div id="outline-container-orgc1480f1" class="outline-3">
+<h3 id="orgc1480f1">建立 main.c</h3>
+<div class="outline-text-3" id="text-orgc1480f1">
 <p>
 由於我們建立的是空白專案，必須自己添加自己的主程式，因此我們對 LED 專案的 src 按下右鍵，選擇建立新的檔案
 </p>
@@ -931,9 +931,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports {led[3]}]
 </div>
 </div>
 
-<div id="outline-container-org8aa6932" class="outline-3">
-<h3 id="org8aa6932">main.c</h3>
-<div class="outline-text-3" id="text-org8aa6932">
+<div id="outline-container-org0331aa8" class="outline-3">
+<h3 id="org0331aa8">main.c</h3>
+<div class="outline-text-3" id="text-org0331aa8">
 <p>
 在 main.c 的開頭，我們載入了需要使用的幾個標頭檔，在 Xilinx SDK 中，已經包含了一些預設好的函式庫等功能，具體資訊請查閱 <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_3/oslib_rm.pdf" target="_blank" rel="external">Xilinx OS and Libraries Document Collection</a> (UG643) 手冊。
 </p>
@@ -1025,9 +1025,9 @@ printf(<span style="color: #aadddd;">"Start to blink led !!!\n\r"</span>);
 </div>
 </div>
 
-<div id="outline-container-org1c73862" class="outline-2">
-<h2 id="org1c73862">下載到 Zybo board</h2>
-<div class="outline-text-2" id="text-org1c73862">
+<div id="outline-container-org8601709" class="outline-2">
+<h2 id="org8601709">下載到 Zybo board</h2>
+<div class="outline-text-2" id="text-org8601709">
 <p>
 確定此時你有將 Zybo board 接到電腦，並且你 <code>JP5</code> 設定在 <code>QSPI</code> 模式下，就像這樣
 </p>
@@ -1100,9 +1100,9 @@ printf(<span style="color: #aadddd;">"Start to blink led !!!\n\r"</span>);
 </div>
 </div>
 
-<div id="outline-container-org50e09da" class="outline-2">
-<h2 id="org50e09da">結果</h2>
-<div class="outline-text-2" id="text-org50e09da">
+<div id="outline-container-org185c8f9" class="outline-2">
+<h2 id="org185c8f9">結果</h2>
+<div class="outline-text-2" id="text-org185c8f9">
 <p>
 在你執行 <i>Program device</i> 以及 <i>Run</i> 後，Xilinx SDK 會將位元流(bitstream) 下載到我們的 Zybo Board，接著重設 CPU 後執行我們下載的程式，最後完成的成果如下
 </p>
@@ -1125,9 +1125,9 @@ printf(<span style="color: #aadddd;">"Start to blink led !!!\n\r"</span>);
 </div>
 </div>
 
-<div id="outline-container-org4eb9bfd" class="outline-2">
-<h2 id="org4eb9bfd">取得程式碼</h2>
-<div class="outline-text-2" id="text-org4eb9bfd">
+<div id="outline-container-org1db6480" class="outline-2">
+<h2 id="org1db6480">取得程式碼</h2>
+<div class="outline-text-2" id="text-org1db6480">
 <p>
 本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="external">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
 </p>
@@ -1137,9 +1137,9 @@ printf(<span style="color: #aadddd;">"Start to blink led !!!\n\r"</span>);
 </div>
 </div>
 
-<div id="outline-container-org99f9d38" class="outline-2">
-<h2 id="org99f9d38">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org99f9d38">
+<div id="outline-container-org5e26596" class="outline-2">
+<h2 id="org5e26596">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org5e26596">
 <p>
 <code>[1]</code> <a href="http://www.zynqbook.com/" target="_blank" rel="external">The Zynq Book</a>
 </p>
@@ -1329,7 +1329,7 @@ printf(<span style="color: #aadddd;">"Start to blink led !!!\n\r"</span>);
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orga2c7eb2"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6170b25"><span class="nav-text">認識 AXI 匯流排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org790c98d"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgee961e6"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6b5799b"><span class="nav-text">加入 Constraints</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf08f668"><span class="nav-text">ZYBO_Master.xdc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd0b4b38"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf1c691b"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb868a68"><span class="nav-text">Xilinx SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd353ce0"><span class="nav-text">建立 main.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org8aa6932"><span class="nav-text">main.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1c73862"><span class="nav-text">下載到 Zybo board</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org50e09da"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4eb9bfd"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org99f9d38"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaf1d8d0"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdca9dda"><span class="nav-text">認識 AXI 匯流排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd124845"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbce42ee"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org26b8d97"><span class="nav-text">加入 Constraints</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org28b6631"><span class="nav-text">ZYBO_Master.xdc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd983ade"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcdf761b"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga621a86"><span class="nav-text">Xilinx SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc1480f1"><span class="nav-text">建立 main.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0331aa8"><span class="nav-text">main.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8601709"><span class="nav-text">下載到 Zybo board</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org185c8f9"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1db6480"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5e26596"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
