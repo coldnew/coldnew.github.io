@@ -58,7 +58,7 @@
 <meta property="og:site_name" content="coldnew&#39;s blog">
 <meta property="og:description" content="git-wip 是一個能夠不斷幫你進行備份檔案的 shell script 程式，會將你正在進行編輯的檔案， 放置到 wip branch (Work in Process)，這樣假如你不小心滅掉了你的 commit, 或是某天想找尋 某次被遺忘的修改，你都可以透過 git-wip 很簡單的完成他。    使用過 git-wip 後，你可以在你的 git 紀錄看到像下圖這樣的資訊">
 <meta property="og:image" content="https://coldnew.github.io/a56ad4a6/git-wip.png">
-<meta property="og:updated_time" content="2017-04-21T02:08:01.000Z">
+<meta property="og:updated_time" content="2017-04-25T01:19:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 git-wip 來替你自動備份檔案">
 <meta name="twitter:description" content="git-wip 是一個能夠不斷幫你進行備份檔案的 shell script 程式，會將你正在進行編輯的檔案， 放置到 wip branch (Work in Process)，這樣假如你不小心滅掉了你的 commit, 或是某天想找尋 某次被遺忘的修改，你都可以透過 git-wip 很簡單的完成他。    使用過 git-wip 後，你可以在你的 git 紀錄看到像下圖這樣的資訊">
@@ -198,8 +198,8 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2017-04-21T10:08:01+08:00" content="2017-04-21">
-            2017-04-21
+          <time itemprop="dateCreated" datetime="2017-04-25T09:19:06+08:00" content="2017-04-25">
+            2017-04-25
           </time>
         </span>
 
@@ -249,9 +249,9 @@ git-wip 需要配合文字編輯器才能擁有他最強大的 <b>備份</b> 功
 篇文章說明 git-wip 的設計以及 vim、emacs 使用 git-wip 的方式。
 </p>
 
-<div id="outline-container-orge67d12d" class="outline-2">
-<h2 id="orge67d12d">安裝 git-wip</h2>
-<div class="outline-text-2" id="text-orge67d12d">
+<div id="outline-container-orged0e1ad" class="outline-2">
+<h2 id="orged0e1ad">安裝 git-wip</h2>
+<div class="outline-text-2" id="text-orged0e1ad">
 <ul class="org-ul">
 <li><p>
 Gentoo Linux
@@ -282,9 +282,9 @@ cp git-wip ~/bin
 </div>
 </div>
 
-<div id="outline-container-org8197b21" class="outline-2">
-<h2 id="org8197b21">在 vim 下使用 git-wip</h2>
-<div class="outline-text-2" id="text-org8197b21">
+<div id="outline-container-orga1671b0" class="outline-2">
+<h2 id="orga1671b0">在 vim 下使用 git-wip</h2>
+<div class="outline-text-2" id="text-orga1671b0">
 <p>
 想要在 vim 下使用 git-wip，你需要將以下幾行加入到你的 vim 設定檔
 </p>
@@ -306,9 +306,9 @@ cp vim/plugin/git-wip ~/.vim/plugin/git-wip
 </div>
 </div>
 
-<div id="outline-container-org1f1d7c1" class="outline-2">
-<h2 id="org1f1d7c1">在 emacs 下使用 git-wip</h2>
-<div class="outline-text-2" id="text-org1f1d7c1">
+<div id="outline-container-org128feaf" class="outline-2">
+<h2 id="org128feaf">在 emacs 下使用 git-wip</h2>
+<div class="outline-text-2" id="text-org128feaf">
 <p>
 在 emacs 下我推荐使用 magit 提供的 magit-wip 功能，當你安裝完 magit 後，在你的
 .emacs 添加
@@ -339,9 +339,9 @@ git config --global --add magit.extension wip-save
 </div>
 </div>
 
-<div id="outline-container-orgfc53794" class="outline-2">
-<h2 id="orgfc53794">git-wip 分支</h2>
-<div class="outline-text-2" id="text-orgfc53794">
+<div id="outline-container-org8af25b7" class="outline-2">
+<h2 id="org8af25b7">git-wip 分支</h2>
+<div class="outline-text-2" id="text-org8af25b7">
 <p>
 git-wip 的分支會有 wip/ 作為前綴, 舉例來說，如果你是在 feature branch 進行修改，
 則 git-wip 會幫你維護 wip/feature 分支。
@@ -388,9 +388,9 @@ git-wip 的分支會有 wip/ 作為前綴, 舉例來說，如果你是在 featur
 </div>
 </div>
 
-<div id="outline-container-org0160646" class="outline-2">
-<h2 id="org0160646">git-wip 命令</h2>
-<div class="outline-text-2" id="text-org0160646">
+<div id="outline-container-org9da4b2c" class="outline-2">
+<h2 id="org9da4b2c">git-wip 命令</h2>
+<div class="outline-text-2" id="text-org9da4b2c">
 <p>
 若你沒有將 git-wip 綁到你的文字編輯器，你可以使用 git-wip 提供的命令
 </p>
@@ -427,9 +427,9 @@ git log --stat wip/$branch $(git merge-base wip/$branch $branch)
 </div>
 </div>
 
-<div id="outline-container-org930aead" class="outline-2">
-<h2 id="org930aead">使用 git-wip 回復檔案</h2>
-<div class="outline-text-2" id="text-org930aead">
+<div id="outline-container-org8ebf6e9" class="outline-2">
+<h2 id="org8ebf6e9">使用 git-wip 回復檔案</h2>
+<div class="outline-text-2" id="text-org8ebf6e9">
 <p>
 若要進行回復，首先我們要先找尋我們感興趣的 commit。假設你最近修改的 branch 是 master,
 那你應該可以找到 wip/master 的參考(reference), 你也可以用以下命令列出 wip/master
@@ -471,9 +471,9 @@ git diff --cached
 </div>
 </div>
 
-<div id="outline-container-org6ba85fa" class="outline-2">
-<h2 id="org6ba85fa">參考連結</h2>
-<div class="outline-text-2" id="text-org6ba85fa">
+<div id="outline-container-org45d1a6e" class="outline-2">
+<h2 id="org45d1a6e">參考連結</h2>
+<div class="outline-text-2" id="text-org45d1a6e">
 <p>
 <code>[1]</code> <a href="http://www.jukie.net/~bart/blog/save-everything-with-git-wip" target="_blank" rel="external">using WIP branches to save every edit</a>
 </p>
@@ -635,7 +635,7 @@ git diff --cached
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge67d12d"><span class="nav-text">安裝 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8197b21"><span class="nav-text">在 vim 下使用 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1f1d7c1"><span class="nav-text">在 emacs 下使用 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfc53794"><span class="nav-text">git-wip 分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0160646"><span class="nav-text">git-wip 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org930aead"><span class="nav-text">使用 git-wip 回復檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6ba85fa"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orged0e1ad"><span class="nav-text">安裝 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga1671b0"><span class="nav-text">在 vim 下使用 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org128feaf"><span class="nav-text">在 emacs 下使用 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8af25b7"><span class="nav-text">git-wip 分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9da4b2c"><span class="nav-text">git-wip 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8ebf6e9"><span class="nav-text">使用 git-wip 回復檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org45d1a6e"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

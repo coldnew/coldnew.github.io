@@ -57,7 +57,7 @@
 <meta property="og:url" content="https://coldnew.github.io/7c811780/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
 <meta property="og:description" content="最近鬧得沸沸揚揚的事情，大概就是 Azer Koçulu 在 npm 上下架 left-pad這件事，導致許許多多依賴他的 Node.js 專案 不能使用。    就讓我們趁這個機會，看一下我們在 clojure/clojurescript 下到底有沒有需要這個函式庫，或是是否已經有內建可替代的函式可以處理這個功能。">
-<meta property="og:updated_time" content="2017-04-21T02:08:13.000Z">
+<meta property="og:updated_time" content="2017-04-25T01:16:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="clojure/clojurescript 與 left-pad">
 <meta name="twitter:description" content="最近鬧得沸沸揚揚的事情，大概就是 Azer Koçulu 在 npm 上下架 left-pad這件事，導致許許多多依賴他的 Node.js 專案 不能使用。    就讓我們趁這個機會，看一下我們在 clojure/clojurescript 下到底有沒有需要這個函式庫，或是是否已經有內建可替代的函式可以處理這個功能。">
@@ -196,8 +196,8 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2017-04-21T10:08:13+08:00" content="2017-04-21">
-            2017-04-21
+          <time itemprop="dateCreated" datetime="2017-04-25T09:16:39+08:00" content="2017-04-25">
+            2017-04-25
           </time>
         </span>
 
@@ -234,9 +234,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-orgdfbe739" class="outline-2">
-<h2 id="orgdfbe739">leftpad 做了哪些事?</h2>
-<div class="outline-text-2" id="text-orgdfbe739">
+<div id="outline-container-org852a655" class="outline-2">
+<h2 id="org852a655">leftpad 做了哪些事?</h2>
+<div class="outline-text-2" id="text-org852a655">
 <p>
 在我們開始前，讓我們來看看 <a href="https://github.com/azer/left-pad" target="_blank" rel="external">left-pad</a> 這個函式庫到底多好用，為什麼一堆套件都依賴他。實際上 <a href="https://github.com/azer/left-pad" target="_blank" rel="external">left-pad</a> 只有短短的幾行，內容如下:
 </p>
@@ -280,9 +280,9 @@ leftpad(1, 2, 0)
 </div>
 </div>
 
-<div id="outline-container-orga790e74" class="outline-2">
-<h2 id="orga790e74">如何在 clojure 上實作</h2>
-<div class="outline-text-2" id="text-orga790e74">
+<div id="outline-container-orgf618958" class="outline-2">
+<h2 id="orgf618958">如何在 clojure 上實作</h2>
+<div class="outline-text-2" id="text-orgf618958">
 <p>
 那我們在 clojure 下要怎樣實作 leftpad 這函式的功能呢？實際上我們使用 <a href="https://clojuredocs.org/clojure.core/format" target="_blank" rel="external">clojure.core/format</a> 搭配一些字串的替代就可以辦到 (註: 參考自 <a href="http://beginnersbook.com/2014/07/java-left-padding-a-string-with-spaces-and-zeros/" target="_blank" rel="external">java – Left padding a String with Spaces and Zeros</a> 一文)
 </p>
@@ -306,9 +306,9 @@ leftpad(1, 2, 0)
 </div>
 </div>
 
-<div id="outline-container-orgf47efb6" class="outline-2">
-<h2 id="orgf47efb6">如何在 clojurescript 上實作</h2>
-<div class="outline-text-2" id="text-orgf47efb6">
+<div id="outline-container-org28a0bb4" class="outline-2">
+<h2 id="org28a0bb4">如何在 clojurescript 上實作</h2>
+<div class="outline-text-2" id="text-org28a0bb4">
 <p>
 <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="external">cl-format</a> 是移植自 common lisp 的 <a href="http://www.cs.cmu.edu/afs/cs.cmu.edu/project/ai-repository/ai/html/cltl/clm/node200.html#SECTION002633000000000000000%29" target="_blank" rel="external">format</a> 函式，是一種非常強大的字串格式化方式。具體範例在 <a href="http://www.gigamonkeys.com/book/a-few-format-recipes.html" target="_blank" rel="external">Praticle Common Lisp</a> 一書內文有提到，我們在這邊只注重如何透過 <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="external">cl-format</a> 進行 padding:
 </p>
@@ -344,9 +344,9 @@ leftpad(1, 2, 0)
 </div>
 </div>
 
-<div id="outline-container-org6daf614" class="outline-2">
-<h2 id="org6daf614">後記</h2>
-<div class="outline-text-2" id="text-org6daf614">
+<div id="outline-container-org113617d" class="outline-2">
+<h2 id="org113617d">後記</h2>
+<div class="outline-text-2" id="text-org113617d">
 <p>
 本文只是我看到了 <a href="http://www.haneycodes.net/npm-left-pad-have-we-forgotten-how-to-program/" target="_blank" rel="external">NPM &amp; left-pad: Have We Forgotten How To Program?</a> 這篇文章後，來確認一下我到底會不會寫程式之用，文內實作的 clojure/clojurescript 版本你可以在 <a href="https://github.com/coldnew/left-pad.clj" target="_blank" rel="external">coldnew/left-pad.clj</a> 這個專案看到。
 </p>
@@ -377,9 +377,9 @@ Deletion of entire projects or particular versions is discouraged as you will br
 </div>
 </div>
 
-<div id="outline-container-org47220bf" class="outline-2">
-<h2 id="org47220bf">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org47220bf">
+<div id="outline-container-orgc32902c" class="outline-2">
+<h2 id="orgc32902c">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgc32902c">
 <p>
 <code>[1]</code> <a href="http://www.haneycodes.net/npm-left-pad-have-we-forgotten-how-to-program/" target="_blank" rel="external">NPM &amp; left-pad: Have We Forgotten How To Program?</a>
 </p>
@@ -545,7 +545,7 @@ Deletion of entire projects or particular versions is discouraged as you will br
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdfbe739"><span class="nav-text">leftpad 做了哪些事?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga790e74"><span class="nav-text">如何在 clojure 上實作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf47efb6"><span class="nav-text">如何在 clojurescript 上實作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6daf614"><span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org47220bf"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org852a655"><span class="nav-text">leftpad 做了哪些事?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf618958"><span class="nav-text">如何在 clojure 上實作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org28a0bb4"><span class="nav-text">如何在 clojurescript 上實作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org113617d"><span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc32902c"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -62,7 +62,7 @@
 <meta property="og:image" content="https://coldnew.github.io/2c9c3b0f/circleci2.png">
 <meta property="og:image" content="https://coldnew.github.io/2c9c3b0f/circleci3.png">
 <meta property="og:image" content="https://coldnew.github.io/2c9c3b0f/circleci4.png">
-<meta property="og:updated_time" content="2017-04-21T02:08:02.000Z">
+<meta property="og:updated_time" content="2017-04-25T01:18:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 codox 與 CircleCI 建立 Clojure 專案的文檔">
 <meta name="twitter:description" content="在 Clojure 世界中，常用的產生文檔工具有 Marginalia 以及 Codox。 本文將講述如何透過 Codox 以及 Circle CI 來對你的函式庫進行測試以及產生文檔並發佈到 GitHub pages 去。">
@@ -202,8 +202,8 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2017-04-21T10:08:02+08:00" content="2017-04-21">
-            2017-04-21
+          <time itemprop="dateCreated" datetime="2017-04-25T09:18:59+08:00" content="2017-04-25">
+            2017-04-25
           </time>
         </span>
 
@@ -241,9 +241,9 @@
 當然，為了便於描述，我們一樣從專案的建立開始來講 codox 的使用。
 </p>
 
-<div id="outline-container-org8f0a57e" class="outline-2">
-<h2 id="org8f0a57e">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org8f0a57e">
+<div id="outline-container-org2fc25c6" class="outline-2">
+<h2 id="org2fc25c6">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org2fc25c6">
 <p>
 首先我們先透過 <a href="http://leiningen.org/" target="_blank" rel="external">leinigen</a> 產生我們 Clojure 專案的基本樣板，這邊命名該專案為 <code>example-lib</code>
 </p>
@@ -281,9 +281,9 @@ coldnew@Rosia ~ $ lein new example-lib
 </div>
 </div>
 
-<div id="outline-container-org28329b8" class="outline-2">
-<h2 id="org28329b8">加上基本的函式與測試</h2>
-<div class="outline-text-2" id="text-org28329b8">
+<div id="outline-container-orgd5af219" class="outline-2">
+<h2 id="orgd5af219">加上基本的函式與測試</h2>
+<div class="outline-text-2" id="text-orgd5af219">
 <p>
 完成 <i>project.clj</i> 修改後，讓我們到 <code>src/example_lib/core.clj</code> 去加入我們的基本函式，這邊建立一個名為 <code>hello</code> 的函式，功能就是回傳 <code>Hello, World!</code> 這個字串回來。
 </p>
@@ -328,9 +328,9 @@ Ran 1 tests containing 1 assertions.
 </div>
 </div>
 
-<div id="outline-container-org3db3f42" class="outline-2">
-<h2 id="org3db3f42">使用 codox 產生文檔</h2>
-<div class="outline-text-2" id="text-org3db3f42">
+<div id="outline-container-orgf2be0fc" class="outline-2">
+<h2 id="orgf2be0fc">使用 codox 產生文檔</h2>
+<div class="outline-text-2" id="text-orgf2be0fc">
 <p>
 當我們的函式庫完成後，就可以使用 <code>lein codox</code> 產生我們的文檔
 </p>
@@ -380,17 +380,17 @@ coldnew@Rosia ~/example-lib/doc $ tree -L 1 .
 </div>
 </div>
 
-<div id="outline-container-orgc173afd" class="outline-2">
-<h2 id="orgc173afd">讓 Circle CI 發佈你的文檔到 gh-pages</h2>
-<div class="outline-text-2" id="text-orgc173afd">
+<div id="outline-container-org3e1f815" class="outline-2">
+<h2 id="org3e1f815">讓 Circle CI 發佈你的文檔到 gh-pages</h2>
+<div class="outline-text-2" id="text-org3e1f815">
 <p>
 自從 GitHub 加入了顯示 <a href="https://pages.github.com/" target="_blank" rel="external">gh-pages</a> 的 html 檔案功能後，我們就可以存放我們的 HTML 文檔到 gh-pages 分支去，不過先讓我們加入  <a href="https://circleci.com" target="_blank" rel="external">Circle CI</a> 的支援。
 </p>
 </div>
 
-<div id="outline-container-org8fe43e2" class="outline-3">
-<h3 id="org8fe43e2">circle.yml</h3>
-<div class="outline-text-3" id="text-org8fe43e2">
+<div id="outline-container-orgd16ac23" class="outline-3">
+<h3 id="orgd16ac23">circle.yml</h3>
+<div class="outline-text-3" id="text-orgd16ac23">
 <p>
 我們切回專案目錄，並建立 <code>circle.yml</code> 這個檔案
 </p>
@@ -451,9 +451,9 @@ coldnew@Rosia ~/example-lib $ touch circle.yml
 </div>
 </div>
 
-<div id="outline-container-org4c64180" class="outline-3">
-<h3 id="org4c64180">deploy.sh</h3>
-<div class="outline-text-3" id="text-org4c64180">
+<div id="outline-container-orgbd94be7" class="outline-3">
+<h3 id="orgbd94be7">deploy.sh</h3>
+<div class="outline-text-3" id="text-orgbd94be7">
 <p>
 接下來編輯 <i>deploy.sh</i> 這個腳本，主要的任務如下:
 </p>
@@ -515,9 +515,9 @@ git push --force --quiet <span style="color: #aadddd;">"https://${GH_TOKEN}@${GH
 </div>
 
 
-<div id="outline-container-orgad2967f" class="outline-3">
-<h3 id="orgad2967f">將你的專案加入到 CircleCI</h3>
-<div class="outline-text-3" id="text-orgad2967f">
+<div id="outline-container-org96f0100" class="outline-3">
+<h3 id="org96f0100">將你的專案加入到 CircleCI</h3>
+<div class="outline-text-3" id="text-org96f0100">
 <p>
 該設定的東西設定好了以後，我們將程式碼上傳到 GitHub 就可以將專案加入到 CircleCI 去
 </p>
@@ -593,9 +593,9 @@ The key's randomart image is:
 </div>
 </div>
 
-<div id="outline-container-org2dd4abf" class="outline-2">
-<h2 id="org2dd4abf">取得本文的範例</h2>
-<div class="outline-text-2" id="text-org2dd4abf">
+<div id="outline-container-org8b1a294" class="outline-2">
+<h2 id="org8b1a294">取得本文的範例</h2>
+<div class="outline-text-2" id="text-org8b1a294">
 <p>
 本文的範例已經上傳到 <a href="https://github.com/clojure-tw/example-codox-circleci" target="_blank" rel="external">GitHub</a>, 你可以透過以下命令下載到本地來查看
 </p>
@@ -769,7 +769,7 @@ Happy Coding :)
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8f0a57e"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org28329b8"><span class="nav-text">加上基本的函式與測試</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3db3f42"><span class="nav-text">使用 codox 產生文檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc173afd"><span class="nav-text">讓 Circle CI 發佈你的文檔到 gh-pages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org8fe43e2"><span class="nav-text">circle.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4c64180"><span class="nav-text">deploy.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgad2967f"><span class="nav-text">將你的專案加入到 CircleCI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2dd4abf"><span class="nav-text">取得本文的範例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2fc25c6"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd5af219"><span class="nav-text">加上基本的函式與測試</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf2be0fc"><span class="nav-text">使用 codox 產生文檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3e1f815"><span class="nav-text">讓 Circle CI 發佈你的文檔到 gh-pages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd16ac23"><span class="nav-text">circle.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgbd94be7"><span class="nav-text">deploy.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org96f0100"><span class="nav-text">將你的專案加入到 CircleCI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8b1a294"><span class="nav-text">取得本文的範例</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

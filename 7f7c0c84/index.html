@@ -58,7 +58,7 @@
 <meta property="og:site_name" content="coldnew&#39;s blog">
 <meta property="og:description" content="Zephyr 是 Linux 基金會最近發佈的即時作業系統 (RTOS) 項目，主要用於物聯網以及 IOT 設備，其前身為 Wind River 的 Rocket RTOS。和 Linux Kernel 不同的是，Zephyr 原始碼採用的是 Apache-2.0 授權。    關於更多 Zephyr 相關資訊，請參考 Linux 基金會的 專案網站 或是 LinuxGizmos.com 的報導">
 <meta property="og:image" content="https://coldnew.github.io/7f7c0c84/menuconfig.png">
-<meta property="og:updated_time" content="2017-04-21T02:08:13.000Z">
+<meta property="og:updated_time" content="2017-04-25T01:16:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zephyr RTOS 開發記錄: 基本環境建立">
 <meta name="twitter:description" content="Zephyr 是 Linux 基金會最近發佈的即時作業系統 (RTOS) 項目，主要用於物聯網以及 IOT 設備，其前身為 Wind River 的 Rocket RTOS。和 Linux Kernel 不同的是，Zephyr 原始碼採用的是 Apache-2.0 授權。    關於更多 Zephyr 相關資訊，請參考 Linux 基金會的 專案網站 或是 LinuxGizmos.com 的報導">
@@ -198,8 +198,8 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2017-04-21T10:08:13+08:00" content="2017-04-21">
-            2017-04-21
+          <time itemprop="dateCreated" datetime="2017-04-25T09:16:32+08:00" content="2017-04-25">
+            2017-04-25
           </time>
         </span>
 
@@ -240,9 +240,9 @@
 本文只是記錄我試玩 <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr</a> 的一些資訊。
 </p>
 
-<div id="outline-container-orgc70fe51" class="outline-2">
-<h2 id="orgc70fe51">支援的開發版與平台</h2>
-<div class="outline-text-2" id="text-orgc70fe51">
+<div id="outline-container-org2dc82e4" class="outline-2">
+<h2 id="org2dc82e4">支援的開發版與平台</h2>
+<div class="outline-text-2" id="text-org2dc82e4">
 <p>
 在撰寫這篇文章時，<a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr</a> 共支援以下目標與平台: (很可惜這邊列的板子我半片都沒有 Orz&#x2026;)
 </p>
@@ -272,9 +272,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgaf95c24" class="outline-2">
-<h2 id="orgaf95c24">取得 Zephyr kernel 原始碼與 SDK</h2>
-<div class="outline-text-2" id="text-orgaf95c24">
+<div id="outline-container-org058141a" class="outline-2">
+<h2 id="org058141a">取得 Zephyr kernel 原始碼與 SDK</h2>
+<div class="outline-text-2" id="text-org058141a">
 <p>
 <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr</a> 原始碼採用 <i>git</i> 託管在 <a href="https://gerrit.zephyrproject.org/r/zephyr" target="_blank" rel="external">https://gerrit.zephyrproject.org/r/zephyr</a> 這網站，我們可以用以下方式取得 <i>v1.0.0</i> 原始碼。
 </p>
@@ -292,18 +292,18 @@ coldnew@Gentoo ~ $ wget https://nexus.zephyrproject.org/content/repositories/rel
 </pre>
 </div>
 
-<div id="outline-container-org030e68f" class="outline-3">
-<h3 id="org030e68f">安裝 SDK 前置作業</h3>
-<div class="outline-text-3" id="text-org030e68f">
+<div id="outline-container-orgf48083d" class="outline-3">
+<h3 id="orgf48083d">安裝 SDK 前置作業</h3>
+<div class="outline-text-3" id="text-orgf48083d">
 <p>
 除了下載 SDK 外，不同發行版的 Linux 還需要安裝一些 x86 函式庫來使用這份 SDK，具體請參照 <a href="https://www.zephyrproject.org/doc/getting_started/installation_linux.html" target="_blank" rel="external">Development Environment Setup on Linux</a> 一文，由於本人的 <i>Gentoo Linux</i> 運作良好，這邊就不贅述。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org68e69df" class="outline-3">
-<h3 id="org68e69df">安裝 SDK</h3>
-<div class="outline-text-3" id="text-org68e69df">
+<div id="outline-container-org85e5ea9" class="outline-3">
+<h3 id="org85e5ea9">安裝 SDK</h3>
+<div class="outline-text-3" id="text-org85e5ea9">
 <p>
 取得 SDK 後，先將它加上可執行權限
 </p>
@@ -359,9 +359,9 @@ coldnew@Gentoo /opt/zephyr-sdk $ tree -L 2 .
 </div>
 </div>
 
-<div id="outline-container-org6acfe34" class="outline-3">
-<h3 id="org6acfe34">設定 SDK</h3>
-<div class="outline-text-3" id="text-org6acfe34">
+<div id="outline-container-orgcd9c465" class="outline-3">
+<h3 id="orgcd9c465">設定 SDK</h3>
+<div class="outline-text-3" id="text-orgcd9c465">
 <p>
 安裝完 <a href="https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/" target="_blank" rel="external">Zephyr SDK</a> 後，我們可以設定以下環境變數來讓我們當前的 shell 可以使用這份 SDK
 </p>
@@ -386,9 +386,9 @@ EOF
 </div>
 </div>
 
-<div id="outline-container-org32a706b" class="outline-2">
-<h2 id="org32a706b">Hello World (x86 QEMU)</h2>
-<div class="outline-text-2" id="text-org32a706b">
+<div id="outline-container-orgb486630" class="outline-2">
+<h2 id="orgb486630">Hello World (x86 QEMU)</h2>
+<div class="outline-text-2" id="text-orgb486630">
 <p>
 完成 <a href="https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/" target="_blank" rel="external">Zephyr SDK</a> 的設定與安裝後，讓我們測試第一個範例程式 <i>Hello World</i> ，顧名思義就是會在虛擬機中顯示 <i>Hello World</i> 出來。
 </p>
@@ -485,9 +485,9 @@ coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make menuconfig
 </div>
 </div>
 
-<div id="outline-container-org711a18e" class="outline-2">
-<h2 id="org711a18e">Hello World (arm QEMU)</h2>
-<div class="outline-text-2" id="text-org711a18e">
+<div id="outline-container-org1359eba" class="outline-2">
+<h2 id="org1359eba">Hello World (arm QEMU)</h2>
+<div class="outline-text-2" id="text-org1359eba">
 <p>
 我們接下來試試 <i>Hello World</i> 運作在 ARM Cortex-M3 的 QEMU 的情況，了解更多後說不定我們就可以自己將 <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr</a> 移植到 STM32 平台，或是其他手中有的開發版環境去。
 </p>
@@ -535,9 +535,9 @@ zephyr.bin&lt;g&gt;  zephyr.elf&lt;g&gt;  zephyr.lnk  zephyr.lst  zephyr.map  ze
 </div>
 </div>
 
-<div id="outline-container-org6080060" class="outline-2">
-<h2 id="org6080060">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org6080060">
+<div id="outline-container-org7c76921" class="outline-2">
+<h2 id="org7c76921">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org7c76921">
 <p>
 <code>[1]</code> <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr Project Website</a>
 </p>
@@ -703,7 +703,7 @@ zephyr.bin&lt;g&gt;  zephyr.elf&lt;g&gt;  zephyr.lnk  zephyr.lst  zephyr.map  ze
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc70fe51"><span class="nav-text">支援的開發版與平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaf95c24"><span class="nav-text">取得 Zephyr kernel 原始碼與 SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org030e68f"><span class="nav-text">安裝 SDK 前置作業</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org68e69df"><span class="nav-text">安裝 SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6acfe34"><span class="nav-text">設定 SDK</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org32a706b"><span class="nav-text">Hello World (x86 QEMU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org711a18e"><span class="nav-text">Hello World (arm QEMU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6080060"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2dc82e4"><span class="nav-text">支援的開發版與平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org058141a"><span class="nav-text">取得 Zephyr kernel 原始碼與 SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf48083d"><span class="nav-text">安裝 SDK 前置作業</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org85e5ea9"><span class="nav-text">安裝 SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgcd9c465"><span class="nav-text">設定 SDK</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb486630"><span class="nav-text">Hello World (x86 QEMU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1359eba"><span class="nav-text">Hello World (arm QEMU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7c76921"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
