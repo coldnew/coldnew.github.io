@@ -30,6 +30,7 @@
 (package-install 'js2-mode)
 (package-install 'dot-mode)
 (package-install 'verilog-mode)
+(package-install 'json-mode)
 
 
 
@@ -59,3 +60,5 @@
   ;; init func
   nil
   "a emacs major-mode for u-language")
+
+
