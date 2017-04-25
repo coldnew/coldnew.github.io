@@ -268,9 +268,9 @@
 本文將簡述如何自行編譯 u-boot 以及 Linux Kernel，並搭配 Busybox 製作簡單的 RootFS 執行於 Zybo Board 上。
 </p>
 
-<div id="outline-container-orgb0f0b6d" class="outline-2">
-<h2 id="orgb0f0b6d">開發目標</h2>
-<div class="outline-text-2" id="text-orgb0f0b6d">
+<div id="outline-container-orgd35b387" class="outline-2">
+<h2 id="orgd35b387">開發目標</h2>
+<div class="outline-text-2" id="text-orgd35b387">
 <p>
 在這次的開發中，我們要編譯 u-boot、Linux，並使用 Busybox 製作簡單的 Rootfs 後，透過製作 SD 卡來讓 Zybo Board 透過 SD 卡開機。
 </p>
@@ -287,9 +287,9 @@
 </div>
 </div>
 
-<div id="outline-container-org6b9bff7" class="outline-2">
-<h2 id="org6b9bff7">了解開機流程</h2>
-<div class="outline-text-2" id="text-org6b9bff7">
+<div id="outline-container-orga754f02" class="outline-2">
+<h2 id="orga754f02">了解開機流程</h2>
+<div class="outline-text-2" id="text-orga754f02">
 <p>
 既然我們要讓 Zybo board 執行 Linux 系統，就要先來了解一下開機流程，才知道我們大概需要準備哪些東西。從  <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_1/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="external">Zynq-7000 All Programmable SoC: Embedded Design Tutorial - A Hands-On Guide to Effective Embedded System Design (UG1165)</a> 可以看到 Zynq-7000 執行 Linux 系統的開機流程圖。
 </p>
@@ -310,9 +310,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgc6bf48b" class="outline-2">
-<h2 id="orgc6bf48b">設定好環境</h2>
-<div class="outline-text-2" id="text-orgc6bf48b">
+<div id="outline-container-org0b94165" class="outline-2">
+<h2 id="org0b94165">設定好環境</h2>
+<div class="outline-text-2" id="text-org0b94165">
 <p>
 在安裝玩 Vivado 與 Xilinx SDK 後，實際上包含 Zynq 在用的 ARM toolchain 亦同時被安裝到系統中，我們只要使用 <code>source</code> 命令即可讓當前的環境知道 xilinx-arm toolchain 的路徑。這邊以 Viavdo 2016.2 作為範例。
 </p>
@@ -353,9 +353,9 @@ arm-xilinx-linux-gnueabi-gcc-4.9.2   arm-xilinx-linux-gnueabi-objcopy
 </div>
 </div>
 
-<div id="outline-container-org2958ca9" class="outline-2">
-<h2 id="org2958ca9">格式化 MicroSD 卡</h2>
-<div class="outline-text-2" id="text-org2958ca9">
+<div id="outline-container-org6c7c68c" class="outline-2">
+<h2 id="org6c7c68c">格式化 MicroSD 卡</h2>
+<div class="outline-text-2" id="text-org6c7c68c">
 <p>
 在這次的開發中，我們要設定 MicroSD 卡片成兩個分區，第一個是 <code>fat32</code> 格式，第二個則使用 <code>ext4</code> 格式，若不會使用 <code>fdisk</code> 命令的話，可以透過 <code>gparted</code> 來進行格式化，以下是我格式化卡片的範例 (8GB 卡片)。
 </p>
@@ -372,9 +372,9 @@ arm-xilinx-linux-gnueabi-gcc-4.9.2   arm-xilinx-linux-gnueabi-objcopy
 </div>
 </div>
 
-<div id="outline-container-org0f3f3e6" class="outline-2">
-<h2 id="org0f3f3e6">編譯 u-boot</h2>
-<div class="outline-text-2" id="text-org0f3f3e6">
+<div id="outline-container-org0d27ef2" class="outline-2">
+<h2 id="org0d27ef2">編譯 u-boot</h2>
+<div class="outline-text-2" id="text-org0d27ef2">
 <p>
 我們首先去 <a href="https://github.com/DigilentInc/u-boot-Digilent-Dev" target="_blank" rel="external">GitHub</a> 下載 DigilentInc 加入 zybo board 後的 u-boot 版本，要注意這邊要選擇 <code>master-next</code> 分支。
 </p>
@@ -413,9 +413,9 @@ coldnew@gentoo ~/u-boot-Digilent-Dev $ <span style="color: #aaccff;">CROSS_COMPI
 </div>
 </div>
 
-<div id="outline-container-orga1f8b87" class="outline-2">
-<h2 id="orga1f8b87">編譯 Linux kernel</h2>
-<div class="outline-text-2" id="text-orga1f8b87">
+<div id="outline-container-orgb85937c" class="outline-2">
+<h2 id="orgb85937c">編譯 Linux kernel</h2>
+<div class="outline-text-2" id="text-orgb85937c">
 <p>
 編譯好 u-boot 後，接下來就是編譯 Linux Kernel 了，我們一樣選擇 DigilentInc 加入 zybo board 後的 Linux Kernel 版本，記得要選 <code>master-next</code> 分支。
 </p>
@@ -476,9 +476,9 @@ coldnew@gentoo ~/Linux-Digilent-Dev $ <span style="color: #aaccff;">ARCH</span>=
 </div>
 </div>
 
-<div id="outline-container-org95e1dd1" class="outline-2">
-<h2 id="org95e1dd1">編譯 BusyBox</h2>
-<div class="outline-text-2" id="text-org95e1dd1">
+<div id="outline-container-orgcac9b69" class="outline-2">
+<h2 id="orgcac9b69">編譯 BusyBox</h2>
+<div class="outline-text-2" id="text-orgcac9b69">
 <p>
 <a href="http://www.busybox.net/" target="_blank" rel="external">Busybox</a> 是一個非常有趣的程式，舉凡我們在 Linux 下最常用的命令如 ls、cd 等到 sed、vi 他都具有相對應的簡單實現，此外，這些命令實際上都只是一個軟連結 (symlink) 連結到名為 busybox 的執行檔，也就是說，如果我們將 busybox 進行靜態編譯 (static link)，則製作出來的系統整體大小大約為 2 MB (kernel) + 1.4 MB (busybox)，而這個系統卻又可以具有許多 UN*X 下的常用命令，也因此 busybox 很常用於空間有限的系統。
 </p>
@@ -628,9 +628,9 @@ Entry Point:  00000000
 </div>
 </div>
 
-<div id="outline-container-org0ad5a81" class="outline-2">
-<h2 id="org0ad5a81">編譯位元流 (bitstream)</h2>
-<div class="outline-text-2" id="text-org0ad5a81">
+<div id="outline-container-org51e2029" class="outline-2">
+<h2 id="org51e2029">編譯位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-org51e2029">
 <p>
 在 <a href="https://coldnew.github.io/zybo-board/linux_bd/">zybo board 開發記錄: 升級 Digilent 提供的設計檔</a> 一文中，我們提到了怎樣升級 <a href="http://store.digilentinc.com/" target="_blank" rel="external">Digilent</a> 提供的預先定義好接腳的設定檔 (zybo_base_system) ，這次的專案，我們就直接用這個設定檔案來進行 Linux 開機的動作。
 </p>
@@ -710,9 +710,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-orgc1aeb1c" class="outline-2">
-<h2 id="orgc1aeb1c">建立 FSBL</h2>
-<div class="outline-text-2" id="text-orgc1aeb1c">
+<div id="outline-container-orgba70689" class="outline-2">
+<h2 id="orgba70689">建立 FSBL</h2>
+<div class="outline-text-2" id="text-orgba70689">
 <p>
 到此，我們除了 <code>第一階段開機程式 (First Stage Boot Loader, FSBL)</code> 外，其他的程式都已經編譯出執行檔了，讓我們來處理 FSBL 吧。
 </p>
@@ -791,9 +791,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-orge0a4bf6" class="outline-2">
-<h2 id="orge0a4bf6">建立 BOOT.bin</h2>
-<div class="outline-text-2" id="text-orge0a4bf6">
+<div id="outline-container-org7510b26" class="outline-2">
+<h2 id="org7510b26">建立 BOOT.bin</h2>
+<div class="outline-text-2" id="text-org7510b26">
 <p>
 編譯完 FSBL 後，選擇 <code>Xilinx Tools -&gt; Create Boot Image</code> 去建立我們的 BOOT.bin
 </p>
@@ -844,9 +844,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-org0e183fc" class="outline-2">
-<h2 id="org0e183fc">將檔案複製到 Micro SD 卡</h2>
-<div class="outline-text-2" id="text-org0e183fc">
+<div id="outline-container-org5e2e729" class="outline-2">
+<h2 id="org5e2e729">將檔案複製到 Micro SD 卡</h2>
+<div class="outline-text-2" id="text-org5e2e729">
 <p>
 好了，我們已經完成了所有準備動作，是時候將檔案放到 Micro SD 卡並看看結果了，在本文中我們會將以下幾個檔案放到 <code>第一個分割區 (fat32)</code> 。
 </p>
@@ -875,9 +875,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-org2c21be1" class="outline-2">
-<h2 id="org2c21be1">測試開機與結果</h2>
-<div class="outline-text-2" id="text-org2c21be1">
+<div id="outline-container-org37fc668" class="outline-2">
+<h2 id="org37fc668">測試開機與結果</h2>
+<div class="outline-text-2" id="text-org37fc668">
 <p>
 是時候來測試結果了，要注意到你的 Zybo Board 的 <code>JP5</code> 要設定成下面這樣，這樣給電時，Zynq 才會讀取 SD 卡上面的 u-boot 並將位元流 (bitstream) 燒錄到 FPGA 中。
 </p>
@@ -900,9 +900,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-orgada0db5" class="outline-2">
-<h2 id="orgada0db5">取得程式碼</h2>
-<div class="outline-text-2" id="text-orgada0db5">
+<div id="outline-container-org3feb6d5" class="outline-2">
+<h2 id="org3feb6d5">取得程式碼</h2>
+<div class="outline-text-2" id="text-org3feb6d5">
 <p>
 本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="external">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
 </p>
@@ -912,9 +912,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-org589791a" class="outline-2">
-<h2 id="org589791a">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org589791a">
+<div id="outline-container-orgf18b808" class="outline-2">
+<h2 id="orgf18b808">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgf18b808">
 <p>
 <code>[1]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_1/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="external">Zynq-7000 All Programmable SoC: Embedded Design Tutorial - A Hands-On Guide to Effective Embedded System Design (UG1165)</a>
 </p>
@@ -1090,7 +1090,7 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb0f0b6d"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6b9bff7"><span class="nav-text">了解開機流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc6bf48b"><span class="nav-text">設定好環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2958ca9"><span class="nav-text">格式化 MicroSD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0f3f3e6"><span class="nav-text">編譯 u-boot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga1f8b87"><span class="nav-text">編譯 Linux kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org95e1dd1"><span class="nav-text">編譯 BusyBox</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0ad5a81"><span class="nav-text">編譯位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc1aeb1c"><span class="nav-text">建立 FSBL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge0a4bf6"><span class="nav-text">建立 BOOT.bin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0e183fc"><span class="nav-text">將檔案複製到 Micro SD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2c21be1"><span class="nav-text">測試開機與結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgada0db5"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org589791a"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd35b387"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga754f02"><span class="nav-text">了解開機流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0b94165"><span class="nav-text">設定好環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6c7c68c"><span class="nav-text">格式化 MicroSD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0d27ef2"><span class="nav-text">編譯 u-boot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb85937c"><span class="nav-text">編譯 Linux kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcac9b69"><span class="nav-text">編譯 BusyBox</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org51e2029"><span class="nav-text">編譯位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgba70689"><span class="nav-text">建立 FSBL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7510b26"><span class="nav-text">建立 BOOT.bin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5e2e729"><span class="nav-text">將檔案複製到 Micro SD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org37fc668"><span class="nav-text">測試開機與結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3feb6d5"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf18b808"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

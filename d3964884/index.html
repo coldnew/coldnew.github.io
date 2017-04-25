@@ -39,7 +39,7 @@
 
 
 
-  <meta name="keywords" content="linux,msp430,launchpad,gentoo," />
+  <meta name="keywords" content="linux,gentoo,msp430,launchpad," />
 
 
 
@@ -51,7 +51,7 @@
 
 
 <meta name="description" content="Launchpad MSP430 是德州儀器 TI 所推出的 8-bit 微控器開發版，和知名的 Arduino 相比，Launchpad 價錢相對便宜 (約 NT $300)，並且可以自由更換板子 上面的 IC 進行燒錄。          大部分人進行 MSP430 開發的時候都會使用 TI 或是其他廠商所提供的整合開發 環境(IDE)，比如 CCS、IAR Embedded，這一類工具">
-<meta name="keywords" content="linux,msp430,launchpad,gentoo">
+<meta name="keywords" content="linux,gentoo,msp430,launchpad">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 Gentoo Linux 下開發 Launchpad MSP430 程式">
 <meta property="og:url" content="https://coldnew.github.io/d3964884/index.html">
@@ -251,9 +251,9 @@ msp430-gcc 似乎可以在 TI 的網站上找到與下載，如果你也是 Gent
 可以考慮直接使用 <code>crossdev</code> 來幫你建置 msp430 的 toolchain。
 </p>
 
-<div id="outline-container-org6e1a7f2" class="outline-2">
-<h2 id="org6e1a7f2">使用 crossdev 建立 msp430 編譯環境</h2>
-<div class="outline-text-2" id="text-org6e1a7f2">
+<div id="outline-container-org6f5150f" class="outline-2">
+<h2 id="org6f5150f">使用 crossdev 建立 msp430 編譯環境</h2>
+<div class="outline-text-2" id="text-org6f5150f">
 <p>
 我最喜歡 Gentoo Linux 的一點就是他有一套非常強大的 toolchain 建立系統
 <code>crossdev</code>, 使用 crossdev，可以很輕鬆的就建立出不同平台需要的 toolchain，
@@ -282,9 +282,9 @@ Rosia msp430 # emerge msgpdebug
 </div>
 </div>
 
-<div id="outline-container-orgaaec265" class="outline-2">
-<h2 id="orgaaec265">mspdebug 初步使用</h2>
-<div class="outline-text-2" id="text-orgaaec265">
+<div id="outline-container-org3b14108" class="outline-2">
+<h2 id="org3b14108">mspdebug 初步使用</h2>
+<div class="outline-text-2" id="text-org3b14108">
 <p>
 mspdebug 是 Anusha Beer 所提供的 opensource 作品，可以透過 libusb 直接與
 TI 以及其他 3rd party 廠商的燒錄除錯工具配合。其本身的使用方式非常簡單，以下
@@ -372,9 +372,9 @@ Press Ctrl+D to quit.
 </div>
 </div>
 
-<div id="outline-container-org3b81717" class="outline-2">
-<h2 id="org3b81717">第一個 Launchpad 程式: 閃爍燈</h2>
-<div class="outline-text-2" id="text-org3b81717">
+<div id="outline-container-org5d562c8" class="outline-2">
+<h2 id="org5d562c8">第一個 Launchpad 程式: 閃爍燈</h2>
+<div class="outline-text-2" id="text-org5d562c8">
 <p>
 Launcpad 上面提供了兩個可操作的 LED 讓使用者自行控制，即為下圖中紅框指
 向的地方
@@ -428,9 +428,9 @@ coldnew@Rosia ~/Workspace/msp430 $ msp430-gcc main.c -o main.elf
 </div>
 </div>
 
-<div id="outline-container-orgdadd252" class="outline-2">
-<h2 id="orgdadd252">動手寫 Makefile 簡化開發流程</h2>
-<div class="outline-text-2" id="text-orgdadd252">
+<div id="outline-container-org3e5e983" class="outline-2">
+<h2 id="org3e5e983">動手寫 Makefile 簡化開發流程</h2>
+<div class="outline-text-2" id="text-org3e5e983">
 <p>
 每次要測試、編譯程式碼時都很麻煩，所以我們可以自己寫個 Makefile 來進行
 簡化整個流程
@@ -469,9 +469,9 @@ coldnew@Rosia ~/Workspace/msp430 $ msp430-gcc main.c -o main.elf
 </div>
 </div>
 
-<div id="outline-container-org09a5da4" class="outline-2">
-<h2 id="org09a5da4">使用 Makefile 進行開發</h2>
-<div class="outline-text-2" id="text-org09a5da4">
+<div id="outline-container-org2f9590d" class="outline-2">
+<h2 id="org2f9590d">使用 Makefile 進行開發</h2>
+<div class="outline-text-2" id="text-org2f9590d">
 <p>
 完成 Makefile 後，我們整個開發所需要記住的命令就變成下面這樣了，是不是
 簡單多了 ~
@@ -530,11 +530,11 @@ coldnew@Rosia ~/Workspace/msp430 $ make clean
           
             <a href="/tags/linux/" rel="tag">#linux</a>
           
+            <a href="/tags/gentoo/" rel="tag">#gentoo</a>
+          
             <a href="/tags/msp430/" rel="tag">#msp430</a>
           
             <a href="/tags/launchpad/" rel="tag">#launchpad</a>
-          
-            <a href="/tags/gentoo/" rel="tag">#gentoo</a>
           
         </div>
       
@@ -680,7 +680,7 @@ coldnew@Rosia ~/Workspace/msp430 $ make clean
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6e1a7f2"><span class="nav-text">使用 crossdev 建立 msp430 編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaaec265"><span class="nav-text">mspdebug 初步使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3b81717"><span class="nav-text">第一個 Launchpad 程式: 閃爍燈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdadd252"><span class="nav-text">動手寫 Makefile 簡化開發流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org09a5da4"><span class="nav-text">使用 Makefile 進行開發</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6f5150f"><span class="nav-text">使用 crossdev 建立 msp430 編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3b14108"><span class="nav-text">mspdebug 初步使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5d562c8"><span class="nav-text">第一個 Launchpad 程式: 閃爍燈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3e5e983"><span class="nav-text">動手寫 Makefile 簡化開發流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2f9590d"><span class="nav-text">使用 Makefile 進行開發</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
