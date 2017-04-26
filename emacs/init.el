@@ -32,6 +32,9 @@
 (package-install 'verilog-mode)
 (package-install 'json-mode)
 
+;; We want to color the parentheses
+(package-install 'rainbow-delimiters)
+
 
 
 (defvar config-path
