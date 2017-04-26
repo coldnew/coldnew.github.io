@@ -63,7 +63,7 @@
 <meta property="og:image" content="https://coldnew.github.io/d48bba9e/a1.png">
 <meta property="og:image" content="https://coldnew.github.io/d48bba9e/a2.png">
 <meta property="og:image" content="https://coldnew.github.io/d48bba9e/a3.png">
-<meta property="og:updated_time" content="2017-04-24T15:16:44.000Z">
+<meta property="og:updated_time" content="2017-04-23T12:27:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="將 Orange Pi Zero 改造成 AirPlay 音頻播放器">
 <meta name="twitter:description" content="最近突然又想自己架設個簡單的 AirPlay 播放器，好透過 wifi 遠端播放我的 iPhone 或是 MacBook 上面的音樂。    剛好手邊的單板電腦都已經有各自的用途，於是便來找一片新的板子，最後鎖定了 Orange Pi Zero 這片開發板 (我選的是記憶體為 256 MB 的版本)。    會選這片的原因，主要是包含運費後他最便宜(大約 NT 362 元)，剩下要自己準備的則是">
@@ -203,8 +203,8 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2017-04-24T23:16:44+08:00" content="2017-04-24">
-            2017-04-24
+          <time itemprop="dateCreated" datetime="2017-04-23T20:27:00+08:00" content="2017-04-23">
+            2017-04-23
           </time>
         </span>
 
@@ -249,9 +249,9 @@
 這邊就來紀錄一下我怎樣進行設定的。
 </p>
 
-<div id="outline-container-org7f75bd6" class="outline-2">
-<h2 id="org7f75bd6">下載 Image</h2>
-<div class="outline-text-2" id="text-org7f75bd6">
+<div id="outline-container-org8a5c21f" class="outline-2">
+<h2 id="org8a5c21f">下載 Image</h2>
+<div class="outline-text-2" id="text-org8a5c21f">
 <p>
 首先連線到 <a href="http://www.orangepi.org/downloadresources/" target="_blank" rel="external"><a href="http://www.orangepi.org/downloadresources/" target="_blank" rel="external">http://www.orangepi.org/downloadresources/</a></a> ，取得你要用的 Image。由於我只是要用於文字介面，因此選擇 <code>Debian Server</code> 。
 </p>
@@ -272,9 +272,9 @@ coldnew@gentoo ~ $ sudo dd if=debian_server_For_OrangePizero_v0_9_2.img of=/dev/
 </div>
 </div>
 
-<div id="outline-container-orgca54560" class="outline-2">
-<h2 id="orgca54560">連接 UART</h2>
-<div class="outline-text-2" id="text-orgca54560">
+<div id="outline-container-org3f82bf0" class="outline-2">
+<h2 id="org3f82bf0">連接 UART</h2>
+<div class="outline-text-2" id="text-org3f82bf0">
 <p>
 將 SD 卡插上後，我會先透過 USB 轉 TTL 的轉接線來登入終端介面
 </p>
@@ -305,9 +305,9 @@ coldnew@gentoo ~ $ sudo dd if=debian_server_For_OrangePizero_v0_9_2.img of=/dev/
 </div>
 </div>
 
-<div id="outline-container-org1541afa" class="outline-2">
-<h2 id="org1541afa">預設帳號密碼</h2>
-<div class="outline-text-2" id="text-org1541afa">
+<div id="outline-container-org74762ae" class="outline-2">
+<h2 id="org74762ae">預設帳號密碼</h2>
+<div class="outline-text-2" id="text-org74762ae">
 <p>
 <a href="http://www.orangepi.org/orangepizero/" target="_blank" rel="external">Orange Pi Zero</a> 預設的帳號密碼是這樣的:
 </p>
@@ -330,9 +330,9 @@ Password:
 </div>
 </div>
 
-<div id="outline-container-orgdbfb5e1" class="outline-2">
-<h2 id="orgdbfb5e1">擴充檔案系統大小</h2>
-<div class="outline-text-2" id="text-orgdbfb5e1">
+<div id="outline-container-org096315b" class="outline-2">
+<h2 id="org096315b">擴充檔案系統大小</h2>
+<div class="outline-text-2" id="text-org096315b">
 <p>
 進入到系統的第一步，當然就是擴充 SD 卡的空間了
 </p>
@@ -361,9 +361,9 @@ Rootfs Extended. Please REBOOT to take effect
 </div>
 </div>
 
-<div id="outline-container-org15c449c" class="outline-2">
-<h2 id="org15c449c">設定 wifi</h2>
-<div class="outline-text-2" id="text-org15c449c">
+<div id="outline-container-org9446308" class="outline-2">
+<h2 id="org9446308">設定 wifi</h2>
+<div class="outline-text-2" id="text-org9446308">
 <p>
 我自己對於 wifi 的設定，一直都是習慣使用 <a href="https://zh.wikipedia.org/zh-tw/NetworkManager" target="_blank" rel="external">NetworkManager</a> 來進行的。因此在這邊先啟動 NetworkManager:
 </p>
@@ -466,9 +466,9 @@ root@OrangePizero:~# nmcli dev wifi connect &lt;essid&gt; password &lt;password&
 </div>
 </div>
 
-<div id="outline-container-orga305a39" class="outline-2">
-<h2 id="orga305a39">設定 avahi-daemon</h2>
-<div class="outline-text-2" id="text-orga305a39">
+<div id="outline-container-org1961384" class="outline-2">
+<h2 id="org1961384">設定 avahi-daemon</h2>
+<div class="outline-text-2" id="text-org1961384">
 <p>
 為了讓 Apple 設備可以透過 <a href="https://en.wikipedia.org/wiki/Zero-configuration_networking" target="_blank" rel="external">Zeroconf</a> 協定找到同一網域下的設備，我們必須啟用 <a href="https://en.wikipedia.org/wiki/Avahi_(software)" target="_blank" rel="external">Avahi</a>。
 </p>
@@ -484,9 +484,9 @@ root@OrangePizero:~# systemctl enable avahi-daemon
 </div>
 </div>
 
-<div id="outline-container-org07fad9d" class="outline-2">
-<h2 id="org07fad9d">編譯並安裝 shairport-sync</h2>
-<div class="outline-text-2" id="text-org07fad9d">
+<div id="outline-container-org60e6a1b" class="outline-2">
+<h2 id="org60e6a1b">編譯並安裝 shairport-sync</h2>
+<div class="outline-text-2" id="text-org60e6a1b">
 <p>
 首先，我們要安裝一些軟體來幫助我們編譯並安裝 Shairport。
 </p>
@@ -552,17 +552,17 @@ root@OrangePizero:~# systemctl start shairport-sync
 </div>
 </div>
 
-<div id="outline-container-org82eacec" class="outline-2">
-<h2 id="org82eacec">設定 USB DAC</h2>
-<div class="outline-text-2" id="text-org82eacec">
+<div id="outline-container-org2de440e" class="outline-2">
+<h2 id="org2de440e">設定 USB DAC</h2>
+<div class="outline-text-2" id="text-org2de440e">
 <p>
 我自己播放音樂的時候，都是透過 USB DAC 來進行播放的 (這樣音質較好)，因此要多進行一些步驟，讓 <a href="http://www.orangepi.org/orangepizero/" target="_blank" rel="external">Orange Pi Zero</a> 可以透過 USB 音效卡輸出。
 </p>
 </div>
 
-<div id="outline-container-org0c6db82" class="outline-3">
-<h3 id="org0c6db82">載入需要的驅動</h3>
-<div class="outline-text-3" id="text-org0c6db82">
+<div id="outline-container-orgecb3886" class="outline-3">
+<h3 id="orgecb3886">載入需要的驅動</h3>
+<div class="outline-text-3" id="text-orgecb3886">
 <p>
 正常來講，我們只要載入了 <code>snd_usb_audio</code> 這個驅動，就可以讓 ALSA 識別 USB 音效卡。
 </p>
@@ -620,9 +620,9 @@ Jan 01 00:38:08 OrangePizero systemd[1]: Started /etc/rc.local Compatibility.
 </div>
 </div>
 
-<div id="outline-container-org0979251" class="outline-3">
-<h3 id="org0979251">指定 ALSA 輸出設備</h3>
-<div class="outline-text-3" id="text-org0979251">
+<div id="outline-container-orgdc71b54" class="outline-3">
+<h3 id="orgdc71b54">指定 ALSA 輸出設備</h3>
+<div class="outline-text-3" id="text-orgdc71b54">
 <p>
 那我們要怎樣讓 ALSA 知道我們指定的 USB DAC 的輸出位置呢?
 </p>
@@ -657,9 +657,9 @@ defaults.ctl.card 2
 </div>
 </div>
 
-<div id="outline-container-orgffc8345" class="outline-2">
-<h2 id="orgffc8345">在 macOS 下透過 AirPlay 播放</h2>
-<div class="outline-text-2" id="text-orgffc8345">
+<div id="outline-container-orgd7747e8" class="outline-2">
+<h2 id="orgd7747e8">在 macOS 下透過 AirPlay 播放</h2>
+<div class="outline-text-2" id="text-orgd7747e8">
 <p>
 所有設定完成後，只要你的 macOS 和你的 AirPlay 設備在同一個網域，你就可以這樣找到他:
 </p>
@@ -686,9 +686,9 @@ defaults.ctl.card 2
 </div>
 </div>
 
-<div id="outline-container-orgac12a45" class="outline-2">
-<h2 id="orgac12a45">參考資料</h2>
-<div class="outline-text-2" id="text-orgac12a45">
+<div id="outline-container-org5ee03c5" class="outline-2">
+<h2 id="org5ee03c5">參考資料</h2>
+<div class="outline-text-2" id="text-org5ee03c5">
 <ul class="org-ul">
 <li><a href="http://linux-sunxi.org/Xunlong_Orange_Pi_Zero" target="_blank" rel="external">Xunlong Orange Pi Zero - linux-sunxi.org</a></li>
 
@@ -796,7 +796,7 @@ defaults.ctl.card 2
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
@@ -854,7 +854,7 @@ defaults.ctl.card 2
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org7f75bd6"><span class="nav-text">下載 Image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgca54560"><span class="nav-text">連接 UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1541afa"><span class="nav-text">預設帳號密碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdbfb5e1"><span class="nav-text">擴充檔案系統大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org15c449c"><span class="nav-text">設定 wifi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga305a39"><span class="nav-text">設定 avahi-daemon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org07fad9d"><span class="nav-text">編譯並安裝 shairport-sync</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org82eacec"><span class="nav-text">設定 USB DAC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org0c6db82"><span class="nav-text">載入需要的驅動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0979251"><span class="nav-text">指定 ALSA 輸出設備</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgffc8345"><span class="nav-text">在 macOS 下透過 AirPlay 播放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgac12a45"><span class="nav-text">參考資料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8a5c21f"><span class="nav-text">下載 Image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3f82bf0"><span class="nav-text">連接 UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org74762ae"><span class="nav-text">預設帳號密碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org096315b"><span class="nav-text">擴充檔案系統大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9446308"><span class="nav-text">設定 wifi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1961384"><span class="nav-text">設定 avahi-daemon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org60e6a1b"><span class="nav-text">編譯並安裝 shairport-sync</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2de440e"><span class="nav-text">設定 USB DAC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgecb3886"><span class="nav-text">載入需要的驅動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgdc71b54"><span class="nav-text">指定 ALSA 輸出設備</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd7747e8"><span class="nav-text">在 macOS 下透過 AirPlay 播放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5ee03c5"><span class="nav-text">參考資料</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

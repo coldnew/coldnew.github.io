@@ -57,7 +57,7 @@
 <meta property="og:url" content="https://coldnew.github.io/53ea73fa/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
 <meta property="og:description" content="在 Java 專案中，我們有很多自動化編譯工具可以用，比如 gradle 、sbt 、maven ，而對 於常寫 Clojure 又記憶力不好的人而言，是否能夠把 Java 用的編譯工具改成只用 Clojure 的 Leiningen 呢?    本文將介紹如何使用 Leiningen 來作為你的 Java 專案的構建系統。">
-<meta property="og:updated_time" content="2017-04-25T01:18:35.000Z">
+<meta property="og:updated_time" content="2015-03-09T12:59:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 Leiningen 作為 Java 構建工具">
 <meta name="twitter:description" content="在 Java 專案中，我們有很多自動化編譯工具可以用，比如 gradle 、sbt 、maven ，而對 於常寫 Clojure 又記憶力不好的人而言，是否能夠把 Java 用的編譯工具改成只用 Clojure 的 Leiningen 呢?    本文將介紹如何使用 Leiningen 來作為你的 Java 專案的構建系統。">
@@ -196,8 +196,8 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2017-04-25T09:18:35+08:00" content="2017-04-25">
-            2017-04-25
+          <time itemprop="dateCreated" datetime="2015-03-09T20:59:00+08:00" content="2015-03-09">
+            2015-03-09
           </time>
         </span>
 
@@ -236,9 +236,9 @@ Clojure 的 <a href="http://leiningen.org/" target="_blank" rel="external">Leini
 
 <a id="more"></a>
 
-<div id="outline-container-org8d1feee" class="outline-2">
-<h2 id="org8d1feee">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org8d1feee">
+<div id="outline-container-orge88c43d" class="outline-2">
+<h2 id="orge88c43d">建立我們的專案</h2>
+<div class="outline-text-2" id="text-orge88c43d">
 <p>
 本篇文章還是依照以往的規則，使用預設的 <i>lein</i> 樣板，因此我們這樣建立名為
 <i>myapp</i> 的專案:
@@ -267,9 +267,9 @@ coldnew@Rosia ~ $ lein new myapp
 </div>
 </div>
 
-<div id="outline-container-org9ca1917" class="outline-2">
-<h2 id="org9ca1917">Hello World</h2>
-<div class="outline-text-2" id="text-org9ca1917">
+<div id="outline-container-org0783c15" class="outline-2">
+<h2 id="org0783c15">Hello World</h2>
+<div class="outline-text-2" id="text-org0783c15">
 <p>
 我們建立一個名為 <code>src/java/myapp/HelloWorld.java</code> 的 Java 檔案，裡面加上最簡單的
 程式: Hello World。
@@ -298,18 +298,18 @@ Hello World!
 </div>
 </div>
 
-<div id="outline-container-orgbdb7e39" class="outline-2">
-<h2 id="orgbdb7e39">使用第三方函式: 以 Apache Common CSV 為例</h2>
-<div class="outline-text-2" id="text-orgbdb7e39">
+<div id="outline-container-org72cc795" class="outline-2">
+<h2 id="org72cc795">使用第三方函式: 以 Apache Common CSV 為例</h2>
+<div class="outline-text-2" id="text-org72cc795">
 <p>
 如果我們希望使用外部函式庫，作法則是和開發 clojure 是一樣的，首先編輯
 project.clj 並加上我們需要使用的第三方函式庫，這邊以 <a href="http://commons.apache.org/proper/commons-csv/project-info.html" target="_blank" rel="external">Apache Common CSV</a> 為例。
 </p>
 </div>
 
-<div id="outline-container-org11fed3d" class="outline-3">
-<h3 id="org11fed3d">編輯 project.clj</h3>
-<div class="outline-text-3" id="text-org11fed3d">
+<div id="outline-container-org2a71496" class="outline-3">
+<h3 id="org2a71496">編輯 project.clj</h3>
+<div class="outline-text-3" id="text-org2a71496">
 <p>
 在 <code>:dependencies</code> 欄位加入 Apache Common CSV 的函式庫資訊。
 </p>
@@ -336,9 +336,9 @@ coldnew@Rosia ~/myapp $ lein deps
 </div>
 </div>
 
-<div id="outline-container-org3631dfb" class="outline-3">
-<h3 id="org3631dfb">加入測試用的 csv 檔案</h3>
-<div class="outline-text-3" id="text-org3631dfb">
+<div id="outline-container-org7b3e070" class="outline-3">
+<h3 id="org7b3e070">加入測試用的 csv 檔案</h3>
+<div class="outline-text-3" id="text-org7b3e070">
 <p>
 為了可以確認我們的程式可以運作順利，這邊建立一個簡單的 CSV 檔案: <i>test.csv</i> ，其
 內容如下:
@@ -354,9 +354,9 @@ e,f
 </div>
 </div>
 
-<div id="outline-container-org88345c5" class="outline-3">
-<h3 id="org88345c5">java 主程式</h3>
-<div class="outline-text-3" id="text-org88345c5">
+<div id="outline-container-org1a3fdfc" class="outline-3">
+<h3 id="org1a3fdfc">java 主程式</h3>
+<div class="outline-text-3" id="text-org1a3fdfc">
 <p>
 剩下的就是撰寫我們 Java 主程式的時間囉 ~ 首先編輯 <code>src/java/myapp/CSVRead.java</code>
 ，在這個程式中，我們將第一個接收到的參數傳送給 CSVParser 並透過其功能將剛剛的
@@ -398,9 +398,9 @@ test.csv 內容解析並顯示出來。
 </div>
 </div>
 
-<div id="outline-container-orgb5f5246" class="outline-3">
-<h3 id="orgb5f5246">執行程式</h3>
-<div class="outline-text-3" id="text-orgb5f5246">
+<div id="outline-container-org7a2f028" class="outline-3">
+<h3 id="org7a2f028">執行程式</h3>
+<div class="outline-text-3" id="text-org7a2f028">
 <p>
 執行這個程式的方式和前面執行 Hello World 範例是一樣的，我們使用 <code>lein run</code> 並添
 加要解析的 csv 檔案給我們的程式。
@@ -416,9 +416,9 @@ e f
 </div>
 </div>
 
-<div id="outline-container-org03181fb" class="outline-2">
-<h2 id="org03181fb">將程式打包成 jar</h2>
-<div class="outline-text-2" id="text-org03181fb">
+<div id="outline-container-orge4ae0e3" class="outline-2">
+<h2 id="orge4ae0e3">將程式打包成 jar</h2>
+<div class="outline-text-2" id="text-orge4ae0e3">
 <p>
 在 lein 中我們可以使用 <code>lein uberjar</code> 將剛剛寫的程式進行打包。
 </p>
@@ -441,9 +441,9 @@ Hello World!
 </div>
 </div>
 
-<div id="outline-container-org18b57b2" class="outline-2">
-<h2 id="org18b57b2">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-org18b57b2">
+<div id="outline-container-org6d43097" class="outline-2">
+<h2 id="org6d43097">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-org6d43097">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -467,9 +467,9 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
 </div>
 </div>
 
-<div id="outline-container-org0f6a945" class="outline-2">
-<h2 id="org0f6a945">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org0f6a945">
+<div id="outline-container-org2aa2564" class="outline-2">
+<h2 id="org2aa2564">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org2aa2564">
 <p>
 <code>[1]</code> <a href="http://blog.pengyifan.com/how-to-read-csv-files-in-java-a-case-study-of-iterator-and-decorator/" target="_blank" rel="external">How to read CSV files in Java – A case study of Iterator and Decorator</a>
 </p>
@@ -579,7 +579,7 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
@@ -637,7 +637,7 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8d1feee"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9ca1917"><span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbdb7e39"><span class="nav-text">使用第三方函式: 以 Apache Common CSV 為例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org11fed3d"><span class="nav-text">編輯 project.clj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org3631dfb"><span class="nav-text">加入測試用的 csv 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org88345c5"><span class="nav-text">java 主程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb5f5246"><span class="nav-text">執行程式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org03181fb"><span class="nav-text">將程式打包成 jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org18b57b2"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0f6a945"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge88c43d"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0783c15"><span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org72cc795"><span class="nav-text">使用第三方函式: 以 Apache Common CSV 為例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org2a71496"><span class="nav-text">編輯 project.clj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7b3e070"><span class="nav-text">加入測試用的 csv 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1a3fdfc"><span class="nav-text">java 主程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7a2f028"><span class="nav-text">執行程式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge4ae0e3"><span class="nav-text">將程式打包成 jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6d43097"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2aa2564"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
