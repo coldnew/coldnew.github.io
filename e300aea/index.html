@@ -235,9 +235,9 @@ GTK 圖形介面以及 QT 圖形介面，會將你在螢幕上進行的動作錄
 此，我特別使用以下腳本來幫我產生 GIF 動畫檔案。
 </p>
 
-<div id="outline-container-orge1c6d54" class="outline-2">
-<h2 id="orge1c6d54">ogv 轉 gif 流程</h2>
-<div class="outline-text-2" id="text-orge1c6d54">
+<div id="outline-container-org2f33877" class="outline-2">
+<h2 id="org2f33877">ogv 轉 gif 流程</h2>
+<div class="outline-text-2" id="text-org2f33877">
 <p>
 整個 ogv 轉換成 gif 檔案的流程，是使用 mplayer 將影片檔案轉換成一張一張的圖
 片後，再透過 imagemagick 來將所有圖片整合回 GIF 檔案，但是由於這樣做出來的
@@ -291,9 +291,9 @@ output.gif 檔。
 </div>
 </div>
 
-<div id="outline-container-org6c7aea5" class="outline-2">
-<h2 id="org6c7aea5">完整轉換腳本</h2>
-<div class="outline-text-2" id="text-org6c7aea5">
+<div id="outline-container-org50212b8" class="outline-2">
+<h2 id="org50212b8">完整轉換腳本</h2>
+<div class="outline-text-2" id="text-org50212b8">
 <p>
 下面是我在使用的轉換腳本 (<a href="ogv2blog.sh">點我下載</a>)，整個暫存檔案都會在 /tmp 底下運作，完成後，會
 在你想要轉換的 input.ogv 檔案的目錄下產生同名的 .gif 檔案。
@@ -316,7 +316,7 @@ output.gif 檔。
 <span style="color: #aaffaa;">trap</span> <span style="color: #aadddd;">"rm -rf $OUTPUT_DIR &gt; /dev/null 2&gt;&amp;1"</span> exit
 
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">check if argv 1 is valid</span>
-<span style="color: #aaffaa;">if</span> [ -z $<span style="color: #aaccff;">FILE</span> ]; <span style="color: #aaffaa;">then</span>
+<span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">[</span> -z $<span style="color: #aaccff;">FILE</span> <span style="color: #aadddd;">]</span>; <span style="color: #aaffaa;">then</span>
     <span style="color: #ccaaff;">echo</span> <span style="color: #aadddd;">"USAGE:"</span>
     <span style="color: #ccaaff;">echo</span> <span style="color: #aadddd;">"      ogv2gif &lt;filename&gt;"</span>
     <span style="color: #ccaaff;">echo</span>
@@ -329,10 +329,10 @@ output.gif 檔。
 mplayer -ao null $<span style="color: #aaccff;">FILE</span> -vo jpeg:<span style="color: #aaccff;">outdir</span>=$<span style="color: #aaccff;">OUTPUT_DIR</span> &gt; /dev/null 2&gt;&amp;1
 
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">use imagemagick to convert images to gif</span>
-convert ${<span style="color: #aaccff;">OUTPUT_DIR</span>}/*.jpg ${<span style="color: #aaccff;">OUTPUT_DIR</span>}/${<span style="color: #aaccff;">OUTPUT_GIF</span>}
+convert $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">OUTPUT_DIR</span><span style="color: #aadddd;">}</span>/*.jpg $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">OUTPUT_DIR</span><span style="color: #aadddd;">}</span>/$<span style="color: #aadddd;">{</span><span style="color: #aaccff;">OUTPUT_GIF</span><span style="color: #aadddd;">}</span>
 
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">optimize gif to reduce size</span>
-convert ${<span style="color: #aaccff;">OUTPUT_DIR</span>}/${<span style="color: #aaccff;">OUTPUT_GIF</span>} -fuzz $<span style="color: #aaccff;">FUZZ</span> -layers Optimize $<span style="color: #aaccff;">OUTPUT_GIF</span>
+convert $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">OUTPUT_DIR</span><span style="color: #aadddd;">}</span>/$<span style="color: #aadddd;">{</span><span style="color: #aaccff;">OUTPUT_GIF</span><span style="color: #aadddd;">}</span> -fuzz $<span style="color: #aaccff;">FUZZ</span> -layers Optimize $<span style="color: #aaccff;">OUTPUT_GIF</span>
 
 <span style="color: #ccaaff;">echo</span> <span style="color: #aadddd;">"Finish: $OUTPUT_GIF created."</span>
 </pre>
@@ -493,7 +493,7 @@ convert ${<span style="color: #aaccff;">OUTPUT_DIR</span>}/${<span style="color:
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge1c6d54"><span class="nav-text">ogv 轉 gif 流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6c7aea5"><span class="nav-text">完整轉換腳本</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2f33877"><span class="nav-text">ogv 轉 gif 流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org50212b8"><span class="nav-text">完整轉換腳本</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -245,9 +245,9 @@ org-mode 文件進行加密。
 </div>
 </div>
 
-<div id="outline-container-orgada7756" class="outline-2">
-<h2 id="orgada7756">環境配置</h2>
-<div class="outline-text-2" id="text-orgada7756">
+<div id="outline-container-org800130d" class="outline-2">
+<h2 id="org800130d">環境配置</h2>
+<div class="outline-text-2" id="text-org800130d">
 <p>
 在使用本文章的資訊之前，你必須確保你的系統安裝有 gnupg，以下列出幾個常見
 的 Linux 系統的安裝方式，在大多數的情況下，你不需要自行安裝這些軟體。
@@ -287,9 +287,9 @@ org-mode 文件進行加密。
 </div>
 </div>
 
-<div id="outline-container-orgbbbe91f" class="outline-2">
-<h2 id="orgbbbe91f">.emacs 配置</h2>
-<div class="outline-text-2" id="text-orgbbbe91f">
+<div id="outline-container-org09d2684" class="outline-2">
+<h2 id="org09d2684">.emacs 配置</h2>
+<div class="outline-text-2" id="text-org09d2684">
 <p>
 要使用這個功能，你必須在你的 .emacs (emacs 設定文件) 下加入以下資訊。
 </p>
@@ -300,29 +300,29 @@ org-mode 文件進行加密。
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">org-mode &#35373;&#23450;</span>
-(<span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">org-crypt</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">org-crypt</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&#30070;&#34987;&#21152;&#23494;&#30340;&#37096;&#20221;&#35201;&#23384;&#20837;&#30828;&#30879;&#26178;&#65292;&#33258;&#21205;&#21152;&#23494;&#22238;&#21435;</span>
-(org-crypt-use-before-save-magic)
+<span style="color: #aadddd;">(</span>org-crypt-use-before-save-magic<span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&#35373;&#23450;&#35201;&#21152;&#23494;&#30340; tag &#27161;&#31844;&#28858; secret</span>
-(<span style="color: #aaffaa;">setq</span> org-crypt-tag-matcher <span style="color: #aadddd;">"secret"</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> org-crypt-tag-matcher <span style="color: #aadddd;">"secret"</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&#36991;&#20813; secret &#36889;&#20491; tag &#34987;&#23376;&#38917;&#30446;&#32380;&#25215; &#36896;&#25104;&#37325;&#35079;&#21152;&#23494;</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">(&#20294;&#26159;&#23376;&#38917;&#30446;&#36996;&#26159;&#26371;&#34987;&#21152;&#23494;&#21908;)</span>
-(<span style="color: #aaffaa;">setq</span> org-tags-exclude-from-inheritance (<span style="color: #aaffaa;">quote</span> (<span style="color: #aadddd;">"secret"</span>)))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> org-tags-exclude-from-inheritance <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">quote</span> <span style="color: #aaccff;">(</span><span style="color: #aadddd;">"secret"</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&#29992;&#26044;&#21152;&#23494;&#30340; GPG &#37329;&#38000;</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&#21487;&#20197;&#35373;&#23450;&#20219;&#20309; ID &#25110;&#26159;&#35373;&#25104; nil &#20358;&#20351;&#29992;&#23565;&#31281;&#24335;&#21152;&#23494; (symmetric encryption)</span>
-(<span style="color: #aaffaa;">setq</span> org-crypt-key nil)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> org-crypt-key nil<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga47f5b8" class="outline-2">
-<h2 id="orga47f5b8">配置說明</h2>
-<div class="outline-text-2" id="text-orga47f5b8">
+<div id="outline-container-org82eb9da" class="outline-2">
+<h2 id="org82eb9da">配置說明</h2>
+<div class="outline-text-2" id="text-org82eb9da">
 <ul class="org-ul">
 <li><p>
 當被加密的部份要存入硬碟時，自動加密回去
@@ -335,7 +335,7 @@ org-mode 文件進行加密。
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&#30070;&#34987;&#21152;&#23494;&#30340;&#37096;&#20221;&#35201;&#23384;&#20837;&#30828;&#30879;&#26178;&#65292;&#33258;&#21205;&#21152;&#23494;&#22238;&#21435;</span>
-(org-crypt-use-before-save-magic)
+<span style="color: #aadddd;">(</span>org-crypt-use-before-save-magic<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -357,7 +357,7 @@ tag 為 <code>secret</code> 時，會自動針對他進行加密的動作。
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&#35373;&#23450;&#35201;&#21152;&#23494;&#30340; tag &#27161;&#31844;&#28858; secret</span>
-(<span style="color: #aaffaa;">setq</span> org-crypt-tag-matcher <span style="color: #aadddd;">"secret"</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> org-crypt-tag-matcher <span style="color: #aadddd;">"secret"</span><span style="color: #aadddd;">)</span>
 </pre>
 </div></li>
 
@@ -373,7 +373,7 @@ tag 為 <code>secret</code> 時，會自動針對他進行加密的動作。
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&#36991;&#20813; secret &#36889;&#20491; tag &#34987;&#23376;&#38917;&#30446;&#32380;&#25215;</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">(&#20294;&#26159;&#23376;&#38917;&#30446;&#36996;&#26159;&#26371;&#34987;&#21152;&#23494;&#21908;)</span>
-(<span style="color: #aaffaa;">setq</span> org-tags-exclude-from-inheritance (<span style="color: #aaffaa;">quote</span> (<span style="color: #aadddd;">"secret"</span>)))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> org-tags-exclude-from-inheritance <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">quote</span> <span style="color: #aaccff;">(</span><span style="color: #aadddd;">"secret"</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div></li>
 
@@ -390,16 +390,16 @@ tag 為 <code>secret</code> 時，會自動針對他進行加密的動作。
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&#29992;&#26044;&#21152;&#23494;&#30340; GPG &#37329;&#38000;</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&#21487;&#20197;&#35373;&#23450;&#20219;&#20309; ID &#25110;&#26159;&#35373;&#25104; nil &#20358;&#20351;&#29992;&#23565;&#31281;&#24335;&#21152;&#23494; (symmetric encryption)</span>
-(<span style="color: #aaffaa;">setq</span> org-crypt-key nil)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> org-crypt-key nil<span style="color: #aadddd;">)</span>
 </pre>
 </div></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org8f2c3c0" class="outline-2">
-<h2 id="org8f2c3c0">在 org-mode 裡面進行加/解密</h2>
-<div class="outline-text-2" id="text-org8f2c3c0">
+<div id="outline-container-org4a8bf67" class="outline-2">
+<h2 id="org4a8bf67">在 org-mode 裡面進行加/解密</h2>
+<div class="outline-text-2" id="text-org4a8bf67">
 <ul class="org-ul">
 <li><p>
 加密某個項目
@@ -607,7 +607,7 @@ M-x org-decrpt-entry
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgada7756"><span class="nav-text">環境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbbbe91f"><span class="nav-text">.emacs 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga47f5b8"><span class="nav-text">配置說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8f2c3c0"><span class="nav-text">在 org-mode 裡面進行加/解密</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org800130d"><span class="nav-text">環境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org09d2684"><span class="nav-text">.emacs 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org82eb9da"><span class="nav-text">配置說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4a8bf67"><span class="nav-text">在 org-mode 裡面進行加/解密</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

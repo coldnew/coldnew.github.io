@@ -247,9 +247,9 @@
 當然，為了簡化本文的描述，我另外弄了個更簡單的實作版本～
 </p>
 
-<div id="outline-container-orgf15d5df" class="outline-2">
-<h2 id="orgf15d5df">建立我們的專案</h2>
-<div class="outline-text-2" id="text-orgf15d5df">
+<div id="outline-container-orgb62835f" class="outline-2">
+<h2 id="orgb62835f">建立我們的專案</h2>
+<div class="outline-text-2" id="text-orgb62835f">
 <p>
 本篇文章還是依照以往的規則，使用預設的 <i>lein</i> 樣板，因此我們這樣建立名為
 <i>mybot</i> 的專案:
@@ -265,44 +265,44 @@ coldnew@Rosia ~ $ lein new mybot
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">mybot</span> <span style="color: #aadddd;">"0.1.0"</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">mybot</span> <span style="color: #aadddd;">"0.1.0"</span>
   <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"A simple example to create irc/gitter bridge"</span>
   <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
-  <span style="color: #ccaaff;">:license</span> {<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
-            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span>}
-  <span style="color: #ccaaff;">:dependencies</span> [[<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span>]
-                 [<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>core.async <span style="color: #aadddd;">"0.2.374"</span>]
-                 [clj-http <span style="color: #aadddd;">"2.0.0"</span>]
-                 [<span style="color: #fff59d;">http.async.client</span> <span style="color: #aadddd;">"0.5.2"</span>]
-                 [irclj <span style="color: #aadddd;">"0.5.0-alpha4"</span>]
-                 [<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>data.json <span style="color: #aadddd;">"0.2.6"</span>]]
+  <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
+            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>core.async <span style="color: #aadddd;">"0.2.374"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span>clj-http <span style="color: #aadddd;">"2.0.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">http.async.client</span> <span style="color: #aadddd;">"0.5.2"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span>irclj <span style="color: #aadddd;">"0.5.0-alpha4"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>data.json <span style="color: #aadddd;">"0.2.6"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
   <span style="color: #ccaaff;">:aot</span> <span style="color: #ccaaff;">:all</span>
-  <span style="color: #ccaaff;">:main</span> <span style="color: #fff59d;">mybot.core</span>)
+  <span style="color: #ccaaff;">:main</span> <span style="color: #fff59d;">mybot.core</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf6ab16f" class="outline-2">
-<h2 id="orgf6ab16f">先弄個簡單的 Hello, Clojure!</h2>
-<div class="outline-text-2" id="text-orgf6ab16f">
+<div id="outline-container-org9efc0ea" class="outline-2">
+<h2 id="org9efc0ea">先弄個簡單的 Hello, Clojure!</h2>
+<div class="outline-text-2" id="text-org9efc0ea">
 <p>
 為了實現我們的 <del>野心</del> 程式，我們先修改 <code>src/mybot/core.clj</code> 讓我們可以使用 <code>lein
 run</code> 執行我們的程式，順便把需要使用的函式庫載入 (本文後面只會更改這個檔案）
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">mybot.core</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">irclj.core</span> <span style="color: #ccaaff;">:as</span> irc]
-            [<span style="color: #fff59d;">irclj.events</span> <span style="color: #ccaaff;">:as</span> events]
-            [<span style="color: #fff59d;">clj-http.client</span> <span style="color: #ccaaff;">:as</span> client]
-            [<span style="color: #fff59d;">http.async.client</span> <span style="color: #ccaaff;">:as</span> http]
-            [<span style="color: #fff59d;">clojure.data.json</span> <span style="color: #ccaaff;">:as</span> json]
-            [<span style="color: #fff59d;">clojure.core.async</span> <span style="color: #ccaaff;">:refer</span> [chan go-loop &gt;! &lt;! put!] <span style="color: #ccaaff;">:as</span> async])
-  (<span style="color: #ccaaff;">:gen-class</span>))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">mybot.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">irclj.core</span> <span style="color: #ccaaff;">:as</span> irc<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">irclj.events</span> <span style="color: #ccaaff;">:as</span> events<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">clj-http.client</span> <span style="color: #ccaaff;">:as</span> client<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">http.async.client</span> <span style="color: #ccaaff;">:as</span> http<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">clojure.data.json</span> <span style="color: #ccaaff;">:as</span> json<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">clojure.core.async</span> <span style="color: #ccaaff;">:refer</span> <span style="color: #aaeecc;">[</span>chan go-loop &gt;! &lt;! put!<span style="color: #aaeecc;">]</span> <span style="color: #ccaaff;">:as</span> async<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:gen-class</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (println <span style="color: #aadddd;">"Hello, Clojure!"</span>))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>println <span style="color: #aadddd;">"Hello, Clojure!"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -317,9 +317,9 @@ Hello, Clojure!
 </div>
 </div>
 
-<div id="outline-container-orgabb2cc4" class="outline-2">
-<h2 id="orgabb2cc4">取得 gitter token</h2>
-<div class="outline-text-2" id="text-orgabb2cc4">
+<div id="outline-container-org3bb025b" class="outline-2">
+<h2 id="org3bb025b">取得 gitter token</h2>
+<div class="outline-text-2" id="text-org3bb025b">
 <p>
 為了能夠將訊息發布到 gitter 上，我們必須取得你的 gitter 帳號的 token，這邊我使用
 的是 <a href="https://github.com/clojuretwbot" target="_blank" rel="external">clojuretwbot</a> 這個帳號去登入 <a href="https://developer.gitter.im/docs/welcome" target="_blank" rel="external">GITTER DEVELOPER</a> 網站，你會看到 gitter 提供了你這
@@ -343,9 +343,9 @@ Hello, Clojure!
 </div>
 </div>
 
-<div id="outline-container-orga95f494" class="outline-2">
-<h2 id="orga95f494">取得 gitter 的 ROOM ID</h2>
-<div class="outline-text-2" id="text-orga95f494">
+<div id="outline-container-orga972d69" class="outline-2">
+<h2 id="orga972d69">取得 gitter 的 ROOM ID</h2>
+<div class="outline-text-2" id="text-orga972d69">
 <p>
 除了 token 以外，因為我們要監聽/發布訊息到某個 gitter 頻道，因此要知道該頻道的 ROOM
 ID 才行，這邊可以參考 <a href="https://developer.gitter.im/docs/rooms-resource" target="_blank" rel="external">GITTER DEVELOPER ROOMS-RESOURCE</a> 這頁，我自己則是使用 <i>curl</i>
@@ -376,8 +376,8 @@ coldnew@Rosia ~ $ curl -i -H "Accept: application/json" -H "Authorization: Beare
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json">[
-    {
+<pre class="src src-json"><span style="color: #aadddd;">[</span>
+    <span style="color: #81d4fa;">{</span>
         <span style="color: #aaffaa;">"id"</span>: <span style="color: #aadddd;">"564cab6116b6c7089cbb32be"</span>,
         <span style="color: #aaffaa;">"name"</span>: <span style="color: #aadddd;">"clojure-tw\/test"</span>,
         <span style="color: #aaffaa;">"topic"</span>: <span style="color: #aadddd;">""</span>,
@@ -393,12 +393,12 @@ coldnew@Rosia ~ $ curl -i -H "Accept: application/json" -H "Authorization: Beare
         <span style="color: #aaffaa;">"githubType"</span>: <span style="color: #aadddd;">"ORG_CHANNEL"</span>,
         <span style="color: #aaffaa;">"security"</span>: <span style="color: #aadddd;">"PUBLIC"</span>,
         <span style="color: #aaffaa;">"noindex"</span>: <span style="color: #ccaaff;">false</span>,
-        <span style="color: #aaffaa;">"tags"</span>: [
+        <span style="color: #aaffaa;">"tags"</span>: <span style="color: #aaccff;">[</span>
 
-        ],
+        <span style="color: #aaccff;">]</span>,
         <span style="color: #aaffaa;">"roomMember"</span>: <span style="color: #ccaaff;">true</span>
-    }
-]
+    <span style="color: #81d4fa;">}</span>
+<span style="color: #aadddd;">]</span>
 </pre>
 </div>
 
@@ -408,17 +408,17 @@ coldnew@Rosia ~ $ curl -i -H "Accept: application/json" -H "Authorization: Beare
 </div>
 </div>
 
-<div id="outline-container-org4db2593" class="outline-2">
-<h2 id="org4db2593">將訊息發佈到 gitter 上</h2>
-<div class="outline-text-2" id="text-org4db2593">
+<div id="outline-container-orge38682b" class="outline-2">
+<h2 id="orge38682b">將訊息發佈到 gitter 上</h2>
+<div class="outline-text-2" id="text-orge38682b">
 <p>
 知道 gitter 的 token 以及 room-id 後，我們就可以試著手動送訊息到 gitter 上，我們
 先增加一個名為 <i>config</i> 的變數來存放比如 gitter 或是 irc 資訊用
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">config</span> {<span style="color: #ccaaff;">:gitter</span> {<span style="color: #ccaaff;">:token</span>   <span style="color: #aadddd;">"YOUR TOKEN"</span>
-                      <span style="color: #ccaaff;">:room-id</span> <span style="color: #aadddd;">"YOUR ROOM ID"</span>}})
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">config</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:gitter</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:token</span>   <span style="color: #aadddd;">"YOUR TOKEN"</span>
+                      <span style="color: #ccaaff;">:room-id</span> <span style="color: #aadddd;">"YOUR ROOM ID"</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -442,16 +442,16 @@ coldnew@Rosia ~ $ curl -i -H "Accept: application/json" -H "Authorization: Beare
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">send-to-gitter!</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">send-to-gitter!</span>
   <span style="color: #97abc6; font-style: italic;">"Send message to gitter."</span>
-  [message]
-  (<span style="color: #aaffaa;">let</span> [{<span style="color: #ccaaff;">:keys</span> [token room-id]} (<span style="color: #ccaaff;">:gitter</span> config)]
-    (<span style="color: #fff59d;">client</span><span style="color: #c6cccc; background-color: #202020;">/</span>post (str <span style="color: #aadddd;">"https://api.gitter.im/v1/rooms/"</span> room-id <span style="color: #aadddd;">"/chatMessages"</span>)
-                 {<span style="color: #ccaaff;">:content-type</span> <span style="color: #ccaaff;">:json</span>
+  <span style="color: #81d4fa;">[</span>message<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #ccaaff;">[</span>token room-id<span style="color: #ccaaff;">]</span><span style="color: #aaeecc;">}</span> <span style="color: #aaeecc;">(</span><span style="color: #ccaaff;">:gitter</span> config<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">client</span><span style="color: #c6cccc; background-color: #202020;">/</span>post <span style="color: #aaeecc;">(</span>str <span style="color: #aadddd;">"https://api.gitter.im/v1/rooms/"</span> room-id <span style="color: #aadddd;">"/chatMessages"</span><span style="color: #aaeecc;">)</span>
+                 <span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:content-type</span> <span style="color: #ccaaff;">:json</span>
                   <span style="color: #ccaaff;">:accept</span> <span style="color: #ccaaff;">:json</span>
-                  <span style="color: #ccaaff;">:headers</span> {<span style="color: #aadddd;">"Authorization"</span> (str <span style="color: #aadddd;">"Bearer "</span> token)}
-                  <span style="color: #ccaaff;">:conn-timeout</span> (* 10 1000)
-                  <span style="color: #ccaaff;">:body</span> (<span style="color: #fff59d;">json</span><span style="color: #c6cccc; background-color: #202020;">/</span>write-str {<span style="color: #ccaaff;">:text</span> message})})))
+                  <span style="color: #ccaaff;">:headers</span> <span style="color: #ccaaff;">{</span><span style="color: #aadddd;">"Authorization"</span> <span style="color: #fff59d;">(</span>str <span style="color: #aadddd;">"Bearer "</span> token<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">}</span>
+                  <span style="color: #ccaaff;">:conn-timeout</span> <span style="color: #ccaaff;">(</span>* 10 1000<span style="color: #ccaaff;">)</span>
+                  <span style="color: #ccaaff;">:body</span> <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">json</span><span style="color: #c6cccc; background-color: #202020;">/</span>write-str <span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:text</span> message<span style="color: #fff59d;">}</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -460,15 +460,15 @@ coldnew@Rosia ~ $ curl -i -H "Accept: application/json" -H "Authorization: Beare
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(send-to-gitter! <span style="color: #aadddd;">"Hi, this is a test!!"</span>)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>send-to-gitter! <span style="color: #aadddd;">"Hi, this is a test!!"</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge9ff52c" class="outline-2">
-<h2 id="orge9ff52c">從 gitter 取得訊息</h2>
-<div class="outline-text-2" id="text-orge9ff52c">
+<div id="outline-container-orgc4f429f" class="outline-2">
+<h2 id="orgc4f429f">從 gitter 取得訊息</h2>
+<div class="outline-text-2" id="text-orgc4f429f">
 <p>
 能夠傳送訊息到 gitter 後，接下來我們就要想辦法從 gitter 那邊將對話的訊息擷取出來，理
 論上我們傳送訊息給 gitter 時使用的是 <i>HTTP POST</i> 命令，那取得資訊應該就是用 <i>HTTP
@@ -491,17 +491,17 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">listen-gitter-event</span> []
-  (<span style="color: #aaffaa;">let</span> [{<span style="color: #ccaaff;">:keys</span> [token room-id]} (<span style="color: #ccaaff;">:gitter</span> config)]
-    (<span style="color: #aaffaa;">with-open</span> [conn (<span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span>create-client)]
-      (<span style="color: #aaffaa;">let</span> [resp (<span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span>stream-seq conn
-                                  <span style="color: #ccaaff;">:get</span> (str <span style="color: #aadddd;">"https://stream.gitter.im/v1/rooms/"</span> room-id <span style="color: #aadddd;">"/chatMessages"</span>)
-                                  <span style="color: #ccaaff;">:headers</span> {<span style="color: #aadddd;">"Authorization"</span> (str <span style="color: #aadddd;">"Bearer "</span> token) <span style="color: #aadddd;">"Connection"</span> <span style="color: #aadddd;">"keep-alive"</span>}
-                                  <span style="color: #ccaaff;">:timeout</span> -1)]
-        (<span style="color: #aaffaa;">doseq</span> [s (<span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span>string resp)]
-          (<span style="color: #aaffaa;">when-not</span> (<span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>blank? s)
-            (println (str s))
-            ))))))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">listen-gitter-event</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #ccaaff;">[</span>token room-id<span style="color: #ccaaff;">]</span><span style="color: #aaeecc;">}</span> <span style="color: #aaeecc;">(</span><span style="color: #ccaaff;">:gitter</span> config<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">with-open</span> <span style="color: #aaeecc;">[</span>conn <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span>create-client<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #ccaaff;">[</span>resp <span style="color: #fff59d;">(</span><span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span>stream-seq conn
+                                  <span style="color: #ccaaff;">:get</span> <span style="color: #ff8888;">(</span>str <span style="color: #aadddd;">"https://stream.gitter.im/v1/rooms/"</span> room-id <span style="color: #aadddd;">"/chatMessages"</span><span style="color: #ff8888;">)</span>
+                                  <span style="color: #ccaaff;">:headers</span> <span style="color: #ff8888;">{</span><span style="color: #aadddd;">"Authorization"</span> <span style="color: #795548;">(</span>str <span style="color: #aadddd;">"Bearer "</span> token<span style="color: #795548;">)</span> <span style="color: #aadddd;">"Connection"</span> <span style="color: #aadddd;">"keep-alive"</span><span style="color: #ff8888;">}</span>
+                                  <span style="color: #ccaaff;">:timeout</span> -1<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">]</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #fff59d;">[</span>s <span style="color: #ff8888;">(</span><span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span>string resp<span style="color: #ff8888;">)</span><span style="color: #fff59d;">]</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #ff8888;">(</span><span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>blank? s<span style="color: #ff8888;">)</span>
+            <span style="color: #ff8888;">(</span>println <span style="color: #795548;">(</span>str s<span style="color: #795548;">)</span><span style="color: #ff8888;">)</span>
+            <span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -510,12 +510,12 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json">{
+<pre class="src src-json"><span style="color: #aadddd;">{</span>
     <span style="color: #aaffaa;">"id"</span>: <span style="color: #aadddd;">"565526b4f59a8f0758a6a71b"</span>,
     <span style="color: #aaffaa;">"text"</span>: <span style="color: #aadddd;">"asd"</span>,
     <span style="color: #aaffaa;">"html"</span>: <span style="color: #aadddd;">"asd"</span>,
     <span style="color: #aaffaa;">"sent"</span>: <span style="color: #aadddd;">"2015-11-25T03:10:44.831Z"</span>,
-    <span style="color: #aaffaa;">"fromUser"</span>: {
+    <span style="color: #aaffaa;">"fromUser"</span>: <span style="color: #81d4fa;">{</span>
         <span style="color: #aaffaa;">"id"</span>: <span style="color: #aadddd;">"564c878816b6c7089cbb2d1e"</span>,
         <span style="color: #aaffaa;">"username"</span>: <span style="color: #aadddd;">"clojuretwbot"</span>,
         <span style="color: #aaffaa;">"displayName"</span>: <span style="color: #aadddd;">"Clojure-TW Bot"</span>,
@@ -524,23 +524,23 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
         <span style="color: #aaffaa;">"avatarUrlMedium"</span>: <span style="color: #aadddd;">"https:\/\/avatars1.githubusercontent.com\/u\/15867812?v=3&amp;s=128"</span>,
         <span style="color: #aaffaa;">"v"</span>: <span style="color: #ccaaff;">2</span>,
         <span style="color: #aaffaa;">"gv"</span>: <span style="color: #aadddd;">"3"</span>
-    },
+    <span style="color: #81d4fa;">}</span>,
     <span style="color: #aaffaa;">"unread"</span>: <span style="color: #ccaaff;">true</span>,
     <span style="color: #aaffaa;">"readBy"</span>: <span style="color: #ccaaff;">0</span>,
-    <span style="color: #aaffaa;">"urls"</span>: [
+    <span style="color: #aaffaa;">"urls"</span>: <span style="color: #81d4fa;">[</span>
 
-    ],
-    <span style="color: #aaffaa;">"mentions"</span>: [
+    <span style="color: #81d4fa;">]</span>,
+    <span style="color: #aaffaa;">"mentions"</span>: <span style="color: #81d4fa;">[</span>
 
-    ],
-    <span style="color: #aaffaa;">"issues"</span>: [
+    <span style="color: #81d4fa;">]</span>,
+    <span style="color: #aaffaa;">"issues"</span>: <span style="color: #81d4fa;">[</span>
 
-    ],
-    <span style="color: #aaffaa;">"meta"</span>: [
+    <span style="color: #81d4fa;">]</span>,
+    <span style="color: #aaffaa;">"meta"</span>: <span style="color: #81d4fa;">[</span>
 
-    ],
+    <span style="color: #81d4fa;">]</span>,
     <span style="color: #aaffaa;">"v"</span>: <span style="color: #ccaaff;">1</span>
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -551,7 +551,7 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">`</span><span style="color: #ccaaff; font-style: italic;">s</span><span style="color: #9ac; font-style: italic;">` is response from gitter</span>
-(<span style="color: #fff59d;">json</span><span style="color: #c6cccc; background-color: #202020;">/</span>read-str s <span style="color: #ccaaff;">:key-fn</span> keyword)
+<span style="color: #aadddd;">(</span><span style="color: #fff59d;">json</span><span style="color: #c6cccc; background-color: #202020;">/</span>read-str s <span style="color: #ccaaff;">:key-fn</span> keyword<span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; {</span><span style="color: #9ac; font-style: italic;">:mentions</span><span style="color: #9ac; font-style: italic;"> [], </span><span style="color: #9ac; font-style: italic;">:urls</span><span style="color: #9ac; font-style: italic;"> [], </span><span style="color: #9ac; font-style: italic;">:v</span><span style="color: #9ac; font-style: italic;"> 1, </span><span style="color: #9ac; font-style: italic;">:unread</span><span style="color: #9ac; font-style: italic;"> true, </span><span style="color: #9ac; font-style: italic;">:meta</span><span style="color: #9ac; font-style: italic;"> [], </span><span style="color: #9ac; font-style: italic;">:issues</span><span style="color: #9ac; font-style: italic;"> [], </span><span style="color: #9ac; font-style: italic;">:sent</span><span style="color: #9ac; font-style: italic;"> "2015-11-25T03:27:06.086Z", </span><span style="color: #9ac; font-style: italic;">:id</span><span style="color: #9ac; font-style: italic;"> "56552a8a63bfb30b58e4349e", </span><span style="color: #9ac; font-style: italic;">:readBy</span><span style="color: #9ac; font-style: italic;"> 0, </span><span style="color: #9ac; font-style: italic;">:fromUser</span><span style="color: #9ac; font-style: italic;"> {</span><span style="color: #9ac; font-style: italic;">:id</span><span style="color: #9ac; font-style: italic;"> "564c878816b6c7089cbb2d1e", </span><span style="color: #9ac; font-style: italic;">:username</span><span style="color: #9ac; font-style: italic;"> "clojuretwbot", </span><span style="color: #9ac; font-style: italic;">:displayName</span><span style="color: #9ac; font-style: italic;"> "Clojure-TW Bot", </span><span style="color: #9ac; font-style: italic;">:url</span><span style="color: #9ac; font-style: italic;"> "/clojuretwbot", </span><span style="color: #9ac; font-style: italic;">:avatarUrlSmall</span><span style="color: #9ac; font-style: italic;"> "https://avatars1.githubusercontent.com/u/15867812?v=3&amp;s=60", </span><span style="color: #9ac; font-style: italic;">:avatarUrlMedium</span><span style="color: #9ac; font-style: italic;"> "https://avatars1.githubusercontent.com/u/15867812?v=3&amp;s=128", </span><span style="color: #9ac; font-style: italic;">:v</span><span style="color: #9ac; font-style: italic;"> 2, </span><span style="color: #9ac; font-style: italic;">:gv</span><span style="color: #9ac; font-style: italic;"> "3"}, </span><span style="color: #9ac; font-style: italic;">:html</span><span style="color: #9ac; font-style: italic;"> "asd", </span><span style="color: #9ac; font-style: italic;">:text</span><span style="color: #9ac; font-style: italic;"> "asd"}</span>
 </pre>
 </div>
@@ -562,12 +562,12 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">doseq</span> [s (<span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span>string resp)]
-  (<span style="color: #aaffaa;">when-not</span> (<span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>blank? s)
-    (<span style="color: #aaffaa;">let</span> [{<span style="color: #ccaaff;">:keys</span> [<span style="color: #ff8888;">fromUser</span> text]} (<span style="color: #fff59d;">json</span><span style="color: #c6cccc; background-color: #202020;">/</span>read-str s <span style="color: #ccaaff;">:key-fn</span> keyword)
-          username (<span style="color: #ccaaff;">:username</span> <span style="color: #ff8888;">fromUser</span>)]
-      (println (str username <span style="color: #aadddd;">": "</span> text))
-      )))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #81d4fa;">[</span>s <span style="color: #aaccff;">(</span><span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span>string resp<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>blank? s<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaeecc;">[</span><span style="color: #ccaaff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #fff59d;">[</span><span style="color: #ff8888;">fromUser</span> text<span style="color: #fff59d;">]</span><span style="color: #ccaaff;">}</span> <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">json</span><span style="color: #c6cccc; background-color: #202020;">/</span>read-str s <span style="color: #ccaaff;">:key-fn</span> keyword<span style="color: #ccaaff;">)</span>
+          username <span style="color: #ccaaff;">(</span><span style="color: #ccaaff;">:username</span> <span style="color: #ff8888;">fromUser</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">]</span>
+      <span style="color: #aaeecc;">(</span>println <span style="color: #ccaaff;">(</span>str username <span style="color: #aadddd;">": "</span> text<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -577,9 +577,9 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </div>
 </div>
 
-<div id="outline-container-org449f179" class="outline-2">
-<h2 id="org449f179">從 irc 取得訊息</h2>
-<div class="outline-text-2" id="text-org449f179">
+<div id="outline-container-org7fde4cf" class="outline-2">
+<h2 id="org7fde4cf">從 irc 取得訊息</h2>
+<div class="outline-text-2" id="text-org7fde4cf">
 <p>
 完成 gitter 功能後，我們接下來要把 irc 訊息導向給 gitter 去，為了讓事情更簡單，這
 邊只考慮如何取得 irc 訊息即可。
@@ -595,12 +595,12 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">config</span> {<span style="color: #ccaaff;">:gitter</span> {<span style="color: #ccaaff;">:token</span>   <span style="color: #aadddd;">"YOUR TOKEN"</span>
-                      <span style="color: #ccaaff;">:room-id</span> <span style="color: #aadddd;">"YOUR ROOM ID"</span>}
-             <span style="color: #ccaaff;">:irc</span>    {<span style="color: #ccaaff;">:server</span> <span style="color: #aadddd;">"irc.freenode.net"</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">config</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:gitter</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:token</span>   <span style="color: #aadddd;">"YOUR TOKEN"</span>
+                      <span style="color: #ccaaff;">:room-id</span> <span style="color: #aadddd;">"YOUR ROOM ID"</span><span style="color: #aaccff;">}</span>
+             <span style="color: #ccaaff;">:irc</span>    <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:server</span> <span style="color: #aadddd;">"irc.freenode.net"</span>
                       <span style="color: #ccaaff;">:port</span> 6667
                       <span style="color: #ccaaff;">:nickname</span> <span style="color: #aadddd;">"bot12313213"</span>
-                      <span style="color: #ccaaff;">:channel</span> <span style="color: #aadddd;">"#test-bot"</span>}})
+                      <span style="color: #ccaaff;">:channel</span> <span style="color: #aadddd;">"#test-bot"</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -610,7 +610,7 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">conn</span> (atom <span style="color: #ccaaff;">nil</span>))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">conn</span> <span style="color: #81d4fa;">(</span>atom <span style="color: #ccaaff;">nil</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -625,21 +625,21 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">listen-irc-event</span> []
-  (<span style="color: #aaffaa;">let</span> [{<span style="color: #ccaaff;">:keys</span> [server port channel nickname]} (<span style="color: #ccaaff;">:irc</span> config)
-        c (<span style="color: #fff59d;">irclj.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>connect server port nickname
-                              <span style="color: #ccaaff;">:callbacks</span> {<span style="color: #ccaaff;">:privmsg</span> (<span style="color: #aaffaa;">fn</span> [ _ {<span style="color: #ccaaff;">:keys</span> [nick text]}]
-                                                     (println (str nick <span style="color: #aadddd;">": "</span> text)))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">listen-irc-event</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #ccaaff;">[</span>server port channel nickname<span style="color: #ccaaff;">]</span><span style="color: #aaeecc;">}</span> <span style="color: #aaeecc;">(</span><span style="color: #ccaaff;">:irc</span> config<span style="color: #aaeecc;">)</span>
+        c <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">irclj.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>connect server port nickname
+                              <span style="color: #ccaaff;">:callbacks</span> <span style="color: #ccaaff;">{</span><span style="color: #ccaaff;">:privmsg</span> <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #ff8888;">[</span> _ <span style="color: #795548;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #827717;">[</span>nick text<span style="color: #827717;">]</span><span style="color: #795548;">}</span><span style="color: #ff8888;">]</span>
+                                                     <span style="color: #ff8888;">(</span>println <span style="color: #795548;">(</span>str nick <span style="color: #aadddd;">": "</span> text<span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
                                           <span style="color: #ccaaff;">:raw-log</span> <span style="color: #fff59d;">irclj.events</span><span style="color: #c6cccc; background-color: #202020;">/</span>stdout-callback <span style="color: #9ac; font-style: italic;">; for debug</span>
-                                          })]
+                                          <span style="color: #ccaaff;">}</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">join to channel</span>
-    (<span style="color: #fff59d;">irclj.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>join c channel)
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">irclj.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>join c channel<span style="color: #aaccff;">)</span>
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">save the connection to atom</span>
-    (reset! conn c)
+    <span style="color: #aaccff;">(</span>reset! conn c<span style="color: #aaccff;">)</span>
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">tick the irc server to prevent get "Connection reset by peer" error.</span>
-    (while <span style="color: #ccaaff;">true</span>
-      (<span style="color: #fff59d;">irc</span><span style="color: #c6cccc; background-color: #202020;">/</span>message c server <span style="color: #aadddd;">"Hi"</span>)
-      (<span style="color: #fff59d;">Thread</span><span style="color: #c6cccc; background-color: #202020;">/</span>sleep 5000))))
+    <span style="color: #aaccff;">(</span>while <span style="color: #ccaaff;">true</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">irc</span><span style="color: #c6cccc; background-color: #202020;">/</span>message c server <span style="color: #aadddd;">"Hi"</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Thread</span><span style="color: #c6cccc; background-color: #202020;">/</span>sleep 5000<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -650,19 +650,19 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </div>
 </div>
 
-<div id="outline-container-org6f37854" class="outline-2">
-<h2 id="org6f37854">傳送訊息到 irc 上</h2>
-<div class="outline-text-2" id="text-org6f37854">
+<div id="outline-container-org1f0c1d1" class="outline-2">
+<h2 id="org1f0c1d1">傳送訊息到 irc 上</h2>
+<div class="outline-text-2" id="text-org1f0c1d1">
 <p>
 發送訊息其實就只是 <a href="https://github.com/Raynes/irclj" target="_blank" rel="external">irclj</a> 函式的使用而已
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">send-to-irc!</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">send-to-irc!</span>
   <span style="color: #97abc6; font-style: italic;">"Send message to irc."</span>
-  [message]
-  (<span style="color: #aaffaa;">let</span> [{<span style="color: #ccaaff;">:keys</span> [channel]} (<span style="color: #ccaaff;">:irc</span> config)]
-    (<span style="color: #fff59d;">irclj.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>message @conn channel message)))
+  <span style="color: #81d4fa;">[</span>message<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #ccaaff;">[</span>channel<span style="color: #ccaaff;">]</span><span style="color: #aaeecc;">}</span> <span style="color: #aaeecc;">(</span><span style="color: #ccaaff;">:irc</span> config<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">irclj.core</span><span style="color: #c6cccc; background-color: #202020;">/</span>message @conn channel message<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -671,15 +671,15 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(send-to-irc! <span style="color: #aadddd;">"Hi, this is a test!!"</span>)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>send-to-irc! <span style="color: #aadddd;">"Hi, this is a test!!"</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8fd63dc" class="outline-2">
-<h2 id="org8fd63dc">透過 core.async 進行整合</h2>
-<div class="outline-text-2" id="text-org8fd63dc">
+<div id="outline-container-orgf3a5982" class="outline-2">
+<h2 id="orgf3a5982">透過 core.async 進行整合</h2>
+<div class="outline-text-2" id="text-orgf3a5982">
 <p>
 完成了獨立的 gitter 與 irc 讀寫功能，現在我們要將這些功能合併成一個完整的專案那
 要怎樣作呢？我們要怎樣在收到 gitter 訊息後輕鬆愉快的將這些訊息丟到 queue 中並傳送給
@@ -701,8 +701,8 @@ irc 呢？
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">irc-chan</span>    (chan))
-(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">gitter-chan</span> (chan))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">irc-chan</span>    <span style="color: #81d4fa;">(</span>chan<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">gitter-chan</span> <span style="color: #81d4fa;">(</span>chan<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -713,13 +713,13 @@ irc 呢？
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">listen-gitter-event</span> []
-  (<span style="color: #aaffaa;">let</span> [{<span style="color: #ccaaff;">:keys</span> [token room-id]} (<span style="color: #ccaaff;">:gitter</span> config)]
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">listen-gitter-event</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #ccaaff;">[</span>token room-id<span style="color: #ccaaff;">]</span><span style="color: #aaeecc;">}</span> <span style="color: #aaeecc;">(</span><span style="color: #ccaaff;">:gitter</span> config<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip</span>
-    (<span style="color: #aaffaa;">let</span> [{<span style="color: #ccaaff;">:keys</span> [<span style="color: #ff8888;">fromUser</span> text]} (<span style="color: #fff59d;">json</span><span style="color: #c6cccc; background-color: #202020;">/</span>read-str s <span style="color: #ccaaff;">:key-fn</span> keyword)
-          username (<span style="color: #ccaaff;">:username</span> <span style="color: #ff8888;">fromUser</span>)]
-      (<span style="color: #aaffaa;">when-not</span> (re-find #<span style="color: #aadddd;">"ircbot"</span> text)
-        (put! gitter-chan (str <span style="color: #aadddd;">"&lt;"</span> username <span style="color: #aadddd;">"&gt;: "</span> text))))))
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaeecc;">[</span><span style="color: #ccaaff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #fff59d;">[</span><span style="color: #ff8888;">fromUser</span> text<span style="color: #fff59d;">]</span><span style="color: #ccaaff;">}</span> <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">json</span><span style="color: #c6cccc; background-color: #202020;">/</span>read-str s <span style="color: #ccaaff;">:key-fn</span> keyword<span style="color: #ccaaff;">)</span>
+          username <span style="color: #ccaaff;">(</span><span style="color: #ccaaff;">:username</span> <span style="color: #ff8888;">fromUser</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #ccaaff;">(</span>re-find #<span style="color: #aadddd;">"ircbot"</span> text<span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span>put! gitter-chan <span style="color: #fff59d;">(</span>str <span style="color: #aadddd;">"&lt;"</span> username <span style="color: #aadddd;">"&gt;: "</span> text<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -729,12 +729,12 @@ irc 呢？
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">listen-irc-event</span> []
-  (<span style="color: #aaffaa;">let</span> [{<span style="color: #ccaaff;">:keys</span> [server port channel nickname]} (<span style="color: #ccaaff;">:irc</span> config)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">listen-irc-event</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #ccaaff;">[</span>server port channel nickname<span style="color: #ccaaff;">]</span><span style="color: #aaeecc;">}</span> <span style="color: #aaeecc;">(</span><span style="color: #ccaaff;">:irc</span> config<span style="color: #aaeecc;">)</span>
         <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip</span>
-        <span style="color: #ccaaff;">:callbacks</span> {<span style="color: #ccaaff;">:privmsg</span> (<span style="color: #aaffaa;">fn</span> [ _ {<span style="color: #ccaaff;">:keys</span> [nick text]}]
-                               (<span style="color: #aaffaa;">when-not</span> (re-find (re-pattern nickname) nick)
-                                 (put! irc-chan (str <span style="color: #aadddd;">"`</span><span style="color: #ccaaff;">ircbot</span><span style="color: #aadddd;">` &lt;"</span> nick <span style="color: #aadddd;">"&gt;: "</span> text))))
+        <span style="color: #ccaaff;">:callbacks</span> <span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:privmsg</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #fff59d;">[</span> _ <span style="color: #ff8888;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #795548;">[</span>nick text<span style="color: #795548;">]</span><span style="color: #ff8888;">}</span><span style="color: #fff59d;">]</span>
+                               <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #ff8888;">(</span>re-find <span style="color: #795548;">(</span>re-pattern nickname<span style="color: #795548;">)</span> nick<span style="color: #ff8888;">)</span>
+                                 <span style="color: #ff8888;">(</span>put! irc-chan <span style="color: #795548;">(</span>str <span style="color: #aadddd;">"`</span><span style="color: #ccaaff;">ircbot</span><span style="color: #aadddd;">` &lt;"</span> nick <span style="color: #aadddd;">"&gt;: "</span> text<span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
         <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip</span>
 </pre>
 </div>
@@ -744,15 +744,15 @@ irc 呢？
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">event-loop</span> []
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">event-loop</span> <span style="color: #81d4fa;">[]</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">gitter -&gt; irc</span>
-  (go-loop []
-    (send-to-irc! (&lt;! gitter-chan))
-    (<span style="color: #aaffaa;">recur</span>))
+  <span style="color: #81d4fa;">(</span>go-loop <span style="color: #aaccff;">[]</span>
+    <span style="color: #aaccff;">(</span>send-to-irc! <span style="color: #aaeecc;">(</span>&lt;! gitter-chan<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">recur</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">irc -&gt; gitter</span>
-  (go-loop []
-    (send-to-gitter! (&lt;! irc-chan))
-    (<span style="color: #aaffaa;">recur</span>)))
+  <span style="color: #81d4fa;">(</span>go-loop <span style="color: #aaccff;">[]</span>
+    <span style="color: #aaccff;">(</span>send-to-gitter! <span style="color: #aaeecc;">(</span>&lt;! irc-chan<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">recur</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -761,20 +761,20 @@ irc 呢？
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">start event-loop</span>
-  (event-loop)
+  <span style="color: #81d4fa;">(</span>event-loop<span style="color: #81d4fa;">)</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">start listener</span>
-  (future (listen-irc-event))
-  (future (listen-gitter-event)))
+  <span style="color: #81d4fa;">(</span>future <span style="color: #aaccff;">(</span>listen-irc-event<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span>future <span style="color: #aaccff;">(</span>listen-gitter-event<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb4fd08a" class="outline-2">
-<h2 id="orgb4fd08a">測試我們的程式</h2>
-<div class="outline-text-2" id="text-orgb4fd08a">
+<div id="outline-container-org0ef0d4e" class="outline-2">
+<h2 id="org0ef0d4e">測試我們的程式</h2>
+<div class="outline-text-2" id="text-org0ef0d4e">
 <p>
 由於有些人可能不知道怎樣連線到 irc，因此這邊弄個簡單的測試介紹
 </p>
@@ -813,9 +813,9 @@ coldnew@Rosia ~/mybot $ lein run
 </div>
 </div>
 
-<div id="outline-container-orgb75f1d7" class="outline-2">
-<h2 id="orgb75f1d7">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-orgb75f1d7">
+<div id="outline-container-orgc371223" class="outline-2">
+<h2 id="orgc371223">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-orgc371223">
 <p>
 本篇文章是我寫完 <a href="https://github.com/clojure-tw/irc-bridge" target="_blank" rel="external">clojure-tw/irc-bridge</a> 後另外建立的簡單範例程式碼，因此一樣是存
 放在我自己的 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/mybot" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
@@ -839,9 +839,9 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/mybot
 </div>
 </div>
 
-<div id="outline-container-org4bf3375" class="outline-2">
-<h2 id="org4bf3375">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org4bf3375">
+<div id="outline-container-orgcb12a12" class="outline-2">
+<h2 id="orgcb12a12">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgcb12a12">
 <p>
 <code>[1]</code> <a href="https://github.com/clojure-tw/irc-bridge" target="_blank" rel="external">https://github.com/clojure-tw/irc-bridge</a>
 </p>
@@ -1005,7 +1005,7 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/mybot
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf15d5df"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf6ab16f"><span class="nav-text">先弄個簡單的 Hello, Clojure!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgabb2cc4"><span class="nav-text">取得 gitter token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga95f494"><span class="nav-text">取得 gitter 的 ROOM ID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4db2593"><span class="nav-text">將訊息發佈到 gitter 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge9ff52c"><span class="nav-text">從 gitter 取得訊息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org449f179"><span class="nav-text">從 irc 取得訊息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6f37854"><span class="nav-text">傳送訊息到 irc 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8fd63dc"><span class="nav-text">透過 core.async 進行整合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb4fd08a"><span class="nav-text">測試我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb75f1d7"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4bf3375"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb62835f"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9efc0ea"><span class="nav-text">先弄個簡單的 Hello, Clojure!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3bb025b"><span class="nav-text">取得 gitter token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga972d69"><span class="nav-text">取得 gitter 的 ROOM ID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge38682b"><span class="nav-text">將訊息發佈到 gitter 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc4f429f"><span class="nav-text">從 gitter 取得訊息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7fde4cf"><span class="nav-text">從 irc 取得訊息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1f0c1d1"><span class="nav-text">傳送訊息到 irc 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf3a5982"><span class="nav-text">透過 core.async 進行整合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0ef0d4e"><span class="nav-text">測試我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc371223"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcb12a12"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

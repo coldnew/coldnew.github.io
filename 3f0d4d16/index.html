@@ -362,20 +362,20 @@ Gentoo kernel # crossdev -S -t armv7a-hardfloat-linux-gnueabi
 <pre class="src src-sh"><span style="color: #5f5f5f; font-style: italic;">#</span><span style="color: #9ac; font-style: italic;">!/bin/</span><span style="color: #aaffaa;">bash</span>
 <span style="color: #aaccff;">PROFILE_DIR</span>=<span style="color: #aadddd;">"/etc/portage"</span>
 
-<span style="color: #aaffaa;">if</span> [ <span style="color: #ff3333;">!</span> -e ${<span style="color: #aaccff;">PROFILE_DIR</span>} ]; <span style="color: #aaffaa;">then</span>
-    mkdir ${<span style="color: #aaccff;">PROFILE_DIR</span>};
+<span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">[</span> <span style="color: #ff3333;">!</span> -e $<span style="color: #81d4fa;">{</span><span style="color: #aaccff;">PROFILE_DIR</span><span style="color: #81d4fa;">}</span> <span style="color: #aadddd;">]</span>; <span style="color: #aaffaa;">then</span>
+    mkdir $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">PROFILE_DIR</span><span style="color: #aadddd;">}</span>;
 <span style="color: #aaffaa;">fi</span>
 
 <span style="color: #aaffaa;">for</span> PACK_DIR<span style="color: #aaffaa;"> in</span> package.accept_keywords package.keywords package.use package.unmask package.mask; <span style="color: #aaffaa;">do</span>
     <span style="color: #aaccff;">CUR_DIR</span>=<span style="color: #aadddd;">"${PROFILE_DIR}/${PACK_DIR}"</span>
-    <span style="color: #aaffaa;">if</span> [ <span style="color: #ff3333;">!</span> -e ${<span style="color: #aaccff;">CUR_DIR</span>} ]; <span style="color: #aaffaa;">then</span>
-        mkdir ${<span style="color: #aaccff;">CUR_DIR</span>}
+    <span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">[</span> <span style="color: #ff3333;">!</span> -e $<span style="color: #81d4fa;">{</span><span style="color: #aaccff;">CUR_DIR</span><span style="color: #81d4fa;">}</span> <span style="color: #aadddd;">]</span>; <span style="color: #aaffaa;">then</span>
+        mkdir $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">CUR_DIR</span><span style="color: #aadddd;">}</span>
     <span style="color: #aaffaa;">fi</span>
 
-    <span style="color: #aaffaa;">if</span> [ -e ${<span style="color: #aaccff;">CUR_DIR</span>} -a <span style="color: #ff3333;">!</span> -d ${<span style="color: #aaccff;">CUR_DIR</span>} ]; <span style="color: #aaffaa;">then</span>
-        mv ${<span style="color: #aaccff;">CUR_DIR</span>} ${<span style="color: #aaccff;">CUR_DIR</span>}.moving
-        mkdir ${<span style="color: #aaccff;">CUR_DIR</span>}
-        mv ${<span style="color: #aaccff;">CUR_DIR</span>}.moving ${<span style="color: #aaccff;">CUR_DIR</span>}/monolithic
+    <span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">[</span> -e $<span style="color: #81d4fa;">{</span><span style="color: #aaccff;">CUR_DIR</span><span style="color: #81d4fa;">}</span> -a <span style="color: #ff3333;">!</span> -d $<span style="color: #81d4fa;">{</span><span style="color: #aaccff;">CUR_DIR</span><span style="color: #81d4fa;">}</span> <span style="color: #aadddd;">]</span>; <span style="color: #aaffaa;">then</span>
+        mv $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">CUR_DIR</span><span style="color: #aadddd;">}</span> $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">CUR_DIR</span><span style="color: #aadddd;">}</span>.moving
+        mkdir $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">CUR_DIR</span><span style="color: #aadddd;">}</span>
+        mv $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">CUR_DIR</span><span style="color: #aadddd;">}</span>.moving $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">CUR_DIR</span><span style="color: #aadddd;">}</span>/monolithic
     <span style="color: #aaffaa;">fi</span>
 <span style="color: #aaffaa;">done</span>
 
@@ -424,9 +424,9 @@ Gentoo kernel # tree -L 2 /usr/local/portage/
 8 directories, 2 files
 </pre>
 
-<div id="outline-container-orgedeac45" class="outline-2">
-<h2 id="orgedeac45">建立其他平台的 toolchain</h2>
-<div class="outline-text-2" id="text-orgedeac45">
+<div id="outline-container-org6f342fa" class="outline-2">
+<h2 id="org6f342fa">建立其他平台的 toolchain</h2>
+<div class="outline-text-2" id="text-org6f342fa">
 <p>
 在上面我們講解到了如何使用 crossdev 建立 <code>ARMv7a HardFloat</code> 的 Linux toolchain，
 那如果我們的目標是裸版 (baremetal)呢?
@@ -482,21 +482,21 @@ Gentoo stm32 # crossdev -S USE="-fortran -mudflap -nls -openmp multilib" EXTRA_E
 </div>
 </div>
 
-<div id="outline-container-orgd21fe93" class="outline-2">
-<h2 id="orgd21fe93">測試我們建立的 toolchain</h2>
-<div class="outline-text-2" id="text-orgd21fe93">
+<div id="outline-container-org799eca8" class="outline-2">
+<h2 id="org799eca8">測試我們建立的 toolchain</h2>
+<div class="outline-text-2" id="text-org799eca8">
 <p>
 建立完 toolchain 後，我們可以用簡單的程式搭配 QEMU 來測試我們的 toolchain 是否能正常
 工作，此處以 <code>armv7a-hardfloat-linux-gnueabi-</code> 作為範例，首先建立以下檔案並命名為 <code>hello.c</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;stdio.h&gt;</span>
-<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span>()
-{
-        printf(<span style="color: #aadddd;">"Hello cross-compiling world!\n"</span>);
+<pre class="src src-c"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdio.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span><span style="color: #aadddd;">()</span>
+<span style="color: #aadddd;">{</span>
+        printf<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Hello cross-compiling world!\n"</span><span style="color: #81d4fa;">)</span>;
         <span style="color: #aaffaa;">return</span> 0;
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -529,9 +529,9 @@ Hello cross-compiling world!
 </div>
 </div>
 
-<div id="outline-container-org62be299" class="outline-2">
-<h2 id="org62be299">參考連結</h2>
-<div class="outline-text-2" id="text-org62be299">
+<div id="outline-container-org617885d" class="outline-2">
+<h2 id="org617885d">參考連結</h2>
+<div class="outline-text-2" id="text-org617885d">
 <p>
 <code>[1]</code> <a href="http://gentoo-en.vfose.ru/wiki/Crossdev" target="_blank" rel="external">http://gentoo-en.vfose.ru/wiki/Crossdev</a>
 </p>
@@ -697,7 +697,7 @@ Hello cross-compiling world!
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgedeac45"><span class="nav-text">建立其他平台的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd21fe93"><span class="nav-text">測試我們建立的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org62be299"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6f342fa"><span class="nav-text">建立其他平台的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org799eca8"><span class="nav-text">測試我們建立的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org617885d"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

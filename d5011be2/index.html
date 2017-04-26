@@ -281,19 +281,19 @@
 配的資料進行調整字體大小。以下是我用的 elisp code:
 </p>
 
-<div id="outline-container-org4227a49" class="outline-2">
-<h2 id="org4227a49">定義和字體相關的變數</h2>
-<div class="outline-text-2" id="text-org4227a49">
+<div id="outline-container-org8e4f7d2" class="outline-2">
+<h2 id="org8e4f7d2">定義和字體相關的變數</h2>
+<div class="outline-text-2" id="text-org8e4f7d2">
 <p>
 首先先定義自己想使用的中英文字體
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-english-font</span> <span style="color: #aadddd;">"Monaco"</span>
-  <span style="color: #97abc6; font-style: italic;">"The font name of English."</span>)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-english-font</span> <span style="color: #aadddd;">"Monaco"</span>
+  <span style="color: #97abc6; font-style: italic;">"The font name of English."</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-cjk-font</span> <span style="color: #aadddd;">"Hiragino Sans GB W3"</span>
-  <span style="color: #97abc6; font-style: italic;">"The font name for CJK."</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-cjk-font</span> <span style="color: #aadddd;">"Hiragino Sans GB W3"</span>
+  <span style="color: #97abc6; font-style: italic;">"The font name for CJK."</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -309,24 +309,24 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-font-size-pair</span> '(15 . 18)
-  <span style="color: #97abc6; font-style: italic;">"Default font size pair for (english . chinese)"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-font-size-pair</span> '<span style="color: #81d4fa;">(</span>15 . 18<span style="color: #81d4fa;">)</span>
+  <span style="color: #97abc6; font-style: italic;">"Default font size pair for (english . chinese)"</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-font-size-pair-list</span>
-  '(( 5 .  6) (10 . 12)
-    (13 . 16) (15 . 18) (17 . 20)
-    (19 . 22) (20 . 24) (21 . 26)
-    (24 . 28) (26 . 32) (28 . 34)
-    (30 . 36) (34 . 40) (36 . 44))
-  <span style="color: #97abc6; font-style: italic;">"This list is used to store matching (englis . chinese) font-size."</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-font-size-pair-list</span>
+  '<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span> 5 .  6<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>10 . 12<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>13 . 16<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>15 . 18<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>17 . 20<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>19 . 22<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>20 . 24<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>21 . 26<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>24 . 28<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>26 . 32<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>28 . 34<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>30 . 36<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>34 . 40<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>36 . 44<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #97abc6; font-style: italic;">"This list is used to store matching (englis . chinese) font-size."</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga85024d" class="outline-2">
-<h2 id="orga85024d">在圖形介面下調整字體設定</h2>
-<div class="outline-text-2" id="text-orga85024d">
+<div id="outline-container-org130c400" class="outline-2">
+<h2 id="org130c400">在圖形介面下調整字體設定</h2>
+<div class="outline-text-2" id="text-org130c400">
 <p>
 這邊主要定義 <b>set-font</b> 這個函式，他會根據傳送給他的字體資訊，即時設定
 整個 emacs 的字體大小，這樣也不會有切換 buffer，但是字體確沒有跟著之前的
@@ -334,22 +334,22 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">font-exist-p</span> (fontname)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">font-exist-p</span> <span style="color: #81d4fa;">(</span>fontname<span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"Test if this font is exist or not."</span>
-  (<span style="color: #aaffaa;">if</span> (<span style="color: #aaffaa;">or</span> (not fontname) (string= fontname <span style="color: #aadddd;">""</span>))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">or</span> <span style="color: #aaeecc;">(</span>not fontname<span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span>string= fontname <span style="color: #aadddd;">""</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
       nil
-    (<span style="color: #aaffaa;">if</span> (not (x-list-fonts fontname)) nil t)))
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaeecc;">(</span>not <span style="color: #ccaaff;">(</span>x-list-fonts fontname<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span> nil t<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">set-font</span> (english chinese size-pair)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">set-font</span> <span style="color: #81d4fa;">(</span>english chinese size-pair<span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"Setup emacs English and Chinese font on x window-system."</span>
 
-  (<span style="color: #aaffaa;">if</span> (font-exist-p english)
-      (set-frame-font (format <span style="color: #aadddd;">"%s:pixelsize=%d"</span> english (car size-pair)) t))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaccff;">(</span>font-exist-p english<span style="color: #aaccff;">)</span>
+      <span style="color: #aaccff;">(</span>set-frame-font <span style="color: #aaeecc;">(</span>format <span style="color: #aadddd;">"%s:pixelsize=%d"</span> english <span style="color: #ccaaff;">(</span>car size-pair<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span> t<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
 
-  (<span style="color: #aaffaa;">if</span> (font-exist-p chinese)
-      (<span style="color: #aaffaa;">dolist</span> (charset '(kana han symbol cjk-misc bopomofo))
-        (set-fontset-font (frame-parameter nil 'font) charset
-                          (font-spec <span style="color: #ccaaff;">:family</span> chinese <span style="color: #ccaaff;">:size</span> (cdr size-pair))))))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaccff;">(</span>font-exist-p chinese<span style="color: #aaccff;">)</span>
+      <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">dolist</span> <span style="color: #aaeecc;">(</span>charset '<span style="color: #ccaaff;">(</span>kana han symbol cjk-misc bopomofo<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+        <span style="color: #aaeecc;">(</span>set-fontset-font <span style="color: #ccaaff;">(</span>frame-parameter nil 'font<span style="color: #ccaaff;">)</span> charset
+                          <span style="color: #ccaaff;">(</span>font-spec <span style="color: #ccaaff;">:family</span> chinese <span style="color: #ccaaff;">:size</span> <span style="color: #fff59d;">(</span>cdr size-pair<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -359,15 +359,15 @@
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Setup font size based on emacs-font-size-pair</span>
-(set-font emacs-english-font emacs-cjk-font emacs-font-size-pair)
+<span style="color: #aadddd;">(</span>set-font emacs-english-font emacs-cjk-font emacs-font-size-pair<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc84e69c" class="outline-2">
-<h2 id="orgc84e69c">使用 C-= 或是 C&#x2013; 來調整字體大小</h2>
-<div class="outline-text-2" id="text-orgc84e69c">
+<div id="outline-container-org5513bac" class="outline-2">
+<h2 id="org5513bac">使用 C-= 或是 C&#x2013; 來調整字體大小</h2>
+<div class="outline-text-2" id="text-org5513bac">
 <p>
 能夠設定字體後，接著我們必須根據我們設定字體的規則，另外定義一個改變字
 體的函式，這個函式將根據 <b>emacs-font-size-pair-list</b> 去找尋前一個/後一
@@ -375,16 +375,16 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">emacs-step-font-size</span> (step)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">emacs-step-font-size</span> <span style="color: #81d4fa;">(</span>step<span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"Increase/Decrease emacs's font size."</span>
-  (<span style="color: #aaffaa;">let</span> ((scale-steps emacs-font-size-pair-list))
-    (<span style="color: #aaffaa;">if</span> (&lt; step 0) (<span style="color: #aaffaa;">setq</span> scale-steps (reverse scale-steps)))
-    (<span style="color: #aaffaa;">setq</span> emacs-font-size-pair
-          (<span style="color: #aaffaa;">or</span> (cadr (member emacs-font-size-pair scale-steps))
-              emacs-font-size-pair))
-    (<span style="color: #aaffaa;">when</span> emacs-font-size-pair
-      (message <span style="color: #aadddd;">"emacs font size set to %.1f"</span> (car emacs-font-size-pair))
-      (set-font emacs-english-font emacs-cjk-font emacs-font-size-pair))))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>scale-steps emacs-font-size-pair-list<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaeecc;">(</span>&lt; step 0<span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">setq</span> scale-steps <span style="color: #ccaaff;">(</span>reverse scale-steps<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">setq</span> emacs-font-size-pair
+          <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">or</span> <span style="color: #ccaaff;">(</span>cadr <span style="color: #fff59d;">(</span>member emacs-font-size-pair scale-steps<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+              emacs-font-size-pair<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">when</span> emacs-font-size-pair
+      <span style="color: #aaeecc;">(</span>message <span style="color: #aadddd;">"emacs font size set to %.1f"</span> <span style="color: #ccaaff;">(</span>car emacs-font-size-pair<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>set-font emacs-english-font emacs-cjk-font emacs-font-size-pair<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -394,13 +394,13 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">increase-emacs-font-size</span> ()
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">increase-emacs-font-size</span> <span style="color: #81d4fa;">()</span>
   <span style="color: #97abc6; font-style: italic;">"Decrease emacs's font-size acording emacs-font-size-pair-list."</span>
-  (<span style="color: #aaffaa;">interactive</span>) (emacs-step-font-size 1))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">interactive</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>emacs-step-font-size 1<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">decrease-emacs-font-size</span> ()
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">decrease-emacs-font-size</span> <span style="color: #81d4fa;">()</span>
   <span style="color: #97abc6; font-style: italic;">"Increase emacs's font-size acording emacs-font-size-pair-list."</span>
-  (<span style="color: #aaffaa;">interactive</span>) (emacs-step-font-size -1))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">interactive</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>emacs-step-font-size -1<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -409,8 +409,8 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="color: #aadddd;">"C-="</span>) 'increase-emacs-font-size)
-(global-set-key (kbd <span style="color: #aadddd;">"C--"</span>) 'decrease-emacs-font-size)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span>global-set-key <span style="color: #81d4fa;">(</span>kbd <span style="color: #aadddd;">"C-="</span><span style="color: #81d4fa;">)</span> 'increase-emacs-font-size<span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span>global-set-key <span style="color: #81d4fa;">(</span>kbd <span style="color: #aadddd;">"C--"</span><span style="color: #81d4fa;">)</span> 'decrease-emacs-font-size<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
@@ -573,7 +573,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org4227a49"><span class="nav-text">定義和字體相關的變數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga85024d"><span class="nav-text">在圖形介面下調整字體設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc84e69c"><span class="nav-text">使用 C-= 或是 C– 來調整字體大小</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8e4f7d2"><span class="nav-text">定義和字體相關的變數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org130c400"><span class="nav-text">在圖形介面下調整字體設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5513bac"><span class="nav-text">使用 C-= 或是 C– 來調整字體大小</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

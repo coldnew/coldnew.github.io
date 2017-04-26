@@ -259,9 +259,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-orgf80a2ec" class="outline-2">
-<h2 id="orgf80a2ec">安裝 mu4e</h2>
-<div class="outline-text-2" id="text-orgf80a2ec">
+<div id="outline-container-orga779810" class="outline-2">
+<h2 id="orga779810">安裝 mu4e</h2>
+<div class="outline-text-2" id="text-orga779810">
 <p>
 <a href="http://www.djcbsoftware.nl/code/mu/mu4e.html" target="_blank" rel="external">mu4e</a> 實際上是 <a href="http://www.djcbsoftware.nl/code/mu/mu4e.html" target="_blank" rel="external">mu</a> 的 emacs 客戶端，因此我們真正要安裝的是 <a href="http://www.djcbsoftware.nl/code/mu/mu4e.html" target="_blank" rel="external">mu</a> 這套軟體。
 </p>
@@ -279,8 +279,8 @@ coldnew@osx ~ $ brew install mu --with-emacs --HEAD
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">when</span> (eq system-type 'darwin)
-  (add-to-list 'load-path <span style="color: #aadddd;">"/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e"</span>))
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">when</span> <span style="color: #81d4fa;">(</span>eq system-type 'darwin<span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span>add-to-list 'load-path <span style="color: #aadddd;">"/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -295,9 +295,9 @@ coldnew@osx ~ $ brew install mu --with-emacs --HEAD
 </div>
 </div>
 
-<div id="outline-container-orgcc93575" class="outline-2">
-<h2 id="orgcc93575">安裝 offlineimap</h2>
-<div class="outline-text-2" id="text-orgcc93575">
+<div id="outline-container-org462bc97" class="outline-2">
+<h2 id="org462bc97">安裝 offlineimap</h2>
+<div class="outline-text-2" id="text-org462bc97">
 <p>
 <a href="http://www.djcbsoftware.nl/code/mu/mu4e.html" target="_blank" rel="external">mu</a> 只負責進行索引，並未內建擷取信件的工具，因此你需要安裝第三方程式來幫忙下載郵件到本地端，常用的有 <a href="http://offlineimap.org/" target="_blank" rel="external">offlineimap</a> 以及 <a href="http://isync.sourceforge.net/" target="_blank" rel="external">mbsync</a> ，在本文中使用 offlinemap 來負責擷取信件。
 </p>
@@ -319,36 +319,36 @@ coldnew@gentoo ~ $ sudo emerge net-mail/offlineimap
 </pre>
 </div>
 
-<div id="outline-container-org325fb8b" class="outline-3">
-<h3 id="org325fb8b">設定 .offlineimaprc</h3>
-<div class="outline-text-3" id="text-org325fb8b">
+<div id="outline-container-org250d546" class="outline-3">
+<h3 id="org250d546">設定 .offlineimaprc</h3>
+<div class="outline-text-3" id="text-org250d546">
 <p>
 安裝完成後，我們需要設定 <code>~/.offlineimaprc</code> 這個檔案，這邊以收發 Gmail 為例，我的設定檔是長這個樣子的
 </p>
 
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">-*- mode: python -*-</span>
-[general]
+<span style="color: #aadddd;">[</span>general<span style="color: #aadddd;">]</span>
 <span style="color: #c6cccc; background-color: #202020;">accounts</span> = Gmail
 <span style="color: #c6cccc; background-color: #202020;">maxsyncaccounts</span> = <span style="color: #c6cccc; background-color: #202020;">3</span>
 <span style="color: #c6cccc; background-color: #202020;">pythonfile</span> = ~/.offlineimap.py
 
-[Account Gmail]
+<span style="color: #aadddd;">[</span>Account Gmail<span style="color: #aadddd;">]</span>
 <span style="color: #c6cccc; background-color: #202020;">localrepository</span> = Gmail-Local
 <span style="color: #c6cccc; background-color: #202020;">remoterepository</span> = Gmail-Remote
 
-[Repository Gmail-Local]
+<span style="color: #aadddd;">[</span>Repository Gmail-Local<span style="color: #aadddd;">]</span>
 <span style="color: #ccaaff;">type</span> = Maildir
 <span style="color: #c6cccc; background-color: #202020;">localfolders</span> = ~/Maildir/Gmail
 
-[Repository Gmail-Remote]
+<span style="color: #aadddd;">[</span>Repository Gmail-Remote<span style="color: #aadddd;">]</span>
 <span style="color: #ccaaff;">type</span> = Gmail
 <span style="color: #c6cccc; background-color: #202020;">remotehost</span> = imap.gmail.com
 <span style="color: #c6cccc; background-color: #202020;">remoteuser</span> = YOUR_EMAIL_ACCOUNT <span style="color: #9ac; font-style: italic;"># &lt;---- Change to your account</span>
-<span style="color: #c6cccc; background-color: #202020;">remotepasseval</span> = get_password_emacs(<span style="color: #aadddd;">"imap.gmail.com"</span>, <span style="color: #aadddd;">"993"</span>) <span style="color: #9ac; font-style: italic;"># &lt;---  get password from emacs</span>
+<span style="color: #c6cccc; background-color: #202020;">remotepasseval</span> = get_password_emacs<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"imap.gmail.com"</span>, <span style="color: #aadddd;">"993"</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;"># &lt;---  get password from emacs</span>
 <span style="color: #c6cccc; background-color: #202020;">ssl</span> = true
 <span style="color: #c6cccc; background-color: #202020;">sslcacertfile</span> = /etc/ssl/certs/ca-certificates.crt
-<span style="color: #c6cccc; background-color: #202020;">nametrans</span> = <span style="color: #aaffaa;">lambda</span> foldername: foldername.decode(<span style="color: #aadddd;">'imap4-utf-7'</span>).encode(<span style="color: #aadddd;">'utf-8'</span>)
+<span style="color: #c6cccc; background-color: #202020;">nametrans</span> = <span style="color: #aaffaa;">lambda</span> foldername: foldername.decode<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'imap4-utf-7'</span><span style="color: #aadddd;">)</span>.encode<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'utf-8'</span><span style="color: #aadddd;">)</span>
 <span style="color: #c6cccc; background-color: #202020;">maxconnections</span> = <span style="color: #c6cccc; background-color: #202020;">4</span>
 <span style="color: #c6cccc; background-color: #202020;">realdelete</span> = yes
 </pre>
@@ -362,7 +362,7 @@ coldnew@gentoo ~ $ sudo emerge net-mail/offlineimap
 <pre class="src src-python"><span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">[general]</span>
 <span style="color: #c6cccc; background-color: #202020;">pythonfile</span> = ~/.offlineimap.py
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">[Repository Gmail-Remote]</span>
-<span style="color: #c6cccc; background-color: #202020;">nametrans</span> = <span style="color: #aaffaa;">lambda</span> foldername: foldername.decode(<span style="color: #aadddd;">'imap4-utf-7'</span>).encode(<span style="color: #aadddd;">'utf-8'</span>)
+<span style="color: #c6cccc; background-color: #202020;">nametrans</span> = <span style="color: #aaffaa;">lambda</span> foldername: foldername.decode<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'imap4-utf-7'</span><span style="color: #aadddd;">)</span>.encode<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'utf-8'</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -371,23 +371,23 @@ coldnew@gentoo ~ $ sudo emerge net-mail/offlineimap
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c6cccc; background-color: #202020;">remotepasseval</span> = get_password_emacs(<span style="color: #aadddd;">"imap.gmail.com"</span>, <span style="color: #aadddd;">"993"</span>) <span style="color: #9ac; font-style: italic;"># &lt;---  get password from emacs</span>
+<pre class="src src-python"><span style="color: #c6cccc; background-color: #202020;">remotepasseval</span> = get_password_emacs<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"imap.gmail.com"</span>, <span style="color: #aadddd;">"993"</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;"># &lt;---  get password from emacs</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org03a3623" class="outline-3">
-<h3 id="org03a3623">設定 .offlineimap.py</h3>
-<div class="outline-text-3" id="text-org03a3623">
+<div id="outline-container-org93a6e0e" class="outline-3">
+<h3 id="org93a6e0e">設定 .offlineimap.py</h3>
+<div class="outline-text-3" id="text-org93a6e0e">
 <p>
 於是我們該來看看 <code>~/.offlineimap.py</code> 裡面到底賣什麼膏藥囉～
 </p>
 </div>
 
-<div id="outline-container-org273636f" class="outline-4">
-<h4 id="org273636f">.offlineimap.py - 增加編碼成 UTF-8 功能</h4>
-<div class="outline-text-4" id="text-org273636f">
+<div id="outline-container-org4ae55d6" class="outline-4">
+<h4 id="org4ae55d6">.offlineimap.py - 增加編碼成 UTF-8 功能</h4>
+<div class="outline-text-4" id="text-org4ae55d6">
 <p>
 首先我們最需要的就是避免中文信件或是標籤出現問題，因此我們需要將以下這段加入到 <code>~/.offlineimap.py</code> 中。
 </p>
@@ -398,78 +398,78 @@ coldnew@gentoo ~ $ sudo emerge net-mail/offlineimap
 <span style="color: #aaffaa;">import</span> binascii
 <span style="color: #aaffaa;">import</span> codecs
 
-<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">modified_base64</span>(s):
-    <span style="color: #c6cccc; background-color: #202020;">s</span> = s.encode(<span style="color: #aadddd;">'utf-16be'</span>)
-    <span style="color: #aaffaa;">return</span> binascii.b2a_base64(s).rstrip(<span style="color: #aadddd;">'\n='</span>).replace(<span style="color: #aadddd;">'/'</span>, <span style="color: #aadddd;">','</span>)
+<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">modified_base64</span><span style="color: #aadddd;">(</span>s<span style="color: #aadddd;">)</span>:
+    <span style="color: #c6cccc; background-color: #202020;">s</span> = s.encode<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'utf-16be'</span><span style="color: #aadddd;">)</span>
+    <span style="color: #aaffaa;">return</span> binascii.b2a_base64<span style="color: #aadddd;">(</span>s<span style="color: #aadddd;">)</span>.rstrip<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'\n='</span><span style="color: #aadddd;">)</span>.replace<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'/'</span>, <span style="color: #aadddd;">','</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">doB64</span>(_in, r):
+<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">doB64</span><span style="color: #aadddd;">(</span>_in, r<span style="color: #aadddd;">)</span>:
     <span style="color: #aaffaa;">if</span> _in:
-    r.append(<span style="color: #aadddd;">'&amp;%s-'</span> % modified_base64(<span style="color: #aadddd;">''</span>.join(_in)))
-    <span style="color: #aaffaa;">del</span> _in[:]
+    r.append<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'&amp;%s-'</span> % modified_base64<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">''</span>.join<span style="color: #aaccff;">(</span>_in<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+    <span style="color: #aaffaa;">del</span> _in<span style="color: #aadddd;">[</span>:<span style="color: #aadddd;">]</span>
 
-<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">encoder</span>(s):
-    <span style="color: #c6cccc; background-color: #202020;">r</span> = []
-    <span style="color: #c6cccc; background-color: #202020;">_in</span> = []
+<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">encoder</span><span style="color: #aadddd;">(</span>s<span style="color: #aadddd;">)</span>:
+    <span style="color: #c6cccc; background-color: #202020;">r</span> = <span style="color: #aadddd;">[]</span>
+    <span style="color: #c6cccc; background-color: #202020;">_in</span> = <span style="color: #aadddd;">[]</span>
     <span style="color: #aaffaa;">for</span> c <span style="color: #aaffaa;">in</span> s:
-    <span style="color: #c6cccc; background-color: #202020;">ordC</span> = <span style="color: #ccaaff;">ord</span>(c)
+    <span style="color: #c6cccc; background-color: #202020;">ordC</span> = <span style="color: #ccaaff;">ord</span><span style="color: #aadddd;">(</span>c<span style="color: #aadddd;">)</span>
     <span style="color: #aaffaa;">if</span> 0x20 &lt;= ordC &lt;= 0x25 <span style="color: #aaffaa;">or</span> 0x27 &lt;= ordC &lt;= 0x7e:
-        doB64(_in, r)
-        r.append(c)
+        doB64<span style="color: #aadddd;">(</span>_in, r<span style="color: #aadddd;">)</span>
+        r.append<span style="color: #aadddd;">(</span>c<span style="color: #aadddd;">)</span>
     <span style="color: #aaffaa;">elif</span> <span style="color: #c6cccc; background-color: #202020;">c</span> == <span style="color: #aadddd;">'&amp;'</span>:
-        doB64(_in, r)
-        r.append(<span style="color: #aadddd;">'&amp;-'</span>)
+        doB64<span style="color: #aadddd;">(</span>_in, r<span style="color: #aadddd;">)</span>
+        r.append<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'&amp;-'</span><span style="color: #aadddd;">)</span>
     <span style="color: #aaffaa;">else</span>:
-        _in.append(c)
-    doB64(_in, r)
-    <span style="color: #aaffaa;">return</span> (str(<span style="color: #aadddd;">''</span>.join(r)), <span style="color: #ccaaff;">len</span>(s))
+        _in.append<span style="color: #aadddd;">(</span>c<span style="color: #aadddd;">)</span>
+    doB64<span style="color: #aadddd;">(</span>_in, r<span style="color: #aadddd;">)</span>
+    <span style="color: #aaffaa;">return</span> <span style="color: #aadddd;">(</span>str<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">''</span>.join<span style="color: #aaccff;">(</span>r<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>, <span style="color: #ccaaff;">len</span><span style="color: #81d4fa;">(</span>s<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">decoding</span>
 
-<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">modified_unbase64</span>(s):
-    <span style="color: #c6cccc; background-color: #202020;">b</span> = binascii.a2b_base64(s.replace(<span style="color: #aadddd;">','</span>, <span style="color: #aadddd;">'/'</span>) + <span style="color: #aadddd;">'==='</span>)
-    <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">unicode</span>(b, <span style="color: #aadddd;">'utf-16be'</span>)
+<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">modified_unbase64</span><span style="color: #aadddd;">(</span>s<span style="color: #aadddd;">)</span>:
+    <span style="color: #c6cccc; background-color: #202020;">b</span> = binascii.a2b_base64<span style="color: #aadddd;">(</span>s.replace<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">','</span>, <span style="color: #aadddd;">'/'</span><span style="color: #81d4fa;">)</span> + <span style="color: #aadddd;">'==='</span><span style="color: #aadddd;">)</span>
+    <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">unicode</span><span style="color: #aadddd;">(</span>b, <span style="color: #aadddd;">'utf-16be'</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">decoder</span>(s):
-    <span style="color: #c6cccc; background-color: #202020;">r</span> = []
-    <span style="color: #c6cccc; background-color: #202020;">decode</span> = []
+<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">decoder</span><span style="color: #aadddd;">(</span>s<span style="color: #aadddd;">)</span>:
+    <span style="color: #c6cccc; background-color: #202020;">r</span> = <span style="color: #aadddd;">[]</span>
+    <span style="color: #c6cccc; background-color: #202020;">decode</span> = <span style="color: #aadddd;">[]</span>
     <span style="color: #aaffaa;">for</span> c <span style="color: #aaffaa;">in</span> s:
     <span style="color: #aaffaa;">if</span> <span style="color: #c6cccc; background-color: #202020;">c</span> == <span style="color: #aadddd;">'&amp;'</span> <span style="color: #aaffaa;">and</span> <span style="color: #aaffaa;">not</span> decode:
-        decode.append(<span style="color: #aadddd;">'&amp;'</span>)
+        decode.append<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'&amp;'</span><span style="color: #aadddd;">)</span>
     <span style="color: #aaffaa;">elif</span> <span style="color: #c6cccc; background-color: #202020;">c</span> == <span style="color: #aadddd;">'-'</span> <span style="color: #aaffaa;">and</span> decode:
-        <span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">len</span>(decode) == <span style="color: #c6cccc; background-color: #202020;">1</span>:
-        r.append(<span style="color: #aadddd;">'&amp;'</span>)
+        <span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">len</span><span style="color: #aadddd;">(</span>decode<span style="color: #aadddd;">)</span> == <span style="color: #c6cccc; background-color: #202020;">1</span>:
+        r.append<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'&amp;'</span><span style="color: #aadddd;">)</span>
         <span style="color: #aaffaa;">else</span>:
-        r.append(modified_unbase64(<span style="color: #aadddd;">''</span>.join(decode[<span style="color: #c6cccc; background-color: #202020;">1</span>:])))
-        <span style="color: #c6cccc; background-color: #202020;">decode</span> = []
+        r.append<span style="color: #aadddd;">(</span>modified_unbase64<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">''</span>.join<span style="color: #aaccff;">(</span>decode<span style="color: #aaeecc;">[</span><span style="color: #c6cccc; background-color: #202020;">1</span>:<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+        <span style="color: #c6cccc; background-color: #202020;">decode</span> = <span style="color: #aadddd;">[]</span>
     <span style="color: #aaffaa;">elif</span> decode:
-        decode.append(c)
+        decode.append<span style="color: #aadddd;">(</span>c<span style="color: #aadddd;">)</span>
     <span style="color: #aaffaa;">else</span>:
-        r.append(c)
+        r.append<span style="color: #aadddd;">(</span>c<span style="color: #aadddd;">)</span>
     <span style="color: #aaffaa;">if</span> decode:
-    r.append(modified_unbase64(<span style="color: #aadddd;">''</span>.join(decode[<span style="color: #c6cccc; background-color: #202020;">1</span>:])))
-    <span style="color: #c6cccc; background-color: #202020;">bin_str</span> = <span style="color: #aadddd;">''</span>.join(r)
-    <span style="color: #aaffaa;">return</span> (bin_str, <span style="color: #ccaaff;">len</span>(s))
+    r.append<span style="color: #aadddd;">(</span>modified_unbase64<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">''</span>.join<span style="color: #aaccff;">(</span>decode<span style="color: #aaeecc;">[</span><span style="color: #c6cccc; background-color: #202020;">1</span>:<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+    <span style="color: #c6cccc; background-color: #202020;">bin_str</span> = <span style="color: #aadddd;">''</span>.join<span style="color: #aadddd;">(</span>r<span style="color: #aadddd;">)</span>
+    <span style="color: #aaffaa;">return</span> <span style="color: #aadddd;">(</span>bin_str, <span style="color: #ccaaff;">len</span><span style="color: #81d4fa;">(</span>s<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">StreamReader</span>(codecs.StreamReader):
-    <span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">decode</span>(<span style="color: #aaffaa;">self</span>, s, <span style="color: #c6cccc; background-color: #202020;">errors</span>=<span style="color: #aadddd;">'strict'</span>):
-    <span style="color: #aaffaa;">return</span> decoder(s)
+<span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">StreamReader</span><span style="color: #aadddd;">(</span>codecs.StreamReader<span style="color: #aadddd;">)</span>:
+    <span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">decode</span><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">self</span>, s, <span style="color: #c6cccc; background-color: #202020;">errors</span>=<span style="color: #aadddd;">'strict'</span><span style="color: #aadddd;">)</span>:
+    <span style="color: #aaffaa;">return</span> decoder<span style="color: #aadddd;">(</span>s<span style="color: #aadddd;">)</span>
 
-<span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">StreamWriter</span>(codecs.StreamWriter):
-    <span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">decode</span>(<span style="color: #aaffaa;">self</span>, s, <span style="color: #c6cccc; background-color: #202020;">errors</span>=<span style="color: #aadddd;">'strict'</span>):
-    <span style="color: #aaffaa;">return</span> encoder(s)
+<span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">StreamWriter</span><span style="color: #aadddd;">(</span>codecs.StreamWriter<span style="color: #aadddd;">)</span>:
+    <span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">decode</span><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">self</span>, s, <span style="color: #c6cccc; background-color: #202020;">errors</span>=<span style="color: #aadddd;">'strict'</span><span style="color: #aadddd;">)</span>:
+    <span style="color: #aaffaa;">return</span> encoder<span style="color: #aadddd;">(</span>s<span style="color: #aadddd;">)</span>
 
-<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">imap4_utf_7</span>(name):
+<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">imap4_utf_7</span><span style="color: #aadddd;">(</span>name<span style="color: #aadddd;">)</span>:
     <span style="color: #aaffaa;">if</span> <span style="color: #c6cccc; background-color: #202020;">name</span> == <span style="color: #aadddd;">'imap4-utf-7'</span>:
-    <span style="color: #aaffaa;">return</span> (encoder, decoder, StreamReader, StreamWriter)
-codecs.register(imap4_utf_7)
+    <span style="color: #aaffaa;">return</span> <span style="color: #aadddd;">(</span>encoder, decoder, StreamReader, StreamWriter<span style="color: #aadddd;">)</span>
+codecs.register<span style="color: #aadddd;">(</span>imap4_utf_7<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org71c1aca" class="outline-4">
-<h4 id="org71c1aca">.offlineimap.py - 從 emacs 中獲取密碼</h4>
-<div class="outline-text-4" id="text-org71c1aca">
+<div id="outline-container-orge607246" class="outline-4">
+<h4 id="orge607246">.offlineimap.py - 從 emacs 中獲取密碼</h4>
+<div class="outline-text-4" id="text-orge607246">
 <p>
 在我的系統中，emacs 負責進行解密 <code>~/.authinfo.gpg</code> 這個透過 gnupg 加密的設定檔案，並且我的 emacs 是不關掉的，因此就直接啟動一個 emacsclient 去執行 <code>offlineimap-get-password</code> 這個函式 (需定義在你的 ~/.emacs.d/ 裡面)
 </p>
@@ -483,16 +483,16 @@ codecs.register(imap4_utf_7)
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">pass password from emacs</span>
 <span style="color: #5f5f5f; font-style: italic;">#</span>
 
-<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">get_output</span>(cmd):
+<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">get_output</span><span style="color: #aadddd;">(</span>cmd<span style="color: #aadddd;">)</span>:
     <span style="color: #9ac; font-style: italic;"># Bunch of boilerplate to catch the output of a command:</span>
-    <span style="color: #c6cccc; background-color: #202020;">pipe</span> = subprocess.Popen(cmd, <span style="color: #c6cccc; background-color: #202020;">shell</span>=<span style="color: #aaffaa;">True</span>, <span style="color: #c6cccc; background-color: #202020;">stdout</span>=subprocess.PIPE, <span style="color: #c6cccc; background-color: #202020;">stderr</span>=subprocess.STDOUT)
-    (output, errout) = pipe.communicate()
+    <span style="color: #c6cccc; background-color: #202020;">pipe</span> = subprocess.Popen<span style="color: #aadddd;">(</span>cmd, <span style="color: #c6cccc; background-color: #202020;">shell</span>=<span style="color: #aaffaa;">True</span>, <span style="color: #c6cccc; background-color: #202020;">stdout</span>=subprocess.PIPE, <span style="color: #c6cccc; background-color: #202020;">stderr</span>=subprocess.STDOUT<span style="color: #aadddd;">)</span>
+    <span style="color: #aadddd;">(</span>output, errout<span style="color: #aadddd;">)</span> = pipe.communicate<span style="color: #aadddd;">()</span>
     <span style="color: #aaffaa;">assert</span> <span style="color: #c6cccc; background-color: #202020;">pipe.returncode</span> == <span style="color: #c6cccc; background-color: #202020;">0</span> <span style="color: #aaffaa;">and</span> <span style="color: #aaffaa;">not</span> errout
     <span style="color: #aaffaa;">return</span> output
 
-<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">get_password_emacs</span>(host, port):
-    <span style="color: #c6cccc; background-color: #202020;">cmd</span> = <span style="color: #aadddd;">"emacsclient --eval '(offlineimap-get-password \"%s\" \"%s\")'"</span> % (host, port)
-    <span style="color: #aaffaa;">return</span> get_output(cmd).strip().lstrip(<span style="color: #aadddd;">'"'</span>).rstrip(<span style="color: #aadddd;">'"'</span>)
+<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">get_password_emacs</span><span style="color: #aadddd;">(</span>host, port<span style="color: #aadddd;">)</span>:
+    <span style="color: #c6cccc; background-color: #202020;">cmd</span> = <span style="color: #aadddd;">"emacsclient --eval '(offlineimap-get-password \"%s\" \"%s\")'"</span> % <span style="color: #aadddd;">(</span>host, port<span style="color: #aadddd;">)</span>
+    <span style="color: #aaffaa;">return</span> get_output<span style="color: #aadddd;">(</span>cmd<span style="color: #aadddd;">)</span>.strip<span style="color: #aadddd;">()</span>.lstrip<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'"'</span><span style="color: #aadddd;">)</span>.rstrip<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'"'</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -503,9 +503,9 @@ codecs.register(imap4_utf_7)
 </div>
 </div>
 
-<div id="outline-container-org6fc64c5" class="outline-3">
-<h3 id="org6fc64c5">Mac OSX 下可能遇到的錯誤</h3>
-<div class="outline-text-3" id="text-org6fc64c5">
+<div id="outline-container-org710d617" class="outline-3">
+<h3 id="org710d617">Mac OSX 下可能遇到的錯誤</h3>
+<div class="outline-text-3" id="text-org710d617">
 <p>
 在 Mac OSX 下使用 offlineimap 時候你可能會遇到以下的錯誤
 </p>
@@ -573,9 +573,9 @@ coldnew@osx ~ $ sudo ln -s /usr/local/etc/openssl/cert.pem /etc/ssl/certs/ca-cer
 </div>
 </div>
 
-<div id="outline-container-orgdac66f3" class="outline-2">
-<h2 id="orgdac66f3">設定 Google 驗證</h2>
-<div class="outline-text-2" id="text-orgdac66f3">
+<div id="outline-container-orgf5791e4" class="outline-2">
+<h2 id="orgf5791e4">設定 Google 驗證</h2>
+<div class="outline-text-2" id="text-orgf5791e4">
 <p>
 最近才發現 Google 換個驗證方式，假如你用 offlineimap 之類的軟體下載 Gmail 遇到這樣的問題，那就是你必須要照 Google 的要求進行新的驗證方式
 </p>
@@ -629,9 +629,9 @@ Server nnimap+gmail previously determined to be down; not retrying;
 </div>
 </div>
 
-<div id="outline-container-org0eaadd9" class="outline-2">
-<h2 id="org0eaadd9">設定 ~/.authinfo.gpg</h2>
-<div class="outline-text-2" id="text-org0eaadd9">
+<div id="outline-container-org0c929bc" class="outline-2">
+<h2 id="org0c929bc">設定 ~/.authinfo.gpg</h2>
+<div class="outline-text-2" id="text-org0c929bc">
 <p>
 設定完 Google 驗證並且取得你的 app 密碼後，就把你的資料填入到 <code>~/.authinfo.gpg</code> 中吧，只要你的 emacs 有進行設定，他會幫你將 <code>.gpg</code> 結尾的檔案加密起來的。
 </p>
@@ -644,19 +644,19 @@ machine smtp.gmail.com login YOUR_EMAIL_ACCOUNT port 587 password YOUR_PASSWORD 
 </div>
 </div>
 
-<div id="outline-container-org1505167" class="outline-2">
-<h2 id="org1505167">設定你的 emacs</h2>
-<div class="outline-text-2" id="text-org1505167">
+<div id="outline-container-org06e987d" class="outline-2">
+<h2 id="org06e987d">設定你的 emacs</h2>
+<div class="outline-text-2" id="text-org06e987d">
 <p>
 上述工作都完成後，我們就可以準備來設定我們的 emacs 了~ 首先先加上一個函式讓 emacsclient 可以取得寫在 <code>~/.authinfo.gpg</code> 的密碼
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">offlineimap-get-password</span> (host port)
-  (<span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">netrc</span>)
-  (<span style="color: #aaffaa;">let*</span> ((netrc (netrc-parse (expand-file-name <span style="color: #aadddd;">"~/.authinfo.gpg"</span>)))
-         (hostentry (netrc-machine netrc host port port)))
-    (<span style="color: #aaffaa;">when</span> hostentry (netrc-get hostentry <span style="color: #aadddd;">"password"</span>))))
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">offlineimap-get-password</span> <span style="color: #81d4fa;">(</span>host port<span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">netrc</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let*</span> <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>netrc <span style="color: #ccaaff;">(</span>netrc-parse <span style="color: #fff59d;">(</span>expand-file-name <span style="color: #aadddd;">"~/.authinfo.gpg"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+         <span style="color: #aaeecc;">(</span>hostentry <span style="color: #ccaaff;">(</span>netrc-machine netrc host port port<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">when</span> hostentry <span style="color: #aaeecc;">(</span>netrc-get hostentry <span style="color: #aadddd;">"password"</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -665,15 +665,15 @@ machine smtp.gmail.com login YOUR_EMAIL_ACCOUNT port 587 password YOUR_PASSWORD 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">mu4e</span>)                      <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">load mu4e</span>
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">mu4e</span><span style="color: #aadddd;">)</span>                      <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">load mu4e</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Use mu4e as default mail agent</span>
-(<span style="color: #aaffaa;">setq</span> mail-user-agent 'mu4e-user-agent)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mail-user-agent 'mu4e-user-agent<span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Mail folder set to ~/Maildir</span>
-(<span style="color: #aaffaa;">setq</span> mu4e-maildir <span style="color: #aadddd;">"~/Maildir"</span>)         <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">NOTE: should not be symbolic link</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mu4e-maildir <span style="color: #aadddd;">"~/Maildir"</span><span style="color: #aadddd;">)</span>         <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">NOTE: should not be symbolic link</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Fetch mail by offlineimap</span>
-(<span style="color: #aaffaa;">setq</span> mu4e-get-mail-command <span style="color: #aadddd;">"offlineimap"</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mu4e-get-mail-command <span style="color: #aadddd;">"offlineimap"</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Fetch mail in 60 sec interval</span>
-(<span style="color: #aaffaa;">setq</span> mu4e-update-interval 60)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mu4e-update-interval 60<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -693,13 +693,13 @@ machine smtp.gmail.com login YOUR_EMAIL_ACCOUNT port 587 password YOUR_PASSWORD 
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">folder for sent messages</span>
-(<span style="color: #aaffaa;">setq</span> mu4e-sent-folder   <span style="color: #aadddd;">"/Gmail/Sent"</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mu4e-sent-folder   <span style="color: #aadddd;">"/Gmail/Sent"</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">unfinished messages</span>
-(<span style="color: #aaffaa;">setq</span> mu4e-drafts-folder <span style="color: #aadddd;">"/Gmail/Drafts"</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mu4e-drafts-folder <span style="color: #aadddd;">"/Gmail/Drafts"</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">trashed messages</span>
-(<span style="color: #aaffaa;">setq</span> mu4e-trash-folder  <span style="color: #aadddd;">"/Gmail/Trash"</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mu4e-trash-folder  <span style="color: #aadddd;">"/Gmail/Trash"</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">saved messages</span>
-(<span style="color: #aaffaa;">setq</span> mu4e-trash-folder  <span style="color: #aadddd;">"/Gmail/Archive"</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mu4e-trash-folder  <span style="color: #aadddd;">"/Gmail/Archive"</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -708,13 +708,13 @@ machine smtp.gmail.com login YOUR_EMAIL_ACCOUNT port 587 password YOUR_PASSWORD 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">mu4e-contrib</span>)
-(<span style="color: #aaffaa;">setq</span> mu4e-html2text-command 'mu4e-shr2text)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">mu4e-contrib</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mu4e-html2text-command 'mu4e-shr2text<span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">try to emulate some of the eww key-bindings</span>
-(add-hook 'mu4e-view-mode-hook
-          (<span style="color: #aaffaa;">lambda</span> ()
-            (local-set-key (kbd <span style="color: #aadddd;">"&lt;tab&gt;"</span>) 'shr-next-link)
-            (local-set-key (kbd <span style="color: #aadddd;">"&lt;backtab&gt;"</span>) 'shr-previous-link)))
+<span style="color: #aadddd;">(</span>add-hook 'mu4e-view-mode-hook
+          <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">lambda</span> <span style="color: #aaccff;">()</span>
+            <span style="color: #aaccff;">(</span>local-set-key <span style="color: #aaeecc;">(</span>kbd <span style="color: #aadddd;">"&lt;tab&gt;"</span><span style="color: #aaeecc;">)</span> 'shr-next-link<span style="color: #aaccff;">)</span>
+            <span style="color: #aaccff;">(</span>local-set-key <span style="color: #aaeecc;">(</span>kbd <span style="color: #aadddd;">"&lt;backtab&gt;"</span><span style="color: #aaeecc;">)</span> 'shr-previous-link<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -722,7 +722,7 @@ machine smtp.gmail.com login YOUR_EMAIL_ACCOUNT port 587 password YOUR_PASSWORD 
 當然，在圖形介面下的 emacs 是可以顯示圖像的，因此你可以設定 <code>mu4e-view-show-images</code> 來讓 mu4e 顯示圖片
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">setq</span> mu4e-view-show-images t)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mu4e-view-show-images t<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -732,16 +732,16 @@ machine smtp.gmail.com login YOUR_EMAIL_ACCOUNT port 587 password YOUR_PASSWORD 
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">SMTP setup</span>
-(<span style="color: #aaffaa;">setq</span> message-send-mail-function 'smtpmail-send-it
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> message-send-mail-function 'smtpmail-send-it
       smtpmail-stream-type 'starttls
-      starttls-use-gnutls t)
+      starttls-use-gnutls t<span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Personal info</span>
-(<span style="color: #aaffaa;">setq</span> user-full-name <span style="color: #aadddd;">"Yen-Chin, Lee"</span>)          <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">FIXME: add your info here</span>
-(<span style="color: #aaffaa;">setq</span> user-mail-address <span style="color: #aadddd;">"coldnew.tw@gmail.com"</span>)<span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">FIXME: add your info here</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> user-full-name <span style="color: #aadddd;">"Yen-Chin, Lee"</span><span style="color: #aadddd;">)</span>          <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">FIXME: add your info here</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> user-mail-address <span style="color: #aadddd;">"coldnew.tw@gmail.com"</span><span style="color: #aadddd;">)</span><span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">FIXME: add your info here</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">gmail setup</span>
-(<span style="color: #aaffaa;">setq</span> smtpmail-smtp-server <span style="color: #aadddd;">"smtp.gmail.com"</span>)
-(<span style="color: #aaffaa;">setq</span> smtpmail-smtp-service 587)
-(<span style="color: #aaffaa;">setq</span> smtpmail-smtp-user <span style="color: #aadddd;">"YOUR-GMAIL-ADDRESS"</span>) <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">FIXME: add your gmail addr here</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> smtpmail-smtp-server <span style="color: #aadddd;">"smtp.gmail.com"</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> smtpmail-smtp-service 587<span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> smtpmail-smtp-user <span style="color: #aadddd;">"YOUR-GMAIL-ADDRESS"</span><span style="color: #aadddd;">)</span> <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">FIXME: add your gmail addr here</span>
 </pre>
 </div>
 
@@ -750,15 +750,15 @@ machine smtp.gmail.com login YOUR_EMAIL_ACCOUNT port 587 password YOUR_PASSWORD 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">setq</span> mu4e-compose-signature <span style="color: #aadddd;">"Sent from my emacs."</span>)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> mu4e-compose-signature <span style="color: #aadddd;">"Sent from my emacs."</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org23bbb3a" class="outline-2">
-<h2 id="org23bbb3a">第一次使用的額外設定</h2>
-<div class="outline-text-2" id="text-org23bbb3a">
+<div id="outline-container-orgacf1185" class="outline-2">
+<h2 id="orgacf1185">第一次使用的額外設定</h2>
+<div class="outline-text-2" id="text-orgacf1185">
 <p>
 第一次進行使用的時候，我們要先透過 <a href="http://offlineimap.org/" target="_blank" rel="external">offlineimap</a> 來收取 Gmail 上的郵件，於是在另外一個終端機上手動執行 offlineimap 這個程式，如果你仿照我的設定，你會看到執行完 offlineimap 後，emacs 會來相你詢問 <code>~/.authinfo.gpg</code> 的密碼，提供給他後 offlineimap 就開始下載郵件了
 </p>
@@ -793,9 +793,9 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
 </div>
 </div>
 
-<div id="outline-container-org0467057" class="outline-2">
-<h2 id="org0467057">在 emacs 下觀看郵件</h2>
-<div class="outline-text-2" id="text-org0467057">
+<div id="outline-container-orge351c26" class="outline-2">
+<h2 id="orge351c26">在 emacs 下觀看郵件</h2>
+<div class="outline-text-2" id="text-orge351c26">
 <p>
 前面的設定都完成後，就可以執行 <code>M-x mu4e</code> 來啟動我們來啟動我們的 mu4e 程式，首先會進到歡迎畫面
 </p>
@@ -832,9 +832,9 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
 </div>
 </div>
 
-<div id="outline-container-org7d22578" class="outline-2">
-<h2 id="org7d22578">在 emacs 下寄送信件</h2>
-<div class="outline-text-2" id="text-org7d22578">
+<div id="outline-container-org8677b65" class="outline-2">
+<h2 id="org8677b65">在 emacs 下寄送信件</h2>
+<div class="outline-text-2" id="text-org8677b65">
 <p>
 會收信了以後，讓我們來看看怎樣發送信件，前面說到了 mu4e 實際上是透過 emacs 內建的功能來寄送信件，因此我們只要呼叫 <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Sending-Mail.html" target="_blank" rel="external">compose-mail</a> 這個命令 (<code>C-x m</code>) 即可進入寫信件的視窗
 </p>
@@ -857,9 +857,9 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
 </div>
 </div>
 
-<div id="outline-container-org7952bf6" class="outline-2">
-<h2 id="org7952bf6">總結</h2>
-<div class="outline-text-2" id="text-org7952bf6">
+<div id="outline-container-org1eccde6" class="outline-2">
+<h2 id="org1eccde6">總結</h2>
+<div class="outline-text-2" id="text-org1eccde6">
 <p>
 我自己使用 emacs 的習慣是用他來看 mailing-list, 畢竟信件太多用 gmail 或是 app 不見的好瀏覽，私人信件才會使用 APP 或是 thunderbird 來收。對我而言在 emacs 中收信有幾個好處
 </p>
@@ -884,9 +884,9 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
 </div>
 </div>
 
-<div id="outline-container-orgd11e617" class="outline-2">
-<h2 id="orgd11e617">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgd11e617">
+<div id="outline-container-org9ad9a14" class="outline-2">
+<h2 id="org9ad9a14">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org9ad9a14">
 <p>
 <code>[1]</code> <a href="http://www.djcbsoftware.nl/code/mu/mu4e.html" target="_blank" rel="external">http://www.djcbsoftware.nl/code/mu/mu4e.html</a>
 </p>
@@ -1062,7 +1062,7 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf80a2ec"><span class="nav-text">安裝 mu4e</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcc93575"><span class="nav-text">安裝 offlineimap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org325fb8b"><span class="nav-text">設定 .offlineimaprc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org03a3623"><span class="nav-text">設定 .offlineimap.py</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org273636f"><span class="nav-text">.offlineimap.py - 增加編碼成 UTF-8 功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org71c1aca"><span class="nav-text">.offlineimap.py - 從 emacs 中獲取密碼</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6fc64c5"><span class="nav-text">Mac OSX 下可能遇到的錯誤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdac66f3"><span class="nav-text">設定 Google 驗證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0eaadd9"><span class="nav-text">設定 ~/.authinfo.gpg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1505167"><span class="nav-text">設定你的 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org23bbb3a"><span class="nav-text">第一次使用的額外設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0467057"><span class="nav-text">在 emacs 下觀看郵件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7d22578"><span class="nav-text">在 emacs 下寄送信件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7952bf6"><span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd11e617"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orga779810"><span class="nav-text">安裝 mu4e</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org462bc97"><span class="nav-text">安裝 offlineimap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org250d546"><span class="nav-text">設定 .offlineimaprc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org93a6e0e"><span class="nav-text">設定 .offlineimap.py</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org4ae55d6"><span class="nav-text">.offlineimap.py - 增加編碼成 UTF-8 功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orge607246"><span class="nav-text">.offlineimap.py - 從 emacs 中獲取密碼</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org710d617"><span class="nav-text">Mac OSX 下可能遇到的錯誤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf5791e4"><span class="nav-text">設定 Google 驗證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0c929bc"><span class="nav-text">設定 ~/.authinfo.gpg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org06e987d"><span class="nav-text">設定你的 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgacf1185"><span class="nav-text">第一次使用的額外設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge351c26"><span class="nav-text">在 emacs 下觀看郵件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8677b65"><span class="nav-text">在 emacs 下寄送信件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1eccde6"><span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9ad9a14"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

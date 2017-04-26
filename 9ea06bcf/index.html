@@ -237,9 +237,9 @@ JavaFX 是目前 Java 發展的重點項目，自 Java 8 後已經整合進 JRE 
 變成 Clojure 的版本。
 </p>
 
-<div id="outline-container-orgc62040d" class="outline-2">
-<h2 id="orgc62040d">先來看看 JAVA 要怎樣寫</h2>
-<div class="outline-text-2" id="text-orgc62040d">
+<div id="outline-container-orgf179325" class="outline-2">
+<h2 id="orgf179325">先來看看 JAVA 要怎樣寫</h2>
+<div class="outline-text-2" id="text-orgf179325">
 <p>
 我們的程式碼是從 Oracle 的 JavaFX 教學 <a href="http://docs.oracle.com/javafx/2/get_started/hello_world.htm" target="_blank" rel="external">Hello World, JavaFX Style</a> 取得，其內容如下:
 </p>
@@ -255,38 +255,38 @@ JavaFX 是目前 Java 發展的重點項目，自 Java 8 後已經整合進 JRE 
 <span style="color: #aaffaa;">import</span> <span style="color: #ccaaff;">javafx</span>.<span style="color: #ccaaff;">scene</span>.<span style="color: #ccaaff;">layout</span>.<span style="color: #fff59d;">StackPane</span>;
 <span style="color: #aaffaa;">import</span> <span style="color: #ccaaff;">javafx</span>.<span style="color: #ccaaff;">stage</span>.<span style="color: #fff59d;">Stage</span>;
 
-<span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">HelloWorld</span> <span style="color: #aaffaa;">extends</span> <span style="color: #fff59d;">Application</span> {
-    <span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">main</span>(<span style="color: #fff59d;">String</span>[] <span style="color: #aaccff;">args</span>) {
-        launch(args);
-    }
+<span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">HelloWorld</span> <span style="color: #aaffaa;">extends</span> <span style="color: #fff59d;">Application</span> <span style="color: #aadddd;">{</span>
+    <span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">main</span><span style="color: #81d4fa;">(</span><span style="color: #fff59d;">String</span><span style="color: #aaccff;">[]</span> <span style="color: #aaccff;">args</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+        launch<span style="color: #aaccff;">(</span>args<span style="color: #aaccff;">)</span>;
+    <span style="color: #81d4fa;">}</span>
 
     <span style="color: #ccaaff;">@Override</span>
-    <span style="color: #aaffaa;">public</span> <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">start</span>(<span style="color: #fff59d;">Stage</span> <span style="color: #aaccff;">primaryStage</span>) {
-        primaryStage.setTitle(<span style="color: #aadddd;">"Hello World!"</span>);
-        <span style="color: #fff59d;">Button</span> <span style="color: #aaccff;">btn</span> = <span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">Button</span>();
-        btn.setText(<span style="color: #aadddd;">"Say 'Hello World'"</span>);
-        btn.setOnAction(<span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">EventHandler</span>&lt;<span style="color: #fff59d;">ActionEvent</span>&gt;() {
+    <span style="color: #aaffaa;">public</span> <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">start</span><span style="color: #81d4fa;">(</span><span style="color: #fff59d;">Stage</span> <span style="color: #aaccff;">primaryStage</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+        primaryStage.setTitle<span style="color: #aaccff;">(</span><span style="color: #aadddd;">"Hello World!"</span><span style="color: #aaccff;">)</span>;
+        <span style="color: #fff59d;">Button</span> <span style="color: #aaccff;">btn</span> = <span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">Button</span><span style="color: #aaccff;">()</span>;
+        btn.setText<span style="color: #aaccff;">(</span><span style="color: #aadddd;">"Say 'Hello World'"</span><span style="color: #aaccff;">)</span>;
+        btn.setOnAction<span style="color: #aaccff;">(</span><span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">EventHandler</span><span style="color: #aaeecc;">&lt;</span><span style="color: #fff59d;">ActionEvent</span><span style="color: #aaeecc;">&gt;()</span> <span style="color: #aaeecc;">{</span>
 
             <span style="color: #ccaaff;">@Override</span>
-            <span style="color: #aaffaa;">public</span> <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">handle</span>(<span style="color: #fff59d;">ActionEvent</span> <span style="color: #aaccff;">event</span>) {
-                System.out.println(<span style="color: #aadddd;">"Hello World!"</span>);
-            }
-        });
+            <span style="color: #aaffaa;">public</span> <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">handle</span><span style="color: #ccaaff;">(</span><span style="color: #fff59d;">ActionEvent</span> <span style="color: #aaccff;">event</span><span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">{</span>
+                System.out.println<span style="color: #fff59d;">(</span><span style="color: #aadddd;">"Hello World!"</span><span style="color: #fff59d;">)</span>;
+            <span style="color: #ccaaff;">}</span>
+        <span style="color: #aaeecc;">}</span><span style="color: #aaccff;">)</span>;
 
-        <span style="color: #fff59d;">StackPane</span> <span style="color: #aaccff;">root</span> = <span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">StackPane</span>();
-        root.getChildren().add(btn);
-        primaryStage.setScene(<span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">Scene</span>(root, 300, 250));
-        primaryStage.show();
-    }
-}
+        <span style="color: #fff59d;">StackPane</span> <span style="color: #aaccff;">root</span> = <span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">StackPane</span><span style="color: #aaccff;">()</span>;
+        root.getChildren<span style="color: #aaccff;">()</span>.add<span style="color: #aaccff;">(</span>btn<span style="color: #aaccff;">)</span>;
+        primaryStage.setScene<span style="color: #aaccff;">(</span><span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">Scene</span><span style="color: #aaeecc;">(</span>root, 300, 250<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>;
+        primaryStage.show<span style="color: #aaccff;">()</span>;
+    <span style="color: #81d4fa;">}</span>
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org24811e9" class="outline-2">
-<h2 id="org24811e9">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org24811e9">
+<div id="outline-container-orgd5545ee" class="outline-2">
+<h2 id="orgd5545ee">建立我們的專案</h2>
+<div class="outline-text-2" id="text-orgd5545ee">
 <p>
 現在我們來建立一個新的 clojure 專案
 </p>
@@ -303,23 +303,23 @@ Time) 編譯。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">helloworld</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">helloworld</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
   <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"FIXME: write description"</span>
   <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
-  <span style="color: #ccaaff;">:license</span> {<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
-            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span>}
-  <span style="color: #ccaaff;">:dependencies</span> [[<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span>]]
+  <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
+            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
 
   <span style="color: #ccaaff;">:aot</span> <span style="color: #ccaaff;">:all</span>
-  <span style="color: #ccaaff;">:main</span> <span style="color: #fff59d;">helloworld.core</span>)
+  <span style="color: #ccaaff;">:main</span> <span style="color: #fff59d;">helloworld.core</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc1e326e" class="outline-2">
-<h2 id="orgc1e326e">編輯 core.clj</h2>
-<div class="outline-text-2" id="text-orgc1e326e">
+<div id="outline-container-orgc12ffa9" class="outline-2">
+<h2 id="orgc12ffa9">編輯 core.clj</h2>
+<div class="outline-text-2" id="text-orgc12ffa9">
 <p>
 接著編輯 <code>src/helloworld/core.clj</code> ，將原本的內容清除，我們將仿照 Java 的版本一
 一加上我們的程式。
@@ -331,13 +331,13 @@ Time) 編譯。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">helloworld.core</span>
-  (<span style="color: #ccaaff;">:import</span> (<span style="color: #fff59d;">javafx.application</span> <span style="color: #fff59d;">Application</span>)
-           (<span style="color: #fff59d;">javafx.event</span> <span style="color: #fff59d;">ActionEvent</span> <span style="color: #fff59d;">EventHandler</span>)
-           (<span style="color: #fff59d;">javafx.scene</span> <span style="color: #fff59d;">Scene</span>)
-           (<span style="color: #fff59d;">javafx.scene.control</span> <span style="color: #fff59d;">Button</span>)
-           (<span style="color: #fff59d;">javafx.scene.layout</span> <span style="color: #fff59d;">StackPane</span>)
-           (<span style="color: #fff59d;">javafx.stage</span> <span style="color: #fff59d;">Stage</span>)))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">helloworld.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.application</span> <span style="color: #fff59d;">Application</span><span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.event</span> <span style="color: #fff59d;">ActionEvent</span> <span style="color: #fff59d;">EventHandler</span><span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.scene</span> <span style="color: #fff59d;">Scene</span><span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.scene.control</span> <span style="color: #fff59d;">Button</span><span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.scene.layout</span> <span style="color: #fff59d;">StackPane</span><span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.stage</span> <span style="color: #fff59d;">Stage</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -347,9 +347,9 @@ Time) 編譯。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(gen-class
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>gen-class
  <span style="color: #ccaaff;">:name</span> <span style="color: #fff59d;">helloworld.core</span>
- <span style="color: #ccaaff;">:extends</span> <span style="color: #fff59d;">javafx.application.Application</span>)
+ <span style="color: #ccaaff;">:extends</span> <span style="color: #fff59d;">javafx.application.Application</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -358,8 +358,8 @@ Time) 編譯。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (<span style="color: #fff59d;">Application</span><span style="color: #c6cccc; background-color: #202020;">/</span>launch <span style="color: #fff59d;">hello.core</span> args))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">Application</span><span style="color: #c6cccc; background-color: #202020;">/</span>launch <span style="color: #fff59d;">hello.core</span> args<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -375,32 +375,32 @@ Time) 編譯。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-start</span> [this stage]
-  (<span style="color: #aaffaa;">let</span> [root (<span style="color: #fff59d;">StackPane.</span>)
-        btn (<span style="color: #fff59d;">Button.</span>)]
-    (<span style="color: #ff8888;">.setTitle</span> stage <span style="color: #aadddd;">"Hello javafx"</span>)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-start</span> <span style="color: #81d4fa;">[</span>this stage<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>root <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">StackPane.</span><span style="color: #aaeecc;">)</span>
+        btn <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Button.</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.setTitle</span> stage <span style="color: #aadddd;">"Hello javafx"</span><span style="color: #aaccff;">)</span>
 
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Add click event to button and set label</span>
-    (<span style="color: #ff8888;">.setOnAction</span> btn
-                  (proxy [<span style="color: #fff59d;">EventHandler</span>] []
-                    (handle [^<span style="color: #fff59d;">ActionEvent</span> event]
-                      (println <span style="color: #aadddd;">"hello world!"</span>))))
-    (<span style="color: #ff8888;">.setText</span> btn <span style="color: #aadddd;">"Say 'Hello World'"</span>)
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.setOnAction</span> btn
+                  <span style="color: #aaeecc;">(</span>proxy <span style="color: #ccaaff;">[</span><span style="color: #fff59d;">EventHandler</span><span style="color: #ccaaff;">]</span> <span style="color: #ccaaff;">[]</span>
+                    <span style="color: #ccaaff;">(</span>handle <span style="color: #fff59d;">[</span>^<span style="color: #fff59d;">ActionEvent</span> event<span style="color: #fff59d;">]</span>
+                      <span style="color: #fff59d;">(</span>println <span style="color: #aadddd;">"hello world!"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.setText</span> btn <span style="color: #aadddd;">"Say 'Hello World'"</span><span style="color: #aaccff;">)</span>
 
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Add button to stackPane</span>
-    (<span style="color: #ff8888;">.add</span> (<span style="color: #ff8888;">.getChildren</span> root) btn)
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.add</span> <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.getChildren</span> root<span style="color: #aaeecc;">)</span> btn<span style="color: #aaccff;">)</span>
 
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Create Scene</span>
-    (<span style="color: #ff8888;">.setScene</span> stage (<span style="color: #fff59d;">Scene.</span> root 300 250))
-    (<span style="color: #ff8888;">.show</span> stage)))
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.setScene</span> stage <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Scene.</span> root 300 250<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.show</span> stage<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgeadfdaa" class="outline-2">
-<h2 id="orgeadfdaa">執行我們的程式</h2>
-<div class="outline-text-2" id="text-orgeadfdaa">
+<div id="outline-container-orgd7f908e" class="outline-2">
+<h2 id="orgd7f908e">執行我們的程式</h2>
+<div class="outline-text-2" id="text-orgd7f908e">
 <p>
 由於我們一開始就在 <code>project.clj</code> 裡面加上了 <code>:aot all</code> 的設定，因此我們可以直接
 使用 <code>lein run</code> 來執行並測試這隻程式。
@@ -420,48 +420,48 @@ coldnew@Rosia ~/helloworld $ lein run
 </div>
 </div>
 
-<div id="outline-container-org80621bc" class="outline-2">
-<h2 id="org80621bc">完整程式碼</h2>
-<div class="outline-text-2" id="text-org80621bc">
+<div id="outline-container-org78cf4d0" class="outline-2">
+<h2 id="org78cf4d0">完整程式碼</h2>
+<div class="outline-text-2" id="text-org78cf4d0">
 <p>
 由於這篇文章的程式很單純，因此我就不提供 git repo 讓各位測試，本文完整的程式碼如
 下：
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">helloworld.core</span>
-  (<span style="color: #ccaaff;">:import</span> (<span style="color: #fff59d;">javafx.application</span> <span style="color: #fff59d;">Application</span>)
-           (<span style="color: #fff59d;">javafx.event</span> <span style="color: #fff59d;">ActionEvent</span> <span style="color: #fff59d;">EventHandler</span>)
-           (<span style="color: #fff59d;">javafx.scene</span> <span style="color: #fff59d;">Scene</span>)
-           (<span style="color: #fff59d;">javafx.scene.control</span> <span style="color: #fff59d;">Button</span>)
-           (<span style="color: #fff59d;">javafx.scene.layout</span> <span style="color: #fff59d;">StackPane</span>)
-           (<span style="color: #fff59d;">javafx.stage</span> <span style="color: #fff59d;">Stage</span>)))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">helloworld.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.application</span> <span style="color: #fff59d;">Application</span><span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.event</span> <span style="color: #fff59d;">ActionEvent</span> <span style="color: #fff59d;">EventHandler</span><span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.scene</span> <span style="color: #fff59d;">Scene</span><span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.scene.control</span> <span style="color: #fff59d;">Button</span><span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.scene.layout</span> <span style="color: #fff59d;">StackPane</span><span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #fff59d;">javafx.stage</span> <span style="color: #fff59d;">Stage</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(gen-class
+<span style="color: #aadddd;">(</span>gen-class
  <span style="color: #ccaaff;">:name</span> <span style="color: #fff59d;">helloworld.core</span>
- <span style="color: #ccaaff;">:extends</span> <span style="color: #fff59d;">javafx.application.Application</span>)
+ <span style="color: #ccaaff;">:extends</span> <span style="color: #fff59d;">javafx.application.Application</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (<span style="color: #fff59d;">Application</span><span style="color: #c6cccc; background-color: #202020;">/</span>launch <span style="color: #fff59d;">hello.core</span> args))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">Application</span><span style="color: #c6cccc; background-color: #202020;">/</span>launch <span style="color: #fff59d;">hello.core</span> args<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-start</span> [this stage]
-  (<span style="color: #aaffaa;">let</span> [root (<span style="color: #fff59d;">StackPane.</span>)
-        btn (<span style="color: #fff59d;">Button.</span>)]
-    (<span style="color: #ff8888;">.setTitle</span> stage <span style="color: #aadddd;">"Hello javafx"</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-start</span> <span style="color: #81d4fa;">[</span>this stage<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>root <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">StackPane.</span><span style="color: #aaeecc;">)</span>
+        btn <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Button.</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.setTitle</span> stage <span style="color: #aadddd;">"Hello javafx"</span><span style="color: #aaccff;">)</span>
 
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Add click event to button and set label</span>
-    (<span style="color: #ff8888;">.setOnAction</span> btn
-                  (proxy [<span style="color: #fff59d;">EventHandler</span>] []
-                    (handle [^<span style="color: #fff59d;">ActionEvent</span> event]
-                      (println <span style="color: #aadddd;">"hello world!"</span>))))
-    (<span style="color: #ff8888;">.setText</span> btn <span style="color: #aadddd;">"Say 'Hello World'"</span>)
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.setOnAction</span> btn
+                  <span style="color: #aaeecc;">(</span>proxy <span style="color: #ccaaff;">[</span><span style="color: #fff59d;">EventHandler</span><span style="color: #ccaaff;">]</span> <span style="color: #ccaaff;">[]</span>
+                    <span style="color: #ccaaff;">(</span>handle <span style="color: #fff59d;">[</span>^<span style="color: #fff59d;">ActionEvent</span> event<span style="color: #fff59d;">]</span>
+                      <span style="color: #fff59d;">(</span>println <span style="color: #aadddd;">"hello world!"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.setText</span> btn <span style="color: #aadddd;">"Say 'Hello World'"</span><span style="color: #aaccff;">)</span>
 
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Add button to stackPane</span>
-    (<span style="color: #ff8888;">.add</span> (<span style="color: #ff8888;">.getChildren</span> root) btn)
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.add</span> <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.getChildren</span> root<span style="color: #aaeecc;">)</span> btn<span style="color: #aaccff;">)</span>
 
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Create Scene</span>
-    (<span style="color: #ff8888;">.setScene</span> stage (<span style="color: #fff59d;">Scene.</span> root 300 250))
-    (<span style="color: #ff8888;">.show</span> stage)))
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.setScene</span> stage <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Scene.</span> root 300 250<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.show</span> stage<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
@@ -624,7 +624,7 @@ coldnew@Rosia ~/helloworld $ lein run
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc62040d"><span class="nav-text">先來看看 JAVA 要怎樣寫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org24811e9"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc1e326e"><span class="nav-text">編輯 core.clj</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgeadfdaa"><span class="nav-text">執行我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org80621bc"><span class="nav-text">完整程式碼</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf179325"><span class="nav-text">先來看看 JAVA 要怎樣寫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd5545ee"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc12ffa9"><span class="nav-text">編輯 core.clj</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd7f908e"><span class="nav-text">執行我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org78cf4d0"><span class="nav-text">完整程式碼</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -257,9 +257,9 @@
 有些演講真的很難畫重點，還是挑自己有興趣的看吧!!
 </p>
 
-<div id="outline-container-orgc8441c9" class="outline-2">
-<h2 id="orgc8441c9">Using Clojure to provide computerized psychotherapy</h2>
-<div class="outline-text-2" id="text-orgc8441c9">
+<div id="outline-container-org40dc66d" class="outline-2">
+<h2 id="org40dc66d">Using Clojure to provide computerized psychotherapy</h2>
+<div class="outline-text-2" id="text-org40dc66d">
 <br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Ze3Acb42f3o?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
 <br>
@@ -315,9 +315,9 @@
 </div>
 </div>
 
-<div id="outline-container-org6f8aefa" class="outline-2">
-<h2 id="org6f8aefa">The Universe As A Value</h2>
-<div class="outline-text-2" id="text-org6f8aefa">
+<div id="outline-container-orgeff3537" class="outline-2">
+<h2 id="orgeff3537">The Universe As A Value</h2>
+<div class="outline-text-2" id="text-orgeff3537">
 <br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/odPAkEO2uPQ?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
 <br>
@@ -336,7 +336,7 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">observer</span> (atom {<span style="color: #ccaaff;">:universe</span> u <span style="color: #ccaaff;">:time</span> t}))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">observer</span> <span style="color: #81d4fa;">(</span>atom <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:universe</span> u <span style="color: #ccaaff;">:time</span> t<span style="color: #aaccff;">}</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -355,10 +355,10 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">next-u</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">next-u</span>
   <span style="color: #97abc6; font-style: italic;">"Given an observed universe u, return a possible 'next' universe."</span>
-  [u t]
-  (rand-nth (filter #(consistent? <span style="color: #aaccff;">%</span> u t) &#120140;)))
+  <span style="color: #81d4fa;">[</span>u t<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>rand-nth <span style="color: #aaccff;">(</span>filter #<span style="color: #aaeecc;">(</span>consistent? <span style="color: #aaccff;">%</span> u t<span style="color: #aaeecc;">)</span> &#120140;<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -367,14 +367,14 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">switch-universe!</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">switch-universe!</span>
   <span style="color: #97abc6; font-style: italic;">"Put the given observer in another universe"</span>
-  [observer]
-  (swap!
-   (<span style="color: #aaffaa;">fn</span> [{<span style="color: #ccaaff;">:keys</span> [universe time]}]
-     {<span style="color: #ccaaff;">:universe</span> (next-u universe time)
-      <span style="color: #ccaaff;">:time</span> (inc time)})
-   observer))
+  <span style="color: #81d4fa;">[</span>observer<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>swap!
+   <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaeecc;">[</span><span style="color: #ccaaff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #fff59d;">[</span>universe time<span style="color: #fff59d;">]</span><span style="color: #ccaaff;">}</span><span style="color: #aaeecc;">]</span>
+     <span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:universe</span> <span style="color: #ccaaff;">(</span>next-u universe time<span style="color: #ccaaff;">)</span>
+      <span style="color: #ccaaff;">:time</span> <span style="color: #ccaaff;">(</span>inc time<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">)</span>
+   observer<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -383,10 +383,10 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">run-observer</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">run-observer</span>
   <span style="color: #97abc6; font-style: italic;">"Run the observer, giving them the impression of passing time"</span>
-  [observer]
-  (<span style="color: #aaffaa;">dorun</span> (iterate switch-universe! observer)))
+  <span style="color: #81d4fa;">[</span>observer<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">dorun</span> <span style="color: #aaccff;">(</span>iterate switch-universe! observer<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -407,14 +407,14 @@
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">The app 'universe'</span>
-(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">app-state</span>
-  (atom
-   {<span style="color: #ccaaff;">:drawer</span> {<span style="color: #ccaaff;">:items</span> [{<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"ear-plugs"</span>}]}
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">app-state</span>
+  <span style="color: #81d4fa;">(</span>atom
+   <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:drawer</span> <span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:items</span> <span style="color: #ccaaff;">[</span><span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"ear-plugs"</span><span style="color: #fff59d;">}</span><span style="color: #ccaaff;">]</span><span style="color: #aaeecc;">}</span>
     shopping
-    {<span style="color: #ccaaff;">:items</span>
-     [{<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Coffee"</span> <span style="color: #ccaaff;">:quantity</span> 2}
-      {<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Milk"</span> <span style="color: #ccaaff;">:quantity</span> 2}
-      {<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Bird seed"</span> <span style="color: #ccaaff;">:quantity</span> <span style="color: #ccaaff;">:lots</span>}]}}))
+    <span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:items</span>
+     <span style="color: #ccaaff;">[</span><span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Coffee"</span> <span style="color: #ccaaff;">:quantity</span> 2<span style="color: #fff59d;">}</span>
+      <span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Milk"</span> <span style="color: #ccaaff;">:quantity</span> 2<span style="color: #fff59d;">}</span>
+      <span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Bird seed"</span> <span style="color: #ccaaff;">:quantity</span> <span style="color: #ccaaff;">:lots</span><span style="color: #fff59d;">}</span><span style="color: #ccaaff;">]</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -423,7 +423,7 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(deref app-state)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>deref app-state<span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">or</span>
 
@@ -469,12 +469,12 @@ Object Orientation: Lots of changing state, scatered around.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defrecord</span> <span style="color: #fff59d;">AppState</span> [data-sources]
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defrecord</span> <span style="color: #fff59d;">AppState</span> <span style="color: #81d4fa;">[</span>data-sources<span style="color: #81d4fa;">]</span>
   <span style="color: #fff59d;">clojure.lang.IDeref</span>
-  (deref [this]
-    (<span style="color: #fff59d;">skup</span><span style="color: #c6cccc; background-color: #202020;">/</span>refresh! this)
+  <span style="color: #81d4fa;">(</span>deref <span style="color: #aaccff;">[</span>this<span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">skup</span><span style="color: #c6cccc; background-color: #202020;">/</span>refresh! this<span style="color: #aaccff;">)</span>
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Return the 'universe as a value'</span>
-    ))
+    <span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Skippy McSkipface: https://github.com/juxt/skip</span>
 </pre>
 </div>
@@ -557,9 +557,9 @@ the C model and the Lisp model.
 </div>
 </div>
 
-<div id="outline-container-orgc3af09f" class="outline-2">
-<h2 id="orgc3af09f">Native mobile apps with ClojureScript</h2>
-<div class="outline-text-2" id="text-orgc3af09f">
+<div id="outline-container-org1473321" class="outline-2">
+<h2 id="org1473321">Native mobile apps with ClojureScript</h2>
+<div class="outline-text-2" id="text-org1473321">
 <br>
 <iframe width="" height="315" src="https://www.youtube.com/embed/6IYm34nDL64?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
 <br>
@@ -588,12 +588,12 @@ the C model and the Lisp model.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js-jsx"><span style="color: #aaffaa;">import</span> React, { Component } from <span style="color: #aadddd;">'react'</span>;
-<span style="color: #aaffaa;">import</span> { Text, View } from <span style="color: #aadddd;">'react-native'</span>;
+<pre class="src src-js-jsx"><span style="color: #aaffaa;">import</span> React, <span style="color: #aadddd;">{</span> Component <span style="color: #aadddd;">}</span> from <span style="color: #aadddd;">'react'</span>;
+<span style="color: #aaffaa;">import</span> <span style="color: #aadddd;">{</span> Text, View <span style="color: #aadddd;">}</span> from <span style="color: #aadddd;">'react-native'</span>;
 
-<span style="color: #aaffaa;">class</span> WhyReactNativeIsSoGreat <span style="color: #aaffaa;">extends</span> Component {
-    render() {
-        <span style="color: #aaffaa;">return</span> (
+<span style="color: #aaffaa;">class</span> WhyReactNativeIsSoGreat <span style="color: #aaffaa;">extends</span> Component <span style="color: #aadddd;">{</span>
+    render<span style="color: #81d4fa;">()</span> <span style="color: #81d4fa;">{</span>
+        <span style="color: #aaffaa;">return</span> <span style="color: #aaccff;">(</span>
             &lt;View&gt;
               &lt;Text&gt;
                 If you like React on the web, yoou<span style="color: #aadddd;">'ll like React Native.</span>
@@ -614,21 +614,21 @@ the C model and the Lisp model.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">rn-example.core</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">reagent.core</span> <span style="color: #ccaaff;">:as</span> r]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">rn-example.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">reagent.core</span> <span style="color: #ccaaff;">:as</span> r<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">react-native</span>
-  (<span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>require
-   <span style="color: #aadddd;">"react-native/Libraries/react-native/react-native.js"</span>))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">react-native</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>require
+   <span style="color: #aadddd;">"react-native/Libraries/react-native/react-native.js"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">view</span> (<span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>adapt-react-class (.-View react-native)))
-(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">text</span> (<span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>adapt-react-class (.-Text react-native)))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">view</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>adapt-react-class <span style="color: #aaccff;">(</span>.-View react-native<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">text</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>adapt-react-class <span style="color: #aaccff;">(</span>.-Text react-native<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">why-react-native-is-so-great</span> []
-  [view
-   [text <span style="color: #aadddd;">"If you like React on the web, you'll like React Nateive"</span>]
-   [text <span style="color: #aadddd;">"You just use native components like 'View' and 'Text'</span>
-<span style="color: #aadddd;">instead of web components like 'div' and 'span'."</span>]])
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">why-react-native-is-so-great</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">[</span>view
+   <span style="color: #aaccff;">[</span>text <span style="color: #aadddd;">"If you like React on the web, you'll like React Nateive"</span><span style="color: #aaccff;">]</span>
+   <span style="color: #aaccff;">[</span>text <span style="color: #aadddd;">"You just use native components like 'View' and 'Text'</span>
+<span style="color: #aadddd;">instead of web components like 'div' and 'span'."</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -689,9 +689,9 @@ Uses leinigen, runtime errors are not traceable, templates for re-frame, om.next
 </div>
 </div>
 
-<div id="outline-container-org38fbe47" class="outline-2">
-<h2 id="org38fbe47">Isomorphic web apps with Rum</h2>
-<div class="outline-text-2" id="text-org38fbe47">
+<div id="outline-container-orge0d8389" class="outline-2">
+<h2 id="orge0d8389">Isomorphic web apps with Rum</h2>
+<div class="outline-text-2" id="text-orge0d8389">
 <br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2fLx4fu9VV8?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
 <br>
@@ -711,11 +711,11 @@ Uses leinigen, runtime errors are not traceable, templates for re-frame, om.next
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #fff59d;">rum</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #aaffaa;">defc</span> <span style="color: #aaccff;">label</span> [text class]
-  [<span style="color: #ccaaff;">:div.lbl</span> {<span style="color: #ccaaff;">:class</span> class} text])
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">rum</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #aaffaa;">defc</span> <span style="color: #aaccff;">label</span> <span style="color: #81d4fa;">[</span>text class<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">:div.lbl</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> class<span style="color: #aaccff;">}</span> text<span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #fff59d;">rum</span><span style="color: #c6cccc; background-color: #202020;">/</span>mount (label <span style="color: #aadddd;">"Hello"</span> <span style="color: #aadddd;">"header"</span>)
-           <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>document.body)
+<span style="color: #aadddd;">(</span><span style="color: #fff59d;">rum</span><span style="color: #c6cccc; background-color: #202020;">/</span>mount <span style="color: #81d4fa;">(</span>label <span style="color: #aadddd;">"Hello"</span> <span style="color: #aadddd;">"header"</span><span style="color: #81d4fa;">)</span>
+           <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>document.body<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -724,13 +724,13 @@ Uses leinigen, runtime errors are not traceable, templates for re-frame, om.next
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">mixin</span>
-  {<span style="color: #ccaaff;">:will-mount</span>
-   (<span style="color: #aaffaa;">fn</span> [state]
-     (assoc state <span style="color: #ccaaff;">:key</span> (atom <span style="color: #ccaaff;">nil</span>)))})
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">mixin</span>
+  <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:will-mount</span>
+   <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaeecc;">[</span>state<span style="color: #aaeecc;">]</span>
+     <span style="color: #aaeecc;">(</span>assoc state <span style="color: #ccaaff;">:key</span> <span style="color: #ccaaff;">(</span>atom <span style="color: #ccaaff;">nil</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #fff59d;">rum</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #aaffaa;">defc</span> <span style="color: #aaccff;">label</span> &lt; mixin [text class]
-  ([<span style="color: #ccaaff;">:div.label</span> {<span style="color: #ccaaff;">:class</span> class} text]))
+<span style="color: #aadddd;">(</span><span style="color: #fff59d;">rum</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #aaffaa;">defc</span> <span style="color: #aaccff;">label</span> &lt; mixin <span style="color: #81d4fa;">[</span>text class<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaccff;">[</span><span style="color: #ccaaff;">:div.label</span> <span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:class</span> class<span style="color: #aaeecc;">}</span> text<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -764,9 +764,9 @@ Uses leinigen, runtime errors are not traceable, templates for re-frame, om.next
 </div>
 </div>
 
-<div id="outline-container-org84954d8" class="outline-2">
-<h2 id="org84954d8">The Story of Sir Owl Lisp</h2>
-<div class="outline-text-2" id="text-org84954d8">
+<div id="outline-container-orgdde0a1f" class="outline-2">
+<h2 id="orgdde0a1f">The Story of Sir Owl Lisp</h2>
+<div class="outline-text-2" id="text-orgdde0a1f">
 <br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/utOVF0U7Zd8?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
 <br>
@@ -783,9 +783,9 @@ Uses leinigen, runtime errors are not traceable, templates for re-frame, om.next
 </div>
 </div>
 
-<div id="outline-container-org7abfcc0" class="outline-2">
-<h2 id="org7abfcc0">Doing data science with Clojure: the good, the bad, the ugly</h2>
-<div class="outline-text-2" id="text-org7abfcc0">
+<div id="outline-container-org5136d83" class="outline-2">
+<h2 id="org5136d83">Doing data science with Clojure: the good, the bad, the ugly</h2>
+<div class="outline-text-2" id="text-org5136d83">
 <br>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/xtmggfGD3RQ?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
@@ -845,9 +845,9 @@ This is possibly Clojure's most important property: the syntax expresses the cod
 </div>
 </div>
 
-<div id="outline-container-orgfd06bbf" class="outline-2">
-<h2 id="orgfd06bbf">Interactive Clojure code snippets in any web page with KLIPSE</h2>
-<div class="outline-text-2" id="text-orgfd06bbf">
+<div id="outline-container-orga7511ce" class="outline-2">
+<h2 id="orga7511ce">Interactive Clojure code snippets in any web page with KLIPSE</h2>
+<div class="outline-text-2" id="text-orga7511ce">
 <br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/33mTFjPIN10?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
 <br>
@@ -867,9 +867,9 @@ This is possibly Clojure's most important property: the syntax expresses the cod
 </div>
 </div>
 
-<div id="outline-container-orgff3b9d3" class="outline-2">
-<h2 id="orgff3b9d3">Distributed transducers</h2>
-<div class="outline-text-2" id="text-orgff3b9d3">
+<div id="outline-container-org34650f3" class="outline-2">
+<h2 id="org34650f3">Distributed transducers</h2>
+<div class="outline-text-2" id="text-org34650f3">
 <br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_9jdb5TOShk?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
 <br>
@@ -887,13 +887,13 @@ This is possibly Clojure's most important property: the syntax expresses the cod
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-1</span> [word words min-distance]
-  (<span style="color: #aaffaa;">-&gt;&gt;</span> words
-       (map (partial levensthein-distance word))
-       (filter (<span style="color: #aaffaa;">fn</span> [[d _]] (&lt;= d min-distance)))
-       (reduce group-by-distance {})))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-1</span> <span style="color: #81d4fa;">[</span>word words min-distance<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> words
+       <span style="color: #aaccff;">(</span>map <span style="color: #aaeecc;">(</span>partial levensthein-distance word<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>filter <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #ccaaff;">[</span><span style="color: #fff59d;">[</span>d _<span style="color: #fff59d;">]</span><span style="color: #ccaaff;">]</span> <span style="color: #ccaaff;">(</span>&lt;= d min-distance<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>reduce group-by-distance <span style="color: #aaeecc;">{}</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(similar-words-1 <span style="color: #aadddd;">"word"</span> [<span style="color: #aadddd;">"sword"</span> <span style="color: #aadddd;">"lord"</span> <span style="color: #aadddd;">"card"</span> <span style="color: #aadddd;">"cat"</span>] 2)
+<span style="color: #aadddd;">(</span>similar-words-1 <span style="color: #aadddd;">"word"</span> <span style="color: #81d4fa;">[</span><span style="color: #aadddd;">"sword"</span> <span style="color: #aadddd;">"lord"</span> <span style="color: #aadddd;">"card"</span> <span style="color: #aadddd;">"cat"</span><span style="color: #81d4fa;">]</span> 2<span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; {1 #{"sword" "lord"}, 2 #{"card"}}</span>
 </pre>
 </div>
@@ -903,11 +903,11 @@ This is possibly Clojure's most important property: the syntax expresses the cod
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-2</span> [word words min-distance]
-  (transduce (comp (map (partial levensthein-distance word))
-                (filter (<span style="color: #aaffaa;">fn</span> [[d _]] (&lt;= d min-distance))))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-2</span> <span style="color: #81d4fa;">[</span>word words min-distance<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>transduce <span style="color: #aaccff;">(</span>comp <span style="color: #aaeecc;">(</span>map <span style="color: #ccaaff;">(</span>partial levensthein-distance word<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+                <span style="color: #aaeecc;">(</span>filter <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #fff59d;">[</span><span style="color: #ff8888;">[</span>d _<span style="color: #ff8888;">]</span><span style="color: #fff59d;">]</span> <span style="color: #fff59d;">(</span>&lt;= d min-distance<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
              group-by-distance
-             words))
+             words<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -916,12 +916,12 @@ This is possibly Clojure's most important property: the syntax expresses the cod
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-3</span> [word words min-distance]
-  (<span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>fold (partial merge-with concat)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-3</span> <span style="color: #81d4fa;">[</span>word words min-distance<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>fold <span style="color: #aaccff;">(</span>partial merge-with concat<span style="color: #aaccff;">)</span>
           group-by-distance
-          (<span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>folder words
-                    (comp (map (partial levensthein-distance word))
-                       (filter (<span style="color: #aaffaa;">fn</span> [[d _]] (&lt;= d min-distance)))))))
+          <span style="color: #aaccff;">(</span><span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>folder words
+                    <span style="color: #aaeecc;">(</span>comp <span style="color: #ccaaff;">(</span>map <span style="color: #fff59d;">(</span>partial levensthein-distance word<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+                       <span style="color: #ccaaff;">(</span>filter <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #ff8888;">[</span><span style="color: #795548;">[</span>d _<span style="color: #795548;">]</span><span style="color: #ff8888;">]</span> <span style="color: #ff8888;">(</span>&lt;= d min-distance<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -941,11 +941,11 @@ fold uses two functions: a "reducing" function, which it calls as a regular redu
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-4</span> [word words min-distance]
-  (<span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>fold (partial merge-with concat)
-          ((comp (map (partial levensthein-distance word))
-              (filter (<span style="color: #aaffaa;">fn</span> [[d _]] (&lt;= d min-distance)))) group-by-distance)
-          words))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-4</span> <span style="color: #81d4fa;">[</span>word words min-distance<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>fold <span style="color: #aaccff;">(</span>partial merge-with concat<span style="color: #aaccff;">)</span>
+          <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>comp <span style="color: #ccaaff;">(</span>map <span style="color: #fff59d;">(</span>partial levensthein-distance word<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+              <span style="color: #ccaaff;">(</span>filter <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #ff8888;">[</span><span style="color: #795548;">[</span>d _<span style="color: #795548;">]</span><span style="color: #ff8888;">]</span> <span style="color: #ff8888;">(</span>&lt;= d min-distance<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span> group-by-distance<span style="color: #aaccff;">)</span>
+          words<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -954,11 +954,11 @@ fold uses two functions: a "reducing" function, which it calls as a regular redu
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-5</span> [word words min-distance]
-  (<span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>fold (partial merge-with concat)
-          ((comp (map (partial levensthein-distance word))
-              (filter (<span style="color: #aaffaa;">fn</span> [[d _]] (&lt;= d min-distance)))) group-by-distance)
-          (vec words)))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-5</span> <span style="color: #81d4fa;">[</span>word words min-distance<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>fold <span style="color: #aaccff;">(</span>partial merge-with concat<span style="color: #aaccff;">)</span>
+          <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>comp <span style="color: #ccaaff;">(</span>map <span style="color: #fff59d;">(</span>partial levensthein-distance word<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+              <span style="color: #ccaaff;">(</span>filter <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #ff8888;">[</span><span style="color: #795548;">[</span>d _<span style="color: #795548;">]</span><span style="color: #ff8888;">]</span> <span style="color: #ff8888;">(</span>&lt;= d min-distance<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span> group-by-distance<span style="color: #aaccff;">)</span>
+          <span style="color: #aaccff;">(</span>vec words<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -992,17 +992,17 @@ fold uses two functions: a "reducing" function, which it calls as a regular redu
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #ccaaff;">:plugins</span> [[lein-clj-lambda <span style="color: #aadddd;">"0.5.1"</span>]]
-<span style="color: #ccaaff;">:lambda</span> {<span style="color: #aadddd;">"demo"</span> [{<span style="color: #ccaaff;">:handler</span> <span style="color: #aadddd;">"distributed-transducers-poc.LambdaFn"</span>
+<pre class="src src-clojure"><span style="color: #ccaaff;">:plugins</span> <span style="color: #aadddd;">[</span><span style="color: #81d4fa;">[</span>lein-clj-lambda <span style="color: #aadddd;">"0.5.1"</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">]</span>
+<span style="color: #ccaaff;">:lambda</span> <span style="color: #aadddd;">{</span><span style="color: #aadddd;">"demo"</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:handler</span> <span style="color: #aadddd;">"distributed-transducers-poc.LambdaFn"</span>
                   <span style="color: #ccaaff;">:memory-size</span> 1536
                   <span style="color: #ccaaff;">:timeout</span> 300
                   <span style="color: #ccaaff;">:function-name</span> <span style="color: #aadddd;">"distributed-transducers-poc"</span>
                   <span style="color: #ccaaff;">:region</span> <span style="color: #aadddd;">"eu-west-1"</span>
-                  <span style="color: #ccaaff;">:policy-statements</span> [{<span style="color: #ccaaff;">:Effect</span> <span style="color: #aadddd;">"Allow"</span>
-                                       <span style="color: #ccaaff;">:Action</span> [<span style="color: #aadddd;">"sqs:*"</span>]
-                                       <span style="color: #ccaaff;">:Resource</span> [<span style="color: #aadddd;">"arn:aws:sqs:eu-west-1:*"</span>]}]
-                  <span style="color: #ccaaff;">:s3</span> {<span style="color: #ccaaff;">:bucket</span> <span style="color: #aadddd;">"mhjort-distributed-transducers-poc"</span>
-                       <span style="color: #ccaaff;">:object-key</span> <span style="color: #aadddd;">"lambda.jar"</span>}}]}
+                  <span style="color: #ccaaff;">:policy-statements</span> <span style="color: #aaeecc;">[</span><span style="color: #ccaaff;">{</span><span style="color: #ccaaff;">:Effect</span> <span style="color: #aadddd;">"Allow"</span>
+                                       <span style="color: #ccaaff;">:Action</span> <span style="color: #fff59d;">[</span><span style="color: #aadddd;">"sqs:*"</span><span style="color: #fff59d;">]</span>
+                                       <span style="color: #ccaaff;">:Resource</span> <span style="color: #fff59d;">[</span><span style="color: #aadddd;">"arn:aws:sqs:eu-west-1:*"</span><span style="color: #fff59d;">]</span><span style="color: #ccaaff;">}</span><span style="color: #aaeecc;">]</span>
+                  <span style="color: #ccaaff;">:s3</span> <span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:bucket</span> <span style="color: #aadddd;">"mhjort-distributed-transducers-poc"</span>
+                       <span style="color: #ccaaff;">:object-key</span> <span style="color: #aadddd;">"lambda.jar"</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -1019,13 +1019,13 @@ lein lambda install demo
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">distributed-transducers-poc.demo</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">distributed-transducers-ppc.rc</span> <span style="color: #ccaaff;">:refer</span> [dfold]]
-            [<span style="color: #fff59d;">clojure.core.reducers</span> <span style="color: #ccaaff;">:as</span> r]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">distributed-transducers-poc.demo</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">distributed-transducers-ppc.rc</span> <span style="color: #ccaaff;">:refer</span> <span style="color: #aaeecc;">[</span>dfold<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">clojure.core.reducers</span> <span style="color: #ccaaff;">:as</span> r<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>fold + ((map inc) +) (range 100000))
+<span style="color: #aadddd;">(</span><span style="color: #fff59d;">r</span><span style="color: #c6cccc; background-color: #202020;">/</span>fold + <span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span>map inc<span style="color: #aaccff;">)</span> +<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>range 100000<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(dfold + ((map inc) +) (range 100000) 2) <span style="color: #9ac; font-style: italic;">; &lt;= 2 is how many instance you run</span>
+<span style="color: #aadddd;">(</span>dfold + <span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span>map inc<span style="color: #aaccff;">)</span> +<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>range 100000<span style="color: #81d4fa;">)</span> 2<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; &lt;= 2 is how many instance you run</span>
 </pre>
 </div>
 
@@ -1044,12 +1044,12 @@ lein lambda install demo
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-6</span> [word words min-distance]
-    (dfold (partial merge-with concat)
-           ((comp (map (partial levensthein-distance word))
-               (filter (<span style="color: #aaffaa;">fn</span> [[d _]] (&lt;= d min-distance)))) group-by-distance)
-           (vec words)
-           10))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">similar-words-6</span> <span style="color: #81d4fa;">[</span>word words min-distance<span style="color: #81d4fa;">]</span>
+    <span style="color: #81d4fa;">(</span>dfold <span style="color: #aaccff;">(</span>partial merge-with concat<span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>comp <span style="color: #ccaaff;">(</span>map <span style="color: #fff59d;">(</span>partial levensthein-distance word<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+               <span style="color: #ccaaff;">(</span>filter <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #ff8888;">[</span><span style="color: #795548;">[</span>d _<span style="color: #795548;">]</span><span style="color: #ff8888;">]</span> <span style="color: #ff8888;">(</span>&lt;= d min-distance<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span> group-by-distance<span style="color: #aaccff;">)</span>
+           <span style="color: #aaccff;">(</span>vec words<span style="color: #aaccff;">)</span>
+           10<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -1067,9 +1067,9 @@ lein lambda install demo
 </div>
 </div>
 
-<div id="outline-container-orgc3d540d" class="outline-2">
-<h2 id="orgc3d540d">Introduction to clojure.spec - Arne Brasseur</h2>
-<div class="outline-text-2" id="text-orgc3d540d">
+<div id="outline-container-orgf767c8f" class="outline-2">
+<h2 id="orgf767c8f">Introduction to clojure.spec - Arne Brasseur</h2>
+<div class="outline-text-2" id="text-orgf767c8f">
 <br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/-MeOPF94LhI?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
 <br>
@@ -1096,8 +1096,8 @@ lein lambda install demo
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defperoject</span> <span style="color: #aaccff;">myproject</span> <span style="color: #aadddd;">"0.1.0-SNAPAHOT"</span>
-  <span style="color: #ccaaff;">:dependencies</span> [[<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.9.0-alpha13"</span>]])
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defperoject</span> <span style="color: #aaccff;">myproject</span> <span style="color: #aadddd;">"0.1.0-SNAPAHOT"</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.9.0-alpha13"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -1106,8 +1106,8 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(set-env!
- <span style="color: #ccaaff;">:dependencies</span> '[[<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.9.0-alpha13"</span>]])
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>set-env!
+ <span style="color: #ccaaff;">:dependencies</span> '<span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.9.0-alpha13"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -1116,13 +1116,13 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">tomato-sauce-recipe</span>
-  {<span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> [250 <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"peeled tomatoes"</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">tomato-sauce-recipe</span>
+  <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> <span style="color: #aaccff;">[</span>250 <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"peeled tomatoes"</span>
                           3 <span style="color: #ccaaff;">:clove</span> <span style="color: #aadddd;">"garlic"</span>
-                          5 <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"pepper"</span>]
-   <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">steps</span> [<span style="color: #aadddd;">"heat a pan"</span>
+                          5 <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"pepper"</span><span style="color: #aaccff;">]</span>
+   <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">steps</span> <span style="color: #aaccff;">[</span><span style="color: #aadddd;">"heat a pan"</span>
                     <span style="color: #aadddd;">"throw everything in"</span>
-                    <span style="color: #aadddd;">"stir"</span>]})
+                    <span style="color: #aadddd;">"stir"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -1141,8 +1141,8 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">{<span style="color: #ccaaff;">:</span><span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">method</span> <span style="color: #ccaaff;">:get</span>
- <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">method</span> <span style="color: #ccaaff;">:stir</span>}
+<pre class="src src-clojure"><span style="color: #aadddd;">{</span><span style="color: #ccaaff;">:</span><span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">method</span> <span style="color: #ccaaff;">:get</span>
+ <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">method</span> <span style="color: #ccaaff;">:stir</span><span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -1151,9 +1151,9 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">robochef.core</span>)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">robochef.core</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">ingredents</span> {,,,})
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">ingredents</span> <span style="color: #81d4fa;">{</span>,,,<span style="color: #81d4fa;">}</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef.core</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; </span><span style="color: #9ac; font-style: italic;">:robochef.core/ingredients</span>
@@ -1168,10 +1168,10 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">{<span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">recipe-name</span> <span style="color: #aadddd;">"..."</span>
- <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> [,,,]
- <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">steps</span> [,,,]
- <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">cooking-time</span> 30}
+<pre class="src src-clojure"><span style="color: #aadddd;">{</span><span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">recipe-name</span> <span style="color: #aadddd;">"..."</span>
+ <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> <span style="color: #81d4fa;">[</span>,,,<span style="color: #81d4fa;">]</span>
+ <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">steps</span> <span style="color: #81d4fa;">[</span>,,,<span style="color: #81d4fa;">]</span>
+ <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">cooking-time</span> 30<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -1180,14 +1180,14 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">recipe</span> #<span style="color: #ccaaff;">:robochef</span>{<span style="color: #ccaaff;">:recipes-name</span> <span style="color: #aadddd;">""</span>
-                       <span style="color: #ccaaff;">:ingredients</span> [,,,]
-                       <span style="color: #ccaaff;">:steps</span> [,,,]
-                       <span style="color: #ccaaff;">:cooking-time</span> 30})
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">recipe</span> #<span style="color: #ccaaff;">:robochef</span><span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:recipes-name</span> <span style="color: #aadddd;">""</span>
+                       <span style="color: #ccaaff;">:ingredients</span> <span style="color: #aaccff;">[</span>,,,<span style="color: #aaccff;">]</span>
+                       <span style="color: #ccaaff;">:steps</span> <span style="color: #aaccff;">[</span>,,,<span style="color: #aaccff;">]</span>
+                       <span style="color: #ccaaff;">:cooking-time</span> 30<span style="color: #81d4fa;">}</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">let</span> [{<span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">keys</span> [steps serves]} recipe]
-  (<span style="color: #aaffaa;">doseq</span> [s steps]
-    ,,,))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">keys</span> <span style="color: #aaeecc;">[</span>steps serves<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span> recipe<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #aaccff;">[</span>s steps<span style="color: #aaccff;">]</span>
+    ,,,<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -1196,19 +1196,19 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">robochef.core</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">clojure.spec</span> <span style="color: #ccaaff;">:as</span> s]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">robochef.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">clojure.spec</span> <span style="color: #ccaaff;">:as</span> s<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">keep in mind </span><span style="color: #9ac; font-style: italic;">::recipe</span><span style="color: #9ac; font-style: italic;"> == </span><span style="color: #9ac; font-style: italic;">:robochef.core/recipe</span>
 
-(<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">::recipe</span> (<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>keys <span style="color: #ccaaff;">:req</span> [<span style="color: #ccaaff;">::ingredients</span>]
-                        <span style="color: #ccaaff;">:opt</span> [<span style="color: #ccaaff;">::steps</span>]))
+<span style="color: #aadddd;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">::recipe</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>keys <span style="color: #ccaaff;">:req</span> <span style="color: #aaccff;">[</span><span style="color: #ccaaff;">::ingredients</span><span style="color: #aaccff;">]</span>
+                        <span style="color: #ccaaff;">:opt</span> <span style="color: #aaccff;">[</span><span style="color: #ccaaff;">::steps</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">::ingredients</span> (<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>* (<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>cat <span style="color: #ccaaff;">:amount</span> number?
+<span style="color: #aadddd;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">::ingredients</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>* <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>cat <span style="color: #ccaaff;">:amount</span> number?
                                  <span style="color: #ccaaff;">:unit</span> keyword?
-                                 <span style="color: #ccaaff;">:name</span> string?)))
+                                 <span style="color: #ccaaff;">:name</span> string?<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">::steps</span> ,,,)
+<span style="color: #aadddd;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">::steps</span> ,,,<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -1217,10 +1217,10 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>valid? <span style="color: #ccaaff;">::robochef/ingredients</span> [5 <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"tea"</span>])
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>valid? <span style="color: #ccaaff;">::robochef/ingredients</span> <span style="color: #81d4fa;">[</span>5 <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"tea"</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; true</span>
 
-(<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>conform <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> [5 <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"tea"</span>])
+<span style="color: #aadddd;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>conform <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> <span style="color: #81d4fa;">[</span>5 <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"tea"</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">[{</span><span style="color: #9ac; font-style: italic;">:amount</span><span style="color: #9ac; font-style: italic;"> 5, </span><span style="color: #9ac; font-style: italic;">:unit</span><span style="color: #9ac; font-style: italic;"> </span><span style="color: #9ac; font-style: italic;">:g</span><span style="color: #9ac; font-style: italic;">, </span><span style="color: #9ac; font-style: italic;">:name</span><span style="color: #9ac; font-style: italic;"> "tea"}]</span>
 </pre>
 </div>
@@ -1230,13 +1230,13 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>valid? <span style="color: #ccaaff;">::robochef/ingredients</span> [<span style="color: #aadddd;">"10"</span> <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"tea"</span>])
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>valid? <span style="color: #ccaaff;">::robochef/ingredients</span> <span style="color: #81d4fa;">[</span><span style="color: #aadddd;">"10"</span> <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"tea"</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; false</span>
 
-(<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>conform <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> [<span style="color: #aadddd;">"10"</span> <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"tea"</span>])
+<span style="color: #aadddd;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>conform <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> <span style="color: #81d4fa;">[</span><span style="color: #aadddd;">"10"</span> <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"tea"</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; </span><span style="color: #9ac; font-style: italic;">:clojure.spec/invalid</span>
 
-(<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>explain <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> [<span style="color: #aadddd;">"10"</span> <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"tea"</span>])
+<span style="color: #aadddd;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>explain <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> <span style="color: #81d4fa;">[</span><span style="color: #aadddd;">"10"</span> <span style="color: #ccaaff;">:g</span> <span style="color: #aadddd;">"tea"</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">In: [0] val: "10" fails spec:</span>
 <span style="color: #5f5f5f; font-style: italic;">;;   </span><span style="color: #9ac; font-style: italic;">:robochef/ingredients</span><span style="color: #9ac; font-style: italic;"> at: [</span><span style="color: #9ac; font-style: italic;">:amount</span><span style="color: #9ac; font-style: italic;">] predicate: number?</span>
 </pre>
@@ -1247,7 +1247,7 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>exercise <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> 2)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>exercise <span style="color: #ccaaff;">:</span><span style="color: #fff59d;">robochef</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">ingredients</span> 2<span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">([() []]</span>
 <span style="color: #5f5f5f; font-style: italic;">;;  </span><span style="color: #9ac; font-style: italic;">[(0 </span><span style="color: #9ac; font-style: italic;">:Hi</span><span style="color: #9ac; font-style: italic;"> "0") [{</span><span style="color: #9ac; font-style: italic;">:amount</span><span style="color: #9ac; font-style: italic;"> 0, </span><span style="color: #9ac; font-style: italic;">:unit</span><span style="color: #9ac; font-style: italic;"> </span><span style="color: #9ac; font-style: italic;">:Hi</span><span style="color: #9ac; font-style: italic;">, </span><span style="color: #9ac; font-style: italic;">:name</span><span style="color: #9ac; font-style: italic;"> "0"}]])</span>
 </pre>
@@ -1266,9 +1266,9 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </div>
 </div>
 
-<div id="outline-container-org2f78160" class="outline-2">
-<h2 id="org2f78160">Clojure of Things</h2>
-<div class="outline-text-2" id="text-org2f78160">
+<div id="outline-container-org91f25d5" class="outline-2">
+<h2 id="org91f25d5">Clojure of Things</h2>
+<div class="outline-text-2" id="text-org91f25d5">
 <br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/FUV_5Hwi5FU?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
 <br>
@@ -1285,9 +1285,9 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
 </div>
 </div>
 
-<div id="outline-container-org48b3b31" class="outline-2">
-<h2 id="org48b3b31">The Next Five Years of ClojureScript</h2>
-<div class="outline-text-2" id="text-org48b3b31">
+<div id="outline-container-orgab917e9" class="outline-2">
+<h2 id="orgab917e9">The Next Five Years of ClojureScript</h2>
+<div class="outline-text-2" id="text-orgab917e9">
 <br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/mty0RwkPmE8?list=PLetHPRQvX4a_jQjvn54Q-d1WYZ52nDfnT" frameborder="0" allowfullscreen></iframe>
 <br>
@@ -1460,7 +1460,7 @@ boot 的用戶則是在你的 <code>build.boot</code> 加入
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc8441c9"><span class="nav-text">Using Clojure to provide computerized psychotherapy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6f8aefa"><span class="nav-text">The Universe As A Value</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc3af09f"><span class="nav-text">Native mobile apps with ClojureScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org38fbe47"><span class="nav-text">Isomorphic web apps with Rum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org84954d8"><span class="nav-text">The Story of Sir Owl Lisp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7abfcc0"><span class="nav-text">Doing data science with Clojure: the good, the bad, the ugly</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfd06bbf"><span class="nav-text">Interactive Clojure code snippets in any web page with KLIPSE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgff3b9d3"><span class="nav-text">Distributed transducers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc3d540d"><span class="nav-text">Introduction to clojure.spec - Arne Brasseur</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2f78160"><span class="nav-text">Clojure of Things</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org48b3b31"><span class="nav-text">The Next Five Years of ClojureScript</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org40dc66d"><span class="nav-text">Using Clojure to provide computerized psychotherapy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgeff3537"><span class="nav-text">The Universe As A Value</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1473321"><span class="nav-text">Native mobile apps with ClojureScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge0d8389"><span class="nav-text">Isomorphic web apps with Rum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdde0a1f"><span class="nav-text">The Story of Sir Owl Lisp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5136d83"><span class="nav-text">Doing data science with Clojure: the good, the bad, the ugly</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga7511ce"><span class="nav-text">Interactive Clojure code snippets in any web page with KLIPSE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org34650f3"><span class="nav-text">Distributed transducers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf767c8f"><span class="nav-text">Introduction to clojure.spec - Arne Brasseur</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org91f25d5"><span class="nav-text">Clojure of Things</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgab917e9"><span class="nav-text">The Next Five Years of ClojureScript</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

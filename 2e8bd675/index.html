@@ -251,16 +251,16 @@
 讓我們來開始使用 qpm 吧 :)
 </p>
 
-<div id="outline-container-orgb38cdf7" class="outline-2">
-<h2 id="orgb38cdf7">安裝 qpm</h2>
-<div class="outline-text-2" id="text-orgb38cdf7">
+<div id="outline-container-orgd167a57" class="outline-2">
+<h2 id="orgd167a57">安裝 qpm</h2>
+<div class="outline-text-2" id="text-orgd167a57">
 <p>
 如果你是 Windows、Mac OSX 的使用者，你可以直接連到 <a href="http://qpm.io" target="_blank" rel="external">http://qpm.io</a>  ，上面會有安裝
 教學。
 </p>
 
 <p>
-由於目前沒有提供 Linux 的二進制版，因此必須自己編譯，Linux 使用者請參考 <a href="#org66acb21">手動編譯
+由於目前沒有提供 Linux 的二進制版，因此必須自己編譯，Linux 使用者請參考 <a href="#org41b0af9">手動編譯
 qpm</a> 一節來編譯你的 qpm 程式。
 </p>
 
@@ -274,9 +274,9 @@ qpm</a> 一節來編譯你的 qpm 程式。
 </div>
 </div>
 
-<div id="outline-container-org66acb21" class="outline-2">
-<h2 id="org66acb21">手動編譯 qpm</h2>
-<div class="outline-text-2" id="text-org66acb21">
+<div id="outline-container-org41b0af9" class="outline-2">
+<h2 id="org41b0af9">手動編譯 qpm</h2>
+<div class="outline-text-2" id="text-org41b0af9">
 <p>
 目前 qpm 提供了 Windows、Mac OSX 兩個系統的 binary 程式，Linux 下就必須自己動手編
 譯，不過也不要灰心，編譯 qpm 是非常容易的。
@@ -329,9 +329,9 @@ qpm
 </div>
 </div>
 
-<div id="outline-container-orgcd0511b" class="outline-2">
-<h2 id="orgcd0511b">Hello Qpm</h2>
-<div class="outline-text-2" id="text-orgcd0511b">
+<div id="outline-container-org44ba993" class="outline-2">
+<h2 id="org44ba993">Hello Qpm</h2>
+<div class="outline-text-2" id="text-org44ba993">
 <p>
 我們首先使用 QtCreator 建立一個簡單的 Qt Quick Application 專案
 </p>
@@ -444,16 +444,16 @@ qpm.json 實際上就是類似 node.js 的 package.json 這樣的角色，我們
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json">{
+<pre class="src src-json"><span style="color: #aadddd;">{</span>
   <span style="color: #aaffaa;">"name"</span>: <span style="color: #aadddd;">""</span>,
   <span style="color: #aaffaa;">"description"</span>: <span style="color: #aadddd;">""</span>,
-  <span style="color: #aaffaa;">"dependencies"</span>: [
+  <span style="color: #aaffaa;">"dependencies"</span>: <span style="color: #81d4fa;">[</span>
     <span style="color: #aadddd;">"io.qpm.example@0.0.1"</span>
-  ],
+  <span style="color: #81d4fa;">]</span>,
   <span style="color: #aaffaa;">"license"</span>: <span style="color: #aadddd;">"NONE"</span>,
   <span style="color: #aaffaa;">"pri_filename"</span>: <span style="color: #aadddd;">""</span>,
   <span style="color: #aaffaa;">"webpage"</span>: <span style="color: #aadddd;">""</span>
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -463,7 +463,7 @@ qpm.json 實際上就是類似 node.js 的 package.json 這樣的角色，我們
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh"><span style="color: #aaccff;">include</span>(vendor/vendor.pri)
+<pre class="src src-sh"><span style="color: #aaccff;">include</span><span style="color: #aadddd;">(</span>vendor/vendor.pri<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -513,16 +513,16 @@ resource 位置 (ex: qml, images)。
 
 <span style="color: #aaffaa;">import</span> io.qpm.example <span style="color: #ccaaff;">1.0</span>
 
-<span style="color: #ccaaff;">ApplicationWindow</span> {
-    <span style="color: #aaccff;">title</span>: qsTr(<span style="color: #aadddd;">"Hello Qpm"</span>)
+<span style="color: #ccaaff;">ApplicationWindow</span> <span style="color: #aadddd;">{</span>
+    <span style="color: #aaccff;">title</span>: qsTr<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Hello Qpm"</span><span style="color: #81d4fa;">)</span>
     <span style="color: #aaccff;">width</span>: <span style="color: #ccaaff;">200</span>
     <span style="color: #aaccff;">height</span>: <span style="color: #ccaaff;">100</span>
     <span style="color: #aaccff;">visible</span>: <span style="color: #ccaaff;">true</span>
 
-    <span style="color: #ccaaff;">HelloQpm</span> {
+    <span style="color: #ccaaff;">HelloQpm</span> <span style="color: #81d4fa;">{</span>
         <span style="color: #aaccff;">anchors.fill</span>: <span style="color: #fff59d;">parent</span>
-    }
-}
+    <span style="color: #81d4fa;">}</span>
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -541,9 +541,9 @@ resource 位置 (ex: qml, images)。
 </div>
 </div>
 
-<div id="outline-container-org10b93c4" class="outline-2">
-<h2 id="org10b93c4">更多 qpm 使用方式</h2>
-<div class="outline-text-2" id="text-org10b93c4">
+<div id="outline-container-orgb0f2067" class="outline-2">
+<h2 id="orgb0f2067">更多 qpm 使用方式</h2>
+<div class="outline-text-2" id="text-orgb0f2067">
 <p>
 想要知道完整的 qpm 使用方式，問 qpm 最快了，目前我使用的 qpm 顯示的結果如下:
 </p>
@@ -612,9 +612,9 @@ Description:
 </div>
 </div>
 
-<div id="outline-container-orgd0e4141" class="outline-2">
-<h2 id="orgd0e4141">建立 qpm 套件</h2>
-<div class="outline-text-2" id="text-orgd0e4141">
+<div id="outline-container-orgc89ccee" class="outline-2">
+<h2 id="orgc89ccee">建立 qpm 套件</h2>
+<div class="outline-text-2" id="text-orgc89ccee">
 <p>
 會使用 qpm 以後，我們也可以試著自己動手製作自己的 qpm 模組，首先先建立一個新的資
 料夾，並使用 <code>qpm init</code> 初始化他，這時 qpm 會問你一些關於該模組的資訊
@@ -654,29 +654,29 @@ coldnew@Sara ~/io.coldnew.hello $ tree
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c++"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;QObject&gt;</span>
+<pre class="src src-c++"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">QObject</span><span style="color: #aadddd;">&gt;</span>
 <span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">"qpm.h"</span>
 
-QPM_BEGIN_NAMESPACE(io, coldnew, hello)
+QPM_BEGIN_NAMESPACE<span style="color: #aadddd;">(</span>io, coldnew, hello<span style="color: #aadddd;">)</span>
 
 <span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">HelloQpm</span> : <span style="color: #aaffaa;">public</span> <span style="color: #fff59d;">QObject</span>
-{
+<span style="color: #aadddd;">{</span>
     Q_OBJECT
 
-    Q_PROPERTY(QString message READ message <span style="color: #fff59d;">NOTIFY</span> <span style="color: #aaccff;">messageChanged</span>)
+    Q_PROPERTY<span style="color: #81d4fa;">(</span>QString message READ message <span style="color: #fff59d;">NOTIFY</span> <span style="color: #aaccff;">messageChanged</span><span style="color: #81d4fa;">)</span>
 
 <span style="color: #aaffaa;">public</span>:
-    <span style="color: #aaccff;">HelloQpm</span>(<span style="color: #fff59d;">QObject</span> *<span style="color: #aaccff;">parent</span> = 0);
-    <span style="color: #aaffaa;">inline</span> <span style="color: #fff59d;">QString</span> <span style="color: #aaccff;">message</span>() <span style="color: #aaffaa;">const</span> {<span style="color: #aaffaa;">return</span> m_message;}
+    <span style="color: #aaccff;">HelloQpm</span><span style="color: #81d4fa;">(</span><span style="color: #fff59d;">QObject</span> *<span style="color: #aaccff;">parent</span> = 0<span style="color: #81d4fa;">)</span>;
+    <span style="color: #aaffaa;">inline</span> <span style="color: #fff59d;">QString</span> <span style="color: #aaccff;">message</span><span style="color: #81d4fa;">()</span> <span style="color: #aaffaa;">const</span> <span style="color: #81d4fa;">{</span><span style="color: #aaffaa;">return</span> m_message;<span style="color: #81d4fa;">}</span>
 
 <span style="color: #aaffaa;">signals</span>:
-    <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">messageChanged</span>(<span style="color: #fff59d;">QString</span> <span style="color: #aaccff;">message</span>);
+    <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">messageChanged</span><span style="color: #81d4fa;">(</span><span style="color: #fff59d;">QString</span> <span style="color: #aaccff;">message</span><span style="color: #81d4fa;">)</span>;
 
 <span style="color: #aaffaa;">private</span>:
     <span style="color: #fff59d;">QString</span> <span style="color: #aaccff;">m_message</span>;
-};
+<span style="color: #aadddd;">}</span>;
 
-QPM_END_NAMESPACE(io, coldnew, hello)
+QPM_END_NAMESPACE<span style="color: #aadddd;">(</span>io, coldnew, hello<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -687,13 +687,13 @@ QPM_END_NAMESPACE(io, coldnew, hello)
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">"helloqpm.h"</span>
 
-QPM_BEGIN_NAMESPACE(io, coldnew, hello);
+QPM_BEGIN_NAMESPACE<span style="color: #aadddd;">(</span>io, coldnew, hello<span style="color: #aadddd;">)</span>;
 
-<span style="color: #ccaaff;">HelloQpm</span>::<span style="color: #aaccff;">HelloQpm</span>(<span style="color: #fff59d;">QObject</span> *<span style="color: #aaccff;">parent</span>) : QObject(parent) {
+<span style="color: #ccaaff;">HelloQpm</span>::<span style="color: #aaccff;">HelloQpm</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">QObject</span> *<span style="color: #aaccff;">parent</span><span style="color: #aadddd;">)</span> : QObject<span style="color: #aadddd;">(</span>parent<span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
     m_message = <span style="color: #aadddd;">"Hello from C++"</span>;
-}
+<span style="color: #aadddd;">}</span>
 
-QPM_END_NAMESPACE(io, coldnew, hello);
+QPM_END_NAMESPACE<span style="color: #aadddd;">(</span>io, coldnew, hello<span style="color: #aadddd;">)</span>;
 </pre>
 </div>
 
@@ -725,18 +725,18 @@ QPM_END_NAMESPACE(io, coldnew, hello);
 <div class="org-src-container">
 <pre class="src src-qml"><span style="color: #aaffaa;">import</span> QtQuick <span style="color: #ccaaff;">2.0</span>
 
-<span style="color: #aaffaa;">Rectangle</span> {
+<span style="color: #aaffaa;">Rectangle</span> <span style="color: #aadddd;">{</span>
     <span style="color: #aaccff;">width</span>: <span style="color: #ccaaff;">200</span>
     <span style="color: #aaccff;">height</span>: <span style="color: #ccaaff;">100</span>
     <span style="color: #aaccff;">color</span>: <span style="color: #aadddd;">"red"</span>
 
-    <span style="color: #aaffaa;">Text</span> {
+    <span style="color: #aaffaa;">Text</span> <span style="color: #81d4fa;">{</span>
         <span style="color: #aaccff;">color</span>: <span style="color: #aadddd;">"white"</span>
         <span style="color: #aaccff;">text</span>: <span style="color: #aadddd;">"Hello Qpm!!"</span>
         <span style="color: #aaccff;">anchors.centerIn</span>: <span style="color: #fff59d;">parent</span>
         <span style="color: #aaccff;">font.pixelSize</span>: <span style="color: #fff59d;">parent</span>.height / <span style="color: #ccaaff;">3</span>
-    }
-}
+    <span style="color: #81d4fa;">}</span>
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -829,9 +829,9 @@ Description:
 </div>
 </div>
 
-<div id="outline-container-org96ae869" class="outline-2">
-<h2 id="org96ae869">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org96ae869">
+<div id="outline-container-orgc8a236b" class="outline-2">
+<h2 id="orgc8a236b">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgc8a236b">
 <p>
 <code>[1]</code> <a href="http://www.cutehacks.com/blog/2015/10/5/say-hello-to-qpm-a-package-manager-for-qtqml" target="_blank" rel="external">Say hello to qpm. A package manager for Qt/QML!</a>
 </p>
@@ -995,7 +995,7 @@ Description:
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb38cdf7"><span class="nav-text">安裝 qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org66acb21"><span class="nav-text">手動編譯 qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcd0511b"><span class="nav-text">Hello Qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org10b93c4"><span class="nav-text">更多 qpm 使用方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd0e4141"><span class="nav-text">建立 qpm 套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org96ae869"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd167a57"><span class="nav-text">安裝 qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org41b0af9"><span class="nav-text">手動編譯 qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org44ba993"><span class="nav-text">Hello Qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb0f2067"><span class="nav-text">更多 qpm 使用方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc89ccee"><span class="nav-text">建立 qpm 套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc8a236b"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

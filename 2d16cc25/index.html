@@ -244,9 +244,9 @@ dynamic modules 功能處於測試階段，由於此功能可能在未來有進�
 
 </div>
 
-<div id="outline-container-org6a0a3c3" class="outline-2">
-<h2 id="org6a0a3c3">編譯 emacs</h2>
-<div class="outline-text-2" id="text-org6a0a3c3">
+<div id="outline-container-orgd2d2c85" class="outline-2">
+<h2 id="orgd2d2c85">編譯 emacs</h2>
+<div class="outline-text-2" id="text-orgd2d2c85">
 <p>
 目前 <code>dynamic modules</code> 功能已經併入到 master branch, 因此只要下載 master branch 即可測試。
 </p>
@@ -263,7 +263,7 @@ dynamic modules 功能處於測試階段，由於此功能可能在未來有進�
 <pre class="src src-sh">git clone http://git.sv.gnu.org/r/emacs.git
 <span style="color: #ccaaff;">cd</span> emacs
 ./autogen.sh
-./configure --with-modules --prefix=${<span style="color: #aaccff;">INSTALL_PATH</span>} <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">ex: --prefix=/usr</span>
+./configure --with-modules --prefix=$<span style="color: #aadddd;">{</span><span style="color: #aaccff;">INSTALL_PATH</span><span style="color: #aadddd;">}</span> <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">ex: --prefix=/usr</span>
 make &amp;&amp; make install
 </pre>
 </div>
@@ -275,9 +275,9 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-org79a23c7" class="outline-2">
-<h2 id="org79a23c7">Hello World (elisp 版本)</h2>
-<div class="outline-text-2" id="text-org79a23c7">
+<div id="outline-container-orgc810900" class="outline-2">
+<h2 id="orgc810900">Hello World (elisp 版本)</h2>
+<div class="outline-text-2" id="text-orgc810900">
 <p>
 在 emacs-lisp 中，除了使用 <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Functions.html" target="_blank" rel="external">defun</a> 以外，我們也可以使用 <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Functions.html" target="_blank" rel="external">fset</a> 搭配匿名函式來完成我
 們要使用的 function。
@@ -294,13 +294,13 @@ make &amp;&amp; make install
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">(defun hello () "Hello Emacs")</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span>
 
-(fset 'hello '(lambda () <span style="color: #97abc6; font-style: italic;">"Hello Emacs"</span>))
+<span style="color: #aadddd;">(</span>fset 'hello '<span style="color: #81d4fa;">(</span>lambda <span style="color: #aaccff;">()</span> <span style="color: #97abc6; font-style: italic;">"Hello Emacs"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">we need to provide this feature to make emacs can use following method to</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">load it</span>
 <span style="color: #5f5f5f; font-style: italic;">;;  </span><span style="color: #9ac; font-style: italic;">(require 'hello-elisp)</span>
 
-(<span style="color: #aaffaa;">provide</span> '<span style="color: #ccaaff;">hello-elisp</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">provide</span> '<span style="color: #ccaaff;">hello-elisp</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">hello-elisp.el ends here</span>
 </pre>
 </div>
@@ -312,14 +312,14 @@ make &amp;&amp; make install
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Add ~/test to load-path let emacs can find it</span>
-(add-to-list 'load-path <span style="color: #aadddd;">"~/test"</span>)
+<span style="color: #aadddd;">(</span>add-to-list 'load-path <span style="color: #aadddd;">"~/test"</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">load the hello-elisp module</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">you can also use (load "~/test/hello-elisp.el") but not recommand</span>
-(<span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">hello-elisp</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">hello-elisp</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">call our hello function and a string should return</span>
-(hello)   <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; Hello Emacs</span>
+<span style="color: #aadddd;">(</span>hello<span style="color: #aadddd;">)</span>   <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; Hello Emacs</span>
 </pre>
 </div>
 
@@ -333,9 +333,9 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-org2294c19" class="outline-2">
-<h2 id="org2294c19">Hello World (c 版本)</h2>
-<div class="outline-text-2" id="text-org2294c19">
+<div id="outline-container-org69e8646" class="outline-2">
+<h2 id="org69e8646">Hello World (c 版本)</h2>
+<div class="outline-text-2" id="text-org69e8646">
 <p>
 我們要怎樣建立我們的 C 語言版本的模組呢? 其實在你的 emacs 原始碼 <code>modules</code> 資料
 夾下有 <code>modhelp.py</code> 這個檔案，他會幫忙產生出可以使用的模組樣板，不過本文為了講解
@@ -343,9 +343,9 @@ make &amp;&amp; make install
 </p>
 </div>
 
-<div id="outline-container-orgefd5880" class="outline-3">
-<h3 id="orgefd5880">Makefile</h3>
-<div class="outline-text-3" id="text-orgefd5880">
+<div id="outline-container-org03c67db" class="outline-3">
+<h3 id="org03c67db">Makefile</h3>
+<div class="outline-text-3" id="text-org03c67db">
 <p>
 我們首先先弄 <code>Makefile</code> 來紀錄編譯這個模組的方法，在這邊 <code>EMACS_ROOT</code> 指的是 emacs 原始碼的資料夾， <code>EMACS</code> 則是有打開 <code>--with-modules</code> 選項後編譯出來的 emacs 執行檔。
 </p>
@@ -356,24 +356,24 @@ make &amp;&amp; make install
 
 <span style="color: #aaccff;">CC</span>      = gcc
 <span style="color: #aaccff;">LD</span>      = gcc
-<span style="color: #aaccff;">CPPFLAGS</span> = -I$(<span style="color: #aaccff;">EMACS_ROOT</span>)/src
-<span style="color: #aaccff;">CFLAGS</span> = -std=gnu99 -ggdb3 -O2 -Wall -fPIC $(<span style="color: #aaccff;">CPPFLAGS</span>)
+<span style="color: #aaccff;">CPPFLAGS</span> = -I$<span style="color: #aadddd;">(</span><span style="color: #aaccff;">EMACS_ROOT</span><span style="color: #aadddd;">)</span>/src
+<span style="color: #aaccff;">CFLAGS</span> = -std=gnu99 -ggdb3 -O2 -Wall -fPIC $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">CPPFLAGS</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aaccff;">.PHONY</span> : clean test
 
 <span style="color: #aaccff;">all</span>: test
 
 <span style="color: #aaccff;">hello-core.so</span>: hello-core.o
-  $(<span style="color: #aaccff;">LD</span>) -L . -shared $(<span style="color: #aaccff;">LDFLAGS</span>) -o <span style="color: #aaccff;">$</span><span style="color: #ccaaff;">@</span> $<span style="color: #ccaaff;">^</span>
+  $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">LD</span><span style="color: #aadddd;">)</span> -L . -shared $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">LDFLAGS</span><span style="color: #aadddd;">)</span> -o <span style="color: #aaccff;">$</span><span style="color: #ccaaff;">@</span> $<span style="color: #ccaaff;">^</span>
 
 <span style="color: #aaccff;">hello-core.o</span>: hello-core.c
-  $(<span style="color: #aaccff;">CC</span>) $(<span style="color: #aaccff;">CFLAGS</span>) -c -o <span style="color: #aaccff;">$</span><span style="color: #ccaaff;">@</span> $<span style="color: #ccaaff;">^</span>
+  $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">CC</span><span style="color: #aadddd;">)</span> $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">CFLAGS</span><span style="color: #aadddd;">)</span> -c -o <span style="color: #aaccff;">$</span><span style="color: #ccaaff;">@</span> $<span style="color: #ccaaff;">^</span>
 
 <span style="color: #aaccff;">clean</span>:
   -rm -f hello-core.o hello-core.so
 
 <span style="color: #aaccff;">test</span>: hello-core.so
-  $(<span style="color: #aaccff;">EMACS</span>) -Q -batch -L . -l test/test.el -f ert-run-tests-batch-and-exit
+  $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">EMACS</span><span style="color: #aadddd;">)</span> -Q -batch -L . -l test/test.el -f ert-run-tests-batch-and-exit
 </pre>
 </div>
 
@@ -383,9 +383,9 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-org47f15fc" class="outline-3">
-<h3 id="org47f15fc">test.el</h3>
-<div class="outline-text-3" id="text-org47f15fc">
+<div id="outline-container-orge87bbbe" class="outline-3">
+<h3 id="orge87bbbe">test.el</h3>
+<div class="outline-text-3" id="text-orge87bbbe">
 <p>
 在 test.el 中我們載入了 <a href="https://www.gnu.org/software/emacs/manual/html_mono/ert.html" target="_blank" rel="external">ert</a> 模組以及我們即將要編譯出來的 <code>hello-core.so</code> 模組，注意到載入 dynamic module 模組的方式和載入一般 .el 的函式庫是一樣的。
 </p>
@@ -397,12 +397,12 @@ make &amp;&amp; make install
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;;; </span><span style="color: #9ac; font-style: italic;">test.el --- hello test</span>
 
-(<span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">ert</span>)
-(<span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">hello-core</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">ert</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">hello-core</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">ert-deftest</span> <span style="color: #aaccff;">test-hello</span> ()
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ert-deftest</span> <span style="color: #aaccff;">test-hello</span> <span style="color: #81d4fa;">()</span>
   <span style="color: #97abc6; font-style: italic;">"hello-c should return \"Hello Emacs\" string."</span>
-  (should (string= <span style="color: #aadddd;">"Hello Emacs"</span> (hello-c))))
+  <span style="color: #81d4fa;">(</span>should <span style="color: #aaccff;">(</span>string= <span style="color: #aadddd;">"Hello Emacs"</span> <span style="color: #aaeecc;">(</span>hello-c<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;;; </span><span style="color: #9ac; font-style: italic;">test.el ends here</span>
 </pre>
@@ -410,19 +410,19 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-orgad77aa0" class="outline-3">
-<h3 id="orgad77aa0">hello-core.c</h3>
-<div class="outline-text-3" id="text-orgad77aa0">
+<div id="outline-container-org20516ca" class="outline-3">
+<h3 id="org20516ca">hello-core.c</h3>
+<div class="outline-text-3" id="text-org20516ca">
 <p>
 接下來就到了我們的重頭戲， <code>hello-core.c</code> 這個模組上，我們首先添加可能會需要的標頭檔
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;stdio.h&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;stdlib.h&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;string.h&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;assert.h&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;emacs-module.h&gt;</span>       <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">in emacs source code </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<pre class="src src-c"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdio.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdlib.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">string.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">assert.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">emacs-module.h</span><span style="color: #aadddd;">&gt;</span>       <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">in emacs source code </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
 </pre>
 </div>
 
@@ -445,29 +445,29 @@ make &amp;&amp; make install
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Module init function.  </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
 <span style="color: #fff59d;">int</span>
-<span style="color: #aaccff;">emacs_module_init</span>(<span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">emacs_runtime</span> *<span style="color: #aaccff;">ert</span>)
-{
-        <span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span> = ert-&gt;get_environment(ert);
+<span style="color: #aaccff;">emacs_module_init</span><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">emacs_runtime</span> *<span style="color: #aaccff;">ert</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+        <span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span> = ert-&gt;get_environment<span style="color: #81d4fa;">(</span>ert<span style="color: #81d4fa;">)</span>;
 
         <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Bind NAME to FUN.</span>
         <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">(fset 'hello-c '(lambda () "Hello Emacs"))</span>
-        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfset</span> = env-&gt;intern(env, <span style="color: #aadddd;">"fset"</span>);
-        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qsym</span> = env-&gt;intern(env, <span style="color: #aadddd;">"hello-c"</span>);
-        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfn</span> = env-&gt;make_function(env, 0, 0, Fcall_hello, <span style="color: #aadddd;">"return hello string"</span>, <span style="color: #ccaaff;">NULL</span>);
-        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">fset_args</span>[] = { Qsym, Qfn };
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfset</span> = env-&gt;intern<span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"fset"</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qsym</span> = env-&gt;intern<span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"hello-c"</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfn</span> = env-&gt;make_function<span style="color: #81d4fa;">(</span>env, 0, 0, Fcall_hello, <span style="color: #aadddd;">"return hello string"</span>, <span style="color: #ccaaff;">NULL</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">fset_args</span><span style="color: #81d4fa;">[]</span> = <span style="color: #81d4fa;">{</span> Qsym, Qfn <span style="color: #81d4fa;">}</span>;
 
-        env-&gt;funcall(env, Qfset, 2, fset_args);
+        env-&gt;funcall<span style="color: #81d4fa;">(</span>env, Qfset, 2, fset_args<span style="color: #81d4fa;">)</span>;
 
         <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Provide FEATURE to Emacs.</span>
         <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">(provide 'hello-core)</span>
-        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfeat</span> = env-&gt;intern(env, <span style="color: #aadddd;">"hello-core"</span>);
-        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qprovide</span> = env-&gt;intern(env, <span style="color: #aadddd;">"provide"</span>);
-        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">provide_args</span>[] = { Qfeat };
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfeat</span> = env-&gt;intern<span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"hello-core"</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qprovide</span> = env-&gt;intern<span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"provide"</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">provide_args</span><span style="color: #81d4fa;">[]</span> = <span style="color: #81d4fa;">{</span> Qfeat <span style="color: #81d4fa;">}</span>;
 
-        env-&gt;funcall(env, Qprovide, 1, provide_args);
+        env-&gt;funcall<span style="color: #81d4fa;">(</span>env, Qprovide, 1, provide_args<span style="color: #81d4fa;">)</span>;
 
         <span style="color: #aaffaa;">return</span> 0;
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -477,31 +477,31 @@ make &amp;&amp; make install
 
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *
-<span style="color: #aaccff;">hello</span>()
-{
+<span style="color: #aaccff;">hello</span><span style="color: #aadddd;">()</span>
+<span style="color: #aadddd;">{</span>
         <span style="color: #aaffaa;">return</span> <span style="color: #aadddd;">"Hello Emacs"</span>;
-}
+<span style="color: #aadddd;">}</span>
 
 <span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">emacs_value</span>
-<span style="color: #aaccff;">Fcall_hello</span>(<span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span>, <span style="color: #fff59d;">ptrdiff_t</span> <span style="color: #aaccff;">nargs</span>, <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">args</span>[], <span style="color: #fff59d;">void</span> *<span style="color: #aaccff;">data</span>)
-{
-        <span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">str</span> = hello();
-        <span style="color: #aaffaa;">return</span> env-&gt;make_string(env, str, strlen(str));
-}
+<span style="color: #aaccff;">Fcall_hello</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span>, <span style="color: #fff59d;">ptrdiff_t</span> <span style="color: #aaccff;">nargs</span>, <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">args</span><span style="color: #81d4fa;">[]</span>, <span style="color: #fff59d;">void</span> *<span style="color: #aaccff;">data</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+        <span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">str</span> = hello<span style="color: #81d4fa;">()</span>;
+        <span style="color: #aaffaa;">return</span> env-&gt;make_string<span style="color: #81d4fa;">(</span>env, str, strlen<span style="color: #aaccff;">(</span>str<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1ec26c6" class="outline-3">
-<h3 id="org1ec26c6">驗證你寫的模組</h3>
-<div class="outline-text-3" id="text-org1ec26c6">
+<div id="outline-container-org41149e4" class="outline-3">
+<h3 id="org41149e4">驗證你寫的模組</h3>
+<div class="outline-text-3" id="text-org41149e4">
 <p>
 都完成後，你就可以使用 <code>make test</code> 去執行測試，一切正常的話就會像這個樣子。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">Running 1 tests (2016-01-03 13:10:24+0800)
+<pre class="src src-emacs-lisp">Running 1 tests <span style="color: #aadddd;">(</span>2016-01-03 13:10:24+0800<span style="color: #aadddd;">)</span>
    passed  1/1  test-hello
 </pre>
 </div>
@@ -511,22 +511,22 @@ make &amp;&amp; make install
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-to-list 'load-path <span style="color: #aadddd;">"~/emacs-hello"</span>) <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">path contains hello-core.so</span>
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span>add-to-list 'load-path <span style="color: #aadddd;">"~/emacs-hello"</span><span style="color: #aadddd;">)</span> <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">path contains hello-core.so</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">you can use (load "~/emacs-hello/hello-core.so") directly, but we use</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">require here.</span>
-(<span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">hello-core</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">hello-core</span><span style="color: #aadddd;">)</span>
 
-(hello-c)               <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "Hello Emacs"</span>
+<span style="color: #aadddd;">(</span>hello-c<span style="color: #aadddd;">)</span>               <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "Hello Emacs"</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgddb66f5" class="outline-2">
-<h2 id="orgddb66f5">參考 mod-test.c 進行更多的簡化</h2>
-<div class="outline-text-2" id="text-orgddb66f5">
+<div id="outline-container-orgf7f3358" class="outline-2">
+<h2 id="orgf7f3358">參考 mod-test.c 進行更多的簡化</h2>
+<div class="outline-text-2" id="text-orgf7f3358">
 <p>
 在上面的 C 語言版本中，我們每次定義一個函式都要這樣一大串其實還蠻累人的
 </p>
@@ -534,10 +534,10 @@ make &amp;&amp; make install
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Bind NAME to FUN.</span>
 <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">(fset 'hello-c '(lambda () "Hello Emacs"))</span>
-<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfset</span> = env-&gt;intern(env, <span style="color: #aadddd;">"fset"</span>);
-<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qsym</span> = env-&gt;intern(env, <span style="color: #aadddd;">"hello-c"</span>);
-<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfn</span> = env-&gt;make_function(env, 0, 0, Fcall_hello, <span style="color: #aadddd;">"return hello string"</span>, <span style="color: #ccaaff;">NULL</span>);
-<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">fset_args</span>[] = { Qsym, Qfn };
+<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfset</span> = env-&gt;intern<span style="color: #aadddd;">(</span>env, <span style="color: #aadddd;">"fset"</span><span style="color: #aadddd;">)</span>;
+<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qsym</span> = env-&gt;intern<span style="color: #aadddd;">(</span>env, <span style="color: #aadddd;">"hello-c"</span><span style="color: #aadddd;">)</span>;
+<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfn</span> = env-&gt;make_function<span style="color: #aadddd;">(</span>env, 0, 0, Fcall_hello, <span style="color: #aadddd;">"return hello string"</span>, <span style="color: #ccaaff;">NULL</span><span style="color: #aadddd;">)</span>;
+<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">fset_args</span><span style="color: #aadddd;">[]</span> = <span style="color: #aadddd;">{</span> Qsym, Qfn <span style="color: #aadddd;">}</span>;
 </pre>
 </div>
 
@@ -548,25 +548,25 @@ make &amp;&amp; make install
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Provide FEATURE to Emacs.</span>
 <span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">void</span>
-<span style="color: #aaccff;">provide</span> (<span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span>, <span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">feature</span>)
-{
-    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfeat</span> = env-&gt;intern (env, feature);
-    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qprovide</span> = env-&gt;intern (env, <span style="color: #aadddd;">"provide"</span>);
-    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">args</span>[] = { Qfeat };
+<span style="color: #aaccff;">provide</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span>, <span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">feature</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfeat</span> = env-&gt;intern <span style="color: #81d4fa;">(</span>env, feature<span style="color: #81d4fa;">)</span>;
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qprovide</span> = env-&gt;intern <span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"provide"</span><span style="color: #81d4fa;">)</span>;
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">args</span><span style="color: #81d4fa;">[]</span> = <span style="color: #81d4fa;">{</span> Qfeat <span style="color: #81d4fa;">}</span>;
 
-    env-&gt;funcall (env, Qprovide, 1, args);
-}
+    env-&gt;funcall <span style="color: #81d4fa;">(</span>env, Qprovide, 1, args<span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
 
 <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Bind NAME to FUN.</span>
 <span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">void</span>
-<span style="color: #aaccff;">bind_function</span> (<span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span>, <span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">name</span>, <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Sfun</span>)
-{
-    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfset</span> = env-&gt;intern (env, <span style="color: #aadddd;">"fset"</span>);
-    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qsym</span> = env-&gt;intern (env, name);
-    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">args</span>[] = { Qsym, Sfun };
+<span style="color: #aaccff;">bind_function</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span>, <span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">name</span>, <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Sfun</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfset</span> = env-&gt;intern <span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"fset"</span><span style="color: #81d4fa;">)</span>;
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qsym</span> = env-&gt;intern <span style="color: #81d4fa;">(</span>env, name<span style="color: #81d4fa;">)</span>;
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">args</span><span style="color: #81d4fa;">[]</span> = <span style="color: #81d4fa;">{</span> Qsym, Sfun <span style="color: #81d4fa;">}</span>;
 
-    env-&gt;funcall (env, Qfset, 2, args);
-}
+    env-&gt;funcall <span style="color: #81d4fa;">(</span>env, Qfset, 2, args<span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -576,30 +576,30 @@ make &amp;&amp; make install
 
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #fff59d;">int</span>
-<span style="color: #aaccff;">emacs_module_init</span>(<span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">emacs_runtime</span> *<span style="color: #aaccff;">ert</span>)
-{
-    <span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span> = ert-&gt;get_environment(ert);
+<span style="color: #aaccff;">emacs_module_init</span><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">emacs_runtime</span> *<span style="color: #aaccff;">ert</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+    <span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span> = ert-&gt;get_environment<span style="color: #81d4fa;">(</span>ert<span style="color: #81d4fa;">)</span>;
 
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">DEFUN</span>(<span style="color: #aaccff;">lsym</span>, <span style="color: #aaccff;">csym</span>, <span style="color: #aaccff;">amin</span>, <span style="color: #aaccff;">amax</span>, <span style="color: #aaccff;">doc</span>, <span style="color: #aaccff;">data</span>)                        \
-    bind_function (env, lsym,                                           \
-                   env-&gt;make_function (env, amin, amax, csym, doc, data))
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">DEFUN</span><span style="color: #81d4fa;">(</span><span style="color: #aaccff;">lsym</span>, <span style="color: #aaccff;">csym</span>, <span style="color: #aaccff;">amin</span>, <span style="color: #aaccff;">amax</span>, <span style="color: #aaccff;">doc</span>, <span style="color: #aaccff;">data</span><span style="color: #81d4fa;">)</span>                        \
+    bind_function <span style="color: #81d4fa;">(</span>env, lsym,                                           \
+                   env-&gt;make_function <span style="color: #aaccff;">(</span>env, amin, amax, csym, doc, data<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
 
-    DEFUN (<span style="color: #aadddd;">"fib-c"</span>, Fcall_fib_c, 1, 1, <span style="color: #aadddd;">"Calculate Fibonacci number with recursive function call."</span>, <span style="color: #ccaaff;">NULL</span>);
-    DEFUN (<span style="color: #aadddd;">"fib-loop-c"</span>, Fcall_fib_loop_c, 1, 1, <span style="color: #aadddd;">"Calculate Fibonacci number with loop."</span>, <span style="color: #ccaaff;">NULL</span>);
+    DEFUN <span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"fib-c"</span>, Fcall_fib_c, 1, 1, <span style="color: #aadddd;">"Calculate Fibonacci number with recursive function call."</span>, <span style="color: #ccaaff;">NULL</span><span style="color: #81d4fa;">)</span>;
+    DEFUN <span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"fib-loop-c"</span>, Fcall_fib_loop_c, 1, 1, <span style="color: #aadddd;">"Calculate Fibonacci number with loop."</span>, <span style="color: #ccaaff;">NULL</span><span style="color: #81d4fa;">)</span>;
 
 <span style="color: #ff8888;">#undef</span> DEFUN
 
-    provide(env, <span style="color: #aadddd;">"fib-core"</span>);
+    provide<span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"fib-core"</span><span style="color: #81d4fa;">)</span>;
     <span style="color: #aaffaa;">return</span> 0;
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf27bbed" class="outline-2">
-<h2 id="orgf27bbed">使用 C/C++ 寫模組一定比較快?</h2>
-<div class="outline-text-2" id="text-orgf27bbed">
+<div id="outline-container-orgc80b3a3" class="outline-2">
+<h2 id="orgc80b3a3">使用 C/C++ 寫模組一定比較快?</h2>
+<div class="outline-text-2" id="text-orgc80b3a3">
 <p>
 既然 emacs 終於增加了 dynamic modules 功能，那是不是把大多數的 emacs-lisp 改寫成 c/c++ 模組會比較好？實際上是不一定，我們先看看我用 C 寫的 fibonacci 效能和 emacs-lisp 的比較狀況
 </p>
@@ -610,12 +610,12 @@ make &amp;&amp; make install
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">fib-elisp</span> (n)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">fib-elisp</span> <span style="color: #81d4fa;">(</span>n<span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"Fibonacci in recursive function call."</span>
-  (<span style="color: #aaffaa;">if</span> (= 0 n) 0
-    (<span style="color: #aaffaa;">if</span> (= 1 n) 1
-      (+ (fib-elisp (- n 1))
-         (fib-elisp (- n 2))))))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaccff;">(</span>= 0 n<span style="color: #aaccff;">)</span> 0
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaeecc;">(</span>= 1 n<span style="color: #aaeecc;">)</span> 1
+      <span style="color: #aaeecc;">(</span>+ <span style="color: #ccaaff;">(</span>fib-elisp <span style="color: #fff59d;">(</span>- n 1<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+         <span style="color: #ccaaff;">(</span>fib-elisp <span style="color: #fff59d;">(</span>- n 2<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 <p>
@@ -628,12 +628,12 @@ Elapsed time: <code>211.466410s</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">fib</span>(<span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">n</span>) {
-        <span style="color: #aaffaa;">if</span> (0 == n) <span style="color: #aaffaa;">return</span> 0;
-        <span style="color: #aaffaa;">if</span> (1 == n) <span style="color: #aaffaa;">return</span> 1;
+<pre class="src src-c"><span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">fib</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">n</span><span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
+        <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span>0 == n<span style="color: #81d4fa;">)</span> <span style="color: #aaffaa;">return</span> 0;
+        <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span>1 == n<span style="color: #81d4fa;">)</span> <span style="color: #aaffaa;">return</span> 1;
 
-        <span style="color: #aaffaa;">return</span> fib(n - 1) + fib (n - 2);
-}
+        <span style="color: #aaffaa;">return</span> fib<span style="color: #81d4fa;">(</span>n - 1<span style="color: #81d4fa;">)</span> + fib <span style="color: #81d4fa;">(</span>n - 2<span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 <p>
@@ -651,16 +651,16 @@ Elapsed time: <code>1.389031s</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">fib-loop-elisp</span> (n)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">fib-loop-elisp</span> <span style="color: #81d4fa;">(</span>n<span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"Calculate Fibonacci number with loop."</span>
-  (<span style="color: #aaffaa;">let</span> ((a 0)
-        (b 1)
-        (tmp 0))
-    (<span style="color: #aaffaa;">dotimes</span> (i n 0)
-      (<span style="color: #aaffaa;">setq</span> tmp a)
-      (<span style="color: #aaffaa;">setq</span> a b)
-      (<span style="color: #aaffaa;">setq</span> b (+ tmp b)))
-    a))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>a 0<span style="color: #aaeecc;">)</span>
+        <span style="color: #aaeecc;">(</span>b 1<span style="color: #aaeecc;">)</span>
+        <span style="color: #aaeecc;">(</span>tmp 0<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">dotimes</span> <span style="color: #aaeecc;">(</span>i n 0<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">setq</span> tmp a<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">setq</span> a b<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">setq</span> b <span style="color: #ccaaff;">(</span>+ tmp b<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    a<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 <p>
@@ -673,16 +673,16 @@ Elapsed time: <code>0.002195s</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">fib_loop</span>(<span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">n</span>) {
+<pre class="src src-c"><span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">fib_loop</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">n</span><span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
         <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">a</span> = 0, <span style="color: #aaccff;">b</span> = 1;
-        <span style="color: #aaffaa;">for</span> (<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = 0; i &lt; n; i++) {
+        <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = 0; i &lt; n; i++<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
                 <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">tmp</span> = a;
                 a = b;
                 b = tmp + b;
-        }
+        <span style="color: #81d4fa;">}</span>
 
         <span style="color: #aaffaa;">return</span> a;
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 <p>
@@ -699,11 +699,11 @@ Elapsed time: <code>0.000072s</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">s-trim-left</span> (s)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">s-trim-left</span> <span style="color: #81d4fa;">(</span>s<span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"Remove whitespace at the beginning of S."</span>
-  (<span style="color: #aaffaa;">if</span> (string-match <span style="color: #aadddd;">"\\`[ \t\n\r]+"</span> s)
-      (replace-match <span style="color: #aadddd;">""</span> t t s)
-    s))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaccff;">(</span>string-match <span style="color: #aadddd;">"\\`[ \t\n\r]+"</span> s<span style="color: #aaccff;">)</span>
+      <span style="color: #aaccff;">(</span>replace-match <span style="color: #aadddd;">""</span> t t s<span style="color: #aaccff;">)</span>
+    s<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 <p>
@@ -716,11 +716,11 @@ Elapsed time: <code>0.000780s</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c++"><span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">string</span> <span style="color: #aaccff;">ltrim</span>(<span style="color: #aaffaa;">const</span> <span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">string</span> &amp;<span style="color: #aaccff;">s</span>) {
-    <span style="color: #aaffaa;">static</span> <span style="color: #aaffaa;">const</span> <span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">regex</span> <span style="color: #aaccff;">lws</span>{<span style="color: #aadddd;">"^[ \t\n\r]+"</span>,
-        <span style="color: #ccaaff;">std</span>::<span style="color: #ccaaff;">regex_constants</span>::extended};
-    <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">std</span>::regex_replace(s, lws, <span style="color: #aadddd;">""</span>);
-}
+<pre class="src src-c++"><span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">string</span> <span style="color: #aaccff;">ltrim</span><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">const</span> <span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">string</span> &amp;<span style="color: #aaccff;">s</span><span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
+    <span style="color: #aaffaa;">static</span> <span style="color: #aaffaa;">const</span> <span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">regex</span> <span style="color: #aaccff;">lws</span><span style="color: #81d4fa;">{</span><span style="color: #aadddd;">"^[ \t\n\r]+"</span>,
+        <span style="color: #ccaaff;">std</span>::<span style="color: #ccaaff;">regex_constants</span>::extended<span style="color: #81d4fa;">}</span>;
+    <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">std</span>::regex_replace<span style="color: #81d4fa;">(</span>s, lws, <span style="color: #aadddd;">""</span><span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 <p>
@@ -734,9 +734,9 @@ Elapsed time: <code>0.044819s</code>
 </div>
 </div>
 
-<div id="outline-container-orgd7c16b9" class="outline-2">
-<h2 id="orgd7c16b9">總結</h2>
-<div class="outline-text-2" id="text-orgd7c16b9">
+<div id="outline-container-orgb94eafc" class="outline-2">
+<h2 id="orgb94eafc">總結</h2>
+<div class="outline-text-2" id="text-orgb94eafc">
 <p>
 <code>dynamic module</code> 終於可以在 emacs 中使用，這個消息對我而言其實是蠻開心的，畢竟這代表了我可以透過自己寫的模組去實現更多的用途，而不一定要強制修改 emacs 核心程式碼。
 </p>
@@ -747,9 +747,9 @@ Elapsed time: <code>0.044819s</code>
 </div>
 </div>
 
-<div id="outline-container-orga635708" class="outline-2">
-<h2 id="orga635708">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orga635708">
+<div id="outline-container-org535fcbc" class="outline-2">
+<h2 id="org535fcbc">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org535fcbc">
 <p>
 <code>[1]</code> <a href="http://syohex.hatenablog.com/entry/2015/12/16/185458" target="_blank" rel="external">ejectで學ぶ Dynamic module 機能</a>
 </p>
@@ -921,7 +921,7 @@ Elapsed time: <code>0.044819s</code>
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6a0a3c3"><span class="nav-text">編譯 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org79a23c7"><span class="nav-text">Hello World (elisp 版本)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2294c19"><span class="nav-text">Hello World (c 版本)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgefd5880"><span class="nav-text">Makefile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org47f15fc"><span class="nav-text">test.el</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgad77aa0"><span class="nav-text">hello-core.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1ec26c6"><span class="nav-text">驗證你寫的模組</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgddb66f5"><span class="nav-text">參考 mod-test.c 進行更多的簡化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf27bbed"><span class="nav-text">使用 C/C++ 寫模組一定比較快?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd7c16b9"><span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga635708"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd2d2c85"><span class="nav-text">編譯 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc810900"><span class="nav-text">Hello World (elisp 版本)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org69e8646"><span class="nav-text">Hello World (c 版本)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org03c67db"><span class="nav-text">Makefile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge87bbbe"><span class="nav-text">test.el</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org20516ca"><span class="nav-text">hello-core.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org41149e4"><span class="nav-text">驗證你寫的模組</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf7f3358"><span class="nav-text">參考 mod-test.c 進行更多的簡化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc80b3a3"><span class="nav-text">使用 C/C++ 寫模組一定比較快?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb94eafc"><span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org535fcbc"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

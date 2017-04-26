@@ -238,57 +238,57 @@ Point Cloud Libraries (PCL) 是一個非常強大的三維空間點雲處理函�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c++"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;iostream&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;pcl/io/io.h&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;pcl/io/pcd_io.h&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;pcl/visualization/cloud_viewer.h&gt;</span>
+<pre class="src src-c++"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">iostream</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">pcl/io/io.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">pcl/io/pcd_io.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">pcl/visualization/cloud_viewer.h</span><span style="color: #aadddd;">&gt;</span>
 
 <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">typedef pcl::PointXYZ PointT;</span>
 <span style="color: #aaffaa;">typedef</span> <span style="color: #ccaaff;">pcl</span>::<span style="color: #fff59d;">PointXYZRGBA</span> <span style="color: #fff59d;">PointT</span>;
 
-<span style="color: #fff59d;">void</span> <span style="color: #aaccff;">viewerOneOff</span> (<span style="color: #ccaaff;">pcl</span>::<span style="color: #ccaaff;">visualization</span>::<span style="color: #fff59d;">PCLVisualizer</span>&amp; <span style="color: #aaccff;">viewer</span>)
-{
+<span style="color: #fff59d;">void</span> <span style="color: #aaccff;">viewerOneOff</span> <span style="color: #aadddd;">(</span><span style="color: #ccaaff;">pcl</span>::<span style="color: #ccaaff;">visualization</span>::<span style="color: #fff59d;">PCLVisualizer</span>&amp; <span style="color: #aaccff;">viewer</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
     <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">set background to black (R = 0, G = 0, B = 0)</span>
-    viewer.setBackgroundColor (0, 0, 0);
-}
+    viewer.setBackgroundColor <span style="color: #81d4fa;">(</span>0, 0, 0<span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
 
-<span style="color: #fff59d;">void</span> <span style="color: #aaccff;">viewerPsycho</span> (<span style="color: #ccaaff;">pcl</span>::<span style="color: #ccaaff;">visualization</span>::<span style="color: #fff59d;">PCLVisualizer</span>&amp; <span style="color: #aaccff;">viewer</span>)
-{
+<span style="color: #fff59d;">void</span> <span style="color: #aaccff;">viewerPsycho</span> <span style="color: #aadddd;">(</span><span style="color: #ccaaff;">pcl</span>::<span style="color: #ccaaff;">visualization</span>::<span style="color: #fff59d;">PCLVisualizer</span>&amp; <span style="color: #aaccff;">viewer</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
     <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">you can add something here, ex:  add text in viewer</span>
-}
+<span style="color: #aadddd;">}</span>
 
-<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span> (<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">argv</span>[])
-{
-    <span style="color: #ccaaff;">pcl</span>::<span style="color: #ccaaff;">PointCloud</span>&lt;<span style="color: #fff59d;">PointT</span>&gt;::<span style="color: #fff59d;">Ptr</span> <span style="color: #aaccff;">cloud</span> (<span style="color: #aaffaa;">new</span> <span style="color: #ccaaff;">pcl</span>::<span style="color: #fff59d;">PointCloud</span>&lt;<span style="color: #fff59d;">PointT</span>&gt;);
+<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">argv</span><span style="color: #81d4fa;">[]</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+    <span style="color: #ccaaff;">pcl</span>::<span style="color: #ccaaff;">PointCloud</span><span style="color: #81d4fa;">&lt;</span><span style="color: #fff59d;">PointT</span><span style="color: #81d4fa;">&gt;</span>::<span style="color: #fff59d;">Ptr</span> <span style="color: #aaccff;">cloud</span> <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">new</span> <span style="color: #ccaaff;">pcl</span>::<span style="color: #fff59d;">PointCloud</span><span style="color: #aaccff;">&lt;</span><span style="color: #fff59d;">PointT</span><span style="color: #aaccff;">&gt;</span><span style="color: #81d4fa;">)</span>;
 
     <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Load .pcd file from argv[1]</span>
-    <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">ret</span> = <span style="color: #ccaaff;">pcl</span>::<span style="color: #ccaaff;">io</span>::loadPCDFile (argv[1], *cloud);
-    <span style="color: #aaffaa;">if</span> (ret &lt; 0) {
-        PCL_ERROR(<span style="color: #aadddd;">"Couldn't read file %s\n"</span>, argv[1]);
+    <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">ret</span> = <span style="color: #ccaaff;">pcl</span>::<span style="color: #ccaaff;">io</span>::loadPCDFile <span style="color: #81d4fa;">(</span>argv<span style="color: #aaccff;">[</span>1<span style="color: #aaccff;">]</span>, *cloud<span style="color: #81d4fa;">)</span>;
+    <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span>ret &lt; 0<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+        PCL_ERROR<span style="color: #aaccff;">(</span><span style="color: #aadddd;">"Couldn't read file %s\n"</span>, argv<span style="color: #aaeecc;">[</span>1<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">)</span>;
         <span style="color: #aaffaa;">return</span> -1;
-    }
+    <span style="color: #81d4fa;">}</span>
 
-    <span style="color: #ccaaff;">pcl</span>::<span style="color: #ccaaff;">visualization</span>::<span style="color: #fff59d;">CloudViewer</span> <span style="color: #aaccff;">viewer</span>(<span style="color: #aadddd;">"Cloud Viewer"</span>);
+    <span style="color: #ccaaff;">pcl</span>::<span style="color: #ccaaff;">visualization</span>::<span style="color: #fff59d;">CloudViewer</span> <span style="color: #aaccff;">viewer</span><span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Cloud Viewer"</span><span style="color: #81d4fa;">)</span>;
 
     <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">blocks until the cloud is actually rendered</span>
-    viewer.showCloud(cloud);
+    viewer.showCloud<span style="color: #81d4fa;">(</span>cloud<span style="color: #81d4fa;">)</span>;
 
     <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">use the following functions to get access to the underlying more advanced/powerful</span>
     <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">PCLVisualizer</span>
 
     <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">This will only get called once</span>
-    viewer.runOnVisualizationThreadOnce (viewerOneOff);
+    viewer.runOnVisualizationThreadOnce <span style="color: #81d4fa;">(</span>viewerOneOff<span style="color: #81d4fa;">)</span>;
 
     <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">This will get called once per visualization iteration</span>
-    viewer.runOnVisualizationThread (viewerPsycho);
-    <span style="color: #aaffaa;">while</span> (<span style="color: #ff3333;">!</span>viewer.wasStopped ()) {
+    viewer.runOnVisualizationThread <span style="color: #81d4fa;">(</span>viewerPsycho<span style="color: #81d4fa;">)</span>;
+    <span style="color: #aaffaa;">while</span> <span style="color: #81d4fa;">(</span><span style="color: #ff3333;">!</span>viewer.wasStopped <span style="color: #aaccff;">()</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
         <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">you can also do cool processing here</span>
         <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">FIXME: Note that this is running in a separate thread from viewerPsycho</span>
         <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">and you should guard against race conditions yourself...</span>
-    }
+    <span style="color: #81d4fa;">}</span>
 
     <span style="color: #aaffaa;">return</span> 0;
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 

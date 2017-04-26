@@ -236,9 +236,9 @@ Clojure 的 <a href="http://leiningen.org/" target="_blank" rel="external">Leini
 
 <a id="more"></a>
 
-<div id="outline-container-orge88c43d" class="outline-2">
-<h2 id="orge88c43d">建立我們的專案</h2>
-<div class="outline-text-2" id="text-orge88c43d">
+<div id="outline-container-org8eafb6f" class="outline-2">
+<h2 id="org8eafb6f">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org8eafb6f">
 <p>
 本篇文章還是依照以往的規則，使用預設的 <i>lein</i> 樣板，因此我們這樣建立名為
 <i>myapp</i> 的專案:
@@ -254,22 +254,22 @@ coldnew@Rosia ~ $ lein new myapp
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">myapp</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">myapp</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
   <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"FIXME: write description"</span>
   <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
-  <span style="color: #ccaaff;">:license</span> {<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
-            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span>}
-  <span style="color: #ccaaff;">:dependencies</span> [[<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span>]]
+  <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
+            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
 
-  <span style="color: #ccaaff;">:java-source-paths</span> [<span style="color: #aadddd;">"src/java"</span>])
+  <span style="color: #ccaaff;">:java-source-paths</span> <span style="color: #81d4fa;">[</span><span style="color: #aadddd;">"src/java"</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org0783c15" class="outline-2">
-<h2 id="org0783c15">Hello World</h2>
-<div class="outline-text-2" id="text-org0783c15">
+<div id="outline-container-org118a70f" class="outline-2">
+<h2 id="org118a70f">Hello World</h2>
+<div class="outline-text-2" id="text-org118a70f">
 <p>
 我們建立一個名為 <code>src/java/myapp/HelloWorld.java</code> 的 Java 檔案，裡面加上最簡單的
 程式: Hello World。
@@ -278,12 +278,12 @@ coldnew@Rosia ~ $ lein new myapp
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #aaffaa;">package</span> <span style="color: #ccaaff;">myapp</span>;
 
-<span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">HelloWorld</span> {
+<span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">HelloWorld</span> <span style="color: #aadddd;">{</span>
 
-    <span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">main</span>(<span style="color: #fff59d;">String</span>[] <span style="color: #aaccff;">args</span>) {
-        System.out.println(<span style="color: #aadddd;">"Hello World!"</span>);
-    }
-}
+    <span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">main</span><span style="color: #81d4fa;">(</span><span style="color: #fff59d;">String</span><span style="color: #aaccff;">[]</span> <span style="color: #aaccff;">args</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+        System.out.println<span style="color: #aaccff;">(</span><span style="color: #aadddd;">"Hello World!"</span><span style="color: #aaccff;">)</span>;
+    <span style="color: #81d4fa;">}</span>
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -298,31 +298,31 @@ Hello World!
 </div>
 </div>
 
-<div id="outline-container-org72cc795" class="outline-2">
-<h2 id="org72cc795">使用第三方函式: 以 Apache Common CSV 為例</h2>
-<div class="outline-text-2" id="text-org72cc795">
+<div id="outline-container-org74d914e" class="outline-2">
+<h2 id="org74d914e">使用第三方函式: 以 Apache Common CSV 為例</h2>
+<div class="outline-text-2" id="text-org74d914e">
 <p>
 如果我們希望使用外部函式庫，作法則是和開發 clojure 是一樣的，首先編輯
 project.clj 並加上我們需要使用的第三方函式庫，這邊以 <a href="http://commons.apache.org/proper/commons-csv/project-info.html" target="_blank" rel="external">Apache Common CSV</a> 為例。
 </p>
 </div>
 
-<div id="outline-container-org2a71496" class="outline-3">
-<h3 id="org2a71496">編輯 project.clj</h3>
-<div class="outline-text-3" id="text-org2a71496">
+<div id="outline-container-orgd407379" class="outline-3">
+<h3 id="orgd407379">編輯 project.clj</h3>
+<div class="outline-text-3" id="text-orgd407379">
 <p>
 在 <code>:dependencies</code> 欄位加入 Apache Common CSV 的函式庫資訊。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">myapp</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">myapp</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
   <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"FIXME: write description"</span>
   <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
-  <span style="color: #ccaaff;">:license</span> {<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
-            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span>}
-  <span style="color: #ccaaff;">:dependencies</span> [[<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span>]
-                 [<span style="color: #fff59d;">org.apache.commons</span><span style="color: #c6cccc; background-color: #202020;">/</span>commons-csv <span style="color: #aadddd;">"1.2"</span>]] <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&lt;-- add this</span>
-  <span style="color: #ccaaff;">:java-source-paths</span> [<span style="color: #aadddd;">"src/java"</span>])
+  <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
+            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.apache.commons</span><span style="color: #c6cccc; background-color: #202020;">/</span>commons-csv <span style="color: #aadddd;">"1.2"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span> <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">&lt;-- add this</span>
+  <span style="color: #ccaaff;">:java-source-paths</span> <span style="color: #81d4fa;">[</span><span style="color: #aadddd;">"src/java"</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -336,9 +336,9 @@ coldnew@Rosia ~/myapp $ lein deps
 </div>
 </div>
 
-<div id="outline-container-org7b3e070" class="outline-3">
-<h3 id="org7b3e070">加入測試用的 csv 檔案</h3>
-<div class="outline-text-3" id="text-org7b3e070">
+<div id="outline-container-orge91c19d" class="outline-3">
+<h3 id="orge91c19d">加入測試用的 csv 檔案</h3>
+<div class="outline-text-3" id="text-orge91c19d">
 <p>
 為了可以確認我們的程式可以運作順利，這邊建立一個簡單的 CSV 檔案: <i>test.csv</i> ，其
 內容如下:
@@ -354,9 +354,9 @@ e,f
 </div>
 </div>
 
-<div id="outline-container-org1a3fdfc" class="outline-3">
-<h3 id="org1a3fdfc">java 主程式</h3>
-<div class="outline-text-3" id="text-org1a3fdfc">
+<div id="outline-container-org5991589" class="outline-3">
+<h3 id="org5991589">java 主程式</h3>
+<div class="outline-text-3" id="text-org5991589">
 <p>
 剩下的就是撰寫我們 Java 主程式的時間囉 ~ 首先編輯 <code>src/java/myapp/CSVRead.java</code>
 ，在這個程式中，我們將第一個接收到的參數傳送給 CSVParser 並透過其功能將剛剛的
@@ -375,32 +375,32 @@ test.csv 內容解析並顯示出來。
 <span style="color: #aaffaa;">import</span> <span style="color: #ccaaff;">org</span>.<span style="color: #ccaaff;">apache</span>.<span style="color: #ccaaff;">commons</span>.<span style="color: #ccaaff;">csv</span>.<span style="color: #fff59d;">CSVRecord</span>;
 
 
-<span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">CSVRead</span> {
+<span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">class</span> <span style="color: #fff59d;">CSVRead</span> <span style="color: #aadddd;">{</span>
 
-    <span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">main</span>(<span style="color: #fff59d;">String</span>[] <span style="color: #aaccff;">args</span>) {
-        <span style="color: #aaffaa;">try</span> {
-            <span style="color: #fff59d;">CSVParser</span> <span style="color: #aaccff;">parser</span> = <span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">CSVParser</span>(<span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">FileReader</span>(args[0]),
-                                             <span style="color: #ccaaff;">CSVFormat</span>.DEFAULT.withHeader());
-            <span style="color: #aaffaa;">for</span> (<span style="color: #fff59d;">CSVRecord</span> <span style="color: #aaccff;">record</span> : parser) {
-                System.out.printf(<span style="color: #aadddd;">"%s\t%s\n"</span>,
-                                  record.get(<span style="color: #aadddd;">"COL1"</span>),
-                                  record.get(<span style="color: #aadddd;">"COL2"</span>));
-            }
-            parser.close();
-        }
-        <span style="color: #aaffaa;">catch</span>(<span style="color: #fff59d;">IOException</span> <span style="color: #aaccff;">e</span>) {
-            e.printStackTrace();
-        }
-    }
-}
+    <span style="color: #aaffaa;">public</span> <span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">main</span><span style="color: #81d4fa;">(</span><span style="color: #fff59d;">String</span><span style="color: #aaccff;">[]</span> <span style="color: #aaccff;">args</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+        <span style="color: #aaffaa;">try</span> <span style="color: #aaccff;">{</span>
+            <span style="color: #fff59d;">CSVParser</span> <span style="color: #aaccff;">parser</span> = <span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">CSVParser</span><span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">FileReader</span><span style="color: #ccaaff;">(</span>args<span style="color: #fff59d;">[</span>0<span style="color: #fff59d;">]</span><span style="color: #ccaaff;">)</span>,
+                                             <span style="color: #ccaaff;">CSVFormat</span>.DEFAULT.withHeader<span style="color: #ccaaff;">()</span><span style="color: #aaeecc;">)</span>;
+            <span style="color: #aaffaa;">for</span> <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">CSVRecord</span> <span style="color: #aaccff;">record</span> : parser<span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">{</span>
+                System.out.printf<span style="color: #ccaaff;">(</span><span style="color: #aadddd;">"%s\t%s\n"</span>,
+                                  record.get<span style="color: #fff59d;">(</span><span style="color: #aadddd;">"COL1"</span><span style="color: #fff59d;">)</span>,
+                                  record.get<span style="color: #fff59d;">(</span><span style="color: #aadddd;">"COL2"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>;
+            <span style="color: #aaeecc;">}</span>
+            parser.close<span style="color: #aaeecc;">()</span>;
+        <span style="color: #aaccff;">}</span>
+        <span style="color: #aaffaa;">catch</span><span style="color: #aaccff;">(</span><span style="color: #fff59d;">IOException</span> <span style="color: #aaccff;">e</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">{</span>
+            e.printStackTrace<span style="color: #aaeecc;">()</span>;
+        <span style="color: #aaccff;">}</span>
+    <span style="color: #81d4fa;">}</span>
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org7a2f028" class="outline-3">
-<h3 id="org7a2f028">執行程式</h3>
-<div class="outline-text-3" id="text-org7a2f028">
+<div id="outline-container-org171ab01" class="outline-3">
+<h3 id="org171ab01">執行程式</h3>
+<div class="outline-text-3" id="text-org171ab01">
 <p>
 執行這個程式的方式和前面執行 Hello World 範例是一樣的，我們使用 <code>lein run</code> 並添
 加要解析的 csv 檔案給我們的程式。
@@ -416,9 +416,9 @@ e f
 </div>
 </div>
 
-<div id="outline-container-orge4ae0e3" class="outline-2">
-<h2 id="orge4ae0e3">將程式打包成 jar</h2>
-<div class="outline-text-2" id="text-orge4ae0e3">
+<div id="outline-container-orgba10aa6" class="outline-2">
+<h2 id="orgba10aa6">將程式打包成 jar</h2>
+<div class="outline-text-2" id="text-orgba10aa6">
 <p>
 在 lein 中我們可以使用 <code>lein uberjar</code> 將剛剛寫的程式進行打包。
 </p>
@@ -441,9 +441,9 @@ Hello World!
 </div>
 </div>
 
-<div id="outline-container-org6d43097" class="outline-2">
-<h2 id="org6d43097">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-org6d43097">
+<div id="outline-container-org82ec257" class="outline-2">
+<h2 id="org82ec257">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-org82ec257">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -467,9 +467,9 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
 </div>
 </div>
 
-<div id="outline-container-org2aa2564" class="outline-2">
-<h2 id="org2aa2564">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org2aa2564">
+<div id="outline-container-org454b6e2" class="outline-2">
+<h2 id="org454b6e2">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org454b6e2">
 <p>
 <code>[1]</code> <a href="http://blog.pengyifan.com/how-to-read-csv-files-in-java-a-case-study-of-iterator-and-decorator/" target="_blank" rel="external">How to read CSV files in Java – A case study of Iterator and Decorator</a>
 </p>
@@ -637,7 +637,7 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge88c43d"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0783c15"><span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org72cc795"><span class="nav-text">使用第三方函式: 以 Apache Common CSV 為例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org2a71496"><span class="nav-text">編輯 project.clj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7b3e070"><span class="nav-text">加入測試用的 csv 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1a3fdfc"><span class="nav-text">java 主程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7a2f028"><span class="nav-text">執行程式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge4ae0e3"><span class="nav-text">將程式打包成 jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6d43097"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2aa2564"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8eafb6f"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org118a70f"><span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org74d914e"><span class="nav-text">使用第三方函式: 以 Apache Common CSV 為例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd407379"><span class="nav-text">編輯 project.clj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge91c19d"><span class="nav-text">加入測試用的 csv 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5991589"><span class="nav-text">java 主程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org171ab01"><span class="nav-text">執行程式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgba10aa6"><span class="nav-text">將程式打包成 jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org82ec257"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org454b6e2"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -238,9 +238,9 @@ node.js 本身已經提供了 <a href="https://nodejs.org/api/readline.html" tar
 
 <a id="more"></a>
 
-<div id="outline-container-org134dc0a" class="outline-2">
-<h2 id="org134dc0a">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org134dc0a">
+<div id="outline-container-org947dcc7" class="outline-2">
+<h2 id="org947dcc7">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org947dcc7">
 <p>
 首先我們使用 lein 建立我們的專案，專案名稱為 <i>readline</i> :
 </p>
@@ -265,47 +265,47 @@ clojurescript 的依賴，並且加入 cljsbuild 的一些設定。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">readline</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">readline</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
   <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"FIXME: write description"</span>
   <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
-  <span style="color: #ccaaff;">:license</span> {<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
-            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span>}
-  <span style="color: #ccaaff;">:dependencies</span> [[<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span>]
-                 [<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojurescript <span style="color: #aadddd;">"1.7.122"</span>]]
+  <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
+            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojurescript <span style="color: #aadddd;">"1.7.122"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
 
-  <span style="color: #ccaaff;">:cljsbuild</span> {<span style="color: #ccaaff;">:builds</span>
-              [{<span style="color: #ccaaff;">:source-paths</span> [<span style="color: #aadddd;">"src"</span>]
-                <span style="color: #ccaaff;">:compiler</span> {<span style="color: #ccaaff;">:output-to</span> <span style="color: #aadddd;">"target/readline.js"</span>
+  <span style="color: #ccaaff;">:cljsbuild</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:builds</span>
+              <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:source-paths</span> <span style="color: #ccaaff;">[</span><span style="color: #aadddd;">"src"</span><span style="color: #ccaaff;">]</span>
+                <span style="color: #ccaaff;">:compiler</span> <span style="color: #ccaaff;">{</span><span style="color: #ccaaff;">:output-to</span> <span style="color: #aadddd;">"target/readline.js"</span>
                            <span style="color: #ccaaff;">:output-dir</span> <span style="color: #aadddd;">"target"</span>
                            <span style="color: #ccaaff;">:source-map</span> <span style="color: #aadddd;">"target/readline.js.map"</span>
                            <span style="color: #ccaaff;">:target</span> <span style="color: #ccaaff;">:nodejs</span>
                            <span style="color: #ccaaff;">:optimizations</span> <span style="color: #ccaaff;">:none</span>
-                           <span style="color: #ccaaff;">:pretty-print</span> <span style="color: #ccaaff;">true</span>}}]})
+                           <span style="color: #ccaaff;">:pretty-print</span> <span style="color: #ccaaff;">true</span><span style="color: #ccaaff;">}</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga420ac3" class="outline-2">
-<h2 id="orga420ac3">基本的 clojurescript 程式框架</h2>
-<div class="outline-text-2" id="text-orga420ac3">
+<div id="outline-container-orgdcd0e63" class="outline-2">
+<h2 id="orgdcd0e63">基本的 clojurescript 程式框架</h2>
+<div class="outline-text-2" id="text-orgdcd0e63">
 <p>
 clojurescript 在 node.js 下有一些部分和 clojure 不太一樣需要特別注意，一個
 clojurescript on node.js 的基本框架是這樣的：
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.core</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
-(enable-console-print!)
+<span style="color: #aadddd;">(</span>enable-console-print!<span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (println <span style="color: #aadddd;">"Hello World!"</span>))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>println <span style="color: #aadddd;">"Hello World!"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
-(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -328,10 +328,10 @@ javascript 檔案由於不會將 Google Closure 函式庫包入進產生出來�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js">require(<span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span>);
-require(<span style="color: #aadddd;">"./target/readline.js"</span>);
-require(<span style="color: #aadddd;">"./target/readline/core"</span>);
-readline.core._main();
+<pre class="src src-js">require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span><span style="color: #aadddd;">)</span>;
+require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/readline.js"</span><span style="color: #aadddd;">)</span>;
+require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/readline/core"</span><span style="color: #aadddd;">)</span>;
+readline.core._main<span style="color: #aadddd;">()</span>;
 </pre>
 </div>
 
@@ -370,9 +370,9 @@ Hello World!
 </div>
 </div>
 
-<div id="outline-container-orgf97bedf" class="outline-2">
-<h2 id="orgf97bedf">Example 0: 顯示使用者輸入</h2>
-<div class="outline-text-2" id="text-orgf97bedf">
+<div id="outline-container-orgfda23f4" class="outline-2">
+<h2 id="orgfda23f4">Example 0: 顯示使用者輸入</h2>
+<div class="outline-text-2" id="text-orgfda23f4">
 <p>
 對於互動式命令的實現，第一個程式就會是怎樣將使用者的輸入顯示出來。但是和使用
 <a href="https://github.com/jline/jline2/" target="_blank" rel="external">jline2</a> 時不一樣，node.js 下是以事件驅動為主，因此基本的顯示使用者輸入資訊的程式
@@ -380,28 +380,28 @@ Hello World!
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example0</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example0</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
-(enable-console-print!)
+<span style="color: #aadddd;">(</span>enable-console-print!<span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (<span style="color: #aaffaa;">let</span> [readline (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span>)
-        rl (<span style="color: #ff8888;">.createInterface</span> readline
-                             (clj-&gt;js {<span style="color: #ccaaff;">:input</span>  (<span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
-                                       <span style="color: #ccaaff;">:output</span> (<span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)}))]
-    (<span style="color: #aaffaa;">doto</span> rl
-      (<span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span>)
-      (<span style="color: #ff8888;">.prompt</span>)
-      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
-           (<span style="color: #aaffaa;">fn</span> [line]
-             (println (str <span style="color: #aadddd;">"You enter: "</span> line))
-             (<span style="color: #ff8888;">.close</span> rl)))
-      )))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>readline <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span><span style="color: #aaeecc;">)</span>
+        rl <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.createInterface</span> readline
+                             <span style="color: #ccaaff;">(</span>clj-&gt;js <span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:input</span>  <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #ff8888;">)</span>
+                                       <span style="color: #ccaaff;">:output</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #ff8888;">)</span><span style="color: #fff59d;">}</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">doto</span> rl
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.prompt</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
+           <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #fff59d;">[</span>line<span style="color: #fff59d;">]</span>
+             <span style="color: #fff59d;">(</span>println <span style="color: #ff8888;">(</span>str <span style="color: #aadddd;">"You enter: "</span> line<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+             <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.close</span> rl<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
-(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -416,12 +416,12 @@ Hello World!
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">let</span> [readline (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span>)
-      rl (<span style="color: #ff8888;">.createInterface</span> readline
-                           (clj-&gt;js {<span style="color: #ccaaff;">:input</span>  (<span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
-                                     <span style="color: #ccaaff;">:output</span> (<span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)}))]
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">[</span>readline <span style="color: #aaccff;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span><span style="color: #aaccff;">)</span>
+      rl <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.createInterface</span> readline
+                           <span style="color: #aaeecc;">(</span>clj-&gt;js <span style="color: #ccaaff;">{</span><span style="color: #ccaaff;">:input</span>  <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #fff59d;">)</span>
+                                     <span style="color: #ccaaff;">:output</span> <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">}</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip</span>
-    )
+    <span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -433,7 +433,7 @@ JSON 形式的物件。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(clj-&gt;js {<span style="color: #ccaaff;">:a</span> <span style="color: #aadddd;">"testA"</span> <span style="color: #ccaaff;">:b</span> <span style="color: #aadddd;">"testB"</span>})
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>clj-&gt;js <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:a</span> <span style="color: #aadddd;">"testA"</span> <span style="color: #ccaaff;">:b</span> <span style="color: #aadddd;">"testB"</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; #js {</span><span style="color: #9ac; font-style: italic;">:b</span><span style="color: #9ac; font-style: italic;"> "testB", </span><span style="color: #9ac; font-style: italic;">:a</span><span style="color: #9ac; font-style: italic;"> "testA"}</span>
 </pre>
 </div>
@@ -455,15 +455,15 @@ JSON 形式的物件。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">doto</span> rl
-  (<span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span>)
-  (<span style="color: #ff8888;">.prompt</span>)
-  (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
-       (<span style="color: #aaffaa;">fn</span> [line]
-         (println (str <span style="color: #aadddd;">"You enter: "</span> line))
-         (<span style="color: #ff8888;">.close</span> rl)))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">doto</span> rl
+  <span style="color: #81d4fa;">(</span><span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ff8888;">.prompt</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
+       <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaeecc;">[</span>line<span style="color: #aaeecc;">]</span>
+         <span style="color: #aaeecc;">(</span>println <span style="color: #ccaaff;">(</span>str <span style="color: #aadddd;">"You enter: "</span> line<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+         <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.close</span> rl<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">non-blocking, you can add anything here</span>
-  )
+  <span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -480,10 +480,10 @@ Successfully compiled "target/readline.js" in 1.847 seconds.
 完成後添加我們的執行程式用 wrapper: <code>run-example0.js</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-js">require(<span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span>);
-require(<span style="color: #aadddd;">"./target/readline.js"</span>);
-require(<span style="color: #aadddd;">"./target/readline/example0"</span>);
-readline.example0._main();
+<pre class="src src-js">require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span><span style="color: #aadddd;">)</span>;
+require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/readline.js"</span><span style="color: #aadddd;">)</span>;
+require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/readline/example0"</span><span style="color: #aadddd;">)</span>;
+readline.example0._main<span style="color: #aadddd;">()</span>;
 </pre>
 </div>
 
@@ -499,9 +499,9 @@ You enter: hello node.js
 </div>
 </div>
 
-<div id="outline-container-org20f0eb3" class="outline-2">
-<h2 id="org20f0eb3">Example 1: 無窮迴圈讀取輸入</h2>
-<div class="outline-text-2" id="text-org20f0eb3">
+<div id="outline-container-orgbaf40da" class="outline-2">
+<h2 id="orgbaf40da">Example 1: 無窮迴圈讀取輸入</h2>
+<div class="outline-text-2" id="text-orgbaf40da">
 <p>
 和 <a href="http://coldnew.github.io/blog/2015/10-01_clojure_jline/">在 clojure 下使用 JLine 2.x 實現互動式命令</a> 一文中的 Example 1 不同的地方在於
 由於 Node.js 的設計，我們並不需要針對使用者的輸入而外撰寫迴圈，因此我們的
@@ -514,35 +514,35 @@ Example 1 和 Example 0 大抵是相同的。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example1</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example1</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
-(enable-console-print!)
+<span style="color: #aadddd;">(</span>enable-console-print!<span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (<span style="color: #aaffaa;">let</span> [readline (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span>)
-        rl (<span style="color: #ff8888;">.createInterface</span> readline
-                             (clj-&gt;js {<span style="color: #ccaaff;">:input</span>  (<span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
-                                       <span style="color: #ccaaff;">:output</span> (<span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)}))]
-    (<span style="color: #aaffaa;">doto</span> rl
-      (<span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span>)
-      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
-           (<span style="color: #aaffaa;">fn</span> [line]
-             (<span style="color: #aaffaa;">case</span> line
-               <span style="color: #aadddd;">"quit"</span> (<span style="color: #ff8888;">.close</span> rl)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>readline <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span><span style="color: #aaeecc;">)</span>
+        rl <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.createInterface</span> readline
+                             <span style="color: #ccaaff;">(</span>clj-&gt;js <span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:input</span>  <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #ff8888;">)</span>
+                                       <span style="color: #ccaaff;">:output</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #ff8888;">)</span><span style="color: #fff59d;">}</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">doto</span> rl
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
+           <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #fff59d;">[</span>line<span style="color: #fff59d;">]</span>
+             <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">case</span> line
+               <span style="color: #aadddd;">"quit"</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.close</span> rl<span style="color: #ff8888;">)</span>
                <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
-               (<span style="color: #aaffaa;">do</span>
-                 (println (str <span style="color: #aadddd;">"You enter: "</span> line))
-                 (<span style="color: #ff8888;">.prompt</span> rl)))))
+               <span style="color: #ff8888;">(</span><span style="color: #aaffaa;">do</span>
+                 <span style="color: #795548;">(</span>println <span style="color: #827717;">(</span>str <span style="color: #aadddd;">"You enter: "</span> line<span style="color: #827717;">)</span><span style="color: #795548;">)</span>
+                 <span style="color: #795548;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
       <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">show info after enter quit</span>
-      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"close"</span> (<span style="color: #aaffaa;">fn</span>[]
-                     (println <span style="color: #aadddd;">"Exit application."</span>)))
-      (<span style="color: #ff8888;">.prompt</span>)
-      )))
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"close"</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span><span style="color: #fff59d;">[]</span>
+                     <span style="color: #fff59d;">(</span>println <span style="color: #aadddd;">"Exit application."</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.prompt</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
-(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -559,10 +559,10 @@ Successfully compiled "target/readline.js" in 1.847 seconds.
 完成後添加我們的執行程式用 wrapper: <code>run-example1.js</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-js">require(<span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span>);
-require(<span style="color: #aadddd;">"./target/readline.js"</span>);
-require(<span style="color: #aadddd;">"./target/readline/example1"</span>);
-readline.example1._main();
+<pre class="src src-js">require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span><span style="color: #aadddd;">)</span>;
+require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/readline.js"</span><span style="color: #aadddd;">)</span>;
+require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/readline/example1"</span><span style="color: #aadddd;">)</span>;
+readline.example1._main<span style="color: #aadddd;">()</span>;
 </pre>
 </div>
 
@@ -582,9 +582,9 @@ Exit application.
 </div>
 </div>
 
-<div id="outline-container-org8f2dd22" class="outline-2">
-<h2 id="org8f2dd22">Example 2: 遮蔽使用者輸入</h2>
-<div class="outline-text-2" id="text-org8f2dd22">
+<div id="outline-container-org36b9e32" class="outline-2">
+<h2 id="org36b9e32">Example 2: 遮蔽使用者輸入</h2>
+<div class="outline-text-2" id="text-org36b9e32">
 <p>
 在互動式命令中，輸入密碼的時候我們不是不顯示密碼，不然就是將密碼轉換成 <code>*</code> 進行
 顯示，那在 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 下要怎樣作呢？由於 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 並未提供此類的功能，因
@@ -596,41 +596,41 @@ Exit application.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example2</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]
-            [<span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example2</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
-(enable-console-print!)
+<span style="color: #aadddd;">(</span>enable-console-print!<span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (<span style="color: #aaffaa;">let</span> [readline (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span>)
-        rl (<span style="color: #ff8888;">.createInterface</span> readline
-                             (clj-&gt;js {<span style="color: #ccaaff;">:input</span>  (<span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
-                                       <span style="color: #ccaaff;">:output</span> (<span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)}))]
-    (<span style="color: #ff8888;">.on</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdin <span style="color: #aadddd;">"data"</span>
-         (<span style="color: #aaffaa;">fn</span> [c]
-           (<span style="color: #aaffaa;">if</span>  (<span style="color: #aaffaa;">or</span> (<span style="color: #aaffaa;">and</span> (&gt;= c \<span style="color: #ccaaff;">A</span>) (&lt;= c \<span style="color: #ccaaff;">Z</span>))
-                    (<span style="color: #aaffaa;">and</span> (&gt;= c <span style="color: #aadddd;">\a</span>) (&lt;= c <span style="color: #aadddd;">\z</span>))
-                    (<span style="color: #aaffaa;">and</span> (&gt;= c <span style="color: #aadddd;">\0</span>) (&lt;= c <span style="color: #aadddd;">\9</span>)))
-             (<span style="color: #ff8888;">.write</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdout <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\b</span><span style="color: #aadddd;">*"</span>))))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>readline <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span><span style="color: #aaeecc;">)</span>
+        rl <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.createInterface</span> readline
+                             <span style="color: #ccaaff;">(</span>clj-&gt;js <span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:input</span>  <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #ff8888;">)</span>
+                                       <span style="color: #ccaaff;">:output</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #ff8888;">)</span><span style="color: #fff59d;">}</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.on</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdin <span style="color: #aadddd;">"data"</span>
+         <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #ccaaff;">[</span>c<span style="color: #ccaaff;">]</span>
+           <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">if</span>  <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">or</span> <span style="color: #ff8888;">(</span><span style="color: #aaffaa;">and</span> <span style="color: #795548;">(</span>&gt;= c \<span style="color: #ccaaff;">A</span><span style="color: #795548;">)</span> <span style="color: #795548;">(</span>&lt;= c \<span style="color: #ccaaff;">Z</span><span style="color: #795548;">)</span><span style="color: #ff8888;">)</span>
+                    <span style="color: #ff8888;">(</span><span style="color: #aaffaa;">and</span> <span style="color: #795548;">(</span>&gt;= c <span style="color: #aadddd;">\a</span><span style="color: #795548;">)</span> <span style="color: #795548;">(</span>&lt;= c <span style="color: #aadddd;">\z</span><span style="color: #795548;">)</span><span style="color: #ff8888;">)</span>
+                    <span style="color: #ff8888;">(</span><span style="color: #aaffaa;">and</span> <span style="color: #795548;">(</span>&gt;= c <span style="color: #aadddd;">\0</span><span style="color: #795548;">)</span> <span style="color: #795548;">(</span>&lt;= c <span style="color: #aadddd;">\9</span><span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+             <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.write</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdout <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\b</span><span style="color: #aadddd;">*"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
 
-    (<span style="color: #aaffaa;">doto</span> rl
-      (<span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span>)
-      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
-           (<span style="color: #aaffaa;">fn</span> [line]
-             (<span style="color: #aaffaa;">case</span> line
-               <span style="color: #aadddd;">"quit"</span> (<span style="color: #ff8888;">.close</span> rl)
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">doto</span> rl
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
+           <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #fff59d;">[</span>line<span style="color: #fff59d;">]</span>
+             <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">case</span> line
+               <span style="color: #aadddd;">"quit"</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.close</span> rl<span style="color: #ff8888;">)</span>
                <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
-               (<span style="color: #aaffaa;">do</span>
-                 (println (str <span style="color: #aadddd;">"You enter: "</span> line))
-                 (<span style="color: #ff8888;">.prompt</span> rl)))))
-      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"close"</span> #(println <span style="color: #aadddd;">"Exit application."</span>))
-      (<span style="color: #ff8888;">.prompt</span>)
-      )))
+               <span style="color: #ff8888;">(</span><span style="color: #aaffaa;">do</span>
+                 <span style="color: #795548;">(</span>println <span style="color: #827717;">(</span>str <span style="color: #aadddd;">"You enter: "</span> line<span style="color: #827717;">)</span><span style="color: #795548;">)</span>
+                 <span style="color: #795548;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"close"</span> #<span style="color: #ccaaff;">(</span>println <span style="color: #aadddd;">"Exit application."</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.prompt</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
-(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -645,12 +645,12 @@ Exit application.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #ff8888;">.on</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdin <span style="color: #aadddd;">"data"</span>
-     (<span style="color: #aaffaa;">fn</span> [c]
-       (<span style="color: #aaffaa;">if</span>  (<span style="color: #aaffaa;">or</span> (<span style="color: #aaffaa;">and</span> (&gt;= c \<span style="color: #ccaaff;">A</span>) (&lt;= c \<span style="color: #ccaaff;">Z</span>))
-                (<span style="color: #aaffaa;">and</span> (&gt;= c <span style="color: #aadddd;">\a</span>) (&lt;= c <span style="color: #aadddd;">\z</span>))
-                (<span style="color: #aaffaa;">and</span> (&gt;= c <span style="color: #aadddd;">\0</span>) (&lt;= c <span style="color: #aadddd;">\9</span>)))
-         (<span style="color: #ff8888;">.write</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdout <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\b</span><span style="color: #aadddd;">*"</span>))))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #ff8888;">.on</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdin <span style="color: #aadddd;">"data"</span>
+     <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaccff;">[</span>c<span style="color: #aaccff;">]</span>
+       <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span>  <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">or</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">and</span> <span style="color: #fff59d;">(</span>&gt;= c \<span style="color: #ccaaff;">A</span><span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>&lt;= c \<span style="color: #ccaaff;">Z</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+                <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">and</span> <span style="color: #fff59d;">(</span>&gt;= c <span style="color: #aadddd;">\a</span><span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>&lt;= c <span style="color: #aadddd;">\z</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+                <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">and</span> <span style="color: #fff59d;">(</span>&gt;= c <span style="color: #aadddd;">\0</span><span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>&lt;= c <span style="color: #aadddd;">\9</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+         <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.write</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process.stdout <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\b</span><span style="color: #aadddd;">*"</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -667,10 +667,10 @@ Successfully compiled "target/readline.js" in 1.847 seconds.
 完成後添加我們的執行程式用 wrapper: <code>run-example2.js</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-js">require(<span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span>);
-require(<span style="color: #aadddd;">"./target/readline.js"</span>);
-require(<span style="color: #aadddd;">"./target/readline/example2"</span>);
-readline.example2._main();
+<pre class="src src-js">require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span><span style="color: #aadddd;">)</span>;
+require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/readline.js"</span><span style="color: #aadddd;">)</span>;
+require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/readline/example2"</span><span style="color: #aadddd;">)</span>;
+readline.example2._main<span style="color: #aadddd;">()</span>;
 </pre>
 </div>
 
@@ -688,9 +688,9 @@ Exit application.
 </div>
 </div>
 
-<div id="outline-container-orgef62b23" class="outline-2">
-<h2 id="orgef62b23">Example 3: 簡易的 shell</h2>
-<div class="outline-text-2" id="text-orgef62b23">
+<div id="outline-container-org0d8afd8" class="outline-2">
+<h2 id="org0d8afd8">Example 3: 簡易的 shell</h2>
+<div class="outline-text-2" id="text-org0d8afd8">
 <p>
 經過前面的範例，想必各位對 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 的基本使用已經心裡有數了，那麼就讓我們
 來個複雜一點的程式來作個結束吧。我們要實現一個簡單的 shell，這個 shell 只有 3 種
@@ -702,43 +702,43 @@ Exit application.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example3</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]
-            [<span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">readline.example3</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
-(enable-console-print!)
+<span style="color: #aadddd;">(</span>enable-console-print!<span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (<span style="color: #aaffaa;">let</span> [fs (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span>)
-        readline (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span>)
-        rl (<span style="color: #ff8888;">.createInterface</span> readline
-                             (clj-&gt;js {<span style="color: #ccaaff;">:input</span>  (<span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
-                                       <span style="color: #ccaaff;">:output</span> (<span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)}))]
-    (<span style="color: #aaffaa;">doto</span> rl
-      (<span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span>)
-      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
-           (<span style="color: #aaffaa;">fn</span> [line]
-             (<span style="color: #aaffaa;">let</span> [line-seq (<span style="color: #fff59d;">str</span><span style="color: #c6cccc; background-color: #202020;">/</span>split line #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span>)]
-               (<span style="color: #aaffaa;">case</span> (first line-seq)
-                 <span style="color: #aadddd;">"quit"</span> (<span style="color: #ff8888;">.close</span> rl)
-                 <span style="color: #aadddd;">"ls"</span> (<span style="color: #ff8888;">.readdir</span> fs (<span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
-                                (<span style="color: #aaffaa;">fn</span> [err items]
-                                  (<span style="color: #aaffaa;">doseq</span> [f items]
-                                    (println (str f)))
-                                  (<span style="color: #ff8888;">.prompt</span> rl)))
-                 <span style="color: #aadddd;">"clear"</span> (<span style="color: #aaffaa;">do</span> (println <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[2J]</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[H"</span>) (<span style="color: #ff8888;">.prompt</span> rl))
-                 <span style="color: #aadddd;">"echo"</span>  (<span style="color: #aaffaa;">do</span> (println (str (second line-seq))) (<span style="color: #ff8888;">.prompt</span> rl))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>fs <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span><span style="color: #aaeecc;">)</span>
+        readline <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"readline"</span><span style="color: #aaeecc;">)</span>
+        rl <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.createInterface</span> readline
+                             <span style="color: #ccaaff;">(</span>clj-&gt;js <span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:input</span>  <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.-stdin</span>  <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #ff8888;">)</span>
+                                       <span style="color: #ccaaff;">:output</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.-stdout</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #ff8888;">)</span><span style="color: #fff59d;">}</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">doto</span> rl
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.setPrompt</span> <span style="color: #aadddd;">"user&gt; "</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"line"</span>
+           <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #fff59d;">[</span>line<span style="color: #fff59d;">]</span>
+             <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #ff8888;">[</span>line-seq <span style="color: #795548;">(</span><span style="color: #fff59d;">str</span><span style="color: #c6cccc; background-color: #202020;">/</span>split line #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span><span style="color: #795548;">)</span><span style="color: #ff8888;">]</span>
+               <span style="color: #ff8888;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #795548;">(</span>first line-seq<span style="color: #795548;">)</span>
+                 <span style="color: #aadddd;">"quit"</span> <span style="color: #795548;">(</span><span style="color: #ff8888;">.close</span> rl<span style="color: #795548;">)</span>
+                 <span style="color: #aadddd;">"ls"</span> <span style="color: #795548;">(</span><span style="color: #ff8888;">.readdir</span> fs <span style="color: #827717;">(</span><span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #827717;">)</span>
+                                <span style="color: #827717;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aadddd;">[</span>err items<span style="color: #aadddd;">]</span>
+                                  <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #81d4fa;">[</span>f items<span style="color: #81d4fa;">]</span>
+                                    <span style="color: #81d4fa;">(</span>println <span style="color: #aaccff;">(</span>str f<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+                                  <span style="color: #aadddd;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #aadddd;">)</span><span style="color: #827717;">)</span><span style="color: #795548;">)</span>
+                 <span style="color: #aadddd;">"clear"</span> <span style="color: #795548;">(</span><span style="color: #aaffaa;">do</span> <span style="color: #827717;">(</span>println <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[2J]</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[H"</span><span style="color: #827717;">)</span> <span style="color: #827717;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #827717;">)</span><span style="color: #795548;">)</span>
+                 <span style="color: #aadddd;">"echo"</span>  <span style="color: #795548;">(</span><span style="color: #aaffaa;">do</span> <span style="color: #827717;">(</span>println <span style="color: #aadddd;">(</span>str <span style="color: #81d4fa;">(</span>second line-seq<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span><span style="color: #827717;">)</span> <span style="color: #827717;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #827717;">)</span><span style="color: #795548;">)</span>
                  <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
-                 (<span style="color: #aaffaa;">do</span>
-                   (println (str <span style="color: #aadddd;">"No such command!! You enter: "</span> line))
-                   (<span style="color: #ff8888;">.prompt</span> rl))))))
-      (<span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"close"</span> #(println <span style="color: #aadddd;">"Exit application."</span>))
-      (<span style="color: #ff8888;">.prompt</span>)
-      )))
+                 <span style="color: #795548;">(</span><span style="color: #aaffaa;">do</span>
+                   <span style="color: #827717;">(</span>println <span style="color: #aadddd;">(</span>str <span style="color: #aadddd;">"No such command!! You enter: "</span> line<span style="color: #aadddd;">)</span><span style="color: #827717;">)</span>
+                   <span style="color: #827717;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #827717;">)</span><span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.on</span> <span style="color: #aadddd;">"close"</span> #<span style="color: #ccaaff;">(</span>println <span style="color: #aadddd;">"Exit application."</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.prompt</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
-(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -753,7 +753,7 @@ clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>split <span style="color: #aadddd;">"echo test"</span> #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span>)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>split <span style="color: #aadddd;">"echo test"</span> #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; ["echo" "test"]</span>
 </pre>
 </div>
@@ -765,19 +765,19 @@ clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">case</span> (first line-seq)
-  <span style="color: #aadddd;">"quit"</span> (<span style="color: #ff8888;">.close</span> rl)
-  <span style="color: #aadddd;">"ls"</span> (<span style="color: #ff8888;">.readdir</span> fs (<span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
-                 (<span style="color: #aaffaa;">fn</span> [err items]
-                   (<span style="color: #aaffaa;">doseq</span> [f items]
-                     (println (str f)))
-                   (<span style="color: #ff8888;">.prompt</span> rl)))
-  <span style="color: #aadddd;">"clear"</span> (<span style="color: #aaffaa;">do</span> (println <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[2J</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[H"</span>) (<span style="color: #ff8888;">.prompt</span> rl))
-  <span style="color: #aadddd;">"echo"</span>  (<span style="color: #aaffaa;">do</span> (println (str (second line-seq))) (<span style="color: #ff8888;">.prompt</span> rl))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #81d4fa;">(</span>first line-seq<span style="color: #81d4fa;">)</span>
+  <span style="color: #aadddd;">"quit"</span> <span style="color: #81d4fa;">(</span><span style="color: #ff8888;">.close</span> rl<span style="color: #81d4fa;">)</span>
+  <span style="color: #aadddd;">"ls"</span> <span style="color: #81d4fa;">(</span><span style="color: #ff8888;">.readdir</span> fs <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #aaccff;">)</span>
+                 <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaeecc;">[</span>err items<span style="color: #aaeecc;">]</span>
+                   <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #ccaaff;">[</span>f items<span style="color: #ccaaff;">]</span>
+                     <span style="color: #ccaaff;">(</span>println <span style="color: #fff59d;">(</span>str f<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+                   <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #aadddd;">"clear"</span> <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">do</span> <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[2J</span><span style="color: #aadddd; font-weight: bold;">\0</span><span style="color: #aadddd;">33[H"</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #aadddd;">"echo"</span>  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">do</span> <span style="color: #aaccff;">(</span>println <span style="color: #aaeecc;">(</span>str <span style="color: #ccaaff;">(</span>second line-seq<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
-  (<span style="color: #aaffaa;">do</span>
-    (println (str <span style="color: #aadddd;">"No such command!! You enter: "</span> line))
-    (<span style="color: #ff8888;">.prompt</span> rl)))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">do</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aaeecc;">(</span>str <span style="color: #aadddd;">"No such command!! You enter: "</span> line<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -802,7 +802,7 @@ ls 命令則是當中最為複雜的一個，我們首先透過 [[<a href="https
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; "/Data/cljs_readline"</span>
 </pre>
 </div>
@@ -813,7 +813,7 @@ ls 命令則是當中最為複雜的一個，我們首先透過 [[<a href="https
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #ff8888;">.readdir</span> (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span>) (<span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process) (<span style="color: #aaffaa;">fn</span> [err items] (vec items)))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #ff8888;">.readdir</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span><span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaccff;">[</span>err items<span style="color: #aaccff;">]</span> <span style="color: #aaccff;">(</span>vec items<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; [".gitignore" "doc" "LICENSE" "project.clj" "README.md" "resources" "src" "test"]</span>
 </pre>
 </div>
@@ -824,11 +824,11 @@ ls 命令則是當中最為複雜的一個，我們首先透過 [[<a href="https
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #ff8888;">.readdir</span> (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span> (<span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process)
-                          (<span style="color: #aaffaa;">fn</span> [err items]
-                            (<span style="color: #aaffaa;">doseq</span> [f items]
-                              (println (str f)))
-                            (<span style="color: #ff8888;">.prompt</span> rl))))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #ff8888;">.readdir</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span> <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.cwd</span> <span style="color: #fff59d;">js</span><span style="color: #c6cccc; background-color: #202020;">/</span>process<span style="color: #aaccff;">)</span>
+                          <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaeecc;">[</span>err items<span style="color: #aaeecc;">]</span>
+                            <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #ccaaff;">[</span>f items<span style="color: #ccaaff;">]</span>
+                              <span style="color: #ccaaff;">(</span>println <span style="color: #fff59d;">(</span>str f<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+                            <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.prompt</span> rl<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; .gitignore</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; doc</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; LICENSE</span>
@@ -854,10 +854,10 @@ Successfully compiled "target/readline.js" in 1.847 seconds.
 完成後添加我們的執行程式用 wrapper: <code>run-example3.js</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-js">require(<span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span>);
-require(<span style="color: #aadddd;">"./target/readline.js"</span>);
-require(<span style="color: #aadddd;">"./target/readline/example3"</span>);
-readline.example3._main();
+<pre class="src src-js">require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span><span style="color: #aadddd;">)</span>;
+require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/readline.js"</span><span style="color: #aadddd;">)</span>;
+require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/readline/example3"</span><span style="color: #aadddd;">)</span>;
+readline.example3._main<span style="color: #aadddd;">()</span>;
 </pre>
 </div>
 
@@ -874,9 +874,9 @@ user&gt;
 </div>
 </div>
 
-<div id="outline-container-org7deef88" class="outline-2">
-<h2 id="org7deef88">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-org7deef88">
+<div id="outline-container-org3801319" class="outline-2">
+<h2 id="org3801319">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-org3801319">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -900,9 +900,9 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
 </div>
 </div>
 
-<div id="outline-container-orgb4a8733" class="outline-2">
-<h2 id="orgb4a8733">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgb4a8733">
+<div id="outline-container-orgaeced6b" class="outline-2">
+<h2 id="orgaeced6b">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgaeced6b">
 <p>
 <code>[1]</code> <a href="https://nodejs.org/api/readline.html#readline_readline" target="_blank" rel="external">Node.js v4.1.1 Documentation - Readline</a>
 </p>
@@ -1076,7 +1076,7 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org134dc0a"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga420ac3"><span class="nav-text">基本的 clojurescript 程式框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf97bedf"><span class="nav-text">Example 0: 顯示使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org20f0eb3"><span class="nav-text">Example 1: 無窮迴圈讀取輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8f2dd22"><span class="nav-text">Example 2: 遮蔽使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgef62b23"><span class="nav-text">Example 3: 簡易的 shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7deef88"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb4a8733"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org947dcc7"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdcd0e63"><span class="nav-text">基本的 clojurescript 程式框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfda23f4"><span class="nav-text">Example 0: 顯示使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbaf40da"><span class="nav-text">Example 1: 無窮迴圈讀取輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org36b9e32"><span class="nav-text">Example 2: 遮蔽使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0d8afd8"><span class="nav-text">Example 3: 簡易的 shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3801319"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaeced6b"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

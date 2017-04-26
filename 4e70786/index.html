@@ -231,7 +231,7 @@ org-mode 的 easy-template 提供使用者輸入 &lt;e 再按下 TAB 就可以�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">defadvice</span> <span style="color: #aaccff;">yas-expand</span> (around coldnew/major-mode-expand activate)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defadvice</span> <span style="color: #aaccff;">yas-expand</span> <span style="color: #81d4fa;">(</span>around coldnew/major-mode-expand activate<span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"Try to complete a structure template before point like org-mode does.</span>
 <span style="color: #97abc6; font-style: italic;">This looks for strings like \"&lt;e\" on an otherwise empty line and</span>
 <span style="color: #97abc6; font-style: italic;">expands them.</span>
@@ -243,19 +243,19 @@ org-mode 的 easy-template 提供使用者輸入 &lt;e 再按下 TAB 就可以�
 <span style="color: #97abc6; font-style: italic;">(setq emacs-lisp-expand-alist '((\"r\" . \"require\")))</span>
 
 <span style="color: #97abc6; font-style: italic;">"</span>
-  (<span style="color: #aaffaa;">let*</span> ((l (buffer-substring (point-at-bol) (point)))
-         (expand-symbol (intern (concat (symbol-name major-mode) <span style="color: #aadddd;">"-expand-alist"</span>)))
-         (expand-alist (<span style="color: #aaffaa;">if</span> (boundp expand-symbol) (symbol-value expand-symbol) nil))
-         a)
-    (<span style="color: #aaffaa;">when</span> (<span style="color: #aaffaa;">and</span> (looking-at <span style="color: #aadddd;">"[ \t]*$"</span>)
-               (string-match <span style="color: #aadddd;">"^[ \t]*&lt;</span><span style="color: #fff59d;">\\</span><span style="color: #ff8888;">(</span><span style="color: #aadddd;">[a-zA-Z]+</span><span style="color: #fff59d;">\\</span><span style="color: #ff8888;">)</span><span style="color: #aadddd;">$"</span> l)
-               (<span style="color: #aaffaa;">setq</span> a (assoc (match-string 1 l) expand-alist)))
-      (backward-delete-char (1+ (length (car-safe a))))
-      (<span style="color: #aaffaa;">if</span> (symbolp (cdr-safe a))
-          (funcall (cdr-safe a))
-        (insert (cdr-safe a)))
-      t)
-    ad-do-it))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let*</span> <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>l <span style="color: #ccaaff;">(</span>buffer-substring <span style="color: #fff59d;">(</span>point-at-bol<span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>point<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+         <span style="color: #aaeecc;">(</span>expand-symbol <span style="color: #ccaaff;">(</span>intern <span style="color: #fff59d;">(</span>concat <span style="color: #ff8888;">(</span>symbol-name major-mode<span style="color: #ff8888;">)</span> <span style="color: #aadddd;">"-expand-alist"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+         <span style="color: #aaeecc;">(</span>expand-alist <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #fff59d;">(</span>boundp expand-symbol<span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>symbol-value expand-symbol<span style="color: #fff59d;">)</span> nil<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+         a<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">when</span> <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">and</span> <span style="color: #ccaaff;">(</span>looking-at <span style="color: #aadddd;">"[ \t]*$"</span><span style="color: #ccaaff;">)</span>
+               <span style="color: #ccaaff;">(</span>string-match <span style="color: #aadddd;">"^[ \t]*&lt;</span><span style="color: #fff59d;">\\</span><span style="color: #ff8888;">(</span><span style="color: #aadddd;">[a-zA-Z]+</span><span style="color: #fff59d;">\\</span><span style="color: #ff8888;">)</span><span style="color: #aadddd;">$"</span> l<span style="color: #ccaaff;">)</span>
+               <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">setq</span> a <span style="color: #fff59d;">(</span>assoc <span style="color: #ff8888;">(</span>match-string 1 l<span style="color: #ff8888;">)</span> expand-alist<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>backward-delete-char <span style="color: #ccaaff;">(</span>1+ <span style="color: #fff59d;">(</span>length <span style="color: #ff8888;">(</span>car-safe a<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">(</span>symbolp <span style="color: #fff59d;">(</span>cdr-safe a<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+          <span style="color: #ccaaff;">(</span>funcall <span style="color: #fff59d;">(</span>cdr-safe a<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span>insert <span style="color: #fff59d;">(</span>cdr-safe a<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      t<span style="color: #aaccff;">)</span>
+    ad-do-it<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -265,7 +265,7 @@ require 的 snippet, 則添加以下程式
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">setq</span> emacs-lisp-mode-expand-alist '((<span style="color: #aadddd;">"r"</span> . <span style="color: #aadddd;">"require"</span>)))
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> emacs-lisp-mode-expand-alist '<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span><span style="color: #aadddd;">"r"</span> . <span style="color: #aadddd;">"require"</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -275,7 +275,7 @@ require 的 snippet, 則添加以下程式
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">setq</span> c-mode-expand-alist '((<span style="color: #aadddd;">"i"</span> . <span style="color: #aadddd;">"include"</span>)))
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> c-mode-expand-alist '<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span><span style="color: #aadddd;">"i"</span> . <span style="color: #aadddd;">"include"</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 

@@ -248,9 +248,9 @@ Brainfuck 起始於 1993 年，由 Urban MÜller 所設計，最初設計的目�
 Brainfuck 直譯器能夠以最短的速度執行完 Brainfuck 程式。
 </p>
 
-<div id="outline-container-org0f33126" class="outline-2">
-<h2 id="org0f33126">Brainfuck 語言指令與含義</h2>
-<div class="outline-text-2" id="text-org0f33126">
+<div id="outline-container-org1a49aee" class="outline-2">
+<h2 id="org1a49aee">Brainfuck 語言指令與含義</h2>
+<div class="outline-text-2" id="text-org1a49aee">
 <p>
 Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部份則是對記
 憶體區塊的讀取/修改，以 C 語言的觀點來看，BrainFuck 就等於是指標
@@ -337,9 +337,9 @@ Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部�
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">+++++
-[
+<span style="color: #aadddd;">[</span>
  -
-]
+<span style="color: #aadddd;">]</span>
 </pre>
 </div>
 </div><div class="col-md-6 ">
@@ -350,9 +350,9 @@ Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部�
 
 <div class="org-src-container">
 <pre class="src src-c">*p += 5;
-<span style="color: #aaffaa;">while</span>(0 != *p) {
+<span style="color: #aaffaa;">while</span><span style="color: #aadddd;">(</span>0 != *p<span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
         *p--;
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 </div> </div>
@@ -372,9 +372,9 @@ Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部�
 </div>
 </div>
 
-<div id="outline-container-org887c912" class="outline-2">
-<h2 id="org887c912">使用 ClojureScript 來實作 Brainfuck 直譯器</h2>
-<div class="outline-text-2" id="text-org887c912">
+<div id="outline-container-org9e8cd10" class="outline-2">
+<h2 id="org9e8cd10">使用 ClojureScript 來實作 Brainfuck 直譯器</h2>
+<div class="outline-text-2" id="text-org9e8cd10">
 <p>
 那要怎樣開始呢？首先要先釐清一個觀念: <b>Clojure 裏面的數據結構是不可變的
 (immutable)</b> ，也就是說，傳送給函式的參數，並不會被該函式修改，或是
@@ -474,72 +474,72 @@ Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部�
 </div>
 </div>
 
-<div id="outline-container-orgf7799fd" class="outline-2">
-<h2 id="orgf7799fd">概覽整個程式碼</h2>
-<div class="outline-text-2" id="text-orgf7799fd">
+<div id="outline-container-orged59700" class="outline-2">
+<h2 id="orged59700">概覽整個程式碼</h2>
+<div class="outline-text-2" id="text-orged59700">
 <p>
 本篇文章完整的程式碼如下，我們將在後面進行說明:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-brainfuck.core</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]
-            [<span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-brainfuck.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">read-input</span> [cell cells]
-  (<span style="color: #aaffaa;">let</span> [sync-prompt (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"sync-prompt"</span>)
-        p (<span style="color: #ff8888;">.prompt</span> sync-prompt)]
-    (reset! cells (assoc @cells @cell
-                         (<span style="color: #ff8888;">.charCodeAt</span> (<span style="color: #ff8888;">.trim</span> (<span style="color: #ff8888;">.toString</span> p)) 0)))))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">read-input</span> <span style="color: #81d4fa;">[</span>cell cells<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>sync-prompt <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"sync-prompt"</span><span style="color: #aaeecc;">)</span>
+        p <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.prompt</span> sync-prompt<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell
+                         <span style="color: #ccaaff;">(</span><span style="color: #ff8888;">.charCodeAt</span> <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.trim</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.toString</span> p<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span> 0<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">bf-loop</span> [direction pointer commands]
-  (<span style="color: #aaffaa;">let</span> [val (<span style="color: #aaffaa;">if</span> (= direction <span style="color: #ccaaff;">:forward</span>) 1 -1)]
-    (<span style="color: #aaffaa;">loop</span> [count 1]
-      (<span style="color: #aaffaa;">when-not</span> (= count 0)
-        (reset! pointer (+ @pointer val))
-        (<span style="color: #aaffaa;">case</span> (nth commands @pointer)
-          <span style="color: #aadddd;">\[</span> (<span style="color: #aaffaa;">recur</span> (+ count val))
-          <span style="color: #aadddd;">\]</span> (<span style="color: #aaffaa;">recur</span> (- count val))
-          (<span style="color: #aaffaa;">recur</span> count))))))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">bf-loop</span> <span style="color: #81d4fa;">[</span>direction pointer commands<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>val <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">(</span>= direction <span style="color: #ccaaff;">:forward</span><span style="color: #ccaaff;">)</span> 1 -1<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[</span>count 1<span style="color: #aaeecc;">]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #ccaaff;">(</span>= count 0<span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span>reset! pointer <span style="color: #fff59d;">(</span>+ @pointer val<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #fff59d;">(</span>nth commands @pointer<span style="color: #fff59d;">)</span>
+          <span style="color: #aadddd;">\[</span> <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> <span style="color: #ff8888;">(</span>+ count val<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #aadddd;">\]</span> <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> <span style="color: #ff8888;">(</span>- count val<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> count<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">exec-command</span> [cell cells commands pointer]
-  (<span style="color: #aaffaa;">case</span> (nth commands @pointer)
-    <span style="color: #aadddd;">\&gt;</span> (swap! cell inc)
-    <span style="color: #aadddd;">\&lt;</span> (swap! cell dec)
-    <span style="color: #aadddd;">\+</span> (reset! cells (assoc @cells @cell (inc (get @cells @cell))))
-    <span style="color: #aadddd;">\-</span> (reset! cells (assoc @cells @cell (dec (get @cells @cell))))
-    <span style="color: #aadddd;">\.</span> (print (char (get @cells @cell)))
-    <span style="color: #aadddd;">\,</span> (read-input cell cells)
-    <span style="color: #aadddd;">\[</span> (<span style="color: #aaffaa;">if</span>     (= (get @cells @cell) 0) (bf-loop <span style="color: #ccaaff;">:forward</span>  pointer commands))
-    <span style="color: #aadddd;">\]</span> (<span style="color: #aaffaa;">if-not</span> (= (get @cells @cell) 0) (bf-loop <span style="color: #ccaaff;">:backward</span> pointer commands))
-    ()))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">exec-command</span> <span style="color: #81d4fa;">[</span>cell cells commands pointer<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #aaccff;">(</span>nth commands @pointer<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\&gt;</span> <span style="color: #aaccff;">(</span>swap! cell inc<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\&lt;</span> <span style="color: #aaccff;">(</span>swap! cell dec<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\+</span> <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell <span style="color: #ccaaff;">(</span>inc <span style="color: #fff59d;">(</span>get @cells @cell<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\-</span> <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell <span style="color: #ccaaff;">(</span>dec <span style="color: #fff59d;">(</span>get @cells @cell<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\.</span> <span style="color: #aaccff;">(</span>print <span style="color: #aaeecc;">(</span>char <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\,</span> <span style="color: #aaccff;">(</span>read-input cell cells<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\[</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span>     <span style="color: #aaeecc;">(</span>= <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span> 0<span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span>bf-loop <span style="color: #ccaaff;">:forward</span>  pointer commands<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\]</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if-not</span> <span style="color: #aaeecc;">(</span>= <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span> 0<span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span>bf-loop <span style="color: #ccaaff;">:backward</span> pointer commands<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">()</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">interpret</span> [commands]
-  (<span style="color: #aaffaa;">let</span> [cell  (atom 0)
-        cells (atom (vec (repeat 30000 0)))]
-    (<span style="color: #aaffaa;">loop</span> [pointer (atom 0)]
-      (exec-command cell cells commands pointer)
-      (swap! pointer inc)
-      (<span style="color: #aaffaa;">if-not</span> (= @pointer (count commands)) (<span style="color: #aaffaa;">recur</span> pointer)))))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">interpret</span> <span style="color: #81d4fa;">[</span>commands<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>cell  <span style="color: #aaeecc;">(</span>atom 0<span style="color: #aaeecc;">)</span>
+        cells <span style="color: #aaeecc;">(</span>atom <span style="color: #ccaaff;">(</span>vec <span style="color: #fff59d;">(</span>repeat 30000 0<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[</span>pointer <span style="color: #ccaaff;">(</span>atom 0<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">]</span>
+      <span style="color: #aaeecc;">(</span>exec-command cell cells commands pointer<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>swap! pointer inc<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if-not</span> <span style="color: #ccaaff;">(</span>= @pointer <span style="color: #fff59d;">(</span>count commands<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">recur</span> pointer<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (<span style="color: #aaffaa;">let</span> [arg1 (nth args 0)
-        fs (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span>)]
-    (<span style="color: #aaffaa;">if</span> arg1
-      (<span style="color: #ff8888;">.readFile</span> fs arg1 <span style="color: #aadddd;">"utf8"</span> (<span style="color: #aaffaa;">fn</span> [err data]
-                                  (<span style="color: #aaffaa;">if</span> err (println err)
-                                      (interpret (<span style="color: #fff59d;">str</span><span style="color: #c6cccc; background-color: #202020;">/</span>trim-newline data)))))
-      (println <span style="color: #aadddd;">"Error: Please specify filename."</span>))))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args 0<span style="color: #aaeecc;">)</span>
+        fs <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> arg1
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.readFile</span> fs arg1 <span style="color: #aadddd;">"utf8"</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #fff59d;">[</span>err data<span style="color: #fff59d;">]</span>
+                                  <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">if</span> err <span style="color: #ff8888;">(</span>println err<span style="color: #ff8888;">)</span>
+                                      <span style="color: #ff8888;">(</span>interpret <span style="color: #795548;">(</span><span style="color: #fff59d;">str</span><span style="color: #c6cccc; background-color: #202020;">/</span>trim-newline data<span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"Error: Please specify filename."</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc772ea4" class="outline-2">
-<h2 id="orgc772ea4">透過 node.js 對檔案進行讀取</h2>
-<div class="outline-text-2" id="text-orgc772ea4">
+<div id="outline-container-org88631ae" class="outline-2">
+<h2 id="org88631ae">透過 node.js 對檔案進行讀取</h2>
+<div class="outline-text-2" id="text-org88631ae">
 <p>
 我們希望寫出來的 Brainfuck 直譯器可以自由的讀取 Brainfuck 程式檔案來運
 作，因此整個程式就設計成使用 node.js 的方案，
@@ -548,8 +548,8 @@ Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js2">fs = require('fs');
-fs.readFile(file, [encoding], [callback]);
+<pre class="src src-js2">fs = require<span style="color: #aadddd;">(</span>'fs'<span style="color: #aadddd;">)</span>;
+fs.readFile<span style="color: #aadddd;">(</span>file, <span style="color: #81d4fa;">[</span>encoding<span style="color: #81d4fa;">]</span>, <span style="color: #81d4fa;">[</span>callback<span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>;
 </pre>
 </div>
 
@@ -559,34 +559,34 @@ fs.readFile(file, [encoding], [callback]);
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-brainfuck.core</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-brainfuck.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">fs</span> (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span>))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">fs</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"fs"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (<span style="color: #aaffaa;">let</span> [arg1 (nth args 0)]
-    (<span style="color: #aaffaa;">if</span> arg1
-      (<span style="color: #ff8888;">.readFile</span> fs arg1 <span style="color: #aadddd;">"utf8"</span> (<span style="color: #aaffaa;">fn</span> [err data] (println (<span style="color: #aaffaa;">or</span> err data))))
-      (println <span style="color: #aadddd;">"Error: Please specify filename."</span>)
-      )))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args 0<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> arg1
+      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.readFile</span> fs arg1 <span style="color: #aadddd;">"utf8"</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #fff59d;">[</span>err data<span style="color: #fff59d;">]</span> <span style="color: #fff59d;">(</span>println <span style="color: #ff8888;">(</span><span style="color: #aaffaa;">or</span> err data<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"Error: Please specify filename."</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org858209e" class="outline-2">
-<h2 id="org858209e">動手寫 Brainfuck 直譯器</h2>
-<div class="outline-text-2" id="text-org858209e">
+<div id="outline-container-org76bc80e" class="outline-2">
+<h2 id="org76bc80e">動手寫 Brainfuck 直譯器</h2>
+<div class="outline-text-2" id="text-org76bc80e">
 <p>
 我們先從程式的進入點開始著手，首先，當我們讀取完 Brainfuck 的程式碼後，
 要將資料傳送給我們的直譯器 (interpreter)，這邊的呼叫就像下面這個樣子。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(interpret <span style="color: #aadddd;">"+++++++[&gt;+++++&lt;&lt;&lt;&lt;]---.--"</span>)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>interpret <span style="color: #aadddd;">"+++++++[&gt;+++++&lt;&lt;&lt;&lt;]---.--"</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -595,11 +595,11 @@ fs.readFile(file, [encoding], [callback]);
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">interpret</span> [commands]
-  (<span style="color: #aaffaa;">let</span> [cell  (atom 0)
-        cells (atom (vec (repeat 30000 0)))]
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">interpret</span> <span style="color: #81d4fa;">[</span>commands<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>cell  <span style="color: #aaeecc;">(</span>atom 0<span style="color: #aaeecc;">)</span>
+        cells <span style="color: #aaeecc;">(</span>atom <span style="color: #ccaaff;">(</span>vec <span style="color: #fff59d;">(</span>repeat 30000 0<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">other stuffs</span>
-    ))
+    <span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -618,10 +618,10 @@ cells 則是整個 Brainfuck 程式的記憶體欄位，記憶體大小設定為
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">loop</span> [pointer (atom 0)]
-  (exec-command cell cells commands pointer)
-  (swap! pointer inc)
-  (<span style="color: #aaffaa;">if-not</span> (= @pointer (count commands)) (<span style="color: #aaffaa;">recur</span> pointer)))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #81d4fa;">[</span>pointer <span style="color: #aaccff;">(</span>atom 0<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>exec-command cell cells commands pointer<span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span>swap! pointer inc<span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if-not</span> <span style="color: #aaccff;">(</span>= @pointer <span style="color: #aaeecc;">(</span>count commands<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">recur</span> pointer<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -633,17 +633,17 @@ cells 則是整個 Brainfuck 程式的記憶體欄位，記憶體大小設定為
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">exec-command</span> [cell cells commands pointer]
-  (<span style="color: #aaffaa;">case</span> (nth commands @pointer)
-    <span style="color: #aadddd;">\&gt;</span> (swap! cell inc)
-    <span style="color: #aadddd;">\&lt;</span> (swap! cell dec)
-    <span style="color: #aadddd;">\+</span> (reset! cells (assoc @cells @cell (inc (get @cells @cell))))
-    <span style="color: #aadddd;">\-</span> (reset! cells (assoc @cells @cell (dec (get @cells @cell))))
-    <span style="color: #aadddd;">\.</span> (print (char (get @cells @cell)))
-    <span style="color: #aadddd;">\,</span> (read-input cell cells)
-    <span style="color: #aadddd;">\[</span> (<span style="color: #aaffaa;">if</span>     (= (get @cells @cell) 0) (bf-loop <span style="color: #ccaaff;">:forward</span>  pointer commands))
-    <span style="color: #aadddd;">\]</span> (<span style="color: #aaffaa;">if-not</span> (= (get @cells @cell) 0) (bf-loop <span style="color: #ccaaff;">:backward</span> pointer commands))
-    ()))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">exec-command</span> <span style="color: #81d4fa;">[</span>cell cells commands pointer<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #aaccff;">(</span>nth commands @pointer<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\&gt;</span> <span style="color: #aaccff;">(</span>swap! cell inc<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\&lt;</span> <span style="color: #aaccff;">(</span>swap! cell dec<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\+</span> <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell <span style="color: #ccaaff;">(</span>inc <span style="color: #fff59d;">(</span>get @cells @cell<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\-</span> <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell <span style="color: #ccaaff;">(</span>dec <span style="color: #fff59d;">(</span>get @cells @cell<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\.</span> <span style="color: #aaccff;">(</span>print <span style="color: #aaeecc;">(</span>char <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\,</span> <span style="color: #aaccff;">(</span>read-input cell cells<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\[</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span>     <span style="color: #aaeecc;">(</span>= <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span> 0<span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span>bf-loop <span style="color: #ccaaff;">:forward</span>  pointer commands<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\]</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if-not</span> <span style="color: #aaeecc;">(</span>= <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span> 0<span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span>bf-loop <span style="color: #ccaaff;">:backward</span> pointer commands<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">()</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -662,8 +662,8 @@ cells 則是整個 Brainfuck 程式的記憶體欄位，記憶體大小設定為
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">\&gt;</span> (swap! cell inc)
-<span style="color: #aadddd;">\&lt;</span> (swap! cell dec)
+<pre class="src src-clojure"><span style="color: #aadddd;">\&gt;</span> <span style="color: #aadddd;">(</span>swap! cell inc<span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">\&lt;</span> <span style="color: #aadddd;">(</span>swap! cell dec<span style="color: #aadddd;">)</span>
 </pre>
 </div></li>
 
@@ -677,7 +677,7 @@ cells 則是整個 Brainfuck 程式的記憶體欄位，記憶體大小設定為
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(get @cells @cell)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>get @cells @cell<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -688,8 +688,8 @@ cells 則是整個 Brainfuck 程式的記憶體欄位，記憶體大小設定為
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">c1</span> (atom (vector (repeat 3 0))))   <span style="color: #9ac; font-style: italic;">; =&gt; [0 0 0]</span>
-(reset! c1 [1 2 3])                     <span style="color: #9ac; font-style: italic;">; =&gt; [1 2 3]</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">c1</span> <span style="color: #81d4fa;">(</span>atom <span style="color: #aaccff;">(</span>vector <span style="color: #aaeecc;">(</span>repeat 3 0<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>   <span style="color: #9ac; font-style: italic;">; =&gt; [0 0 0]</span>
+<span style="color: #aadddd;">(</span>reset! c1 <span style="color: #81d4fa;">[</span>1 2 3<span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>                     <span style="color: #9ac; font-style: italic;">; =&gt; [1 2 3]</span>
 </pre>
 </div>
 
@@ -698,8 +698,8 @@ cells 則是整個 Brainfuck 程式的記憶體欄位，記憶體大小設定為
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">\+</span> (reset! cells (assoc @cells @cell (inc (get @cells @cell))))
-<span style="color: #aadddd;">\-</span> (reset! cells (assoc @cells @cell (dec (get @cells @cell))))
+<pre class="src src-clojure"><span style="color: #aadddd;">\+</span> <span style="color: #aadddd;">(</span>reset! cells <span style="color: #81d4fa;">(</span>assoc @cells @cell <span style="color: #aaccff;">(</span>inc <span style="color: #aaeecc;">(</span>get @cells @cell<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">\-</span> <span style="color: #aadddd;">(</span>reset! cells <span style="color: #81d4fa;">(</span>assoc @cells @cell <span style="color: #aaccff;">(</span>dec <span style="color: #aaeecc;">(</span>get @cells @cell<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div></li>
 
@@ -713,8 +713,8 @@ cells 則是整個 Brainfuck 程式的記憶體欄位，記憶體大小設定為
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">\.</span> (print (char (get @cells @cell)))
-<span style="color: #aadddd;">\,</span> (read-input cell cells)
+<pre class="src src-clojure"><span style="color: #aadddd;">\.</span> <span style="color: #aadddd;">(</span>print <span style="color: #81d4fa;">(</span>char <span style="color: #aaccff;">(</span>get @cells @cell<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">\,</span> <span style="color: #aadddd;">(</span>read-input cell cells<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -737,11 +737,11 @@ ClojureScript 裏面都還是會有問題，正當我要放棄這項功能時 (�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">read-input</span> [cell cells]
-  (<span style="color: #aaffaa;">let</span> [sync-prompt (<span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"sync-prompt"</span>)
-        p (<span style="color: #ff8888;">.prompt</span> sync-prompt)]
-    (reset! cells (assoc @cells @cell
-                         (<span style="color: #ff8888;">.charCodeAt</span> (<span style="color: #ff8888;">.trim</span> (<span style="color: #ff8888;">.toString</span> p)) 0)))))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">read-input</span> <span style="color: #81d4fa;">[</span>cell cells<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>sync-prompt <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"sync-prompt"</span><span style="color: #aaeecc;">)</span>
+        p <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.prompt</span> sync-prompt<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell
+                         <span style="color: #ccaaff;">(</span><span style="color: #ff8888;">.charCodeAt</span> <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.trim</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.toString</span> p<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span> 0<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div></li>
 
@@ -762,8 +762,8 @@ Brainfuck 的迴圈流程很簡單，當遇到 <b>[</b> ，如果此時指標指
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">\[</span> (<span style="color: #aaffaa;">if</span>     (= (get @cells @cell) 0) (bf-loop <span style="color: #ccaaff;">:forward</span>  pointer commands))
-<span style="color: #aadddd;">\]</span> (<span style="color: #aaffaa;">if-not</span> (= (get @cells @cell) 0) (bf-loop <span style="color: #ccaaff;">:backward</span> pointer commands))
+<pre class="src src-clojure"><span style="color: #aadddd;">\[</span> <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">if</span>     <span style="color: #81d4fa;">(</span>= <span style="color: #aaccff;">(</span>get @cells @cell<span style="color: #aaccff;">)</span> 0<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>bf-loop <span style="color: #ccaaff;">:forward</span>  pointer commands<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">\]</span> <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">if-not</span> <span style="color: #81d4fa;">(</span>= <span style="color: #aaccff;">(</span>get @cells @cell<span style="color: #aaccff;">)</span> 0<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>bf-loop <span style="color: #ccaaff;">:backward</span> pointer commands<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -774,24 +774,24 @@ Brainfuck 的迴圈流程很簡單，當遇到 <b>[</b> ，如果此時指標指
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">bf-loop</span> [direction pointer commands]
-  (<span style="color: #aaffaa;">let</span> [val (<span style="color: #aaffaa;">if</span> (= direction <span style="color: #ccaaff;">:forward</span>) 1 -1)]
-    (<span style="color: #aaffaa;">loop</span> [count 1]
-      (<span style="color: #aaffaa;">when-not</span> (= count 0)
-        (reset! pointer (+ @pointer val))
-        (<span style="color: #aaffaa;">case</span> (nth commands @pointer)
-          <span style="color: #aadddd;">\[</span> (<span style="color: #aaffaa;">recur</span> (+ count val))
-          <span style="color: #aadddd;">\]</span> (<span style="color: #aaffaa;">recur</span> (- count val))
-          (<span style="color: #aaffaa;">recur</span> count))))))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">bf-loop</span> <span style="color: #81d4fa;">[</span>direction pointer commands<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>val <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">(</span>= direction <span style="color: #ccaaff;">:forward</span><span style="color: #ccaaff;">)</span> 1 -1<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[</span>count 1<span style="color: #aaeecc;">]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #ccaaff;">(</span>= count 0<span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span>reset! pointer <span style="color: #fff59d;">(</span>+ @pointer val<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #fff59d;">(</span>nth commands @pointer<span style="color: #fff59d;">)</span>
+          <span style="color: #aadddd;">\[</span> <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> <span style="color: #ff8888;">(</span>+ count val<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #aadddd;">\]</span> <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> <span style="color: #ff8888;">(</span>- count val<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> count<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgd0163b4" class="outline-2">
-<h2 id="orgd0163b4">取得程式碼</h2>
-<div class="outline-text-2" id="text-orgd0163b4">
+<div id="outline-container-org1538f61" class="outline-2">
+<h2 id="org1538f61">取得程式碼</h2>
+<div class="outline-text-2" id="text-org1538f61">
 <p>
 本篇文章的完整程式碼已經放置於 <a href="https://github.com/coldnew/cljs-brainfuck" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -868,9 +868,9 @@ node target/brainfuck.js examples/hello_world.bf
 </div>
 </div>
 
-<div id="outline-container-orgc423c70" class="outline-2">
-<h2 id="orgc423c70">將本篇文章的程式移植到 Clojure 上</h2>
-<div class="outline-text-2" id="text-orgc423c70">
+<div id="outline-container-org23060eb" class="outline-2">
+<h2 id="org23060eb">將本篇文章的程式移植到 Clojure 上</h2>
+<div class="outline-text-2" id="text-org23060eb">
 <p>
 要將本篇文章的程式移植到 Clojure 上，你只需要修改幾個部份
 </p>
@@ -885,8 +885,8 @@ namespace
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-brainfuck.core</span>
-  (<span style="color: #ccaaff;">:require</span> [<span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str]))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-brainfuck.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div></li>
 
@@ -900,8 +900,8 @@ Clojure 的方式來讀取使用者的輸入。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">read-input</span> [cell cells]
-  (reset! cells (assoc @cells @cell (char (<span style="color: #aaffaa;">.</span> <span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span>in read)))))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">read-input</span> <span style="color: #81d4fa;">[</span>cell cells<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>reset! cells <span style="color: #aaccff;">(</span>assoc @cells @cell <span style="color: #aaeecc;">(</span>char <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">.</span> <span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span>in read<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div></li>
 
@@ -915,20 +915,20 @@ Clojure 的方式來讀取檔案。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> [&amp; args]
-  (<span style="color: #aaffaa;">let</span> [arg1 (nth args 0)]
-    (<span style="color: #aaffaa;">if</span> arg1
-      (interpret (<span style="color: #fff59d;">str</span><span style="color: #c6cccc; background-color: #202020;">/</span>trim-newline (slurp arg1)))
-      (println <span style="color: #aadddd;">"Error: Please specify filename."</span>))))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args 0<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> arg1
+      <span style="color: #aaeecc;">(</span>interpret <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">str</span><span style="color: #c6cccc; background-color: #202020;">/</span>trim-newline <span style="color: #fff59d;">(</span>slurp arg1<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"Error: Please specify filename."</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orga428cec" class="outline-2">
-<h2 id="orga428cec">參考連結</h2>
-<div class="outline-text-2" id="text-orga428cec">
+<div id="outline-container-orgc524f71" class="outline-2">
+<h2 id="orgc524f71">參考連結</h2>
+<div class="outline-text-2" id="text-orgc524f71">
 <p>
 <code>[1]</code> <a href="http://blog.linux.org.tw/~jserv/archives/002119.html" target="_blank" rel="external">Jserv's blog: 打造 Brainfuck 的 JIT compiler</a>
 </p>
@@ -1104,7 +1104,7 @@ Clojure 的方式來讀取檔案。
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0f33126"><span class="nav-text">Brainfuck 語言指令與含義</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org887c912"><span class="nav-text">使用 ClojureScript 來實作 Brainfuck 直譯器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf7799fd"><span class="nav-text">概覽整個程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc772ea4"><span class="nav-text">透過 node.js 對檔案進行讀取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org858209e"><span class="nav-text">動手寫 Brainfuck 直譯器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd0163b4"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc423c70"><span class="nav-text">將本篇文章的程式移植到 Clojure 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga428cec"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org1a49aee"><span class="nav-text">Brainfuck 語言指令與含義</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9e8cd10"><span class="nav-text">使用 ClojureScript 來實作 Brainfuck 直譯器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orged59700"><span class="nav-text">概覽整個程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org88631ae"><span class="nav-text">透過 node.js 對檔案進行讀取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org76bc80e"><span class="nav-text">動手寫 Brainfuck 直譯器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1538f61"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org23060eb"><span class="nav-text">將本篇文章的程式移植到 Clojure 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc524f71"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -243,9 +243,9 @@ Readline 類似的功能，是用來實現互動式命令很方便的工具。
 
 <a id="more"></a>
 
-<div id="outline-container-org8c517da" class="outline-2">
-<h2 id="org8c517da">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org8c517da">
+<div id="outline-container-orge23c5a4" class="outline-2">
+<h2 id="orge23c5a4">建立我們的專案</h2>
+<div class="outline-text-2" id="text-orge23c5a4">
 <p>
 本篇文章還是依照以往的規則，使用預設的 <i>lein</i> 樣板，因此我們這樣建立名為
 <i>myapp</i> 的專案:
@@ -265,21 +265,21 @@ coldnew@Rosia ~ $ lein new jline2
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">jline2</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">jline2</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
   <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"FIXME: write description"</span>
   <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
-  <span style="color: #ccaaff;">:license</span> {<span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
-            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span>}
-  <span style="color: #ccaaff;">:dependencies</span> [[<span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span>]
-                 [<span style="color: #fff59d;">jline</span><span style="color: #c6cccc; background-color: #202020;">/</span>jline <span style="color: #aadddd;">"2.13"</span>]])
+  <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
+            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">jline</span><span style="color: #c6cccc; background-color: #202020;">/</span>jline <span style="color: #aadddd;">"2.13"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbc4248d" class="outline-2">
-<h2 id="orgbc4248d">Example 0: 顯示使用者輸入</h2>
-<div class="outline-text-2" id="text-orgbc4248d">
+<div id="outline-container-org45212f3" class="outline-2">
+<h2 id="org45212f3">Example 0: 顯示使用者輸入</h2>
+<div class="outline-text-2" id="text-org45212f3">
 <p>
 對於互動式命令的實現，第一個程式就會是怎樣將使用者的輸入顯示出來，對於這樣單純的
 程式，我們可以直接透過 JLine 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="external">ConsoleReader</a> 建立一個名為 <i>console</i> 的物件，並
@@ -287,14 +287,14 @@ coldnew@Rosia ~ $ lein new jline2
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example0</span>
-  (<span style="color: #ccaaff;">:import</span> [<span style="color: #fff59d;">jline.console</span> <span style="color: #fff59d;">ConsoleReader</span>])
-  (<span style="color: #ccaaff;">:gen-class</span>))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example0</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">jline.console</span> <span style="color: #fff59d;">ConsoleReader</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:gen-class</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> []
-  (<span style="color: #aaffaa;">let</span> [console (<span style="color: #fff59d;">ConsoleReader.</span>)
-        line (<span style="color: #ff8888;">.readLine</span> console <span style="color: #aadddd;">"user&gt; "</span>)]
-    (println (str <span style="color: #aadddd;">"You enter: "</span> line))))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>console <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">ConsoleReader.</span><span style="color: #aaeecc;">)</span>
+        line <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.readLine</span> console <span style="color: #aadddd;">"user&gt; "</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aaeecc;">(</span>str <span style="color: #aadddd;">"You enter: "</span> line<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -315,9 +315,9 @@ You enter: hello jline2
 </div>
 </div>
 
-<div id="outline-container-orgfb6bdc5" class="outline-2">
-<h2 id="orgfb6bdc5">Example 1: 無窮迴圈讀取輸入</h2>
-<div class="outline-text-2" id="text-orgfb6bdc5">
+<div id="outline-container-org766ade8" class="outline-2">
+<h2 id="org766ade8">Example 1: 無窮迴圈讀取輸入</h2>
+<div class="outline-text-2" id="text-org766ade8">
 <p>
 既然我們要打造互動式命令，通常都會將他卡在某個無窮迴圈中，直到遇到特定條件時跳脫
 出這個無窮迴圈，在 clojure 中有許多迴圈類的函式，比如 <a href="https://clojuredocs.org/clojure.core/while" target="_blank" rel="external">while</a> 、<a href="https://clojuredocs.org/clojure.core/for" target="_blank" rel="external">for</a> 、<a href="https://clojuredocs.org/clojure.core/loop" target="_blank" rel="external">loop</a> 等。
@@ -334,18 +334,18 @@ You enter: hello jline2
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example1</span>
-  (<span style="color: #ccaaff;">:import</span> [<span style="color: #fff59d;">jline.console</span> <span style="color: #fff59d;">ConsoleReader</span>])
-  (<span style="color: #ccaaff;">:gen-class</span>))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example1</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">jline.console</span> <span style="color: #fff59d;">ConsoleReader</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:gen-class</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> []
-  (<span style="color: #aaffaa;">let</span> [console (<span style="color: #fff59d;">ConsoleReader.</span>)]
-    (<span style="color: #aaffaa;">loop</span> []
-      (<span style="color: #aaffaa;">let</span> [line (<span style="color: #ff8888;">.readLine</span> console <span style="color: #aadddd;">"user&gt; "</span>)]
-        (<span style="color: #aaffaa;">when-not</span> (= line <span style="color: #aadddd;">"quit"</span>)
-          (println (str <span style="color: #aadddd;">"You enter: "</span> line))
-          (<span style="color: #aaffaa;">recur</span>))))
-    (println <span style="color: #aadddd;">"Exit application."</span>)))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>console <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">ConsoleReader.</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #ccaaff;">[</span>line <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.readLine</span> console <span style="color: #aadddd;">"user&gt; "</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">]</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #fff59d;">(</span>= line <span style="color: #aadddd;">"quit"</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span>println <span style="color: #ff8888;">(</span>str <span style="color: #aadddd;">"You enter: "</span> line<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"Exit application."</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -365,9 +365,9 @@ Exit application.
 </div>
 </div>
 
-<div id="outline-container-orgc07c36c" class="outline-2">
-<h2 id="orgc07c36c">Example 2: 遮蔽使用者輸入</h2>
-<div class="outline-text-2" id="text-orgc07c36c">
+<div id="outline-container-orgf9ed1d9" class="outline-2">
+<h2 id="orgf9ed1d9">Example 2: 遮蔽使用者輸入</h2>
+<div class="outline-text-2" id="text-orgf9ed1d9">
 <p>
 在互動式命令中，輸入密碼的時候我們不是不顯示密碼，不然就是將密碼轉換成 <code>*</code> 進行
 顯示，那在 jline 下要怎樣作呢？實際上透過 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="external">ConsoleReader</a> 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%28java.lang.Character%29" target="_blank" rel="external">.readLine</a> 方法及可以
@@ -379,18 +379,18 @@ Exit application.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example2</span>
-  (<span style="color: #ccaaff;">:import</span> [<span style="color: #fff59d;">jline.console</span> <span style="color: #fff59d;">ConsoleReader</span>])
-  (<span style="color: #ccaaff;">:gen-class</span>))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example2</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">jline.console</span> <span style="color: #fff59d;">ConsoleReader</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:gen-class</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> []
-  (<span style="color: #aaffaa;">let</span> [console (<span style="color: #fff59d;">ConsoleReader.</span>)]
-    (<span style="color: #aaffaa;">loop</span> []
-      (<span style="color: #aaffaa;">let</span> [line (<span style="color: #ff8888;">.readLine</span> console <span style="color: #aadddd;">"user&gt; "</span> <span style="color: #aadddd;">\*</span>)]
-        (<span style="color: #aaffaa;">when-not</span> (= line <span style="color: #aadddd;">"quit"</span>)
-          (println (str <span style="color: #aadddd;">"You enter: "</span> line))
-          (<span style="color: #aaffaa;">recur</span>))))
-    (println <span style="color: #aadddd;">"Exit application."</span>)))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>console <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">ConsoleReader.</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #ccaaff;">[</span>line <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.readLine</span> console <span style="color: #aadddd;">"user&gt; "</span> <span style="color: #aadddd;">\*</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">]</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #fff59d;">(</span>= line <span style="color: #aadddd;">"quit"</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span>println <span style="color: #ff8888;">(</span>str <span style="color: #aadddd;">"You enter: "</span> line<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"Exit application."</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -408,9 +408,9 @@ Exit application.
 </div>
 </div>
 
-<div id="outline-container-orgccba567" class="outline-2">
-<h2 id="orgccba567">Example 3: 簡易的 shell</h2>
-<div class="outline-text-2" id="text-orgccba567">
+<div id="outline-container-org4c56383" class="outline-2">
+<h2 id="org4c56383">Example 3: 簡易的 shell</h2>
+<div class="outline-text-2" id="text-org4c56383">
 <p>
 經過前面的範例，想必各位對 jline 的基本使用已經心裡有數了，那麼就讓我們來個複雜
 一點的程式來作個結束吧。我們要實現一個簡單的 shell，這個 shell 只有 3 種指令：ls、
@@ -422,27 +422,27 @@ clear、echo。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example3</span>
-  (<span style="color: #ccaaff;">:import</span> [<span style="color: #fff59d;">jline.console</span> <span style="color: #fff59d;">ConsoleReader</span>])
-  (<span style="color: #ccaaff;">:gen-class</span>))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example3</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">jline.console</span> <span style="color: #fff59d;">ConsoleReader</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:gen-class</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> []
-  (<span style="color: #aaffaa;">let</span> [console (<span style="color: #fff59d;">ConsoleReader.</span>)]
-    (<span style="color: #aaffaa;">loop</span> []
-      (<span style="color: #aaffaa;">let</span> [line (<span style="color: #ff8888;">.readLine</span> console <span style="color: #aadddd;">"user&gt; "</span>)
-            line-seq (<span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>split line #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span>)]
-        (<span style="color: #aaffaa;">when-not</span> (= line <span style="color: #aadddd;">"quit"</span>)
-          (<span style="color: #aaffaa;">case</span> (first line-seq)
-            <span style="color: #aadddd;">"ls"</span>    (<span style="color: #aaffaa;">doseq</span> [f (<span style="color: #aaffaa;">-&gt;</span> (<span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">getProperty</span> <span style="color: #aadddd;">"user.dir"</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>console <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">ConsoleReader.</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #ccaaff;">[</span>line <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.readLine</span> console <span style="color: #aadddd;">"user&gt; "</span><span style="color: #fff59d;">)</span>
+            line-seq <span style="color: #fff59d;">(</span><span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>split line #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">]</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #fff59d;">(</span>= line <span style="color: #aadddd;">"quit"</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #ff8888;">(</span>first line-seq<span style="color: #ff8888;">)</span>
+            <span style="color: #aadddd;">"ls"</span>    <span style="color: #ff8888;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #795548;">[</span>f <span style="color: #827717;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">getProperty</span> <span style="color: #aadddd;">"user.dir"</span><span style="color: #aadddd;">)</span>
                                   <span style="color: #fff59d;">clojure.java.io</span><span style="color: #c6cccc; background-color: #202020;">/</span>file
-                                  <span style="color: #ff8888;">.list</span>)]
-                      (println (str f)))
-            <span style="color: #aadddd;">"clear"</span> (<span style="color: #ff8888;">.clearScreen</span> console)
-            <span style="color: #aadddd;">"echo"</span>  (println (str (second line-seq)))
+                                  <span style="color: #ff8888;">.list</span><span style="color: #827717;">)</span><span style="color: #795548;">]</span>
+                      <span style="color: #795548;">(</span>println <span style="color: #827717;">(</span>str f<span style="color: #827717;">)</span><span style="color: #795548;">)</span><span style="color: #ff8888;">)</span>
+            <span style="color: #aadddd;">"clear"</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.clearScreen</span> console<span style="color: #ff8888;">)</span>
+            <span style="color: #aadddd;">"echo"</span>  <span style="color: #ff8888;">(</span>println <span style="color: #795548;">(</span>str <span style="color: #827717;">(</span>second line-seq<span style="color: #827717;">)</span><span style="color: #795548;">)</span><span style="color: #ff8888;">)</span>
             <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
-            (println (str <span style="color: #aadddd;">"No such command!! You enter: "</span> line)))
-          (<span style="color: #aaffaa;">recur</span>))))
-    (println <span style="color: #aadddd;">"Exit application."</span>)))
+            <span style="color: #ff8888;">(</span>println <span style="color: #795548;">(</span>str <span style="color: #aadddd;">"No such command!! You enter: "</span> line<span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"Exit application."</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -457,7 +457,7 @@ clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>split <span style="color: #aadddd;">"echo test"</span> #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span>)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">clojure.string</span><span style="color: #c6cccc; background-color: #202020;">/</span>split <span style="color: #aadddd;">"echo test"</span> #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; ["echo" "test"]</span>
 </pre>
 </div>
@@ -469,15 +469,15 @@ clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">case</span> (first line-seq)
-  <span style="color: #aadddd;">"ls"</span>    (<span style="color: #aaffaa;">doseq</span> [f (<span style="color: #aaffaa;">-&gt;</span> (<span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">getProperty</span> <span style="color: #aadddd;">"user.dir"</span>)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #81d4fa;">(</span>first line-seq<span style="color: #81d4fa;">)</span>
+  <span style="color: #aadddd;">"ls"</span>    <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #aaccff;">[</span>f <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">getProperty</span> <span style="color: #aadddd;">"user.dir"</span><span style="color: #ccaaff;">)</span>
                         <span style="color: #fff59d;">clojure.java.io</span><span style="color: #c6cccc; background-color: #202020;">/</span>file
-                        <span style="color: #ff8888;">.list</span>)]
-            (println (str f)))
-  <span style="color: #aadddd;">"clear"</span> (<span style="color: #ff8888;">.clearScreen</span> console)
-  <span style="color: #aadddd;">"echo"</span>  (println (str (second line-seq)))
+                        <span style="color: #ff8888;">.list</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">(</span>println <span style="color: #aaeecc;">(</span>str f<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #aadddd;">"clear"</span> <span style="color: #81d4fa;">(</span><span style="color: #ff8888;">.clearScreen</span> console<span style="color: #81d4fa;">)</span>
+  <span style="color: #aadddd;">"echo"</span>  <span style="color: #81d4fa;">(</span>println <span style="color: #aaccff;">(</span>str <span style="color: #aaeecc;">(</span>second line-seq<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
-  (println (str <span style="color: #aadddd;">"No such command!! You enter: "</span> line)))
+  <span style="color: #81d4fa;">(</span>println <span style="color: #aaccff;">(</span>str <span style="color: #aadddd;">"No such command!! You enter: "</span> line<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -497,7 +497,7 @@ ls 命令則是當中最為複雜的一個，我們首先透過 <code>System/get
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">getProperty</span> <span style="color: #aadddd;">"user.dir"</span>)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">getProperty</span> <span style="color: #aadddd;">"user.dir"</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; "/Data/jline2"</span>
 </pre>
 </div>
@@ -508,7 +508,7 @@ ls 命令則是當中最為複雜的一個，我們首先透過 <code>System/get
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(vec (<span style="color: #aaffaa;">-&gt;</span> (<span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">getProperty</span> <span style="color: #aadddd;">"user.dir"</span>) <span style="color: #fff59d;">clojure.java.io</span><span style="color: #c6cccc; background-color: #202020;">/</span>file <span style="color: #ff8888;">.list</span>))
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>vec <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">getProperty</span> <span style="color: #aadddd;">"user.dir"</span><span style="color: #aaccff;">)</span> <span style="color: #fff59d;">clojure.java.io</span><span style="color: #c6cccc; background-color: #202020;">/</span>file <span style="color: #ff8888;">.list</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; [".gitignore" "doc" "LICENSE" "project.clj" "README.md" "resources" "src" "test"]</span>
 </pre>
 </div>
@@ -519,10 +519,10 @@ ls 命令則是當中最為複雜的一個，我們首先透過 <code>System/get
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(<span style="color: #aaffaa;">doseq</span> [f (<span style="color: #aaffaa;">-&gt;</span> (<span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">getProperty</span> <span style="color: #aadddd;">"user.dir"</span>)
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #81d4fa;">[</span>f <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">System</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">getProperty</span> <span style="color: #aadddd;">"user.dir"</span><span style="color: #aaeecc;">)</span>
               <span style="color: #fff59d;">clojure.java.io</span><span style="color: #c6cccc; background-color: #202020;">/</span>file
-              <span style="color: #ff8888;">.list</span>)]
-  (println (str f)))
+              <span style="color: #ff8888;">.list</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>println <span style="color: #aaccff;">(</span>str f<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; .gitignore</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; doc</span>
 <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; LICENSE</span>
@@ -547,9 +547,9 @@ user&gt;
 </div>
 </div>
 
-<div id="outline-container-org7f0db8c" class="outline-2">
-<h2 id="org7f0db8c">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-org7f0db8c">
+<div id="outline-container-org63aed79" class="outline-2">
+<h2 id="org63aed79">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-org63aed79">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -572,9 +572,9 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/jline2
 </div>
 </div>
 
-<div id="outline-container-org22f0207" class="outline-2">
-<h2 id="org22f0207">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org22f0207">
+<div id="outline-container-orgd694be5" class="outline-2">
+<h2 id="orgd694be5">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgd694be5">
 <p>
 <code>[1]</code> <a href="http://www.cnblogs.com/hazir/p/instruction_to_readline.html" target="_blank" rel="external">GNU Readline 庫及編程簡介</a>
 </p>
@@ -748,7 +748,7 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/jline2
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8c517da"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbc4248d"><span class="nav-text">Example 0: 顯示使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfb6bdc5"><span class="nav-text">Example 1: 無窮迴圈讀取輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc07c36c"><span class="nav-text">Example 2: 遮蔽使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgccba567"><span class="nav-text">Example 3: 簡易的 shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7f0db8c"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org22f0207"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge23c5a4"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org45212f3"><span class="nav-text">Example 0: 顯示使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org766ade8"><span class="nav-text">Example 1: 無窮迴圈讀取輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf9ed1d9"><span class="nav-text">Example 2: 遮蔽使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4c56383"><span class="nav-text">Example 3: 簡易的 shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org63aed79"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd694be5"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

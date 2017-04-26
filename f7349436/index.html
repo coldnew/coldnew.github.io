@@ -239,9 +239,9 @@ Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許�
 </p>
 </div>
 
-<div id="outline-container-org8029a15" class="outline-2">
-<h2 id="org8029a15">使用設備</h2>
-<div class="outline-text-2" id="text-org8029a15">
+<div id="outline-container-org61a229e" class="outline-2">
+<h2 id="org61a229e">使用設備</h2>
+<div class="outline-text-2" id="text-org61a229e">
 <p>
 要完成本篇文章所描述的部份，你需要以下幾種器材
 </p>
@@ -260,9 +260,9 @@ Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許�
 </div>
 </div>
 
-<div id="outline-container-org21dd23b" class="outline-2">
-<h2 id="org21dd23b">硬體線路</h2>
-<div class="outline-text-2" id="text-org21dd23b">
+<div id="outline-container-org86615ef" class="outline-2">
+<h2 id="org86615ef">硬體線路</h2>
+<div class="outline-text-2" id="text-org86615ef">
 <p>
 下面的硬體線路使用 <a href="http://fritzing.org/" target="_blank" rel="external">Fritzing</a> 軟體來繪製， 我們連接 Raspberry Pi 的 GPIO4
 (Pin 7) 到 LED 的陽極並加上一個保護 LED 用的限流電阻 220 Ω。(<a href="rpi_simpleled.fzz">下載設計檔案</a>)
@@ -295,9 +295,9 @@ Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許�
 </div>
 </div>
 
-<div id="outline-container-org3a650ce" class="outline-2">
-<h2 id="org3a650ce">使用 Linux Kernel 提供的 sysfs 來控制 GPIO</h2>
-<div class="outline-text-2" id="text-org3a650ce">
+<div id="outline-container-org1defc66" class="outline-2">
+<h2 id="org1defc66">使用 Linux Kernel 提供的 sysfs 來控制 GPIO</h2>
+<div class="outline-text-2" id="text-org1defc66">
 <p>
 在要寫程式之前，我們先來使用 Linux Kernel 提供的 sysfs 來控制 GPIO。
 </p>
@@ -360,9 +360,9 @@ Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許�
 </div>
 </div>
 
-<div id="outline-container-orga5fce17" class="outline-2">
-<h2 id="orga5fce17">使用 debugfs 來觀看目前的 GPIO 設定</h2>
-<div class="outline-text-2" id="text-orga5fce17">
+<div id="outline-container-org5704db9" class="outline-2">
+<h2 id="org5704db9">使用 debugfs 來觀看目前的 GPIO 設定</h2>
+<div class="outline-text-2" id="text-org5704db9">
 <p>
 我們可以使用 debugfs 來察看目前的 GPIO 設定，首先掛載 debugfs
 </p>
@@ -391,9 +391,9 @@ GPIOs 0-53, bcm2708_gpio:
 </div>
 </div>
 
-<div id="outline-container-org70d5881" class="outline-2">
-<h2 id="org70d5881">使用 C 語言控制 GPIO (不使用外部函式庫)</h2>
-<div class="outline-text-2" id="text-org70d5881">
+<div id="outline-container-org145603a" class="outline-2">
+<h2 id="org145603a">使用 C 語言控制 GPIO (不使用外部函式庫)</h2>
+<div class="outline-text-2" id="text-org145603a">
 <p>
 C 語言因為提供了指標，可以任意的去修改記憶體的某個部份，因此我們也可
 以透過修改記憶體區塊的方式，來設定我們的 GPIO。
@@ -405,17 +405,17 @@ C 語言因為提供了指標，可以任意的去修改記憶體的某個部份
 
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Modified from http://elinux.org/RPi_Low-level_peripherals </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;stdio.h&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;stdlib.h&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;fcntl.h&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;sys/mman.h&gt;</span>
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;unistd.h&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdio.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdlib.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">fcntl.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">sys/mman.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">unistd.h</span><span style="color: #aadddd;">&gt;</span>
 
 <span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">BCM2708_PERI_BASE</span>        0x20000000
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">GPIO_BASE</span>                (BCM2708_PERI_BASE + 0x200000) <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">GPIO controller </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">GPIO_BASE</span>                <span style="color: #aadddd;">(</span>BCM2708_PERI_BASE + 0x200000<span style="color: #aadddd;">)</span> <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">GPIO controller </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
 
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">PAGE_SIZE</span>  (4 * 1024)
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">BLOCK_SIZE</span> (4 * 1024)
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">PAGE_SIZE</span>  <span style="color: #aadddd;">(</span>4 * 1024<span style="color: #aadddd;">)</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">BLOCK_SIZE</span> <span style="color: #aadddd;">(</span>4 * 1024<span style="color: #aadddd;">)</span>
 
 <span style="color: #fff59d;">int</span>  <span style="color: #aaccff;">mem_fd</span>;
 <span style="color: #fff59d;">void</span> *<span style="color: #aaccff;">gpio_map</span>;
@@ -424,73 +424,73 @@ C 語言因為提供了指標，可以任意的去修改記憶體的某個部份
 <span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">unsigned</span> *<span style="color: #aaccff;">gpio</span>;
 
 <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">GPIO setup macros. Always use INP_GPIO(x) before using OUT_GPIO(x) or SET_GPIO_ALT(x,y) </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">INP_GPIO</span>(<span style="color: #aaccff;">g</span>) *(gpio+((g)/10)) &amp;= ~(7&lt;&lt;(((g)%10)*3))
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">OUT_GPIO</span>(<span style="color: #aaccff;">g</span>) *(gpio+((g)/10)) |=  (1&lt;&lt;(((g)%10)*3))
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">SET_GPIO_ALT</span>(<span style="color: #aaccff;">g</span>,<span style="color: #aaccff;">a</span>) *(gpio+(((g)/10))) |= (((a)&lt;=3?(a)+4:(a)==4?3:2)&lt;&lt;(((g)%10)*3))
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">INP_GPIO</span><span style="color: #aadddd;">(</span><span style="color: #aaccff;">g</span><span style="color: #aadddd;">)</span> *<span style="color: #aadddd;">(</span>gpio+<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span>g<span style="color: #aaccff;">)</span>/10<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> &amp;= ~<span style="color: #aadddd;">(</span>7&lt;&lt;<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>g<span style="color: #aaeecc;">)</span>%10<span style="color: #aaccff;">)</span>*3<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">OUT_GPIO</span><span style="color: #aadddd;">(</span><span style="color: #aaccff;">g</span><span style="color: #aadddd;">)</span> *<span style="color: #aadddd;">(</span>gpio+<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span>g<span style="color: #aaccff;">)</span>/10<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> |=  <span style="color: #aadddd;">(</span>1&lt;&lt;<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>g<span style="color: #aaeecc;">)</span>%10<span style="color: #aaccff;">)</span>*3<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">SET_GPIO_ALT</span><span style="color: #aadddd;">(</span><span style="color: #aaccff;">g</span>,<span style="color: #aaccff;">a</span><span style="color: #aadddd;">)</span> *<span style="color: #aadddd;">(</span>gpio+<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>g<span style="color: #aaeecc;">)</span>/10<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> |= <span style="color: #aadddd;">(</span><span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span>a<span style="color: #aaccff;">)</span>&lt;=3?<span style="color: #aaccff;">(</span>a<span style="color: #aaccff;">)</span>+4:<span style="color: #aaccff;">(</span>a<span style="color: #aaccff;">)</span>==4?3:2<span style="color: #81d4fa;">)</span>&lt;&lt;<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>g<span style="color: #aaeecc;">)</span>%10<span style="color: #aaccff;">)</span>*3<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">GPIO_SET</span> *(gpio+7)   <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">sets   bits which are 1 ignores bits which are 0 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">GPIO_CLR</span> *(gpio+10)  <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">clears bits which are 1 ignores bits which are 0 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">GPIO_SET</span> *<span style="color: #aadddd;">(</span>gpio+7<span style="color: #aadddd;">)</span>   <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">sets   bits which are 1 ignores bits which are 0 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">GPIO_CLR</span> *<span style="color: #aadddd;">(</span>gpio+10<span style="color: #aadddd;">)</span>  <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">clears bits which are 1 ignores bits which are 0 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
 
 <span style="color: #97abc6; font-style: italic;">/**</span>
 <span style="color: #97abc6; font-style: italic;"> * Set up a memory regions to access GPIO</span>
 <span style="color: #97abc6; font-style: italic;"> *</span>
 <span style="color: #97abc6; font-style: italic;"> */</span>
-<span style="color: #fff59d;">void</span> <span style="color: #aaccff;">setup_io</span>()
-{
+<span style="color: #fff59d;">void</span> <span style="color: #aaccff;">setup_io</span><span style="color: #aadddd;">()</span>
+<span style="color: #aadddd;">{</span>
         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">open /dev/mem </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        <span style="color: #aaffaa;">if</span> ((mem_fd = open(<span style="color: #aadddd;">"/dev/mem"</span>, O_RDWR|O_SYNC) ) &lt; 0) {
-                printf(<span style="color: #aadddd;">"can't open /dev/mem \n"</span>);
-                exit(-1);
-        }
+        <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span>mem_fd = open<span style="color: #aaeecc;">(</span><span style="color: #aadddd;">"/dev/mem"</span>, O_RDWR|O_SYNC<span style="color: #aaeecc;">)</span> <span style="color: #aaccff;">)</span> &lt; 0<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+                printf<span style="color: #aaccff;">(</span><span style="color: #aadddd;">"can't open /dev/mem \n"</span><span style="color: #aaccff;">)</span>;
+                exit<span style="color: #aaccff;">(</span>-1<span style="color: #aaccff;">)</span>;
+        <span style="color: #81d4fa;">}</span>
 
         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">mmap GPIO </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        gpio_map = mmap(
+        gpio_map = mmap<span style="color: #81d4fa;">(</span>
                 <span style="color: #ccaaff;">NULL</span>,             <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Any adddress in our space will do </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
                 BLOCK_SIZE,       <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Map length </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
                 PROT_READ|PROT_WRITE, <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Enable reading &amp; writting to mapped memory </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
                 MAP_SHARED,       <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Shared with other processes </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
                 mem_fd,           <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">File to map </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
                 GPIO_BASE         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Offset to GPIO peripheral </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-                );
+                <span style="color: #81d4fa;">)</span>;
 
-        close(mem_fd); <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">No need to keep mem_fd open after mmap </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        close<span style="color: #81d4fa;">(</span>mem_fd<span style="color: #81d4fa;">)</span>; <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">No need to keep mem_fd open after mmap </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
 
-        <span style="color: #aaffaa;">if</span> (gpio_map == MAP_FAILED) {
-                printf(<span style="color: #aadddd;">"mmap error %d\n"</span>, (<span style="color: #fff59d;">int</span>)gpio_map); <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">errno also set! </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-                exit(-1);
-        }
+        <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span>gpio_map == MAP_FAILED<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+                printf<span style="color: #aaccff;">(</span><span style="color: #aadddd;">"mmap error %d\n"</span>, <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">int</span><span style="color: #aaeecc;">)</span>gpio_map<span style="color: #aaccff;">)</span>; <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">errno also set! </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                exit<span style="color: #aaccff;">(</span>-1<span style="color: #aaccff;">)</span>;
+        <span style="color: #81d4fa;">}</span>
 
         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Always use volatile pointer! </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        gpio = (<span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">unsigned</span> *)gpio_map;
-}
+        gpio = <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">unsigned</span> *<span style="color: #81d4fa;">)</span>gpio_map;
+<span style="color: #aadddd;">}</span>
 
-<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span>(<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> **<span style="color: #aaccff;">argv</span>)
-{
+<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> **<span style="color: #aaccff;">argv</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set up gpi pointer for direct register access </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        setup_io();
+        setup_io<span style="color: #81d4fa;">()</span>;
 
         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Must use INP_GPIO before we can use OUT_GPIO </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        INP_GPIO(g);
-        OUT_GPIO(g);
+        INP_GPIO<span style="color: #81d4fa;">(</span>g<span style="color: #81d4fa;">)</span>;
+        OUT_GPIO<span style="color: #81d4fa;">(</span>g<span style="color: #81d4fa;">)</span>;
 
         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set GPIO4 to 1 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
         GPIO_SET = 1 &lt;&lt; 4;
-        sleep(1);
+        sleep<span style="color: #81d4fa;">(</span>1<span style="color: #81d4fa;">)</span>;
 
         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Clear GPIO 4 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
         GPIO_CLR = 1 &lt;&lt; 4;
-        sleep(1);
+        sleep<span style="color: #81d4fa;">(</span>1<span style="color: #81d4fa;">)</span>;
 
         <span style="color: #aaffaa;">return</span> 0;
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org458c0c7" class="outline-2">
-<h2 id="org458c0c7">使用 C 語言控制 GPIO (使用 BCM2835 函式庫)</h2>
-<div class="outline-text-2" id="text-org458c0c7">
+<div id="outline-container-orgfd2679e" class="outline-2">
+<h2 id="orgfd2679e">使用 C 語言控制 GPIO (使用 BCM2835 函式庫)</h2>
+<div class="outline-text-2" id="text-orgfd2679e">
 <p>
 <a href="http://www.airspayce.com/mikem/bcm2835/" target="_blank" rel="external">BCM2835 C library</a> 是針對 BCM2835 CPU 用的 C 語言函式庫，透過他你可以輕鬆
 的使用 C 語言去控制 Raspberry Pi 的 GPIO、I²C 等裝置，第一次使用這個函式庫
@@ -513,43 +513,43 @@ sudo make install
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Compile with: gcc blink.c -o blink -l bcm2835 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
 
-<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;bcm2835.h&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">bcm2835.h</span><span style="color: #aadddd;">&gt;</span>
 
 <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Blinks on RPi pin 7 </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
 <span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">PIN</span> RPI_GPIO_P1_7
 
-<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span>(<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> **<span style="color: #aaccff;">argv</span>) {
+<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> **<span style="color: #aaccff;">argv</span><span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
 
-        <span style="color: #aaffaa;">if</span> ( <span style="color: #ff3333;">!</span>bcm2835_init() ) {
-                perror(<span style="color: #aadddd;">"Error"</span>);
+        <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span> <span style="color: #ff3333;">!</span>bcm2835_init<span style="color: #aaccff;">()</span> <span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+                perror<span style="color: #aaccff;">(</span><span style="color: #aadddd;">"Error"</span><span style="color: #aaccff;">)</span>;
                 <span style="color: #aaffaa;">return</span> 1;
-        }
+        <span style="color: #81d4fa;">}</span>
 
         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set the pin to be an output </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP);
+        bcm2835_gpio_fsel<span style="color: #81d4fa;">(</span>PIN, BCM2835_GPIO_FSEL_OUTP<span style="color: #81d4fa;">)</span>;
 
         <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Blink LED </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        <span style="color: #aaffaa;">while</span> (1) {
+        <span style="color: #aaffaa;">while</span> <span style="color: #81d4fa;">(</span>1<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
                 <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Turn on LED </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-                bcm2835_gpio_write(PIN, HIGH);
+                bcm2835_gpio_write<span style="color: #aaccff;">(</span>PIN, HIGH<span style="color: #aaccff;">)</span>;
                 <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Delay 500ms </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-                delay(500);
+                delay<span style="color: #aaccff;">(</span>500<span style="color: #aaccff;">)</span>;
                 <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Turn off LED </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-                bcm2835_gpio_write(PIN, LOW);
+                bcm2835_gpio_write<span style="color: #aaccff;">(</span>PIN, LOW<span style="color: #aaccff;">)</span>;
                 <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Delay 500ms </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-                delay(500);
-        }
+                delay<span style="color: #aaccff;">(</span>500<span style="color: #aaccff;">)</span>;
+        <span style="color: #81d4fa;">}</span>
 
         <span style="color: #aaffaa;">return</span> 0;
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga7c4a83" class="outline-2">
-<h2 id="orga7c4a83">使用 Python 控制 GPIO</h2>
-<div class="outline-text-2" id="text-orga7c4a83">
+<div id="outline-container-org52b5b9e" class="outline-2">
+<h2 id="org52b5b9e">使用 Python 控制 GPIO</h2>
+<div class="outline-text-2" id="text-org52b5b9e">
 <p>
 在 Raspbian 發行版當中，已經預先將 RPi.GPIO 模組包入，因此你可以直接
 寫以下的 python 程式來控制 GPIO4，要注意的是，RPi.GPIO 設定的 GPIO 是採
@@ -562,32 +562,32 @@ sudo make install
 <span style="color: #aaffaa;">import</span> time
 
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">blinking function</span>
-<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">blink</span>(pin):
-    GPIO.output(pin,GPIO.HIGH)
-    time.sleep(<span style="color: #c6cccc; background-color: #202020;">1</span>)
-    GPIO.output(pin,GPIO.LOW)
-    time.sleep(<span style="color: #c6cccc; background-color: #202020;">1</span>)
+<span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">blink</span><span style="color: #aadddd;">(</span>pin<span style="color: #aadddd;">)</span>:
+    GPIO.output<span style="color: #aadddd;">(</span>pin,GPIO.HIGH<span style="color: #aadddd;">)</span>
+    time.sleep<span style="color: #aadddd;">(</span><span style="color: #c6cccc; background-color: #202020;">1</span><span style="color: #aadddd;">)</span>
+    GPIO.output<span style="color: #aadddd;">(</span>pin,GPIO.LOW<span style="color: #aadddd;">)</span>
+    time.sleep<span style="color: #aadddd;">(</span><span style="color: #c6cccc; background-color: #202020;">1</span><span style="color: #aadddd;">)</span>
     <span style="color: #aaffaa;">return</span>
 
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">to use Raspberry Pi board pin numbers</span>
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode<span style="color: #aadddd;">(</span>GPIO.BOARD<span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">set up GPIO output channel, we set GPIO4 (Pin 7) to OUTPUT</span>
-GPIO.setup(<span style="color: #c6cccc; background-color: #202020;">7</span>, GPIO.OUT)
+GPIO.setup<span style="color: #aadddd;">(</span><span style="color: #c6cccc; background-color: #202020;">7</span>, GPIO.OUT<span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">blink GPIO4 (Pin 7) 50 times</span>
-<span style="color: #aaffaa;">for</span> i <span style="color: #aaffaa;">in</span> <span style="color: #ccaaff;">range</span>(<span style="color: #c6cccc; background-color: #202020;">0</span>,<span style="color: #c6cccc; background-color: #202020;">50</span>):
-    blink(<span style="color: #c6cccc; background-color: #202020;">7</span>)
+<span style="color: #aaffaa;">for</span> i <span style="color: #aaffaa;">in</span> <span style="color: #ccaaff;">range</span><span style="color: #aadddd;">(</span><span style="color: #c6cccc; background-color: #202020;">0</span>,<span style="color: #c6cccc; background-color: #202020;">50</span><span style="color: #aadddd;">)</span>:
+    blink<span style="color: #aadddd;">(</span><span style="color: #c6cccc; background-color: #202020;">7</span><span style="color: #aadddd;">)</span>
 
-GPIO.cleanup()
+GPIO.cleanup<span style="color: #aadddd;">()</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd41e61d" class="outline-2">
-<h2 id="orgd41e61d">使用 newlisp 控制 GPIO</h2>
-<div class="outline-text-2" id="text-orgd41e61d">
+<div id="outline-container-org2e23313" class="outline-2">
+<h2 id="org2e23313">使用 newlisp 控制 GPIO</h2>
+<div class="outline-text-2" id="text-org2e23313">
 <p>
 newlisp 是屬於 script language，若不透過他的 FFI (Foreign Function
 Interface)，則要在 newlisp 下控制 GPIO 的最好方法就是更改 sysfs 下的 GPIO
@@ -610,32 +610,32 @@ wget https://raw.github.com/gatesphere/raspi-gpio-newlisp/master/raspi-gpio.lsp
 <div class="org-src-container">
 <pre class="src src-newlisp"><span style="color: #9ac; font-style: italic;">#!/usr/bin/env newlisp</span>
 
-(<span style="color: #aaffaa;">load</span> <span style="color: #aadddd;">"raspi-gpio.lsp"</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">load</span> <span style="color: #aadddd;">"raspi-gpio.lsp"</span><span style="color: #aadddd;">)</span>
 
-(<span style="color: #aaccff;">define</span> (blink gpio)
+<span style="color: #aadddd;">(</span><span style="color: #aaccff;">define</span> <span style="color: #81d4fa;">(</span>blink gpio<span style="color: #81d4fa;">)</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Make GPIO to 1</span>
-  (GPIO:digital-write gpio GPIO:high)
+  <span style="color: #81d4fa;">(</span>GPIO:digital-write gpio GPIO:high<span style="color: #81d4fa;">)</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">delay 500ms</span>
-  (<span style="color: #aaffaa;">sleep</span> 500)
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">sleep</span> 500<span style="color: #81d4fa;">)</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Make GPIO to 0</span>
-  (GPIO:digital-write gpio GPIO:low)
+  <span style="color: #81d4fa;">(</span>GPIO:digital-write gpio GPIO:low<span style="color: #81d4fa;">)</span>
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">delay 500ms</span>
-  (<span style="color: #aaffaa;">sleep</span> 500))
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">sleep</span> 500<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Enable use GPIO4</span>
-(GPIO:enable-pin 4)
+<span style="color: #aadddd;">(</span>GPIO:enable-pin 4<span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Set GPIO4 as output</span>
-(GPIO:pin-mode 4 GPIO:out)
+<span style="color: #aadddd;">(</span>GPIO:pin-mode 4 GPIO:out<span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Blink GPIO4 50 times</span>
-(<span style="color: #aaffaa;">dotimes</span> (x 50) (blink 4))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">dotimes</span> <span style="color: #81d4fa;">(</span>x 50<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>blink 4<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Disable use GPIO4</span>
-(GPIO:disable-pin 4)
+<span style="color: #aadddd;">(</span>GPIO:disable-pin 4<span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">End of Application</span>
-(<span style="color: #aaffaa;">exit</span>)
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">exit</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
@@ -800,7 +800,7 @@ wget https://raw.github.com/gatesphere/raspi-gpio-newlisp/master/raspi-gpio.lsp
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8029a15"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org21dd23b"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3a650ce"><span class="nav-text">使用 Linux Kernel 提供的 sysfs 來控制 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga5fce17"><span class="nav-text">使用 debugfs 來觀看目前的 GPIO 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org70d5881"><span class="nav-text">使用 C 語言控制 GPIO (不使用外部函式庫)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org458c0c7"><span class="nav-text">使用 C 語言控制 GPIO (使用 BCM2835 函式庫)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga7c4a83"><span class="nav-text">使用 Python 控制 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd41e61d"><span class="nav-text">使用 newlisp 控制 GPIO</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org61a229e"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org86615ef"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1defc66"><span class="nav-text">使用 Linux Kernel 提供的 sysfs 來控制 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5704db9"><span class="nav-text">使用 debugfs 來觀看目前的 GPIO 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org145603a"><span class="nav-text">使用 C 語言控制 GPIO (不使用外部函式庫)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfd2679e"><span class="nav-text">使用 C 語言控制 GPIO (使用 BCM2835 函式庫)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org52b5b9e"><span class="nav-text">使用 Python 控制 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2e23313"><span class="nav-text">使用 newlisp 控制 GPIO</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

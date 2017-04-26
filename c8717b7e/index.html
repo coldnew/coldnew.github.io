@@ -325,9 +325,9 @@ Rocket 的 CPU，並選用了和 ARM Cortex-A5 相同的製成，由官方 <a hr
 聽起來很棒對不對，本文將簡單介紹如何初步認識 RISC-V 的軟體與環境。
 </p>
 
-<div id="outline-container-org04c9277" class="outline-2">
-<h2 id="org04c9277">環境建立與 toolchain 編譯</h2>
-<div class="outline-text-2" id="text-org04c9277">
+<div id="outline-container-org4afe1b0" class="outline-2">
+<h2 id="org4afe1b0">環境建立與 toolchain 編譯</h2>
+<div class="outline-text-2" id="text-org4afe1b0">
 <p>
 為了可以執行 RISC-V 環境，我們首先要安裝 <code>riscv-tools</code> 套件，裡面包含了開發用的
 toolchain 以及模擬器等 repo，我們可以使用以下命令取得 riscv-tool 並編譯
@@ -355,7 +355,7 @@ coldnew@Rosia ~ $ brew tap ucb-bar/riscv &amp;&amp; brew install riscv-tools
 安裝完成後，我們系統會大致上增加以下這些命令
 </p>
 <div class="org-src-container">
-<pre class="src src-sh">coldnew@Rosia ~ $ ls ${<span style="color: #aaccff;">RISCV</span>}/bin
+<pre class="src src-sh">coldnew@Rosia ~ $ ls $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">RISCV</span><span style="color: #aadddd;">}</span>/bin
 elf2hex                            riscv64-unknown-elf-gconv
 fesvr-eth                          riscv64-unknown-elf-gprof
 fesvr-rs232                        riscv64-unknown-elf-ld
@@ -378,22 +378,22 @@ riscv64-unknown-elf-gcc-ranlib     xspike
 </div>
 </div>
 
-<div id="outline-container-org743ca2e" class="outline-2">
-<h2 id="org743ca2e">使用 Spike 來模擬編譯出來的程式</h2>
-<div class="outline-text-2" id="text-org743ca2e">
+<div id="outline-container-orga1d2aac" class="outline-2">
+<h2 id="orga1d2aac">使用 Spike 來模擬編譯出來的程式</h2>
+<div class="outline-text-2" id="text-orga1d2aac">
 <p>
 當你的 toolchain 編譯/安裝完成後，就讓我們先從 Hello World 來開始玩吧，首先建立
 名為 <code>hello.c</code> 的檔案
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;stdio.h&gt;</span>
+<pre class="src src-c"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdio.h</span><span style="color: #aadddd;">&gt;</span>
 
-<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span>(<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">argv</span>[])
-{
-        printf(<span style="color: #aadddd;">"Hello RISC-V\n"</span>);
+<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">argv</span><span style="color: #81d4fa;">[]</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+        printf<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Hello RISC-V\n"</span><span style="color: #81d4fa;">)</span>;
         <span style="color: #aaffaa;">return</span> 0;
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -428,9 +428,9 @@ Hello RISC-V
 </div>
 </div>
 
-<div id="outline-container-orgf320256" class="outline-2">
-<h2 id="orgf320256">使用 ANGEL 來測試 RSIC-V</h2>
-<div class="outline-text-2" id="text-orgf320256">
+<div id="outline-container-org77e7973" class="outline-2">
+<h2 id="org77e7973">使用 ANGEL 來測試 RSIC-V</h2>
+<div class="outline-text-2" id="text-org77e7973">
 <p>
 <a href="http://riscv.org/angel/index.html" target="_blank" rel="external">ANGEL</a> 是一款 RISC-V 基於 javascript 線上模擬器，類似 <a href="http://bellard.org/jslinux/" target="_blank" rel="external">jslinux</a> 那樣，只是模擬的平
 台為 RISC-V 架構而已，你可以點擊以下連結去測試<a href="http://riscv.org/angel/index.html" target="_blank" rel="external"> ANGEL</a>。
@@ -446,9 +446,9 @@ Hello RISC-V
 </div>
 </div>
 
-<div id="outline-container-orgf94c73b" class="outline-2">
-<h2 id="orgf94c73b">使用 Yocto 來編譯 RISC-V Linux 系統</h2>
-<div class="outline-text-2" id="text-orgf94c73b">
+<div id="outline-container-orgc0ff60c" class="outline-2">
+<h2 id="orgc0ff60c">使用 Yocto 來編譯 RISC-V Linux 系統</h2>
+<div class="outline-text-2" id="text-orgc0ff60c">
 <p>
 目前 RISC-V 雖然尚未被併入 Yocto 當中，但是 RISC-V 官方有提供 <a href="https://github.com/riscv/riscv-poky" target="_blank" rel="external">riscv-poky</a> 好方便
 我們測試 RISC-V 在 Linux 下的狀況，我們可以使用以下命令取得:
@@ -516,11 +516,11 @@ coldnew@Rosia ~/riscv-poky/build $ bitbake core-image-riscv
 <pre class="src src-sh">coldnew@Rosia ~/riscv-poky/build $ runspike riscv64
 
 Continuing with the following parameters:
-KERNEL: [/Yocto/riscv-poky/build/tmp/deploy/images/riscv64/vmlinux-riscv64.bin]
-ROOTFS: [/Yocto/riscv-poky/build/tmp/deploy/images/riscv64/core-image-riscv-riscv64-20150914130848.rootfs.ext2]
-FSTYPE: [ext2]
-SPIKE_BIN: [/Yocto/riscv-poky/build/tmp/sysroots/x86_64-linux/usr/bin/spike]
-BBL_PATH: [/Yocto/riscv-poky/build/tmp/work/riscv64-poky-linux/riscv-pk/1.0-r0/bbl]
+KERNEL: <span style="color: #aadddd;">[</span>/Yocto/riscv-poky/build/tmp/deploy/images/riscv64/vmlinux-riscv64.bin<span style="color: #aadddd;">]</span>
+ROOTFS: <span style="color: #aadddd;">[</span>/Yocto/riscv-poky/build/tmp/deploy/images/riscv64/core-image-riscv-riscv64-20150914130848.rootfs.ext2<span style="color: #aadddd;">]</span>
+FSTYPE: <span style="color: #aadddd;">[</span>ext2<span style="color: #aadddd;">]</span>
+SPIKE_BIN: <span style="color: #aadddd;">[</span>/Yocto/riscv-poky/build/tmp/sysroots/x86_64-linux/usr/bin/spike<span style="color: #aadddd;">]</span>
+BBL_PATH: <span style="color: #aadddd;">[</span>/Yocto/riscv-poky/build/tmp/work/riscv64-poky-linux/riscv-pk/1.0-r0/bbl<span style="color: #aadddd;">]</span>
 
               vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
                   vvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -546,7 +546,7 @@ rrrrrrrrrrrrrrrrrrrrrr  rrrrrrrrrrrrrrrrrrrrrr
 
 .....
 
-<span style="color: #aaccff;">Poky</span> (Yocto Project Reference Distro) 1.8+snapshot-20150914 riscv64 /dev/ttyHTIF0
+<span style="color: #aaccff;">Poky</span> <span style="color: #aadddd;">(</span>Yocto Project Reference Distro<span style="color: #aadddd;">)</span> 1.8+snapshot-20150914 riscv64 /dev/ttyHTIF0
 
 riscv64 login: root
 root@riscv64:~# cat /proc/cpuinfo
@@ -557,9 +557,9 @@ isa : RV64G
 </div>
 </div>
 
-<div id="outline-container-org7917530" class="outline-2">
-<h2 id="org7917530">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org7917530">
+<div id="outline-container-org95209cf" class="outline-2">
+<h2 id="org95209cf">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org95209cf">
 <p>
 <code>[1]</code> <a href="http://riscv.org/tutorial-hpca2015/riscv-software-stack-tutorial-hpca2015.pdf" target="_blank" rel="external">RISC-V Software Tools Bootcamp</a>
 </p>
@@ -743,7 +743,7 @@ isa : RV64G
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org04c9277"><span class="nav-text">環境建立與 toolchain 編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org743ca2e"><span class="nav-text">使用 Spike 來模擬編譯出來的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf320256"><span class="nav-text">使用 ANGEL 來測試 RSIC-V</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf94c73b"><span class="nav-text">使用 Yocto 來編譯 RISC-V Linux 系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7917530"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org4afe1b0"><span class="nav-text">環境建立與 toolchain 編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga1d2aac"><span class="nav-text">使用 Spike 來模擬編譯出來的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org77e7973"><span class="nav-text">使用 ANGEL 來測試 RSIC-V</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc0ff60c"><span class="nav-text">使用 Yocto 來編譯 RISC-V Linux 系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org95209cf"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

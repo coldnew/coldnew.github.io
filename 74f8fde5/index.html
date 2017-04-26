@@ -270,10 +270,10 @@ JSON 格式的話，則會變成這樣
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js">{
+<pre class="src src-js"><span style="color: #aadddd;">{</span>
    <span style="color: #aadddd;">"first-name"</span> : <span style="color: #aadddd;">"John"</span>,
    <span style="color: #aadddd;">"last-name"</span> : <span style="color: #aadddd;">"Smith"</span>
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -285,15 +285,15 @@ JSON 格式的話，則會變成這樣
 若你有興趣想更加理解 JSON 格式，可以參考: <a href="http://blog.wu-boy.com/2011/04/%E4%BD%A0%E4%B8%8D%E5%8F%AF%E4%B8%8D%E7%9F%A5%E7%9A%84-json-%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%B4%B9/" target="_blank" rel="external">你不可不知的 JSON 基本介紹</a>
 </p>
 
-<div id="outline-container-org8e72c4a" class="outline-2">
-<h2 id="org8e72c4a">使用 json.el</h2>
-<div class="outline-text-2" id="text-org8e72c4a">
+<div id="outline-container-org0779d9e" class="outline-2">
+<h2 id="org0779d9e">使用 json.el</h2>
+<div class="outline-text-2" id="text-org0779d9e">
 <p>
 emacs 已經內建 json.el 函式庫，你只需要將他載入就可以用相關的函式了
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">json</span>)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">json</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -303,10 +303,10 @@ false 以及 null。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(json-read-from-string <span style="color: #aadddd;">"true"</span>)          <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; t</span>
-(json-encode t)                         <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "true"</span>
-(json-read-from-string <span style="color: #aadddd;">"4.5"</span>)           <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; 4.5</span>
-(json-read-from-string <span style="color: #aadddd;">"\"foo\""</span>)       <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "foo"</span>
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span>json-read-from-string <span style="color: #aadddd;">"true"</span><span style="color: #aadddd;">)</span>          <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; t</span>
+<span style="color: #aadddd;">(</span>json-encode t<span style="color: #aadddd;">)</span>                         <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "true"</span>
+<span style="color: #aadddd;">(</span>json-read-from-string <span style="color: #aadddd;">"4.5"</span><span style="color: #aadddd;">)</span>           <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; 4.5</span>
+<span style="color: #aadddd;">(</span>json-read-from-string <span style="color: #aadddd;">"\"foo\""</span><span style="color: #aadddd;">)</span>       <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "foo"</span>
 </pre>
 </div>
 
@@ -315,8 +315,8 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(json-read-from-string <span style="color: #aadddd;">"[true, 4.5]"</span>)       <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; [t 4.5]</span>
-(json-read-from-string <span style="color: #aadddd;">"{\"foo\": true}"</span>)   <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; ((foo . t))</span>
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span>json-read-from-string <span style="color: #aadddd;">"[true, 4.5]"</span><span style="color: #aadddd;">)</span>       <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; [t 4.5]</span>
+<span style="color: #aadddd;">(</span>json-read-from-string <span style="color: #aadddd;">"{\"foo\": true}"</span><span style="color: #aadddd;">)</span>   <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; ((foo . t))</span>
 </pre>
 </div>
 
@@ -335,8 +335,8 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">let</span> ((json-object-type 'plist))
-  (json-read-from-string <span style="color: #aadddd;">"{\"foo\": true}"</span>)) <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; (:foo t)</span>
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span>json-object-type 'plist<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span>json-read-from-string <span style="color: #aadddd;">"{\"foo\": true}"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; (:foo t)</span>
 </pre>
 </div></li>
 
@@ -345,8 +345,8 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">let</span> ((json-key-type 'string))
-  (json-read-from-string <span style="color: #aadddd;">"{\"foo\": true}"</span>)) <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; (("foo" . t))</span>
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span>json-key-type 'string<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span>json-read-from-string <span style="color: #aadddd;">"{\"foo\": true}"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; (("foo" . t))</span>
 </pre>
 </div></li>
 </ul>
@@ -356,16 +356,16 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(json-encode '(1 2 3))                  <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "[1, 2, 3]"</span>
-(json-encode '(<span style="color: #ccaaff;">:foo</span> 1 <span style="color: #ccaaff;">:bar</span> 2 <span style="color: #ccaaff;">:baz</span> 3))   <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "{\"foo\":1, \"bar\":2, \"baz\":3}"</span>
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span>json-encode '<span style="color: #81d4fa;">(</span>1 2 3<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>                  <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "[1, 2, 3]"</span>
+<span style="color: #aadddd;">(</span>json-encode '<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:foo</span> 1 <span style="color: #ccaaff;">:bar</span> 2 <span style="color: #ccaaff;">:baz</span> 3<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>   <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "{\"foo\":1, \"bar\":2, \"baz\":3}"</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4156a0b" class="outline-2">
-<h2 id="org4156a0b">In Lisp, code is data</h2>
-<div class="outline-text-2" id="text-org4156a0b">
+<div id="outline-container-org67d8427" class="outline-2">
+<h2 id="org67d8427">In Lisp, code is data</h2>
+<div class="outline-text-2" id="text-org67d8427">
 <p>
 看完上面將 JSON 轉換成 emacs lisp 的介紹，讓我們看看 Lisp 下面是否需要這
 樣的數據格式，答案是不需要。
@@ -376,7 +376,7 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(message <span style="color: #aadddd;">"hello emacs"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span>message <span style="color: #aadddd;">"hello emacs"</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -385,9 +385,9 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">'(message <span style="color: #aadddd;">"hello emacs"</span>)
+<pre class="src src-emacs-lisp">'<span style="color: #aadddd;">(</span>message <span style="color: #aadddd;">"hello emacs"</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">or</span>
-(<span style="color: #aaffaa;">quote</span> (message <span style="color: #aadddd;">"hello emacs"</span>))
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">quote</span> <span style="color: #81d4fa;">(</span>message <span style="color: #aadddd;">"hello emacs"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -396,7 +396,7 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(eval '(message <span style="color: #aadddd;">"hello emacs"</span>))         <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; hello emacs</span>
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span>eval '<span style="color: #81d4fa;">(</span>message <span style="color: #aadddd;">"hello emacs"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>         <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; hello emacs</span>
 </pre>
 </div>
 
@@ -410,10 +410,10 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js">{
+<pre class="src src-js"><span style="color: #aadddd;">{</span>
     <span style="color: #aadddd;">"first-name"</span> : <span style="color: #aadddd;">"John"</span>,
     <span style="color: #aadddd;">"last-name"</span> : <span style="color: #aadddd;">"Smith"</span>
-}
+<span style="color: #aadddd;">}</span>
 </pre>
 </div>
 
@@ -424,10 +424,10 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span>
  <span style="color: #ccaaff;">:first-name</span> <span style="color: #aadddd;">"John"</span>
  <span style="color: #ccaaff;">:last-name</span> <span style="color: #aadddd;">"Smith"</span>
-)
+<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div> </div>
@@ -438,7 +438,7 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">((<span style="color: #aadddd;">"first-name"</span> . <span style="color: #aadddd;">"John"</span>) (<span style="color: #aadddd;">"last-name"</span> . <span style="color: #aadddd;">"Smith"</span>))
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"first-name"</span> . <span style="color: #aadddd;">"John"</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"last-name"</span> . <span style="color: #aadddd;">"Smith"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -447,16 +447,16 @@ JSON 的複合類型則是陣列 (array) 與字典 (dictionary)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #aaffaa;">let</span> ((data '((<span style="color: #aadddd;">"first-name"</span> . <span style="color: #aadddd;">"John"</span>) (<span style="color: #aadddd;">"last-name"</span> . <span style="color: #aadddd;">"Smith"</span>))))
-  (cdr (assoc '<span style="color: #aadddd;">"first-name"</span> data)))     <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "John"</span>
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span>data '<span style="color: #aaeecc;">(</span><span style="color: #ccaaff;">(</span><span style="color: #aadddd;">"first-name"</span> . <span style="color: #aadddd;">"John"</span><span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">(</span><span style="color: #aadddd;">"last-name"</span> . <span style="color: #aadddd;">"Smith"</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span>cdr <span style="color: #aaccff;">(</span>assoc '<span style="color: #aadddd;">"first-name"</span> data<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>     <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "John"</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org602c7f6" class="outline-2">
-<h2 id="org602c7f6">後記</h2>
-<div class="outline-text-2" id="text-org602c7f6">
+<div id="outline-container-org9492e22" class="outline-2">
+<h2 id="org9492e22">後記</h2>
+<div class="outline-text-2" id="text-org9492e22">
 <p>
 即使 javascript、JSON 再怎樣盛行，在這當中我只看到了一個又一個 Lisp 的
 克隆 (唯一成功的地方是語法，讓初學者看到會想學，但我覺得 Lisp 去掉
@@ -467,9 +467,9 @@ Lisp 資料更可以體會何謂 <b>In Lisp, code is data</b> ，對於 Lisp 而
 </div>
 </div>
 
-<div id="outline-container-orgcc57ffe" class="outline-2">
-<h2 id="orgcc57ffe">參考連結</h2>
-<div class="outline-text-2" id="text-orgcc57ffe">
+<div id="outline-container-org4f1d3c8" class="outline-2">
+<h2 id="org4f1d3c8">參考連結</h2>
+<div class="outline-text-2" id="text-org4f1d3c8">
 <p>
 <code>[1]</code> <a href="http://stereolambda.com/2010/03/19/why-is-json-so-popular-developers-want-out-of-the-syntax-business/" target="_blank" rel="external">Why is JSON so popular? Developers want out of the syntax business.</a>
 </p>
@@ -647,7 +647,7 @@ Lisp 資料更可以體會何謂 <b>In Lisp, code is data</b> ，對於 Lisp 而
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8e72c4a"><span class="nav-text">使用 json.el</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4156a0b"><span class="nav-text">In Lisp, code is data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org602c7f6"><span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcc57ffe"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0779d9e"><span class="nav-text">使用 json.el</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org67d8427"><span class="nav-text">In Lisp, code is data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9492e22"><span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4f1d3c8"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
