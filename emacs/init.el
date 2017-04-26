@@ -34,7 +34,7 @@
 
 ;; We want to color the parentheses
 (package-install 'rainbow-delimiters)
-
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 
 (defvar config-path
