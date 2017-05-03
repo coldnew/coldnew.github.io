@@ -50,17 +50,17 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="binfmt_misc 是 Linux 提供支援額外的執行檔格式的方法。舉例來說，我們想在 Linux 裡面執行 Microsoft Windows 的 .exe 執行檔，都會透過 wine 這套軟體來執行，於是我們執行程式的 指令就變成    coldnew@Rosia ~ $ wine application.exe    有沒有方法可以直接使用 Linux 執行程式的方式來執行 .ex">
+<meta name="description" content="binfmt_misc 是 Linux 提供支援額外的執行檔格式的方法。舉例來說，我們想在 Linux 裡面執行 Microsoft Windows 的 .exe 執行檔，都會透過 wine 這套軟體來執行，於是我們執行程式的 指令就變成    coldnew@Rosia ~ $ wine application.exe    有沒有方法可以直接使用 Linux 執行程式的方式來執行 .exe">
 <meta name="keywords" content="linux,qemu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="透過 binfmt_misc 讓 Linux 可以執行不同格式的執行檔">
 <meta property="og:url" content="https://coldnew.github.io/5cecf128/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:description" content="binfmt_misc 是 Linux 提供支援額外的執行檔格式的方法。舉例來說，我們想在 Linux 裡面執行 Microsoft Windows 的 .exe 執行檔，都會透過 wine 這套軟體來執行，於是我們執行程式的 指令就變成    coldnew@Rosia ~ $ wine application.exe    有沒有方法可以直接使用 Linux 執行程式的方式來執行 .ex">
+<meta property="og:description" content="binfmt_misc 是 Linux 提供支援額外的執行檔格式的方法。舉例來說，我們想在 Linux 裡面執行 Microsoft Windows 的 .exe 執行檔，都會透過 wine 這套軟體來執行，於是我們執行程式的 指令就變成    coldnew@Rosia ~ $ wine application.exe    有沒有方法可以直接使用 Linux 執行程式的方式來執行 .exe">
 <meta property="og:updated_time" content="2013-03-20T14:49:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="透過 binfmt_misc 讓 Linux 可以執行不同格式的執行檔">
-<meta name="twitter:description" content="binfmt_misc 是 Linux 提供支援額外的執行檔格式的方法。舉例來說，我們想在 Linux 裡面執行 Microsoft Windows 的 .exe 執行檔，都會透過 wine 這套軟體來執行，於是我們執行程式的 指令就變成    coldnew@Rosia ~ $ wine application.exe    有沒有方法可以直接使用 Linux 執行程式的方式來執行 .ex">
+<meta name="twitter:description" content="binfmt_misc 是 Linux 提供支援額外的執行檔格式的方法。舉例來說，我們想在 Linux 裡面執行 Microsoft Windows 的 .exe 執行檔，都會透過 wine 這套軟體來執行，於是我們執行程式的 指令就變成    coldnew@Rosia ~ $ wine application.exe    有沒有方法可以直接使用 Linux 執行程式的方式來執行 .exe">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -222,8 +222,7 @@
       
 
       
-        <span itemprop="articleBody">
-
+        <span itemprop="articleBody"><div id="content">
 <p>
 binfmt_misc 是 Linux 提供支援額外的執行檔格式的方法。舉例來說，我們想在 Linux 裡面執行
 Microsoft Windows 的 .exe 執行檔，都會透過 wine 這套軟體來執行，於是我們執行程式的
@@ -260,9 +259,9 @@ coldnew@Rosia ~ $ sudo modprobe binfmt_misc
 coldnew@Rosia ~ $ ./application.exe
 </pre>
 
-<div id="outline-container-org2a498b0" class="outline-2">
-<h2 id="org2a498b0">binfmt_misc 註冊資訊格式</h2>
-<div class="outline-text-2" id="text-org2a498b0">
+<div id="outline-container-orgb1b336c" class="outline-2">
+<h2 id="orgb1b336c">binfmt_misc 註冊資訊格式</h2>
+<div class="outline-text-2" id="text-orgb1b336c">
 <p>
 binfmt_misc 註冊資訊的格式為 (各欄位用 : 隔開)
 </p>
@@ -334,9 +333,9 @@ binfmt_misc 註冊資訊的格式為 (各欄位用 : 隔開)
 </div>
 </div>
 
-<div id="outline-container-orge180cde" class="outline-2">
-<h2 id="orge180cde">透過 proc 來修改註冊過的資訊</h2>
-<div class="outline-text-2" id="text-orge180cde">
+<div id="outline-container-org10f853c" class="outline-2">
+<h2 id="org10f853c">透過 proc 來修改註冊過的資訊</h2>
+<div class="outline-text-2" id="text-org10f853c">
 <p>
 我們可以使用以下幾種方式來修改註冊過的資訊
 </p>
@@ -372,6 +371,7 @@ Rosia coldnew # echo 1 &gt; /proc/sys/fs/binfmt_misc/status
 透過他我們還可以 chroot 到 arm 平台的 linux root filesyetem，
 這邊的步驟將在 <a href="http://coldnew.github.io/blog/2013/06/27_dc09c.html">在 x86 下 chroot 到 ARM 平台的 rootfs</a> 一文進行說明。
 </p>
+</div>
 </div>
 </div>
 </span>
@@ -465,21 +465,21 @@ Rosia coldnew # echo 1 &gt; /proc/sys/fs/binfmt_misc/status
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-count">94</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">74</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -530,7 +530,7 @@ Rosia coldnew # echo 1 &gt; /proc/sys/fs/binfmt_misc/status
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2a498b0"><span class="nav-text">binfmt_misc 註冊資訊格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge180cde"><span class="nav-text">透過 proc 來修改註冊過的資訊</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb1b336c"><span class="nav-text">binfmt_misc 註冊資訊格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org10f853c"><span class="nav-text">透過 proc 來修改註冊過的資訊</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

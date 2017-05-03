@@ -50,13 +50,13 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="了解了如何透過 mbed 線上 IDE 將程式燒錄到你的 NUCLEO 開發版後，我們需要知道自 己開發板的硬體，這樣才能夠加快開發的速度。    在這邊我一樣是使用我的 NUCLEO-F103RB 來作為範例，但是依照 STMicroelectronics 的設計，這一系 列 NUCLEO 的開發版至少在 mbed 上的封裝會是相同的    (大概，自己在玩時要確認一下自己的開發板的 IO)。">
+<meta name="description" content="了解了如何透過 mbed 線上 IDE 將程式燒錄到你的 NUCLEO 開發版後，我們需要知道自 己開發板的硬體，這樣才能夠加快開發的速度。    在這邊我一樣是使用我的 NUCLEO-F103RB 來作為範例，但是依照 STMicroelectronics 的設計，這一系 列 NUCLEO 的開發版至少在 mbed 上的封裝會是相同的    (大概，自己在玩時要確認一下自己的開發板的 IO)">
 <meta name="keywords" content="arm,stm32,mbed,nucleo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="stm32-nucleo 開發紀錄: 硬體認識">
 <meta property="og:url" content="https://coldnew.github.io/3250fe0b/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:description" content="了解了如何透過 mbed 線上 IDE 將程式燒錄到你的 NUCLEO 開發版後，我們需要知道自 己開發板的硬體，這樣才能夠加快開發的速度。    在這邊我一樣是使用我的 NUCLEO-F103RB 來作為範例，但是依照 STMicroelectronics 的設計，這一系 列 NUCLEO 的開發版至少在 mbed 上的封裝會是相同的    (大概，自己在玩時要確認一下自己的開發板的 IO)。">
+<meta property="og:description" content="了解了如何透過 mbed 線上 IDE 將程式燒錄到你的 NUCLEO 開發版後，我們需要知道自 己開發板的硬體，這樣才能夠加快開發的速度。    在這邊我一樣是使用我的 NUCLEO-F103RB 來作為範例，但是依照 STMicroelectronics 的設計，這一系 列 NUCLEO 的開發版至少在 mbed 上的封裝會是相同的    (大概，自己在玩時要確認一下自己的開發板的 IO)">
 <meta property="og:image" content="https://coldnew.github.io/3250fe0b/d1.png">
 <meta property="og:image" content="https://coldnew.github.io/3250fe0b/d2.png">
 <meta property="og:image" content="https://coldnew.github.io/3250fe0b/d3.png">
@@ -67,7 +67,7 @@
 <meta property="og:updated_time" content="2015-11-30T13:17:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="stm32-nucleo 開發紀錄: 硬體認識">
-<meta name="twitter:description" content="了解了如何透過 mbed 線上 IDE 將程式燒錄到你的 NUCLEO 開發版後，我們需要知道自 己開發板的硬體，這樣才能夠加快開發的速度。    在這邊我一樣是使用我的 NUCLEO-F103RB 來作為範例，但是依照 STMicroelectronics 的設計，這一系 列 NUCLEO 的開發版至少在 mbed 上的封裝會是相同的    (大概，自己在玩時要確認一下自己的開發板的 IO)。">
+<meta name="twitter:description" content="了解了如何透過 mbed 線上 IDE 將程式燒錄到你的 NUCLEO 開發版後，我們需要知道自 己開發板的硬體，這樣才能夠加快開發的速度。    在這邊我一樣是使用我的 NUCLEO-F103RB 來作為範例，但是依照 STMicroelectronics 的設計，這一系 列 NUCLEO 的開發版至少在 mbed 上的封裝會是相同的    (大概，自己在玩時要確認一下自己的開發板的 IO)">
 <meta name="twitter:image" content="https://coldnew.github.io/3250fe0b/d1.png">
 
 
@@ -230,8 +230,7 @@
       
 
       
-        <span itemprop="articleBody">
-
+        <span itemprop="articleBody"><div id="content">
 <p>
 了解了如何透過 mbed 線上 IDE 將程式燒錄到你的 <i>NUCLEO</i> 開發版後，我們需要知道自
 己開發板的硬體，這樣才能夠加快開發的速度。
@@ -254,9 +253,9 @@
 讓我們來看看比較重要的地方吧！
 </p>
 
-<div id="outline-container-org741976c" class="outline-2">
-<h2 id="org741976c">基本硬體認識</h2>
-<div class="outline-text-2" id="text-org741976c">
+<div id="outline-container-org75d2743" class="outline-2">
+<h2 id="org75d2743">基本硬體認識</h2>
+<div class="outline-text-2" id="text-org75d2743">
 <p>
 你手上的 <i>NUCLEO</i> 應該是長得如下圖左的那個樣子，看起來不小心就會折斷變成兩片板子。
 實際上他的確是被設計成可以區分兩個區塊，上面那個區塊放的是 <i>STMicroelectronics</i> 的燒錄器
@@ -289,9 +288,9 @@ Arduino 相容腳位，用讓來你可以輕鬆和 Arduino 的擴充版進行連
 </div>
 </div>
 
-<div id="outline-container-org0087556" class="outline-2">
-<h2 id="org0087556">Arduino 相容腳位 (Arduino Connector)</h2>
-<div class="outline-text-2" id="text-org0087556">
+<div id="outline-container-org6ab0d89" class="outline-2">
+<h2 id="org6ab0d89">Arduino 相容腳位 (Arduino Connector)</h2>
+<div class="outline-text-2" id="text-org6ab0d89">
 <p>
 這邊的 IO 顧名思義就是要讓你可以做到 Arduino 可以做到的事情，也因此在 <i>NUCLEO</i>
 上面使用 Arduino 的擴展板是有可能的，當然你也可以按照自己的需求去調整這些 IO 的用途。
@@ -305,9 +304,9 @@ Arduino 相容腳位，用讓來你可以輕鬆和 Arduino 的擴充版進行連
 </div>
 </div>
 
-<div id="outline-container-org0763423" class="outline-2">
-<h2 id="org0763423">Morpho 擴展排針 (Morpho extension header)</h2>
-<div class="outline-text-2" id="text-org0763423">
+<div id="outline-container-org53a8df8" class="outline-2">
+<h2 id="org53a8df8">Morpho 擴展排針 (Morpho extension header)</h2>
+<div class="outline-text-2" id="text-org53a8df8">
 <p>
 Morpho extension header 則是由 <i>STMicroelectronics</i> 自己定義的腳位，這裡的目的是為了可以盡
 可能的榨乾這顆 CPU 所有的腳位，畢竟我們的 CPU 是 64 隻腳的封裝，要是只能輸出 Arduino
@@ -326,9 +325,9 @@ Morpho extension header 則是由 <i>STMicroelectronics</i> 自己定義的腳�
 </div>
 </div>
 
-<div id="outline-container-orgd556e12" class="outline-2">
-<h2 id="orgd556e12">使用 NUCLEO 燒錄 STM32 CPU</h2>
-<div class="outline-text-2" id="text-orgd556e12">
+<div id="outline-container-org20ae71c" class="outline-2">
+<h2 id="org20ae71c">使用 NUCLEO 燒錄 STM32 CPU</h2>
+<div class="outline-text-2" id="text-org20ae71c">
 <p>
 前面我說到了 <i>NUCLEO</i> 這塊板子是可以折斷的這是真的，如果你有興趣可以看看 <a href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00105823.pdf" target="_blank" rel="external">UM1724: STM32 Nucleo-64 boards</a> 這份文件，不過讓我們注意如何使用 <i>NUCLEO</i> 這塊板子來燒錄
 其他的 STM32 CPU 吧。(這也是這一系列的賣點，買了以後你就有 STM32 的燒錄器)
@@ -415,9 +414,9 @@ STM32</a>
 </div>
 </div>
 
-<div id="outline-container-orgc0eec01" class="outline-2">
-<h2 id="orgc0eec01">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgc0eec01">
+<div id="outline-container-org8c48903" class="outline-2">
+<h2 id="org8c48903">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org8c48903">
 <p>
 <code>[1]</code> <a href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00105823.pdf" target="_blank" rel="external">UM1724: STM32 Nucleo-64 boards</a>
 </p>
@@ -445,6 +444,7 @@ STM32</a>
 <p>
 <code>[7]</code> <a href="http://mcuoneclipse.com/2015/08/22/debugging-stm32f103rb-nucleo-board-with-with-segger-j-link/" target="_blank" rel="external">Debugging STM32F103RB NUCLEO Board with Segger J-Link</a>
 </p>
+</div>
 </div>
 </div>
 </span>
@@ -542,21 +542,21 @@ STM32</a>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-count">94</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">74</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -607,7 +607,7 @@ STM32</a>
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org741976c"><span class="nav-text">基本硬體認識</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0087556"><span class="nav-text">Arduino 相容腳位 (Arduino Connector)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0763423"><span class="nav-text">Morpho 擴展排針 (Morpho extension header)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd556e12"><span class="nav-text">使用 NUCLEO 燒錄 STM32 CPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc0eec01"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org75d2743"><span class="nav-text">基本硬體認識</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6ab0d89"><span class="nav-text">Arduino 相容腳位 (Arduino Connector)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org53a8df8"><span class="nav-text">Morpho 擴展排針 (Morpho extension header)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org20ae71c"><span class="nav-text">使用 NUCLEO 燒錄 STM32 CPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8c48903"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

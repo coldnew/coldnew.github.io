@@ -50,17 +50,17 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="Gentoo Linux 除了是一套非常強大、易於客製化的 Linux 系統以外，他亦可以讓你輕鬆的建 構不同平台的 toolchain，本文將介紹 Gentoo Linux 的 crossdev 套件，以及如何透過 crossdev 命令建立出不同平台的 toolchain.    Toolchain 中譯為 交叉工具鏈 ，是在進行嵌入式開發必備的工具，包含了以下幾部份:     binu">
+<meta name="description" content="Gentoo Linux 除了是一套非常強大、易於客製化的 Linux 系統以外，他亦可以讓你輕鬆的建 構不同平台的 toolchain，本文將介紹 Gentoo Linux 的 crossdev 套件，以及如何透過 crossdev 命令建立出不同平台的 toolchain.    Toolchain 中譯為 交叉工具鏈 ，是在進行嵌入式開發必備的工具，包含了以下幾部份:     binut">
 <meta name="keywords" content="arm,gentoo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 Gentoo Linux 下使用 crossdev 建立自己的 toolchain">
 <meta property="og:url" content="https://coldnew.github.io/3f0d4d16/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:description" content="Gentoo Linux 除了是一套非常強大、易於客製化的 Linux 系統以外，他亦可以讓你輕鬆的建 構不同平台的 toolchain，本文將介紹 Gentoo Linux 的 crossdev 套件，以及如何透過 crossdev 命令建立出不同平台的 toolchain.    Toolchain 中譯為 交叉工具鏈 ，是在進行嵌入式開發必備的工具，包含了以下幾部份:     binu">
+<meta property="og:description" content="Gentoo Linux 除了是一套非常強大、易於客製化的 Linux 系統以外，他亦可以讓你輕鬆的建 構不同平台的 toolchain，本文將介紹 Gentoo Linux 的 crossdev 套件，以及如何透過 crossdev 命令建立出不同平台的 toolchain.    Toolchain 中譯為 交叉工具鏈 ，是在進行嵌入式開發必備的工具，包含了以下幾部份:     binut">
 <meta property="og:updated_time" content="2015-05-18T07:58:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在 Gentoo Linux 下使用 crossdev 建立自己的 toolchain">
-<meta name="twitter:description" content="Gentoo Linux 除了是一套非常強大、易於客製化的 Linux 系統以外，他亦可以讓你輕鬆的建 構不同平台的 toolchain，本文將介紹 Gentoo Linux 的 crossdev 套件，以及如何透過 crossdev 命令建立出不同平台的 toolchain.    Toolchain 中譯為 交叉工具鏈 ，是在進行嵌入式開發必備的工具，包含了以下幾部份:     binu">
+<meta name="twitter:description" content="Gentoo Linux 除了是一套非常強大、易於客製化的 Linux 系統以外，他亦可以讓你輕鬆的建 構不同平台的 toolchain，本文將介紹 Gentoo Linux 的 crossdev 套件，以及如何透過 crossdev 命令建立出不同平台的 toolchain.    Toolchain 中譯為 交叉工具鏈 ，是在進行嵌入式開發必備的工具，包含了以下幾部份:     binut">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -222,8 +222,7 @@
       
 
       
-        <span itemprop="articleBody">
-
+        <span itemprop="articleBody"><div id="content">
 <p>
 <a href="https://www.gentoo.org/" target="_blank" rel="external">Gentoo Linux</a> 除了是一套非常強大、易於客製化的 Linux 系統以外，他亦可以讓你輕鬆的建
 構不同平台的 toolchain，本文將介紹 <a href="https://www.gentoo.org/" target="_blank" rel="external">Gentoo Linux</a> 的 crossdev 套件，以及如何透過
@@ -424,9 +423,9 @@ Gentoo kernel # tree -L 2 /usr/local/portage/
 8 directories, 2 files
 </pre>
 
-<div id="outline-container-org6f342fa" class="outline-2">
-<h2 id="org6f342fa">建立其他平台的 toolchain</h2>
-<div class="outline-text-2" id="text-org6f342fa">
+<div id="outline-container-orgb703dbe" class="outline-2">
+<h2 id="orgb703dbe">建立其他平台的 toolchain</h2>
+<div class="outline-text-2" id="text-orgb703dbe">
 <p>
 在上面我們講解到了如何使用 crossdev 建立 <code>ARMv7a HardFloat</code> 的 Linux toolchain，
 那如果我們的目標是裸版 (baremetal)呢?
@@ -482,9 +481,9 @@ Gentoo stm32 # crossdev -S USE="-fortran -mudflap -nls -openmp multilib" EXTRA_E
 </div>
 </div>
 
-<div id="outline-container-org799eca8" class="outline-2">
-<h2 id="org799eca8">測試我們建立的 toolchain</h2>
-<div class="outline-text-2" id="text-org799eca8">
+<div id="outline-container-org14e0820" class="outline-2">
+<h2 id="org14e0820">測試我們建立的 toolchain</h2>
+<div class="outline-text-2" id="text-org14e0820">
 <p>
 建立完 toolchain 後，我們可以用簡單的程式搭配 QEMU 來測試我們的 toolchain 是否能正常
 工作，此處以 <code>armv7a-hardfloat-linux-gnueabi-</code> 作為範例，首先建立以下檔案並命名為 <code>hello.c</code>
@@ -529,9 +528,9 @@ Hello cross-compiling world!
 </div>
 </div>
 
-<div id="outline-container-org617885d" class="outline-2">
-<h2 id="org617885d">參考連結</h2>
-<div class="outline-text-2" id="text-org617885d">
+<div id="outline-container-org048b6a1" class="outline-2">
+<h2 id="org048b6a1">參考連結</h2>
+<div class="outline-text-2" id="text-org048b6a1">
 <p>
 <code>[1]</code> <a href="http://gentoo-en.vfose.ru/wiki/Crossdev" target="_blank" rel="external">http://gentoo-en.vfose.ru/wiki/Crossdev</a>
 </p>
@@ -539,6 +538,7 @@ Hello cross-compiling world!
 <p>
 <code>[2]</code> <a href="http://www.lingcc.com/2009/12/31/10534/" target="_blank" rel="external">Gentoo 中的交叉編譯利器–crossdev</a>
 </p>
+</div>
 </div>
 </div>
 </span>
@@ -632,21 +632,21 @@ Hello cross-compiling world!
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-count">94</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">74</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -697,7 +697,7 @@ Hello cross-compiling world!
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6f342fa"><span class="nav-text">建立其他平台的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org799eca8"><span class="nav-text">測試我們建立的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org617885d"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb703dbe"><span class="nav-text">建立其他平台的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org14e0820"><span class="nav-text">測試我們建立的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org048b6a1"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

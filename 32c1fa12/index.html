@@ -50,18 +50,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="eshell 是 emacs 下一個非常特殊的終端機 (terminal) 模擬軟體，和一般的 xterm、konsole、gnome terminal 相比，eshell 完全使用 emacs-lisp 實現，因 此可以非常完整的和 emacs 結合。    若任何軟體都要舉出其缺點的話，eshell 我覺得有以下兩個缺點:     不能夠使用 ncurse 的軟體    像是 htop">
+<meta name="description" content="eshell 是 emacs 下一個非常特殊的終端機 (terminal) 模擬軟體，和一般的 xterm、konsole、gnome terminal 相比，eshell 完全使用 emacs-lisp 實現，因 此可以非常完整的和 emacs 結合。    若任何軟體都要舉出其缺點的話，eshell 我覺得有以下兩個缺點:     不能夠使用 ncurse 的軟體    像是 htop 等">
 <meta name="keywords" content="emacs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="替你的 eshell prompt 上色">
 <meta property="og:url" content="https://coldnew.github.io/32c1fa12/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:description" content="eshell 是 emacs 下一個非常特殊的終端機 (terminal) 模擬軟體，和一般的 xterm、konsole、gnome terminal 相比，eshell 完全使用 emacs-lisp 實現，因 此可以非常完整的和 emacs 結合。    若任何軟體都要舉出其缺點的話，eshell 我覺得有以下兩個缺點:     不能夠使用 ncurse 的軟體    像是 htop">
+<meta property="og:description" content="eshell 是 emacs 下一個非常特殊的終端機 (terminal) 模擬軟體，和一般的 xterm、konsole、gnome terminal 相比，eshell 完全使用 emacs-lisp 實現，因 此可以非常完整的和 emacs 結合。    若任何軟體都要舉出其缺點的話，eshell 我覺得有以下兩個缺點:     不能夠使用 ncurse 的軟體    像是 htop 等">
 <meta property="og:image" content="https://coldnew.github.io/32c1fa12/eshell-color-prompt.png">
 <meta property="og:updated_time" content="2013-11-13T14:18:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="替你的 eshell prompt 上色">
-<meta name="twitter:description" content="eshell 是 emacs 下一個非常特殊的終端機 (terminal) 模擬軟體，和一般的 xterm、konsole、gnome terminal 相比，eshell 完全使用 emacs-lisp 實現，因 此可以非常完整的和 emacs 結合。    若任何軟體都要舉出其缺點的話，eshell 我覺得有以下兩個缺點:     不能夠使用 ncurse 的軟體    像是 htop">
+<meta name="twitter:description" content="eshell 是 emacs 下一個非常特殊的終端機 (terminal) 模擬軟體，和一般的 xterm、konsole、gnome terminal 相比，eshell 完全使用 emacs-lisp 實現，因 此可以非常完整的和 emacs 結合。    若任何軟體都要舉出其缺點的話，eshell 我覺得有以下兩個缺點:     不能夠使用 ncurse 的軟體    像是 htop 等">
 <meta name="twitter:image" content="https://coldnew.github.io/32c1fa12/eshell-color-prompt.png">
 
 
@@ -224,8 +224,7 @@
       
 
       
-        <span itemprop="articleBody">
-
+        <span itemprop="articleBody"><div id="content">
 <p>
 eshell 是 emacs 下一個非常特殊的終端機 (terminal) 模擬軟體，和一般的
 xterm、konsole、gnome terminal 相比，eshell 完全使用 emacs-lisp 實現，因
@@ -273,9 +272,9 @@ prompt 沒有色彩，這點讓我難以接受。
 要讓你的 eshell 長得像我這樣，你必須使用以下兩組 emacs-lisp 設定
 </p>
 
-<div id="outline-container-orgd1e9bc2" class="outline-2">
-<h2 id="orgd1e9bc2">將 eshell 的 prompt 設定成和 bash 一樣</h2>
-<div class="outline-text-2" id="text-orgd1e9bc2">
+<div id="outline-container-orgf81e137" class="outline-2">
+<h2 id="orgf81e137">將 eshell 的 prompt 設定成和 bash 一樣</h2>
+<div class="outline-text-2" id="text-orgf81e137">
 <p>
 下面這一組 emacs-lisp 可以讓你的 eshell prompt 設定的和 bash 相同，變成 <code>user@hostname directory $</code> 的形式。
 </p>
@@ -295,9 +294,9 @@ prompt 沒有色彩，這點讓我難以接受。
 </div>
 
 
-<div id="outline-container-org17238ef" class="outline-2">
-<h2 id="org17238ef">替 eshell 的 prompt 上色</h2>
-<div class="outline-text-2" id="text-org17238ef">
+<div id="outline-container-org1c6e845" class="outline-2">
+<h2 id="org1c6e845">替 eshell 的 prompt 上色</h2>
+<div class="outline-text-2" id="text-org1c6e845">
 <p>
 設定好 eshell 的 prompt 後，接著就是透過 emacs-lisp 的正規表達式以及 overlay
 功能，尋找符合的格式進行上色。透過這兩個步驟，你也可以擁有好看的 eshell prompt。
@@ -322,6 +321,7 @@ prompt 沒有色彩，這點讓我難以接受。
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Make eshell prompt more colorful</span>
 <span style="color: #aadddd;">(</span>add-hook 'eshell-output-filter-functions 'colorfy-eshell-prompt<span style="color: #aadddd;">)</span>
 </pre>
+</div>
 </div>
 </div>
 </div>
@@ -414,21 +414,21 @@ prompt 沒有色彩，這點讓我難以接受。
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-count">94</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">74</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -479,7 +479,7 @@ prompt 沒有色彩，這點讓我難以接受。
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd1e9bc2"><span class="nav-text">將 eshell 的 prompt 設定成和 bash 一樣</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org17238ef"><span class="nav-text">替 eshell 的 prompt 上色</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf81e137"><span class="nav-text">將 eshell 的 prompt 設定成和 bash 一樣</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1c6e845"><span class="nav-text">替 eshell 的 prompt 上色</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -50,13 +50,13 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="OpenCV 是一套非常強大且好用的影像處理函式庫，一開始使用 C 語言來進行開發，後來移 植到 C++ 上面，並提供了 Python 的綁定。自 2.4 版本後，OpenCV 開始提供了 JAVA 的 wrpaaer，也因此使用 JAVA 或是 Clojure 的人都可以輕鬆愉快的使用 OpenCV 了。    本文將簡單介紹如何在 Clojure 下寫 OpenCV 的程式，而 OpenCV">
+<meta name="description" content="OpenCV 是一套非常強大且好用的影像處理函式庫，一開始使用 C 語言來進行開發，後來移 植到 C++ 上面，並提供了 Python 的綁定。自 2.4 版本後，OpenCV 開始提供了 JAVA 的 wrpaaer，也因此使用 JAVA 或是 Clojure 的人都可以輕鬆愉快的使用 OpenCV 了。    本文將簡單介紹如何在 Clojure 下寫 OpenCV 的程式，而 OpenC">
 <meta name="keywords" content="clojure,opencv">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 clojure 中使用 OpenCV 3.x">
 <meta property="og:url" content="https://coldnew.github.io/2f69a97/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:description" content="OpenCV 是一套非常強大且好用的影像處理函式庫，一開始使用 C 語言來進行開發，後來移 植到 C++ 上面，並提供了 Python 的綁定。自 2.4 版本後，OpenCV 開始提供了 JAVA 的 wrpaaer，也因此使用 JAVA 或是 Clojure 的人都可以輕鬆愉快的使用 OpenCV 了。    本文將簡單介紹如何在 Clojure 下寫 OpenCV 的程式，而 OpenCV">
+<meta property="og:description" content="OpenCV 是一套非常強大且好用的影像處理函式庫，一開始使用 C 語言來進行開發，後來移 植到 C++ 上面，並提供了 Python 的綁定。自 2.4 版本後，OpenCV 開始提供了 JAVA 的 wrpaaer，也因此使用 JAVA 或是 Clojure 的人都可以輕鬆愉快的使用 OpenCV 了。    本文將簡單介紹如何在 Clojure 下寫 OpenCV 的程式，而 OpenC">
 <meta property="og:image" content="https://coldnew.github.io/2f69a97/opencv_website.png">
 <meta property="og:image" content="https://coldnew.github.io/2f69a97/sample0.png">
 <meta property="og:image" content="https://coldnew.github.io/2f69a97/example0-gray.png">
@@ -65,7 +65,7 @@
 <meta property="og:updated_time" content="2015-10-14T03:38:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在 clojure 中使用 OpenCV 3.x">
-<meta name="twitter:description" content="OpenCV 是一套非常強大且好用的影像處理函式庫，一開始使用 C 語言來進行開發，後來移 植到 C++ 上面，並提供了 Python 的綁定。自 2.4 版本後，OpenCV 開始提供了 JAVA 的 wrpaaer，也因此使用 JAVA 或是 Clojure 的人都可以輕鬆愉快的使用 OpenCV 了。    本文將簡單介紹如何在 Clojure 下寫 OpenCV 的程式，而 OpenCV">
+<meta name="twitter:description" content="OpenCV 是一套非常強大且好用的影像處理函式庫，一開始使用 C 語言來進行開發，後來移 植到 C++ 上面，並提供了 Python 的綁定。自 2.4 版本後，OpenCV 開始提供了 JAVA 的 wrpaaer，也因此使用 JAVA 或是 Clojure 的人都可以輕鬆愉快的使用 OpenCV 了。    本文將簡單介紹如何在 Clojure 下寫 OpenCV 的程式，而 OpenC">
 <meta name="twitter:image" content="https://coldnew.github.io/2f69a97/opencv_website.png">
 
 
@@ -228,8 +228,7 @@
       
 
       
-        <span itemprop="articleBody">
-
+        <span itemprop="articleBody"><div id="content">
 <p>
 OpenCV 是一套非常強大且好用的影像處理函式庫，一開始使用 C 語言來進行開發，後來移
 植到 C++ 上面，並提供了 Python 的綁定。自 2.4 版本後，OpenCV 開始提供了 JAVA 的
@@ -257,9 +256,9 @@ OpenCV 3.0 和 OpenCV 2.x 的 Java 版本有一些不同，3.0 拿掉了以往�
 </p>
 </blockquote>
 
-<div id="outline-container-orge9454e5" class="outline-2">
-<h2 id="orge9454e5">下載 OpenCV 原始碼並編譯</h2>
-<div class="outline-text-2" id="text-orge9454e5">
+<div id="outline-container-org33f7d7a" class="outline-2">
+<h2 id="org33f7d7a">下載 OpenCV 原始碼並編譯</h2>
+<div class="outline-text-2" id="text-org33f7d7a">
 <p>
 OpenCV 官網上面並未提供 Linux 或是 Mac OSX 的二進制檔案，所以就讓我們
 自己動手編譯吧 ~
@@ -324,9 +323,9 @@ coldnew@Sara ~/opencv/build $ cmake -DBUILD_SHARED_LIBS=OFF ..
 </div>
 </div>
 
-<div id="outline-container-org3cdf2c2" class="outline-2">
-<h2 id="org3cdf2c2">將本地端的函式庫打包成 jar 檔案</h2>
-<div class="outline-text-2" id="text-org3cdf2c2">
+<div id="outline-container-org3611f2b" class="outline-2">
+<h2 id="org3611f2b">將本地端的函式庫打包成 jar 檔案</h2>
+<div class="outline-text-2" id="text-org3611f2b">
 <p>
 編譯完 opencv-300.jar 以及 libopencv_java300.dylib 後，我們需要先將動態函式庫
 <code>libopencv_java300.dylib</code> 打包成 .jar 檔案方便日後使用，因此根據你的系統建立
@@ -388,9 +387,9 @@ coldnew@Sara ~ $ jar -cMf opencv-native-300.jar native
 </div>
 </div>
 
-<div id="outline-container-org7f6c23e" class="outline-2">
-<h2 id="org7f6c23e">使用 lein-local 將套件加入本地端的 maven 倉庫</h2>
-<div class="outline-text-2" id="text-org7f6c23e">
+<div id="outline-container-orgca27b23" class="outline-2">
+<h2 id="orgca27b23">使用 lein-local 將套件加入本地端的 maven 倉庫</h2>
+<div class="outline-text-2" id="text-orgca27b23">
 <p>
 為了可以讓之後的專案都使用我們剛剛編譯好的 OpenCV 函式，最好的方式就是將他加入到
 本地倉庫，對於 <i>Leiningen</i> 的使用者而言，我們可以透過 <a href="https://github.com/kumarshantanu/lein-localrepo" target="_blank" rel="external">lein-localrepo</a> 來將需要的
@@ -429,9 +428,9 @@ coldnew@Rosia ~ $ lein localrepo install opencv-native-300.jar opencv/opencv-nat
 </div>
 </div>
 
-<div id="outline-container-org1cda642" class="outline-2">
-<h2 id="org1cda642">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org1cda642">
+<div id="outline-container-org9c584e4" class="outline-2">
+<h2 id="org9c584e4">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org9c584e4">
 <p>
 終於到建立專案的時間了，我們一樣使用 lein 預設的樣板來建立我們的專案，這裡建立名為 <i>myapp</i> 的專案
 </p>
@@ -487,9 +486,9 @@ user=&gt; <span style="color: #aadddd;">(</span><span style="color: #fff59d;">Ma
 </div>
 </div>
 
-<div id="outline-container-org47187ee" class="outline-2">
-<h2 id="org47187ee">Example 0: 彩色圖變成灰階圖</h2>
-<div class="outline-text-2" id="text-org47187ee">
+<div id="outline-container-org986352f" class="outline-2">
+<h2 id="org986352f">Example 0: 彩色圖變成灰階圖</h2>
+<div class="outline-text-2" id="text-org986352f">
 <p>
 我們先來個簡單的範例，將一張彩色圖片轉換成灰階圖片，我選用的範例是這張:
 </p>
@@ -547,9 +546,9 @@ coldnew@Rosia ~/myapp $ lein run -m myapp.example0 sample0.png
 </div>
 </div>
 
-<div id="outline-container-orgff2c0ef" class="outline-2">
-<h2 id="orgff2c0ef">Example 1: 動畫人臉偵測</h2>
-<div class="outline-text-2" id="text-orgff2c0ef">
+<div id="outline-container-org3bd5b28" class="outline-2">
+<h2 id="org3bd5b28">Example 1: 動畫人臉偵測</h2>
+<div class="outline-text-2" id="text-org3bd5b28">
 <p>
 除了人臉偵測以外，我們也可以對動畫人物進行臉部偵測，這邊使用了 <a href="https://github.com/nagadomi/lbpcascade_animeface" target="_blank" rel="external">GitHub/nagadomi</a>
 提供的 <i>lbpcascade_animeface.xml</i> 來作為我們臉部偵測的分類器。
@@ -635,9 +634,9 @@ coldnew@Rosia ~/myapp $ lein run -m myapp.example1 sample1.png
 </div>
 </div>
 
-<div id="outline-container-org585f1a8" class="outline-2">
-<h2 id="org585f1a8">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-org585f1a8">
+<div id="outline-container-orgf4b6afc" class="outline-2">
+<h2 id="orgf4b6afc">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-orgf4b6afc">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/opencv3_hello" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -661,9 +660,9 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
 </div>
 </div>
 
-<div id="outline-container-org0012d6d" class="outline-2">
-<h2 id="org0012d6d">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org0012d6d">
+<div id="outline-container-org8af6bf3" class="outline-2">
+<h2 id="org8af6bf3">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org8af6bf3">
 <p>
 <code>[1]</code> <a href="http://docs.opencv.org/2.4/doc/tutorials/introduction/clojure_dev_intro/clojure_dev_intro.html" target="_blank" rel="external">Introduction to OpenCV Development with Clojure</a>
 </p>
@@ -691,6 +690,7 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
 <p>
 <code>[7]</code> <a href="http://keens.github.io/blog/2015/06/07/clojuredeopencv3_0totawamureru/" target="_blank" rel="external">ClojureでOpenCV 3.0と戯れる</a>
 </p>
+</div>
 </div>
 </div>
 </span>
@@ -784,21 +784,21 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-count">94</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">74</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -849,7 +849,7 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge9454e5"><span class="nav-text">下載 OpenCV 原始碼並編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3cdf2c2"><span class="nav-text">將本地端的函式庫打包成 jar 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7f6c23e"><span class="nav-text">使用 lein-local 將套件加入本地端的 maven 倉庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1cda642"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org47187ee"><span class="nav-text">Example 0: 彩色圖變成灰階圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgff2c0ef"><span class="nav-text">Example 1: 動畫人臉偵測</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org585f1a8"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0012d6d"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org33f7d7a"><span class="nav-text">下載 OpenCV 原始碼並編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3611f2b"><span class="nav-text">將本地端的函式庫打包成 jar 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgca27b23"><span class="nav-text">使用 lein-local 將套件加入本地端的 maven 倉庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9c584e4"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org986352f"><span class="nav-text">Example 0: 彩色圖變成灰階圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3bd5b28"><span class="nav-text">Example 1: 動畫人臉偵測</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf4b6afc"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8af6bf3"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

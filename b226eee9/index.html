@@ -50,17 +50,17 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="ClojureScript 是相當於 Clojure 在 javascript 上的實現，由 Clojure 團隊所設 計出來的 Lisp 方言，他的語法基本上都和 Clojure 相同，也就是說，你 只要學一個 Clojure 語言，你就很可能可以辦到 Web Server 用 Clojure， Web Frontend 使用 ClojureScript 來開發的情況。    Clojur">
+<meta name="description" content="ClojureScript 是相當於 Clojure 在 javascript 上的實現，由 Clojure 團隊所設 計出來的 Lisp 方言，他的語法基本上都和 Clojure 相同，也就是說，你 只要學一個 Clojure 語言，你就很可能可以辦到 Web Server 用 Clojure， Web Frontend 使用 ClojureScript 來開發的情況。    Clojure">
 <meta name="keywords" content="clojurescript,nodejs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 ClojureScript 來寫 node.js 程式">
 <meta property="og:url" content="https://coldnew.github.io/b226eee9/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:description" content="ClojureScript 是相當於 Clojure 在 javascript 上的實現，由 Clojure 團隊所設 計出來的 Lisp 方言，他的語法基本上都和 Clojure 相同，也就是說，你 只要學一個 Clojure 語言，你就很可能可以辦到 Web Server 用 Clojure， Web Frontend 使用 ClojureScript 來開發的情況。    Clojur">
+<meta property="og:description" content="ClojureScript 是相當於 Clojure 在 javascript 上的實現，由 Clojure 團隊所設 計出來的 Lisp 方言，他的語法基本上都和 Clojure 相同，也就是說，你 只要學一個 Clojure 語言，你就很可能可以辦到 Web Server 用 Clojure， Web Frontend 使用 ClojureScript 來開發的情況。    Clojure">
 <meta property="og:updated_time" content="2013-06-29T14:54:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 ClojureScript 來寫 node.js 程式">
-<meta name="twitter:description" content="ClojureScript 是相當於 Clojure 在 javascript 上的實現，由 Clojure 團隊所設 計出來的 Lisp 方言，他的語法基本上都和 Clojure 相同，也就是說，你 只要學一個 Clojure 語言，你就很可能可以辦到 Web Server 用 Clojure， Web Frontend 使用 ClojureScript 來開發的情況。    Clojur">
+<meta name="twitter:description" content="ClojureScript 是相當於 Clojure 在 javascript 上的實現，由 Clojure 團隊所設 計出來的 Lisp 方言，他的語法基本上都和 Clojure 相同，也就是說，你 只要學一個 Clojure 語言，你就很可能可以辦到 Web Server 用 Clojure， Web Frontend 使用 ClojureScript 來開發的情況。    Clojure">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -222,8 +222,7 @@
       
 
       
-        <span itemprop="articleBody">
-
+        <span itemprop="articleBody"><div id="content">
 <p>
 <a href="https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure" target="_blank" rel="external">ClojureScript</a> 是相當於 Clojure 在 javascript 上的實現，由 Clojure 團隊所設
 計出來的 Lisp 方言，他的語法基本上都和 Clojure 相同，也就是說，你
@@ -277,9 +276,9 @@ javascript。(結尾要大括號又要括號又要分號，這是什麼神祕的
 javascript 不是用 S 表達式吧，node.js 還是很棒的東西的。
 </p>
 
-<div id="outline-container-org71d2ec3" class="outline-2">
-<h2 id="org71d2ec3">建立開發環境</h2>
-<div class="outline-text-2" id="text-org71d2ec3">
+<div id="outline-container-org9a7877a" class="outline-2">
+<h2 id="org9a7877a">建立開發環境</h2>
+<div class="outline-text-2" id="text-org9a7877a">
 <p>
 無論是使用 Clojure 開發還是 ClojureScript 開發， <a href="https://github.com/technomancy/leiningen" target="_blank" rel="external">Leiningen</a> 都是幫忙
 建立開發環境的好幫手，安裝完  <a href="https://github.com/technomancy/leiningen" target="_blank" rel="external">Leiningen</a> 後，你需要在
@@ -302,9 +301,9 @@ emerge net-libs/nodejs
 </div>
 </div>
 
-<div id="outline-container-orgf013aa5" class="outline-2">
-<h2 id="orgf013aa5">建立新的 ClojureScript 專案</h2>
-<div class="outline-text-2" id="text-orgf013aa5">
+<div id="outline-container-org0c2689c" class="outline-2">
+<h2 id="org0c2689c">建立新的 ClojureScript 專案</h2>
+<div class="outline-text-2" id="text-org0c2689c">
 <p>
 我們首先建立一個開發環境，就叫他為 <code>cljs-hello</code> 好了
 </p>
@@ -315,9 +314,9 @@ lein new cljs-hello
 </div>
 </div>
 
-<div id="outline-container-org64086c3" class="outline-2">
-<h2 id="org64086c3">加入 cljsbuild 到你的專案</h2>
-<div class="outline-text-2" id="text-org64086c3">
+<div id="outline-container-org30a8cbd" class="outline-2">
+<h2 id="org30a8cbd">加入 cljsbuild 到你的專案</h2>
+<div class="outline-text-2" id="text-org30a8cbd">
 <p>
 接下來，你必須編輯 <code>project.clj</code> 檔案，將他變成像下面這樣
 </p>
@@ -386,9 +385,9 @@ clojurescript 的程式碼目錄。
 </div>
 </div>
 
-<div id="outline-container-org50e2d03" class="outline-2">
-<h2 id="org50e2d03">來寫個 ClojureScript 版的 Hello World</h2>
-<div class="outline-text-2" id="text-org50e2d03">
+<div id="outline-container-org032f547" class="outline-2">
+<h2 id="org032f547">來寫個 ClojureScript 版的 Hello World</h2>
+<div class="outline-text-2" id="text-org032f547">
 <p>
 來到了寫程式的時間，我們切換到 <code>src</code> 目錄，將 core.clj 砍掉，並建立
 一個名為 core.cljs 的檔案，內容如下
@@ -420,9 +419,9 @@ node.js 知道說我們主要執行的函式就是 <code>-main</code> 函式。
 </div>
 </div>
 
-<div id="outline-container-orgd3b0e08" class="outline-2">
-<h2 id="orgd3b0e08">編譯你的程式碼</h2>
-<div class="outline-text-2" id="text-orgd3b0e08">
+<div id="outline-container-org44a90cc" class="outline-2">
+<h2 id="org44a90cc">編譯你的程式碼</h2>
+<div class="outline-text-2" id="text-org44a90cc">
 <p>
 要編譯很簡單，輸入
 </p>
@@ -438,9 +437,9 @@ lein cljsbuild once
 </div>
 </div>
 
-<div id="outline-container-org48f01c4" class="outline-2">
-<h2 id="org48f01c4">執行程式</h2>
-<div class="outline-text-2" id="text-org48f01c4">
+<div id="outline-container-orgeb532fd" class="outline-2">
+<h2 id="orgeb532fd">執行程式</h2>
+<div class="outline-text-2" id="text-orgeb532fd">
 <p>
 因為 ClojureScript 編譯出來的檔案是 javascript 檔案，所以執行程式的方式
 就和使用 node.js 一樣
@@ -456,9 +455,9 @@ node  target/cljsbuild-main.js
 </div>
 </div>
 
-<div id="outline-container-org7d8b4be" class="outline-2">
-<h2 id="org7d8b4be">參考連結</h2>
-<div class="outline-text-2" id="text-org7d8b4be">
+<div id="outline-container-orgcd8c2c5" class="outline-2">
+<h2 id="orgcd8c2c5">參考連結</h2>
+<div class="outline-text-2" id="text-orgcd8c2c5">
 <p>
 <code>[1]</code> <a href="https://github.com/clojure/clojurescript/" target="_blank" rel="external">ClojureScript GitHub</a>
 </p>
@@ -474,6 +473,7 @@ node  target/cljsbuild-main.js
 <p>
 <code>[4]</code> <a href="https://github.com/emezeske/lein-cljsbuild" target="_blank" rel="external">lein-cljsbuild GitHub</a>
 </p>
+</div>
 </div>
 </div>
 </span>
@@ -567,21 +567,21 @@ node  target/cljsbuild-main.js
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-count">94</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">74</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -632,7 +632,7 @@ node  target/cljsbuild-main.js
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org71d2ec3"><span class="nav-text">建立開發環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf013aa5"><span class="nav-text">建立新的 ClojureScript 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org64086c3"><span class="nav-text">加入 cljsbuild 到你的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org50e2d03"><span class="nav-text">來寫個 ClojureScript 版的 Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd3b0e08"><span class="nav-text">編譯你的程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org48f01c4"><span class="nav-text">執行程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7d8b4be"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org9a7877a"><span class="nav-text">建立開發環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0c2689c"><span class="nav-text">建立新的 ClojureScript 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org30a8cbd"><span class="nav-text">加入 cljsbuild 到你的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org032f547"><span class="nav-text">來寫個 ClojureScript 版的 Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org44a90cc"><span class="nav-text">編譯你的程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgeb532fd"><span class="nav-text">執行程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcd8c2c5"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

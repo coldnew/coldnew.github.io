@@ -225,8 +225,7 @@
       
 
       
-        <span itemprop="articleBody">
-
+        <span itemprop="articleBody"><div id="content">
 <p>
 Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許多不同的設計，
 本篇文章使用 Raspbian 作為 Raspberry Pi 的系統，並透過 Python、C
@@ -239,9 +238,9 @@ Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許�
 </p>
 </div>
 
-<div id="outline-container-org61a229e" class="outline-2">
-<h2 id="org61a229e">使用設備</h2>
-<div class="outline-text-2" id="text-org61a229e">
+<div id="outline-container-org317967b" class="outline-2">
+<h2 id="org317967b">使用設備</h2>
+<div class="outline-text-2" id="text-org317967b">
 <p>
 要完成本篇文章所描述的部份，你需要以下幾種器材
 </p>
@@ -260,9 +259,9 @@ Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許�
 </div>
 </div>
 
-<div id="outline-container-org86615ef" class="outline-2">
-<h2 id="org86615ef">硬體線路</h2>
-<div class="outline-text-2" id="text-org86615ef">
+<div id="outline-container-orgc590e5d" class="outline-2">
+<h2 id="orgc590e5d">硬體線路</h2>
+<div class="outline-text-2" id="text-orgc590e5d">
 <p>
 下面的硬體線路使用 <a href="http://fritzing.org/" target="_blank" rel="external">Fritzing</a> 軟體來繪製， 我們連接 Raspberry Pi 的 GPIO4
 (Pin 7) 到 LED 的陽極並加上一個保護 LED 用的限流電阻 220 Ω。(<a href="rpi_simpleled.fzz">下載設計檔案</a>)
@@ -295,9 +294,9 @@ Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許�
 </div>
 </div>
 
-<div id="outline-container-org1defc66" class="outline-2">
-<h2 id="org1defc66">使用 Linux Kernel 提供的 sysfs 來控制 GPIO</h2>
-<div class="outline-text-2" id="text-org1defc66">
+<div id="outline-container-orge547db4" class="outline-2">
+<h2 id="orge547db4">使用 Linux Kernel 提供的 sysfs 來控制 GPIO</h2>
+<div class="outline-text-2" id="text-orge547db4">
 <p>
 在要寫程式之前，我們先來使用 Linux Kernel 提供的 sysfs 來控制 GPIO。
 </p>
@@ -360,9 +359,9 @@ Raspberry Pi 提供了許多的 GPIO 讓使用者可以配合電路來做出許�
 </div>
 </div>
 
-<div id="outline-container-org5704db9" class="outline-2">
-<h2 id="org5704db9">使用 debugfs 來觀看目前的 GPIO 設定</h2>
-<div class="outline-text-2" id="text-org5704db9">
+<div id="outline-container-org8d50f1a" class="outline-2">
+<h2 id="org8d50f1a">使用 debugfs 來觀看目前的 GPIO 設定</h2>
+<div class="outline-text-2" id="text-org8d50f1a">
 <p>
 我們可以使用 debugfs 來察看目前的 GPIO 設定，首先掛載 debugfs
 </p>
@@ -391,9 +390,9 @@ GPIOs 0-53, bcm2708_gpio:
 </div>
 </div>
 
-<div id="outline-container-org145603a" class="outline-2">
-<h2 id="org145603a">使用 C 語言控制 GPIO (不使用外部函式庫)</h2>
-<div class="outline-text-2" id="text-org145603a">
+<div id="outline-container-org91a84f0" class="outline-2">
+<h2 id="org91a84f0">使用 C 語言控制 GPIO (不使用外部函式庫)</h2>
+<div class="outline-text-2" id="text-org91a84f0">
 <p>
 C 語言因為提供了指標，可以任意的去修改記憶體的某個部份，因此我們也可
 以透過修改記憶體區塊的方式，來設定我們的 GPIO。
@@ -488,9 +487,9 @@ C 語言因為提供了指標，可以任意的去修改記憶體的某個部份
 </div>
 </div>
 
-<div id="outline-container-orgfd2679e" class="outline-2">
-<h2 id="orgfd2679e">使用 C 語言控制 GPIO (使用 BCM2835 函式庫)</h2>
-<div class="outline-text-2" id="text-orgfd2679e">
+<div id="outline-container-orgd92f97d" class="outline-2">
+<h2 id="orgd92f97d">使用 C 語言控制 GPIO (使用 BCM2835 函式庫)</h2>
+<div class="outline-text-2" id="text-orgd92f97d">
 <p>
 <a href="http://www.airspayce.com/mikem/bcm2835/" target="_blank" rel="external">BCM2835 C library</a> 是針對 BCM2835 CPU 用的 C 語言函式庫，透過他你可以輕鬆
 的使用 C 語言去控制 Raspberry Pi 的 GPIO、I²C 等裝置，第一次使用這個函式庫
@@ -547,9 +546,9 @@ sudo make install
 </div>
 </div>
 
-<div id="outline-container-org52b5b9e" class="outline-2">
-<h2 id="org52b5b9e">使用 Python 控制 GPIO</h2>
-<div class="outline-text-2" id="text-org52b5b9e">
+<div id="outline-container-org89d708b" class="outline-2">
+<h2 id="org89d708b">使用 Python 控制 GPIO</h2>
+<div class="outline-text-2" id="text-org89d708b">
 <p>
 在 Raspbian 發行版當中，已經預先將 RPi.GPIO 模組包入，因此你可以直接
 寫以下的 python 程式來控制 GPIO4，要注意的是，RPi.GPIO 設定的 GPIO 是採
@@ -585,9 +584,9 @@ GPIO.cleanup<span style="color: #aadddd;">()</span>
 </div>
 </div>
 
-<div id="outline-container-org2e23313" class="outline-2">
-<h2 id="org2e23313">使用 newlisp 控制 GPIO</h2>
-<div class="outline-text-2" id="text-org2e23313">
+<div id="outline-container-org01f2c72" class="outline-2">
+<h2 id="org01f2c72">使用 newlisp 控制 GPIO</h2>
+<div class="outline-text-2" id="text-org01f2c72">
 <p>
 newlisp 是屬於 script language，若不透過他的 FFI (Foreign Function
 Interface)，則要在 newlisp 下控制 GPIO 的最好方法就是更改 sysfs 下的 GPIO
@@ -637,6 +636,7 @@ wget https://raw.github.com/gatesphere/raspi-gpio-newlisp/master/raspi-gpio.lsp
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">End of Application</span>
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">exit</span><span style="color: #aadddd;">)</span>
 </pre>
+</div>
 </div>
 </div>
 </div>
@@ -735,21 +735,21 @@ wget https://raw.github.com/gatesphere/raspi-gpio-newlisp/master/raspi-gpio.lsp
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-count">94</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">74</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -800,7 +800,7 @@ wget https://raw.github.com/gatesphere/raspi-gpio-newlisp/master/raspi-gpio.lsp
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org61a229e"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org86615ef"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1defc66"><span class="nav-text">使用 Linux Kernel 提供的 sysfs 來控制 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5704db9"><span class="nav-text">使用 debugfs 來觀看目前的 GPIO 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org145603a"><span class="nav-text">使用 C 語言控制 GPIO (不使用外部函式庫)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfd2679e"><span class="nav-text">使用 C 語言控制 GPIO (使用 BCM2835 函式庫)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org52b5b9e"><span class="nav-text">使用 Python 控制 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2e23313"><span class="nav-text">使用 newlisp 控制 GPIO</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org317967b"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc590e5d"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge547db4"><span class="nav-text">使用 Linux Kernel 提供的 sysfs 來控制 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8d50f1a"><span class="nav-text">使用 debugfs 來觀看目前的 GPIO 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org91a84f0"><span class="nav-text">使用 C 語言控制 GPIO (不使用外部函式庫)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd92f97d"><span class="nav-text">使用 C 語言控制 GPIO (使用 BCM2835 函式庫)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org89d708b"><span class="nav-text">使用 Python 控制 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org01f2c72"><span class="nav-text">使用 newlisp 控制 GPIO</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
