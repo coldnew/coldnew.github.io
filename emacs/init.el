@@ -31,6 +31,8 @@
 (package-install 'dot-mode)
 (package-install 'verilog-mode)
 (package-install 'json-mode)
+(package-install 'markdown-mode)
+(package-install 'yasnippet)
 
 ;; We want to color the parentheses
 (package-install 'rainbow-delimiters)
