@@ -50,17 +50,17 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="在 Linux 下，有時候對 deviec 進行 umount 的時候，會出現 Device is busy 的情況，出現這個狀況的原因，可能是你有某個 shell 還停留在掛載這個設備 的資料夾下，也有可能是這個設備正在進行檔案儲存等狀況，那遇到這個狀況 時要怎麼辦呢？    使用 fuser 找出佔用的程式   假設我們掛載設備的路徑為 /media/share ，則你可以使用 fuser">
+<meta name="description" content="在 Linux 下，有時候對 deviec 進行 umount 的時候，會出現 Device is busy 的情況，出現這個狀況的原因，可能是你有某個 shell 還停留在掛載這個設備 的資料夾下，也有可能是這個設備正在進行檔案儲存等狀況，那遇到這個狀況 時要怎麼辦呢？">
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="umount 時出現 Device is busy 的解法">
 <meta property="og:url" content="https://coldnew.github.io/d4a5e389/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:description" content="在 Linux 下，有時候對 deviec 進行 umount 的時候，會出現 Device is busy 的情況，出現這個狀況的原因，可能是你有某個 shell 還停留在掛載這個設備 的資料夾下，也有可能是這個設備正在進行檔案儲存等狀況，那遇到這個狀況 時要怎麼辦呢？    使用 fuser 找出佔用的程式   假設我們掛載設備的路徑為 /media/share ，則你可以使用 fuser">
+<meta property="og:description" content="在 Linux 下，有時候對 deviec 進行 umount 的時候，會出現 Device is busy 的情況，出現這個狀況的原因，可能是你有某個 shell 還停留在掛載這個設備 的資料夾下，也有可能是這個設備正在進行檔案儲存等狀況，那遇到這個狀況 時要怎麼辦呢？">
 <meta property="og:updated_time" content="2013-06-12T15:16:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="umount 時出現 Device is busy 的解法">
-<meta name="twitter:description" content="在 Linux 下，有時候對 deviec 進行 umount 的時候，會出現 Device is busy 的情況，出現這個狀況的原因，可能是你有某個 shell 還停留在掛載這個設備 的資料夾下，也有可能是這個設備正在進行檔案儲存等狀況，那遇到這個狀況 時要怎麼辦呢？    使用 fuser 找出佔用的程式   假設我們掛載設備的路徑為 /media/share ，則你可以使用 fuser">
+<meta name="twitter:description" content="在 Linux 下，有時候對 deviec 進行 umount 的時候，會出現 Device is busy 的情況，出現這個狀況的原因，可能是你有某個 shell 還停留在掛載這個設備 的資料夾下，也有可能是這個設備正在進行檔案儲存等狀況，那遇到這個狀況 時要怎麼辦呢？">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -230,16 +230,17 @@
 時要怎麼辦呢？
 </p>
 
-<div id="outline-container-org0ab8386" class="outline-2">
-<h2 id="org0ab8386">使用 fuser 找出佔用的程式</h2>
-<div class="outline-text-2" id="text-org0ab8386">
+<a id="more"></a>
+
+<div id="outline-container-org66b95e1" class="outline-2">
+<h2 id="org66b95e1">使用 fuser 找出佔用的程式</h2>
+<div class="outline-text-2" id="text-org66b95e1">
 <p>
-假設我們掛載設備的路徑為 <code>/media/share</code> ，則你可以使用 <code>fuser</code> 指令來對他進行查
-詢
+假設我們掛載設備的路徑為 <code>/media/share</code> ，則你可以使用 <code>fuser</code> 指令來對他進行查詢
 </p>
 
 <pre class="example">
-coldnew@Rosi ~ $ fuser -m /media/share
+coldnew@gentoo ~ $ fuser -m /media/share
 </pre>
 
 <p>
@@ -265,9 +266,9 @@ m: mmap'ed file or shared library.
 </div>
 </div>
 
-<div id="outline-container-orgcb7da79" class="outline-2">
-<h2 id="orgcb7da79">釋放被佔用的資源</h2>
-<div class="outline-text-2" id="text-orgcb7da79">
+<div id="outline-container-orgd2fcaee" class="outline-2">
+<h2 id="orgd2fcaee">釋放被佔用的資源</h2>
+<div class="outline-text-2" id="text-orgd2fcaee">
 <p>
 要釋放被佔用的資源，我們可以使用傳統的 <code>kill</code> 命令
 </p>
@@ -282,7 +283,7 @@ m: mmap'ed file or shared library.
 </p>
 
 <pre class="example">
-coldnew@Rosi ~ $ sudo fuser -m -v -i -k /media/share
+coldnew@gentoo ~ $ sudo fuser -m -v -i -k /media/share
               USER      PID   ACCESS COMMAND
 /meida/share: root      25023 ..c..  bash
 Kill process 25023 ? (y/N) y
@@ -444,7 +445,7 @@ Kill process 25023 ? (y/N) y
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0ab8386"><span class="nav-text">使用 fuser 找出佔用的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcb7da79"><span class="nav-text">釋放被佔用的資源</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org66b95e1"><span class="nav-text">使用 fuser 找出佔用的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd2fcaee"><span class="nav-text">釋放被佔用的資源</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
