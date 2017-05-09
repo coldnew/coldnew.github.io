@@ -237,9 +237,9 @@ Raspberry Pi 對於剛接觸嵌入式系統開發的人而言，無疑是一個�
 本使用方式。
 </p>
 
-<div id="outline-container-org6d90a73" class="outline-2">
-<h2 id="org6d90a73">使用設備</h2>
-<div class="outline-text-2" id="text-org6d90a73">
+<div id="outline-container-org0986bc6" class="outline-2">
+<h2 id="org0986bc6">使用設備</h2>
+<div class="outline-text-2" id="text-org0986bc6">
 <p>
 要完成本篇文章所描述的部份，你需要以下幾種器材
 </p>
@@ -256,9 +256,9 @@ Raspberry Pi 對於剛接觸嵌入式系統開發的人而言，無疑是一個�
 </div>
 </div>
 
-<div id="outline-container-org56888ae" class="outline-2">
-<h2 id="org56888ae">硬體線路</h2>
-<div class="outline-text-2" id="text-org56888ae">
+<div id="outline-container-org95ec7e8" class="outline-2">
+<h2 id="org95ec7e8">硬體線路</h2>
+<div class="outline-text-2" id="text-org95ec7e8">
 <p>
 下面的硬體線路使用 <a href="http://fritzing.org/" target="_blank" rel="external">Fritzing</a> 軟體來繪製，連線到 EEPROM 的線路很簡單，只
 要將 I²C 所需要使用的線路連接就好，其中 EEPROM 的 A0~A2 為位址線，這邊將其
@@ -292,9 +292,9 @@ Raspberry Pi 對於剛接觸嵌入式系統開發的人而言，無疑是一個�
 </div>
 </div>
 
-<div id="outline-container-org0495812" class="outline-2">
-<h2 id="org0495812">讓 Raspberry Pi 可以讀取 i2c 設備</h2>
-<div class="outline-text-2" id="text-org0495812">
+<div id="outline-container-org64ace3c" class="outline-2">
+<h2 id="org64ace3c">讓 Raspberry Pi 可以讀取 i2c 設備</h2>
+<div class="outline-text-2" id="text-org64ace3c">
 <ul class="org-ul">
 <li><p>
 將 i2c 模組從黑名單中移除
@@ -357,9 +357,9 @@ pi@raspberrypi:/home/pi$ ls /dev/i2c*
 </div>
 </div>
 
-<div id="outline-container-orgd895419" class="outline-2">
-<h2 id="orgd895419">安裝 i2c-tools</h2>
-<div class="outline-text-2" id="text-orgd895419">
+<div id="outline-container-orgaba0b77" class="outline-2">
+<h2 id="orgaba0b77">安裝 i2c-tools</h2>
+<div class="outline-text-2" id="text-orgaba0b77">
 <p>
 我們在這邊使用最常用的 i2c-tools，因為這個套件並沒有被預先安裝，因此你
 必須自己安裝
@@ -393,9 +393,9 @@ i2cdetect  i2cdump    i2cget     i2cset
 </div>
 </div>
 
-<div id="outline-container-orgb772c0c" class="outline-2">
-<h2 id="orgb772c0c">使用 i2cdetect 察看目前有多少個 i2c bus</h2>
-<div class="outline-text-2" id="text-orgb772c0c">
+<div id="outline-container-orgc733f0e" class="outline-2">
+<h2 id="orgc733f0e">使用 i2cdetect 察看目前有多少個 i2c bus</h2>
+<div class="outline-text-2" id="text-orgc733f0e">
 <p>
 你可以使用以下命令來察看目前的系統有多少個 i2c bus，以我手上的
 Raspberry Pi 為例
@@ -421,9 +421,9 @@ rev.2 版本，則都改成使用 i2c-1 作為 i2c bus。
 </div>
 </div>
 
-<div id="outline-container-orgcddf949" class="outline-2">
-<h2 id="orgcddf949">使用 i2cdetect 察看目前掛在 i2c bus 上的設備</h2>
-<div class="outline-text-2" id="text-orgcddf949">
+<div id="outline-container-org75a5ea4" class="outline-2">
+<h2 id="org75a5ea4">使用 i2cdetect 察看目前掛在 i2c bus 上的設備</h2>
+<div class="outline-text-2" id="text-org75a5ea4">
 <p>
 知道你要查詢的 I²C bus 後，我們可以使用
 </p>
@@ -456,9 +456,9 @@ root@raspberrypi:/home/pi# i2cdetect -y 1
 </div>
 </div>
 
-<div id="outline-container-org4fb6edb" class="outline-2">
-<h2 id="org4fb6edb">使用 i2cdump 查詢設備內所有暫存器</h2>
-<div class="outline-text-2" id="text-org4fb6edb">
+<div id="outline-container-orgf026b3f" class="outline-2">
+<h2 id="orgf026b3f">使用 i2cdump 查詢設備內所有暫存器</h2>
+<div class="outline-text-2" id="text-orgf026b3f">
 <p>
 我們現在知道 EEPROM 是掛在 i2c-1 上的 0x50，若想知道 EEPROM 裏面的資
 訊，則可以使用 i2cdump 來獲得，i2cdump 的使用方式如下
@@ -519,9 +519,9 @@ i2cset 來修改他的數值。
 </div>
 </div>
 
-<div id="outline-container-orga7b0000" class="outline-2">
-<h2 id="orga7b0000">使用 i2cset 修改設備暫存器數值</h2>
-<div class="outline-text-2" id="text-orga7b0000">
+<div id="outline-container-org4619533" class="outline-2">
+<h2 id="org4619533">使用 i2cset 修改設備暫存器數值</h2>
+<div class="outline-text-2" id="text-org4619533">
 <p>
 如果我們想修改 EEPROM 裏面的數值，那要怎麼辦呢？這時候可以使
 用 i2cset 來幫忙完成，i2cset 的使用方式如下
@@ -577,9 +577,9 @@ f0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
 </div>
 </div>
 
-<div id="outline-container-org4f1dac1" class="outline-2">
-<h2 id="org4f1dac1">使用 i2cget 來取得暫存器的數值</h2>
-<div class="outline-text-2" id="text-org4f1dac1">
+<div id="outline-container-orgb45975a" class="outline-2">
+<h2 id="orgb45975a">使用 i2cget 來取得暫存器的數值</h2>
+<div class="outline-text-2" id="text-orgb45975a">
 <p>
 有些時候我們只想要看某個暫存器位址，這時候使用 i2cget 是最快的選擇，
 i2cget 命令格式如下
@@ -702,21 +702,21 @@ root@raspberrypi:/home/pi# i2cget  -y 1 0x50 0x12
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">94</span>
+              <span class="site-state-item-count">95</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">74</span>
+              <span class="site-state-item-count">80</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -767,7 +767,7 @@ root@raspberrypi:/home/pi# i2cget  -y 1 0x50 0x12
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6d90a73"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org56888ae"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0495812"><span class="nav-text">讓 Raspberry Pi 可以讀取 i2c 設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd895419"><span class="nav-text">安裝 i2c-tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb772c0c"><span class="nav-text">使用 i2cdetect 察看目前有多少個 i2c bus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcddf949"><span class="nav-text">使用 i2cdetect 察看目前掛在 i2c bus 上的設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4fb6edb"><span class="nav-text">使用 i2cdump 查詢設備內所有暫存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga7b0000"><span class="nav-text">使用 i2cset 修改設備暫存器數值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4f1dac1"><span class="nav-text">使用 i2cget 來取得暫存器的數值</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0986bc6"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org95ec7e8"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org64ace3c"><span class="nav-text">讓 Raspberry Pi 可以讀取 i2c 設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaba0b77"><span class="nav-text">安裝 i2c-tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc733f0e"><span class="nav-text">使用 i2cdetect 察看目前有多少個 i2c bus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org75a5ea4"><span class="nav-text">使用 i2cdetect 察看目前掛在 i2c bus 上的設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf026b3f"><span class="nav-text">使用 i2cdump 查詢設備內所有暫存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4619533"><span class="nav-text">使用 i2cset 修改設備暫存器數值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb45975a"><span class="nav-text">使用 i2cget 來取得暫存器的數值</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

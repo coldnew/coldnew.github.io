@@ -255,9 +255,9 @@ ubifs 的掛載描述
 我們想讓 Android 的 init 掛載 ubifs 要怎麼辦? 這時候只好自己動手了~
 </p>
 
-<div id="outline-container-org2720e42" class="outline-2">
-<h2 id="org2720e42">讓 init 可以掛載 ubifs 所進行的修改</h2>
-<div class="outline-text-2" id="text-org2720e42">
+<div id="outline-container-org2103be9" class="outline-2">
+<h2 id="org2103be9">讓 init 可以掛載 ubifs 所進行的修改</h2>
+<div class="outline-text-2" id="text-org2103be9">
 <p>
 Android 的 init 原始碼位於 <code>system/core/init</code> 裡面，為了增加 ubifs 的功
 能，我們將針對以下檔案進行修改
@@ -271,9 +271,9 @@ Android 的 init 原始碼位於 <code>system/core/init</code> 裡面，為了�
 </ul>
 </div>
 
-<div id="outline-container-org3b5820a" class="outline-3">
-<h3 id="org3b5820a">修改 init/builtins.c</h3>
-<div class="outline-text-3" id="text-org3b5820a">
+<div id="outline-container-org29c6f30" class="outline-3">
+<h3 id="org29c6f30">修改 init/builtins.c</h3>
+<div class="outline-text-3" id="text-org29c6f30">
 <p>
 我們所希望的是可以在 init.rc 增加下面這樣的描述，讓 init 可以掛載 ubifs
 </p>
@@ -322,9 +322,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org0e26bb2" class="outline-3">
-<h3 id="org0e26bb2">修改 init/util.h</h3>
-<div class="outline-text-3" id="text-org0e26bb2">
+<div id="outline-container-org9c0e707" class="outline-3">
+<h3 id="org9c0e707">修改 init/util.h</h3>
+<div class="outline-text-3" id="text-org9c0e707">
 <p>
 我們在 <code>system/core/init/builtins.c</code> 使用到一些和 ubifs 相關的函式，這
 些函式並未被宣告以及定義，因此我們宣告在 util.h 裡面。
@@ -348,9 +348,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-orgbe554c9" class="outline-3">
-<h3 id="orgbe554c9">增加 init/ubi-user.h 檔案</h3>
-<div class="outline-text-3" id="text-orgbe554c9">
+<div id="outline-container-org1a25544" class="outline-3">
+<h3 id="org1a25544">增加 init/ubi-user.h 檔案</h3>
+<div class="outline-text-3" id="text-org1a25544">
 <p>
 由於我們進行一些 ubifs 相關函式的定義時，需要用到 ubifs 的結構，因此
 需要增加相關結構的資訊。 <code>ubi-user.h</code> 這個檔案取自於 Linux Kernel
@@ -787,9 +787,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org380cb85" class="outline-3">
-<h3 id="org380cb85">修改 init/util.c</h3>
-<div class="outline-text-3" id="text-org380cb85">
+<div id="outline-container-org9b6713f" class="outline-3">
+<h3 id="org9b6713f">修改 init/util.c</h3>
+<div class="outline-text-3" id="text-org9b6713f">
 <p>
 由於我們增加了一些 ubifs 相關的函式，因此必須自己在 <code>init/util.c</code> 裡面加入相對應的實現。
 </p>
@@ -922,9 +922,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org4081c58" class="outline-2">
-<h2 id="org4081c58">ramdisk 修改</h2>
-<div class="outline-text-2" id="text-org4081c58">
+<div id="outline-container-org625e2d9" class="outline-2">
+<h2 id="org625e2d9">ramdisk 修改</h2>
+<div class="outline-text-2" id="text-org625e2d9">
 <p>
 將上面的修正加入並重新編譯 Android 後，你就可以在 ramdisk 下使用以下方式去掛載你
 的 ubifs 檔案系統，修改 init.*.rc 並添加以下資訊:
@@ -937,9 +937,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org7d99d8a" class="outline-2">
-<h2 id="org7d99d8a">參考連結</h2>
-<div class="outline-text-2" id="text-org7d99d8a">
+<div id="outline-container-org36f2f99" class="outline-2">
+<h2 id="org36f2f99">參考連結</h2>
+<div class="outline-text-2" id="text-org36f2f99">
 <p>
 <code>[1]</code> <a href="http://blog.chinaunix.net/uid-22028680-id-3015767.html" target="_blank" rel="external">採用 UBIFS 製作 Android 的文件系統</a>
 </p>
@@ -1041,21 +1041,21 @@ mtd 設備。
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">94</span>
+              <span class="site-state-item-count">95</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">74</span>
+              <span class="site-state-item-count">80</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -1106,7 +1106,7 @@ mtd 設備。
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2720e42"><span class="nav-text">讓 init 可以掛載 ubifs 所進行的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org3b5820a"><span class="nav-text">修改 init/builtins.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0e26bb2"><span class="nav-text">修改 init/util.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgbe554c9"><span class="nav-text">增加 init/ubi-user.h 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org380cb85"><span class="nav-text">修改 init/util.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4081c58"><span class="nav-text">ramdisk 修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7d99d8a"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2103be9"><span class="nav-text">讓 init 可以掛載 ubifs 所進行的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org29c6f30"><span class="nav-text">修改 init/builtins.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9c0e707"><span class="nav-text">修改 init/util.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1a25544"><span class="nav-text">增加 init/ubi-user.h 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9b6713f"><span class="nav-text">修改 init/util.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org625e2d9"><span class="nav-text">ramdisk 修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org36f2f99"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

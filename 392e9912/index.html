@@ -248,9 +248,9 @@ CPU 相比相差甚遠，但是非常適合用來學習一個 CPU 的運作以�
 node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </p>
 
-<div id="outline-container-orga09524e" class="outline-2">
-<h2 id="orga09524e">4917 的暫存器 (Register)</h2>
-<div class="outline-text-2" id="text-orga09524e">
+<div id="outline-container-org5e7928c" class="outline-2">
+<h2 id="org5e7928c">4917 的暫存器 (Register)</h2>
+<div class="outline-text-2" id="text-org5e7928c">
 <p>
 4917 共具有 4 個暫存器，分別為 R0, R1, PC, IS, 其用途如下表
 </p>
@@ -302,9 +302,9 @@ node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </div>
 </div>
 
-<div id="outline-container-orgf2107ae" class="outline-2">
-<h2 id="orgf2107ae">從指令集認識 4917</h2>
-<div class="outline-text-2" id="text-orgf2107ae">
+<div id="outline-container-org589bb43" class="outline-2">
+<h2 id="org589bb43">從指令集認識 4917</h2>
+<div class="outline-text-2" id="text-org589bb43">
 <p>
 4917 共有 16 種指令，其中 0 ~ 7 這一類的指令屬於 1-byte 指令，不接受而外的參數，
 而 8 ~ 15 這幾個操作碼則會接受 Program counter (或稱為 Instruction pointer) 所指
@@ -325,9 +325,9 @@ node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </p>
 </div>
 
-<div id="outline-container-org83d77e9" class="outline-3">
-<h3 id="org83d77e9">1-byte 指令</h3>
-<div class="outline-text-3" id="text-org83d77e9">
+<div id="outline-container-org4b0cbfe" class="outline-3">
+<h3 id="org4b0cbfe">1-byte 指令</h3>
+<div class="outline-text-3" id="text-org4b0cbfe">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -387,9 +387,9 @@ node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </div>
 </div>
 
-<div id="outline-container-orge4eea00" class="outline-3">
-<h3 id="orge4eea00">2-byte 指令，指令後面的 byte 的內容以 &lt;﻿data﻿&gt; 表示</h3>
-<div class="outline-text-3" id="text-orge4eea00">
+<div id="outline-container-orgfe408e8" class="outline-3">
+<h3 id="orgfe408e8">2-byte 指令，指令後面的 byte 的內容以 &lt;﻿data﻿&gt; 表示</h3>
+<div class="outline-text-3" id="text-orgfe408e8">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -450,9 +450,9 @@ node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </div>
 </div>
 
-<div id="outline-container-org15514e2" class="outline-2">
-<h2 id="org15514e2">從範例來看 4917 的指令運作</h2>
-<div class="outline-text-2" id="text-org15514e2">
+<div id="outline-container-org46cff69" class="outline-2">
+<h2 id="org46cff69">從範例來看 4917 的指令運作</h2>
+<div class="outline-text-2" id="text-org46cff69">
 <p>
 我們可以使用簡單的範例來了解 4917 的運作，假設目前的記憶體內容如下:
 </p>
@@ -563,9 +563,9 @@ R0 = R0 + 1 = 9 + 1 = 10
 </div>
 </div>
 
-<div id="outline-container-orgda7471e" class="outline-2">
-<h2 id="orgda7471e">建立我們的 Clojure/Clojurescript 專案</h2>
-<div class="outline-text-2" id="text-orgda7471e">
+<div id="outline-container-org294fb31" class="outline-2">
+<h2 id="org294fb31">建立我們的 Clojure/Clojurescript 專案</h2>
+<div class="outline-text-2" id="text-org294fb31">
 <p>
 了解到了 4917 的運作模式以及指令集後，我們可以開始寫程式囉，首先使用 <code>lein</code> 建立我們的專案
 </p>
@@ -642,9 +642,9 @@ emulator_4917.core._main<span style="color: #aadddd;">(</span>process.argv<span 
 </div>
 </div>
 
-<div id="outline-container-org853be95" class="outline-2">
-<h2 id="org853be95">建立初始樣板</h2>
-<div class="outline-text-2" id="text-org853be95">
+<div id="outline-container-org197ab42" class="outline-2">
+<h2 id="org197ab42">建立初始樣板</h2>
+<div class="outline-text-2" id="text-org197ab42">
 <p>
 我們首先先建立我們程式的雛形，讓其根據不同條件選擇要載入的 library 或是預先執行的方法，我們修改 <code>src/emulator_4917/core.cljc</code> 成以下
 </p>
@@ -688,9 +688,9 @@ Clojure (JVM)上，則其會顯示 <code>Hi, Clojure</code> ，反之若是執�
 </div>
 </div>
 
-<div id="outline-container-org4fbcc61" class="outline-2">
-<h2 id="org4fbcc61">讀取二進制檔案並解析</h2>
-<div class="outline-text-2" id="text-org4fbcc61">
+<div id="outline-container-org124d673" class="outline-2">
+<h2 id="org124d673">讀取二進制檔案並解析</h2>
+<div class="outline-text-2" id="text-org124d673">
 <p>
 為了讓這個模擬器更像模擬器，我們讓他讀取二進制檔案到 memory 去來模擬 CPU 載入
 ROM 動作，讀取完成後則將資料變成 Clojure 的陣列，好方便之後的程式運作，也就是說，
@@ -809,9 +809,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-orgf9e6096" class="outline-2">
-<h2 id="orgf9e6096">建立 4917 這顆 CPU</h2>
-<div class="outline-text-2" id="text-orgf9e6096">
+<div id="outline-container-orgfd77838" class="outline-2">
+<h2 id="orgfd77838">建立 4917 這顆 CPU</h2>
+<div class="outline-text-2" id="text-orgfd77838">
 <p>
 在 Clojure 這種函數式的語言中我們要怎樣定義一個 CPU 呢？最簡單的方式就是透過
 <code>defrecord</code> 去創建這個 CPU 的狀態，以 4917 來說，他共有四個暫存器(R0, R1, PC, IS)
@@ -866,17 +866,17 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-org9469ed2" class="outline-2">
-<h2 id="org9469ed2">定義指令集</h2>
-<div class="outline-text-2" id="text-org9469ed2">
+<div id="outline-container-orgcdd4a95" class="outline-2">
+<h2 id="orgcdd4a95">定義指令集</h2>
+<div class="outline-text-2" id="text-orgcdd4a95">
 <p>
 前面說到了 4917 這顆 CPU 共有 16 種指令 (0 ~ 15)，因此我們來一個一個定義吧，
 </p>
 </div>
 
-<div id="outline-container-org5b9e3f6" class="outline-3">
-<h3 id="org5b9e3f6">指令 0 : 結束程式</h3>
-<div class="outline-text-3" id="text-org5b9e3f6">
+<div id="outline-container-org864d97c" class="outline-3">
+<h3 id="org864d97c">指令 0 : 結束程式</h3>
+<div class="outline-text-3" id="text-org864d97c">
 <p>
 首先定義指令 0，當 4917 接收到這個命令後，會結束程式。結束程式的方式，在 Clojure 中我們可以透過
 </p>
@@ -913,9 +913,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-org1a031e4" class="outline-3">
-<h3 id="org1a031e4">指令 1 : R0 = R0 + R1</h3>
-<div class="outline-text-3" id="text-org1a031e4">
+<div id="outline-container-org0c9ebfc" class="outline-3">
+<h3 id="org0c9ebfc">指令 1 : R0 = R0 + R1</h3>
+<div class="outline-text-3" id="text-org0c9ebfc">
 <p>
 指令 1 是我們第一個實作指令，首先我們將目前 CPU 的狀態傳送到指令 1 中，再根據需
 求透過 <code>make-cpu</code> 建立新的狀態並回傳，由於 PC (Program Counter) 在執行完此命令後
@@ -934,9 +934,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-orgc87326a" class="outline-3">
-<h3 id="orgc87326a">指令 2 : R0 = R0 - R1</h3>
-<div class="outline-text-3" id="text-orgc87326a">
+<div id="outline-container-orgd771be2" class="outline-3">
+<h3 id="orgd771be2">指令 2 : R0 = R0 - R1</h3>
+<div class="outline-text-3" id="text-orgd771be2">
 <p>
 指令 2 和指令 1 非常相似，唯一的差別在於 :r0 存放的內容是 r0 - r1 的結果。
 </p>
@@ -952,9 +952,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-org4ede4fc" class="outline-3">
-<h3 id="org4ede4fc">指令 3 : R0 = R0 + 1</h3>
-<div class="outline-text-3" id="text-org4ede4fc">
+<div id="outline-container-orgfbd43af" class="outline-3">
+<h3 id="orgfbd43af">指令 3 : R0 = R0 + 1</h3>
+<div class="outline-text-3" id="text-orgfbd43af">
 <p>
 指令 3 使用類似指令 1 的實作，我們使用 <code>(inc r0)</code> 來進行 r0 + 1 的動作，當然，你
 也可以使用 <code>(+ r0 1)</code> 。
@@ -971,9 +971,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-org9a8ffc2" class="outline-3">
-<h3 id="org9a8ffc2">指令 4 : R1 = R1 + 1</h3>
-<div class="outline-text-3" id="text-org9a8ffc2">
+<div id="outline-container-orgd2b9baf" class="outline-3">
+<h3 id="orgd2b9baf">指令 4 : R1 = R1 + 1</h3>
+<div class="outline-text-3" id="text-orgd2b9baf">
 <p>
 指令 4 和指令 3 非常相似，只是將目標暫存器從 r0 改成 r1 而已。
 </p>
@@ -989,9 +989,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-orgb5419d6" class="outline-3">
-<h3 id="orgb5419d6">指令 5 : R0 = R0 -1</h3>
-<div class="outline-text-3" id="text-orgb5419d6">
+<div id="outline-container-orgd880c55" class="outline-3">
+<h3 id="orgd880c55">指令 5 : R0 = R0 -1</h3>
+<div class="outline-text-3" id="text-orgd880c55">
 <p>
 使用類似指令 3 的實作模式，我們使用 <code>(dec r0)</code> 來進行 r0 - 1 的動作，當然，你
 也可以使用 <code>(- r0 1)</code> 。
@@ -1008,9 +1008,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-org5500153" class="outline-3">
-<h3 id="org5500153">指令 6 : R1 = R1 -1</h3>
-<div class="outline-text-3" id="text-org5500153">
+<div id="outline-container-org12d5f0f" class="outline-3">
+<h3 id="org12d5f0f">指令 6 : R1 = R1 -1</h3>
+<div class="outline-text-3" id="text-org12d5f0f">
 <p>
 指令 6 和指令 5 非常相似，只是將目標暫存器從 r0 改成 r1 而已。
 </p>
@@ -1026,9 +1026,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-org6ca6541" class="outline-3">
-<h3 id="org6ca6541">指令 7 : 響鈴</h3>
-<div class="outline-text-3" id="text-org6ca6541">
+<div id="outline-container-orge9ae823" class="outline-3">
+<h3 id="orge9ae823">指令 7 : 響鈴</h3>
+<div class="outline-text-3" id="text-orge9ae823">
 <p>
 若 4917 真的有實體的話，指令 7 的功用應該是響蜂鳴器才對，這邊使用 <code>println</code> 將訊息印
 出來作為替代，記得要增加 PC (Program Counter) 的數值。
@@ -1046,9 +1046,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-org09053e5" class="outline-3">
-<h3 id="org09053e5">指令 8 : 印出 &lt;﻿data﻿&gt;</h3>
-<div class="outline-text-3" id="text-org09053e5">
+<div id="outline-container-orgb04c330" class="outline-3">
+<h3 id="orgb04c330">指令 8 : 印出 &lt;﻿data﻿&gt;</h3>
+<div class="outline-text-3" id="text-orgb04c330">
 <p>
 指令 8 就好玩一點點了，我們可以透過 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="external">nth</a> 命令，取得記憶體陣列(memory)的某個位置的
 數值
@@ -1086,9 +1086,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-orgaac3e3a" class="outline-3">
-<h3 id="orgaac3e3a">指令 9 : 從位址 &lt;﻿data﻿&gt; 讀取資料存入 R0</h3>
-<div class="outline-text-3" id="text-orgaac3e3a">
+<div id="outline-container-org81d92fb" class="outline-3">
+<h3 id="org81d92fb">指令 9 : 從位址 &lt;﻿data﻿&gt; 讀取資料存入 R0</h3>
+<div class="outline-text-3" id="text-org81d92fb">
 <p>
 指令 9 中，我們必須知道 &lt;﻿data﻿&gt; 得內容後，再根據其數值去找尋記憶體位址的內容，並
 將其存入 R0 中，而取得 &lt;﻿data﻿&gt; 內容的方式在指令 8 時說過了，使用 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="external">nth</a> 可以達成
@@ -1124,9 +1124,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-orgfd559a8" class="outline-3">
-<h3 id="orgfd559a8">指令 10 : 從位址 &lt;﻿data﻿&gt; 讀取資料存入 R1</h3>
-<div class="outline-text-3" id="text-orgfd559a8">
+<div id="outline-container-org4506bbd" class="outline-3">
+<h3 id="org4506bbd">指令 10 : 從位址 &lt;﻿data﻿&gt; 讀取資料存入 R1</h3>
+<div class="outline-text-3" id="text-org4506bbd">
 <p>
 指令 10 和指令 9 很像，只是將目標轉換成 R1 而已，我們可以參考指令 9 進行實作。
 </p>
@@ -1143,9 +1143,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-orga0e24ba" class="outline-3">
-<h3 id="orga0e24ba">指令 11 : 將 R0 內容存入 位址 &lt;﻿data﻿&gt; 內</h3>
-<div class="outline-text-3" id="text-orga0e24ba">
+<div id="outline-container-org6d45c28" class="outline-3">
+<h3 id="org6d45c28">指令 11 : 將 R0 內容存入 位址 &lt;﻿data﻿&gt; 內</h3>
+<div class="outline-text-3" id="text-org6d45c28">
 <p>
 現在我們知道了 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="external">nth</a> 可以用來取得陣列中某一位置的內容，那我們要怎樣更新陣列的內容
 呢?這時候就是 <a href="https://clojuredocs.org/clojure.core/assoc" target="_blank" rel="external">assoc</a> 出場的時候啦! <a href="https://clojuredocs.org/clojure.core/assoc" target="_blank" rel="external">assoc</a> 用在陣列的時候，可以根據你提供的位置以及
@@ -1183,9 +1183,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-org60df5e1" class="outline-3">
-<h3 id="org60df5e1">指令 12 : 將 R1 內容存入 位址 &lt;﻿data﻿&gt; 內</h3>
-<div class="outline-text-3" id="text-org60df5e1">
+<div id="outline-container-org0003bd7" class="outline-3">
+<h3 id="org0003bd7">指令 12 : 將 R1 內容存入 位址 &lt;﻿data﻿&gt; 內</h3>
+<div class="outline-text-3" id="text-org0003bd7">
 <p>
 指令 12 和指令 11 非常相似，只是將來源暫存器從 r0 改成 r1 而已。
 </p>
@@ -1202,9 +1202,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-orgb81014c" class="outline-3">
-<h3 id="orgb81014c">指令 13 : 將 PC 指向 位址 &lt;﻿data﻿&gt; (即 JUMP 命令)</h3>
-<div class="outline-text-3" id="text-orgb81014c">
+<div id="outline-container-org9f7f904" class="outline-3">
+<h3 id="org9f7f904">指令 13 : 將 PC 指向 位址 &lt;﻿data﻿&gt; (即 JUMP 命令)</h3>
+<div class="outline-text-3" id="text-org9f7f904">
 <p>
 指令 13 其實就是一般 CPU 都會有的 <code>JUMP</code> 命令，透過更改 PC (Program Counter) 的
 位址，來讓 CPU 去讀取不同記憶體位址。
@@ -1221,9 +1221,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-orgd755f88" class="outline-3">
-<h3 id="orgd755f88">指令 14 : 如果 R0 為 0，將 PC 指向 位址 &lt;﻿data﻿&gt;</h3>
-<div class="outline-text-3" id="text-orgd755f88">
+<div id="outline-container-org0cd2ddd" class="outline-3">
+<h3 id="org0cd2ddd">指令 14 : 如果 R0 為 0，將 PC 指向 位址 &lt;﻿data﻿&gt;</h3>
+<div class="outline-text-3" id="text-org0cd2ddd">
 <p>
 指令 14 很單純，我們比對傳入的 r0 數值，若是 0 的話則將 PC (Program Counter) 調
 整為 &lt;﻿data﻿&gt;，反之則進行 <code>pc + 2</code> 的動作，而判斷數值是否為 0，在 clojure 可以使用
@@ -1255,9 +1255,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-org578cc4c" class="outline-3">
-<h3 id="org578cc4c">指令 15 : 如果 R0 不為 0, 將 PC 指向 位址 &lt;﻿data﻿&gt;</h3>
-<div class="outline-text-3" id="text-org578cc4c">
+<div id="outline-container-org3e9f8c5" class="outline-3">
+<h3 id="org3e9f8c5">指令 15 : 如果 R0 不為 0, 將 PC 指向 位址 &lt;﻿data﻿&gt;</h3>
+<div class="outline-text-3" id="text-org3e9f8c5">
 <p>
 指令 15 其實和指令 14 一樣，我們只要調整 <code>if</code> 判斷式參數的順序就夠了，如果 R0 為
 0，則進行 <code>pc + 2</code> ，反之則將 PC (Program Counter) 內容改為 &lt;﻿data﻿&gt; 數值。
@@ -1279,9 +1279,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-orga2fc48f" class="outline-2">
-<h2 id="orga2fc48f">建立執行指令的迴圈</h2>
-<div class="outline-text-2" id="text-orga2fc48f">
+<div id="outline-container-org201087e" class="outline-2">
+<h2 id="org201087e">建立執行指令的迴圈</h2>
+<div class="outline-text-2" id="text-org201087e">
 <p>
 當指令集完成後，是時候執行一個迴圈，不斷的執行記憶體內的命令直到結束，在這邊我們
 的迴圈直接使用 <a href="https://clojuredocs.org/clojure.core/recur" target="_blank" rel="external">recur</a> 來完成，<a href="https://clojuredocs.org/clojure.core/recur" target="_blank" rel="external">recur</a> 是 Clojure 迴圈的一個方式，基本上就是讓函數自己
@@ -1360,9 +1360,9 @@ Node.js 在 <code>Exception</code> 的地方和 Clojure 不同，要使用 <code
 </div>
 </div>
 
-<div id="outline-container-org780842e" class="outline-2">
-<h2 id="org780842e">進行最後的修改</h2>
-<div class="outline-text-2" id="text-org780842e">
+<div id="outline-container-org06b8a46" class="outline-2">
+<h2 id="org06b8a46">進行最後的修改</h2>
+<div class="outline-text-2" id="text-org06b8a46">
 <p>
 我們可以丟幾道簡單的程式讓 4917 模擬器執行看看
 </p>
@@ -1398,9 +1398,9 @@ Node.js 在 <code>Exception</code> 的地方和 Clojure 不同，要使用 <code
 </div>
 </div>
 
-<div id="outline-container-org710db2f" class="outline-2">
-<h2 id="org710db2f">取得完整程式碼與執行程式</h2>
-<div class="outline-text-2" id="text-org710db2f">
+<div id="outline-container-orgb4d069b" class="outline-2">
+<h2 id="orgb4d069b">取得完整程式碼與執行程式</h2>
+<div class="outline-text-2" id="text-orgb4d069b">
 <p>
 本篇文章的完整程式碼已經放置於 <a href="https://github.com/coldnew/emulator-4917" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -1451,9 +1451,9 @@ git clone https://github.com/coldnew/emulator-4917.git
 </table>
 </div>
 
-<div id="outline-container-orga8c792a" class="outline-3">
-<h3 id="orga8c792a">執行程式 (JVM)</h3>
-<div class="outline-text-3" id="text-orga8c792a">
+<div id="outline-container-orge947bc3" class="outline-3">
+<h3 id="orge947bc3">執行程式 (JVM)</h3>
+<div class="outline-text-3" id="text-orge947bc3">
 <p>
 若要使用 JVM 來執行本篇文章的程式，則可以直接使用 <code>lein run</code> 進行
 </p>
@@ -1475,9 +1475,9 @@ java -jar target/emulator-4917-0.1.0-SNAPSHOT-standalone.jar examples/countdown.
 </div>
 </div>
 
-<div id="outline-container-org7295944" class="outline-3">
-<h3 id="org7295944">執行程式 (Node.js)</h3>
-<div class="outline-text-3" id="text-org7295944">
+<div id="outline-container-org29d13b2" class="outline-3">
+<h3 id="org29d13b2">執行程式 (Node.js)</h3>
+<div class="outline-text-3" id="text-org29d13b2">
 <p>
 本篇文章預設是使用 <code>none</code> 最佳化編譯, 因此需透過 <code>run.js</code> 來協助執行程式
 </p>
@@ -1510,9 +1510,9 @@ node target/emulator-4917.js examples/countdown.bin
 </div>
 </div>
 
-<div id="outline-container-orgc33ad42" class="outline-2">
-<h2 id="orgc33ad42">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgc33ad42">
+<div id="outline-container-orgfabdbad" class="outline-2">
+<h2 id="orgfabdbad">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgfabdbad">
 <p>
 <code>[1]</code> <a href="https://www.youtube.com/watch?v=gTeDX4yAdyU&amp;index=3&amp;list=PL6B940F08B9773B9F&amp;hd=1" target="_blank" rel="external">Youtube - Lecture 3: Machine Code - Richard Buckland UNSW</a>
 </p>
@@ -1628,21 +1628,21 @@ node target/emulator-4917.js examples/countdown.bin
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">94</span>
+              <span class="site-state-item-count">95</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">74</span>
+              <span class="site-state-item-count">80</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -1693,7 +1693,7 @@ node target/emulator-4917.js examples/countdown.bin
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orga09524e"><span class="nav-text">4917 的暫存器 (Register)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf2107ae"><span class="nav-text">從指令集認識 4917</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org83d77e9"><span class="nav-text">1-byte 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge4eea00"><span class="nav-text">2-byte 指令，指令後面的 byte 的內容以 <﻿data﻿> 表示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org15514e2"><span class="nav-text">從範例來看 4917 的指令運作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgda7471e"><span class="nav-text">建立我們的 Clojure/Clojurescript 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org853be95"><span class="nav-text">建立初始樣板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4fbcc61"><span class="nav-text">讀取二進制檔案並解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf9e6096"><span class="nav-text">建立 4917 這顆 CPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9469ed2"><span class="nav-text">定義指令集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org5b9e3f6"><span class="nav-text">指令 0 : 結束程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1a031e4"><span class="nav-text">指令 1 : R0 = R0 + R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc87326a"><span class="nav-text">指令 2 : R0 = R0 - R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4ede4fc"><span class="nav-text">指令 3 : R0 = R0 + 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9a8ffc2"><span class="nav-text">指令 4 : R1 = R1 + 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb5419d6"><span class="nav-text">指令 5 : R0 = R0 -1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5500153"><span class="nav-text">指令 6 : R1 = R1 -1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6ca6541"><span class="nav-text">指令 7 : 響鈴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org09053e5"><span class="nav-text">指令 8 : 印出 <﻿data﻿></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgaac3e3a"><span class="nav-text">指令 9 : 從位址 <﻿data﻿> 讀取資料存入 R0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgfd559a8"><span class="nav-text">指令 10 : 從位址 <﻿data﻿> 讀取資料存入 R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga0e24ba"><span class="nav-text">指令 11 : 將 R0 內容存入 位址 <﻿data﻿> 內</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org60df5e1"><span class="nav-text">指令 12 : 將 R1 內容存入 位址 <﻿data﻿> 內</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb81014c"><span class="nav-text">指令 13 : 將 PC 指向 位址 <﻿data﻿> (即 JUMP 命令)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd755f88"><span class="nav-text">指令 14 : 如果 R0 為 0，將 PC 指向 位址 <﻿data﻿></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org578cc4c"><span class="nav-text">指令 15 : 如果 R0 不為 0, 將 PC 指向 位址 <﻿data﻿></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga2fc48f"><span class="nav-text">建立執行指令的迴圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org780842e"><span class="nav-text">進行最後的修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org710db2f"><span class="nav-text">取得完整程式碼與執行程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orga8c792a"><span class="nav-text">執行程式 (JVM)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7295944"><span class="nav-text">執行程式 (Node.js)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc33ad42"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org5e7928c"><span class="nav-text">4917 的暫存器 (Register)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org589bb43"><span class="nav-text">從指令集認識 4917</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org4b0cbfe"><span class="nav-text">1-byte 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgfe408e8"><span class="nav-text">2-byte 指令，指令後面的 byte 的內容以 <﻿data﻿> 表示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org46cff69"><span class="nav-text">從範例來看 4917 的指令運作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org294fb31"><span class="nav-text">建立我們的 Clojure/Clojurescript 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org197ab42"><span class="nav-text">建立初始樣板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org124d673"><span class="nav-text">讀取二進制檔案並解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfd77838"><span class="nav-text">建立 4917 這顆 CPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcdd4a95"><span class="nav-text">定義指令集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org864d97c"><span class="nav-text">指令 0 : 結束程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0c9ebfc"><span class="nav-text">指令 1 : R0 = R0 + R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd771be2"><span class="nav-text">指令 2 : R0 = R0 - R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgfbd43af"><span class="nav-text">指令 3 : R0 = R0 + 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd2b9baf"><span class="nav-text">指令 4 : R1 = R1 + 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd880c55"><span class="nav-text">指令 5 : R0 = R0 -1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org12d5f0f"><span class="nav-text">指令 6 : R1 = R1 -1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge9ae823"><span class="nav-text">指令 7 : 響鈴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb04c330"><span class="nav-text">指令 8 : 印出 <﻿data﻿></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org81d92fb"><span class="nav-text">指令 9 : 從位址 <﻿data﻿> 讀取資料存入 R0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4506bbd"><span class="nav-text">指令 10 : 從位址 <﻿data﻿> 讀取資料存入 R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6d45c28"><span class="nav-text">指令 11 : 將 R0 內容存入 位址 <﻿data﻿> 內</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0003bd7"><span class="nav-text">指令 12 : 將 R1 內容存入 位址 <﻿data﻿> 內</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9f7f904"><span class="nav-text">指令 13 : 將 PC 指向 位址 <﻿data﻿> (即 JUMP 命令)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0cd2ddd"><span class="nav-text">指令 14 : 如果 R0 為 0，將 PC 指向 位址 <﻿data﻿></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org3e9f8c5"><span class="nav-text">指令 15 : 如果 R0 不為 0, 將 PC 指向 位址 <﻿data﻿></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org201087e"><span class="nav-text">建立執行指令的迴圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org06b8a46"><span class="nav-text">進行最後的修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb4d069b"><span class="nav-text">取得完整程式碼與執行程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orge947bc3"><span class="nav-text">執行程式 (JVM)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org29d13b2"><span class="nav-text">執行程式 (Node.js)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfabdbad"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
