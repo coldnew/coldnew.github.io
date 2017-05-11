@@ -8,8 +8,888 @@
     <atom:link href="/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Wed, 10 May 2017 03:51:34 GMT</pubDate>
+    <pubDate>Thu, 11 May 2017 16:00:53 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Android Things 學習筆記: GPIO 的輸出控制</title>
+      <link>https://coldnew.github.io/468144f4/</link>
+      <guid>https://coldnew.github.io/468144f4/</guid>
+      <pubDate>Thu, 11 May 2017 15:43:00 GMT</pubDate>
+      <description>
+         &lt;div id=&quot;content&quot;&gt;
+&lt;p&gt;
+在 &lt;a href=&quot;http://coldnew.github.io/8e801cc4/&quot;&gt;Android Things 學習筆記: Raspberry Pi 3 安裝 OS&lt;/a&gt; 一文中我們搞定了 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 在 Raspberry Pi 3 上的安裝，終於可以開始來寫我們的程式了。
+&lt;/p&gt;
+
+&lt;p&gt;
+這邊文章讓我們來小試身手，透過 GPIO 的輸出來控制外接於 Raspberry Pi 3 上的 LED 燈。
+&lt;/p&gt;
+
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;div id=&quot;outline-container-org7906f32&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org7906f32&quot;&gt;使用設備&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org7906f32&quot;&gt;
+&lt;p&gt;
+要完成本篇文章所描述的部份，你需要以下幾種器材
+&lt;/p&gt;
+
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;Raspberry Pi 3&lt;/li&gt;
+
+&lt;li&gt;LED (紅)&lt;/li&gt;
+
+&lt;li&gt;電阻 (150 Ω, 1/4W)&lt;/li&gt;
+
+&lt;li&gt;麵包板&lt;/li&gt;
+
+&lt;li&gt;單蕊線或跳線&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orge0d9908&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orge0d9908&quot;&gt;硬體線路&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orge0d9908&quot;&gt;
+&lt;p&gt;
+下面的硬體線路使用 &lt;a href=&quot;http://fritzing.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Fritzing&lt;/a&gt; 軟體來繪製，我選用 &lt;code&gt;GPIO21&lt;/code&gt; 來當作提供給 LED 的電源端，由於 Raspberry Pi 3 的 GPIO 輸出為 &lt;code&gt;5V DC&lt;/code&gt; 的電壓，稍微再加個 &lt;code&gt;150 Ω&lt;/code&gt; 的電阻來保護我們的 LED 以及 Raspberry Pi 3。
+(&lt;a href=&quot;rpi3_schematics.fzz&quot;&gt;下載設計檔案&lt;/a&gt;)
+&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;
+&lt;b&gt;注意到電阻值可能會依據你的 LED 不同而改變&lt;/b&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+
+&lt;div class=&quot;row &quot;&gt;&lt;div class=&quot;col-md-6 &quot;&gt;
+
+&lt;p&gt;
+&lt;b&gt;麵包板連線&lt;/b&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/rpi3_schematics_bb.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;/div&gt;&lt;div class=&quot;col-md-5&quot;&gt;
+
+&lt;p&gt;
+&lt;b&gt;電路連接&lt;/b&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/rpi3_schematics.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;/div&gt; &lt;/div&gt;
+
+&lt;p&gt;
+Raspberry Pi 3 與 GPIO 編號的對應關係，可以參考 &lt;a href=&quot;https://www.element14.com/community/docs/DOC-73950/l/raspberry-pi-3-model-b-gpio-40-pin-block-pinout&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Element14&lt;/a&gt; 所提供的圖表，這邊我將我用到的用紅線框出
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/pi3_gpio.png&quot; width=&quot;40%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org1d63bde&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org1d63bde&quot;&gt;建立專案&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org1d63bde&quot;&gt;
+&lt;p&gt;
+由於這是我們的第一個專案，就不透過 &lt;a href=&quot;https://github.com/androidthings/new-project-template&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;androidthings/new-project-template&lt;/a&gt; 這個範例樣板來建立我們的專案，讓我們透過 &lt;a href=&quot;https://developer.android.com/studio/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Studio&lt;/a&gt; 來一步一步開始吧。
+&lt;/p&gt;
+
+&lt;p&gt;
+不過建立新專案之前，記得先透過 &lt;a href=&quot;https://developer.android.com/tools/help/adb.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;adb&lt;/a&gt; 連上你的 Raspberry Pi 3
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@osx ~ $ adb connect Android.local
+&lt;/pre&gt;
+
+&lt;p&gt;
+首先先打開 &lt;a href=&quot;https://developer.android.com/studio/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Studio&lt;/a&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/a1.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+接下來命名我們的專案叫做 &lt;code&gt;Hello Things&lt;/code&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/a2.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+在選擇 &lt;code&gt;Minimum SDK&lt;/code&gt; 的時候，記得要選擇 &lt;code&gt;API 24&lt;/code&gt; 或是以上的版本
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/a3.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+選擇 &lt;code&gt;Empty Activity&lt;/code&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/a4.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+好了後，按下 &lt;code&gt;Finish&lt;/code&gt; 即可
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/a5.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgdec6f70&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgdec6f70&quot;&gt;修改專案&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdec6f70&quot;&gt;
+&lt;/div&gt;&lt;div id=&quot;outline-container-orgd2c3441&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;orgd2c3441&quot;&gt;build.gradle&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgd2c3441&quot;&gt;
+&lt;p&gt;
+建立好專案後，我們首先要修改 &lt;code&gt;build.gradle&lt;/code&gt; 並加入 Android Things 的依賴
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;dependencies &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+    &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;//  &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;...&lt;/span&gt;
+    provided &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;com.google.android.things:androidthings:0.3-devpreview&#39;&lt;/span&gt;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+如果你不知道要放在哪裡，請參考下圖
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/b1.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org5764995&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org5764995&quot;&gt;AndroidManifest.xml&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org5764995&quot;&gt;
+&lt;p&gt;
+接下來在你的 &lt;code&gt;AndroidManifest.xml&lt;/code&gt; 加入以下東西，我們要讓這個程式可以一開機就啟動
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-diff&quot;&gt;&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;--- &lt;/span&gt;&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;a/AndroidManifest.xml  2017-05-11 22:13:00.000000000 +0800&lt;/span&gt;
+&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;+++ &lt;/span&gt;&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;b/AndroidManifest.xml  2017-05-11 22:13:34.000000000 +0800&lt;/span&gt;
+&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;@@ -5,6 +5,9 @@&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;     &amp;lt;application android:allowBackup=&quot;true&quot; android:icon=&quot;@mipmap/ic_launcher&quot;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;         android:label=&quot;@string/app_name&quot; android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;         android:supportsRtl=&quot;true&quot; android:theme=&quot;@style/AppTheme&quot;&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;      &amp;lt;uses-library android:name=&quot;com.google.android.things&quot;/&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;         &amp;lt;activity android:name=&quot;.MainActivity&quot;&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;             &amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;                 &amp;lt;action android:name=&quot;android.intent.action.MAIN&quot; /&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;@@ -12,6 +15,14 @@&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;                 &amp;lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;             &amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;         &amp;lt;/activity&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;        &amp;lt;!-- Launch activity automatically on boot --&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;        &amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;            &amp;lt;action android:name=&quot;android.intent.action.MAIN&quot;/&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;            &amp;lt;category android:name=&quot;android.intent.category.IOT_LAUNCHER&quot;/&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;            &amp;lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;        &amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;     &amp;lt;/application&amp;gt;&lt;/span&gt;
+
+&lt;span style=&quot;color: #dddddd;&quot;&gt; &amp;lt;/manifest&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+如果你不知道要放在哪裡，請參考下圖
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/b2.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org48ebc2c&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org48ebc2c&quot;&gt;點亮 LED 燈&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org48ebc2c&quot;&gt;
+&lt;p&gt;
+是時候來撰寫我們的程式了，讓我們來打開 &lt;code&gt;hellothings/MainActivity.java&lt;/code&gt; 檔案吧!!
+&lt;/p&gt;
+
+&lt;p&gt;
+首先回顧前面的定義，我們希望可以控制 &lt;code&gt;GPIO21&lt;/code&gt; 來點亮 LED 燈，因此首先在 &lt;code&gt;MainActivity&lt;/code&gt; 這個 class 加入我們的一些設定
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;final&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;String&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;TAG&lt;/span&gt; = &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;HelloThings&quot;&lt;/span&gt;;
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;final&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;String&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;LED&lt;/span&gt; = &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;BCM21&quot;&lt;/span&gt;;
+
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;Gpio&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;mLedGpio&lt;/span&gt;;          &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;com.google.android.things.pio.Gpio;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+接下來將 &lt;code&gt;onCreate&lt;/code&gt; 修改成以下，我們讓他打開 &lt;code&gt;GPIO21&lt;/code&gt; 並將其設定成 &lt;code&gt;輸出為 1&lt;/code&gt; 的接腳
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;@Override&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;protected&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;onCreate&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;Bundle&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;super&lt;/span&gt;.onCreate&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;savedInstanceState&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+    setContentView&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;R.layout.activity_main&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+
+    &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;com.google.android.things.pio.PeripheralManagerService;&lt;/span&gt;
+    &lt;span style=&quot;color: #fff59d;&quot;&gt;PeripheralManagerService&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;service&lt;/span&gt; = &lt;span style=&quot;color: #aaffaa;&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;PeripheralManagerService&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;()&lt;/span&gt;;
+    Log.d&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Available GPIOs: &quot;&lt;/span&gt; + service.getGpioList&lt;span style=&quot;color: #aaccff;&quot;&gt;()&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;; &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;android.util.Log;&lt;/span&gt;
+
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;try&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        mLedGpio = service.openGpio&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;LED&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+        mLedGpio.setDirection&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;Gpio&lt;/span&gt;.DIRECTION_OUT_INITIALLY_LOW&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+        mLedGpio.setValue&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;true&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+        Log.i&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Start blinking LED by GPIO21&quot;&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;catch&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;IOException&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        Log.e&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Error on PeripheralIO API&quot;&lt;/span&gt;, e&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+由於我們在 &lt;code&gt;onCreate&lt;/code&gt; 時打開了 &lt;code&gt;GPIO21&lt;/code&gt; ，因此要記得在 &lt;code&gt;onDestroy&lt;/code&gt; 將他關閉
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;@Override&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;protected&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;onDestroy&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;()&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;super&lt;/span&gt;.onDestroy&lt;span style=&quot;color: #81d4fa;&quot;&gt;()&lt;/span&gt;;
+    Log.i&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Closing LED GPIO21 pin&quot;&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;try&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        mLedGpio.close&lt;span style=&quot;color: #aaccff;&quot;&gt;()&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;catch&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;IOException&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        Log.e&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Error on PeripheralIO API&quot;&lt;/span&gt;, e&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;finally&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        mLedGpio = &lt;span style=&quot;color: #ccaaff;&quot;&gt;null&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+嘗試執行當前的程式看看，你應該會看到你接在麵包板的 LED 亮了起來，接下來讓我們修改一下程式，讓他變成閃爍燈吧~
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/c1.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org037a001&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org037a001&quot;&gt;閃爍吧 LED&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org037a001&quot;&gt;
+&lt;p&gt;
+成功點亮 LED 後，我們接下來要讓他進行閃爍囉。
+&lt;/p&gt;
+
+&lt;p&gt;
+延續上面的專案，首先在  &lt;code&gt;MainActivity&lt;/code&gt; 這個 class 加入我們要閃爍多久，以及 Handler 的宣告
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;final&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;int&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;INTERVAL_BETWEEN_BLINKS_MS&lt;/span&gt; = 1000;
+
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;Handler&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;mHandler&lt;/span&gt; = &lt;span style=&quot;color: #aaffaa;&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;Handler&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;()&lt;/span&gt;; &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;android.os.Handler&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+接著在剛剛設定 GPIO 輸出值的後面，設定我們的 Handler 函式
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #aaffaa;&quot;&gt;try&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+     mLedGpio = service.openGpio&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;LED&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+     mLedGpio.setDirection&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;Gpio&lt;/span&gt;.DIRECTION_OUT_INITIALLY_LOW&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+     mLedGpio.setValue&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;true&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+     Log.i&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Start blinking LED by GPIO21&quot;&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+     mHandler.post&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;mBlinkRunnable&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;; &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;&amp;lt;------  Add this&lt;/span&gt;
+     &lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;catch&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;IOException&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+         Log.e&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Error on PeripheralIO API&quot;&lt;/span&gt;, e&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+並在後面完成我們的 &lt;code&gt;mBlinkRunnable&lt;/code&gt; 實作
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;Runnable&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;mBlinkRunnable&lt;/span&gt; = &lt;span style=&quot;color: #aaffaa;&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;Runnable&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;()&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+    &lt;span style=&quot;color: #ccaaff;&quot;&gt;@Override&lt;/span&gt;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;void&lt;/span&gt; run&lt;span style=&quot;color: #81d4fa;&quot;&gt;()&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        &lt;span style=&quot;color: #aaffaa;&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;mLedGpio == &lt;span style=&quot;color: #ccaaff;&quot;&gt;null&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;{&lt;/span&gt;
+            &lt;span style=&quot;color: #aaffaa;&quot;&gt;return&lt;/span&gt;;
+        &lt;span style=&quot;color: #aaccff;&quot;&gt;}&lt;/span&gt;
+        &lt;span style=&quot;color: #aaffaa;&quot;&gt;try&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;{&lt;/span&gt;
+            mLedGpio.setValue&lt;span style=&quot;color: #aaeecc;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ff3333;&quot;&gt;!&lt;/span&gt;mLedGpio.getValue&lt;span style=&quot;color: #ccaaff;&quot;&gt;()&lt;/span&gt;&lt;span style=&quot;color: #aaeecc;&quot;&gt;)&lt;/span&gt;;  &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;Toggle the GPIO state&lt;/span&gt;
+            Log.d&lt;span style=&quot;color: #aaeecc;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;GPIO21 set to &quot;&lt;/span&gt; + mLedGpio.getValue&lt;span style=&quot;color: #ccaaff;&quot;&gt;()&lt;/span&gt;&lt;span style=&quot;color: #aaeecc;&quot;&gt;)&lt;/span&gt;;
+            mHandler.postDelayed&lt;span style=&quot;color: #aaeecc;&quot;&gt;(&lt;/span&gt;mBlinkRunnable, INTERVAL_BETWEEN_BLINKS_MS&lt;span style=&quot;color: #aaeecc;&quot;&gt;)&lt;/span&gt;;
+        &lt;span style=&quot;color: #aaccff;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;catch&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;IOException&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;{&lt;/span&gt;
+            Log.e&lt;span style=&quot;color: #aaeecc;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Error on PeripheralIO API&quot;&lt;/span&gt;, e&lt;span style=&quot;color: #aaeecc;&quot;&gt;)&lt;/span&gt;;
+        &lt;span style=&quot;color: #aaccff;&quot;&gt;}&lt;/span&gt;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+在這邊，我們透過了 &lt;a href=&quot;https://developer.android.com/reference/java/lang/Runnable.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;java.lang.Runnable&lt;/a&gt; 去建立我們的執行緒，而在裡面則透過取得當前的 GPIO 數值將其反向，從而另 LED 閃爍。如果你想要閃爍快一點，可以修改前面宣告的 &lt;code&gt;INTERVAL_BETWEEN_BLINKS_MS&lt;/code&gt; 變數。
+&lt;/p&gt;
+
+&lt;p&gt;
+由於我們使用了 &lt;a href=&quot;https://developer.android.com/reference/android/os/Handler.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;android.os.Handler&lt;/a&gt; ，記得要在 &lt;code&gt;onDestroy&lt;/code&gt; 時候幹掉他
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;@Override&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;protected&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;onDestroy&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;()&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;super&lt;/span&gt;.onDestroy&lt;span style=&quot;color: #81d4fa;&quot;&gt;()&lt;/span&gt;;
+    mHandler.removeCallbacks&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;mBlinkRunnable&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;; &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;&amp;lt;---- Add this&lt;/span&gt;
+    Log.i&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Closing LED GPIO21 pin&quot;&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;try&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        mLedGpio.close&lt;span style=&quot;color: #aaccff;&quot;&gt;()&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;catch&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;IOException&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        Log.e&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Error on PeripheralIO API&quot;&lt;/span&gt;, e&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;finally&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        mLedGpio = &lt;span style=&quot;color: #ccaaff;&quot;&gt;null&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org3436a15&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org3436a15&quot;&gt;結果&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org3436a15&quot;&gt;
+&lt;p&gt;
+如果你有照著本文接線並執行程式的話，你應該會得到以下這樣的結果 ~
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/blink.gif&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org38a23c0&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org38a23c0&quot;&gt;取得程式碼&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org38a23c0&quot;&gt;
+&lt;p&gt;
+本文的範例已經放置於 &lt;a href=&quot;https://github.com/coldnew/HelloThings&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub&lt;/a&gt; 上，你可以直接透過 git 去取得完整專案原始碼
+&lt;/p&gt;
+
+&lt;div class=&quot;github-card&quot; data-github=&quot;cold&quot; data-width=&quot;400&quot; data-height=&quot;&quot; data-theme=&quot;default&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;//cdn.jsdelivr.net/github-cards/latest/widget.js&quot;&gt;&lt;/script&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org24d52eb&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org24d52eb&quot;&gt;參考資料&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org24d52eb&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.survivingwithandroid.com/2016/03/arduino-led-control-android-app.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Arduino Led: Control RGB Led remotely using Arduino and Android app&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;https://androidthings.rocks/2017/01/08/your-first-blinking-led/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Your first blinking LED with Android Things&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+      </description>
+      <content:encoded><![CDATA[&lt;div id=&quot;content&quot;&gt;
+&lt;p&gt;
+在 &lt;a href=&quot;http://coldnew.github.io/8e801cc4/&quot;&gt;Android Things 學習筆記: Raspberry Pi 3 安裝 OS&lt;/a&gt; 一文中我們搞定了 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 在 Raspberry Pi 3 上的安裝，終於可以開始來寫我們的程式了。
+&lt;/p&gt;
+
+&lt;p&gt;
+這邊文章讓我們來小試身手，透過 GPIO 的輸出來控制外接於 Raspberry Pi 3 上的 LED 燈。
+&lt;/p&gt;
+
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;div id=&quot;outline-container-org7906f32&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org7906f32&quot;&gt;使用設備&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org7906f32&quot;&gt;
+&lt;p&gt;
+要完成本篇文章所描述的部份，你需要以下幾種器材
+&lt;/p&gt;
+
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;Raspberry Pi 3&lt;/li&gt;
+
+&lt;li&gt;LED (紅)&lt;/li&gt;
+
+&lt;li&gt;電阻 (150 Ω, 1/4W)&lt;/li&gt;
+
+&lt;li&gt;麵包板&lt;/li&gt;
+
+&lt;li&gt;單蕊線或跳線&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orge0d9908&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orge0d9908&quot;&gt;硬體線路&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orge0d9908&quot;&gt;
+&lt;p&gt;
+下面的硬體線路使用 &lt;a href=&quot;http://fritzing.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Fritzing&lt;/a&gt; 軟體來繪製，我選用 &lt;code&gt;GPIO21&lt;/code&gt; 來當作提供給 LED 的電源端，由於 Raspberry Pi 3 的 GPIO 輸出為 &lt;code&gt;5V DC&lt;/code&gt; 的電壓，稍微再加個 &lt;code&gt;150 Ω&lt;/code&gt; 的電阻來保護我們的 LED 以及 Raspberry Pi 3。
+(&lt;a href=&quot;rpi3_schematics.fzz&quot;&gt;下載設計檔案&lt;/a&gt;)
+&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;
+&lt;b&gt;注意到電阻值可能會依據你的 LED 不同而改變&lt;/b&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+
+&lt;div class=&quot;row &quot;&gt;&lt;div class=&quot;col-md-6 &quot;&gt;
+
+&lt;p&gt;
+&lt;b&gt;麵包板連線&lt;/b&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/rpi3_schematics_bb.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;/div&gt;&lt;div class=&quot;col-md-5&quot;&gt;
+
+&lt;p&gt;
+&lt;b&gt;電路連接&lt;/b&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/rpi3_schematics.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;/div&gt; &lt;/div&gt;
+
+&lt;p&gt;
+Raspberry Pi 3 與 GPIO 編號的對應關係，可以參考 &lt;a href=&quot;https://www.element14.com/community/docs/DOC-73950/l/raspberry-pi-3-model-b-gpio-40-pin-block-pinout&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Element14&lt;/a&gt; 所提供的圖表，這邊我將我用到的用紅線框出
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/pi3_gpio.png&quot; width=&quot;40%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org1d63bde&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org1d63bde&quot;&gt;建立專案&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org1d63bde&quot;&gt;
+&lt;p&gt;
+由於這是我們的第一個專案，就不透過 &lt;a href=&quot;https://github.com/androidthings/new-project-template&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;androidthings/new-project-template&lt;/a&gt; 這個範例樣板來建立我們的專案，讓我們透過 &lt;a href=&quot;https://developer.android.com/studio/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Studio&lt;/a&gt; 來一步一步開始吧。
+&lt;/p&gt;
+
+&lt;p&gt;
+不過建立新專案之前，記得先透過 &lt;a href=&quot;https://developer.android.com/tools/help/adb.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;adb&lt;/a&gt; 連上你的 Raspberry Pi 3
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@osx ~ $ adb connect Android.local
+&lt;/pre&gt;
+
+&lt;p&gt;
+首先先打開 &lt;a href=&quot;https://developer.android.com/studio/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Studio&lt;/a&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/a1.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+接下來命名我們的專案叫做 &lt;code&gt;Hello Things&lt;/code&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/a2.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+在選擇 &lt;code&gt;Minimum SDK&lt;/code&gt; 的時候，記得要選擇 &lt;code&gt;API 24&lt;/code&gt; 或是以上的版本
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/a3.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+選擇 &lt;code&gt;Empty Activity&lt;/code&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/a4.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+好了後，按下 &lt;code&gt;Finish&lt;/code&gt; 即可
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/a5.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgdec6f70&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgdec6f70&quot;&gt;修改專案&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdec6f70&quot;&gt;
+&lt;/div&gt;&lt;div id=&quot;outline-container-orgd2c3441&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;orgd2c3441&quot;&gt;build.gradle&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgd2c3441&quot;&gt;
+&lt;p&gt;
+建立好專案後，我們首先要修改 &lt;code&gt;build.gradle&lt;/code&gt; 並加入 Android Things 的依賴
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;dependencies &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+    &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;//  &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;...&lt;/span&gt;
+    provided &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;com.google.android.things:androidthings:0.3-devpreview&#39;&lt;/span&gt;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+如果你不知道要放在哪裡，請參考下圖
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/b1.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org5764995&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org5764995&quot;&gt;AndroidManifest.xml&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org5764995&quot;&gt;
+&lt;p&gt;
+接下來在你的 &lt;code&gt;AndroidManifest.xml&lt;/code&gt; 加入以下東西，我們要讓這個程式可以一開機就啟動
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-diff&quot;&gt;&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;--- &lt;/span&gt;&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;a/AndroidManifest.xml  2017-05-11 22:13:00.000000000 +0800&lt;/span&gt;
+&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;+++ &lt;/span&gt;&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;b/AndroidManifest.xml  2017-05-11 22:13:34.000000000 +0800&lt;/span&gt;
+&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;@@ -5,6 +5,9 @@&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;     &amp;lt;application android:allowBackup=&quot;true&quot; android:icon=&quot;@mipmap/ic_launcher&quot;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;         android:label=&quot;@string/app_name&quot; android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;         android:supportsRtl=&quot;true&quot; android:theme=&quot;@style/AppTheme&quot;&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;      &amp;lt;uses-library android:name=&quot;com.google.android.things&quot;/&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;         &amp;lt;activity android:name=&quot;.MainActivity&quot;&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;             &amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;                 &amp;lt;action android:name=&quot;android.intent.action.MAIN&quot; /&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaaaaa; background-color: #202020;&quot;&gt;@@ -12,6 +15,14 @@&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;                 &amp;lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;             &amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;         &amp;lt;/activity&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;        &amp;lt;!-- Launch activity automatically on boot --&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;        &amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;            &amp;lt;action android:name=&quot;android.intent.action.MAIN&quot;/&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;            &amp;lt;category android:name=&quot;android.intent.category.IOT_LAUNCHER&quot;/&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;            &amp;lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;        &amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa; font-weight: bold;&quot;&gt;+&lt;/span&gt;
+&lt;span style=&quot;color: #dddddd;&quot;&gt;     &amp;lt;/application&amp;gt;&lt;/span&gt;
+
+&lt;span style=&quot;color: #dddddd;&quot;&gt; &amp;lt;/manifest&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+如果你不知道要放在哪裡，請參考下圖
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/b2.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org48ebc2c&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org48ebc2c&quot;&gt;點亮 LED 燈&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org48ebc2c&quot;&gt;
+&lt;p&gt;
+是時候來撰寫我們的程式了，讓我們來打開 &lt;code&gt;hellothings/MainActivity.java&lt;/code&gt; 檔案吧!!
+&lt;/p&gt;
+
+&lt;p&gt;
+首先回顧前面的定義，我們希望可以控制 &lt;code&gt;GPIO21&lt;/code&gt; 來點亮 LED 燈，因此首先在 &lt;code&gt;MainActivity&lt;/code&gt; 這個 class 加入我們的一些設定
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;final&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;String&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;TAG&lt;/span&gt; = &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;HelloThings&quot;&lt;/span&gt;;
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;final&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;String&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;LED&lt;/span&gt; = &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;BCM21&quot;&lt;/span&gt;;
+
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;Gpio&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;mLedGpio&lt;/span&gt;;          &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;com.google.android.things.pio.Gpio;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+接下來將 &lt;code&gt;onCreate&lt;/code&gt; 修改成以下，我們讓他打開 &lt;code&gt;GPIO21&lt;/code&gt; 並將其設定成 &lt;code&gt;輸出為 1&lt;/code&gt; 的接腳
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;@Override&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;protected&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;onCreate&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;Bundle&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;super&lt;/span&gt;.onCreate&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;savedInstanceState&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+    setContentView&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;R.layout.activity_main&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+
+    &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;com.google.android.things.pio.PeripheralManagerService;&lt;/span&gt;
+    &lt;span style=&quot;color: #fff59d;&quot;&gt;PeripheralManagerService&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;service&lt;/span&gt; = &lt;span style=&quot;color: #aaffaa;&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;PeripheralManagerService&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;()&lt;/span&gt;;
+    Log.d&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Available GPIOs: &quot;&lt;/span&gt; + service.getGpioList&lt;span style=&quot;color: #aaccff;&quot;&gt;()&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;; &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;android.util.Log;&lt;/span&gt;
+
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;try&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        mLedGpio = service.openGpio&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;LED&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+        mLedGpio.setDirection&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;Gpio&lt;/span&gt;.DIRECTION_OUT_INITIALLY_LOW&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+        mLedGpio.setValue&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;true&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+        Log.i&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Start blinking LED by GPIO21&quot;&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;catch&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;IOException&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        Log.e&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Error on PeripheralIO API&quot;&lt;/span&gt;, e&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+由於我們在 &lt;code&gt;onCreate&lt;/code&gt; 時打開了 &lt;code&gt;GPIO21&lt;/code&gt; ，因此要記得在 &lt;code&gt;onDestroy&lt;/code&gt; 將他關閉
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;@Override&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;protected&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;onDestroy&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;()&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;super&lt;/span&gt;.onDestroy&lt;span style=&quot;color: #81d4fa;&quot;&gt;()&lt;/span&gt;;
+    Log.i&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Closing LED GPIO21 pin&quot;&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;try&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        mLedGpio.close&lt;span style=&quot;color: #aaccff;&quot;&gt;()&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;catch&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;IOException&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        Log.e&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Error on PeripheralIO API&quot;&lt;/span&gt;, e&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;finally&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        mLedGpio = &lt;span style=&quot;color: #ccaaff;&quot;&gt;null&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+嘗試執行當前的程式看看，你應該會看到你接在麵包板的 LED 亮了起來，接下來讓我們修改一下程式，讓他變成閃爍燈吧~
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/c1.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org037a001&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org037a001&quot;&gt;閃爍吧 LED&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org037a001&quot;&gt;
+&lt;p&gt;
+成功點亮 LED 後，我們接下來要讓他進行閃爍囉。
+&lt;/p&gt;
+
+&lt;p&gt;
+延續上面的專案，首先在  &lt;code&gt;MainActivity&lt;/code&gt; 這個 class 加入我們要閃爍多久，以及 Handler 的宣告
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;final&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;int&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;INTERVAL_BETWEEN_BLINKS_MS&lt;/span&gt; = 1000;
+
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;Handler&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;mHandler&lt;/span&gt; = &lt;span style=&quot;color: #aaffaa;&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;Handler&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;()&lt;/span&gt;; &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;android.os.Handler&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+接著在剛剛設定 GPIO 輸出值的後面，設定我們的 Handler 函式
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #aaffaa;&quot;&gt;try&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+     mLedGpio = service.openGpio&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;LED&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+     mLedGpio.setDirection&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;Gpio&lt;/span&gt;.DIRECTION_OUT_INITIALLY_LOW&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+     mLedGpio.setValue&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;true&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+     Log.i&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Start blinking LED by GPIO21&quot;&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+     mHandler.post&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;mBlinkRunnable&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;; &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;&amp;lt;------  Add this&lt;/span&gt;
+     &lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;catch&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;IOException&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+         Log.e&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Error on PeripheralIO API&quot;&lt;/span&gt;, e&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+並在後面完成我們的 &lt;code&gt;mBlinkRunnable&lt;/code&gt; 實作
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #aaffaa;&quot;&gt;private&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;Runnable&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;mBlinkRunnable&lt;/span&gt; = &lt;span style=&quot;color: #aaffaa;&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;Runnable&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;()&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+    &lt;span style=&quot;color: #ccaaff;&quot;&gt;@Override&lt;/span&gt;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;void&lt;/span&gt; run&lt;span style=&quot;color: #81d4fa;&quot;&gt;()&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        &lt;span style=&quot;color: #aaffaa;&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;mLedGpio == &lt;span style=&quot;color: #ccaaff;&quot;&gt;null&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;{&lt;/span&gt;
+            &lt;span style=&quot;color: #aaffaa;&quot;&gt;return&lt;/span&gt;;
+        &lt;span style=&quot;color: #aaccff;&quot;&gt;}&lt;/span&gt;
+        &lt;span style=&quot;color: #aaffaa;&quot;&gt;try&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;{&lt;/span&gt;
+            mLedGpio.setValue&lt;span style=&quot;color: #aaeecc;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ff3333;&quot;&gt;!&lt;/span&gt;mLedGpio.getValue&lt;span style=&quot;color: #ccaaff;&quot;&gt;()&lt;/span&gt;&lt;span style=&quot;color: #aaeecc;&quot;&gt;)&lt;/span&gt;;  &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;Toggle the GPIO state&lt;/span&gt;
+            Log.d&lt;span style=&quot;color: #aaeecc;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;GPIO21 set to &quot;&lt;/span&gt; + mLedGpio.getValue&lt;span style=&quot;color: #ccaaff;&quot;&gt;()&lt;/span&gt;&lt;span style=&quot;color: #aaeecc;&quot;&gt;)&lt;/span&gt;;
+            mHandler.postDelayed&lt;span style=&quot;color: #aaeecc;&quot;&gt;(&lt;/span&gt;mBlinkRunnable, INTERVAL_BETWEEN_BLINKS_MS&lt;span style=&quot;color: #aaeecc;&quot;&gt;)&lt;/span&gt;;
+        &lt;span style=&quot;color: #aaccff;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;catch&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;IOException&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;{&lt;/span&gt;
+            Log.e&lt;span style=&quot;color: #aaeecc;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Error on PeripheralIO API&quot;&lt;/span&gt;, e&lt;span style=&quot;color: #aaeecc;&quot;&gt;)&lt;/span&gt;;
+        &lt;span style=&quot;color: #aaccff;&quot;&gt;}&lt;/span&gt;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+在這邊，我們透過了 &lt;a href=&quot;https://developer.android.com/reference/java/lang/Runnable.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;java.lang.Runnable&lt;/a&gt; 去建立我們的執行緒，而在裡面則透過取得當前的 GPIO 數值將其反向，從而另 LED 閃爍。如果你想要閃爍快一點，可以修改前面宣告的 &lt;code&gt;INTERVAL_BETWEEN_BLINKS_MS&lt;/code&gt; 變數。
+&lt;/p&gt;
+
+&lt;p&gt;
+由於我們使用了 &lt;a href=&quot;https://developer.android.com/reference/android/os/Handler.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;android.os.Handler&lt;/a&gt; ，記得要在 &lt;code&gt;onDestroy&lt;/code&gt; 時候幹掉他
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-java&quot;&gt;&lt;span style=&quot;color: #ccaaff;&quot;&gt;@Override&lt;/span&gt;
+&lt;span style=&quot;color: #aaffaa;&quot;&gt;protected&lt;/span&gt; &lt;span style=&quot;color: #fff59d;&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;onDestroy&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;()&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;super&lt;/span&gt;.onDestroy&lt;span style=&quot;color: #81d4fa;&quot;&gt;()&lt;/span&gt;;
+    mHandler.removeCallbacks&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;mBlinkRunnable&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;; &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;// &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;&amp;lt;---- Add this&lt;/span&gt;
+    Log.i&lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Closing LED GPIO21 pin&quot;&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #aaffaa;&quot;&gt;try&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        mLedGpio.close&lt;span style=&quot;color: #aaccff;&quot;&gt;()&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;catch&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;IOException&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;)&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        Log.e&lt;span style=&quot;color: #aaccff;&quot;&gt;(&lt;/span&gt;TAG, &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;Error on PeripheralIO API&quot;&lt;/span&gt;, e&lt;span style=&quot;color: #aaccff;&quot;&gt;)&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt; &lt;span style=&quot;color: #aaffaa;&quot;&gt;finally&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;{&lt;/span&gt;
+        mLedGpio = &lt;span style=&quot;color: #ccaaff;&quot;&gt;null&lt;/span&gt;;
+    &lt;span style=&quot;color: #81d4fa;&quot;&gt;}&lt;/span&gt;
+&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org3436a15&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org3436a15&quot;&gt;結果&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org3436a15&quot;&gt;
+&lt;p&gt;
+如果你有照著本文接線並執行程式的話，你應該會得到以下這樣的結果 ~
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/468144f4/blink.gif&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org38a23c0&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org38a23c0&quot;&gt;取得程式碼&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org38a23c0&quot;&gt;
+&lt;p&gt;
+本文的範例已經放置於 &lt;a href=&quot;https://github.com/coldnew/HelloThings&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub&lt;/a&gt; 上，你可以直接透過 git 去取得完整專案原始碼
+&lt;/p&gt;
+
+&lt;div class=&quot;github-card&quot; data-github=&quot;cold&quot; data-width=&quot;400&quot; data-height=&quot;&quot; data-theme=&quot;default&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;//cdn.jsdelivr.net/github-cards/latest/widget.js&quot;&gt;&lt;/script&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org24d52eb&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org24d52eb&quot;&gt;參考資料&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org24d52eb&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.survivingwithandroid.com/2016/03/arduino-led-control-android-app.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Arduino Led: Control RGB Led remotely using Arduino and Android app&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;https://androidthings.rocks/2017/01/08/your-first-blinking-led/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Your first blinking LED with Android Things&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+]]></content:encoded>
+      <comments>https://coldnew.github.io/468144f4/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>Android Things 學習筆記: Raspberry Pi 3 安裝 OS</title>
@@ -15007,664 +15887,6 @@ coldnew@MacOSX ~ $ which stat
 &lt;/div&gt;
 ]]></content:encoded>
       <comments>https://coldnew.github.io/70ccebe8/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>Zephyr RTOS 開發記錄: 基本環境建立</title>
-      <link>https://coldnew.github.io/7f7c0c84/</link>
-      <guid>https://coldnew.github.io/7f7c0c84/</guid>
-      <pubDate>Sun, 28 Feb 2016 11:21:00 GMT</pubDate>
-      <description>
-         &lt;div id=&quot;content&quot;&gt;
-&lt;p&gt;
-&lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 是 Linux 基金會最近發佈的即時作業系統 (RTOS) 項目，主要用於物聯網以及 IOT 設備，其前身為 &lt;a href=&quot;http://www.windriver.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Wind River&lt;/a&gt; 的 &lt;a href=&quot;http://www.windriver.com/products/operating-systems/rocket/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Rocket RTOS&lt;/a&gt;。和 Linux Kernel 不同的是，&lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 原始碼採用的是 &lt;a href=&quot;http://www.apache.org/licenses/LICENSE-2.0&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Apache-2.0&lt;/a&gt; 授權。
-&lt;/p&gt;
-
-&lt;p&gt;
-關於更多 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 相關資訊，請參考 Linux 基金會的 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;專案網站&lt;/a&gt; 或是 &lt;a href=&quot;http://linuxgizmos.com/zephyr-a-tiny-open-source-iot-rtos/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;LinuxGizmos.com 的報導&lt;/a&gt; 。
-&lt;/p&gt;
-
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;p&gt;
-本文只是記錄我試玩 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 的一些資訊。
-&lt;/p&gt;
-
-&lt;div id=&quot;outline-container-org7177d41&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org7177d41&quot;&gt;支援的開發版與平台&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org7177d41&quot;&gt;
-&lt;p&gt;
-在撰寫這篇文章時，&lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 共支援以下目標與平台: (很可惜這邊列的板子我半片都沒有 Orz&amp;#x2026;)
-&lt;/p&gt;
-
-&lt;ul class=&quot;org-ul&quot;&gt;
-&lt;li&gt;x86 指令集
-&lt;ul class=&quot;org-ul&quot;&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/arduino_101.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Arduino 101&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/quark_d2000_crb.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Quark D2000 CRB&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/galileo.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Galileo Gen1/Gen2&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/minnowboard.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Minnowboard Max&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/qemu_x86.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;x86 Emulation (QEMU)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;ARM (v7-M 以及 v7E-M) 指令集
-&lt;ul class=&quot;org-ul&quot;&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/qemu_cortex_m3.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ARM Cortex-M3 Emulation (QEMU)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/arduino_due.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Arduino Due&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/frdm_k64f.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Freescale FRDM-K64F&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;ARC EM4 指令集
-&lt;ul class=&quot;org-ul&quot;&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/arduino_101.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Arduino 101&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org485f350&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org485f350&quot;&gt;取得 Zephyr kernel 原始碼與 SDK&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org485f350&quot;&gt;
-&lt;p&gt;
-&lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 原始碼採用 &lt;i&gt;git&lt;/i&gt; 託管在 &lt;a href=&quot;https://gerrit.zephyrproject.org/r/zephyr&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://gerrit.zephyrproject.org/r/zephyr&lt;/a&gt; 這網站，我們可以用以下方式取得 &lt;i&gt;v1.0.0&lt;/i&gt; 原始碼。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~ $ git clone https://gerrit.zephyrproject.org/r/zephyr --branch v1.0.0
-&lt;/pre&gt;
-
-&lt;p&gt;
-除了原始碼以外，我們還需要下載 &lt;a href=&quot;https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr SDK&lt;/a&gt; ，裡面包含了不同平台編譯用的工具包 (toolchain)
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~ $ wget https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/0.7.2-i686/zephyr-sdk-0.7.2-i686-setup.run
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org1b5325f&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;org1b5325f&quot;&gt;安裝 SDK 前置作業&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org1b5325f&quot;&gt;
-&lt;p&gt;
-除了下載 SDK 外，不同發行版的 Linux 還需要安裝一些 x86 函式庫來使用這份 SDK，具體請參照 &lt;a href=&quot;https://www.zephyrproject.org/doc/getting_started/installation_linux.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Development Environment Setup on Linux&lt;/a&gt; 一文，由於本人的 &lt;i&gt;Gentoo Linux&lt;/i&gt; 運作良好，這邊就不贅述。
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org0c05e86&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;org0c05e86&quot;&gt;安裝 SDK&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org0c05e86&quot;&gt;
-&lt;p&gt;
-取得 SDK 後，先將它加上可執行權限
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~ $ chmod +x zephyr-sdk-0.7.2-i686-setup.run
-&lt;/pre&gt;
-
-&lt;p&gt;
-接下來將它裝到 &lt;code&gt;/opt/zephyr&lt;/code&gt; 去 (註：在我的系統中，我的帳戶具有 &lt;code&gt;/opt&lt;/code&gt; 資料夾的讀寫權限，一般情況下安裝到 &lt;code&gt;/opt&lt;/code&gt; 需要使用 &lt;code&gt;sudo&lt;/code&gt; 來安裝)
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~ $ ./zephyr-sdk-0.7.2-i686-setup.run
-Verifying archive integrity... All good.
-Uncompressing SDK for Zephyr  100%
-Enter target directory for SDK (default: /opt/zephyr-sdk/):
-Installing SDK to /opt/zephyr-sdk
-The existing directory /opt/zephyr-sdk will be removed!
-Do you want to continue (y/n)?
- [*] Installing x86 tools...
- [*] Installing arm tools...
- [*] Installing arc tools...
- [*] Installing iamcu tools...
- [*] Installing mips tools...
- [*] Installing additional host tools...
-Success installing SDK. SDK is ready to be used.
-&lt;/pre&gt;
-
-&lt;p&gt;
-安裝完成後，我們可以到 &lt;code&gt;/opt/zephyr&lt;/code&gt; 看這份 SDK 包含了哪些東西
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo /opt/zephyr-sdk $ tree -L 2 .
-. &amp;lt;b&amp;gt;
-├── sysroots &amp;lt;b&amp;gt;
-│   ├── arc-poky-elf &amp;lt;b&amp;gt;
-│   ├── armv5-poky-eabi &amp;lt;b&amp;gt;
-│   ├── i586-poky-elf &amp;lt;b&amp;gt;
-│   ├── i686-pokysdk-linux &amp;lt;b&amp;gt;
-│   ├── iamcu-poky-elfiamcu &amp;lt;b&amp;gt;
-│   └── mips32r2-poky-elf &amp;lt;b&amp;gt;
-├── version-arc-poky-elf
-├── version-armv5-poky-eabi
-├── version-i586-poky-elf
-├── version-i686-pokysdk-linux
-├── version-iamcu-poky-elfiamcu
-└── version-mips32r2-poky-elf
-
-7 directories, 6 files
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org9f922c1&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;org9f922c1&quot;&gt;設定 SDK&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org9f922c1&quot;&gt;
-&lt;p&gt;
-安裝完 &lt;a href=&quot;https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr SDK&lt;/a&gt; 後，我們可以設定以下環境變數來讓我們當前的 shell 可以使用這份 SDK
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@Gentoo ~ $ export &lt;span style=&quot;color: #aaccff;&quot;&gt;ZEPHYR_GCC_VARIANT&lt;/span&gt;=zephyr
-coldnew@Gentoo ~ $ export &lt;span style=&quot;color: #aaccff;&quot;&gt;ZEPHYR_SDK_INSTALL_DIR&lt;/span&gt;=/opt/zephyr-sdk
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-當然每次要編譯 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 時都要重新設定環境變數很麻煩，因此我們可以將他寫到 &lt;code&gt;~/.zephyrrc&lt;/code&gt; 去
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~ $ cat &amp;lt;&amp;lt;EOF &amp;gt; ~/.zephyrrc
-export ZEPHYR_GCC_VARIANT=zephyr
-export ZEPHYR_SDK_INSTALL_DIR=/opt/zephyr-sdk
-EOF
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org9608f04&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org9608f04&quot;&gt;Hello World (x86 QEMU)&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org9608f04&quot;&gt;
-&lt;p&gt;
-完成 &lt;a href=&quot;https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr SDK&lt;/a&gt; 的設定與安裝後，讓我們測試第一個範例程式 &lt;i&gt;Hello World&lt;/i&gt; ，顧名思義就是會在虛擬機中顯示 &lt;i&gt;Hello World&lt;/i&gt; 出來。
-&lt;/p&gt;
-
-&lt;p&gt;
-不過我們要先讓當前 shell 取得合適的開發環境變數，先來 &lt;code&gt;source zephyr-env.sh&lt;/code&gt; 一下:
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr $ source zephyr-env.sh
-&lt;/pre&gt;
-
-&lt;p&gt;
-接著切換到 &lt;code&gt;samples/hello_world/microkernel&lt;/code&gt; 去
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr $ cd samples/hello_world/microkernel
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ tree -L 2 .
-. &amp;lt;b&amp;gt;
-├── Makefile
-├── prj.conf
-├── prj.mdef
-├── README.txt &amp;lt;g&amp;gt;
-└── src &amp;lt;b&amp;gt;
-    ├── main.c
-    └── Makefile
-
-1 directory, 6 files
-&lt;/pre&gt;
-
-&lt;p&gt;
-我們測試的目標是 &lt;code&gt;QEMU&lt;/code&gt; ，因此直接 &lt;code&gt;make qemu&lt;/code&gt; 即可看到 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 編譯到 x86 環境下並運行的狀況
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make qemu
-make&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;1&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;: Entering directory &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;/home/coldnew/zephyr&#39;&lt;/span&gt;
-make&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;2&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;: Entering directory &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;/home/coldnew/zephyr/samples/hello_world/microkernel/outdir&#39;&lt;/span&gt;
-  Using /home/coldnew/zephyr as source for kernel
-  GEN     ./Makefile
-  CHK     include/generated/version.h
-  CHK     misc/generated/configs.c
-  CHK     include/generated/offsets.h
-  CHK     misc/generated/sysgen/prj.mdef
-To exit from QEMU enter: &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;CTRL+a, x&#39;&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;QEMU&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt; CPU: qemu32
-qemu-system-i386: pci_add_option_rom: failed to find romfile &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;vgabios-cirrus.bin&quot;&lt;/span&gt;
-Hello World!
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-如果你看膩了這個結果，可以使用 &lt;code&gt;C-a x&lt;/code&gt; 離開 &lt;i&gt;QEMU&lt;/i&gt; 模擬。
-&lt;/p&gt;
-
-&lt;p&gt;
-一旦經過了編譯，你可以看到會多出一個 &lt;code&gt;outdir&lt;/code&gt; 用來存放著編譯後的物件檔。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ ls
-Makefile  outdir&amp;lt;b&amp;gt;  prj.conf  prj.mdef  README.txt&amp;lt;g&amp;gt;  src
-&lt;/pre&gt;
-
-&lt;p&gt;
-這個 &lt;code&gt;outdir&lt;/code&gt; 是可以透過 &lt;code&gt;make&lt;/code&gt; 系列命令清除乾淨的，我們也可以在 &lt;code&gt;make help&lt;/code&gt; 看到如何清除專案的物件檔。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make help
-Cleaning targets:
-  clean           - Remove most generated files but keep configuration and backup files
-  mrproper        - Remove all generated files + config + various backup files
-  distclean       - mrproper + remove editor backup and patch files
-  pristine        - Remove the output directory with all generated files
-
-skip...
-&lt;/pre&gt;
-
-&lt;p&gt;
-此外， &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 也支援 &lt;code&gt;make menuconfig&lt;/code&gt; ，我們可以在選單直接選取我們的目標。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make menuconfig
-&lt;/pre&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7f7c0c84/menuconfig.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgdca2067&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgdca2067&quot;&gt;Hello World (arm QEMU)&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdca2067&quot;&gt;
-&lt;p&gt;
-我們接下來試試 &lt;i&gt;Hello World&lt;/i&gt; 運作在 ARM Cortex-M3 的 QEMU 的情況，了解更多後說不定我們就可以自己將 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 移植到 STM32 平台，或是其他手中有的開發版環境去。
-&lt;/p&gt;
-
-&lt;p&gt;
-一樣切換到 &lt;code&gt;samples/hello_world/microkernel&lt;/code&gt; 去，如果剛剛已經編譯過 x86 版本的話，要記得將 &lt;code&gt;outdir&lt;/code&gt; 清乾淨
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make distclean
-&lt;/pre&gt;
-
-&lt;p&gt;
-接下來編譯的時候指定目標端為 &lt;code&gt;qemu_cortex_m3&lt;/code&gt; 並且 &lt;code&gt;ARCH=arm&lt;/code&gt;
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make &lt;span style=&quot;color: #aaccff;&quot;&gt;BOARD&lt;/span&gt;=qemu_cortex_m3 &lt;span style=&quot;color: #aaccff;&quot;&gt;ARCH&lt;/span&gt;=arm qemu
-make&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;1&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;: Entering directory &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;/home/coldnew/zephyr&#39;&lt;/span&gt;
-make&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;2&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;: Entering directory &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;/home/coldnew/zephyr/samples/hello_world/microkernel/outdir&#39;&lt;/span&gt;
-  Using /tmp/zephyr-project-fork as source for kernel
-  GEN     ./Makefile
-  CHK     include/generated/version.h
-  CHK     misc/generated/configs.c
-  CHK     include/generated/offsets.h
-  CHK     misc/generated/sysgen/prj.mdef
-To exit from QEMU enter: &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;CTRL+a, x&#39;&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;QEMU&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt; CPU: cortex-m3
-Hello World!
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-要離開的話，一樣是使用 &lt;code&gt;C-a x&lt;/code&gt; 來離開 &lt;i&gt;QEMU&lt;/i&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-由於編譯出來的執行檔會出現在 &lt;code&gt;outdir&lt;/code&gt; ，因此我們可以在 &lt;code&gt;outdir&lt;/code&gt; 裡面找到編譯出來的 ELF 檔以及二進制文件，預設這些東西皆是以 &lt;code&gt;zephyr.*&lt;/code&gt; 來命名。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel/outdir $ ls zephyr.*
-zephyr.bin&amp;lt;g&amp;gt;  zephyr.elf&amp;lt;g&amp;gt;  zephyr.lnk  zephyr.lst  zephyr.map  zephyr.strip&amp;lt;g&amp;gt;
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgae3b33b&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgae3b33b&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgae3b33b&quot;&gt;
-&lt;p&gt;
-&lt;code&gt;[1]&lt;/code&gt; &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr Project Website&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;code&gt;[2]&lt;/code&gt; &lt;a href=&quot;http://linuxgizmos.com/zephyr-a-tiny-open-source-iot-rtos/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Meet Linux&#39;s little brother: Zephyr, a tiny open-source IoT RTOS&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-      </description>
-      <content:encoded><![CDATA[&lt;div id=&quot;content&quot;&gt;
-&lt;p&gt;
-&lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 是 Linux 基金會最近發佈的即時作業系統 (RTOS) 項目，主要用於物聯網以及 IOT 設備，其前身為 &lt;a href=&quot;http://www.windriver.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Wind River&lt;/a&gt; 的 &lt;a href=&quot;http://www.windriver.com/products/operating-systems/rocket/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Rocket RTOS&lt;/a&gt;。和 Linux Kernel 不同的是，&lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 原始碼採用的是 &lt;a href=&quot;http://www.apache.org/licenses/LICENSE-2.0&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Apache-2.0&lt;/a&gt; 授權。
-&lt;/p&gt;
-
-&lt;p&gt;
-關於更多 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 相關資訊，請參考 Linux 基金會的 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;專案網站&lt;/a&gt; 或是 &lt;a href=&quot;http://linuxgizmos.com/zephyr-a-tiny-open-source-iot-rtos/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;LinuxGizmos.com 的報導&lt;/a&gt; 。
-&lt;/p&gt;
-
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;p&gt;
-本文只是記錄我試玩 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 的一些資訊。
-&lt;/p&gt;
-
-&lt;div id=&quot;outline-container-org7177d41&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org7177d41&quot;&gt;支援的開發版與平台&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org7177d41&quot;&gt;
-&lt;p&gt;
-在撰寫這篇文章時，&lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 共支援以下目標與平台: (很可惜這邊列的板子我半片都沒有 Orz&amp;#x2026;)
-&lt;/p&gt;
-
-&lt;ul class=&quot;org-ul&quot;&gt;
-&lt;li&gt;x86 指令集
-&lt;ul class=&quot;org-ul&quot;&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/arduino_101.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Arduino 101&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/quark_d2000_crb.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Quark D2000 CRB&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/galileo.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Galileo Gen1/Gen2&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/minnowboard.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Minnowboard Max&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/qemu_x86.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;x86 Emulation (QEMU)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;ARM (v7-M 以及 v7E-M) 指令集
-&lt;ul class=&quot;org-ul&quot;&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/qemu_cortex_m3.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ARM Cortex-M3 Emulation (QEMU)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/arduino_due.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Arduino Due&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/frdm_k64f.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Freescale FRDM-K64F&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;ARC EM4 指令集
-&lt;ul class=&quot;org-ul&quot;&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.zephyrproject.org/doc/board/arduino_101.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Arduino 101&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org485f350&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org485f350&quot;&gt;取得 Zephyr kernel 原始碼與 SDK&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org485f350&quot;&gt;
-&lt;p&gt;
-&lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 原始碼採用 &lt;i&gt;git&lt;/i&gt; 託管在 &lt;a href=&quot;https://gerrit.zephyrproject.org/r/zephyr&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://gerrit.zephyrproject.org/r/zephyr&lt;/a&gt; 這網站，我們可以用以下方式取得 &lt;i&gt;v1.0.0&lt;/i&gt; 原始碼。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~ $ git clone https://gerrit.zephyrproject.org/r/zephyr --branch v1.0.0
-&lt;/pre&gt;
-
-&lt;p&gt;
-除了原始碼以外，我們還需要下載 &lt;a href=&quot;https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr SDK&lt;/a&gt; ，裡面包含了不同平台編譯用的工具包 (toolchain)
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~ $ wget https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/0.7.2-i686/zephyr-sdk-0.7.2-i686-setup.run
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org1b5325f&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;org1b5325f&quot;&gt;安裝 SDK 前置作業&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org1b5325f&quot;&gt;
-&lt;p&gt;
-除了下載 SDK 外，不同發行版的 Linux 還需要安裝一些 x86 函式庫來使用這份 SDK，具體請參照 &lt;a href=&quot;https://www.zephyrproject.org/doc/getting_started/installation_linux.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Development Environment Setup on Linux&lt;/a&gt; 一文，由於本人的 &lt;i&gt;Gentoo Linux&lt;/i&gt; 運作良好，這邊就不贅述。
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org0c05e86&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;org0c05e86&quot;&gt;安裝 SDK&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org0c05e86&quot;&gt;
-&lt;p&gt;
-取得 SDK 後，先將它加上可執行權限
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~ $ chmod +x zephyr-sdk-0.7.2-i686-setup.run
-&lt;/pre&gt;
-
-&lt;p&gt;
-接下來將它裝到 &lt;code&gt;/opt/zephyr&lt;/code&gt; 去 (註：在我的系統中，我的帳戶具有 &lt;code&gt;/opt&lt;/code&gt; 資料夾的讀寫權限，一般情況下安裝到 &lt;code&gt;/opt&lt;/code&gt; 需要使用 &lt;code&gt;sudo&lt;/code&gt; 來安裝)
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~ $ ./zephyr-sdk-0.7.2-i686-setup.run
-Verifying archive integrity... All good.
-Uncompressing SDK for Zephyr  100%
-Enter target directory for SDK (default: /opt/zephyr-sdk/):
-Installing SDK to /opt/zephyr-sdk
-The existing directory /opt/zephyr-sdk will be removed!
-Do you want to continue (y/n)?
- [*] Installing x86 tools...
- [*] Installing arm tools...
- [*] Installing arc tools...
- [*] Installing iamcu tools...
- [*] Installing mips tools...
- [*] Installing additional host tools...
-Success installing SDK. SDK is ready to be used.
-&lt;/pre&gt;
-
-&lt;p&gt;
-安裝完成後，我們可以到 &lt;code&gt;/opt/zephyr&lt;/code&gt; 看這份 SDK 包含了哪些東西
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo /opt/zephyr-sdk $ tree -L 2 .
-. &amp;lt;b&amp;gt;
-├── sysroots &amp;lt;b&amp;gt;
-│   ├── arc-poky-elf &amp;lt;b&amp;gt;
-│   ├── armv5-poky-eabi &amp;lt;b&amp;gt;
-│   ├── i586-poky-elf &amp;lt;b&amp;gt;
-│   ├── i686-pokysdk-linux &amp;lt;b&amp;gt;
-│   ├── iamcu-poky-elfiamcu &amp;lt;b&amp;gt;
-│   └── mips32r2-poky-elf &amp;lt;b&amp;gt;
-├── version-arc-poky-elf
-├── version-armv5-poky-eabi
-├── version-i586-poky-elf
-├── version-i686-pokysdk-linux
-├── version-iamcu-poky-elfiamcu
-└── version-mips32r2-poky-elf
-
-7 directories, 6 files
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org9f922c1&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;org9f922c1&quot;&gt;設定 SDK&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org9f922c1&quot;&gt;
-&lt;p&gt;
-安裝完 &lt;a href=&quot;https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr SDK&lt;/a&gt; 後，我們可以設定以下環境變數來讓我們當前的 shell 可以使用這份 SDK
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@Gentoo ~ $ export &lt;span style=&quot;color: #aaccff;&quot;&gt;ZEPHYR_GCC_VARIANT&lt;/span&gt;=zephyr
-coldnew@Gentoo ~ $ export &lt;span style=&quot;color: #aaccff;&quot;&gt;ZEPHYR_SDK_INSTALL_DIR&lt;/span&gt;=/opt/zephyr-sdk
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-當然每次要編譯 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 時都要重新設定環境變數很麻煩，因此我們可以將他寫到 &lt;code&gt;~/.zephyrrc&lt;/code&gt; 去
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~ $ cat &amp;lt;&amp;lt;EOF &amp;gt; ~/.zephyrrc
-export ZEPHYR_GCC_VARIANT=zephyr
-export ZEPHYR_SDK_INSTALL_DIR=/opt/zephyr-sdk
-EOF
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org9608f04&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org9608f04&quot;&gt;Hello World (x86 QEMU)&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org9608f04&quot;&gt;
-&lt;p&gt;
-完成 &lt;a href=&quot;https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr SDK&lt;/a&gt; 的設定與安裝後，讓我們測試第一個範例程式 &lt;i&gt;Hello World&lt;/i&gt; ，顧名思義就是會在虛擬機中顯示 &lt;i&gt;Hello World&lt;/i&gt; 出來。
-&lt;/p&gt;
-
-&lt;p&gt;
-不過我們要先讓當前 shell 取得合適的開發環境變數，先來 &lt;code&gt;source zephyr-env.sh&lt;/code&gt; 一下:
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr $ source zephyr-env.sh
-&lt;/pre&gt;
-
-&lt;p&gt;
-接著切換到 &lt;code&gt;samples/hello_world/microkernel&lt;/code&gt; 去
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr $ cd samples/hello_world/microkernel
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ tree -L 2 .
-. &amp;lt;b&amp;gt;
-├── Makefile
-├── prj.conf
-├── prj.mdef
-├── README.txt &amp;lt;g&amp;gt;
-└── src &amp;lt;b&amp;gt;
-    ├── main.c
-    └── Makefile
-
-1 directory, 6 files
-&lt;/pre&gt;
-
-&lt;p&gt;
-我們測試的目標是 &lt;code&gt;QEMU&lt;/code&gt; ，因此直接 &lt;code&gt;make qemu&lt;/code&gt; 即可看到 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 編譯到 x86 環境下並運行的狀況
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make qemu
-make&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;1&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;: Entering directory &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;/home/coldnew/zephyr&#39;&lt;/span&gt;
-make&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;2&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;: Entering directory &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;/home/coldnew/zephyr/samples/hello_world/microkernel/outdir&#39;&lt;/span&gt;
-  Using /home/coldnew/zephyr as source for kernel
-  GEN     ./Makefile
-  CHK     include/generated/version.h
-  CHK     misc/generated/configs.c
-  CHK     include/generated/offsets.h
-  CHK     misc/generated/sysgen/prj.mdef
-To exit from QEMU enter: &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;CTRL+a, x&#39;&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;QEMU&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt; CPU: qemu32
-qemu-system-i386: pci_add_option_rom: failed to find romfile &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;vgabios-cirrus.bin&quot;&lt;/span&gt;
-Hello World!
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-如果你看膩了這個結果，可以使用 &lt;code&gt;C-a x&lt;/code&gt; 離開 &lt;i&gt;QEMU&lt;/i&gt; 模擬。
-&lt;/p&gt;
-
-&lt;p&gt;
-一旦經過了編譯，你可以看到會多出一個 &lt;code&gt;outdir&lt;/code&gt; 用來存放著編譯後的物件檔。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ ls
-Makefile  outdir&amp;lt;b&amp;gt;  prj.conf  prj.mdef  README.txt&amp;lt;g&amp;gt;  src
-&lt;/pre&gt;
-
-&lt;p&gt;
-這個 &lt;code&gt;outdir&lt;/code&gt; 是可以透過 &lt;code&gt;make&lt;/code&gt; 系列命令清除乾淨的，我們也可以在 &lt;code&gt;make help&lt;/code&gt; 看到如何清除專案的物件檔。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make help
-Cleaning targets:
-  clean           - Remove most generated files but keep configuration and backup files
-  mrproper        - Remove all generated files + config + various backup files
-  distclean       - mrproper + remove editor backup and patch files
-  pristine        - Remove the output directory with all generated files
-
-skip...
-&lt;/pre&gt;
-
-&lt;p&gt;
-此外， &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 也支援 &lt;code&gt;make menuconfig&lt;/code&gt; ，我們可以在選單直接選取我們的目標。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make menuconfig
-&lt;/pre&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7f7c0c84/menuconfig.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgdca2067&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgdca2067&quot;&gt;Hello World (arm QEMU)&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdca2067&quot;&gt;
-&lt;p&gt;
-我們接下來試試 &lt;i&gt;Hello World&lt;/i&gt; 運作在 ARM Cortex-M3 的 QEMU 的情況，了解更多後說不定我們就可以自己將 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 移植到 STM32 平台，或是其他手中有的開發版環境去。
-&lt;/p&gt;
-
-&lt;p&gt;
-一樣切換到 &lt;code&gt;samples/hello_world/microkernel&lt;/code&gt; 去，如果剛剛已經編譯過 x86 版本的話，要記得將 &lt;code&gt;outdir&lt;/code&gt; 清乾淨
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make distclean
-&lt;/pre&gt;
-
-&lt;p&gt;
-接下來編譯的時候指定目標端為 &lt;code&gt;qemu_cortex_m3&lt;/code&gt; 並且 &lt;code&gt;ARCH=arm&lt;/code&gt;
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel $ make &lt;span style=&quot;color: #aaccff;&quot;&gt;BOARD&lt;/span&gt;=qemu_cortex_m3 &lt;span style=&quot;color: #aaccff;&quot;&gt;ARCH&lt;/span&gt;=arm qemu
-make&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;1&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;: Entering directory &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;/home/coldnew/zephyr&#39;&lt;/span&gt;
-make&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;2&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;: Entering directory &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;/home/coldnew/zephyr/samples/hello_world/microkernel/outdir&#39;&lt;/span&gt;
-  Using /tmp/zephyr-project-fork as source for kernel
-  GEN     ./Makefile
-  CHK     include/generated/version.h
-  CHK     misc/generated/configs.c
-  CHK     include/generated/offsets.h
-  CHK     misc/generated/sysgen/prj.mdef
-To exit from QEMU enter: &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;CTRL+a, x&#39;&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;QEMU&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt; CPU: cortex-m3
-Hello World!
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-要離開的話，一樣是使用 &lt;code&gt;C-a x&lt;/code&gt; 來離開 &lt;i&gt;QEMU&lt;/i&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-由於編譯出來的執行檔會出現在 &lt;code&gt;outdir&lt;/code&gt; ，因此我們可以在 &lt;code&gt;outdir&lt;/code&gt; 裡面找到編譯出來的 ELF 檔以及二進制文件，預設這些東西皆是以 &lt;code&gt;zephyr.*&lt;/code&gt; 來命名。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@Gentoo ~/zephyr/samples/hello_world/microkernel/outdir $ ls zephyr.*
-zephyr.bin&amp;lt;g&amp;gt;  zephyr.elf&amp;lt;g&amp;gt;  zephyr.lnk  zephyr.lst  zephyr.map  zephyr.strip&amp;lt;g&amp;gt;
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgae3b33b&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgae3b33b&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgae3b33b&quot;&gt;
-&lt;p&gt;
-&lt;code&gt;[1]&lt;/code&gt; &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr Project Website&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;code&gt;[2]&lt;/code&gt; &lt;a href=&quot;http://linuxgizmos.com/zephyr-a-tiny-open-source-iot-rtos/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Meet Linux&#39;s little brother: Zephyr, a tiny open-source IoT RTOS&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-]]></content:encoded>
-      <comments>https://coldnew.github.io/7f7c0c84/#disqus_thread</comments>
     </item>
     
   </channel>
