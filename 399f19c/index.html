@@ -59,7 +59,7 @@
 <meta property="og:description" content="最近打算稍微了解一下 Google 在推的 Android Things ，這是一套以 Android 為基礎改製而成的作業系統，目的在於用於現在很夯的物聯網(Internet of Things, IoT) 上。">
 <meta property="og:image" content="https://coldnew.github.io/399f19c/Android-Things.jpg">
 <meta property="og:image" content="https://coldnew.github.io/399f19c/sbt.png">
-<meta property="og:updated_time" content="2017-05-10T02:15:56.000Z">
+<meta property="og:updated_time" content="2017-05-13T02:03:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Things 學習筆記: 介紹">
 <meta name="twitter:description" content="最近打算稍微了解一下 Google 在推的 Android Things ，這是一套以 Android 為基礎改製而成的作業系統，目的在於用於現在很夯的物聯網(Internet of Things, IoT) 上。">
@@ -200,8 +200,8 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2017-05-10T10:15:56+08:00" content="2017-05-10">
-            2017-05-10
+          <time itemprop="dateCreated" datetime="2017-05-13T10:03:16+08:00" content="2017-05-13">
+            2017-05-13
           </time>
         </span>
 
@@ -248,9 +248,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-orgc54e781" class="outline-2">
-<h2 id="orgc54e781">關於 Android Things</h2>
-<div class="outline-text-2" id="text-orgc54e781">
+<div id="outline-container-orgf1bf1e9" class="outline-2">
+<h2 id="orgf1bf1e9">關於 Android Things</h2>
+<div class="outline-text-2" id="text-orgf1bf1e9">
 <p>
 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 前身為 Google 的 <a href="http://chinese.engadget.com/2015/05/28/project-brillo-google-iot/" target="_blank" rel="external">Brillo 專案</a> ，在約 2016 年底改名為 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 。這東西到底是什麼? 
 </p>
@@ -299,9 +299,9 @@ If you can build an app, you can build a device. ── Google
 </div>
 </div>
 
-<div id="outline-container-orgc9e3381" class="outline-2">
-<h2 id="orgc9e3381">支援的開發板</h2>
-<div class="outline-text-2" id="text-orgc9e3381">
+<div id="outline-container-org4dad97b" class="outline-2">
+<h2 id="org4dad97b">支援的開發板</h2>
+<div class="outline-text-2" id="text-org4dad97b">
 <p>
 那如果我們想要入門 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 的話，需要哪些開發板呢?
 </p>
@@ -322,15 +322,19 @@ If you can build an app, you can build a device. ── Google
 </div>
 </div>
 
-<div id="outline-container-orgbfe7b02" class="outline-2">
-<h2 id="orgbfe7b02">隱憂</h2>
-<div class="outline-text-2" id="text-orgbfe7b02">
+<div id="outline-container-org9d7f30c" class="outline-2">
+<h2 id="org9d7f30c">隱憂</h2>
+<div class="outline-text-2" id="text-org9d7f30c">
 <p>
 雖然 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 是由 Google 所提出的專案，但很多 Google 提出的專案也有面臨過被廢棄的命運，比如 <a href="http://hk.on.cc/hk/bkn/cnt/finance/20160903/bkn-20160903201859069-0903_00842_001.html" target="_blank" rel="external">Project Arc (積木手機)</a> 這個計畫也被 Google 廢棄了，  <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 是否值得追隨也是個很大的問題。
 </p>
 
 <p>
-另外一個問題是，對於物連網裝置 (Internet of Things, IoT)，我們常用的設備都是不到 1MB 記憶體的微控制器(MCU)裝置，而 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 最低要求要 <code>256MB 的記憶體</code> 以及動輒 <code>100MB 大小的儲存裝置</code> ，以成本來考量這其實是蠻浪費的。 (還不如去用 <a href="https://www.mbed.com/" target="_blank" rel="external">mbed</a> 還比較划算)
+此外，對於物連網裝置 (Internet of Things, IoT)，我們常用的設備都是不到 1MB 記憶體的微控制器(MCU)裝置，而 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 最低要求要 <code>256MB 的記憶體</code> 以及動輒 <code>100MB 大小的儲存裝置</code> ，以成本來考量這其實是蠻浪費的。 (還不如去用 <a href="https://www.mbed.com/" target="_blank" rel="external">mbed</a> 還比較划算)
+</p>
+
+<p>
+還有一個是 <code>開機時間</code> ，如果你的系統是設計讓人隨時可以關機的，那你要考慮清楚是否要對 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 作些額外處理，在 <a href="https://coldnew.github.io/468144f4/">Android Things 學習筆記: GPIO 的輸出控制</a> 我們實作了 Raspberry Pi 3 搭配 LED 閃爍功能，如果斷掉系統電源再重新上電的話，到 LED 開始閃爍花了 <code>1.06 分鐘</code> 。(也就是系統啟動到執行程式需要花很多時間，正式產品是一定要多作些優化的)
 </p>
 
 <p>
@@ -339,9 +343,9 @@ If you can build an app, you can build a device. ── Google
 </div>
 </div>
 
-<div id="outline-container-org8dbc20f" class="outline-2">
-<h2 id="org8dbc20f">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org8dbc20f">
+<div id="outline-container-org7993dcb" class="outline-2">
+<h2 id="org7993dcb">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org7993dcb">
 <ul class="org-ul">
 <li><a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a></li>
 
@@ -447,7 +451,7 @@ If you can build an app, you can build a device. ── Google
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">97</span>
+              <span class="site-state-item-count">98</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -512,7 +516,7 @@ If you can build an app, you can build a device. ── Google
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc54e781"><span class="nav-text">關於 Android Things</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc9e3381"><span class="nav-text">支援的開發板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbfe7b02"><span class="nav-text">隱憂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8dbc20f"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf1bf1e9"><span class="nav-text">關於 Android Things</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4dad97b"><span class="nav-text">支援的開發板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9d7f30c"><span class="nav-text">隱憂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7993dcb"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

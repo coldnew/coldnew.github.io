@@ -8,8 +8,244 @@
     <atom:link href="/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Thu, 11 May 2017 16:29:00 GMT</pubDate>
+    <pubDate>Wed, 17 May 2017 16:47:22 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>從 GitHub 直接下載 Clojure 函式庫</title>
+      <link>https://coldnew.github.io/f421b76a/</link>
+      <guid>https://coldnew.github.io/f421b76a/</guid>
+      <pubDate>Wed, 17 May 2017 16:46:00 GMT</pubDate>
+      <description>
+         &lt;div id=&quot;content&quot;&gt;
+&lt;p&gt;
+Clojure 的用戶多半都是透過 &lt;a href=&quot;https://clojars.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Clojars&lt;/a&gt; 去下載需要用的函式庫，但有些時候你需要的函式庫可能作者還沒將該版本放到 &lt;a href=&quot;https://clojars.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Clojars&lt;/a&gt; 上，這種時候該怎麼辦呢？
+&lt;/p&gt;
+
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;
+你可以選擇:
+&lt;/p&gt;
+
+&lt;ol class=&quot;org-ol&quot;&gt;
+&lt;li&gt;透過 &lt;code&gt;lein install&lt;/code&gt; 安裝該函式庫到本地端&lt;/li&gt;
+
+&lt;li&gt;使用本文的方法，透過 &lt;a href=&quot;https://jitpack.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jitpack&lt;/a&gt; 去下載你上傳到 GitHub 的修正版本&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+(註：本文修改自 &lt;a href=&quot;https://lambdaisland.com/blog/17-05-2017-loading-clojure-libraries-directly-from-github&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Loading Clojure Libraries Directly From Github&lt;/a&gt; 一文。)
+&lt;/p&gt;
+
+&lt;div id=&quot;outline-container-orgf5c5758&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgf5c5758&quot;&gt;關於 Jitpack&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgf5c5758&quot;&gt;
+&lt;p&gt;
+傳統 Java 開發都需要將你的函式庫發布到 &lt;a href=&quot;https://maven.apache.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Maven&lt;/a&gt; 或是其他類似的 repoitory 去，是否想要像 &lt;a href=&quot;https://golang.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Go 語言&lt;/a&gt; 那樣直接從 GitHub 抓取需要的套件呢？透過 &lt;a href=&quot;https://jitpack.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;JitPack&lt;/a&gt; 就可以做到這件事。
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href=&quot;https://jitpack.io&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;JitPack&lt;/a&gt; 會幫你把指定目標的 GitHub 專案的特定 TAG 製作成 JAR 放到他們自己的套件庫，這樣你就可以針對特定 TAG 去直接下載 GitHub 的套件，而不需要等待作者發佈到 &lt;a href=&quot;https://clojars.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Clojars&lt;/a&gt; 去。
+&lt;/p&gt;
+
+&lt;p&gt;
+如果原作者沒有加入你需要的 TAG 那要怎辦呢？Fork 就好啦 ~
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org0d46ac1&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org0d46ac1&quot;&gt;如何使用&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org0d46ac1&quot;&gt;
+&lt;p&gt;
+這裡以我自己的 &lt;a href=&quot;https://github.com/coldnew/ipify.clj&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ipify.clj&lt;/a&gt; 函式庫為例，假設我們要抓取的是 tag &lt;a href=&quot;https://github.com/coldnew/ipify.clj/releases/tag/v0.1.0&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;v0.1.0&lt;/a&gt; 的版本的話，則可以在你的 &lt;code&gt;project.clj&lt;/code&gt; 加入這樣
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-clojure&quot;&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #aaffaa;&quot;&gt;defproject&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;aa&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;0.1.0-SNAPSHOT&quot;&lt;/span&gt;
+  &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;;; &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;skip ....&lt;/span&gt;
+  &lt;span style=&quot;color: #ccaaff;&quot;&gt;:dependencies&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;org.clojure&lt;/span&gt;&lt;span style=&quot;color: #c6cccc; background-color: #202020;&quot;&gt;/&lt;/span&gt;clojure &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;1.8.0&quot;&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;]&lt;/span&gt;
+                 &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;;; &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;add following&lt;/span&gt;
+                 &lt;span style=&quot;color: #aaccff;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;com.github.coldnew&lt;/span&gt;&lt;span style=&quot;color: #c6cccc; background-color: #202020;&quot;&gt;/&lt;/span&gt;ipify.clj &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;v0.1.0&quot;&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;]&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;]&lt;/span&gt;
+  &lt;span style=&quot;color: #ccaaff;&quot;&gt;:repositories&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;jitpack&quot;&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;https://jitpack.io&quot;&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;]&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;]&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+注意到這邊的 &lt;code&gt;dependencies&lt;/code&gt; 格式是 &lt;code&gt;[com.github.your-github-name/your-project-name &quot;git-tag&quot;]&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+接下來就可以透過 &lt;code&gt;lein deps&lt;/code&gt; 去抓取這個函式庫
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@Fevia ~/test $ lein deps
+Could not transfer artifact com.github.coldnew:ipify.clj:pom:v0.1.0 from/to jitpack (https://jitpack.io): Read timed out
+This could be due to a typo in :dependencies or network issues.
+If you are behind a proxy, try setting the &#39;http_proxy&#39; environment variable.
+&lt;/pre&gt;
+
+&lt;p&gt;
+第一次執行的時候可能會失敗，因為 &lt;a href=&quot;https://jitpack.io&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jitpack&lt;/a&gt; 會需要抓取你的 repo 並將其編譯好放置到套件庫去，不過等會兒在重新測試就可以成功囉
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@Fevia ~/test $ lein deps
+Retrieving com/github/coldnew/ipify.clj/v0.1.0/ipify.clj-v0.1.0.pom from jitpack
+Retrieving com/github/coldnew/ipify.clj/v0.1.0/ipify.clj-v0.1.0.jar from jitpack
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgd1ff9c6&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgd1ff9c6&quot;&gt;後記&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd1ff9c6&quot;&gt;
+&lt;p&gt;
+其實還有一個 &lt;a href=&quot;https://github.com/tobyhede/lein-git-deps&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;lein-git-deps&lt;/a&gt; 這個 &lt;a href=&quot;https://leiningen.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Leinigen&lt;/a&gt; 套件可以直接透過 git 把程式碼拉到本地端來解決你的專案依賴，不過這套件已經有段時間沒維護了。
+&lt;/p&gt;
+
+&lt;p&gt;
+大部分我自己使用的情況，都是透過 &lt;code&gt;lein install&lt;/code&gt; 安裝到本地端來滿足依賴，&lt;a href=&quot;https://jitpack.io&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jitpack&lt;/a&gt; 這個套件庫可以自動幫你處理好開源的套件倒是蠻不錯的。
+&lt;/p&gt;
+
+&lt;p&gt;
+如果是 &lt;code&gt;閉源&lt;/code&gt; 的函式庫，則可以考慮付費給 &lt;a href=&quot;https://jitpack.io&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jitpack&lt;/a&gt; 或是自己在自己的私有雲架設 Maven 倉庫。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org2cbe492&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org2cbe492&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org2cbe492&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;https://lambdaisland.com/blog/17-05-2017-loading-clojure-libraries-directly-from-github&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Loading Clojure Libraries Directly From Github&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;https://github.com/GcsSloop/AndroidNote/blob/master/Course/ReleaseLibraryByJitPack.md&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;优雅的发布 Android 开源库(论 JitPack 的优越性)&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;http://www.jianshu.com/p/e443456bb506&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android 寫自己的開源庫，發佈到 JitPack.io&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+      </description>
+      <content:encoded><![CDATA[&lt;div id=&quot;content&quot;&gt;
+&lt;p&gt;
+Clojure 的用戶多半都是透過 &lt;a href=&quot;https://clojars.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Clojars&lt;/a&gt; 去下載需要用的函式庫，但有些時候你需要的函式庫可能作者還沒將該版本放到 &lt;a href=&quot;https://clojars.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Clojars&lt;/a&gt; 上，這種時候該怎麼辦呢？
+&lt;/p&gt;
+
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;
+你可以選擇:
+&lt;/p&gt;
+
+&lt;ol class=&quot;org-ol&quot;&gt;
+&lt;li&gt;透過 &lt;code&gt;lein install&lt;/code&gt; 安裝該函式庫到本地端&lt;/li&gt;
+
+&lt;li&gt;使用本文的方法，透過 &lt;a href=&quot;https://jitpack.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jitpack&lt;/a&gt; 去下載你上傳到 GitHub 的修正版本&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+(註：本文修改自 &lt;a href=&quot;https://lambdaisland.com/blog/17-05-2017-loading-clojure-libraries-directly-from-github&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Loading Clojure Libraries Directly From Github&lt;/a&gt; 一文。)
+&lt;/p&gt;
+
+&lt;div id=&quot;outline-container-orgf5c5758&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgf5c5758&quot;&gt;關於 Jitpack&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgf5c5758&quot;&gt;
+&lt;p&gt;
+傳統 Java 開發都需要將你的函式庫發布到 &lt;a href=&quot;https://maven.apache.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Maven&lt;/a&gt; 或是其他類似的 repoitory 去，是否想要像 &lt;a href=&quot;https://golang.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Go 語言&lt;/a&gt; 那樣直接從 GitHub 抓取需要的套件呢？透過 &lt;a href=&quot;https://jitpack.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;JitPack&lt;/a&gt; 就可以做到這件事。
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href=&quot;https://jitpack.io&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;JitPack&lt;/a&gt; 會幫你把指定目標的 GitHub 專案的特定 TAG 製作成 JAR 放到他們自己的套件庫，這樣你就可以針對特定 TAG 去直接下載 GitHub 的套件，而不需要等待作者發佈到 &lt;a href=&quot;https://clojars.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Clojars&lt;/a&gt; 去。
+&lt;/p&gt;
+
+&lt;p&gt;
+如果原作者沒有加入你需要的 TAG 那要怎辦呢？Fork 就好啦 ~
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org0d46ac1&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org0d46ac1&quot;&gt;如何使用&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org0d46ac1&quot;&gt;
+&lt;p&gt;
+這裡以我自己的 &lt;a href=&quot;https://github.com/coldnew/ipify.clj&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ipify.clj&lt;/a&gt; 函式庫為例，假設我們要抓取的是 tag &lt;a href=&quot;https://github.com/coldnew/ipify.clj/releases/tag/v0.1.0&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;v0.1.0&lt;/a&gt; 的版本的話，則可以在你的 &lt;code&gt;project.clj&lt;/code&gt; 加入這樣
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-clojure&quot;&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #aaffaa;&quot;&gt;defproject&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;aa&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;0.1.0-SNAPSHOT&quot;&lt;/span&gt;
+  &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;;; &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;skip ....&lt;/span&gt;
+  &lt;span style=&quot;color: #ccaaff;&quot;&gt;:dependencies&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;org.clojure&lt;/span&gt;&lt;span style=&quot;color: #c6cccc; background-color: #202020;&quot;&gt;/&lt;/span&gt;clojure &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;1.8.0&quot;&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;]&lt;/span&gt;
+                 &lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;;; &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;add following&lt;/span&gt;
+                 &lt;span style=&quot;color: #aaccff;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #fff59d;&quot;&gt;com.github.coldnew&lt;/span&gt;&lt;span style=&quot;color: #c6cccc; background-color: #202020;&quot;&gt;/&lt;/span&gt;ipify.clj &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;v0.1.0&quot;&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;]&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;]&lt;/span&gt;
+  &lt;span style=&quot;color: #ccaaff;&quot;&gt;:repositories&lt;/span&gt; &lt;span style=&quot;color: #81d4fa;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;jitpack&quot;&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;https://jitpack.io&quot;&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;]&lt;/span&gt;&lt;span style=&quot;color: #81d4fa;&quot;&gt;]&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+注意到這邊的 &lt;code&gt;dependencies&lt;/code&gt; 格式是 &lt;code&gt;[com.github.your-github-name/your-project-name &quot;git-tag&quot;]&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+接下來就可以透過 &lt;code&gt;lein deps&lt;/code&gt; 去抓取這個函式庫
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@Fevia ~/test $ lein deps
+Could not transfer artifact com.github.coldnew:ipify.clj:pom:v0.1.0 from/to jitpack (https://jitpack.io): Read timed out
+This could be due to a typo in :dependencies or network issues.
+If you are behind a proxy, try setting the &#39;http_proxy&#39; environment variable.
+&lt;/pre&gt;
+
+&lt;p&gt;
+第一次執行的時候可能會失敗，因為 &lt;a href=&quot;https://jitpack.io&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jitpack&lt;/a&gt; 會需要抓取你的 repo 並將其編譯好放置到套件庫去，不過等會兒在重新測試就可以成功囉
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@Fevia ~/test $ lein deps
+Retrieving com/github/coldnew/ipify.clj/v0.1.0/ipify.clj-v0.1.0.pom from jitpack
+Retrieving com/github/coldnew/ipify.clj/v0.1.0/ipify.clj-v0.1.0.jar from jitpack
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgd1ff9c6&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgd1ff9c6&quot;&gt;後記&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd1ff9c6&quot;&gt;
+&lt;p&gt;
+其實還有一個 &lt;a href=&quot;https://github.com/tobyhede/lein-git-deps&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;lein-git-deps&lt;/a&gt; 這個 &lt;a href=&quot;https://leiningen.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Leinigen&lt;/a&gt; 套件可以直接透過 git 把程式碼拉到本地端來解決你的專案依賴，不過這套件已經有段時間沒維護了。
+&lt;/p&gt;
+
+&lt;p&gt;
+大部分我自己使用的情況，都是透過 &lt;code&gt;lein install&lt;/code&gt; 安裝到本地端來滿足依賴，&lt;a href=&quot;https://jitpack.io&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jitpack&lt;/a&gt; 這個套件庫可以自動幫你處理好開源的套件倒是蠻不錯的。
+&lt;/p&gt;
+
+&lt;p&gt;
+如果是 &lt;code&gt;閉源&lt;/code&gt; 的函式庫，則可以考慮付費給 &lt;a href=&quot;https://jitpack.io&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jitpack&lt;/a&gt; 或是自己在自己的私有雲架設 Maven 倉庫。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org2cbe492&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org2cbe492&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org2cbe492&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;https://lambdaisland.com/blog/17-05-2017-loading-clojure-libraries-directly-from-github&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Loading Clojure Libraries Directly From Github&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;https://github.com/GcsSloop/AndroidNote/blob/master/Course/ReleaseLibraryByJitPack.md&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;优雅的发布 Android 开源库(论 JitPack 的优越性)&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;http://www.jianshu.com/p/e443456bb506&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android 寫自己的開源庫，發佈到 JitPack.io&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+]]></content:encoded>
+      <comments>https://coldnew.github.io/f421b76a/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>Android Things 學習筆記: GPIO 的輸出控制</title>
@@ -1358,9 +1594,9 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 
-&lt;div id=&quot;outline-container-orgc54e781&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgc54e781&quot;&gt;關於 Android Things&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc54e781&quot;&gt;
+&lt;div id=&quot;outline-container-orgf1bf1e9&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgf1bf1e9&quot;&gt;關於 Android Things&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgf1bf1e9&quot;&gt;
 &lt;p&gt;
 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 前身為 Google 的 &lt;a href=&quot;http://chinese.engadget.com/2015/05/28/project-brillo-google-iot/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Brillo 專案&lt;/a&gt; ，在約 2016 年底改名為 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 。這東西到底是什麼? 
 &lt;/p&gt;
@@ -1409,9 +1645,9 @@ If you can build an app, you can build a device. ── Google
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-orgc9e3381&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgc9e3381&quot;&gt;支援的開發板&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc9e3381&quot;&gt;
+&lt;div id=&quot;outline-container-org4dad97b&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org4dad97b&quot;&gt;支援的開發板&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org4dad97b&quot;&gt;
 &lt;p&gt;
 那如果我們想要入門 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 的話，需要哪些開發板呢?
 &lt;/p&gt;
@@ -1432,15 +1668,19 @@ If you can build an app, you can build a device. ── Google
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-orgbfe7b02&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgbfe7b02&quot;&gt;隱憂&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgbfe7b02&quot;&gt;
+&lt;div id=&quot;outline-container-org9d7f30c&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org9d7f30c&quot;&gt;隱憂&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org9d7f30c&quot;&gt;
 &lt;p&gt;
 雖然 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 是由 Google 所提出的專案，但很多 Google 提出的專案也有面臨過被廢棄的命運，比如 &lt;a href=&quot;http://hk.on.cc/hk/bkn/cnt/finance/20160903/bkn-20160903201859069-0903_00842_001.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Project Arc (積木手機)&lt;/a&gt; 這個計畫也被 Google 廢棄了，  &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 是否值得追隨也是個很大的問題。
 &lt;/p&gt;
 
 &lt;p&gt;
-另外一個問題是，對於物連網裝置 (Internet of Things, IoT)，我們常用的設備都是不到 1MB 記憶體的微控制器(MCU)裝置，而 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 最低要求要 &lt;code&gt;256MB 的記憶體&lt;/code&gt; 以及動輒 &lt;code&gt;100MB 大小的儲存裝置&lt;/code&gt; ，以成本來考量這其實是蠻浪費的。 (還不如去用 &lt;a href=&quot;https://www.mbed.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;mbed&lt;/a&gt; 還比較划算)
+此外，對於物連網裝置 (Internet of Things, IoT)，我們常用的設備都是不到 1MB 記憶體的微控制器(MCU)裝置，而 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 最低要求要 &lt;code&gt;256MB 的記憶體&lt;/code&gt; 以及動輒 &lt;code&gt;100MB 大小的儲存裝置&lt;/code&gt; ，以成本來考量這其實是蠻浪費的。 (還不如去用 &lt;a href=&quot;https://www.mbed.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;mbed&lt;/a&gt; 還比較划算)
+&lt;/p&gt;
+
+&lt;p&gt;
+還有一個是 &lt;code&gt;開機時間&lt;/code&gt; ，如果你的系統是設計讓人隨時可以關機的，那你要考慮清楚是否要對 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 作些額外處理，在 &lt;a href=&quot;https://coldnew.github.io/468144f4/&quot;&gt;Android Things 學習筆記: GPIO 的輸出控制&lt;/a&gt; 我們實作了 Raspberry Pi 3 搭配 LED 閃爍功能，如果斷掉系統電源再重新上電的話，到 LED 開始閃爍花了 &lt;code&gt;1.06 分鐘&lt;/code&gt; 。(也就是系統啟動到執行程式需要花很多時間，正式產品是一定要多作些優化的)
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -1449,9 +1689,9 @@ If you can build an app, you can build a device. ── Google
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org8dbc20f&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org8dbc20f&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org8dbc20f&quot;&gt;
+&lt;div id=&quot;outline-container-org7993dcb&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org7993dcb&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org7993dcb&quot;&gt;
 &lt;ul class=&quot;org-ul&quot;&gt;
 &lt;li&gt;&lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt;&lt;/li&gt;
 
@@ -1471,9 +1711,9 @@ If you can build an app, you can build a device. ── Google
 
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 
-&lt;div id=&quot;outline-container-orgc54e781&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgc54e781&quot;&gt;關於 Android Things&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc54e781&quot;&gt;
+&lt;div id=&quot;outline-container-orgf1bf1e9&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgf1bf1e9&quot;&gt;關於 Android Things&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgf1bf1e9&quot;&gt;
 &lt;p&gt;
 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 前身為 Google 的 &lt;a href=&quot;http://chinese.engadget.com/2015/05/28/project-brillo-google-iot/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Brillo 專案&lt;/a&gt; ，在約 2016 年底改名為 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 。這東西到底是什麼? 
 &lt;/p&gt;
@@ -1522,9 +1762,9 @@ If you can build an app, you can build a device. ── Google
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-orgc9e3381&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgc9e3381&quot;&gt;支援的開發板&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc9e3381&quot;&gt;
+&lt;div id=&quot;outline-container-org4dad97b&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org4dad97b&quot;&gt;支援的開發板&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org4dad97b&quot;&gt;
 &lt;p&gt;
 那如果我們想要入門 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 的話，需要哪些開發板呢?
 &lt;/p&gt;
@@ -1545,15 +1785,19 @@ If you can build an app, you can build a device. ── Google
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-orgbfe7b02&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgbfe7b02&quot;&gt;隱憂&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgbfe7b02&quot;&gt;
+&lt;div id=&quot;outline-container-org9d7f30c&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org9d7f30c&quot;&gt;隱憂&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org9d7f30c&quot;&gt;
 &lt;p&gt;
 雖然 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 是由 Google 所提出的專案，但很多 Google 提出的專案也有面臨過被廢棄的命運，比如 &lt;a href=&quot;http://hk.on.cc/hk/bkn/cnt/finance/20160903/bkn-20160903201859069-0903_00842_001.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Project Arc (積木手機)&lt;/a&gt; 這個計畫也被 Google 廢棄了，  &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 是否值得追隨也是個很大的問題。
 &lt;/p&gt;
 
 &lt;p&gt;
-另外一個問題是，對於物連網裝置 (Internet of Things, IoT)，我們常用的設備都是不到 1MB 記憶體的微控制器(MCU)裝置，而 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 最低要求要 &lt;code&gt;256MB 的記憶體&lt;/code&gt; 以及動輒 &lt;code&gt;100MB 大小的儲存裝置&lt;/code&gt; ，以成本來考量這其實是蠻浪費的。 (還不如去用 &lt;a href=&quot;https://www.mbed.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;mbed&lt;/a&gt; 還比較划算)
+此外，對於物連網裝置 (Internet of Things, IoT)，我們常用的設備都是不到 1MB 記憶體的微控制器(MCU)裝置，而 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 最低要求要 &lt;code&gt;256MB 的記憶體&lt;/code&gt; 以及動輒 &lt;code&gt;100MB 大小的儲存裝置&lt;/code&gt; ，以成本來考量這其實是蠻浪費的。 (還不如去用 &lt;a href=&quot;https://www.mbed.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;mbed&lt;/a&gt; 還比較划算)
+&lt;/p&gt;
+
+&lt;p&gt;
+還有一個是 &lt;code&gt;開機時間&lt;/code&gt; ，如果你的系統是設計讓人隨時可以關機的，那你要考慮清楚是否要對 &lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt; 作些額外處理，在 &lt;a href=&quot;https://coldnew.github.io/468144f4/&quot;&gt;Android Things 學習筆記: GPIO 的輸出控制&lt;/a&gt; 我們實作了 Raspberry Pi 3 搭配 LED 閃爍功能，如果斷掉系統電源再重新上電的話，到 LED 開始閃爍花了 &lt;code&gt;1.06 分鐘&lt;/code&gt; 。(也就是系統啟動到執行程式需要花很多時間，正式產品是一定要多作些優化的)
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -1562,9 +1806,9 @@ If you can build an app, you can build a device. ── Google
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org8dbc20f&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org8dbc20f&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org8dbc20f&quot;&gt;
+&lt;div id=&quot;outline-container-org7993dcb&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org7993dcb&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org7993dcb&quot;&gt;
 &lt;ul class=&quot;org-ul&quot;&gt;
 &lt;li&gt;&lt;a href=&quot;https://developer.android.com/things/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Things&lt;/a&gt;&lt;/li&gt;
 
@@ -15321,572 +15565,6 @@ Deletion of entire projects or particular versions is discouraged as you will br
 &lt;/div&gt;
 ]]></content:encoded>
       <comments>https://coldnew.github.io/7c811780/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>Zephyr RTOS 開發記錄: Mac OSX 下 SDK 編譯</title>
-      <link>https://coldnew.github.io/70ccebe8/</link>
-      <guid>https://coldnew.github.io/70ccebe8/</guid>
-      <pubDate>Mon, 29 Feb 2016 03:14:00 GMT</pubDate>
-      <description>
-         &lt;div id=&quot;content&quot;&gt;
-&lt;p&gt;
-在 &lt;a href=&quot;http://coldnew.github.io/blog/2016/02/21_zephyr/&quot;&gt;Zephyr RTOS 開發記錄: 基本環境建立&lt;/a&gt; 一文中提到了我們如何安裝 &lt;a href=&quot;https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr SDK&lt;/a&gt; 到 Linux 系統來進行開發，那如果我想要在 Mac OSX 上面開發要怎麼辦呢？
-&lt;/p&gt;
-
-&lt;p&gt;
-由於 &lt;a href=&quot;https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr SDK&lt;/a&gt; 目前僅提供 Linux 的版本，因此在 Mac OSX 中我們必須自己透過 &lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt; 去編譯我們自己的 SDK。
-&lt;/p&gt;
-
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;div id=&quot;outline-container-orge29c4b6&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orge29c4b6&quot;&gt;安裝依賴的相關套件&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orge29c4b6&quot;&gt;
-&lt;p&gt;
-第一步要做的，當然就是安裝相關套件啦，這點我們直接透過 &lt;a href=&quot;http://brew.sh/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;homebrew&lt;/a&gt; 來安裝
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ brew install gettext qemu help2man mpfr gmp coreutils wget
-&lt;/pre&gt;
-
-&lt;p&gt;
-接下來我們要安裝 GNU 的 grep 命令來替代系統內建的 grep 命令
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ brew tap homebrew/dupes
-coldnew@MacOSX ~ $ brew install grep --default-names
-&lt;/pre&gt;
-
-&lt;p&gt;
-接著，安裝我們需要用的程式: &lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ brew install crosstool-ng
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org396e373&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org396e373&quot;&gt;建立編譯環境&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org396e373&quot;&gt;
-&lt;p&gt;
-安裝好 &lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt; 後，我們需要建立一個 &lt;code&gt;Case Sensitive&lt;/code&gt; 的 HFS+ 硬碟來讓 MacOSX 可以順利編譯，以下為我建立這顆硬碟所用的命令 (佔 10G 的硬碟空間)
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;hdiutil create -volname CrossToolNG -type SPARSE &lt;span style=&quot;color: #aadddd;&quot;&gt;\&lt;/span&gt;
-        -fs &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;Case-sensitive Journaled HFS+&#39;&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;\&lt;/span&gt;
-        -size 10g CrossToolNG.sparseimage
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-完成後，打開 &lt;code&gt;CrossToolNG.sparseimage&lt;/code&gt; 這個映像檔，他會被掛載到 &lt;code&gt;/Volumes/CrossToolNG&lt;/code&gt; 去
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ open CrossToolNG.sparseimage
-&lt;/pre&gt;
-
-&lt;p&gt;
-接著我們就切換到 &lt;code&gt;/Volumes/CrossToolNG&lt;/code&gt; 來準備進行我們的編譯，順便建立一個 &lt;code&gt;src&lt;/code&gt; 資料夾讓 &lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt; 存放他下載的原始碼
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ cd /Volumes/CrossToolNG &amp;amp;&amp;amp; mkdir src
-&lt;/pre&gt;
-
-&lt;p&gt;
-我們先複製 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 裡面提供的設定檔到當前目錄
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX /Volumes/CrossToolNG $ cp ${ZEPHYR_BASE}/scripts/cross_compiler/x86.config .config
-&lt;/pre&gt;
-
-&lt;p&gt;
-如果你有什麼設定要修正的話，可以使用 &lt;code&gt;ct-ng menuconfig&lt;/code&gt; 來進行修改
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX /Volumes/CrossToolNG $ ct-ng menuconfig
-&lt;/pre&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/70ccebe8/menuconfig-osx.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-另外，在進行編譯前要確認以下幾個設定是否和你編譯目錄 (/Volumes/CrossToolNG) 一致
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_LOCAL_TARBALLS_DIR&lt;/span&gt;=&lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;/Volumes/CrossToolNG/src&quot;&lt;/span&gt;
-&lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;CT_SAVE_TARBALLS is not set&lt;/span&gt;
-&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_WORK_DIR&lt;/span&gt;=&lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;${CT_TOP_DIR}/.build&quot;&lt;/span&gt;
-&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_PREFIX_DIR&lt;/span&gt;=&lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;/Volumes/CrossToolNG/x-tools/${CT_TARGET}&quot;&lt;/span&gt;
-&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_INSTALL_DIR&lt;/span&gt;=&lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;${CT_PREFIX_DIR}&quot;&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-都確認沒問題後，就開始我們的編譯吧 gogogo ~
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX /Volumes/CrossToolNG $ ct-ng build
-&lt;/pre&gt;
-
-&lt;p&gt;
-接著你可以去泡杯咖啡或出去走走，編譯工具鍊 (toolchain) 很花時間的
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgecd4d4e&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgecd4d4e&quot;&gt;設定編譯環境&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgecd4d4e&quot;&gt;
-&lt;p&gt;
-完成編譯我們要的工具鍊 (toolchain) 後，我們可以在 &lt;code&gt;/Volumes/CrossToolNG&lt;/code&gt; 看到以下的資料夾，其中 &lt;code&gt;x-tools&lt;/code&gt; 就是我們編譯出來的結果
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
-. &amp;lt;b&amp;gt;
-├── build.log &amp;lt;g&amp;gt;
-├── config -&amp;gt; /usr/local/Cellar/crosstool-ng/1.22.0/lib/crosstool-ng-1.22.0/config &amp;lt;lb&amp;gt;
-├── config.gen &amp;lt;b&amp;gt;
-├── src &amp;lt;b&amp;gt;
-└── x-tools &amp;lt;b&amp;gt;
-
-4 directories, 1 file
-&lt;/pre&gt;
-
-&lt;p&gt;
-最後，在你的 &lt;code&gt;~/.zephyrrc&lt;/code&gt; 設定這些環境變數就可以去嘗試編譯你的 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr kernel&lt;/a&gt; 看看囉 ~
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@MacOSX ~ $ vim ~/.zephyrrc
-
-&lt;span style=&quot;color: #ccaaff;&quot;&gt;export&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;XTOOLS_TOOLCHAIN_PATH&lt;/span&gt;=/Volumes/CrossToolNG/x-tools
-&lt;span style=&quot;color: #ccaaff;&quot;&gt;export&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;ZEPHYR_SDK_INSTALL_DIR&lt;/span&gt;=$&lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;XTOOLS_TOOLCHAIN_PATH&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
-&lt;span style=&quot;color: #ccaaff;&quot;&gt;export&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;ZEPHYR_GCC_VARIANT&lt;/span&gt;=xtools
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgc19f781&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgc19f781&quot;&gt;可能會遇到的錯誤&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc19f781&quot;&gt;
-&lt;p&gt;
-在 Mac OSX 下編譯非 Apple 官方的東西常常會出現一堆奇怪的錯誤，有時是因為 XCode 的改動，有時是因為你透過 &lt;a href=&quot;http://brew.sh/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;homebrew&lt;/a&gt; 安裝了其他命令和 Mac OSX 內建的有衝突。
-&lt;/p&gt;
-
-&lt;p&gt;
-下面紀錄我在這次編譯遇到的錯誤:
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgb2ef69a&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;orgb2ef69a&quot;&gt;stat: cannot read file system information for &#39;%Lp&#39;&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgb2ef69a&quot;&gt;
-&lt;p&gt;
-如果你遇到了這個問題，哪很有可能是因為你的系統同時也裝了 &lt;a href=&quot;http://www.gnu.org/software/coreutils/coreutils.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GNU coreutils&lt;/a&gt; 導致 &lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt; 調用的命令是 GNU 的 &lt;code&gt;stat&lt;/code&gt; 命令，而不是系統內建的 stat 命令。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-[INFO ]  Performing some trivial sanity checks
-[INFO ]  Build started 20160229.010627
-[INFO ]  Building environment variables
-[EXTRA]  Preparing working directories
-[00:01] / stat: cannot read file system information for &#39;%Lp&#39;: No such file or directory
-[ERROR]
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  Build failed in step &#39;(top-level)&#39;
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  Error happened in: CT_DoForceRmdir[scripts/functions@460]
-[ERROR]  &amp;gt;&amp;gt;        called from: main[scripts/crosstool-NG.sh@238]
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  For more info on this error, look at the file: &#39;build.log&#39;
-[ERROR]  &amp;gt;&amp;gt;  There is a list of known issues, some with workarounds, in:
-[ERROR]  &amp;gt;&amp;gt;      &#39;/usr/local/Cellar/crosstool-ng/1.22.0/share/doc/crosstool-ng/crosstool-ng-1.22.0/B - Known issues.txt&#39;
-[ERROR]
-[ERROR]  (elapsed: 0:00.70)
-[00:01] / make: *** [build] Error 1
-&lt;/pre&gt;
-
-&lt;p&gt;
-我們可以透過 &lt;code&gt;which&lt;/code&gt; 命令去檢查是否真的用到  &lt;a href=&quot;http://www.gnu.org/software/coreutils/coreutils.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GNU coreutils&lt;/a&gt; 的 &lt;code&gt;stat&lt;/code&gt; 命令
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ which stat
-/usr/local/opt/coreutils/libexec/gnubin/stat
-&lt;/pre&gt;
-
-&lt;p&gt;
-我自己由於不常用 &lt;i&gt;stat&lt;/i&gt; 命令，所以選擇移除已經編譯好的 stat 連結，改用系統內建的 &lt;i&gt;stat&lt;/i&gt;
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ rm /usr/local/opt/coreutils/libexec/gnubin/stat
-&lt;/pre&gt;
-
-&lt;p&gt;
-&lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt; 要找的 &lt;i&gt;stat&lt;/i&gt; 則是在 &lt;code&gt;/usr/bin&lt;/code&gt; 下
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ which stat
-/usr/bin/stat
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgc3ad37f&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;orgc3ad37f&quot;&gt;ld: library not found for -lcrt0.o&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgc3ad37f&quot;&gt;
-&lt;p&gt;
-&lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 提供的 &lt;code&gt;.config&lt;/code&gt; 有打開靜態連結 (static link) 相關的設定，於是你會遇到這樣的狀況，解法參考 &lt;a href=&quot;https://github.com/crosstool-ng/crosstool-ng/issues/31&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;issue #31&lt;/a&gt; 移除 static link 相關設定。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-[INFO ]  Performing some trivial sanity checks
-[INFO ]  Build started 20160229.011000
-[INFO ]  Building environment variables
-[EXTRA]  Preparing working directories
-[ERROR]    clang: error: linker command failed with exit code 1 (use -v to see invocation)
-[ERROR]
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  Build failed in step &#39;Checking that gcc can compile a trivial statically linked program (CT_WANTS_STATIC_LINK)&#39;
-[ERROR]  &amp;gt;&amp;gt;        called in step &#39;(top-level)&#39;
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  Error happened in: CT_DoExecLog[scripts/functions@216]
-[ERROR]  &amp;gt;&amp;gt;        called from: main[scripts/crosstool-NG.sh@554]
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  For more info on this error, look at the file: &#39;build.log&#39;
-[ERROR]  &amp;gt;&amp;gt;  There is a list of known issues, some with workarounds, in:
-[ERROR]  &amp;gt;&amp;gt;      &#39;/usr/local/Cellar/crosstool-ng/1.22.0/share/doc/crosstool-ng/crosstool-ng-1.22.0/B - Known issues.txt&#39;
-[ERROR]
-[ERROR]  (elapsed: 0:03.48)
-[00:05] / make: *** [build] Error 1
-&lt;/pre&gt;
-
-&lt;p&gt;
-我自己是將 &lt;code&gt;.config&lt;/code&gt; 裡面這兩個靜態連結 (static link) 相關的函式庫設定為取消後就可以正常編譯囉~
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_WANTS_STATIC_LINK&lt;/span&gt;=n
-&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_CC_GCC_STATIC_LIBSTDCXX&lt;/span&gt;=n
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org818c9bc&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org818c9bc&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org818c9bc&quot;&gt;
-&lt;p&gt;
-&lt;code&gt;[1]&lt;/code&gt; &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr Project Website&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;code&gt;[2]&lt;/code&gt; &lt;a href=&quot;http://linuxgizmos.com/zephyr-a-tiny-open-source-iot-rtos/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Meet Linux&#39;s little brother: Zephyr, a tiny open-source IoT RTOS&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-      </description>
-      <content:encoded><![CDATA[&lt;div id=&quot;content&quot;&gt;
-&lt;p&gt;
-在 &lt;a href=&quot;http://coldnew.github.io/blog/2016/02/21_zephyr/&quot;&gt;Zephyr RTOS 開發記錄: 基本環境建立&lt;/a&gt; 一文中提到了我們如何安裝 &lt;a href=&quot;https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr SDK&lt;/a&gt; 到 Linux 系統來進行開發，那如果我想要在 Mac OSX 上面開發要怎麼辦呢？
-&lt;/p&gt;
-
-&lt;p&gt;
-由於 &lt;a href=&quot;https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr SDK&lt;/a&gt; 目前僅提供 Linux 的版本，因此在 Mac OSX 中我們必須自己透過 &lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt; 去編譯我們自己的 SDK。
-&lt;/p&gt;
-
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;div id=&quot;outline-container-orge29c4b6&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orge29c4b6&quot;&gt;安裝依賴的相關套件&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orge29c4b6&quot;&gt;
-&lt;p&gt;
-第一步要做的，當然就是安裝相關套件啦，這點我們直接透過 &lt;a href=&quot;http://brew.sh/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;homebrew&lt;/a&gt; 來安裝
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ brew install gettext qemu help2man mpfr gmp coreutils wget
-&lt;/pre&gt;
-
-&lt;p&gt;
-接下來我們要安裝 GNU 的 grep 命令來替代系統內建的 grep 命令
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ brew tap homebrew/dupes
-coldnew@MacOSX ~ $ brew install grep --default-names
-&lt;/pre&gt;
-
-&lt;p&gt;
-接著，安裝我們需要用的程式: &lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ brew install crosstool-ng
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org396e373&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org396e373&quot;&gt;建立編譯環境&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org396e373&quot;&gt;
-&lt;p&gt;
-安裝好 &lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt; 後，我們需要建立一個 &lt;code&gt;Case Sensitive&lt;/code&gt; 的 HFS+ 硬碟來讓 MacOSX 可以順利編譯，以下為我建立這顆硬碟所用的命令 (佔 10G 的硬碟空間)
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;hdiutil create -volname CrossToolNG -type SPARSE &lt;span style=&quot;color: #aadddd;&quot;&gt;\&lt;/span&gt;
-        -fs &lt;span style=&quot;color: #aadddd;&quot;&gt;&#39;Case-sensitive Journaled HFS+&#39;&lt;/span&gt; &lt;span style=&quot;color: #aadddd;&quot;&gt;\&lt;/span&gt;
-        -size 10g CrossToolNG.sparseimage
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-完成後，打開 &lt;code&gt;CrossToolNG.sparseimage&lt;/code&gt; 這個映像檔，他會被掛載到 &lt;code&gt;/Volumes/CrossToolNG&lt;/code&gt; 去
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ open CrossToolNG.sparseimage
-&lt;/pre&gt;
-
-&lt;p&gt;
-接著我們就切換到 &lt;code&gt;/Volumes/CrossToolNG&lt;/code&gt; 來準備進行我們的編譯，順便建立一個 &lt;code&gt;src&lt;/code&gt; 資料夾讓 &lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt; 存放他下載的原始碼
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ cd /Volumes/CrossToolNG &amp;amp;&amp;amp; mkdir src
-&lt;/pre&gt;
-
-&lt;p&gt;
-我們先複製 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 裡面提供的設定檔到當前目錄
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX /Volumes/CrossToolNG $ cp ${ZEPHYR_BASE}/scripts/cross_compiler/x86.config .config
-&lt;/pre&gt;
-
-&lt;p&gt;
-如果你有什麼設定要修正的話，可以使用 &lt;code&gt;ct-ng menuconfig&lt;/code&gt; 來進行修改
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX /Volumes/CrossToolNG $ ct-ng menuconfig
-&lt;/pre&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/70ccebe8/menuconfig-osx.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-另外，在進行編譯前要確認以下幾個設定是否和你編譯目錄 (/Volumes/CrossToolNG) 一致
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_LOCAL_TARBALLS_DIR&lt;/span&gt;=&lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;/Volumes/CrossToolNG/src&quot;&lt;/span&gt;
-&lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;CT_SAVE_TARBALLS is not set&lt;/span&gt;
-&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_WORK_DIR&lt;/span&gt;=&lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;${CT_TOP_DIR}/.build&quot;&lt;/span&gt;
-&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_PREFIX_DIR&lt;/span&gt;=&lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;/Volumes/CrossToolNG/x-tools/${CT_TARGET}&quot;&lt;/span&gt;
-&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_INSTALL_DIR&lt;/span&gt;=&lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;${CT_PREFIX_DIR}&quot;&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-都確認沒問題後，就開始我們的編譯吧 gogogo ~
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX /Volumes/CrossToolNG $ ct-ng build
-&lt;/pre&gt;
-
-&lt;p&gt;
-接著你可以去泡杯咖啡或出去走走，編譯工具鍊 (toolchain) 很花時間的
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgecd4d4e&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgecd4d4e&quot;&gt;設定編譯環境&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgecd4d4e&quot;&gt;
-&lt;p&gt;
-完成編譯我們要的工具鍊 (toolchain) 後，我們可以在 &lt;code&gt;/Volumes/CrossToolNG&lt;/code&gt; 看到以下的資料夾，其中 &lt;code&gt;x-tools&lt;/code&gt; 就是我們編譯出來的結果
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
-. &amp;lt;b&amp;gt;
-├── build.log &amp;lt;g&amp;gt;
-├── config -&amp;gt; /usr/local/Cellar/crosstool-ng/1.22.0/lib/crosstool-ng-1.22.0/config &amp;lt;lb&amp;gt;
-├── config.gen &amp;lt;b&amp;gt;
-├── src &amp;lt;b&amp;gt;
-└── x-tools &amp;lt;b&amp;gt;
-
-4 directories, 1 file
-&lt;/pre&gt;
-
-&lt;p&gt;
-最後，在你的 &lt;code&gt;~/.zephyrrc&lt;/code&gt; 設定這些環境變數就可以去嘗試編譯你的 &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr kernel&lt;/a&gt; 看看囉 ~
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@MacOSX ~ $ vim ~/.zephyrrc
-
-&lt;span style=&quot;color: #ccaaff;&quot;&gt;export&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;XTOOLS_TOOLCHAIN_PATH&lt;/span&gt;=/Volumes/CrossToolNG/x-tools
-&lt;span style=&quot;color: #ccaaff;&quot;&gt;export&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;ZEPHYR_SDK_INSTALL_DIR&lt;/span&gt;=$&lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;XTOOLS_TOOLCHAIN_PATH&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt;
-&lt;span style=&quot;color: #ccaaff;&quot;&gt;export&lt;/span&gt; &lt;span style=&quot;color: #aaccff;&quot;&gt;ZEPHYR_GCC_VARIANT&lt;/span&gt;=xtools
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgc19f781&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgc19f781&quot;&gt;可能會遇到的錯誤&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc19f781&quot;&gt;
-&lt;p&gt;
-在 Mac OSX 下編譯非 Apple 官方的東西常常會出現一堆奇怪的錯誤，有時是因為 XCode 的改動，有時是因為你透過 &lt;a href=&quot;http://brew.sh/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;homebrew&lt;/a&gt; 安裝了其他命令和 Mac OSX 內建的有衝突。
-&lt;/p&gt;
-
-&lt;p&gt;
-下面紀錄我在這次編譯遇到的錯誤:
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgb2ef69a&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;orgb2ef69a&quot;&gt;stat: cannot read file system information for &#39;%Lp&#39;&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgb2ef69a&quot;&gt;
-&lt;p&gt;
-如果你遇到了這個問題，哪很有可能是因為你的系統同時也裝了 &lt;a href=&quot;http://www.gnu.org/software/coreutils/coreutils.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GNU coreutils&lt;/a&gt; 導致 &lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt; 調用的命令是 GNU 的 &lt;code&gt;stat&lt;/code&gt; 命令，而不是系統內建的 stat 命令。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-[INFO ]  Performing some trivial sanity checks
-[INFO ]  Build started 20160229.010627
-[INFO ]  Building environment variables
-[EXTRA]  Preparing working directories
-[00:01] / stat: cannot read file system information for &#39;%Lp&#39;: No such file or directory
-[ERROR]
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  Build failed in step &#39;(top-level)&#39;
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  Error happened in: CT_DoForceRmdir[scripts/functions@460]
-[ERROR]  &amp;gt;&amp;gt;        called from: main[scripts/crosstool-NG.sh@238]
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  For more info on this error, look at the file: &#39;build.log&#39;
-[ERROR]  &amp;gt;&amp;gt;  There is a list of known issues, some with workarounds, in:
-[ERROR]  &amp;gt;&amp;gt;      &#39;/usr/local/Cellar/crosstool-ng/1.22.0/share/doc/crosstool-ng/crosstool-ng-1.22.0/B - Known issues.txt&#39;
-[ERROR]
-[ERROR]  (elapsed: 0:00.70)
-[00:01] / make: *** [build] Error 1
-&lt;/pre&gt;
-
-&lt;p&gt;
-我們可以透過 &lt;code&gt;which&lt;/code&gt; 命令去檢查是否真的用到  &lt;a href=&quot;http://www.gnu.org/software/coreutils/coreutils.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GNU coreutils&lt;/a&gt; 的 &lt;code&gt;stat&lt;/code&gt; 命令
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ which stat
-/usr/local/opt/coreutils/libexec/gnubin/stat
-&lt;/pre&gt;
-
-&lt;p&gt;
-我自己由於不常用 &lt;i&gt;stat&lt;/i&gt; 命令，所以選擇移除已經編譯好的 stat 連結，改用系統內建的 &lt;i&gt;stat&lt;/i&gt;
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ rm /usr/local/opt/coreutils/libexec/gnubin/stat
-&lt;/pre&gt;
-
-&lt;p&gt;
-&lt;a href=&quot;http://crosstool-ng.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;crosstool-ng&lt;/a&gt; 要找的 &lt;i&gt;stat&lt;/i&gt; 則是在 &lt;code&gt;/usr/bin&lt;/code&gt; 下
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@MacOSX ~ $ which stat
-/usr/bin/stat
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgc3ad37f&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;orgc3ad37f&quot;&gt;ld: library not found for -lcrt0.o&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgc3ad37f&quot;&gt;
-&lt;p&gt;
-&lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr&lt;/a&gt; 提供的 &lt;code&gt;.config&lt;/code&gt; 有打開靜態連結 (static link) 相關的設定，於是你會遇到這樣的狀況，解法參考 &lt;a href=&quot;https://github.com/crosstool-ng/crosstool-ng/issues/31&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;issue #31&lt;/a&gt; 移除 static link 相關設定。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-[INFO ]  Performing some trivial sanity checks
-[INFO ]  Build started 20160229.011000
-[INFO ]  Building environment variables
-[EXTRA]  Preparing working directories
-[ERROR]    clang: error: linker command failed with exit code 1 (use -v to see invocation)
-[ERROR]
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  Build failed in step &#39;Checking that gcc can compile a trivial statically linked program (CT_WANTS_STATIC_LINK)&#39;
-[ERROR]  &amp;gt;&amp;gt;        called in step &#39;(top-level)&#39;
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  Error happened in: CT_DoExecLog[scripts/functions@216]
-[ERROR]  &amp;gt;&amp;gt;        called from: main[scripts/crosstool-NG.sh@554]
-[ERROR]  &amp;gt;&amp;gt;
-[ERROR]  &amp;gt;&amp;gt;  For more info on this error, look at the file: &#39;build.log&#39;
-[ERROR]  &amp;gt;&amp;gt;  There is a list of known issues, some with workarounds, in:
-[ERROR]  &amp;gt;&amp;gt;      &#39;/usr/local/Cellar/crosstool-ng/1.22.0/share/doc/crosstool-ng/crosstool-ng-1.22.0/B - Known issues.txt&#39;
-[ERROR]
-[ERROR]  (elapsed: 0:03.48)
-[00:05] / make: *** [build] Error 1
-&lt;/pre&gt;
-
-&lt;p&gt;
-我自己是將 &lt;code&gt;.config&lt;/code&gt; 裡面這兩個靜態連結 (static link) 相關的函式庫設定為取消後就可以正常編譯囉~
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_WANTS_STATIC_LINK&lt;/span&gt;=n
-&lt;span style=&quot;color: #aaccff;&quot;&gt;CT_CC_GCC_STATIC_LIBSTDCXX&lt;/span&gt;=n
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org818c9bc&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org818c9bc&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org818c9bc&quot;&gt;
-&lt;p&gt;
-&lt;code&gt;[1]&lt;/code&gt; &lt;a href=&quot;https://www.zephyrproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zephyr Project Website&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;code&gt;[2]&lt;/code&gt; &lt;a href=&quot;http://linuxgizmos.com/zephyr-a-tiny-open-source-iot-rtos/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Meet Linux&#39;s little brother: Zephyr, a tiny open-source IoT RTOS&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-]]></content:encoded>
-      <comments>https://coldnew.github.io/70ccebe8/#disqus_thread</comments>
     </item>
     
   </channel>
