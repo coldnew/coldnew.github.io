@@ -256,9 +256,9 @@ ubifs 的掛載描述
 我們想讓 Android 的 init 掛載 ubifs 要怎麼辦? 這時候只好自己動手了~
 </p>
 
-<div id="outline-container-org2103be9" class="outline-2">
-<h2 id="org2103be9">讓 init 可以掛載 ubifs 所進行的修改</h2>
-<div class="outline-text-2" id="text-org2103be9">
+<div id="outline-container-org5ae5ea4" class="outline-2">
+<h2 id="org5ae5ea4">讓 init 可以掛載 ubifs 所進行的修改</h2>
+<div class="outline-text-2" id="text-org5ae5ea4">
 <p>
 Android 的 init 原始碼位於 <code>system/core/init</code> 裡面，為了增加 ubifs 的功
 能，我們將針對以下檔案進行修改
@@ -272,9 +272,9 @@ Android 的 init 原始碼位於 <code>system/core/init</code> 裡面，為了�
 </ul>
 </div>
 
-<div id="outline-container-org29c6f30" class="outline-3">
-<h3 id="org29c6f30">修改 init/builtins.c</h3>
-<div class="outline-text-3" id="text-org29c6f30">
+<div id="outline-container-org9d12b24" class="outline-3">
+<h3 id="org9d12b24">修改 init/builtins.c</h3>
+<div class="outline-text-3" id="text-org9d12b24">
 <p>
 我們所希望的是可以在 init.rc 增加下面這樣的描述，讓 init 可以掛載 ubifs
 </p>
@@ -317,15 +317,15 @@ mtd 設備。
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">        goto exit_success;</span>
 <span style="color: #dddddd;">     } else if (!strncmp(source, "loop@", 5)) {</span>
 <span style="color: #dddddd;">         int mode, loop, fd;</span>
-<span style="color: #dddddd;">         struct loop_info info;</span>
+         struct loop_info info;
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org9c0e707" class="outline-3">
-<h3 id="org9c0e707">修改 init/util.h</h3>
-<div class="outline-text-3" id="text-org9c0e707">
+<div id="outline-container-org465d495" class="outline-3">
+<h3 id="org465d495">修改 init/util.h</h3>
+<div class="outline-text-3" id="text-org465d495">
 <p>
 我們在 <code>system/core/init/builtins.c</code> 使用到一些和 ubifs 相關的函式，這
 些函式並未被宣告以及定義，因此我們宣告在 util.h 裡面。
@@ -343,15 +343,15 @@ mtd 設備。
 <span style="color: #aaffaa; font-weight: bold;">+</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">int ubi_attach_mtd(const char *name);</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">int ubi_detach_dev(int dev);</span>
-<span style="color: #dddddd;"> #endif</span>
+ #endif
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1a25544" class="outline-3">
-<h3 id="org1a25544">增加 init/ubi-user.h 檔案</h3>
-<div class="outline-text-3" id="text-org1a25544">
+<div id="outline-container-org3f2bef8" class="outline-3">
+<h3 id="org3f2bef8">增加 init/ubi-user.h 檔案</h3>
+<div class="outline-text-3" id="text-org3f2bef8">
 <p>
 由於我們進行一些 ubifs 相關函式的定義時，需要用到 ubifs 的結構，因此
 需要增加相關結構的資訊。 <code>ubi-user.h</code> 這個檔案取自於 Linux Kernel
@@ -788,9 +788,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org9b6713f" class="outline-3">
-<h3 id="org9b6713f">修改 init/util.c</h3>
-<div class="outline-text-3" id="text-org9b6713f">
+<div id="outline-container-org9c75d5c" class="outline-3">
+<h3 id="org9c75d5c">修改 init/util.c</h3>
+<div class="outline-text-3" id="text-org9c75d5c">
 <p>
 由於我們增加了一些 ubifs 相關的函式，因此必須自己在 <code>init/util.c</code> 裡面加入相對應的實現。
 </p>
@@ -916,16 +916,16 @@ mtd 設備。
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    ret = ioctl(ubi_ctrl, UBI_IOCDET, &amp;dev);</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    close(ubi_ctrl);</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    return ret;</span>
-<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">}</span>
++}
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org625e2d9" class="outline-2">
-<h2 id="org625e2d9">ramdisk 修改</h2>
-<div class="outline-text-2" id="text-org625e2d9">
+<div id="outline-container-org81bbe73" class="outline-2">
+<h2 id="org81bbe73">ramdisk 修改</h2>
+<div class="outline-text-2" id="text-org81bbe73">
 <p>
 將上面的修正加入並重新編譯 Android 後，你就可以在 ramdisk 下使用以下方式去掛載你
 的 ubifs 檔案系統，修改 init.*.rc 並添加以下資訊:
@@ -938,9 +938,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org36f2f99" class="outline-2">
-<h2 id="org36f2f99">參考連結</h2>
-<div class="outline-text-2" id="text-org36f2f99">
+<div id="outline-container-orgac3c282" class="outline-2">
+<h2 id="orgac3c282">參考連結</h2>
+<div class="outline-text-2" id="text-orgac3c282">
 <p>
 <code>[1]</code> <a href="http://blog.chinaunix.net/uid-22028680-id-3015767.html" target="_blank" rel="external">採用 UBIFS 製作 Android 的文件系統</a>
 </p>
@@ -1042,21 +1042,21 @@ mtd 設備。
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">98</span>
+              <span class="site-state-item-count">99</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-count">90</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -1107,7 +1107,7 @@ mtd 設備。
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2103be9"><span class="nav-text">讓 init 可以掛載 ubifs 所進行的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org29c6f30"><span class="nav-text">修改 init/builtins.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9c0e707"><span class="nav-text">修改 init/util.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1a25544"><span class="nav-text">增加 init/ubi-user.h 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9b6713f"><span class="nav-text">修改 init/util.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org625e2d9"><span class="nav-text">ramdisk 修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org36f2f99"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org5ae5ea4"><span class="nav-text">讓 init 可以掛載 ubifs 所進行的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org9d12b24"><span class="nav-text">修改 init/builtins.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org465d495"><span class="nav-text">修改 init/util.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org3f2bef8"><span class="nav-text">增加 init/ubi-user.h 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9c75d5c"><span class="nav-text">修改 init/util.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org81bbe73"><span class="nav-text">ramdisk 修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgac3c282"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

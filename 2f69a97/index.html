@@ -257,9 +257,9 @@ OpenCV 3.0 和 OpenCV 2.x 的 Java 版本有一些不同，3.0 拿掉了以往�
 </p>
 </blockquote>
 
-<div id="outline-container-org0460adc" class="outline-2">
-<h2 id="org0460adc">下載 OpenCV 原始碼並編譯</h2>
-<div class="outline-text-2" id="text-org0460adc">
+<div id="outline-container-org91aa2d3" class="outline-2">
+<h2 id="org91aa2d3">下載 OpenCV 原始碼並編譯</h2>
+<div class="outline-text-2" id="text-org91aa2d3">
 <p>
 OpenCV 官網上面並未提供 Linux 或是 Mac OSX 的二進制檔案，所以就讓我們
 自己動手編譯吧 ~
@@ -324,9 +324,9 @@ coldnew@Sara ~/opencv/build $ cmake -DBUILD_SHARED_LIBS=OFF ..
 </div>
 </div>
 
-<div id="outline-container-org7eeebfa" class="outline-2">
-<h2 id="org7eeebfa">將本地端的函式庫打包成 jar 檔案</h2>
-<div class="outline-text-2" id="text-org7eeebfa">
+<div id="outline-container-org4c2c534" class="outline-2">
+<h2 id="org4c2c534">將本地端的函式庫打包成 jar 檔案</h2>
+<div class="outline-text-2" id="text-org4c2c534">
 <p>
 編譯完 opencv-300.jar 以及 libopencv_java300.dylib 後，我們需要先將動態函式庫
 <code>libopencv_java300.dylib</code> 打包成 .jar 檔案方便日後使用，因此根據你的系統建立
@@ -388,9 +388,9 @@ coldnew@Sara ~ $ jar -cMf opencv-native-300.jar native
 </div>
 </div>
 
-<div id="outline-container-org262f23a" class="outline-2">
-<h2 id="org262f23a">使用 lein-local 將套件加入本地端的 maven 倉庫</h2>
-<div class="outline-text-2" id="text-org262f23a">
+<div id="outline-container-org3f204d9" class="outline-2">
+<h2 id="org3f204d9">使用 lein-local 將套件加入本地端的 maven 倉庫</h2>
+<div class="outline-text-2" id="text-org3f204d9">
 <p>
 為了可以讓之後的專案都使用我們剛剛編譯好的 OpenCV 函式，最好的方式就是將他加入到
 本地倉庫，對於 <i>Leiningen</i> 的使用者而言，我們可以透過 <a href="https://github.com/kumarshantanu/lein-localrepo" target="_blank" rel="external">lein-localrepo</a> 來將需要的
@@ -413,6 +413,7 @@ coldnew@Sara ~ $ jar -cMf opencv-native-300.jar native
 
 <pre class="example">
 coldnew@Rosia ~ $ lein localrepo install opencv-300.jar opencv/opencv 3.0.0
+
 </pre>
 
 <p>
@@ -421,6 +422,7 @@ coldnew@Rosia ~ $ lein localrepo install opencv-300.jar opencv/opencv 3.0.0
 
 <pre class="example">
 coldnew@Rosia ~ $ lein localrepo install opencv-native-300.jar opencv/opencv-native 3.0.0
+
 </pre>
 
 <p>
@@ -429,9 +431,9 @@ coldnew@Rosia ~ $ lein localrepo install opencv-native-300.jar opencv/opencv-nat
 </div>
 </div>
 
-<div id="outline-container-org39ccd0f" class="outline-2">
-<h2 id="org39ccd0f">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org39ccd0f">
+<div id="outline-container-org97a8ba8" class="outline-2">
+<h2 id="org97a8ba8">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org97a8ba8">
 <p>
 終於到建立專案的時間了，我們一樣使用 lein 預設的樣板來建立我們的專案，這裡建立名為 <i>myapp</i> 的專案
 </p>
@@ -487,9 +489,9 @@ user=&gt; <span style="color: #aadddd;">(</span><span style="color: #fff59d;">Ma
 </div>
 </div>
 
-<div id="outline-container-orgd5d8ab8" class="outline-2">
-<h2 id="orgd5d8ab8">Example 0: 彩色圖變成灰階圖</h2>
-<div class="outline-text-2" id="text-orgd5d8ab8">
+<div id="outline-container-org36bef93" class="outline-2">
+<h2 id="org36bef93">Example 0: 彩色圖變成灰階圖</h2>
+<div class="outline-text-2" id="text-org36bef93">
 <p>
 我們先來個簡單的範例，將一張彩色圖片轉換成灰階圖片，我選用的範例是這張:
 </p>
@@ -547,9 +549,9 @@ coldnew@Rosia ~/myapp $ lein run -m myapp.example0 sample0.png
 </div>
 </div>
 
-<div id="outline-container-org906407c" class="outline-2">
-<h2 id="org906407c">Example 1: 動畫人臉偵測</h2>
-<div class="outline-text-2" id="text-org906407c">
+<div id="outline-container-orga5c96ad" class="outline-2">
+<h2 id="orga5c96ad">Example 1: 動畫人臉偵測</h2>
+<div class="outline-text-2" id="text-orga5c96ad">
 <p>
 除了人臉偵測以外，我們也可以對動畫人物進行臉部偵測，這邊使用了 <a href="https://github.com/nagadomi/lbpcascade_animeface" target="_blank" rel="external">GitHub/nagadomi</a>
 提供的 <i>lbpcascade_animeface.xml</i> 來作為我們臉部偵測的分類器。
@@ -635,15 +637,16 @@ coldnew@Rosia ~/myapp $ lein run -m myapp.example1 sample1.png
 </div>
 </div>
 
-<div id="outline-container-orgf628032" class="outline-2">
-<h2 id="orgf628032">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-orgf628032">
+<div id="outline-container-org9baa39f" class="outline-2">
+<h2 id="org9baa39f">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-org9baa39f">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/opencv3_hello" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
 
 <pre class="example">
 git clone https://github.com/coldnew/blog-tutorial-examples.git
+
 </pre>
 
 <p>
@@ -661,9 +664,9 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
 </div>
 </div>
 
-<div id="outline-container-orgaf6784e" class="outline-2">
-<h2 id="orgaf6784e">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgaf6784e">
+<div id="outline-container-org4d39c95" class="outline-2">
+<h2 id="org4d39c95">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org4d39c95">
 <p>
 <code>[1]</code> <a href="http://docs.opencv.org/2.4/doc/tutorials/introduction/clojure_dev_intro/clojure_dev_intro.html" target="_blank" rel="external">Introduction to OpenCV Development with Clojure</a>
 </p>
@@ -785,21 +788,21 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">98</span>
+              <span class="site-state-item-count">99</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-count">90</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -850,7 +853,7 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0460adc"><span class="nav-text">下載 OpenCV 原始碼並編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7eeebfa"><span class="nav-text">將本地端的函式庫打包成 jar 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org262f23a"><span class="nav-text">使用 lein-local 將套件加入本地端的 maven 倉庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org39ccd0f"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd5d8ab8"><span class="nav-text">Example 0: 彩色圖變成灰階圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org906407c"><span class="nav-text">Example 1: 動畫人臉偵測</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf628032"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaf6784e"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org91aa2d3"><span class="nav-text">下載 OpenCV 原始碼並編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4c2c534"><span class="nav-text">將本地端的函式庫打包成 jar 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3f204d9"><span class="nav-text">使用 lein-local 將套件加入本地端的 maven 倉庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org97a8ba8"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org36bef93"><span class="nav-text">Example 0: 彩色圖變成灰階圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga5c96ad"><span class="nav-text">Example 1: 動畫人臉偵測</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9baa39f"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4d39c95"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

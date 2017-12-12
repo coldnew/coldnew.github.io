@@ -251,9 +251,9 @@ msp430-gcc 似乎可以在 TI 的網站上找到與下載，如果你也是 Gent
 可以考慮直接使用 <code>crossdev</code> 來幫你建置 msp430 的 toolchain。
 </p>
 
-<div id="outline-container-org2ebe220" class="outline-2">
-<h2 id="org2ebe220">使用 crossdev 建立 msp430 編譯環境</h2>
-<div class="outline-text-2" id="text-org2ebe220">
+<div id="outline-container-org0b55ad6" class="outline-2">
+<h2 id="org0b55ad6">使用 crossdev 建立 msp430 編譯環境</h2>
+<div class="outline-text-2" id="text-org0b55ad6">
 <p>
 我最喜歡 Gentoo Linux 的一點就是他有一套非常強大的 toolchain 建立系統
 <code>crossdev</code>, 使用 crossdev，可以很輕鬆的就建立出不同平台需要的 toolchain，
@@ -282,9 +282,9 @@ Rosia msp430 # emerge msgpdebug
 </div>
 </div>
 
-<div id="outline-container-orga15a3db" class="outline-2">
-<h2 id="orga15a3db">mspdebug 初步使用</h2>
-<div class="outline-text-2" id="text-orga15a3db">
+<div id="outline-container-orgf94e285" class="outline-2">
+<h2 id="orgf94e285">mspdebug 初步使用</h2>
+<div class="outline-text-2" id="text-orgf94e285">
 <p>
 mspdebug 是 Anusha Beer 所提供的 opensource 作品，可以透過 libusb 直接與
 TI 以及其他 3rd party 廠商的燒錄除錯工具配合。其本身的使用方式非常簡單，以下
@@ -337,6 +337,7 @@ Press Ctrl+D to quit.
 
 <pre class="example">
 (mspdebug) prog main.elf
+
 </pre></li>
 
 <li><p>
@@ -350,6 +351,7 @@ Press Ctrl+D to quit.
 
 <pre class="example">
 (mspdebug) run
+
 </pre>
 
 <p>
@@ -367,14 +369,15 @@ Press Ctrl+D to quit.
 
 <pre class="example">
 (mspdebug) erase
+
 </pre></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org69a1c90" class="outline-2">
-<h2 id="org69a1c90">第一個 Launchpad 程式: 閃爍燈</h2>
-<div class="outline-text-2" id="text-org69a1c90">
+<div id="outline-container-org370a221" class="outline-2">
+<h2 id="org370a221">第一個 Launchpad 程式: 閃爍燈</h2>
+<div class="outline-text-2" id="text-org370a221">
 <p>
 Launcpad 上面提供了兩個可操作的 LED 讓使用者自行控制，即為下圖中紅框指
 向的地方
@@ -424,13 +427,14 @@ Launcpad 上面提供了兩個可操作的 LED 讓使用者自行控制，即為
 
 <pre class="example">
 coldnew@Rosia ~/Workspace/msp430 $ msp430-gcc main.c -o main.elf
+
 </pre>
 </div>
 </div>
 
-<div id="outline-container-orga36cc68" class="outline-2">
-<h2 id="orga36cc68">動手寫 Makefile 簡化開發流程</h2>
-<div class="outline-text-2" id="text-orga36cc68">
+<div id="outline-container-orgbcd0277" class="outline-2">
+<h2 id="orgbcd0277">動手寫 Makefile 簡化開發流程</h2>
+<div class="outline-text-2" id="text-orgbcd0277">
 <p>
 每次要測試、編譯程式碼時都很麻煩，所以我們可以自己寫個 Makefile 來進行
 簡化整個流程
@@ -469,9 +473,9 @@ coldnew@Rosia ~/Workspace/msp430 $ msp430-gcc main.c -o main.elf
 </div>
 </div>
 
-<div id="outline-container-org267c5d2" class="outline-2">
-<h2 id="org267c5d2">使用 Makefile 進行開發</h2>
-<div class="outline-text-2" id="text-org267c5d2">
+<div id="outline-container-orgb0a81a0" class="outline-2">
+<h2 id="orgb0a81a0">使用 Makefile 進行開發</h2>
+<div class="outline-text-2" id="text-orgb0a81a0">
 <p>
 完成 Makefile 後，我們整個開發所需要記住的命令就變成下面這樣了，是不是
 簡單多了 ~
@@ -484,6 +488,7 @@ coldnew@Rosia ~/Workspace/msp430 $ msp430-gcc main.c -o main.elf
 
 <pre class="example">
 coldnew@Rosia ~/Workspace/msp430 $ make
+
 </pre></li>
 
 <li><p>
@@ -492,6 +497,7 @@ coldnew@Rosia ~/Workspace/msp430 $ make
 
 <pre class="example">
 coldnew@Rosia ~/Workspace/msp430 $ make erase
+
 </pre></li>
 
 <li><p>
@@ -500,6 +506,7 @@ coldnew@Rosia ~/Workspace/msp430 $ make erase
 
 <pre class="example">
 coldnew@Rosia ~/Workspace/msp430 $ make upload
+
 </pre></li>
 
 <li><p>
@@ -508,6 +515,7 @@ coldnew@Rosia ~/Workspace/msp430 $ make upload
 
 <pre class="example">
 coldnew@Rosia ~/Workspace/msp430 $ make size
+
 </pre></li>
 
 <li><p>
@@ -516,6 +524,7 @@ coldnew@Rosia ~/Workspace/msp430 $ make size
 
 <pre class="example">
 coldnew@Rosia ~/Workspace/msp430 $ make clean
+
 </pre></li>
 </ul>
 </div>
@@ -616,21 +625,21 @@ coldnew@Rosia ~/Workspace/msp430 $ make clean
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">98</span>
+              <span class="site-state-item-count">99</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-count">90</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -681,7 +690,7 @@ coldnew@Rosia ~/Workspace/msp430 $ make clean
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2ebe220"><span class="nav-text">使用 crossdev 建立 msp430 編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga15a3db"><span class="nav-text">mspdebug 初步使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org69a1c90"><span class="nav-text">第一個 Launchpad 程式: 閃爍燈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga36cc68"><span class="nav-text">動手寫 Makefile 簡化開發流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org267c5d2"><span class="nav-text">使用 Makefile 進行開發</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0b55ad6"><span class="nav-text">使用 crossdev 建立 msp430 編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf94e285"><span class="nav-text">mspdebug 初步使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org370a221"><span class="nav-text">第一個 Launchpad 程式: 閃爍燈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbcd0277"><span class="nav-text">動手寫 Makefile 簡化開發流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb0a81a0"><span class="nav-text">使用 Makefile 進行開發</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

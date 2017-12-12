@@ -244,9 +244,9 @@ dynamic modules 功能處於測試階段，由於此功能可能在未來有進�
 
 </div>
 
-<div id="outline-container-orge23a91e" class="outline-2">
-<h2 id="orge23a91e">編譯 emacs</h2>
-<div class="outline-text-2" id="text-orge23a91e">
+<div id="outline-container-orga6cd793" class="outline-2">
+<h2 id="orga6cd793">編譯 emacs</h2>
+<div class="outline-text-2" id="text-orga6cd793">
 <p>
 目前 <code>dynamic modules</code> 功能已經併入到 master branch, 因此只要下載 master branch 即可測試。
 </p>
@@ -275,9 +275,9 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-org956f7a7" class="outline-2">
-<h2 id="org956f7a7">Hello World (elisp 版本)</h2>
-<div class="outline-text-2" id="text-org956f7a7">
+<div id="outline-container-orgbe27075" class="outline-2">
+<h2 id="orgbe27075">Hello World (elisp 版本)</h2>
+<div class="outline-text-2" id="text-orgbe27075">
 <p>
 在 emacs-lisp 中，除了使用 <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Functions.html" target="_blank" rel="external">defun</a> 以外，我們也可以使用 <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Functions.html" target="_blank" rel="external">fset</a> 搭配匿名函式來完成我
 們要使用的 function。
@@ -333,9 +333,9 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-orgd335962" class="outline-2">
-<h2 id="orgd335962">Hello World (c 版本)</h2>
-<div class="outline-text-2" id="text-orgd335962">
+<div id="outline-container-org8ec10b3" class="outline-2">
+<h2 id="org8ec10b3">Hello World (c 版本)</h2>
+<div class="outline-text-2" id="text-org8ec10b3">
 <p>
 我們要怎樣建立我們的 C 語言版本的模組呢? 其實在你的 emacs 原始碼 <code>modules</code> 資料
 夾下有 <code>modhelp.py</code> 這個檔案，他會幫忙產生出可以使用的模組樣板，不過本文為了講解
@@ -343,9 +343,9 @@ make &amp;&amp; make install
 </p>
 </div>
 
-<div id="outline-container-orgb3609e1" class="outline-3">
-<h3 id="orgb3609e1">Makefile</h3>
-<div class="outline-text-3" id="text-orgb3609e1">
+<div id="outline-container-orgc3e16fa" class="outline-3">
+<h3 id="orgc3e16fa">Makefile</h3>
+<div class="outline-text-3" id="text-orgc3e16fa">
 <p>
 我們首先先弄 <code>Makefile</code> 來紀錄編譯這個模組的方法，在這邊 <code>EMACS_ROOT</code> 指的是 emacs 原始碼的資料夾， <code>EMACS</code> 則是有打開 <code>--with-modules</code> 選項後編譯出來的 emacs 執行檔。
 </p>
@@ -383,9 +383,9 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-orge8d5b00" class="outline-3">
-<h3 id="orge8d5b00">test.el</h3>
-<div class="outline-text-3" id="text-orge8d5b00">
+<div id="outline-container-orgc5d7666" class="outline-3">
+<h3 id="orgc5d7666">test.el</h3>
+<div class="outline-text-3" id="text-orgc5d7666">
 <p>
 在 test.el 中我們載入了 <a href="https://www.gnu.org/software/emacs/manual/html_mono/ert.html" target="_blank" rel="external">ert</a> 模組以及我們即將要編譯出來的 <code>hello-core.so</code> 模組，注意到載入 dynamic module 模組的方式和載入一般 .el 的函式庫是一樣的。
 </p>
@@ -410,9 +410,9 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-orgb7e97c7" class="outline-3">
-<h3 id="orgb7e97c7">hello-core.c</h3>
-<div class="outline-text-3" id="text-orgb7e97c7">
+<div id="outline-container-org66505f3" class="outline-3">
+<h3 id="org66505f3">hello-core.c</h3>
+<div class="outline-text-3" id="text-org66505f3">
 <p>
 接下來就到了我們的重頭戲， <code>hello-core.c</code> 這個模組上，我們首先添加可能會需要的標頭檔
 </p>
@@ -493,9 +493,9 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-org36f46ed" class="outline-3">
-<h3 id="org36f46ed">驗證你寫的模組</h3>
-<div class="outline-text-3" id="text-org36f46ed">
+<div id="outline-container-org1607ceb" class="outline-3">
+<h3 id="org1607ceb">驗證你寫的模組</h3>
+<div class="outline-text-3" id="text-org1607ceb">
 <p>
 都完成後，你就可以使用 <code>make test</code> 去執行測試，一切正常的話就會像這個樣子。
 </p>
@@ -524,9 +524,9 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-org788721c" class="outline-2">
-<h2 id="org788721c">參考 mod-test.c 進行更多的簡化</h2>
-<div class="outline-text-2" id="text-org788721c">
+<div id="outline-container-org45e3d68" class="outline-2">
+<h2 id="org45e3d68">參考 mod-test.c 進行更多的簡化</h2>
+<div class="outline-text-2" id="text-org45e3d68">
 <p>
 在上面的 C 語言版本中，我們每次定義一個函式都要這樣一大串其實還蠻累人的
 </p>
@@ -597,9 +597,9 @@ make &amp;&amp; make install
 </div>
 </div>
 
-<div id="outline-container-orgb44a5d7" class="outline-2">
-<h2 id="orgb44a5d7">使用 C/C++ 寫模組一定比較快?</h2>
-<div class="outline-text-2" id="text-orgb44a5d7">
+<div id="outline-container-org66315a8" class="outline-2">
+<h2 id="org66315a8">使用 C/C++ 寫模組一定比較快?</h2>
+<div class="outline-text-2" id="text-org66315a8">
 <p>
 既然 emacs 終於增加了 dynamic modules 功能，那是不是把大多數的 emacs-lisp 改寫成 c/c++ 模組會比較好？實際上是不一定，我們先看看我用 C 寫的 fibonacci 效能和 emacs-lisp 的比較狀況
 </p>
@@ -734,9 +734,9 @@ Elapsed time: <code>0.044819s</code>
 </div>
 </div>
 
-<div id="outline-container-org5642132" class="outline-2">
-<h2 id="org5642132">總結</h2>
-<div class="outline-text-2" id="text-org5642132">
+<div id="outline-container-org41be3c6" class="outline-2">
+<h2 id="org41be3c6">總結</h2>
+<div class="outline-text-2" id="text-org41be3c6">
 <p>
 <code>dynamic module</code> 終於可以在 emacs 中使用，這個消息對我而言其實是蠻開心的，畢竟這代表了我可以透過自己寫的模組去實現更多的用途，而不一定要強制修改 emacs 核心程式碼。
 </p>
@@ -747,9 +747,9 @@ Elapsed time: <code>0.044819s</code>
 </div>
 </div>
 
-<div id="outline-container-orgbe877fd" class="outline-2">
-<h2 id="orgbe877fd">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgbe877fd">
+<div id="outline-container-orgd3ecedc" class="outline-2">
+<h2 id="orgd3ecedc">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgd3ecedc">
 <p>
 <code>[1]</code> <a href="http://syohex.hatenablog.com/entry/2015/12/16/185458" target="_blank" rel="external">ejectで學ぶ Dynamic module 機能</a>
 </p>
@@ -857,21 +857,21 @@ Elapsed time: <code>0.044819s</code>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">98</span>
+              <span class="site-state-item-count">99</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-count">90</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -922,7 +922,7 @@ Elapsed time: <code>0.044819s</code>
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge23a91e"><span class="nav-text">編譯 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org956f7a7"><span class="nav-text">Hello World (elisp 版本)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd335962"><span class="nav-text">Hello World (c 版本)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb3609e1"><span class="nav-text">Makefile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge8d5b00"><span class="nav-text">test.el</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb7e97c7"><span class="nav-text">hello-core.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org36f46ed"><span class="nav-text">驗證你寫的模組</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org788721c"><span class="nav-text">參考 mod-test.c 進行更多的簡化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb44a5d7"><span class="nav-text">使用 C/C++ 寫模組一定比較快?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5642132"><span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbe877fd"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orga6cd793"><span class="nav-text">編譯 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbe27075"><span class="nav-text">Hello World (elisp 版本)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8ec10b3"><span class="nav-text">Hello World (c 版本)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc3e16fa"><span class="nav-text">Makefile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc5d7666"><span class="nav-text">test.el</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org66505f3"><span class="nav-text">hello-core.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1607ceb"><span class="nav-text">驗證你寫的模組</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org45e3d68"><span class="nav-text">參考 mod-test.c 進行更多的簡化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org66315a8"><span class="nav-text">使用 C/C++ 寫模組一定比較快?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org41be3c6"><span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd3ecedc"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

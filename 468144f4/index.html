@@ -262,9 +262,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-org37f4e59" class="outline-2">
-<h2 id="org37f4e59">使用設備</h2>
-<div class="outline-text-2" id="text-org37f4e59">
+<div id="outline-container-orgc0a0168" class="outline-2">
+<h2 id="orgc0a0168">使用設備</h2>
+<div class="outline-text-2" id="text-orgc0a0168">
 <p>
 要完成本篇文章所描述的部份，你需要以下幾種器材
 </p>
@@ -283,9 +283,9 @@
 </div>
 </div>
 
-<div id="outline-container-org8232b26" class="outline-2">
-<h2 id="org8232b26">硬體線路</h2>
-<div class="outline-text-2" id="text-org8232b26">
+<div id="outline-container-org076959e" class="outline-2">
+<h2 id="org076959e">硬體線路</h2>
+<div class="outline-text-2" id="text-org076959e">
 <p>
 下面的硬體線路使用 <a href="http://fritzing.org/" target="_blank" rel="external">Fritzing</a> 軟體來繪製，我選用 <code>GPIO21</code> 來當作提供給 LED 的電源端，由於 Raspberry Pi 3 的 GPIO 輸出為 <code>3.3V DC</code> 的電壓，稍微再加個 <code>150 Ω</code> 的電阻來保護我們的 LED 以及 Raspberry Pi 3。
 (<a href="rpi3_schematics.fzz">下載設計檔案</a>)
@@ -337,9 +337,9 @@ Raspberry Pi 3 與 GPIO 編號的對應關係，可以參考 <a href="https://ww
 </div>
 </div>
 
-<div id="outline-container-org73780d0" class="outline-2">
-<h2 id="org73780d0">建立專案</h2>
-<div class="outline-text-2" id="text-org73780d0">
+<div id="outline-container-org1815a20" class="outline-2">
+<h2 id="org1815a20">建立專案</h2>
+<div class="outline-text-2" id="text-org1815a20">
 <p>
 由於這是我們的第一個專案，就不透過 <a href="https://github.com/androidthings/new-project-template" target="_blank" rel="external">androidthings/new-project-template</a> 這個範例樣板來建立我們的專案，讓我們透過 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">Android Studio</a> 來一步一步開始吧。
 </p>
@@ -404,12 +404,13 @@ coldnew@osx ~ $ adb connect Android.local
 </div>
 </div>
 
-<div id="outline-container-org8befc8d" class="outline-2">
-<h2 id="org8befc8d">修改專案</h2>
-<div class="outline-text-2" id="text-org8befc8d">
-</div><div id="outline-container-org27f6c1d" class="outline-3">
-<h3 id="org27f6c1d">build.gradle</h3>
-<div class="outline-text-3" id="text-org27f6c1d">
+<div id="outline-container-org1979fc6" class="outline-2">
+<h2 id="org1979fc6">修改專案</h2>
+<div class="outline-text-2" id="text-org1979fc6">
+</div>
+<div id="outline-container-org69a5ece" class="outline-3">
+<h3 id="org69a5ece">build.gradle</h3>
+<div class="outline-text-3" id="text-org69a5ece">
 <p>
 建立好專案後，我們首先要修改 <code>build.gradle</code> 並加入 Android Things 的依賴
 </p>
@@ -417,7 +418,7 @@ coldnew@osx ~ $ adb connect Android.local
 <div class="org-src-container">
 <pre class="src src-java">dependencies <span style="color: #aadddd;">{</span>
     <span style="color: #5f5f5f; font-style: italic;">//  </span><span style="color: #9ac; font-style: italic;">...</span>
-    provided <span style="color: #aadddd;">'com.google.android.things:androidthings:0.3-devpreview'</span>
+    provided <span style="color: #ff3333; font-weight: bold;">'</span>com.google.android.things:androidthings:0.3-devpreview<span style="color: #ff3333; font-weight: bold;">'</span>
 <span style="color: #aadddd;">}</span>
 </pre>
 </div>
@@ -434,9 +435,9 @@ coldnew@osx ~ $ adb connect Android.local
 </div>
 </div>
 
-<div id="outline-container-orgd4e9cf5" class="outline-3">
-<h3 id="orgd4e9cf5">AndroidManifest.xml</h3>
-<div class="outline-text-3" id="text-orgd4e9cf5">
+<div id="outline-container-orgd20e8f3" class="outline-3">
+<h3 id="orgd20e8f3">AndroidManifest.xml</h3>
+<div class="outline-text-3" id="text-orgd20e8f3">
 <p>
 接下來在你的 <code>AndroidManifest.xml</code> 加入以下東西，我們要讓這個程式可以一開機就啟動
 </p>
@@ -468,7 +469,7 @@ coldnew@osx ~ $ adb connect Android.local
 <span style="color: #aaffaa; font-weight: bold;">+</span>
 <span style="color: #dddddd;">     &lt;/application&gt;</span>
 
-<span style="color: #dddddd;"> &lt;/manifest&gt;</span>
+ &lt;/manifest&gt;
 </pre>
 </div>
 
@@ -485,9 +486,9 @@ coldnew@osx ~ $ adb connect Android.local
 </div>
 </div>
 
-<div id="outline-container-orgd8066a5" class="outline-2">
-<h2 id="orgd8066a5">點亮 LED 燈</h2>
-<div class="outline-text-2" id="text-orgd8066a5">
+<div id="outline-container-org9a430de" class="outline-2">
+<h2 id="org9a430de">點亮 LED 燈</h2>
+<div class="outline-text-2" id="text-org9a430de">
 <p>
 是時候來撰寫我們的程式了，讓我們來打開 <code>hellothings/MainActivity.java</code> 檔案吧!!
 </p>
@@ -562,9 +563,9 @@ coldnew@osx ~ $ adb connect Android.local
 </div>
 </div>
 
-<div id="outline-container-org4f56cc4" class="outline-2">
-<h2 id="org4f56cc4">閃爍吧 LED</h2>
-<div class="outline-text-2" id="text-org4f56cc4">
+<div id="outline-container-org59deaae" class="outline-2">
+<h2 id="org59deaae">閃爍吧 LED</h2>
+<div class="outline-text-2" id="text-org59deaae">
 <p>
 成功點亮 LED 後，我們接下來要讓他進行閃爍囉。
 </p>
@@ -647,9 +648,9 @@ coldnew@osx ~ $ adb connect Android.local
 </div>
 </div>
 
-<div id="outline-container-org5b8f604" class="outline-2">
-<h2 id="org5b8f604">結果</h2>
-<div class="outline-text-2" id="text-org5b8f604">
+<div id="outline-container-org36180ff" class="outline-2">
+<h2 id="org36180ff">結果</h2>
+<div class="outline-text-2" id="text-org36180ff">
 <p>
 如果你有照著本文接線並執行程式的話，你應該會得到以下這樣的結果 ~
 </p>
@@ -662,9 +663,9 @@ coldnew@osx ~ $ adb connect Android.local
 </div>
 </div>
 
-<div id="outline-container-org10b7384" class="outline-2">
-<h2 id="org10b7384">取得程式碼</h2>
-<div class="outline-text-2" id="text-org10b7384">
+<div id="outline-container-org88d738b" class="outline-2">
+<h2 id="org88d738b">取得程式碼</h2>
+<div class="outline-text-2" id="text-org88d738b">
 <p>
 本文的範例已經放置於 <a href="https://github.com/coldnew/HelloThings" target="_blank" rel="external">GitHub</a> 上，你可以直接透過 git 去取得完整專案原始碼
 </p>
@@ -674,9 +675,9 @@ coldnew@osx ~ $ adb connect Android.local
 </div>
 </div>
 
-<div id="outline-container-orgf3f414b" class="outline-2">
-<h2 id="orgf3f414b">參考資料</h2>
-<div class="outline-text-2" id="text-orgf3f414b">
+<div id="outline-container-org04ae251" class="outline-2">
+<h2 id="org04ae251">參考資料</h2>
+<div class="outline-text-2" id="text-org04ae251">
 <ul class="org-ul">
 <li><a href="http://www.survivingwithandroid.com/2016/03/arduino-led-control-android-app.html" target="_blank" rel="external">Arduino Led: Control RGB Led remotely using Arduino and Android app</a></li>
 
@@ -780,21 +781,21 @@ coldnew@osx ~ $ adb connect Android.local
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">98</span>
+              <span class="site-state-item-count">99</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-count">90</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -845,7 +846,7 @@ coldnew@osx ~ $ adb connect Android.local
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org37f4e59"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8232b26"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org73780d0"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8befc8d"><span class="nav-text">修改專案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org27f6c1d"><span class="nav-text">build.gradle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd4e9cf5"><span class="nav-text">AndroidManifest.xml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd8066a5"><span class="nav-text">點亮 LED 燈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4f56cc4"><span class="nav-text">閃爍吧 LED</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5b8f604"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org10b7384"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf3f414b"><span class="nav-text">參考資料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc0a0168"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org076959e"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1815a20"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1979fc6"><span class="nav-text">修改專案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org69a5ece"><span class="nav-text">build.gradle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd20e8f3"><span class="nav-text">AndroidManifest.xml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9a430de"><span class="nav-text">點亮 LED 燈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org59deaae"><span class="nav-text">閃爍吧 LED</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org36180ff"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org88d738b"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org04ae251"><span class="nav-text">參考資料</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
