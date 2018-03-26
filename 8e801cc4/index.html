@@ -255,9 +255,9 @@
 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 的網頁有針對  <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="external">Raspberry Pi 3 Model B</a> 的 <a href="https://developer.android.com/things/hardware/raspberrypi.html" target="_blank" rel="external">Getting Started</a> 頁面，就讓我們從這一頁開始我們的 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 旅程吧。
 </p>
 
-<div id="outline-container-org9ec3b8e" class="outline-2">
-<h2 id="org9ec3b8e">下載映像檔</h2>
-<div class="outline-text-2" id="text-org9ec3b8e">
+<div id="outline-container-org985014e" class="outline-2">
+<h2 id="org985014e">下載映像檔</h2>
+<div class="outline-text-2" id="text-org985014e">
 <p>
 首先到 <a href="https://developer.android.com/things/preview/download.html" target="_blank" rel="external">System Image Downloads</a> 去下載 <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="external">Raspberry Pi 3 Model B</a> 的映像檔案，接著將其解壓縮
 </p>
@@ -273,9 +273,9 @@ coldnew@gentoo ~ $ unzip androidthings_rpi3_devpreview_3.zip
 </div>
 </div>
 
-<div id="outline-container-org9eb66e1" class="outline-2">
-<h2 id="org9eb66e1">燒錄到 sdcard</h2>
-<div class="outline-text-2" id="text-org9eb66e1">
+<div id="outline-container-org39e54a5" class="outline-2">
+<h2 id="org39e54a5">燒錄到 sdcard</h2>
+<div class="outline-text-2" id="text-org39e54a5">
 <p>
 如果你是在 Linux 下，可以直接透過 <code>dd</code> 命令將他寫到你的 sdcard
 </p>
@@ -297,9 +297,9 @@ coldnew@gentoo ~ $ sudo dd if=iot_rpi3.img of=/dev/sdc bs=1M
 </div>
 </div>
 
-<div id="outline-container-org1da4249" class="outline-2">
-<h2 id="org1da4249">啟動 RPI3</h2>
-<div class="outline-text-2" id="text-org1da4249">
+<div id="outline-container-orga312637" class="outline-2">
+<h2 id="orga312637">啟動 RPI3</h2>
+<div class="outline-text-2" id="text-orga312637">
 <p>
 將你燒好映像檔的 sdcard 插入到  <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="external">Raspberry Pi 3 Model B</a> 後，插入 USB 電源以及接上網路線，如果你有 HDMI 螢幕的話，可以考慮接上去 (不接也可以)
 </p>
@@ -322,9 +322,9 @@ coldnew@gentoo ~ $ sudo dd if=iot_rpi3.img of=/dev/sdc bs=1M
 </div>
 </div>
 
-<div id="outline-container-org2fc305f" class="outline-2">
-<h2 id="org2fc305f">連接 ADB</h2>
-<div class="outline-text-2" id="text-org2fc305f">
+<div id="outline-container-orgeb88829" class="outline-2">
+<h2 id="orgeb88829">連接 ADB</h2>
+<div class="outline-text-2" id="text-orgeb88829">
 <p>
 啟動完 Raspberry Pi 3 後，我們可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="external">adb</a> 工具去進行連線，假設你的系統有支援 <a href="https://en.wikipedia.org/wiki/Zero-configuration_networking" target="_blank" rel="external">zeroconf</a> (在 Linux 下是 <a href="https://en.wikipedia.org/wiki/Avahi_(software)" target="_blank" rel="external">Avahi</a>, Windows 下是 <a href="https://support.apple.com/kb/DL999?locale=zh_TW" target="_blank" rel="external">Bonjour</a>) 的話，你可以透過 <code>Android.local</code> 在同一網域下接觸到你的 Raspberry Pi 3
 </p>
@@ -364,9 +364,9 @@ config  dev          gapps             init.rpi3.rc    lost+found           proc
 </div>
 </div>
 
-<div id="outline-container-org3e538d2" class="outline-2">
-<h2 id="org3e538d2">設定 Wi-Fi</h2>
-<div class="outline-text-2" id="text-org3e538d2">
+<div id="outline-container-org32ceb21" class="outline-2">
+<h2 id="org32ceb21">設定 Wi-Fi</h2>
+<div class="outline-text-2" id="text-org32ceb21">
 <p>
 當你登入你的 Raspberry Pi 後，如果你想拔掉網路線並起用 Raspberry Pi 3 上面的 Wi-Fi 的話，你可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="external">adb</a> 去進行設定
 </p>
@@ -423,9 +423,9 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 </div>
 </div>
 
-<div id="outline-container-org83392fa" class="outline-2">
-<h2 id="org83392fa">透過 UART 登入</h2>
-<div class="outline-text-2" id="text-org83392fa">
+<div id="outline-container-org8387142" class="outline-2">
+<h2 id="org8387142">透過 UART 登入</h2>
+<div class="outline-text-2" id="text-org8387142">
 <p>
 如果你就是不想接上網路線來對 Raspberry Pi 3 進行設定，那我們也可以透過 <a href="https://www.adafruit.com/products/954" target="_blank" rel="external">TTL 轉 USB 線</a> 來接到 Raspberry Pi 上面的 UART 接腳，透過 UART 來進入 console。
 </p>
@@ -459,9 +459,9 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 </div>
 </div>
 
-<div id="outline-container-org9ac10e7" class="outline-2">
-<h2 id="org9ac10e7">參考資料</h2>
-<div class="outline-text-2" id="text-org9ac10e7">
+<div id="outline-container-org9496595" class="outline-2">
+<h2 id="org9496595">參考資料</h2>
+<div class="outline-text-2" id="text-org9496595">
 <ul class="org-ul">
 <li><a href="https://developer.android.com/things/hardware/raspberrypi.html" target="_blank" rel="external">Android Things: Raspberry Pi 3 Getting Started</a></li>
 </ul>
@@ -563,21 +563,21 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">100</span>
+              <span class="site-state-item-count">102</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">90</span>
+              <span class="site-state-item-count">91</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -628,7 +628,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org9ec3b8e"><span class="nav-text">下載映像檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9eb66e1"><span class="nav-text">燒錄到 sdcard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1da4249"><span class="nav-text">啟動 RPI3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2fc305f"><span class="nav-text">連接 ADB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3e538d2"><span class="nav-text">設定 Wi-Fi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org83392fa"><span class="nav-text">透過 UART 登入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9ac10e7"><span class="nav-text">參考資料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org985014e"><span class="nav-text">下載映像檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org39e54a5"><span class="nav-text">燒錄到 sdcard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga312637"><span class="nav-text">啟動 RPI3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgeb88829"><span class="nav-text">連接 ADB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org32ceb21"><span class="nav-text">設定 Wi-Fi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8387142"><span class="nav-text">透過 UART 登入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9496595"><span class="nav-text">參考資料</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

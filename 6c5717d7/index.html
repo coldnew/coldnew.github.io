@@ -274,9 +274,9 @@
 本文將採用業界比較常用的 Verilog 進行示範。
 </p>
 
-<div id="outline-container-org13c29f4" class="outline-2">
-<h2 id="org13c29f4">開發目標</h2>
-<div class="outline-text-2" id="text-org13c29f4">
+<div id="outline-container-org2d53061" class="outline-2">
+<h2 id="org2d53061">開發目標</h2>
+<div class="outline-text-2" id="text-org2d53061">
 <p>
 我們要透過純粹的可程式邏輯(Programmable Logic, PL) 去控制 LED，也就是說，我們只寫硬體描述語言 Verilog 來控制 Zybo board 上面的 LED，讓他依照我們設定的頻率進行閃爍/亮滅。
 </p>
@@ -303,9 +303,9 @@
 </div>
 </div>
 
-<div id="outline-container-org72721fa" class="outline-2">
-<h2 id="org72721fa">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org72721fa">
+<div id="outline-container-org50e17a3" class="outline-2">
+<h2 id="org50e17a3">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org50e17a3">
 <p>
 我們首先當然是建立我們的專案了，在進行這一步前，請先確定你有按照 <a href="https://coldnew.github.io/zybo-board/vivado_zybo_setting_file/">讓 Vivado 有 Zybo Board 的設定檔</a> 一文所說，將 Zybo board 的設計導入。
 </p>
@@ -364,9 +364,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgf37cd69" class="outline-2">
-<h2 id="orgf37cd69">撰寫程式</h2>
-<div class="outline-text-2" id="text-orgf37cd69">
+<div id="outline-container-org8ce35bc" class="outline-2">
+<h2 id="org8ce35bc">撰寫程式</h2>
+<div class="outline-text-2" id="text-org8ce35bc">
 <p>
 在專案建立完後，接下來就是添加並撰寫我們的 Verilog 程式，點選 <code>Project Manager -&gt; Add sources</code> 來增加檔案
 </p>
@@ -410,9 +410,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgc28eb78" class="outline-3">
-<h3 id="orgc28eb78">top.v</h3>
-<div class="outline-text-3" id="text-orgc28eb78">
+<div id="outline-container-org789d219" class="outline-3">
+<h3 id="org789d219">top.v</h3>
+<div class="outline-text-3" id="text-org789d219">
 <p>
 在我們的主程式 top.v 中，我們定義了一組暫存器用來存放當前計數的狀態，每計數 125 百萬次後，就讓 led 暫存器的數值增加，反之則是讓計數器的內容增加。
 </p>
@@ -461,9 +461,9 @@
 </div>
 </div>
 
-<div id="outline-container-org441e66f" class="outline-2">
-<h2 id="org441e66f">加入 Constraints</h2>
-<div class="outline-text-2" id="text-org441e66f">
+<div id="outline-container-orgb005474" class="outline-2">
+<h2 id="orgb005474">加入 Constraints</h2>
+<div class="outline-text-2" id="text-orgb005474">
 <p>
 我們撰寫好了 Verilog 模組 top.v，接下來就是要讓這模組的 I/O 和 Zybo board 的腳位對應到，我們先連結到 <a href="https://reference.digilentinc.com/zybo:zybo" target="_blank" rel="external">Zybo Resource Center</a> 去下載 <code>Master XDC</code> 檔案。
 </p>
@@ -516,9 +516,9 @@ Archive:  zybo_master_xdc.zip
 </div>
 </div>
 
-<div id="outline-container-org56169fe" class="outline-3">
-<h3 id="org56169fe">ZYBO_Master.xdc</h3>
-<div class="outline-text-3" id="text-org56169fe">
+<div id="outline-container-org54e1dbe" class="outline-3">
+<h3 id="org54e1dbe">ZYBO_Master.xdc</h3>
+<div class="outline-text-3" id="text-org54e1dbe">
 <p>
 在 ZYBO_Master.xdc 裡面，預設所有對應接腳都是被註解掉的，這邊我們反註解我們需要的 clk 以及 led 接腳，要注意到這邊的 I/O 名稱要對應到前面所寫的 top.v 裡面的 I/O 名稱。
 </p>
@@ -556,9 +556,9 @@ set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports
 </div>
 </div>
 
-<div id="outline-container-org39134b5" class="outline-2">
-<h2 id="org39134b5">產生位元流 (bitstream)</h2>
-<div class="outline-text-2" id="text-org39134b5">
+<div id="outline-container-org26cbca0" class="outline-2">
+<h2 id="org26cbca0">產生位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-org26cbca0">
 <p>
 前面的處理都好了後，接下來點選 <code>Program and Debug -&gt; Generate Bitstream</code> 去讓 Vivado 將這個專案產生出位元流 (bitstream)，ZYNQ 會根據 bitstream 的資訊對 FPGA 進行設定。
 </p>
@@ -582,9 +582,9 @@ set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports
 </div>
 
 
-<div id="outline-container-org2fb75c3" class="outline-2">
-<h2 id="org2fb75c3">下載到 Zybo board</h2>
-<div class="outline-text-2" id="text-org2fb75c3">
+<div id="outline-container-org39f889b" class="outline-2">
+<h2 id="org39f889b">下載到 Zybo board</h2>
+<div class="outline-text-2" id="text-org39f889b">
 <p>
 確定此時你有將 Zybo board 接到電腦，並且你 <code>JP5</code> 設定在 <code>QSPI</code> 模式下，就像這樣
 </p>
@@ -637,9 +637,9 @@ Vivado 告訴我們找到了一台使用 <code>xc7z010</code> IC 的板子，就
 </div>
 </div>
 
-<div id="outline-container-orgfabfa8e" class="outline-2">
-<h2 id="orgfabfa8e">結果</h2>
-<div class="outline-text-2" id="text-orgfabfa8e">
+<div id="outline-container-org24442a9" class="outline-2">
+<h2 id="org24442a9">結果</h2>
+<div class="outline-text-2" id="text-org24442a9">
 <p>
 在你執行 <i>Program device</i> 後，Vivado 會將剛剛產生的 bitstream 下載到我們的 Zybo Board 並執行它，最後完成的成果如下
 </p>
@@ -652,9 +652,9 @@ Vivado 告訴我們找到了一台使用 <code>xc7z010</code> IC 的板子，就
 </div>
 </div>
 
-<div id="outline-container-orgd240d5a" class="outline-2">
-<h2 id="orgd240d5a">取得程式碼</h2>
-<div class="outline-text-2" id="text-orgd240d5a">
+<div id="outline-container-org55acc55" class="outline-2">
+<h2 id="org55acc55">取得程式碼</h2>
+<div class="outline-text-2" id="text-org55acc55">
 <p>
 本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="external">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
 </p>
@@ -665,9 +665,9 @@ Vivado 告訴我們找到了一台使用 <code>xc7z010</code> IC 的板子，就
 </div>
 
 
-<div id="outline-container-org5865768" class="outline-2">
-<h2 id="org5865768">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org5865768">
+<div id="outline-container-org769067c" class="outline-2">
+<h2 id="org769067c">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org769067c">
 <p>
 <code>[1]</code> <a href="http://johanngoetz.blogspot.tw/2014/04/first-steps-with-zybo-development-board.html" target="_blank" rel="external">FPGA Programming: First Steps with the ZYBO Development Board</a>
 </p>
@@ -783,21 +783,21 @@ Vivado 告訴我們找到了一台使用 <code>xc7z010</code> IC 的板子，就
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">100</span>
+              <span class="site-state-item-count">102</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">90</span>
+              <span class="site-state-item-count">91</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -848,7 +848,7 @@ Vivado 告訴我們找到了一台使用 <code>xc7z010</code> IC 的板子，就
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org13c29f4"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org72721fa"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf37cd69"><span class="nav-text">撰寫程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc28eb78"><span class="nav-text">top.v</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org441e66f"><span class="nav-text">加入 Constraints</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org56169fe"><span class="nav-text">ZYBO_Master.xdc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org39134b5"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2fb75c3"><span class="nav-text">下載到 Zybo board</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfabfa8e"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd240d5a"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5865768"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2d53061"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org50e17a3"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8ce35bc"><span class="nav-text">撰寫程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org789d219"><span class="nav-text">top.v</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb005474"><span class="nav-text">加入 Constraints</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org54e1dbe"><span class="nav-text">ZYBO_Master.xdc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org26cbca0"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org39f889b"><span class="nav-text">下載到 Zybo board</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org24442a9"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org55acc55"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org769067c"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

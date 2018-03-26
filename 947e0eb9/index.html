@@ -247,9 +247,9 @@
 當然，為了簡化本文的描述，我另外弄了個更簡單的實作版本～
 </p>
 
-<div id="outline-container-org8f0ecaa" class="outline-2">
-<h2 id="org8f0ecaa">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org8f0ecaa">
+<div id="outline-container-org07685a7" class="outline-2">
+<h2 id="org07685a7">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org07685a7">
 <p>
 本篇文章還是依照以往的規則，使用預設的 <i>lein</i> 樣板，因此我們這樣建立名為
 <i>mybot</i> 的專案:
@@ -283,9 +283,9 @@ coldnew@Rosia ~ $ lein new mybot
 </div>
 </div>
 
-<div id="outline-container-org42155f5" class="outline-2">
-<h2 id="org42155f5">先弄個簡單的 Hello, Clojure!</h2>
-<div class="outline-text-2" id="text-org42155f5">
+<div id="outline-container-org6cccd64" class="outline-2">
+<h2 id="org6cccd64">先弄個簡單的 Hello, Clojure!</h2>
+<div class="outline-text-2" id="text-org6cccd64">
 <p>
 為了實現我們的 <del>野心</del> 程式，我們先修改 <code>src/mybot/core.clj</code> 讓我們可以使用 <code>lein
 run</code> 執行我們的程式，順便把需要使用的函式庫載入 (本文後面只會更改這個檔案）
@@ -317,9 +317,9 @@ Hello, Clojure!
 </div>
 </div>
 
-<div id="outline-container-org07bd372" class="outline-2">
-<h2 id="org07bd372">取得 gitter token</h2>
-<div class="outline-text-2" id="text-org07bd372">
+<div id="outline-container-orgc31d63c" class="outline-2">
+<h2 id="orgc31d63c">取得 gitter token</h2>
+<div class="outline-text-2" id="text-orgc31d63c">
 <p>
 為了能夠將訊息發布到 gitter 上，我們必須取得你的 gitter 帳號的 token，這邊我使用
 的是 <a href="https://github.com/clojuretwbot" target="_blank" rel="external">clojuretwbot</a> 這個帳號去登入 <a href="https://developer.gitter.im/docs/welcome" target="_blank" rel="external">GITTER DEVELOPER</a> 網站，你會看到 gitter 提供了你這
@@ -343,9 +343,9 @@ Hello, Clojure!
 </div>
 </div>
 
-<div id="outline-container-org3698869" class="outline-2">
-<h2 id="org3698869">取得 gitter 的 ROOM ID</h2>
-<div class="outline-text-2" id="text-org3698869">
+<div id="outline-container-org21a1b2b" class="outline-2">
+<h2 id="org21a1b2b">取得 gitter 的 ROOM ID</h2>
+<div class="outline-text-2" id="text-org21a1b2b">
 <p>
 除了 token 以外，因為我們要監聽/發布訊息到某個 gitter 頻道，因此要知道該頻道的 ROOM
 ID 才行，這邊可以參考 <a href="https://developer.gitter.im/docs/rooms-resource" target="_blank" rel="external">GITTER DEVELOPER ROOMS-RESOURCE</a> 這頁，我自己則是使用 <i>curl</i>
@@ -408,9 +408,9 @@ coldnew@Rosia ~ $ curl -i -H "Accept: application/json" -H "Authorization: Beare
 </div>
 </div>
 
-<div id="outline-container-orgd5bb917" class="outline-2">
-<h2 id="orgd5bb917">將訊息發佈到 gitter 上</h2>
-<div class="outline-text-2" id="text-orgd5bb917">
+<div id="outline-container-org09e1be3" class="outline-2">
+<h2 id="org09e1be3">將訊息發佈到 gitter 上</h2>
+<div class="outline-text-2" id="text-org09e1be3">
 <p>
 知道 gitter 的 token 以及 room-id 後，我們就可以試著手動送訊息到 gitter 上，我們
 先增加一個名為 <i>config</i> 的變數來存放比如 gitter 或是 irc 資訊用
@@ -466,9 +466,9 @@ coldnew@Rosia ~ $ curl -i -H "Accept: application/json" -H "Authorization: Beare
 </div>
 </div>
 
-<div id="outline-container-org3537f54" class="outline-2">
-<h2 id="org3537f54">從 gitter 取得訊息</h2>
-<div class="outline-text-2" id="text-org3537f54">
+<div id="outline-container-org82ad734" class="outline-2">
+<h2 id="org82ad734">從 gitter 取得訊息</h2>
+<div class="outline-text-2" id="text-org82ad734">
 <p>
 能夠傳送訊息到 gitter 後，接下來我們就要想辦法從 gitter 那邊將對話的訊息擷取出來，理
 論上我們傳送訊息給 gitter 時使用的是 <i>HTTP POST</i> 命令，那取得資訊應該就是用 <i>HTTP
@@ -577,9 +577,9 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </div>
 </div>
 
-<div id="outline-container-orgcef78e3" class="outline-2">
-<h2 id="orgcef78e3">從 irc 取得訊息</h2>
-<div class="outline-text-2" id="text-orgcef78e3">
+<div id="outline-container-org11346bb" class="outline-2">
+<h2 id="org11346bb">從 irc 取得訊息</h2>
+<div class="outline-text-2" id="text-org11346bb">
 <p>
 完成 gitter 功能後，我們接下來要把 irc 訊息導向給 gitter 去，為了讓事情更簡單，這
 邊只考慮如何取得 irc 訊息即可。
@@ -650,9 +650,9 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </div>
 </div>
 
-<div id="outline-container-orga1873fa" class="outline-2">
-<h2 id="orga1873fa">傳送訊息到 irc 上</h2>
-<div class="outline-text-2" id="text-orga1873fa">
+<div id="outline-container-org6c81f9d" class="outline-2">
+<h2 id="org6c81f9d">傳送訊息到 irc 上</h2>
+<div class="outline-text-2" id="text-org6c81f9d">
 <p>
 發送訊息其實就只是 <a href="https://github.com/Raynes/irclj" target="_blank" rel="external">irclj</a> 函式的使用而已
 </p>
@@ -677,9 +677,9 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </div>
 </div>
 
-<div id="outline-container-org4cd57aa" class="outline-2">
-<h2 id="org4cd57aa">透過 core.async 進行整合</h2>
-<div class="outline-text-2" id="text-org4cd57aa">
+<div id="outline-container-orgc6d427d" class="outline-2">
+<h2 id="orgc6d427d">透過 core.async 進行整合</h2>
+<div class="outline-text-2" id="text-orgc6d427d">
 <p>
 完成了獨立的 gitter 與 irc 讀寫功能，現在我們要將這些功能合併成一個完整的專案那
 要怎樣作呢？我們要怎樣在收到 gitter 訊息後輕鬆愉快的將這些訊息丟到 queue 中並傳送給
@@ -772,9 +772,9 @@ irc 呢？
 </div>
 </div>
 
-<div id="outline-container-orgc6e67a3" class="outline-2">
-<h2 id="orgc6e67a3">測試我們的程式</h2>
-<div class="outline-text-2" id="text-orgc6e67a3">
+<div id="outline-container-orgc87684f" class="outline-2">
+<h2 id="orgc87684f">測試我們的程式</h2>
+<div class="outline-text-2" id="text-orgc87684f">
 <p>
 由於有些人可能不知道怎樣連線到 irc，因此這邊弄個簡單的測試介紹
 </p>
@@ -813,9 +813,9 @@ coldnew@Rosia ~/mybot $ lein run
 </div>
 </div>
 
-<div id="outline-container-org795309a" class="outline-2">
-<h2 id="org795309a">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-org795309a">
+<div id="outline-container-orgfe8b9c2" class="outline-2">
+<h2 id="orgfe8b9c2">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-orgfe8b9c2">
 <p>
 本篇文章是我寫完 <a href="https://github.com/clojure-tw/irc-bridge" target="_blank" rel="external">clojure-tw/irc-bridge</a> 後另外建立的簡單範例程式碼，因此一樣是存
 放在我自己的 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/mybot" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
@@ -840,9 +840,9 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/mybot
 </div>
 </div>
 
-<div id="outline-container-orgfad6a2c" class="outline-2">
-<h2 id="orgfad6a2c">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgfad6a2c">
+<div id="outline-container-org1c32e81" class="outline-2">
+<h2 id="org1c32e81">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org1c32e81">
 <p>
 <code>[1]</code> <a href="https://github.com/clojure-tw/irc-bridge" target="_blank" rel="external">https://github.com/clojure-tw/irc-bridge</a>
 </p>
@@ -942,21 +942,21 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/mybot
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">100</span>
+              <span class="site-state-item-count">102</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">90</span>
+              <span class="site-state-item-count">91</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -1007,7 +1007,7 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/mybot
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8f0ecaa"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org42155f5"><span class="nav-text">先弄個簡單的 Hello, Clojure!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org07bd372"><span class="nav-text">取得 gitter token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3698869"><span class="nav-text">取得 gitter 的 ROOM ID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd5bb917"><span class="nav-text">將訊息發佈到 gitter 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3537f54"><span class="nav-text">從 gitter 取得訊息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcef78e3"><span class="nav-text">從 irc 取得訊息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga1873fa"><span class="nav-text">傳送訊息到 irc 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4cd57aa"><span class="nav-text">透過 core.async 進行整合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc6e67a3"><span class="nav-text">測試我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org795309a"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfad6a2c"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org07685a7"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6cccd64"><span class="nav-text">先弄個簡單的 Hello, Clojure!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc31d63c"><span class="nav-text">取得 gitter token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org21a1b2b"><span class="nav-text">取得 gitter 的 ROOM ID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org09e1be3"><span class="nav-text">將訊息發佈到 gitter 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org82ad734"><span class="nav-text">從 gitter 取得訊息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org11346bb"><span class="nav-text">從 irc 取得訊息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6c81f9d"><span class="nav-text">傳送訊息到 irc 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc6d427d"><span class="nav-text">透過 core.async 進行整合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc87684f"><span class="nav-text">測試我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfe8b9c2"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1c32e81"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
