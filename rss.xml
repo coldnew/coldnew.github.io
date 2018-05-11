@@ -9930,9 +9930,9 @@ clojure.zip 是用來處理樹狀結構用函式庫，這篇文章有很好的�
 本文將以 &lt;a href=&quot;http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zybo Board&lt;/a&gt; 作為目標開發板，示範如何使用 Yocto 來構件他的系統。
 &lt;/p&gt;
 
-&lt;div id=&quot;outline-container-org75f369b&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org75f369b&quot;&gt;預先準備&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org75f369b&quot;&gt;
+&lt;div id=&quot;outline-container-orgf582499&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgf582499&quot;&gt;預先準備&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgf582499&quot;&gt;
 &lt;p&gt;
 根據你使用的 Linux 發行板的不同，你需要安裝一些套件，這邊列出一些發行板的資訊，詳細請參考 &lt;a href=&quot;http://www.yoctoproject.org/docs/2.0/ref-manual/ref-manual.html#intro-requirements&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project Reference Manual&lt;/a&gt;
 &lt;/p&gt;
@@ -9986,9 +9986,9 @@ Python 2.7.5 &lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;default
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org809fe27&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org809fe27&quot;&gt;格式化 MicroSD 卡&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org809fe27&quot;&gt;
+&lt;div id=&quot;outline-container-orgead35fe&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgead35fe&quot;&gt;格式化 MicroSD 卡&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgead35fe&quot;&gt;
 &lt;p&gt;
 在這次的開發中，我們要設定 MicroSD 卡片成兩個分區，第一個是 &lt;code&gt;fat32&lt;/code&gt; 格式，第二個則使用 &lt;code&gt;ext4&lt;/code&gt; 格式，若不會使用 &lt;code&gt;fdisk&lt;/code&gt; 命令的話，可以透過 &lt;code&gt;gparted&lt;/code&gt; 來進行格式化，以下是我格式化卡片的範例 (8GB 卡片)。
 &lt;/p&gt;
@@ -10001,11 +10001,11 @@ Python 2.7.5 &lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;default
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-orgb03f5d6&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgb03f5d6&quot;&gt;下載 Poky&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgb03f5d6&quot;&gt;
+&lt;div id=&quot;outline-container-org552ed25&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org552ed25&quot;&gt;下載 Poky&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org552ed25&quot;&gt;
 &lt;p&gt;
-在開始用 &lt;a href=&quot;https://www.yoctoproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project&lt;/a&gt; 之前，我們需要下載 Poky, Poky 是 Yocto 的構件系統，基本上我們會用到的東西都會在 poky 資料夾內
+在開始用 &lt;a href=&quot;https://www.yoctoproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project&lt;/a&gt; 之前，我們需要下載 Poky, Poky 是 Yocto 的構建系統，基本上我們會用到的東西都會在 poky 資料夾內
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -10026,9 +10026,9 @@ coldnew@gentoo ~/poky $ cd poky
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-orgcee9c02&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgcee9c02&quot;&gt;下載 meta-xilinx&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgcee9c02&quot;&gt;
+&lt;div id=&quot;outline-container-org370956e&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org370956e&quot;&gt;下載 meta-xilinx&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org370956e&quot;&gt;
 &lt;p&gt;
 Yocto 對於不同的 SoC 廠商，會有提供不同的 layer 來對特定的開源程式加上合適的 patch，或是添加不同 SoC 廠各自需要的韌體(firmware)，以及各開發板特定的設定。
 在 Xilinx 平台上，我們需要下載 &lt;code&gt;meta-xilinx&lt;/code&gt; ，我們需要的 kernel 以及 Zybo board 的設定資訊都在裡面。
@@ -10044,9 +10044,9 @@ coldnew@gentoo ~/poky $ git clone git://github.com/Xilinx/meta-xilinx -b krogoth
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org6ec6ecd&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org6ec6ecd&quot;&gt;切換到編譯用目錄&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org6ec6ecd&quot;&gt;
+&lt;div id=&quot;outline-container-org4e8cd45&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org4e8cd45&quot;&gt;切換到編譯用目錄&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org4e8cd45&quot;&gt;
 &lt;p&gt;
 接下來，我們將透過 &lt;code&gt;source&lt;/code&gt; 指令暫時修改當前 shell 的環境變數，並切換到 &lt;code&gt;build&lt;/code&gt; 資料夾
 &lt;/p&gt;
@@ -10134,9 +10134,9 @@ BBLAYERS ?= &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot; \&lt;/span&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org2233d53&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org2233d53&quot;&gt;編譯 core-image-minimal&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org2233d53&quot;&gt;
+&lt;div id=&quot;outline-container-org85e55dc&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org85e55dc&quot;&gt;編譯 core-image-minimal&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org85e55dc&quot;&gt;
 &lt;p&gt;
 Yocto 下有許多預設的 image 可以進行編譯，其中最基本的 image 就是 &lt;code&gt;core-image-minimal&lt;/code&gt; 了，裡面只會包含一些幾本的組件而已，我們可以透過他來確認我們編譯出來的 rootfs 是否能用。
 &lt;/p&gt;
@@ -10241,9 +10241,9 @@ coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linu
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org780b241&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org780b241&quot;&gt;測試開機與結果&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org780b241&quot;&gt;
+&lt;div id=&quot;outline-container-orgf16180b&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgf16180b&quot;&gt;測試開機與結果&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgf16180b&quot;&gt;
 &lt;p&gt;
 是時候來測試結果了，要注意到你的 Zybo Board 的 &lt;code&gt;JP5&lt;/code&gt; 要設定成下面這樣，這樣給電時，Zynq 才會讀取 SD 卡上面的 u-boot 並將位元流 (bitstream) 燒錄到 FPGA 中。
 &lt;/p&gt;
@@ -10266,9 +10266,9 @@ coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linu
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-orgcca666d&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgcca666d&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgcca666d&quot;&gt;
+&lt;div id=&quot;outline-container-org2731e30&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org2731e30&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org2731e30&quot;&gt;
 &lt;p&gt;
 &lt;code&gt;[1]&lt;/code&gt; &lt;a href=&quot;https://github.com/Xilinx/meta-xilinx/blob/master/README.booting.md&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Booting meta-xilinx boards&lt;/a&gt;
 &lt;/p&gt;
@@ -10296,9 +10296,9 @@ coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linu
 本文將以 &lt;a href=&quot;http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zybo Board&lt;/a&gt; 作為目標開發板，示範如何使用 Yocto 來構件他的系統。
 &lt;/p&gt;
 
-&lt;div id=&quot;outline-container-org75f369b&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org75f369b&quot;&gt;預先準備&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org75f369b&quot;&gt;
+&lt;div id=&quot;outline-container-orgf582499&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgf582499&quot;&gt;預先準備&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgf582499&quot;&gt;
 &lt;p&gt;
 根據你使用的 Linux 發行板的不同，你需要安裝一些套件，這邊列出一些發行板的資訊，詳細請參考 &lt;a href=&quot;http://www.yoctoproject.org/docs/2.0/ref-manual/ref-manual.html#intro-requirements&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project Reference Manual&lt;/a&gt;
 &lt;/p&gt;
@@ -10352,9 +10352,9 @@ Python 2.7.5 &lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;default
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org809fe27&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org809fe27&quot;&gt;格式化 MicroSD 卡&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org809fe27&quot;&gt;
+&lt;div id=&quot;outline-container-orgead35fe&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgead35fe&quot;&gt;格式化 MicroSD 卡&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgead35fe&quot;&gt;
 &lt;p&gt;
 在這次的開發中，我們要設定 MicroSD 卡片成兩個分區，第一個是 &lt;code&gt;fat32&lt;/code&gt; 格式，第二個則使用 &lt;code&gt;ext4&lt;/code&gt; 格式，若不會使用 &lt;code&gt;fdisk&lt;/code&gt; 命令的話，可以透過 &lt;code&gt;gparted&lt;/code&gt; 來進行格式化，以下是我格式化卡片的範例 (8GB 卡片)。
 &lt;/p&gt;
@@ -10367,11 +10367,11 @@ Python 2.7.5 &lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;default
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-orgb03f5d6&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgb03f5d6&quot;&gt;下載 Poky&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgb03f5d6&quot;&gt;
+&lt;div id=&quot;outline-container-org552ed25&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org552ed25&quot;&gt;下載 Poky&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org552ed25&quot;&gt;
 &lt;p&gt;
-在開始用 &lt;a href=&quot;https://www.yoctoproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project&lt;/a&gt; 之前，我們需要下載 Poky, Poky 是 Yocto 的構件系統，基本上我們會用到的東西都會在 poky 資料夾內
+在開始用 &lt;a href=&quot;https://www.yoctoproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project&lt;/a&gt; 之前，我們需要下載 Poky, Poky 是 Yocto 的構建系統，基本上我們會用到的東西都會在 poky 資料夾內
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -10392,9 +10392,9 @@ coldnew@gentoo ~/poky $ cd poky
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-orgcee9c02&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgcee9c02&quot;&gt;下載 meta-xilinx&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgcee9c02&quot;&gt;
+&lt;div id=&quot;outline-container-org370956e&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org370956e&quot;&gt;下載 meta-xilinx&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org370956e&quot;&gt;
 &lt;p&gt;
 Yocto 對於不同的 SoC 廠商，會有提供不同的 layer 來對特定的開源程式加上合適的 patch，或是添加不同 SoC 廠各自需要的韌體(firmware)，以及各開發板特定的設定。
 在 Xilinx 平台上，我們需要下載 &lt;code&gt;meta-xilinx&lt;/code&gt; ，我們需要的 kernel 以及 Zybo board 的設定資訊都在裡面。
@@ -10410,9 +10410,9 @@ coldnew@gentoo ~/poky $ git clone git://github.com/Xilinx/meta-xilinx -b krogoth
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org6ec6ecd&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org6ec6ecd&quot;&gt;切換到編譯用目錄&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org6ec6ecd&quot;&gt;
+&lt;div id=&quot;outline-container-org4e8cd45&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org4e8cd45&quot;&gt;切換到編譯用目錄&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org4e8cd45&quot;&gt;
 &lt;p&gt;
 接下來，我們將透過 &lt;code&gt;source&lt;/code&gt; 指令暫時修改當前 shell 的環境變數，並切換到 &lt;code&gt;build&lt;/code&gt; 資料夾
 &lt;/p&gt;
@@ -10500,9 +10500,9 @@ BBLAYERS ?= &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot; \&lt;/span&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org2233d53&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org2233d53&quot;&gt;編譯 core-image-minimal&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org2233d53&quot;&gt;
+&lt;div id=&quot;outline-container-org85e55dc&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org85e55dc&quot;&gt;編譯 core-image-minimal&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org85e55dc&quot;&gt;
 &lt;p&gt;
 Yocto 下有許多預設的 image 可以進行編譯，其中最基本的 image 就是 &lt;code&gt;core-image-minimal&lt;/code&gt; 了，裡面只會包含一些幾本的組件而已，我們可以透過他來確認我們編譯出來的 rootfs 是否能用。
 &lt;/p&gt;
@@ -10607,9 +10607,9 @@ coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linu
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org780b241&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org780b241&quot;&gt;測試開機與結果&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org780b241&quot;&gt;
+&lt;div id=&quot;outline-container-orgf16180b&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgf16180b&quot;&gt;測試開機與結果&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgf16180b&quot;&gt;
 &lt;p&gt;
 是時候來測試結果了，要注意到你的 Zybo Board 的 &lt;code&gt;JP5&lt;/code&gt; 要設定成下面這樣，這樣給電時，Zynq 才會讀取 SD 卡上面的 u-boot 並將位元流 (bitstream) 燒錄到 FPGA 中。
 &lt;/p&gt;
@@ -10632,9 +10632,9 @@ coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linu
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-orgcca666d&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgcca666d&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgcca666d&quot;&gt;
+&lt;div id=&quot;outline-container-org2731e30&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org2731e30&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org2731e30&quot;&gt;
 &lt;p&gt;
 &lt;code&gt;[1]&lt;/code&gt; &lt;a href=&quot;https://github.com/Xilinx/meta-xilinx/blob/master/README.booting.md&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Booting meta-xilinx boards&lt;/a&gt;
 &lt;/p&gt;
