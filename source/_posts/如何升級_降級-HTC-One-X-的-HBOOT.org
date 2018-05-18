@@ -1,0 +1,198 @@
+#+TITLE: 如何升級/降級 HTC One X 的 HBOOT
+#+DATE: <2013-12-29 Sun 17:55>
+#+UPDATED: <2013-12-29 Sun 17:55>
+#+ABBRLINK: 7604eab2
+#+OPTIONS: num:nil ^:nil
+#+TAGS: android, cyanogenmod, htc onex, endeavoru
+#+LANGUAGE: zh-tw
+#+ALIAS: blog/2013/12-29_76c4a/index.html
+#+ALIAS: blog/2013/12/29_76c4a.html
+
+#+BEGIN_alert
+*警告*
+
+*刷機有變磚的風險，請自行負責刷機失敗的責任。*
+#+END_alert
+
+在前面的文章中，曾經提到了如何自己動手建立 CM9 或是 CM10.2 的 image 給
+HTC One X 手機使用，但是並未提及最關鍵的步驟: =如何升級/降級 HBOOT= 。
+
+為何或說升級/降級 HBOOT 是非常關鍵的步驟呢？事實上，HTC 提供的 firmware 裡
+面，用於 Android 4.0 (ICS) 和 Android 4.2 or 4.3 (JellyBean) 的 HBOOT 是
+不相容的，因此若你想要使用 ICS 的版本，你就必須使用舊一點的 HBOOT，反之，
+若你要使用 JellyBean，你就需要比較新的 HBOOT，兩者只能取其一。
+
+除此之外，更改手機的 bootloader 是最危險的事情，沒弄好的話，你的手機很可
+能就會無法使用，像個磚塊一樣。
+
+* 行動前必看的幾個連結
+
+要更改你的 HTC One X，或者說想要刷機刷的盡興，你必須要將你的手機進行解
+鎖，請參考以下連結:
+
+[[http://www.hk-android.info/archives/27933][HTC One X Root 機教學 (含解鎖 Bootloader)]]
+
+下面這個連結講解了關於 HTC OneX 更新 RUU 必備的資訊 *必看*
+
+[[http://www.mobile01.com/topicdetail.php?f%3D566&t%3D2692027][One X RUU 回覆 /Recovery/OTA 相關教學與疑難排解]]
+
+* 從 OTA 檔案 中取得 RUU 以及 HBOOT
+
+刷機用的 HBOOT 以及 RUU 可以從 OTA 的檔案中取得，以 [[http://www.androidfiles.org/ruu/?developer%3DEndeavor][AndroidFiles RUU (endeavor)]]
+裡面的
+
+: OTA_ENDEAVOR_U_JB_45_S_hTC_Asia_TW_3.14.709.16-2.17.709.7_release_290501b59ldhm19jb48jdy.zip
+
+檔案為例，可以看到這是一個提供給版本為 JellyBean 用的 OTA 檔案，因此裡
+面的 HBOOT 也只能用在 JellyBean 上面，若將該 ZIP 檔案解開，可以獲得下
+面的資料夾結構
+
+#+BEGIN_EXAMPLE
+coldnew@Sara ~/ota_endeavor $ tree -n -L 2
+.
+├── META-INF
+│   ├── CERT.RSA
+│   ├── CERT.SF
+│   ├── MANIFEST.MF
+│   └── com
+├── firmware.zip
+├── fotaBoot
+├── patch
+│   └── system
+├── skin_fota
+├── system
+│   ├── app
+│   ├── bin
+│   ├── customize
+│   ├── etc
+│   ├── fonts
+│   ├── framework
+│   ├── lib
+│   ├── usr
+│   └── vendor
+└── version.txt
+
+14 directories, 7 files
+#+END_EXAMPLE
+
+裡面的 =firmware.zip= 就是 RUU 檔案，再解開來可以看到
+
+#+BEGIN_EXAMPLE
+coldnew@Sara ~/ota_endeavoru/firmware $ tree -n
+.
+├── android-info.txt
+├── boot.img
+├── hboot_1.31.0000.img
+├── rcdata.img
+└── recovery.img
+
+0 directories, 5 files
+#+END_EXAMPLE
+
+裡頭的 =hboot_1.31.0000.img= 就是我們所需要的 HBOOT。
+
+如果你想要 ICS 可用的 HBOOT，請點選[[http://pan.baidu.com/s/1hq4zgCO][連結]]
+
+* 更新你的 HBOOT 或是 RUU
+
+網路上可以看到很多懶人刷機用的工具，但是透過這類工具無法理解怎樣才能更
+新 HBOOT，就讓我們用指令來處理吧 ~
+
+以下命令按照順序進行:
+
+** 將手機重開機到 fastboot 下
+
+你可以使用 adb 命令，來讓你的手機切換到 bootloader 下，或者是按下 =聲
+音縮小= 按鍵，並進行重開機。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/endeavoru $ adb reboot-bootloader
+#+END_EXAMPLE
+
+** 將手機上鎖回去
+
+要更新 RUU 或是 HBOOT 之前，必須要將已經解鎖的手機上所回去，因此請保留
+好你解鎖用的 =Unlocked_code.bin= 檔案。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/endeavoru $ fastboot oem lock
+...
+(bootloader) Lock successfully...
+FAILED (status read failed (No such device))
+finished. total time: 5.113s
+#+END_EXAMPLE
+
+** 進入到燒錄 RUU 模式
+
+燒錄 RUU 會切換到另外一種 bootloader 下，使用以下命令進行切換。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/endeavoru $ fastboot oem rebootRUU
+#+END_EXAMPLE
+
+** 將 firmware 燒錄進去
+
+假設你要燒錄的 RUU 檔案名稱為 =firmware.zip= ，則使用如以下的命令進
+行燒錄。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/endeavoru $ fastboot flash zip firmware.zip
+sending 'zip' (12878 KB)...
+OKAY [  1.833s]
+writing 'zip'...
+(bootloader) shift signature_size for header checking...
+(bootloader) checking model ID...
+(bootloader) checking custom ID...
+(bootloader) start image[boot] unzipping & flushing...
+(bootloader) Format partition LNX done
+(bootloader) [RUU]WP,boot,100
+(bootloader) start image[recovery] unzipping & flushing...
+(bootloader) Format partition SOS done
+(bootloader) [RUU]WP,recovery,100
+(bootloader) ERASE backup cid
+OKAY [  2.469s]
+finished. total time: 4.302s
+#+END_EXAMPLE
+
+** 重新開機
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/endeavoru $ fastboot reboot
+rebooting...
+
+finished. total time: 0.134s
+#+END_EXAMPLE
+
+** 重新解鎖
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/endeavoru $ fastboot flash unlocktoken Unlock_code.bin
+sending 'unlocktoken' (0 KB)...
+OKAY [  0.035s]
+writing 'unlocktoken'...
+(bootloader) unlock token check successfully
+FAILED (status read failed (No such device))
+finished. total time: 39.451s
+#+END_EXAMPLE
+
+** 將 recovery 燒上去
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/endeavoru $ fastboot flash recovery openrecovery-twrp-2.6.3.0-endeavoru.img
+sending 'recovery' (6972 KB)...
+OKAY [  1.046s]
+writing 'recovery'...
+(bootloader) Format partition SOS done
+OKAY [  0.602s]
+finished. total time: 1.649s
+#+END_EXAMPLE
+
+* 參考連結
+
+~[1]~ [[http://www.hk-android.info/archives/27933][HTC One X Root 機教學 (含解鎖 Bootloader)]]
+
+~[2]~ [[http://www.mobile01.com/topicdetail.php?f%3D566&t%3D2692027][One X RUU 回覆 /Recovery/OTA 相關教學與疑難排解]]
+
+~[3]~ [[http://forum.xda-developers.com/showthread.php?t%3D1957376&highlight%3Dsearch%2Bthis%2Bforum][{PLACEHOLDER} {01.10.2013} HTC One X firmware collection for different CID/MID]]
+
+~[4]~ [[http://www.androidfiles.org/ruu/?developer%3DEndeavor][AndroidFiles RUU (endeavor)]]

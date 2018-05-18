@@ -1,0 +1,200 @@
+#+TITLE: 編譯 CyanogenMod 10.2 (JellyBean) 並安裝到 HTC One X 手機
+#+DATE: <2013-12-29 Sun 00:06>
+#+UPDATED: <2013-12-29 Sun 00:06>
+#+ABBRLINK: ba12fc46
+#+OPTIONS: num:nil ^:nil
+#+TAGS: android, cyanogenmod, htc onex
+#+LANGUAGE: zh-tw
+#+ALIAS: blog/2013/12-29_46ac3/index.html
+#+ALIAS: blog/2013/12/29_46ac3.html
+
+[[http://www.cyanogenmod.org/][CyanogenMod]] 是目前最為風行的 Android 第三方改版，原本由 Steve Kondik 創
+辦開發，並加入了許多 [[http://www.xda-developers.com][xda]] 社群的改版，該團隊也在最近成立了公司 CyanogenMod Inc.
+
+本篇文章以 =CyanogenMod 10.2= (簡稱 =CM10.2=) 為主，並使用 =HTC One X
+(Endeavoru)= 作為編譯的目標機型。
+
+若您有興趣的是如何編譯 =CM9= 到你的 HTC OneX，請參考拙作: [[http://coldnew.github.io/blog/2013/10/27_46ac36.html][編譯 CyanogenMod 9
+(ICS) 並安裝到 HTC One X 手機]]
+
+* 建立你的開發環境
+
+要能夠編譯 CyanogenMod, 首先要先把開發環境建立好，才能夠在編譯的過程中
+順順利利的，以下列出幾個常用的 Linux 建立編譯環境所需要額外安裝的套件。
+
+#+BEGIN_alert
+為了能夠正確編譯你的 CyanogenMod 或是 Android，請使用 *64-bit*
+的 Linux 系統。
+#+END_alert
+
+- Debian /Ubuntu Linux
+
+  #+BEGIN_SRC sh
+    sudo apt-get install                                            \
+        build-essential pkg-config zlib1g-dev libusb-dev libqt4-dev \
+        autoconf libtool git-core gnupg sun-java6-jdk flex bison    \
+        gperf libsdl-dev libesd0-dev libwxgtk2.6-dev zip curl       \
+        libncurses5-dev ia32-libs lib32z1-dev lib32ncurses5-dev     \
+        gcc-multilib g++-multilib
+  #+END_SRC
+
+- Gentoo Linux
+
+  #+BEGIN_SRC sh
+    emerge -v                                              \
+        schedtool cmake bison curl git sun-jdk             \
+        gnupg flex bison gperf libsdl squashfs-tools       \
+        ncurses zlib perl-Switch zip unzip wxGTK           \
+        emul-linux-x86-baselibs emul-linux-x86-compat emul-linux-x86-cpplibs
+  #+END_SRC
+
+* 取得 repo 工具
+
+不論你是要編譯 Android、CyanogenMod 或是 Firefox OS、Ubuntu Touch，你都
+會需要 =repo= 這個命令，因此若你沒有這個命令的話，趕快安裝他吧 :)
+
+下面的指令會將 repo 放到 =~/bin= 下
+
+#+BEGIN_SRC sh
+  curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+  chmod a+x ~/bin/repo
+  export PATH="${PATH}:~/bin"
+#+END_SRC
+
+* 取得必須的原始碼
+
+- 建立編譯用的目錄 =cm10.2= 並切換進去
+
+  #+BEGIN_SRC sh
+    mkdir cm10.2 && cd cm10.2
+  #+END_SRC
+
+- 取得 manifest
+
+  #+BEGIN_SRC sh
+    repo init -u git://github.com/CyanogenMod/android.git -b cm-10.2
+  #+END_SRC
+
+- 下載程式碼
+
+  #+BEGIN_SRC sh
+    repo sync
+  #+END_SRC
+
+- 取得預先編譯好的 app
+
+  #+BEGIN_SRC sh
+    cd vendor/cm && ./get-prebuilts
+  #+END_SRC
+
+- 取得 HTC One X kernel 和其他可能需要的原始碼
+
+  #+BEGIN_SRC sh
+    source build/envsetup.sh
+    breakfast endeavoru
+  #+END_SRC
+
+* 取得官方提供的二進制檔案
+
+要取得手機裡面特殊的二進制文件有兩種作法，一個是從你的手機裡面取出，另
+外一個則是使用別人已經 *備份* 在網路上的檔案。
+
+- 下載別人整理好的二進制檔案
+
+  在 Github 上可以找到一些已經整理好 HTC One X 二進制檔的 repo，
+  修改 =.repo/local_manifest/roomservice.xml= ，讓他變成下面這樣
+
+  #+BEGIN_SRC xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <manifest>
+      <project name="CyanogenMod/android_device_htc_endeavoru" path="device/htc/endeavoru" remote="github" />
+      <project name="CyanogenMod/android_device_htc_tegra3-common" path="device/htc/tegra3-common" remote="github" />
+      <project name="CyanogenMod/android_kernel_htc_endeavoru" path="kernel/htc/endeavoru" remote="github" />
+      <project path="vendor/htc/endeavoru"
+               name="coldnew/android_vendor_htc_endeavoru" remote="github" revision="refs/heads/cm-10.2" />
+    </manifest>
+  #+END_SRC
+
+  接著再使用 repo 命令來取得原始碼
+
+  #+BEGIN_SRC sh
+    repo sync
+  #+END_SRC
+
+- 直接從手機裡面取得二進制檔案
+
+  若你的手機已經是 Android 4.2 or 以上的版本，你可以透過
+  =extract-files.sh= 腳本建立 =vendor/htc= 資料夾。由於必須的腳本並未
+  被包含在 CM10.2 的 =android_device_htc_endeavoru= 裡面，因此我們要從
+  CM9 repo 取得必須的腳本
+
+  #+BEGIN_SRC sh
+    cd device/htc/endeavoru
+    wget https://raw.github.com/CyanogenMod/android_device_htc_endeavoru/ics/extract_files.sh
+    chmod +x extract_files.sh
+    wget https://raw.github.com/CyanogenMod/android_device_htc_endeavoru/ics/setup-makefiles.sh
+    chmod +x setup-makefiles.sh
+  #+END_SRC
+
+  接著在使用 =extract-files.sh= 取得必須的二進制文件，完成後還要執行
+  =setup-makefiles.sh= 去建立相對應的 Makefile
+
+  #+BEGIN_SRC sh
+    cd device/htc/endeavoru && ./extract-files.sh
+    ./setup-makefiles.sh
+  #+END_SRC
+* 編譯 CyanogenMod
+
+要編譯 CyanogenMod，你只需要再下以下命令，並等待你的 ROM 編譯好即可
+
+#+BEGIN_SRC sh
+  croot
+  brunch endeavoru
+#+END_SRC
+
+* 下載到 HTC One X
+
+若你的 HTC 手機裡面已經將 recovery 更改為 [[http://teamw.in/project/twrp2/95][TWRP]] 或是 [[http://www.clockworkmod.com/rommanager][CWM]] 的話，你可以直
+接複製編譯好的 ROM 檔案到你的手機裡面，並使用這些 recovery tool 來
+安裝新的 image (HBOOT 要先降版本)，具體的檔案路徑如下:
+
+#+BEGIN_EXAMPLE
+out/target/product/endeavoru/cm-10-20131229-UNOFFICIAL-endeavoru.zip
+#+END_EXAMPLE
+
+除此之外，你也可以使用 fastboot 命令來燒錄新的 image，以下是操作流程
+
+- 1. 重新開機到 bootloader
+
+  #+BEGIN_SRC sh
+    adb reboot-bootloader
+  #+END_SRC
+
+- 2. 查看是否有找到裝置
+
+  #+BEGIN_SRC sh
+    fastboot devices
+  #+END_SRC
+
+- 3. 燒錄你的新的 image
+
+  #+BEGIN_SRC sh
+    fastboot flash boot boot.img
+    fastboot flash system system.img
+  #+END_SRC
+
+- 4. 清除 cache 和 user-data
+
+  #+BEGIN_SRC sh
+    fastboot erase userdata
+    fastboot erase cache
+  #+END_SRC
+
+- 5. 重新啟動你的手機
+
+  #+BEGIN_SRC sh
+    fastboot reboot
+  #+END_SRC
+* 參考資料
+
+~[1]~ [[http://wiki.cyanogenmod.org/w/Build_for_endeavoru][How To Build CyanogenMod Android for HTC One X ("endeavoru") ]]

@@ -1,0 +1,17 @@
+#+TITLE: 為什麼有些 ARM 平台需要 x-loader ?
+#+DATE: <2013-01-12 Sat 23:05>
+#+UPDATED: <2013-01-12 Sat 23:05>
+#+ABBRLINK: 4bf237f4
+#+OPTIONS: num:nil
+#+TAGS: arm, u-boot, linux
+#+LANGUAGE: zh-tw
+#+ALIAS: blog/2013/01-12_f11d3/index.html
+#+ALIAS: blog/2013/01/12_f11d3.html
+
+在開始使用 ARM 的開發平台後，發現到了一件很特別的事情，一般我們都是透過 bootloader
+來載入 linux kernel image，但是像 OMAP 系列，除了 u-boot 以外，會多出一個 xloader，
+那 xloader 是做什麼的呢？
+
+其實是這樣的，OMAP 本身的記憶體非常的小，只有大約 64k，所以像 uboot、linux kernel 這些都必須
+讀入外部的記憶體。當 OMAP 啟動後，memory controller 尚未進行初始化，無法讀取外部的記憶體，
+所以透過 x-loader 來幫忙初始化外部記憶體，之後則跳入 uboot 的啟動部份。

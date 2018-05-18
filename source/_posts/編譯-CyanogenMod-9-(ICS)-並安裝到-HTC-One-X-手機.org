@@ -1,0 +1,418 @@
+#+TITLE: 編譯 CyanogenMod 9 (ICS) 並安裝到 HTC One X 手機
+#+DATE: <2013-10-27 Sun 10:36>
+#+UPDATED: <2013-10-27 Sun 10:36>
+#+ABBRLINK: c57d2c00
+#+OPTIONS: num:nil ^:nil
+#+TAGS: android, cyanogenmod, htc onex
+#+LANGUAGE: zh-tw
+#+ALIAS: blog/2013/10-27_46ac36/index.html
+#+ALIAS: blog/2013/10/27_46ac36.html
+
+[[http://www.cyanogenmod.org/][CyanogenMod]] 是目前最為風行的 Android 第三方改版，原本由 Steve Kondik 創
+辦開發，並加入了許多 [[http://www.xda-developers.com][xda]] 社群的改版，該團隊也在最近成立了公司 CyanogenMod Inc.
+
+本篇文章以 =CyanogenMod 9= (簡稱 =CM9=) 為主，並使用 =HTC One X
+(Endeavoru)= 作為編譯的目標機型。由於目前的 HTC One X 所安裝的 HBOOT 僅
+適用於 Android 4.2 以上的版本，若想要依據本篇文章的方式編譯 CM9，你同時
+需要將你的 HTC One X 進行 HBOOT 降級的動作。
+
+* 建立你的開發環境
+
+要能夠編譯 CyanogenMod, 首先要先把開發環境建立好，才能夠在編譯的過程中
+順順利利的，以下列出幾個常用的 Linux 建立編譯環境所需要額外安裝的套件。
+
+#+BEGIN_alert
+為了能夠正確編譯你的 CyanogenMod 或是 Android，請使用 *64-bit*
+的 Linux 系統。
+#+END_alert
+
+- Debian /Ubuntu Linux
+
+  #+BEGIN_SRC sh
+    sudo apt-get install                                            \
+        build-essential pkg-config zlib1g-dev libusb-dev libqt4-dev \
+        autoconf libtool git-core gnupg sun-java6-jdk flex bison    \
+        gperf libsdl-dev libesd0-dev libwxgtk2.6-dev zip curl       \
+        libncurses5-dev ia32-libs lib32z1-dev lib32ncurses5-dev     \
+        gcc-multilib g++-multilib
+  #+END_SRC
+
+- Gentoo Linux
+
+  #+BEGIN_SRC sh
+    emerge -v                                              \
+        schedtool cmake bison curl git sun-jdk             \
+        gnupg flex bison gperf libsdl squashfs-tools       \
+        ncurses zlib perl-Switch zip unzip wxGTK           \
+        emul-linux-x86-baselibs emul-linux-x86-compat emul-linux-x86-cpplibs
+  #+END_SRC
+
+* 取得 repo 工具
+
+不論你是要編譯 Android、CyanogenMod 或是 Firefox OS、Ubuntu Touch，你都
+會需要 =repo= 這個命令，因此若你沒有這個命令的話，趕快安裝他吧 :)
+
+下面的指令會將 repo 放到 =~/bin= 下
+
+#+BEGIN_SRC sh
+  curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+  chmod a+x ~/bin/repo
+  export PATH="${PATH}:~/bin"
+#+END_SRC
+
+* 取得必須的原始碼
+
+#+BEGIN_alert
+本篇文章所編譯的為 CM9 的版本，相對應的版本為 Android 4.0 (ICS)，由於目
+前的 HTC One X 幾乎都升級到 Android 4.2 (JB) 的版本，要使用 CM9 你必須知道
+如何將 HBOOT 降版，或是將本篇文章編譯的版本改成 CM-10.2。
+#+END_alert
+
+- 建立編譯用的目錄 =cm9= 並切換進去
+
+  #+BEGIN_SRC sh
+    mkdir cm9 && cd cm9
+  #+END_SRC
+
+- 取得 manifest
+
+  #+BEGIN_SRC sh
+    repo init -u git://github.com/CyanogenMod/android.git -b cm-9.1.0
+  #+END_SRC
+
+- 下載程式碼
+
+  #+BEGIN_SRC sh
+    repo sync
+  #+END_SRC
+
+- 取得預先編譯好的 app
+
+  #+BEGIN_SRC sh
+    cd vendor/cm && ./get-prebuilts
+  #+END_SRC
+
+- 取得 HTC One X kernel 和其他可能需要的原始碼
+
+  #+BEGIN_SRC sh
+    source build/envsetup.sh
+    breakfast endeavoru
+  #+END_SRC
+
+* 取得官方提供的二進制檔案
+
+要取得手機裡面特殊的二進制文件有兩種作法，一個是從你的手機裡面取出，另
+外一個則是使用別人已經 *備份* 在網路上的檔案。由於我們這次要編譯的是比
+較過時的 CM9，建議使用網路上的檔案，才不會出現 firmware 和 ROM 不批配的狀況。
+
+- 下載別人整理好的二進制檔案
+
+  在 Github 上可以找到一些已經整理好 HTC One X 二進制檔的 repo，
+  修改 =.repo/local_manifest.xml= ，讓他變成下面這樣
+
+  #+BEGIN_SRC xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <manifest>
+      <project name="CyanogenMod/android_device_htc_endeavoru" path="device/htc/endeavoru" remote="github" revision="ics" />
+      <project name="coldnew/android_vendor_htc_endeavoru" path="vendor/htc/endeavoru" remote="github" revision="ics" />
+    </manifest>
+  #+END_SRC
+
+  接著再使用 repo 命令來取得原始碼
+
+  #+BEGIN_SRC sh
+    repo sync
+  #+END_SRC
+
+- 直接從手機裡面取得二進制檔案
+
+  #+BEGIN_SRC sh
+    cd device/htc/endeavoru && ./extract-files.sh
+  #+END_SRC
+
+* 編譯 CyanogenMod
+
+要編譯 CyanogenMod，你只需要再下以下命令，並等待你的 ROM 編譯好即可
+
+#+BEGIN_SRC sh
+  croot
+  brunch endeavoru
+#+END_SRC
+
+* 下載到 HTC One X
+
+#+HTML: <div class="alert alert-info">
+本篇文章所編譯的 CyanogenMod 版本為 *CM9* ，實際上相對應的 Android 版本
+即為 *Android 4.0 (ICS)* ，因為 HTC 在 Android 4.0 與 4.2 上面的 HBOOT 有差
+異，你必須將你的 HBOOT 降版，才能夠將 CM9 裝到你的手機，並成功開機。
+#+HTML: </div>
+
+若你的 HTC 手機裡面已經將 recovery 更改為 [[http://teamw.in/project/twrp2/95][TWRP]] 或是 [[http://www.clockworkmod.com/rommanager][CWM]] 的話，你可以直
+接複製編譯好的 ROM 檔案到你的手機裡面，並使用這些 recovery tool 來
+安裝新的 image (HBOOT 要先降版本)，具體的檔案路徑如下:
+
+#+BEGIN_EXAMPLE
+out/target/product/endeavoru/cm-9-20131027-UNOFFICIAL-endeavoru.zip
+#+END_EXAMPLE
+
+除此之外，你也可以使用 fastboot 命令來燒錄新的 image，以下是操作流程
+
+- 1. 重新開機到 bootloader
+
+  #+BEGIN_SRC sh
+    adb reboot-bootloader
+  #+END_SRC
+
+- 2. 查看是否有找到裝置
+
+  #+BEGIN_SRC sh
+    fastboot devices
+  #+END_SRC
+
+- 3. 燒錄你的新的 image
+
+  #+BEGIN_SRC sh
+    fastboot flash boot boot.img
+    fastboot flash system system.img
+  #+END_SRC
+
+- 4. 清除 cache 和 user-data
+
+  #+BEGIN_SRC sh
+    fastboot erase userdata
+    fastboot erase cache
+  #+END_SRC
+
+- 5. 重新啟動你的手機
+
+  #+BEGIN_SRC sh
+    fastboot reboot
+  #+END_SRC
+
+* 可能會遇到的編譯問題
+
+編譯 Android 的時候，很多時候會冒出一些奇奇怪怪的問題，下面是我編譯
+CyanogenMod 9 以及 Android ICS 時，遇到問題以及解決方案的整理。
+
+- 編譯 =doclava= 時，被告知以下錯誤訊息
+
+  若你編譯時，遇到 doclava 出現以下錯誤
+
+  #+BEGIN_EXAMPLE
+  xternal/doclava/src/com/google/doclava/ClassInfo.java:20: package com.sun.javadoc does not exist
+  import com.sun.javadoc.ClassDoc;
+                        ^
+  #+END_EXAMPLE
+
+  解決的方案:
+
+  - 1. 檢查你使用的 java-vm 是否為 =sun-jdk (jdk 6)=
+
+    如果你是使用 openjdk 或是 icedtea，是有可能編譯不過的。
+
+  - 2. 確認你的環境變數
+
+    在我的 Gentoo 系統上，我遇到這個編譯問題時，是因為環境變數指向
+    java-vm 的位置錯誤，因此我修改了環境變數如下
+
+    #+BEGIN_SRC sh
+      export JAVA_HOME="/usr/lib/jvm/sun-jdk-1.6"
+      export PATH="${JAVA_HOME}/bin:$PATH"
+    #+END_SRC
+
+- 編譯 llvm 時出錯
+
+  若在編譯 llvm 時遇到以下錯誤
+
+  #+BEGIN_EXAMPLE
+  external/llvm/include/llvm/ADT/PointerUnion.h:56:10: error: comparison between ‘ enum llvm::PointerLikeTypeTraits<clang::QualifiedTemplateName*>::<anonymous>’ and ‘ enum llvm::PointerLikeTypeTraits<clang::DependentTemplateName*>::<anonymous>’ [-Werror=enum-compare]
+  external/llvm/include/llvm/ADT/PointerUnion.h:56:10: error: enumeral mismatch in conditional expression: ‘ llvm::PointerLikeTypeTraits<clang::QualifiedTemplateName*>::<anonymous enum>’ vs ‘ llvm::PointerLikeTypeTraits<clang::DependentTemplateName*>::<anonymous enum>’ [-Werror=enum-compare]
+  #+END_EXAMPLE
+
+  這種錯誤可能跟系統的 gcc 參數、配置等有關，比較簡單的解決方案為：
+
+  編輯 =frameworks/compile/slang/Android.mk= 將 =-Werror= 移除掉並重新
+  編譯即可。
+
+- 編譯 dalvik 時出錯
+
+  若出現如以下錯誤
+
+  #+BEGIN_SRC sh
+    dalvik/vm/native/dalvik_system_Zygote.cpp: In function ‘ int setrlimitsFromArray(ArrayObject*)’:
+    dalvik/vm/native/dalvik_system_Zygote.cpp:199:19: error: aggregate ‘ setrlimitsFromArray(ArrayObject*)::rlimit rlim ’ has incomplete type and cannot be defined
+         struct rlimit rlim;
+                       ^
+  #+END_SRC
+
+  這個參數似乎也是和系統比較相關，修正方式很簡單，請參考以下 patch
+
+  #+BEGIN_SRC diff
+    diff --git a/dalvik/vm/native/dalvik_system_Zygote.cpp b/dalvik/vm/native/dalvik_system_Zygote.cpp
+    --- a/dalvik/vm/native/dalvik_system_Zygote.cpp
+    +++ b/dalvik/vm/native/dalvik_system_Zygote.cpp
+    @@ -19,3 +19,4 @@
+      ,*/
+     #include "Dalvik.h"
+     #include "native/InternalNativePriv.h"
+    +#include <sys/resource.h>
+  
+     #include
+     #if (__GNUC__ == 4 && __GNUC_MINOR__ == 7)
+  #+END_SRC
+
+- 執行 make 後出現以下錯誤
+
+  #+BEGIN_SRC sh
+    build/core/java.mk:20: *** dalvik/dexgen: Invalid LOCAL_SDK_VERSION '4' Choices are: current .  Stop.
+  #+END_SRC
+
+  遇到此種問題的時候，首先先移除你的 prebuilt 資料夾，並重新下載
+
+  #+BEGIN_EXAMPLE
+  rm -rf prebuilt
+  repo sync prebuilt
+  #+END_EXAMPLE
+
+- 遇到 _FORTIFY_SOURCE 這樣的問題
+
+  如果你有遇到如以下的錯誤訊息
+
+  #+BEGIN_SRC sh
+    error: "_FORTIFY_SOURCE" redefined [-Werror]
+  #+END_SRC
+
+  按照以下 patch 去修改 =build/core/combo/HOST_linux-x86.mk=
+
+  #+BEGIN_SRC diff
+    diff --git a/core/combo/HOST_linux-x86.mk b/core/combo/HOST_linux-x86.mk
+    index 5ae4972..7df2893 100644
+    --- a/core/combo/HOST_linux-x86.mk
+    +++ b/core/combo/HOST_linux-x86.mk
+    @@ -53,6 +53,6 @@ HOST_GLOBAL_CFLAGS += \
+            -include $(call select-android-config-h,linux-x86)
+  
+     # Disable new longjmp in glibc 2.11 and later. See bug 2967937.
+    -HOST_GLOBAL_CFLAGS += -D_FORTIFY_SOURCE=0
+    +HOST_GLOBAL_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0
+  
+     HOST_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
+  #+END_SRC
+
+- 編譯 mesa3d 出錯
+
+  如果編譯 mesa3d 下的 linker.cpp 產生如以下的錯誤
+
+  #+BEGIN_SRC sh
+    external/mesa3d/src/glsl/linker.cpp:623:33: warning:   by 『 virtual ir_visitor_status remap_variables(ir_instruction*, gl_shader*, hash_table*)::remap_visitor::visit(ir_dereference_variable*)』 [-Woverloaded-virtual]
+    external/mesa3d/src/glsl/linker.cpp: In function 『 void assign_varying_locations(gl_shader_program*, gl_shader*, gl_shader*)』:
+    external/mesa3d/src/glsl/linker.cpp:1394:49: error: expected primary-expression before 『,』 token
+    external/mesa3d/src/glsl/linker.cpp:1394:50: error: 『 varyings' was not declared in this scope
+    external/mesa3d/src/glsl/linker.cpp:1394:58: error: 『 offsetof' was not declared in this scope
+    external/mesa3d/src/glsl/linker.cpp:1395:48: error: expected primary-expression before 『,』 token
+    external/mesa3d/src/glsl/linker.cpp:1412:47: error: expected primary-expression before 『,』 token
+  #+END_SRC
+
+  修改 =external/mesa3d/src/glsl/linker.cpp= 成如下
+
+  #+BEGIN_SRC diff
+    diff --git a/src/glsl/linker.cpp b/src/glsl/linker.cpp
+    index f8b6962..cfdd3d3 100644
+    --- a/src/glsl/linker.cpp
+    +++ b/src/glsl/linker.cpp
+    @@ -67,7 +67,7 @@
+     #include <cstdio>
+     #include <cstdarg>
+     #include <climits>
+    -
+    +#include <stddef.h>
+     #include <pixelflinger2/pixelflinger2_interface.h>
+  
+     extern "C" {
+  #+END_SRC
+
+- 編譯 oprofile 時出錯
+
+  在編譯 oprofile 時，如果遇到以下錯誤
+
+  #+BEGIN_SRC sh
+    external/oprofile/libpp/format_output.h:94:22: error：reference「counts」cannot be declared「mutable」 [-fpermissive]
+  #+END_SRC
+
+  修改 =external/oprofile/libpp/format_output.h= 成如下
+
+  #+BEGIN_SRC diff
+    diff --git a/libpp/format_output.h b/libpp/format_output.h
+    index b6c4592..8e527d5 100644
+    --- a/libpp/format_output.h
+    +++ b/libpp/format_output.h
+    @@ -91,7 +91,7 @@ protected:
+                    symbol_entry const & symbol;
+                    sample_entry const & sample;
+                    size_t pclass;
+    -               mutable counts_t & counts;
+    +               counts_t & counts;
+                    extra_images const & extra;
+                    double diff;
+            };
+  #+END_SRC
+
+- 編譯 gtest 時出錯
+
+  如果遇到以下錯誤
+
+  #+BEGIN_SRC sh
+    external/gtest/src/../include/gtest/internal/gtest-param-util.h:122:11: error: 「ptrdiff_t」does not name a ty
+  #+END_SRC
+
+  修改 =external/gtest/include/gtest/internal/gtest-param-util.h= 成如
+  下
+
+  #+BEGIN_SRC diff
+    diff --git a/include/gtest/internal/gtest-param-util.h b/include/gtest/internal/gtest-param-util.h
+    index 5559ab4..405dc4d 100644
+    --- a/include/gtest/internal/gtest-param-util.h
+    +++ b/include/gtest/internal/gtest-param-util.h
+    @@ -37,6 +37,7 @@
+     #include <iterator>
+     #include <utility>
+     #include <vector>
+    +#include <cstddef>
+  
+     #include <gtest/internal/gtest-port.h>
+  #+END_SRC
+
+- 遇到 ParamName 錯誤
+
+  如果遇到以下問題
+
+  #+BEGIN_SRC sh
+    frameworks/compile/slang/slang_rs_export_foreach.cpp:249:23: error: variable 『 ParamName' set but not used [-Werror=unused-but-set-variable]
+  #+END_SRC
+
+  修改 =frameworks/compile/slang/slang_rs_export_foreach.cpp= 成如下
+
+  #+BEGIN_SRC diff
+    diff --git a/slang_rs_export_foreach.cpp b/slang_rs_export_foreach.cpp
+    index a4025ca..0dbf954 100644
+    --- a/slang_rs_export_foreach.cpp
+    +++ b/slang_rs_export_foreach.cpp
+    @@ -246,7 +246,6 @@ RSExportForEach *RSExportForEach::Create(RSContext *Context,
+                                         clang::SourceLocation(),
+                                         &Ctx.Idents.get(Id));
+  
+    -      llvm::StringRef ParamName = PVD->getName();
+           clang::FieldDecl *FD =
+               clang::FieldDecl::Create(Ctx,
+                                        RD,
+  #+END_SRC
+
+* 後記
+
+最近一直在嘗試移植 Firefox OS 給我的 HTC One X 使用，為了能更加了解整
+個編譯流程，以及確認我改的 manifest 是否正確，因此我是從 CyanogenMod 開始
+來研究整個移植的步驟，此篇文章僅紀錄這整個流程。
+
+* 參考資料
+
+~[1]~ [[http://wiki.cyanogenmod.org/w/Build_for_endeavoru][How To Build CyanogenMod Android for HTC One X ("endeavoru") ]]

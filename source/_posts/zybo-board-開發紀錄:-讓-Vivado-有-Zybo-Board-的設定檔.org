@@ -1,0 +1,97 @@
+#+TITLE: zybo board 開發記錄: 讓 Vivado 有 Zybo Board 的設定檔
+#+DATE: <2016-06-27 Mon 17:49>
+#+UPDATED: <2016-06-27 Mon 17:49>
+#+ABBRLINK: cd57308
+#+OPTIONS: num:nil ^:nil
+#+TAGS: fpga, xilinx, zybo, zynq
+#+CATEGORIES: zybo board 開發記錄
+#+LANGUAGE: zh-tw
+#+ALIAS: zybo-board/vivado_zybo_setting_file/index.html
+
+在透過 [[http://www.xilinx.com/products/design-tools/vivado.html][Vivado]] 去建立新的專案的時候，開發板沒有 Zybo Board 的選項可以選，我們就必須自己去設定關於 Zybo Board 的資訊。幸好， [[https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/][Digilentinc]] 針對這個問題有提供關於 Zybo Board 的設定檔，就讓我們來搞定他吧。
+
+#+HTML: <!--more-->
+
+關於 Zybo Board 的設定檔可以在 [[https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/][Digilentinc]] 的 GitHub 上找到
+
+#+BEGIN_EXPORT HTML
+<div data-theme="default" data-height="150" data-width="400" data-github="Digilent/vivado-boards" class="github-card"></div>
+<script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+#+END_EXPORT
+
+* 下載設定檔
+
+我們可以透過 git 或是直接下載 [[https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/][Digilentinc]] 位於 GitHub 的 [[https://github.com/Digilent/vivado-boards/archive/master.zip][設定檔]] ，這邊採用 wget 進行下載。
+
+: coldnew@gentoo ~ $ wget https://github.com/Digilent/vivado-boards/archive/master.zip
+
+下載完成後，將其解壓
+
+: coldnew@gentoo ~ $ unzip master.zip
+
+你會看到裡面有以下內容，實際上這份壓縮包包含了所有 [[https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/][Digilentinc]] 設計的 Xilinx 相關的開發板的設定資訊。
+
+#+BEGIN_EXAMPLE
+coldnew@gentoo ~/vivado-boards-master $ tree -L 3 .
+. <b>
+├── new <b>
+│   └── board_files <b>
+│       ├── arty <b>
+│       ├── arty-z20  <b>
+│       ├── basys3  <b>
+│       ├── cmod_a7-15t  <b>
+│       ├── cmod_a7-35t  <b>
+│       ├── genesys2  <b>
+│       ├── nexys4  <b>
+│       ├── nexys4_ddr  <b>
+│       ├── nexys_video  <b>
+│       └── zybo  <b>
+├── old  <b>
+│   └── board_parts  <b>
+│       ├── artix7  <b>
+│       ├── kintex7  <b>
+│       └── zynq  <b>
+└── README.md
+
+17 directories, 1 file
+#+END_EXAMPLE
+
+* 安裝設定檔
+
+接下來就是進行安裝了，假設你的 [[http://www.xilinx.com/products/design-tools/vivado.html][Vivado]] 安裝到 =/opt/Xilinx/Vivado/2016.1/= 的話，我們要把 =vivado-boards-master/new/board_files= 複製過去
+
+#+BEGIN_EXAMPLE
+coldnew@gentoo ~/vivado-boards-master $ cp -rf new/board_files /opt/Xilinx/Vivado/2016.1/data/boards/
+#+END_EXAMPLE
+
+完成後，你在 =/opt/Xilinx/Vivado/2016.1/data/boards/= 的資料應該會像這樣
+
+#+BEGIN_EXAMPLE
+coldnew@gentoo /opt/Xilinx/Vivado/2016.1/data/boards/board_files $ tree -L 1 .
+. <b>
+├── ac701 <b>
+├── arty <b>
+├── basys3 <b>
+├── cmod_a7-15t <b>
+├── cmod_a7-35t <b>
+├── genesys2 <b>
+├── nexys4 <b>
+├── nexys4_ddr <b>
+├── nexys_video <b>
+├── README.md
+├── zc702 <b>
+├── zed <b>
+└── zybo <b>
+
+12 directories, 1 file
+#+END_EXAMPLE
+
+* 建立專案
+
+如果你安裝過程都沒遇到問題，重新啟動 [[http://www.xilinx.com/products/design-tools/vivado.html][Vivado]] 建立新的專案，就可以看到 Zybo Board 的開發板設定囉~
+
+[[file:zybo-board-開發紀錄:-讓-Vivado-有-Zybo-Board-的設定檔/zybo_create_prj.png]]
+
+* 延伸閱讀
+
+~[1]~ https://reference.digilentinc.com/vivado/boardfiles2015

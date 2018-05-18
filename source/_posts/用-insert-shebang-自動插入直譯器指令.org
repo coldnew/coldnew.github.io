@@ -1,0 +1,90 @@
+#+TITLE: 用 insert-shebang 自動插入直譯器指令
+#+TAGS: emacs
+#+ABBRLINK: e10a343
+#+CATEGORIES: emacs 套件介紹
+#+DATE: <2017-05-03 Wed 09:50>
+
+#+LINK: emacs     https://www.gnu.org/s/emacs
+#+LINK: melpa     https://melpa.org/
+
+我們在寫腳本的時候，總要在檔案的開頭加入 =#!= 這樣的開頭來讓系統知道如何執行這個腳本，而 =#!= 這樣的東西則稱之為 [[https://zh.wikipedia.org/zh-tw/Shebang][shebang]] 。
+
+每次寫腳本都需要手動撰寫 [[https://zh.wikipedia.org/zh-tw/Shebang][shebang]] 也是很煩的，因此我們可以讓 [[emacs][emacs]] 根據腳本的檔名，自動幫我們加入合適的 [[https://zh.wikipedia.org/zh-tw/Shebang][shebang]] 到檔案的第一行。
+
+#+HTML: <!--more-->
+
+在 [[emacs][emacs]] 上，有一個名為 [[https://github.com/psachin/insert-shebang][insert-shebang]] 的套件可以幫助我們達到這個需求。
+
+舉例來說，在建立 =xxx.sh= 這樣的檔案時， [[https://github.com/psachin/insert-shebang][insert-shebang]] 會自動在檔案開頭加入:
+
+#+BEGIN_SRC sh
+  #!/usr/bin/env bash
+#+END_SRC
+
+而如果建立的是 =xxx.py= ，則會是:
+
+#+BEGIN_SRC sh
+  #!/usr/bin/env python
+#+END_SRC
+
+* 安裝套件
+
+[[https://github.com/psachin/insert-shebang][insert-shebang]] 已經收錄在 [[melpa][MELPA]] 中，因此你可以直接透過 =M-x= 去安裝這套件
+
+: M-x package-install RET insert-shebang RET
+
+* 使用方式
+
+在你的 =.emacs= 加入以下命令:
+
+#+BEGIN_SRC emacs-lisp
+  (require 'insert-shebang)
+#+END_SRC
+
+這樣的話就直接啟用 [[https://github.com/psachin/insert-shebang][insert-shebang]] 這個套件的功能囉～
+
+* 設定這個套件
+
+預設的 [[https://github.com/psachin/insert-shebang][insert-shebang]] 其實就已經符合大部分的需求了，如果還想對他進行一些設定，則可以透過以下命令進行:
+
+: M-x customize-group RET insert-shebang RET
+
+在我撰寫這篇文章的時候， [[https://github.com/psachin/insert-shebang][insert-shebang]] 版本是 [[https://github.com/psachin/insert-shebang/blob/e53f893d400fcf6f2870ba0ba957b0dee0692fdd/insert-shebang.el#L48][0.9.5]] ，大概有以下幾個設定我會有興趣:
+
+- insert-shebang-file-types
+
+  預設的 [[https://github.com/psachin/insert-shebang][insert-shebang]] 只有對以下幾組副檔名會加入對應的 [[https://zh.wikipedia.org/zh-tw/Shebang][shebang]] 。
+
+  #+BEGIN_SRC emacs-lisp
+    (defcustom insert-shebang-file-types
+      '(("py" . "python")
+        ("sh" . "bash")
+        ("pl" . "perl"))
+      "*If nil, add all your file extensions and file types here."
+      :type '(alist :key-type (string :tag "Extension")
+                    :value-type (string :tag "Interpreter"))
+      :group 'insert-shebang)
+  #+END_SRC
+
+- insert-shebang-ignore-extensions
+
+  [[https://github.com/psachin/insert-shebang][insert-shebang]] 預設會去檢查所有你開啟/建立的檔案是否需要加入 [[https://zh.wikipedia.org/zh-tw/Shebang][shebang]] ，這邊可以指定哪些副檔名不要進行這個檢查。
+
+  (老實說我覺得這個設定有點多餘....)
+
+  #+BEGIN_SRC emacs-lisp
+    (defcustom insert-shebang-ignore-extensions
+      '("txt" "org")
+      "*Add extensions you want to ignore.
+    List of file extensions to be ignored by default."
+      :type '(repeat (string :tag "extn"))
+      :group 'insert-shebang)
+  #+END_SRC
+
+* 後記
+
+  雖然這個套件是蠻方便的，但是對於那些沒進行 [[https://zh.wikipedia.org/zh-tw/Shebang][shebang]] 設定的檔案，會丟出一些訊息在 =*Message*= 緩衝區也讓我覺得比較討厭。
+
+  如果你想插入 [[https://zh.wikipedia.org/zh-tw/Shebang][shebang]] 的同時，並加入一些檔案的資訊，比如授權(copyright)等等，可以參考我另外一篇文章: [[https://coldnew.github.io/7e10e07e/][使用 yasnippet 自動插入程式碼樣板]] 。
+
+* 延伸閱讀                                                         :noexport:

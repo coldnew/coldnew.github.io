@@ -1,0 +1,73 @@
+#+TITLE: 使用 shairport-sync 在 Raspberry Pi 上上建立 AirPlay 音樂播放器
+#+DATE: <2015-11-22 Sun 21:07>
+#+UPDATED: <2015-11-22 Sun 21:07>
+#+ABBRLINK: 70c5ffb9
+#+OPTIONS: num:nil ^:nil
+#+UPDATED: <2015-11-22 Sun 21:06>
+#+TAGS: raspberry pi
+#+LANGUAGE: zh-tw
+#+ALIAS: blog/2015/11-12_shairport-sync/index.html
+
+在 2014 年時我曾經發過一篇 [[http://coldnew.github.io/blog/2014/03-02_614_s/][使用 Shairport 讓你的 Raspberry Pi 變成 AirPlay 音樂
+播放器]] 的文章，講述如何透過 [[https://github.com/abrasive/shairport][shairport]] 在 raspberry pi 下建立 AirPlay 接收器。很
+可惜的事情是，原本 [[https://github.com/abrasive/shairport][shairport]] 的作者決定不再繼續維護這個專案，因此誕生了
+[[https://github.com/mikebrady/shairport-sync][shairport-sync]] 這個新的專案。
+
+[[https://github.com/mikebrady/shairport-sync][shairport-sync]] 除了基於 [[https://github.com/abrasive/shairport][shairport]] 的程式碼以外，亦改進了聲音與影像的同步率，因此
+我們除了可以遠端播放音樂外，看電影也沒問題囉 ~
+
+#+HTML: <!--more-->
+
+* 編譯並安裝 shairport-sync
+
+首先，我們要安裝一些軟體來幫助我們編譯並安裝 Shairport。
+#+BEGIN_SRC sh
+  sudo apt-get install build-essential git autoconf libtool \
+       libdaemon-dev libasound2-dev libpopt-dev libconfig-dev \
+       avahi-daemon libavahi-client-dev \
+       libssl-dev
+#+END_SRC
+
+該裝的軟體都裝完以後，我們就可以下載最新的 shairport-sync 程式碼並安裝到系統內。
+
+#+BEGIN_SRC sh
+  git clone https://github.com/mikebrady/shairport-sync.git
+  cd shairport-sync && autoreconf -i -f
+#+END_SRC
+
+接下來就是依照 [[https://github.com/mikebrady/shairport-sync][shairport-sync]] 的 README 進行設置，我是設定了這些參數
+
+#+BEGIN_SRC sh
+  ./configure \
+      --with-alsa --with-stdout --with-pipe --with-avahi \
+      --with-ssl=openssl --with-metadata --with-systemd
+#+END_SRC
+
+接下來將整個程式安裝到系統中
+#+BEGIN_EXAMPLE
+root@raspberrypi:/home/pi/shairport-sync# make install
+#+END_EXAMPLE
+
+因為在前面的參數我是設定為給 /systemd/ 的使用者使用，因此需要增加使用者與群組
+#+BEGIN_EXAMPLE
+root@raspberrypi:/home/pi# groupadd -r shairport-sync
+root@raspberrypi:/home/pi# useradd -r -M -g shairport-sync -s /usr/bin/nologin -G audio shairport-sync
+#+END_EXAMPLE
+
+接著加入到 /systemd/ 開機設定中，並啟用 shairport-sync 服務
+
+#+BEGIN_EXAMPLE
+root@raspberrypi:/home/pi# systemctl enable shairport-sync
+root@raspberrypi:/home/pi# systemctl start shairport-sync
+#+END_EXAMPLE
+
+完成後如果你的 MacBook 和 Raspberry Pi 在同一個網域的話，你可以在 /System
+Preferences/ 看到他，如下圖:
+
+[[file:使用-shairport-sync-在-Raspberry-Pi-上建立-AirPlay-音樂播放器/shairport-sync.png]]
+
+* 參考連結
+
+~[1]~ https://github.com/mikebrady/shairport-sync
+
+~[2]~ [[http://coldnew.github.io/blog/2014/03-02_614_s/][使用 Shairport 讓你的 Raspberry Pi 變成 AirPlay 音樂播放器]]

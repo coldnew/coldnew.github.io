@@ -1,0 +1,90 @@
+#+TITLE: 使用 GnuPG 的時候在 minibuffer 顯示密碼輸入
+#+DATE: <2018-02-09 Fri 16:15>
+#+ABBRLINK: e7fdea95
+#+UPDATED: <2018-02-09 Fri 16:16>
+#+OPTIONS: num:nil
+#+TAGS: emacs
+#+LANGUAGE: zh-tw
+
+在 [[https://coldnew.github.io/d3f33ddb/][在 emacs 中使用 EasyPG 加密文章]] 一文中談到了如何在 emacs 裡面對於文章使用 [[https://www.gnupg.org/][GnuPG]] 進行加密。隨著 emacs 已經到了 emacs 25，有些早期的東西可能有些變化，讓我們來談談如何在 emacs 的 mini-buffer 直接輸入 GnuPG 要的密碼，而不需要彈出系統的圖形界面視窗。
+
+#+HTML: <!-- more -->
+
+當我們在輸入 GnuPG 的密碼的時候，彈出的圖形視窗 (純終端機情況下可能是 curse 界面) 稱作為 =pinentry=, 根據不同的實做以及平台有不同的版本，比如我的 Gentoo Linux 就至少有以下幾種版本:
+
+#+BEGIN_EXAMPLE
+coldnew@gentoo ~ $ eselect pinentry list
+Available pinentry binary implementations:
+  [1]   pinentry-gnome3
+  [2]   pinentry-qt *
+  [3]   pinentry-gtk-2
+  [4]   pinentry-qt4
+  [5]   pinentry-curses
+  [6]   pinentry-tty
+#+END_EXAMPLE
+
+而本文的目的，就是在使用 emacs 的時候，採用的是 =pinentry-emacs= 而不是系統設定的版本。
+
+* 設置 gpg-agent
+
+首先我們要先設定 =~/.gnupg/gpg-agent.conf= 這個檔案，並加入如下內容:
+
+#+BEGIN_SRC sh
+  # Emacs support
+  allow-emacs-pinentry
+  allow-loopback-pinentry
+
+  # (optional) if you want to set timeout (second)
+  pinentry-timeout 3
+#+END_SRC
+
+完成後，我們需要透過 =gpgconf= 來告訴 =gpg-agent= 設定檔案有變動
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ gpgconf --reload gpg-agent
+#+END_EXAMPLE
+
+當然你也可以透過 =kill= 命令強制幹掉它
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $  kill -9 `pidof gpg-agent`
+#+END_EXAMPLE
+
+* 設定 emacs
+
+設定完 `gpg-agent` 後，接下來就是設定 emacs 啦，首先我們先安裝 [[https://elpa.gnu.org/packages/pinentry.html][pinentry.el]] ，這個套件可以在 [[https://elpa.gnu.org/][elpa]] (emacs 預設的套件倉庫) 裡面找到:
+
+#+BEGIN_EXAMPLE
+  M-x package-install RET pinentry RET
+#+END_EXAMPLE
+
+接下來在你的 =~/.emacs= 加入:
+
+#+BEGIN_SRC emacs-lisp
+  ;; GnuPG 2.1 or later has an option to control the behavior of
+  ;; Pinentry invocation.  When set this to `loopback', which redirects
+  ;; all Pinentry queries to the caller, so Emacs can query passphrase
+  ;; through the minibuffer instead of external Pinentry program.
+  (require 'epa)
+  (setq epa-pinentry-mode 'loopback)
+
+  ;; Start the Pinentry service
+  (require 'pinentry)
+  (pinentry-start)
+#+END_SRC
+
+並對上面的設定進行 =eval= ，就可以看到設定生效啦 ~
+
+* 結果
+
+按照以上的設定，並確定有重起 =gpg-agent= 的話，在編輯 =*.gpg= 的檔案時，應該會看到密碼輸入欄是顯示在 mini-buffer 上的:
+
+[[file:使用-GnuPG-的時候在-minibuffer-顯示密碼輸入/gpg.png]]
+
+* 參考資料
+
+- [[https://emacs.stackexchange.com/questions/32881/enabling-minibuffer-pinentry-with-emacs-25-and-gnupg-2-1-on-ubuntu-xenial/32882][Enabling minibuffer pinentry with Emacs 25 and GnuPG 2.1 on Ubuntu Xenial]]
+
+- [[https://emacs-china.org/t/topic/2294/7][使用 gnupg 来加密文件报错]]
+
+- [[https://blog.m157q.tw/posts/2017/01/20/make-gpg-agent-use-pinentry-curses-while-git-commit-gpg-sign/][讓 gpg-agent 在 git commit gpg-sign 時使用 pinentry-curses]]

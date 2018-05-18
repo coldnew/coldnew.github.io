@@ -1,0 +1,5660 @@
+#+TITLE: 4Clojure 練習
+#+DATE: <2015-10-17 Sat 22:24>
+#+UPDATED: <2015-11-12 Sat 22:24>
+#+ABBRLINK: a3e0d91a
+#+CATEGORIES: 程式練習
+#+TAGS: clojure
+#+LANGUAGE: zh-tw
+#+STARTUP: logdone
+#+OPTIONS: num:nil feed:nil ^:t
+#+ALIAS:  pratice/4clojure/index.html
+#+AUTHOR: coldnew
+#+EMAIL: coldnew.tw@gmail.com
+
+[[https://www.4clojure.com/][4clojure]] 是一個非常棒的 Clojure 練習網站，可以在練習的過程中逐漸熟悉 clojure 的
+核心命令以及常用函式。
+
+這邊列出我最近重寫 4clojure 整理的資訊。
+
+#+HTML: <!--more-->
+
+目前排名資訊:
+
+#+BEGIN_EXAMPLE
+  Username: coldnew
+  Rank: 1916 out of 38587
+  Problems Solved: 85
+#+END_EXAMPLE
+
+* 001: Nothing but the Truth
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/1
+
+This is a clojure form. Enter a value which will make the form evaluate to true.
+Don't over think it! If you are confused, see the getting started page. Hint:
+true is equal to true.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+(= __ true)
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p001')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p001" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  true
+#+END_SRC
+#+HTML: </blockquote>
+
+這是基本題，目的就是將題目的比較結果弄成 =true= ，因此餵 true 進去就好了。
+
+在 clojure 中，只有 =true= 才是 =true= ，如果你餵其他的東西，就為發現:
+
+#+BEGIN_SRC clojure
+  (= true 1)       ; => false
+  (= true [1 2 3]) ; => false
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 002: Simple Math
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/2
+
+If you are not familiar with [[http://en.wikipedia.org/wiki/Polish_notation][polish notation]], simple arithmetic might seem
+confusing.
+
+Note: Enter only enough to fill in the blank (in this case, a single number) -
+do not retype the whole problem.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (- 10 (* 2 3)) __)
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p002')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p002" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  4
+#+END_SRC
+#+HTML: </blockquote>
+
+這題就是單純去了解 Lisp 的數學運算模式，Lisp 類語言皆是採用 =前置式= 表達式，弄
+成我們看得懂的形式的話就是:
+
+#+BEGIN_SRC c
+   10 - (2 * 3) = ?
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 003: Intro to Strings
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/3
+
+Clojure strings are Java strings. This means that you can use any of the Java
+string methods on Clojure strings.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (.toUpperCase "hello world"))
+#+END_SRC
+
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p003')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p003" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  "HELLO WORLD"
+#+END_SRC
+#+HTML: </blockquote>
+
+在 Clojure 中，字串其實就是 [[http://www.tutorialspoint.com/java/lang/java_lang_string.htm][java.lang.String]] ，因此 [[http://docs.oracle.com/javase/7/docs/api/index.html?java/lang/String.html][toUpperCase]] 就是將所有字串轉
+換成大寫。
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 004: Intro to Lists
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/4
+
+Lists can be constructed with either a function or a quoted form.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (list __) '(:a :b :c))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p004')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p004" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  :a :b :c
+#+END_SRC
+#+HTML: </blockquote>
+
+在 clojure 中我們可以使用 [[https://clojuredocs.org/clojure.core/list][list]] 將參數轉換成鍊表 (List) :
+
+#+BEGIN_SRC clojure
+  (list 'a 'b 'c 'd 'e 'f 'g)
+  ;; => (a b c d e f g)
+  (list 1 2 3)
+  ;; => (1 2 3)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 005: Lists: conj
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/5
+
+When operating on a list, the conj function will return a new list with one or
+more items "added" to the front.
+
+Note that there are two test cases, but you are expected to supply only one
+answer, which will cause all the tests to pass.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (conj '(2 3 4) 1))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (conj '(3 4) 2 1))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p005')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p005" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  '(1 2 3 4)
+#+END_SRC
+#+HTML: </blockquote>
+
+[[https://clojuredocs.org/clojure.core/conj][conj]] 要注意的地方是對於 List 以及 Vector 有不同的處置方式：
+
+#+BEGIN_SRC clojure
+  ;; notice that conjoining to a vector is done at the end
+  (conj [1 2 3] 4)
+  ;;=> [1 2 3 4]
+
+  ;; notice conjoining to a list is done at the beginning
+  (conj '(1 2 3) 4)
+  ;;=> (4 1 2 3)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 006: Intro to Vectors
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/6
+
+Vectors can be constructed several ways. You can compare them with lists.
+
+*Note*: the brackets [] surrounding the blanks __ are part of the test case.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= [__] (list :a :b :c) (vec '(:a :b :c)) (vector :a :b :c))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p006')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p006" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  :a :b :c
+#+END_SRC
+#+HTML: </blockquote>
+
+在 Clojure 中，只要是 =sequential= 的都可以透過 ~=~ 來進行比較，而 vector 和 list 皆屬此類。
+
+#+BEGIN_SRC clojure
+  (= [1 2] '(1 2))
+  ;; => true
+#+END_SRC
+
+至於什麼時候要用 vector 什麼時候要用 list, 這點可以看看 Raynes 在 irc 上面詢問
+Clojure 作者 Rich Hickey 的紀錄: ([[http://stackoverflow.com/questions/1147975/in-clojure-when-should-i-use-a-vector-over-a-list-and-the-other-way-around][原始討論串]])
+
+#+BEGIN_SRC clojure
+  [12:21] <Raynes>  Vectors aren't seqs, right?
+  [12:21] <rhickey> Raynes: no, but they are sequential
+  [12:21] <rhickey> ,(sequential? [1 2 3])
+  [12:21] <clojurebot>  true
+  [12:22] <Raynes>  When would you want to use a list over a vector?
+  [12:22] <rhickey> when generating code, when generating back-to-front
+  [12:23] <rhickey> not too often in Clojure
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 007: Vectors: conj
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/7
+
+When operating on a Vector, the conj function will return a new vector with one
+or more items "added" to the end. test not run
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (conj [1 2 3] 4))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (conj [1 2] 3 4))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p007')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p007" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  [1 2 3 4]
+#+END_SRC
+#+HTML: </blockquote>
+
+這題其實和 [[*005: Lists: conj][005: Lists: conj]] 是類似的，再來複習一次 [[https://clojuredocs.org/clojure.core/conj][conj]] 對於 List 以及 Vector 的
+不同處置方式：
+
+#+BEGIN_SRC clojure
+  ;; notice that conjoining to a vector is done at the end
+  (conj [1 2 3] 4)
+  ;;=> [1 2 3 4]
+
+  ;; notice conjoining to a list is done at the beginning
+  (conj '(1 2 3) 4)
+  ;;=> (4 1 2 3)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 008: Intro to Sets
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/8
+
+Sets are collections of unique values.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (set '(:a :a :b :c :c :c :c :d :d)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (clojure.set/union #{:a :b :c} #{:b :c :d}))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p008')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p008" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #{:a :b :c :d}
+#+END_SRC
+#+HTML: </blockquote>
+
+clojure 中的 [[http://clojure.org/data_structures#Data%2520Structures-Sets][set]] 會把重複的東西給剔除:
+
+#+BEGIN_SRC clojure
+  (set '(1 1 1 2 2))
+  ;; => #{1 2}
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 009: Sets: conj
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/9
+
+When operating on a set, the conj function returns a new set with one or more
+keys "added".
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= #{1 2 3 4} (conj #{1 4 3} __))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p009')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p009" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  2
+#+END_SRC
+#+HTML: </blockquote>
+
+[[http://clojure.org/data_structures#Data%2520Structures-Sets][Sets]] 和 List 或是 Vector 不同，是沒有順序差別的。
+
+#+BEGIN_SRC clojure
+  (conj #{1 4 3} 2)
+  ;; => #{1 4 3 2}
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 010: Intro to Maps
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/10
+
+Maps store key-value pairs. Both maps and keywords can be used as lookup
+functions. Commas can be used to make maps more readable, but they are not
+required.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ ((hash-map :a 10, :b 20, :c 30) :b))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (:b {:a 10, :b 20, :c 30}))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p010')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p010" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  20
+#+END_SRC
+#+HTML: </blockquote>
+
+對於 [[http://clojure.org/data_structures#Data%2520Structures-Maps%2520%2528IPersistentMap%2529][Maps]] ，無論 keyword 在前面或是在後面都可以取值
+
+#+BEGIN_SRC clojure
+  (:username {:username "joe" :password "123456"})
+  ;; => "joe"
+  ({:username "joe" :password "123456"} :username)
+  ;; => "joe"
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 011: Maps: conj
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/11
+
+When operating on a map, the conj function returns a new map with one or more
+key-value pairs "added".
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= {:a 1, :b 2, :c 3} (conj {:a 1} __ [:c 3]))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p011')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p011" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  [:b 2]
+#+END_SRC
+#+HTML: </blockquote>
+
+[[http://clojure.org/data_structures#Data%2520Structures-Maps%2520%2528IPersistentMap%2529][Maps ]]和 [[http://clojure.org/data_structures#Data%2520Structures-Sets][Sets]] 一樣是沒有順序差別的，而 [[https://clojuredocs.org/clojure.core/conj][conj]] 的參數有 Vector 以及 Maps 時，會轉換成 Maps。
+
+#+BEGIN_SRC clojure
+  (conj {:a 1} {:b 2} [:c 3])
+  ;; => {:c 3, :b 2, :a 1}
+  (conj {:a 1} [:b 2] {:c 3})
+  ;; => {:c 3, :b 2, :a 1}
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 012: Intro to Sequences
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/12
+
+All Clojure collections support sequencing. You can operate on sequences with
+functions like first, second, and last.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (first '(3 2 1)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (second [2 3 4]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (last (list 1 2 3)))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p012')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p012" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  3
+#+END_SRC
+#+HTML: </blockquote>
+
+這題就是基本的序列 (sequence) 使用的函式，其中 [[https://clojuredocs.org/clojure.core/first][first]] 就是以前 lisp 的 car，用來
+取得 list 的第一項。
+
+#+BEGIN_SRC clojure
+  (first '(1 2 3))
+  ; => 1
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 013: Sequences: rest
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/13
+
+The rest function will return all the items of a sequence except the first.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (rest [10 20 30 40]))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p013')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p013" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  '(20 30 40)
+#+END_SRC
+#+HTML: </blockquote>
+
+[[https://clojuredocs.org/clojure.core/rest][rest]] 就是傳統 Lisp 常用的 cdr，用來取得一個 list 的非第一項。
+
+#+BEGIN_SRC clojure
+  (rest '(1 2 3))
+  ; => (2 3)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 014: Intro to Functions
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/14
+
+Clojure has many different ways to create functions.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ ((fn add-five [x] (+ x 5)) 3))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ ((fn [x] (+ x 5)) 3))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (#(+ % 5) 3))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ ((partial + 5) 3))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p014')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p014" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  8
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題實際上都在講 clojure 的匿名函式，我最常用的就是 =fn= 了，他和 emacs-lisp
+下的 =lambda= 是相同功能的
+
+#+BEGIN_SRC clojure
+  ((fn add3 [x] (+ x 3)) 3)
+  ;; => 6
+  ((fn [x] (+ x 3)) 3)
+  ;; => 6
+#+END_SRC
+
+而 =#= 則是懶人版的 =fn= ，不同的是使用 =%= 代表輸入參數，如果參數很多的話，則是
+用 =%1= 、 =%2= 來代表
+
+#+BEGIN_SRC clojure
+  ((fn [x] (+ x 3)) 3)
+  ;; => 6
+  (#(+ % 3) 3)
+  ;; => 6
+
+  ((fn [x y] (+ x y)) 1 2)
+  ;; => 3
+  (#(+ %1 %2) 1 2)
+  ;; => 3
+#+END_SRC
+
+[[https://clojuredocs.org/clojure.core/partial][partial]] 我到是不常用，partial 會將第一個參數當作是操作子 (operator)/函式
+(function) 並將後面的東西當作參數餵給剛剛的操作子/函式。
+
+#+BEGIN_SRC clojure
+  (def hundred-times (partial * 100))
+
+  (hundred-times 5)
+  ;; => 500
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 015: Double Down
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/15
+
+Write a function which doubles a number.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ 2) 4)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 3) 6)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 11) 22)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 7) 14)
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p015')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p015" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(* 2 %)
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題其實就是 [[*014: Intro to Functions][014: Intro to Functions]] 的應用，忘記的話再來複習一次匿名函式的用法
+
+#+BEGIN_SRC clojure
+  ((fn [x] (+ x 3)) 3)
+  ;; => 6
+  (#(+ % 3) 3)
+  ;; => 6
+
+  ((fn [x y] (+ x y)) 1 2)
+  ;; => 3
+  (#(+ %1 %2) 1 2)
+  ;; => 3
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 016: Hello World
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/16
+
+Write a function which returns a personalized greeting.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ "Dave") "Hello, Dave!")
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ "Jenn") "Hello, Jenn!")
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ "Rhea") "Hello, Rhea!")
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p016')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p016" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(str "Hello, " % "!")
+#+END_SRC
+#+HTML: </blockquote>
+
+這題匿名函式搭配 [[https://clojuredocs.org/clojure.core/str][str]] 去將不同的字串合併在一起
+
+#+BEGIN_SRC clojure
+  (str "Hello " "world!")
+  ;; => Hello world!
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 017: Sequences: map
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/17
+
+The map function takes two arguments: a function (f) and a sequence (s). Map
+returns a new sequence consisting of the result of applying f to each item of s.
+Do not confuse the map function with the map data structure.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (map #(+ % 5) '(1 2 3)))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p017')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p017" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  '(6 7 8)
+#+END_SRC
+#+HTML: </blockquote>
+
+[[https://clojuredocs.org/clojure.core/map][map]] 是 lisp 下很常用的函式，我們可以透過 map 去對整個序列 (sequence) 裡面的個個
+元數進行動作
+
+#+BEGIN_SRC clojure
+  (map inc [1 2 3 4])
+  ;; => (2 3 4 5)
+#+END_SRC
+
+或者對兩組 vector 進行加法運算
+
+#+BEGIN_SRC clojure
+  ;; map can be used with multiple collections. Collections will be consumed
+  ;; and passed to the mapping function in parallel:
+  (map + [1 2 3] [4 5 6])
+  ;;=> (5 7 9)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 018: Sequences: filter
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/18
+
+The filter function takes two arguments: a predicate function (f) and a sequence
+(s). Filter returns a new sequence consisting of all the items of s for which (f
+item) returns true.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (filter #(> % 5) '(3 4 5 6 7)))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p018')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p018" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  '(6 7)
+#+END_SRC
+#+HTML: </blockquote>
+
+[[https://clojuredocs.org/clojure.core/filter][filter]] 用來對序列 (sequence) 進行 "過濾" 的動作，完成後會回傳 lazy sequence
+
+#+BEGIN_SRC clojure
+  (filter even? (range 10))
+  ;;=> (0 2 4 6 8)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 019: Last Element
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/19
+
+Write a function which returns the last element in a sequence.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3 4 5]) 5)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '(5 4 3)) 3)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ ["b" "c" "d"]) "d")
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- last
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p019')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p019" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(first (reverse %))
+#+END_SRC
+#+HTML: </blockquote>
+
+題目要求我們實現 [[https://clojuredocs.org/clojure.core/last][last]] 的功能，因此我們可以想想 [[https://clojuredocs.org/clojure.core/last][last]] 的用途，是的就是取出序列
+(sequence) 的最後一個元素
+
+#+BEGIN_SRC clojure
+  (last '(1 2 3))
+  ;; => 3
+#+END_SRC
+
+而在前面我們知道了 [[https://clojuredocs.org/clojure.core/first][first]] 則是取得一個序列 (sequence) 的第一個元素
+
+#+BEGIN_SRC clojure
+  (first '(1 2 3))
+  ;; => 1
+#+END_SRC
+
+所以我們只要將序列 (sequence) 反轉後再使用 [[https://clojuredocs.org/clojure.core/first][first]] 去取得第一個元素即可，我們先來
+看看反轉用的命令 [[https://clojuredocs.org/clojure.core/reverse][reverse]]
+
+#+BEGIN_SRC clojure
+  (reverse '(1 2 3))
+  ;; => (3 2 1)
+#+END_SRC
+
+所以這一題就可以這樣解
+
+#+BEGIN_SRC clojure
+  (first (reverse '(1 2 3)))
+  ;; => 3
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 020: Penultimate Element
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/20
+
+Write a function which returns the second to last element from a sequence.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ (list 1 2 3 4 5)) 4)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ ["a" "b" "c"]) "b")
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [[1 2] [3 4]]) [1 2])
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p020')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p020" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(second (reverse %))
+#+END_SRC
+#+HTML: </blockquote>
+
+題目要求我們取得倒數第二個元素，因此這時就要想到 [[*019: Last Element][019: Last Element]] 所提到的
+[[https://clojuredocs.org/clojure.core/reverse][reverse]] ，讓我們再來複習一次
+
+#+BEGIN_SRC clojure
+  (reverse '(1 2 3))
+  ;; => (3 2 1)
+#+END_SRC
+
+取得了反轉序列 (sequence) 後，接下來就是使用 [[https://clojuredocs.org/clojure.core/second][second]] 去取得第二個元素，讓我們先看
+看 second 的用法
+
+#+BEGIN_SRC clojure
+  (second '(1 2 3))
+  ;; => 2
+#+END_SRC
+
+因此此題就可以這樣解
+
+#+BEGIN_SRC clojure
+  (second (reverse '(1 2 3 4)))
+  ;; => 3
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 021: Nth Element
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/21
+
+Write a function which returns the Nth element from a sequence.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ '(4 5 6 7) 2) 6)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [:a :b :c] 0) :a)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3 4] 1) 2)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '([1 2] [3 4] [5 6]) 2) [5 6])
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- nth
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p021')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p021" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(first (drop %2 %1))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題要我們做到 [[https://clojuredocs.org/clojure.core/nth][nth]] 的功能，讓我們先複習看看 [[https://clojuredocs.org/clojure.core/nth][nth]] 的用途
+
+#+BEGIN_SRC clojure
+  (nth '(1 2 3 4 5) 2)
+  ;; => 3
+#+END_SRC
+
+在這題我使用了 [[https://clojuredocs.org/clojure.core/drop][drop]] 來解決，drop 的使用方式是這樣的
+
+#+BEGIN_SRC clojure
+  (drop -1 [1 2 3 4])
+  ;;=> (1 2 3 4)
+  (drop 0 [1 2 3 4])
+  ;;=> (1 2 3 4)
+  (drop 2 [1 2 3 4])
+  ;;=> (3 4)
+#+END_SRC
+
+因此只要使用 [[https://clojuredocs.org/clojure.core/drop][drop]] 搭配 [[https://clojuredocs.org/clojure.core/first][first]] 就可以達到 [[https://clojuredocs.org/clojure.core/nth][nth]] 的功能了
+
+#+BEGIN_SRC clojure
+  (drop 2 '(1 2 3 4 5))
+  ;; => (3 4 5)
+  (first (drop 2 '(1 2 3 4 5)))
+  ;; => 3
+#+END_SRC
+
+當然看到序列時也要想到使用 [[https://clojuredocs.org/clojure.core/take][take]] 來取的需要數量的元素
+
+#+BEGIN_SRC clojure
+  (take 3 '(1 2 3 4 5 6))
+  ;; => (1 2 3)
+#+END_SRC
+
+因此使用 take 的話這題我們可以這樣寫
+
+#+BEGIN_SRC clojure
+ (#(last (take (inc %2) %1)) '(4 5 6 7) 2)
+ ;; => 6
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 022: Count a Sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/22
+
+Write a function which returns the total number of elements in a sequence.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ '(1 2 3 3 1)) 5)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ "Hello World") 11)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [[1 2] [3 4] [5 6]]) 3)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '(13)) 1)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '(:a :b :c)) 3)
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- count
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p022')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p022" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(reduce (fn [x y] (inc x)) 0 %)
+#+END_SRC
+#+HTML: </blockquote>
+
+這提要我們實作 [[https://clojuredocs.org/clojure.core/count][count]] 的功能，我們先來看看 [[https://clojuredocs.org/clojure.core/count][count]] 的用法
+
+#+BEGIN_SRC clojure
+  (count '(1 2 3))
+  ;; => 3
+  (count [1 2 3])
+  ;; => 3
+  (count "hi")
+  ;; => 2
+#+END_SRC
+
+也就是說，我們要實作一個函式來計算輸入序列 (sequence) 的元素數量，看到序列
+(sequence) 就要想到 [[https://clojuredocs.org/clojure.core/reduce][reduce]] ，讓我們再來複習一下 [[https://clojuredocs.org/clojure.core/reduce][reduce]]
+
+#+BEGIN_SRC clojure
+  (reduce + [1 2 3 4 5])
+  ;; => 15
+  (reduce conj #{} [:a :b :c])
+  ;;=> #{:a :c :b}
+#+END_SRC
+
+因此我們就可以這樣作
+
+#+BEGIN_SRC clojure
+  (reduce (fn [x y] (inc x)) 0 '(1 2 3))
+  ;; => 3
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 023: Reverse a Sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/23
+
+Write a function which reverses a sequence.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3 4 5]) [5 4 3 2 1])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ (sorted-set 5 7 2 7)) '(7 5 2))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [[1 2][3 4][5 6]]) [[5 6][3 4][1 2]])
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- reverse
+- rseq
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p023')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p023" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(reduce conj '() %)
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題要我們反轉序列 (sequence) 但是不能使用內建的 [[https://clojuredocs.org/clojure.core/reverse][reverse]] 以及 [[https://clojuredocs.org/clojure.core/rseq][rseq]] ，因此要使
+用匿名函式來自幹，不過讓我們回想一下在 [[*005: Lists: conj][005: Lists: conj]] 裡面多次強調的 [[https://clojuredocs.org/clojure.core/conj][conj]] 特性:
+
+#+BEGIN_SRC clojure
+  ;; notice that conjoining to a vector is done at the end
+  (conj [1 2 3] 4)
+  ;;=> [1 2 3 4]
+
+  ;; notice conjoining to a list is done at the beginning
+  (conj '(1 2 3) 4)
+  ;;=> (4 1 2 3)
+#+END_SRC
+
+因此我們只要搭配 [[https://clojuredocs.org/clojure.core/reverse][reduce]] 就可以產生出反向的序列了 ~
+
+#+BEGIN_SRC clojure
+(reduce conj '() '(1 2 3))
+;; => (3 2 1)
+
+(reduce conj '() [1 2 3])
+;; => (3 2 1)
+#+END_SRC
+
+順便來複習一下 [[https://clojuredocs.org/clojure.core/reverse][reverse]]
+
+#+BEGIN_SRC clojure
+(reverse '(1 2 3))
+;; => (3 2 1)
+#+END_SRC
+
+[[https://clojuredocs.org/clojure.core/rseq][rseq]] 只能吃 vector, 因此如果你餵 list 給他會出錯
+
+#+BEGIN_SRC clojure
+(rseq '(1 2 3))
+; => java.lang.ClassCastException: clojure.lang.PersistentList cannot be cast to clojure.lang.Reversible
+
+(rseq  [1 2 3])
+; => (3 2 1)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 024: Sum It All Up
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/24
+
+Write a function which returns the sum of a sequence of numbers.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3]) 6)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ (list 0 -2 5 5)) 8)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ #{4 2 1}) 7)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '(0 0 -1)) -1)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '(1 10 3)) 14)
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p024')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p024" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  reduce +
+#+END_SRC
+#+HTML: </blockquote>
+
+看到序列 (sequence) 就要想到 [[https://clojuredocs.org/clojure.core/reduce][reduce]] 和 [[https://clojuredocs.org/clojure.core/map][map]] ，因此這一題就這樣:
+
+#+BEGIN_SRC clojure
+ (reduce + #{1 2 3})
+ ;; => 6
+ (reduce + [1 2 3])
+ ;; => 6
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 025: Find the odd numbers
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/25
+
+Write a function which returns only the odd numbers from a sequence.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ #{1 2 3 4 5}) '(1 3 5))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [4 2 1 6]) '(1))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [2 2 4 6]) '())
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 1 1 3]) '(1 1 1 3))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p025')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p025" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  filter odd?
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題其實就是 [[*018: Sequences: filter][018: Sequences: filter]] 的應用版本，我們再來回顧一下 [[https://clojuredocs.org/clojure.core/filter][filter]]
+
+#+BEGIN_SRC clojure
+  (filter even? (range 10))
+  ;;=> (0 2 4 6 8)
+
+  (filter odd? (range 10))
+  ;;=> (1 3 5 7 9)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 026: Fibonacci Sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/26
+
+Write a function which returns the first X fibonacci numbers.
+#+END_VERSE
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p026')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p026" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+#(take %
+       ((fn fib []
+          (lazy-cat [1 1]
+                    (map + (fib) (rest (fib)))))))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題其實是在問如何實作 lazy sequence 版本的 Fibonacci 數列，這樣我們就可以使用
+[[https://clojuredocs.org/clojure.core/take][take]] 去取得我們想要的數列數量。
+
+在 clojure 中實現 Fibonacci Sequence 的方式有很多種，我最偏好的就是這種透過
+[[https://clojuredocs.org/clojure.core/lazy-cat][lazy-cat]] 產生的版本。
+
+[[https://clojuredocs.org/clojure.core/lazy-cat][lazy-cat]] 的任務其實就只是把參數的序列 (sequence) 進行串接，也就是這樣:
+
+#+BEGIN_SRC clojure
+  (lazy-cat [1 2 3] [4 5 6])
+  ;; => (1 2 3 4 5 6)
+#+END_SRC
+
+而 Fibonacci Sequence 其實就是把新的數值串接到原來的數列上，因此用 [[https://clojuredocs.org/clojure.core/lazy-cat][lazy-cat]] 就可
+以很輕鬆的搞定:
+
+#+BEGIN_SRC clojure
+  (def fib-seq
+    (lazy-cat [0 1]
+              (map + fib-seq (rest fib-seq))))
+
+  (take 10 fib-seq)
+  ;; => (0 1 1 2 3 5 8 13 21 34)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 027: Palindrome Detector
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/27
+
+Write a function which returns true if the given sequence is a palindrome.
+
+*Hint*: "racecar" does not equal '(\r \a \c \e \c \a \r)
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (false? (__ '(1 2 3 4 5)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (true? (__ "racecar"))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (true? (__ [:foo :bar :foo]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (true? (__ '(1 1 3 3 1 1)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (false? (__ '(:a :b :c)))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p027')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p027" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(= (reverse %) (seq %))
+#+END_SRC
+#+HTML: </blockquote>
+
+題目詢問的是找出判斷為 [[http://www.csie.ntnu.edu.tw/~u91029/Palindrome.html][迴文]] (Palindrome) 的方法，也就是說如果輸入的資料進行
+[[https://clojuredocs.org/clojure.core/reverse][reverse]] 仍舊和原始資料相同的話，這輸入資料就是 palindrome。
+
+不過這題有些小陷阱，我們來看看 [[https://clojuredocs.org/clojure.core/reverse][reverse]] 的使用以及 [[https://clojuredocs.org/clojure.core/reverse][reverse]] 在字串上的使用
+
+#+BEGIN_SRC clojure
+  (reverse [1 2 3])
+  ;; => (3 2 1)
+  (reverse "hello")
+  ;; => (\0 \l \l \e \h)
+#+END_SRC
+
+也就是說將字串傳送給 [[https://clojuredocs.org/clojure.core/reverse][reverse]] 後會變成以字元為單位的序列 (sequence)，因此這一個題
+目我們需要使用 [[https://clojuredocs.org/clojure.core/seq][seq]] 來將輸入的字串轉變成序列
+
+#+BEGIN_SRC clojure
+  (seq "hello")
+  ;; => (\h \e \l \l \o)
+  (seq '(1 2 3))
+  ;; => (1 2 3)
+#+END_SRC
+
+所以最後完整的案就變成這樣了
+
+#+BEGIN_SRC clojure
+ (#(= (reverse %) (seq %)) "hah")
+ ;; => true
+ (#(= (reverse %) (seq %)) '(1 2 1))
+ ;; => true
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 028: Flatten a Sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/28
+
+Write a function which flattens a sequence.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ '((1 2) 3 [4 [5 6]])) '(1 2 3 4 5 6))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ ["a" ["b"] "c"]) '("a" "b" "c"))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '((((:a))))) '(:a))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- flatten
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p028')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p028" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn flat [coll]
+      (reduce #(concat %1 (if (coll? %2)
+                            (flat %2) [%2])) '() coll))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題很好玩，值得深入探討。題目要求我們實現一個名為 [[https://clojuredocs.org/clojure.core/flatten][flatten]] 的函式，其功能為將
+巢狀鍊表變一單一鍊表，也就是:
+
+#+BEGIN_SRC clojure
+ (flatten '(1 2 (3 (4 5 (6)))))
+ ;; =>  (1 2 3 4 5 6)
+#+END_SRC
+
+對我而言，看到輸入的東西是 [[https://clojuredocs.org/clojure.core/sequential_q][sequential?]] 的話，我第一個想到的不是 [[https://clojuredocs.org/clojure.core/map][map]] 就是 [[https://clojuredocs.org/clojure.core/reduce][reduce]]
+，因此此一題目我使用 reduce 來解。
+
+有一點要注意到是，提供給 reduce 的函式必須要能夠吃 =2 個參數= ，因此整個解法就是
+這樣
+
+#+BEGIN_SRC clojure
+ ((fn flat [coll]
+    (reduce #(concat %1 (if (coll? %2)
+                          (flat %2) [%2])) '() coll))
+  '(1 (2)))
+  ;; => (1 2)
+#+END_SRC
+
+另外一種很強大的解法則是透過 [[https://clojuredocs.org/clojure.core/mapcat][mapcat]] 來處理這件事，mapcat 會對傳入的 collection
+進行 map 的動作，最後則是將多項結果連接在一起，我們來看看 mapcat 的基本用法:
+
+#+BEGIN_SRC clojure
+  (mapcat reverse [[3 2 1 0] [6 5 4] [9 8 7]])
+  ;; => (0 1 2 3 4 5 6 7 8 9)
+#+END_SRC
+
+因此我們就可以判斷傳入的東西是否為 [[https://clojuredocs.org/clojure.core/sequential_q][sequential?]] ，如果是的話則交給 mapcat 使用遞
+回的方式解決，反之則將傳入的東西變成 序列 (sequence)。
+
+#+BEGIN_SRC clojure
+  (defn flat [coll]
+     (if (sequential? coll)
+       (mapcat flat coll)
+       (list coll)))
+#+END_SRC
+
+clojure 官方的解法也是很有趣，你可以在這裡看到 clojure 的 [[https://github.com/clojure/clojure/blob/clojure-1.7.0/src/clj/clojure/core.clj#L6843][flatten]] 實現:
+
+#+BEGIN_SRC clojure
+  (defn flatten
+    "Takes any nested combination of sequential things (lists, vectors,
+    etc.) and returns their contents as a single, flat sequence.
+    (flatten nil) returns an empty sequence."
+    {:added "1.2"
+     :static true}
+    [x]
+    (filter (complement sequential?)
+            (rest (tree-seq sequential? seq x))))
+#+END_SRC
+
+這解法有趣的地方在於，他使用了 [[https://clojuredocs.org/clojure.core/filter][filter]] 將不滿足條件的東西挑掉，以此例來說就是挑出
+了不是 [[https://clojuredocs.org/clojure.core/sequential_q][sequential?]] 的東西，因此我們該注意他怎樣將原本是[[https://clojuredocs.org/clojure.core/sequential_q][ sequential?]] 的東西變成非 sequence 的。
+
+在這裡 clojure 使用了 [[https://clojuredocs.org/clojure.core/tree-seq][tree-seq]] 來將原本的 sequence 變成包含 sequence 本身以及其
+子節點，就像這樣:
+
+#+BEGIN_SRC clojure
+  (tree-seq sequential? seq '(1 (2 3 )))
+  ;; => ((1 (2 3)) 1 (2 3) 2 3)
+#+END_SRC
+
+因此接下來再使用 [[https://clojuredocs.org/clojure.core/filter][filter]] 挑出不是 [[https://clojuredocs.org/clojure.core/sequential_q][sequential?]] 的東西就解決了這個問題
+
+#+BEGIN_SRC clojure
+  (filter (complement sequential?)
+          (tree-seq sequential? seq '(1 (2 3))))
+  ;; => (1 2 3)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 029: Get the Caps
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/29
+
+Write a function which takes a string and returns a new string containing only
+the capital letters.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ "HeLlO, WoRlD!") "HLOWRD")
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (empty? (__ "nothing"))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ "$#A(*&987Zf") "AZ")
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p029')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p029" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(apply str (re-seq #"[A-Z]" %))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題其實可以用傳統的方式: 找出字元所代表的 ASCII 代碼，進行範圍的比較。
+
+不過我比較偏好使用正規表達式 (Regex) ，因此這題我使用了 [[https://clojuredocs.org/clojure.core/re-seq][re-seq]] 來產生出符合正規
+表達式的序列 (sequence)
+
+#+BEGIN_SRC clojure
+  (re-seq #"[A-Z]" "AcBd")
+  ;; => ("A" "B")
+#+END_SRC
+
+有了序列以後，就可以使用 [[https://clojuredocs.org/clojure.core/apply][apply]] 將這整個序列合併
+
+#+BEGIN_SRC clojure
+  (apply str (re-seq #"[A-Z]" "HeLlO, WoRlD!"))
+  ;; = > "HLOWRD"
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 030: Compress a Sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/30
+
+Write a function which removes consecutive duplicates from a sequence.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (apply str (__ "Leeeeeerrroyyy")) "Leroy")
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 1 2 3 3 2 2 3]) '(1 2 3 2 3))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [[1 2] [1 2] [3 4] [1 2]]) '([1 2] [3 4] [1 2]))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p030')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p030" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(map first (partition-by identity %))
+#+END_SRC
+#+HTML: </blockquote>
+
+這個題目要移除掉 =連續= 且 =重複= 的元素，因此我們不能用 [[https://clojuredocs.org/clojure.core/set][set]] 或是 [[https://clojuredocs.org/clojure.core/distinct][distinct]] ，因
+為這兩個會移除掉整個序列 (sequence) 中重複的東西。
+
+因此我們可以先將連續且重複的東西分組，這時候我們可以使用 [[https://clojuredocs.org/clojure.core/partition-by][partition-by]] 搭配
+[[https://clojuredocs.org/clojure.core/identity][identity]] 的組合來進行分組
+
+#+BEGIN_SRC clojure
+  (partition-by identity "aabbbcccc")
+  ;; => ((\a \a) (\b \b \b) (\c \c \c \c))
+
+  (partition-by identity [a bb ccc])
+  ;; => ((\a \a) (\b \b \b) (\c \c \c \c))
+
+  (partition-by identity [1 2 2 3 3 3])
+  ;; => ((1) (2 2) (3 3 3))
+#+END_SRC
+
+有了分組後，我們就可以使用 [[https://clojuredocs.org/clojure.core/map][map]] 搭配 [[https://clojuredocs.org/clojure.core/first][first]] 去取得每個分組的第一個項目，這樣這個題目就完成了
+
+#+BEGIN_SRC clojure
+  (map first (partition-by identity [1 2 2 3 3 3]))
+  ;; => (1 2 3)
+#+END_SRC
+
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 031: Pack a Sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/31
+
+Write a function which packs consecutive duplicates into sub-lists.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ [1 1 2 1 1 1 3 3]) '((1 1) (2) (1 1 1) (3 3)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [:a :a :b :b :c]) '((:a :a) (:b :b) (:c)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [[1 2] [1 2] [3 4]]) '(([1 2] [1 2]) ([3 4])))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p031')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p031" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(partition-by identity %)
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題和 [[*030: Compress a Sequence][030: Compress a Sequence]] 類似，我們的目的是將 =連續= 且 =重複= 的東西分
+組，這時候我們可以使用 [[https://clojuredocs.org/clojure.core/partition-by][partition-by]] 搭配 [[https://clojuredocs.org/clojure.core/identity][identity]] 的組合來進行分組
+
+#+BEGIN_SRC clojure
+  (partition-by identity "aabbbcccc")
+  ;; => ((\a \a) (\b \b \b) (\c \c \c \c))
+
+  (partition-by identity [a bb ccc])
+  ;; => ((\a \a) (\b \b \b) (\c \c \c \c))
+
+  (partition-by identity [1 2 2 3 3 3])
+  ;; => ((1) (2 2) (3 3 3))
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 032: Duplicate a Sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/32
+
+Write a function which duplicates each element of a sequence.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3]) '(1 1 2 2 3 3))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [:a :a :b :b]) '(:a :a :a :a :b :b :b :b))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [[1 2] [3 4]]) '([1 2] [1 2] [3 4] [3 4]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [[1 2] [3 4]]) '([1 2] [1 2] [3 4] [3 4]))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p032')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p032" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(interleave % %)
+#+END_SRC
+#+HTML: </blockquote>
+
+在 clojure 中，有一個名為 [[https://clojuredocs.org/clojure.core/interleave][interleave]] 的函式可以做到將兩個 collection 互相進行內
+插產生新的 collection 的用途
+
+#+BEGIN_SRC clojure
+  (interleave [:a :b :c] [1 2 3])
+  ;; => (:a 1 :b 2 :c 3)
+#+END_SRC
+
+當然我們看到了序列 (sequence) 就會想到 [[https://clojuredocs.org/clojure.core/reduce][reduce]] ，因此也可以寫一個 reduce 的版本
+
+#+BEGIN_SRC clojure
+  (reverse (reduce #(conj %1 %2 %2) '() '(1 2 3)))
+  ;; => (1 1 2 2 3 3)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 033: Replicate a Sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/33
+
+Write a function which replicates each element of a sequence a variable number
+of times.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3] 2) '(1 1 2 2 3 3))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [:a :b] 4) '(:a :a :a :a :b :b :b :b))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [4 5 6] 1) '(4 5 6))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [[1 2] [3 4]] 2) '([1 2] [1 2] [3 4] [3 4]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [44 33] 2) [44 44 33 33])
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p033')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p033" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [coll n] (mapcat #(repeat n %) coll))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題要求根據輸入的數值，決定要重複幾次，看到這裡就可以想到 [[https://clojuredocs.org/clojure.core/take][take]] 或是 [[https://clojuredocs.org/clojure.core/repeat][repeat]] 
+
+#+BEGIN_SRC clojure
+  (take 5 (range 10))
+  ;; => (0 1 2 3 4)
+  (repeat 2 [1 2])
+  ;; => ([1 2] [1 2])
+#+END_SRC
+
+因此我們可以使用強大的 [[https://clojuredocs.org/clojure.core/mapcat][mapcat]] 讓他進行先 map 再 concat 的動作
+
+#+BEGIN_SRC clojure
+  (mapcat reverse [[3 2 1 0] [6 5 4] [9 8 7]])
+  ;; => (0 1 2 3 4 5 6 7 8 9)
+#+END_SRC
+
+所以整體程式就變成這樣了:
+
+#+BEGIN_SRC clojure
+  ((fn [coll n] (mapcat #(repeat n %) coll)) [4 5 6] 1)
+#+END_SRC
+
+不過這題其實應該也要可以使用 [[https://clojuredocs.org/clojure.core/apply][apply]] 來解才對，以下的答案是可以運作的，不過送到
+4clojure 卻會報錯 (clojure 版本問題 ?)
+
+#+BEGIN_SRC clojure
+  (apply interleave (repeat 1 [1 2 3]))
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 034: Implement range
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/34
+
+Write a function which creates a list of all integers in a given range.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ 1 4) '(1 2 3))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ -2 2) '(-2 -1 0 1))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 5 8) '(5 6 7))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- range
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p034')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p034" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(take (- %2 %1)
+           ((fn gen-range [n]
+              (lazy-cat [n (inc n)]
+                        (map inc (rest (gen-range n)))))
+            %1))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題要實作類似 [[https://clojuredocs.org/clojure.core/range][range]] 的功能，我們先來複習一下 [[https://clojuredocs.org/clojure.core/range][range]]
+
+#+BEGIN_SRC clojure
+(range)
+;; => (0 1 2 3 4 5 6 7 8 9 10 ... 12770 12771 12772 12773 ... n
+
+(take 10 (range))
+;; =>(0 1 2 3 4 5 6 7 8 9)
+
+(range -5 5)
+;; => (-5 -4 -3 -2 -1 0 1 2 3 4)
+
+(range -100 100 10)
+;; => (-100 -90 -80 -70 -60 -50 -40 -30 -20 -10 0 10 20 30 40 50 60 70 80 90)
+#+END_SRC
+
+那要怎麼解呢? 我一開始想到的是要自己做出從 0 ~ N 的 lazy sequence，因此就想到了[[*026: Fibonacci
+ Sequence][026: Fibonacci Sequence]] 使用過的 [[https://clojuredocs.org/clojure.core/lazy-cat][lazy-cat]] ，來複習一下當時是怎樣使用
+lazy-cat 產生 Fibonacci Sequence 的
+
+#+BEGIN_SRC clojure
+  (def fib-seq
+    (lazy-cat [0 1]
+              (map + fib-seq (rest fib-seq))))
+
+  (take 10 fib-seq)
+  ;; => (0 1 1 2 3 5 8 13 21 34)
+#+END_SRC
+
+因此我們就可以依樣畫葫蘆打照一個簡單的 0 ~ N 的序列 (sequence) 產生器
+
+#+BEGIN_SRC clojure
+  (def gen
+    (lazy-cat [0 1]
+              (map inc (rest gen))))
+
+  (take 10 gen)
+  ;; => (0 1 2 3 4 5 6 7 8 9)
+#+END_SRC
+
+有了這個產生器後，我們可以把他改為函式 (function) 的版本，並讓他有一個輸入，用來設定起始值
+
+#+BEGIN_SRC clojure
+  (take 10
+         ((fn gen-range [n]
+            (lazy-cat [n (inc n)]
+                      (map inc (rest (gen-range n)))))
+          -4))
+  ;; => (-4 -3 -2 -1 0 1 2 3 4 5 )
+#+END_SRC
+
+接下來我們就可以把所有東西合併，於是這題的解法就出現了
+
+#+BEGIN_SRC clojure
+  (#(take (- %2 %1)
+           ((fn gen-range [n]
+              (lazy-cat [n (inc n)]
+                        (map inc (rest (gen-range n)))))
+            %1))
+    -2 2)
+  ;; => (-2 -1 0 1)
+#+END_SRC
+
+除了使用 [[https://clojuredocs.org/clojure.core/lazy-cat][lazy-cat]] 外，其實我們也可以使用 [[https://clojuredocs.org/clojure.core/iterate][iterate]] 去產生連續的序列 (sequence)
+
+#+BEGIN_SRC clojure
+(iterate inc 5)
+;; => (5 6 7 8 9 10 11 12 13 14 15 ... n)
+(take 5 (iterate inc 5))
+;; => (5 6 7 8 9)
+(take 10 (iterate (partial + 2) 0))
+;; => (0 2 4 6 8 10 12 14 16 18)
+#+END_SRC
+
+因此這題如果使用 [[https://clojuredocs.org/clojure.core/iterate][iterate]] 來解的話，作法則是像這樣
+
+#+BEGIN_SRC clojure
+  ((fn [x y] (take (- y x) (iterate inc x))) -1 2)
+  ;; => (-1 0 1)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 035: Local bindings
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/35
+
+Clojure lets you give local names to values using the special let-form.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (let [x 5] (+ 2 x)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (let [x 3, y 10] (- y x)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (let [x 21] (let [y 3] (/ x y))))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p035')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p035" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  7
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題在複習 [[https://clojuredocs.org/clojure.core/let][let]] 的使用方式，在 clojure 中 let 是用來產生 =區域變數= 的好方法
+
+#+BEGIN_SRC clojure
+  (let [x 1] x)
+  ;; => 1
+
+  ;; Note that the binding for the symbol y won't exist outside of the let:
+  (let [y 1] y)
+  ;; => 1
+  (prn y)
+  ;; => java.lang.Exception: Unable to resolve symbol: y in this context (NO_SOURCE_FILE:7)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 036: Let it Be
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/36
+
+Can you bind x, y, and z so that these are all true?
+#+END_VERSE
+
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p036')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p036" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  [x 7 y 3 z 1]
+#+END_SRC
+#+HTML: </blockquote>
+
+讓我們再一次複習 [[https://clojuredocs.org/clojure.core/let][let]] 的使用方式
+
+#+BEGIN_SRC clojure
+  (let [x 1] x)
+  ;; => 1
+
+  ;; Note that the binding for the symbol y won't exist outside of the let:
+  (let [y 1] y)
+  ;; => 1
+  (prn y)
+  ;; => java.lang.Exception: Unable to resolve symbol: y in this context (NO_SOURCE_FILE:7)
+
+  (let [a 1 b 2] 
+         (+ a b))
+  ;; => 3
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 037: Regular Expressions
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/37
+
+Regex patterns are supported with a special reader macro.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (apply str (re-seq #"[A-Z]+" "bA1B3Ce ")))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p037')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p037" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  "ABC"
+#+END_SRC
+#+HTML: </blockquote>
+
+在 clojure 中，我們可以使用 [[https://clojuredocs.org/clojure.core/re-seq][re-seq]] 去根據正規表達式產生 lazy sequence，由於回傳
+的東西是序列 (sequence) 因此我們再使用 [[https://clojuredocs.org/clojure.core/apply][apply]] 與 [[https://clojuredocs.org/clojure.core/str][str]] 將其合併為字串
+
+#+BEGIN_SRC clojure
+  (re-seq #"\d" "clojure 1.1.0")
+  ;; => ("1" "1" "0")
+  (re-seq #"\w+" "mary had a little lamb")
+  ;; => ("mary" "had" "a" "little" "lamb")
+  (re-seq #"[A-Z]+" "bA1B3Ce ")
+  ;; => ("A" "B" "C")
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 038: Maximum value
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/38
+
+Write a function which takes a variable number of parameters and returns the
+maximum value.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ 1 8 3 4) 8)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 30 20) 30)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 45 67 11) 67)
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- max
+- max-key
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p038')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p038" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [x & xs]
+    (reduce #(if (> %1 %2) %1 %2) x xs))
+#+END_SRC
+#+HTML: </blockquote>
+
+我們先來想想，假設輸入參數是一個序列 (sequence) 的話，我們會怎麼作? 想到序列
+(sequence) 就要想到 [[https://clojuredocs.org/clojure.core/reduce][reduce]] ，因此就可以像這樣去找出一個序列中的最大值
+
+#+BEGIN_SRC clojure
+  (reduce (fn [a b] (if (> a b) a b)) '(1 5 2 8))
+  ;; => 8
+#+END_SRC
+
+然而實際上這個題目是不定數量的參數，因此就變成要這樣寫
+
+#+BEGIN_SRC clojure
+  ((fn [x & xs]
+      (reduce #(if (> %1 %2) %1 %2) x xs)) '(1 5 2 8))
+  ;;=> 8
+#+END_SRC
+
+當然匿名函式除了可以用 =%1= 、 =%2= 來指定是第一還是第二個參數，我們也可以用
+=%&= 來指定所有參數，因此更簡單的 [[https://clojuredocs.org/clojure.core/reduce][reduce]] 則是這樣
+
+#+BEGIN_SRC clojure
+  (#(reduce (fn [a b] (if (> a b) a b)) %&) 1 5 2 8)
+  ;;= > 8
+#+END_SRC
+
+或者是這樣
+
+#+BEGIN_SRC clojure
+  ((fn [& x] (reduce (fn [a b] (if (> a b) a b)) x)) 1 5 2 8)
+  ;;= > 8
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 039: Interleave Two Seqs
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/39
+
+Write a function which takes two sequences and returns the first item from each,
+then the second item from each, then the third, etc.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3] [:a :b :c]) '(1 :a 2 :b 3 :c))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2] [3 4 5 6]) '(1 3 2 4))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3 4] [5]) [1 5])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [30 20] [25 15]) [30 25 20 15])
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- interleave
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p039')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p039" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  mapcat list
+#+END_SRC
+#+HTML: </blockquote>
+
+我們在 [[*032: Duplicate a Sequence][032: Duplicate a Sequence]] 裡面用到了 [[https://clojuredocs.org/clojure.core/interleave][interleave]] ，現在換要我們實作
+[[https://clojuredocs.org/clojure.core/interleave][interleave]] 的功能了，不過先來複習一下
+
+#+BEGIN_SRC clojure
+  (interleave [:a :b :c] [1 2 3])
+  ;; => (:a 1 :b 2 :c 3)
+#+END_SRC
+
+在前面說過了看到序列 (sequence) 就要想到 [[https://clojuredocs.org/clojure.core/map][map]] 、[[https://clojuredocs.org/clojure.core/reduce][reduce]] ，現在有兩個序列我們可以想
+到 map 的變種: [[https://clojuredocs.org/clojure.core/mapcat][mapcat]]
+
+[[https://clojuredocs.org/clojure.core/mapcat][mapcat]] 其實就是先對序列 (sequence) 進行 [[https://clojuredocs.org/clojure.core/map][map]] 之後再進行 [[https://clojuredocs.org/clojure.core/concat][concat]] 的運作:
+
+#+BEGIN_SRC clojure
+  ;; Suppose you've got a function that takes a value
+  ;; and returns a list of things from it, for example:
+  (defn f1
+    [n]
+    [(- n 1) n (+ n 1)])
+
+  (f1 1)
+  ;; => [0 1 2]
+
+  ;; Perhaps you'd like to map it onto each item in a collection:
+  (map f1 [1 2 3])
+  ;;=> ([0 1 2] [1 2 3] [2 3 4])
+
+  ;; But suppose you wanted them all concatenated? You could do this:
+  (apply concat (map f1 [1 2 3]))
+  ;; => (0 1 2 1 2 3 2 3 4)
+
+  ;; Or you could get the same thing with `mapcat`:
+  (mapcat f1 [1 2 3])
+  ;; => (0 1 2 1 2 3 2 3 4)
+#+END_SRC
+
+所以你就可以使用 [[https://clojuredocs.org/clojure.core/mapcat][mapcat]] 來解決這個問題
+
+#+BEGIN_SRC clojure
+  (mapcat list [1 2 3] [:a :b :c])
+ ;; => (1 :a 2 :b 3 :c)
+#+END_SRC
+
+或是
+
+#+BEGIN_SRC clojure
+  (mapcat (fn [& x] x) [1 2 3] [:a :b :c])
+  ;; => (1 :a 2 :b 3 :c)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 040: Interpose a Seq
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/40
+
+Write a function which separates the items of a sequence by an arbitrary value.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ 0 [1 2 3]) [1 0 2 0 3])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (apply str (__ ", " ["one" "two" "three"]))
+     "one, two, three")
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ :z [:a :b :c :d]) [:a :z :b :z :c :z :d])
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- interpose
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p040')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p040" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [sep coll]
+    (drop-last (mapcat list coll (repeat (count coll) sep))))
+#+END_SRC
+#+HTML: </blockquote>
+
+題目要我們實現 [[https://clojuredocs.org/clojure.core/interpose][interpose]] ，因此照慣例再來複習一下，簡單來說 [[https://clojuredocs.org/clojure.core/interpose][interpose]] 就是將傳入
+的參入內插到 collection 中
+
+#+BEGIN_SRC clojure
+  (interpose :a [1 2 3])
+  ;; => (1 :a 2 :a 3)
+  (interpose ", " ["one" "two" "three"])
+  ;; => ("one" ", " "two" ", " "three")
+  (apply str (interpose ", " ["one" "two" "three"])
+  ;; => "one, two, three"
+#+END_SRC
+
+在 [[*039: Interleave Two Seqs][039: Interleave Two Seqs]] 我們說到了看到序列 (sequence) 就要想到 [[https://clojuredocs.org/clojure.core/map][map]] 、[[https://clojuredocs.org/clojure.core/reduce][reduce]]
+。雖然本題中我們目前只有一個序列 (sequence) ，但是我們可以透過 [[https://clojuredocs.org/clojure.core/repeat][repeat]] 自己製作另外一組序列 (sequence)
+
+現在有兩個序列我們可以想到 map 的變種: [[https://clojuredocs.org/clojure.core/mapcat][mapcat]]
+
+[[https://clojuredocs.org/clojure.core/mapcat][mapcat]] 其實就是先對序列 (sequence) 進行 [[https://clojuredocs.org/clojure.core/map][map]] 之後再進行 [[https://clojuredocs.org/clojure.core/concat][concat]] 的運作，再重新複習一下
+
+#+BEGIN_SRC clojure
+  ;; Suppose you've got a function that takes a value
+  ;; and returns a list of things from it, for example:
+  (defn f1
+    [n]
+    [(- n 1) n (+ n 1)])
+
+  (f1 1)
+  ;; => [0 1 2]
+
+  ;; Perhaps you'd like to map it onto each item in a collection:
+  (map f1 [1 2 3])
+  ;;=> ([0 1 2] [1 2 3] [2 3 4])
+
+  ;; But suppose you wanted them all concatenated? You could do this:
+  (apply concat (map f1 [1 2 3]))
+  ;; => (0 1 2 1 2 3 2 3 4)
+
+  ;; Or you could get the same thing with `mapcat`:
+  (mapcat f1 [1 2 3])
+  ;; => (0 1 2 1 2 3 2 3 4)
+#+END_SRC
+
+也複習一下 [[https://clojuredocs.org/clojure.core/repeat][repeat]] 的使用
+
+#+BEGIN_SRC clojure
+  (take 5 (repeat "x"))
+  ;; => ("x" "x" "x" "x" "x")
+
+  (repeat 5 "x")
+  ;; => ("x" "x" "x" "x" "x")
+#+END_SRC
+
+所以你就可以使用 [[https://clojuredocs.org/clojure.core/mapcat][mapcat ]] 搭配 [[https://clojuredocs.org/clojure.core/repeat][repeat]] 來解決這個問題
+
+#+BEGIN_SRC clojure
+  ((fn [sep coll]
+      (mapcat list coll (repeat (count coll) sep)))
+    :a [1 2 3])
+  ;; => (1 :a 2 :a 3 :a)
+#+END_SRC
+
+但是由於這樣會多出一個 =:a= ，因此我們再使用 [[https://clojuredocs.org/clojure.core/drop-last][drop-last]] 將最後一個元素捨棄，本題
+的答案就這樣完成了
+
+#+BEGIN_SRC clojure
+((fn [sep coll]
+    (drop-last (mapcat list coll (repeat (count coll) sep))))
+  :a [1 2 3])
+;; => (1 :a 2 :a 3)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 041: Drop Every Nth Item
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/41
+
+Write a function which drops every Nth item from a sequence.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [:a :b :c :d :e :f] 2) [:a :c :e])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3 4 5 6] 4) [1 2 3 5 6])
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p041')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p041" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(apply concat (partition-all (dec %2) %2 %))
+#+END_SRC
+#+HTML: </blockquote>
+
+題目要求我們 =每隔= 幾個數值就將該位置的東西剔除，因此我們可以考慮先將資料分組，
+[[https://clojuredocs.org/clojure.core/partition-all][partition-all]] 就是處理這件事的不二人選，讓我們來看看他的用法以及和 [[https://clojuredocs.org/clojure.core/partition][partition]] 的
+不同
+
+#+BEGIN_SRC clojure
+(partition 4 [0 1 2 3 4 5 6 7 8 9])
+;; => ((0 1 2 3) (4 5 6 7))
+(partition-all 4 [0 1 2 3 4 5 6 7 8 9])
+;; => ((0 1 2 3) (4 5 6 7) (8 9))
+
+(partition-all 2 [0 1 2 3 4 5 6 7 8 9])
+;; => ((0 1) (2 3) (4 5) (6 7) (8 9))
+(partition-all 2 4 [0 1 2 3 4 5 6 7 8 9])
+;; => ((0 1) (4 5) (8 9))
+#+END_SRC
+
+因此這一題就可以這樣作
+
+#+BEGIN_SRC clojure
+  (apply concat (partition-all 2 3 [1 2 3 4 5 6 7 8]))
+  ;; => (1 2 4 5 7 8)
+  (#(apply concat (partition-all (dec %2) %2 %)) [1 2 3 4 5 6 7 8] 3)
+  ;; => (1 2 4 5 7 8)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 042: Factorial Fun
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/42
+
+Write a function which calculates factorials.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ 1) 1)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 3) 6)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 5) 120)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 8) 40320)
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p042')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p042" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(reduce * (range 1 (inc %)))
+#+END_SRC
+#+HTML: </blockquote>
+
+題目要求計算階乘 ([[https://en.wikipedia.org/wiki/Factorial][Factorial]])，比如說 5! 就是 5 * 4 * 3 * 2 * 1 = 120，以數學公式
+來看的話 Factorial 則是長這樣
+
+#+BEGIN_SRC latex :results raw :file 4Clojure-練習/p042.png
+  \begin{equation*}
+  n! = \prod_{k=1}^{n}k
+  \end{equation*}
+#+END_SRC
+
+#+RESULTS:
+[[file:4Clojure-練習/p042.png]]
+
+
+在這個題目中我使用 [[https://clojuredocs.org/clojure.core/range][range]] 去取得 1 ~ x 的序列
+
+#+BEGIN_SRC clojure
+ (range 1 5)
+ ;; => (1 2 3 4)
+#+END_SRC
+
+由於 [[https://clojuredocs.org/clojure.core/range][range]] 不會將 x 包進序列中，所以我使用 [[https://clojuredocs.org/clojure.core/inc][inc]] 去增加這個序列的範圍
+
+#+BEGIN_SRC clojure
+  (inc 5)
+  ;; => 6
+
+  (range 1 (inc 5))
+  ;; => (1 2 3 4 5)
+#+END_SRC
+
+接下來我們就可以快樂的使用 [[https://clojuredocs.org/clojure.core/reduce][reduce]] 來針對序列進行乘法的運作
+
+#+BEGIN_SRC clojure
+  (reduce * '(1 2 3 4 5))
+  ;; => 120
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 043: Reverse Interleave
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/43
+
+Write a function which reverses the interleave process into x number of
+subsequences.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ (range 9) 3) '((0 3 6) (1 4 7) (2 5 8)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ (range 10) 5) '((0 5) (1 6) (2 7) (3 8) (4 9)))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p043')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p043" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(apply map list (partition %2 %))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題真的不要想的太複雜，我在寫這一題時因為整天都在寫 4clojure 腦袋壞掉了，於是有
+一個很複雜的版本，等等來看看。
+
+看到這個題目第一個我想到的就是使用 [[https://clojuredocs.org/clojure.core/partition][partition]] 幫我將序列 (sequence) 分組，照慣例
+來複習一下
+
+#+BEGIN_SRC clojure
+  (partition 4 [0 1 2 3 4 5 6 7 8 9])
+  ;; => ((0 1 2 3) (4 5 6 7))
+  (partition-all 4 [0 1 2 3 4 5 6 7 8 9])
+  ;; => ((0 1 2 3) (4 5 6 7) (8 9))
+
+  ;; partition a list of 22 items into 5 (20/4) lists of 4 items
+  ;; the last two items do not make a complete partition and are dropped.
+  (partition 4 (range 22))
+  ;;=> ((0 1 2 3) (4 5 6 7) (8 9 10 11) (12 13 14 15) (16 17 18 19))
+
+  ;; uses the step to select the starting point for each partition
+  (partition 4 6 (range 20))
+  ;;=> ((0 1 2 3) (6 7 8 9) (12 13 14 15))
+#+END_SRC
+
+所以我們先用 [[https://clojuredocs.org/clojure.core/partition][partition]] 將序列 (sequence) 分組，再使用 [[https://clojuredocs.org/clojure.core/apply][apply]] 將分組的東西分配給
+[[https://clojuredocs.org/clojure.core/list][list]] 即可，這真是太神奇了 ~
+
+就像這樣:
+
+#+BEGIN_SRC clojure
+  (partition 3 (range 9))
+  ;; => ((0 1 2) (3 4 5) (6 7 8))
+
+  (apply list (partition 3 (range 9)))
+  ;; => ((0 3 6) (1 4 7) (2 5 8))
+#+END_SRC
+
+那我一開始想得很複雜的版本是怎樣呢？我想到使用 [[https://clojuredocs.org/clojure.core/map][map]] 搭配 [[https://clojuredocs.org/clojure.core/nth][nth]] 去一個一個的進行組合，就像這樣
+
+#+BEGIN_SRC clojure
+(list
+  (map first
+       (partition 2 [1 2 3 4 5 6])) ;; => (1 3 5)
+  (map second
+       (partition 2 [1 2 3 4 5 6])) ;; => (2 4 6)
+  )
+;; => ((1 3 5) (2 4 6))
+#+END_SRC
+
+於是套用兩次 [[https://clojuredocs.org/clojure.core/map][map]] 就可以解決問題了
+
+#+BEGIN_SRC clojure
+  (map
+    #(map (fn [coll] (nth coll %))
+            (partition 3 (range 9))) (range 3))
+  ;; => ((0 3 6) (1 4 7) (2 5 8))
+#+END_SRC
+
+在整理成函式(function)，最後複雜點的版本就成了這個樣子:
+
+#+BEGIN_SRC clojure
+((fn [sep n]
+  (map
+   (fn [x] (map (fn [coll] (nth coll x))
+                (partition n sep))) (range n)))
+   (range 9) 3)
+;; => ((0 3 6) (1 4 7) (2 5 8))
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 044: Rotate Sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/44
+
+Write a function which can rotate a sequence in either direction.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ 2 [1 2 3 4 5]) '(3 4 5 1 2))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ -2 [1 2 3 4 5]) '(4 5 1 2 3))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 6 [1 2 3 4 5]) '(2 3 4 5 1))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 1 '(:a :b :c)) '(:b :c :a))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ -4 '(:a :b :c)) '(:c :a :b))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p044')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p044" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [dir s]
+    (let [n (mod dir (count s))]
+      (concat (drop n s) (take n s))))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題我一開始是使用條件判斷，比如說剛開始想要得到 =(3 4 5 1 2)= 時，我們就可以
+這樣作
+
+#+BEGIN_SRC clojure
+  (concat (drop 2 [1 2 3 4 5]) (take 2 [1 2 3 4 5]))
+  ;; => (3 4 5 1 2)
+#+END_SRC
+
+或是
+
+#+BEGIN_SRC clojure
+  (concat (drop (+ 5 -2) [1 2 3 4 5]) (take (+ 5 -2) [1 2 3 4 5]))
+  ;; => (4 5 1 2 3)
+#+END_SRC
+
+而如果輸入是正的，則取輸入數值，反之取得 =全部 + 輸入= ，就像這樣：
+
+#+BEGIN_SRC clojure
+  (#(if (> %1 0)
+       (concat (drop %1 %2) (take %1 %2))
+       (concat (drop (+ (count %2) %1) %2) (take (+ (count %2) %1) %2)))
+    -2 [1 2 3 4 5])
+#+END_SRC
+
+我們發現其實都是先進行 =drop= 再進行 =take= ，因此我們只要有一個方式可以簡單取得
+要 drop 或是 take 多少即可，這個時候就可以透過 [[https://clojuredocs.org/clojure.core/mod][mod]] 來計算，也就是這樣
+
+#+BEGIN_SRC clojure
+  (mod 2 5)
+  ;; => 2
+  (mod -2 5)
+  ;; => 3
+#+END_SRC
+
+於是我們的程式就完成了:
+
+#+BEGIN_SRC clojure
+  ((fn [dir s]
+    (let [n (mod dir (count s))]
+      (concat (drop n s) (take n s)))) -2 [1 2 3 4 5])
+  ;; => (4 5 1 2 3)
+#+END_SRC
+
+使用條件判斷的複雜版本則是長成這樣:
+
+#+BEGIN_SRC clojure
+  ((fn [n coll]
+       (let [c (count coll)
+             x (cond
+                 (> n c) (- n c)
+                 (> n 0) n
+                 (< (+ n c) 0) (+ n c c)
+                 (< n 0) (+ c n))]
+         (concat (drop x coll) (take x coll))))
+     -4 '(:a :b :c))
+  ;; => (:c :a :b)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 045: Intro to Iterate
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/45
+
+The iterate function can be used to produce an infinite lazy sequence.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (take 5 (iterate #(+ 3 %) 1)))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p045')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p045" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  '(1 4 7 10 13)
+#+END_SRC
+#+HTML: </blockquote>
+
+這題在介紹 clojure 的 [[https://clojuredocs.org/clojure.core/iterate][iterate]] ，我們先來看看一般用法
+
+#+BEGIN_SRC clojure
+  ;; iterate Ad Infinitum starting at 5 using the inc (increment) function
+  (iterate inc 5)
+  ;; => (5 6 7 8 9 10 11 12 13 14 15 ... n
+
+  ;; limit results
+  (take 5 (iterate inc 5))
+  ;; => (5 6 7 8 9)
+#+END_SRC
+
+也就是說，使用 [[https://clojuredocs.org/clojure.core/iterate][iterate]] 的序列本身會從 0 開始不斷的往上增加，因此此題就會像這樣
+
+#+BEGIN_SRC clojure
+  (take 5 (iterate #(+ 3 %) 1))
+  ;; => (1 4 7 10 13)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 046: Flipping out
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/46
+
+Write a higher-order function which flips the order of the arguments of an input
+function.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= 3 ((__ nth) 2 [1 2 3 4 5]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= true ((__ >) 7 8))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= 4 ((__ quot) 2 8))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= [1 2 3] ((__ take) [1 2 3 4 5] 3))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p046')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p046" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(fn [x y]
+     (% y x))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題....我不會解釋耶 XD 簡單來說就是使用匿名函式搭配匿名函式產生新的函式 (好拗
+口)，於是答案就出來了
+
+#+BEGIN_SRC clojure
+  (((fn [f] (fn [x y] (f y x))) >) 7 8)
+  ;; => true
+#+END_SRC
+
+這題也可以使用 [[https://clojuredocs.org/clojure.core/apply][apply]] 來解決 (不過沒有比較好)
+
+#+BEGIN_SRC clojure
+  (((fn [f] (fn [arg1 arg2 & args] (apply f arg2 arg1 args)))
+    >) 7 8)
+  ;; => true
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 047: Contain Yourself
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/47
+
+The contains? function checks if a KEY is present in a given collection. This
+often leads beginner clojurians to use it incorrectly with numerically indexed
+collections like vectors and lists.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (contains? #{4 5 6} __)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (contains? [1 1 1 1 1] __)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (contains? {4 :a 2 :b} __)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (not (contains? [1 2 4] __))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p047')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p047" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  4
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題目的是搞清楚 [[https://clojuredocs.org/clojure.core/contains_q][contains?]] 的用法，其實這函式就如其名，是用來檢查是否有 =key=
+在提供的 collection 中的，常用的用法是這樣
+
+#+BEGIN_SRC clojure
+  (contains? {:a 1 :b 2} :a)
+  ;; => true
+
+  (contains? {:a 1 :b 2} :c)
+  ;; => false
+#+END_SRC
+
+當然如果你拿來用在 vector 或是 sequence 中，就會出錯，因為只有 =Maps= 的結構具有
+=key= ，陣列之類的則是透過 index 去找尋資料。
+
+#+BEGIN_SRC clojure
+  ;; It's likely to surprise you for other sequences because it's
+  ;; about *indices* or *keys*, not *contents*:
+
+  (contains? [:a :b :c] :b)  ;=> false
+  (contains? [:a :b :c] 2)   ;=> true
+
+  (contains? "f" 0)          ;=> true
+  (contains? "f" 1)          ;=> false
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 048: Intro to some
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/48
+
+The some function takes a predicate function and a collection. It returns the
+first logical true value of (predicate x) where x is an item in the collection.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (some #{2 7 6} [5 6 7 8]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (some #(when (even? %) %) [5 6 7 8]))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p048')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p048" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  6
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題介紹了 [[https://clojuredocs.org/clojure.core/some][some]] 的使用方式，[[https://clojuredocs.org/clojure.core/some][some]] 會去尋找序列中 =第一個= 符合的元素並回傳，因
+此你只會得到第一個被找到的結果
+
+#+BEGIN_SRC clojure
+  ;; 2 is even, so `some` stops there, 3 and 4 are never tested
+  (some even? '(1 2 3 4))
+  ;;=> true
+
+  ;; they are all odd, so not true, i.e. nil
+  (some even? '(1 3 5 7))
+  ;;=> nil
+
+  ;; the first logical true value is returned, i.e. anything but nil and false
+  ;; when return nil if its predicate is logical false.
+  (some #(when (even? %) %) '(1 2 3 4))
+  ;;=> 2
+
+  ;; a hash acts as a function returning nil when the
+  ;; key is not present and the key value otherwise.
+  (some {2 "two" 3 "three"} [nil 3 2])
+  ;;=> "three"
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 049: Split a sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/49
+
+Write a function which will split a sequence into two parts.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ 3 [1 2 3 4 5 6]) [[1 2 3] [4 5 6]])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 1 [:a :b :c :d]) [[:a] [:b :c :d]])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 2 [[1 2] [3 4] [5 6]]) [[[1 2] [3 4]] [[5 6]]])
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- split-at
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p049')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p049" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(vector (take %1 %2) (drop %1 %2))
+#+END_SRC
+#+HTML: </blockquote>
+
+先來複習一下 [[https://clojuredocs.org/clojure.core/split-at][split-at]]
+
+#+BEGIN_SRC clojure
+  (split-at 2 [1 2 3 4 5])
+  ;; => [(1 2) (3 4 5)]
+  (split-at 3 [1 2])
+  ;; => [(1 2) ()]
+#+END_SRC
+
+這題看到題目就讓我想到了可以使用 [[https://clojuredocs.org/clojure.core/take][take]] 和 [[https://clojuredocs.org/clojure.core/drop][drop]] 來解決問題，因此可以這樣解題
+
+#+BEGIN_SRC clojure
+  (#(vector (take %1 %2) (drop %1 %2))
+   3 [1 2 3 4 5 6])
+  ;; => [[1 2 3] [4 5 6]]
+#+END_SRC
+
+除了上面的方法外，我們也可以用 [[https://clojuredocs.org/clojure.core/juxt][juxt]] 來產生更簡單的解法，先看看他的用法
+
+#+BEGIN_SRC clojure
+;; Extract values from a map, treating keywords as functions.
+((juxt :a :b) {:a 1 :b 2 :c 3 :d 4})
+;; => [1 2]
+
+;; "Explode" a value.
+((juxt identity name) :keyword)
+;; => [:keyword "keyword"]
+
+;; Get the first character and length of string
+((juxt first count) "Clojure Rocks")
+;; => [\C 13]
+#+END_SRC
+
+因此此題就可以這樣解:
+
+#+BEGIN_SRC clojure
+  ((juxt take drop) 3 [1 2 3 4 5 6])
+  ;; => [[1 2 3] [4 5 6]]
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 050: Split by Type
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/50
+
+Write a function which takes a sequence consisting of items with different types
+and splits them up into a set of homogeneous sub-sequences. The internal order
+of each sub-sequence should be maintained, but the sub-sequences themselves can
+be returned in any order (this is why 'set' is used in the test cases).
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (set (__ [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (set (__ [:a "foo"  "bar" :b])) #{[:a :b] ["foo" "bar"]})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (set (__ [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]})
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p050')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p050" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(vals (group-by type %))
+#+END_SRC
+#+HTML: </blockquote>
+
+根據此題的要求，我們首先要會使用 [[https://clojuredocs.org/clojure.core/type][type]] 去知道不同的型別
+
+#+BEGIN_SRC clojure
+  (type 10)
+  ;; => java.lang.Long
+  (type 10.0)
+  ;; => java.lang.Double
+  (type [10 20])
+  ;; = > clojure.lang.PersistentVector
+#+END_SRC
+
+那麼要怎樣分組呢？我們可以使用 [[https://clojuredocs.org/clojure.core/group-by][group-by]] 來達到這件事情
+
+#+BEGIN_SRC clojure
+  ;; group strings by their length
+  (group-by count ["a" "as" "asd" "aa" "asdf" "qwer"])
+  ;;=> {1 ["a"], 2 ["as" "aa"], 3 ["asd"], 4 ["asdf" "qwer"]}
+
+  ;; group integers by a predicate
+  (group-by odd? (range 10))
+  ;;=> {false [0 2 4 6 8], true [1 3 5 7 9]}
+#+END_SRC
+
+但是因為我們使用 [[https://clojuredocs.org/clojure.core/type][type]] 得到的是目標的型別，因此要使用 [[https://clojuredocs.org/clojure.core/vals][vals]] 將型別還原成數值
+
+#+BEGIN_SRC clojure
+  (group-by type  [1 :a 2 :b 3 :c])
+  ;; => {java.lang.Long [1 2 3], clojure.lang.Keyword [:a :b :c]}
+  (vals (group-by type  [1 :a 2 :b 3 :c]))
+  ;; => ([1 2 3] [:a :b :c])
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 051: Advanced Destructuring
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/51
+
+Here is an example of some more sophisticated destructuring.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= [1 2 [3 4 5] [1 2 3 4 5]] (let [[a b & c :as d] __] [a b c d]))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p051')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p051" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  [1 2 3 4 5]
+#+END_SRC
+#+HTML: </blockquote>
+
+重新複習一下 [[https://clojuredocs.org/clojure.core/let][let]] 的使用方式
+
+#+BEGIN_SRC clojure
+(let [a 1 b 2] 
+         (+ a b))
+;; => 3
+
+(let [a (take 5 (range))
+             {:keys [b c d] :or {d 10 b 20 c 30}} {:c 50 :d 100}
+             [e f g & h] ["a" "b" "c" "d" "e"]
+             _ (println "I was here!")
+             foo 12
+             bar (+ foo 100)]
+         [a b c d e f g h foo bar])
+;; => I was here!
+;; -> [(0 1 2 3 4) 20 50 100 "a" "b" "c" ("d" "e") 12 112]
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 052: Intro to Destructuring
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/52
+
+Let bindings and function parameter lists support destructuring.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= [2 4] (let [[a b c d e] [0 1 2 3 4]] __))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p052')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p052" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  [c e]
+#+END_SRC
+#+HTML: </blockquote>
+
+[[http://clojure.org/special_forms#Special%2520Forms--Binding%2520Forms%2520%2528Destructuring%2529-Map%2520binding%2520destructuring][destructing]] 是 clojure 下一個非常好用的功能，他可以讓你輸入的陣列直接被指派給變數，如下:
+
+#+BEGIN_SRC clojure
+  (defn get-points [[x y]]
+    (format "(x, y) = (%d, %d)" x y ))
+
+  (get-points [1 2])
+  ;; => "(x, y) = (1, 2)"
+#+END_SRC
+
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 053: Longest Increasing Sub-Seq
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/53
+
+Given a vector of integers, find the longest consecutive sub-sequence of
+increasing numbers. If two sub-sequences have the same length, use the one that
+occurs first. An increasing sub-sequence must have a length of 2 or greater to
+qualify.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ [1 0 1 2 3 0 4 5]) [0 1 2 3])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [5 6 1 3 2 7]) [5 6])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [2 3 3 4 5]) [3 4 5])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [7 6 5 4]) [])
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p053')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p053" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [coll]
+    (->>
+     (range 2 (inc (count coll)))
+     (mapcat #(partition % 1 coll))
+     (filter #(apply < %))
+     (cons [])
+     (sort-by count >)
+     first))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題....有點難 Orz.. 不愧是 hard 等級的題目。
+
+題目要找的是 =連續= 的序列 (sequence)，因此我們先想辦法生出所有可能的序列 (sequence)
+
+#+BEGIN_SRC clojure
+  (let [coll [5 6 1 3 2 7]]
+     (mapcat #(partition % 1 coll)
+             (range 2 (inc (count coll)))))
+  ;; => ((5 6) (6 1) (1 3) (3 2) (2 7) (5 6 1) (6 1 3) (1 3 2) (3 2 7) (5 6 1 3) (6 1 3 2) (1 3 2 7) (5 6 1 3 2) (6 1 3 2 7) (5 6 1 3 2 7))
+#+END_SRC
+
+接下來，我們要過濾出開頭數值比較小的組合
+
+#+BEGIN_SRC clojure
+  (filter #(apply < %)
+          '((5 6) (6 1) (1 3) (3 2) (2 7) (5 6 1) (6 1 3) (1 3 2) (3 2 7) (5 6 1 3) (6 1 3 2) (1 3 2 7) (5 6 1 3 2) (6 1 3 2 7) (5 6 1 3 2 7)))
+  ;; => ((5 6) (1 3) (2 7))
+#+END_SRC
+
+接著對前面的結果進行排序，為了避免產生的結果為空的鍊表，我們使用 [[https://clojuredocs.org/clojure.core/cons][cons]] 送一個空陣
+列進去，最後在使用 [[https://clojuredocs.org/clojure.core/first][first]] 取出第一個結果就是我們的答案了
+
+#+BEGIN_SRC clojure
+(sort-by count >
+          (cons []
+                (filter #(apply < %)
+                        '((5 6) (1 3) (2 7)))))
+;; => ((5 6) (1 3) (2 7) [])
+#+END_SRC
+
+可以來比較一下為什麼需要用到 [[https://clojuredocs.org/clojure.core/cons][cons]]
+
+#+BEGIN_SRC clojure
+(sort-by count >
+          (cons []
+                (filter #(apply < %)
+                        '())))
+;; => ([])
+
+(sort-by count >
+          (filter #(apply < %)
+                  '()))
+;; => ()
+#+END_SRC
+
+因此這題就是這樣解:
+
+#+BEGIN_SRC clojure
+((fn [coll]
+    (first
+     (sort-by count >
+              (cons []
+                    (filter #(apply < %)
+                            (mapcat #(partition % 1 coll)
+                                    (range 2 (inc (count coll)))))))))
+  [5 6 1 3 2 7])
+  ;; => [5 6]
+#+END_SRC
+
+但是這樣實在太醜了，於是使用 [[https://clojuredocs.org/clojure.core/-%253E%253E][->>]] 來簡化程式，就變成了這樣
+
+#+BEGIN_SRC clojure
+  ((fn [coll]
+     (->>
+      (range 2 (inc (count coll)))
+      (mapcat #(partition % 1 coll))
+      (filter #(apply < %))
+      (cons [])
+      (sort-by count >)
+      first))
+   [5 6 1 3 2 7])
+  ;; => [5 6]
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 054: Partition a Sequence
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/54
+
+Write a function which returns a sequence of lists of x items each. Lists of
+less than x items should not be returned.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ 3 (range 9)) '((0 1 2) (3 4 5) (6 7 8)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 2 (range 8)) '((0 1) (2 3) (4 5) (6 7)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 3 (range 8)) '((0 1 2) (3 4 5)))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- partition
+- partition-all
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p054')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p054" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn partition* [n v]
+    (if (>= (count v) n)
+      (cons (take n v) (partition* n (drop n v)))))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題要實作 [[http://clojuredocs.org/clojure.core/partition][partition]] 的功能，而 partition 和一系列的 [[http://clojuredocs.org/clojure.core/take][take]] 與 [[http://clojuredocs.org/clojure.core/drop][drop]] 的組合蠻像的，
+因此我們就可以這樣解決他
+
+#+BEGIN_SRC clojure
+  ((fn partition* [n v]
+    (if (>= (count v) n)
+      (cons (take n v) (partition* n (drop n v)))))
+   3 (range 9))
+  ;; => ((0 1 2) (3 4 5) (6 7 8))
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 055: Count Occurrences
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/55
+
+Write a function which returns a map containing the number of occurences of each
+distinct item in a sequence.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ [1 1 2 3 2 1 1]) {1 4, 2 2, 3 1})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [:b :a :b :a :b]) {:a 2, :b 3})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '([1 2] [1 3] [1 3])) {[1 2] 1, [1 3] 2})
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- frequencies
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p055')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p055" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [x]
+    (->> x
+         (sort)
+         (partition-by identity)
+         (map #(hash-map (first %) (count %)))
+         (into {})))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題要實作 [[http://clojuredocs.org/clojure.core/frequencies][frequencies]] 的功能，我們先來複習一下
+
+#+BEGIN_SRC clojure
+  (frequencies ['a 'b 'a 'a])
+  ;; => {a 3, b 1}
+#+END_SRC
+
+因此我們首要任務事先將序列 (sequence) 排序，接著使用 [[http://clojuredocs.org/clojure.core/partition-by][partition-by]] 將其根據數值進
+行切割，最後提出我們要的數據即可。
+
+#+BEGIN_SRC clojure
+  (->> [1 1 2 3 2 1 1]
+       (sort)                   ; => (1 1 1 1 2 2 3)
+       (partition-by identity)  ; => ((1 1 1 1) (2 2) (3))
+       (map #(hash-map (first %) (count %))) ; => ({1 4} {2 2} {3 1})
+       (into {}))
+  ;; => {1 4, 2 2, 3 1}
+#+END_SRC
+
+
+http://clojuredocs.org/clojure.core/partition-by
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 056: Find Distinct Items
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/56
+
+Write a function which removes the duplicates from a sequence. Order of the
+items must be maintained.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 1 3 1 2 4]) [1 2 3 4])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [:a :a :b :b :c :c]) [:a :b :c])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '([2 4] [1 2] [1 3] [1 3])) '([2 4] [1 2] [1 3]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ (range 50)) (range 50))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- distinct
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p056')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p056" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題我們可以透過 [[http://clojuredocs.org/clojure.core/set][set]] 的功能去移除重複的元素
+
+#+BEGIN_SRC clojure
+  (set [1 2 3])
+  ;; => #{1 3 2}
+  ((set [1 2 3]) 1)
+  ;; => true
+  ((set [1 2 3]) 4)
+  ;; => false
+#+END_SRC
+
+接著只要搭配判斷式以及 [[http://clojuredocs.org/clojure.core/reduce][reduce]] ，問題就解決了
+
+#+BEGIN_SRC clojure
+  (reduce #(if ((set %1) %2) %1 (conj %1 %2))
+          [] [1 2 1 3 1 2 4])
+  ;; => [1 2 3 4]
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 057: Simple Recursion
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/57
+
+A recursive function is a function which calls itself. This is one of the
+fundamental techniques used in functional programming.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p057')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p057" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  [5 4 3 2 1]
+#+END_SRC
+#+HTML: </blockquote>
+
+這題目的是要看懂遞迴函式，我也不知道怎樣解釋 XD
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 058: Function Composition
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/58
+
+Write a function which allows you to create function compositions. The parameter
+list should take a variable number of functions, and create a function that
+applies them from right-to-left.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= [3 2 1] ((__ rest reverse) [1 2 3 4]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= 5 ((__ (partial + 3) second) [1 2 3 4]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= true ((__ zero? #(mod % 8) +) 3 5 7 9))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= "HELLO" ((__ #(.toUpperCase %) #(apply str %) take) 5 "hello world"))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- comp
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p058')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p058" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [& f]
+    (fn [& coll]
+      (first
+       (reduce #(vector (apply %2 %1)) coll (reverse f)))))
+#+END_SRC
+#+HTML: </blockquote>
+
+此題在實作 [[https://clojuredocs.org/clojure.core/comp][comp]] 的功能，讓我們來複習一下
+#+BEGIN_SRC clojure
+  ((comp str +) 8 8 8)
+  ;; => "24"
+  (filter (comp not zero?) [0 1 0 2 0 3 0 4])
+  ;; => (1 2 3 4)
+#+END_SRC
+
+假設參數是固定的話，我們就可以這樣解:
+
+#+BEGIN_SRC clojure
+  (((fn [f1 f2]
+      (fn [coll]
+        (f1
+         (f2 coll))))
+    rest reverse) [1 2 3 4])
+  ;; => (3 2 1)
+#+END_SRC
+
+但是因為題目的參數不固定，因此就得換個寫法來解決:
+
+#+BEGIN_SRC clojure
+  (((fn [& funcs]
+      (fn [& args]
+        (first
+         (reduce #(vector (apply %2 %1)) args (reverse funcs )))))
+    rest reverse)
+   [1 2 3 4])
+  ;; => (3 2 1)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 059: Juxtaposition
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/59
+
+
+Take a set of functions and return a new function that takes a variable number
+of arguments and returns a sequence containing the result of applying each
+function left-to-right to the argument list.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= [21 6 1] ((__ + max min) 2 3 5 1 6 4))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= ["HELLO" 5] ((__ #(.toUpperCase %) count) "hello"))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= [2 6 4]
+     ((__ :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10}))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- juxt
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p059')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p059" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [& op]
+    (fn [& sep]
+      (map
+       #(apply % sep) op)))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題要我們實作 [[https://clojuredocs.org/clojure.core/juxt][juxt]] 的功能，我們先來複習一下:
+
+#+BEGIN_SRC clojure
+  ;; Extract values from a map, treating keywords as functions.
+  ((juxt :a :b) {:a 1 :b 2 :c 3 :d 4})
+  ;; => [1 2]
+
+  ;; "Explode" a value.
+  ((juxt identity name) :keyword)
+  ;; => [:keyword "keyword"]
+
+  ;; Get the first character and length of string
+  ((juxt first count) "Clojure Rocks")
+  ;; => [\C 13]
+#+END_SRC
+
+為了可以解決這個問題，我們可以假設只處理一個 運算元 (operator) 的情況要怎樣處理:
+
+#+BEGIN_SRC clojure
+  (((fn [op]
+      (fn [& sep]
+        (apply op sep)))
+    +) 1 2 3 4 5)
+  ;; => 15
+#+END_SRC
+
+接著將他變成一次處理三個運算元 (operator)
+
+#+BEGIN_SRC clojure
+  (((fn [op1 op2 op3]
+      (fn [& sep]
+        (vector
+         (apply op1 sep)
+         (apply op2 sep)
+         (apply op3 sep))))
+    + min max) 2 3 5 1 6 4)
+  ;; => [21 6 1]
+#+END_SRC
+
+將程式整理乾淨，答案就出來囉 ~
+
+#+BEGIN_SRC clojure
+  (((fn [& op]
+      (fn [& sep]
+        (map
+         #(apply % sep) op)))
+    + min max) 1 2 3 4 5)
+  ;; => (15 1 5)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 060: Sequence Reductions
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/60
+
+Write a function which behaves like reduce, but returns each intermediate value
+of the reduction. Your function must accept either two or three arguments, and
+the return sequence must be lazy.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (take 5 (__ + (range))) [0 1 3 6 10])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (last (__ * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120)
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- reductions
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p060')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p060" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn reduction*
+    ([f [p1 & ps]] (reduction* f p1 ps))
+    ([f p1 [p2 & ps]]
+     (cons p1
+           (when p2
+             (lazy-seq (reduction* f (f p1 p2) ps))))))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題要我們實作 [[http://clojuredocs.org/clojure.core/reductions][reductions]] ，讓我們來複習一下他的功能
+
+#+BEGIN_SRC clojure
+  (reductions + [1 1 1 1])
+  ;; => (1 2 3 4)
+  (reductions + [1 2 3])
+  ;; => (1 3 6)
+  (reductions conj [] '(1 2 3))
+  ;; => ([] [1] [1 2] [1 2 3])
+#+END_SRC
+
+老實說這題我真的不會解釋，最後使用 [[http://clojuredocs.org/clojure.core/lazy-seq][lazy-seq]] 處理掉這一題 (心虛)
+
+#+BEGIN_SRC clojure
+  ((fn reduction*
+    ([f [p1 & ps]] (reduction* f p1 ps))
+    ([f p1 [p2 & ps]]
+     (cons p1
+           (when p2
+             (lazy-seq (reduction* f (f p1 p2) ps))))))
+   ,* 2 [3 4 5])
+  ;; => (2 6 24 120)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 061: Map Construction
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/61
+
+Write a function which takes a vector of keys and a vector of values and
+constructs a map from them.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (__ [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 2 3 4] ["one" "two" "three"])
+     {1 "one", 2 "two", 3 "three"})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [:foo :bar] ["foo" "bar" "baz"]) 
+     {:foo "foo", :bar "bar"})
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- zipmap
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p061')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p061" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(apply merge (map hash-map %1 %2))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題想要做到 [[https://clojuredocs.org/clojure.core/zipmap][zipmap]] 的功能，照慣例再來複習一下
+
+#+BEGIN_SRC clojure
+  (zipmap [:a :b :c :d :e] [1 2 3 4 5])
+  ;; => {:e 5, :d 4, :c 3, :b 2, :a 1}
+#+END_SRC
+
+看到序列 (sequence) 就要想到 [[https://clojuredocs.org/clojure.core/map][map]] 與 [[https://clojuredocs.org/clojure.core/reduce][reduce]] ，因此我們先使用 map 將各自合併為 [[https://clojuredocs.org/clojure.core/hash-map][hash-map]]
+
+#+BEGIN_SRC clojure
+  (map hash-map  [:a :b :c] [1 2 3])
+  ;; => ({:a 1} {:b 2} {:c 3})
+#+END_SRC
+
+接下來再使用 [[https://clojuredocs.org/clojure.core/merge][merge]] 的功能將各各 [[https://clojuredocs.org/clojure.core/hash-map][hash-map]] 合併成一個就大功告成了
+
+#+BEGIN_SRC clojure
+  (apply merge
+         (map hash-map  [:a :b :c] [1 2 3]))
+  ;; => {:c 3, :b 2, :a 1}
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 062: Re-implement Iterate
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/62
+
+Given a side-effect free function f and an initial value x write a function
+which returns an infinite lazy sequence of x, (f x), (f (f x)), (f (f (f x))),
+etc.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= (take 5 (__ #(* 2 %) 1)) [1 2 4 8 16])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (take 100 (__ inc 0)) (take 100 (range)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (take 9 (__ #(inc (mod % 3)) 1)) (take 9 (cycle [1 2 3])))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- iterate
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p062')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p062" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn it [f n]
+    (lazy-cat [n (f n)]
+              (map f (rest (it f n)))))
+#+END_SRC
+#+HTML: </blockquote>
+
+看到了這一題就讓我想到 [[*034: Implement range][034: Implement range]] 這題，這個時候我們使用了 [[https://clojuredocs.org/clojure.core/lazy-cat][lazy-cat]] 實
+作一個和 [[https://clojuredocs.org/clojure.core/range][range]] 具有相同功能的函式，我們再來實作一次
+
+#+BEGIN_SRC clojure
+  (def range*
+    (lazy-cat [0 1]
+              (map inc (rest range*))))
+
+  (take 5 range*)
+  ;; => (0 1 2 3 4)
+#+END_SRC
+
+接著，因為我們遞增的條件不再是 [[https://clojuredocs.org/clojure.core/inc][inc]] 而是根據輸入的函式 (function) 來決定遞增的方
+法，因此讓我們把這式子先改成函式 (function) 的版本
+
+#+BEGIN_SRC clojure
+  (defn range* [n]
+    (lazy-cat [n (inc n)]
+              (map inc (rest (range* n)))))
+
+  (take 5 (range* 0))
+  ;; => (0 1 2 3 4)
+#+END_SRC
+
+接著加入函式 (function) 作為參數就完成了
+
+#+BEGIN_SRC clojure
+  (defn it [f n]
+    (lazy-cat [n (f n)]
+              (map f (rest (b f n)))))
+
+  (take 3 (it inc 0))
+  ;; => (0 1 2)
+#+END_SRC
+
+於是最後的結果就長這樣
+
+#+BEGIN_SRC clojure
+  (take 5
+        ((fn [f n]
+           (lazy-cat [n (f n)]
+                     (map f (rest (b f n)))))
+         inc 0))
+  ;; => (0 1 2 3 4)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+
+* 065: Black Box Testing
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/65
+
+Clojure has many sequence types, which act in subtly different ways. The core
+functions typically convert them into a uniform "sequence" type and work with
+them that way, but it can be important to understand the behavioral and
+performance differences so that you know which kind is appropriate for your
+application.
+
+Write a function which takes a collection and returns one of :map, :set, :list,
+or :vector - describing the type of collection it was given. You won't be
+allowed to inspect their class or use the built-in predicates like list? - the
+point is to poke at them and understand their behavior.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+  (= :map (__ {:a 1, :b 2}))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= :list (__ (range (rand-int 20))))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= :vector (__ [1 2 3 4 5 6]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= :set (__ #{10 (rand-int 5)}))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= [:map :set :vector :list] (map __ [{} #{} [] ()]))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- class
+- type
+- Class
+- vector?
+- sequential?
+- list?
+- seq?
+- map?
+- set?
+- instance?
+- getClass
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p065')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p065" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(cond
+      (= (into [] %) %) (if (reversible? %) :vector :list)
+      (= (into #{} %) %) :set
+      (= (into {} %) %) :map)
+#+END_SRC
+#+HTML: </blockquote>
+
+這題真的很誇張，禁止了這麼多東西 XD
+
+在 clojure 中，vector 和 list 很像，但是 vector 有實作 [[https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/Reversible.java][Reversible]] 的接口，
+以使用 [[https://clojuredocs.org/clojure.core/reversible_q][reversible?]] 去找出到底是 list 還是 vector。
+
+#+BEGIN_SRC clojure
+  (reversible? [])
+  ;; => true
+  (reversible? (sorted-map))
+  ;; => true
+  (reversible? (sorted-set))
+  ;; => true
+  (reversible? '())
+  ;; => false
+  (reversible? {})
+  ;; => false
+  (reversible? #{})
+  ;; => false
+#+END_SRC
+
+因此整個程式這樣解就好
+
+#+BEGIN_SRC clojure
+  (#(cond
+      (= (into [] %) %) (if (reversible? %) :vector :list)
+      (= (into #{} %) %) :set
+      (= (into {} %) %) :map)
+   '(1 2))
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 068: Recurring Theme
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/68
+
+Clojure only has one non-stack-consuming looping construct: recur. Either a
+function or a loop can be used as the recursion point. Either way, recur rebinds
+the bindings of the recursion point to the values it is passed. Recur must be
+called from the tail-position, and calling it elsewhere will result in an error.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __
+     (loop [x 5
+            result []]
+       (if (> x 0)
+         (recur (dec x) (conj result (+ 2 x)))
+         result)))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p068')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p068" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  [7 6 5 4 3]
+#+END_SRC
+#+HTML: </blockquote>
+
+這題主要在講 clojure 的 [[http://clojuredocs.org/clojure.core/loop][loop]] 以及 [[http://clojuredocs.org/clojure.core/recur][recur]] 的使用，讓我們來複習一下
+
+#+BEGIN_SRC clojure
+  (loop [x 10]
+    (when (> x 1)
+      (println x)
+      (recur (- x 2))))
+  ;;=> 10 8 6 4 2
+
+  (loop [iter 1
+         acc  0]
+    (if (> iter 10)
+      (println acc)
+      (recur (inc iter) (+ acc iter))))
+
+  ;; => 55
+  ;; sum from 1 to 10
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 070: Word Sorting
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/70
+
+Write a function that splits a sentence up into a sorted list of words.
+Capitalization should not affect sort order and punctuation should be ignored.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__  "Have a nice day.")
+     ["a" "day" "Have" "nice"])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__  "Clojure is a fun language!")
+     ["a" "Clojure" "fun" "is" "language"])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__  "Fools fall for foolish follies.")
+     ["fall" "follies" "foolish" "Fools" "for"])
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p070')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p070" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(sort-by (fn [w] (clojure.string/lower-case w))
+            (re-seq #"\w+" %))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題很明顯就是 [[https://clojuredocs.org/clojure.core/sort-by][sort-by]] 的應用，我們首先先使用 [[https://clojuredocs.org/clojure.core/re-seq][re-seq]] 去將文字 (word) 切割出來
+
+#+BEGIN_SRC clojure
+  (re-seq #"\w+" "Have a nice day!!!")
+  ;; => ("Have" "a" "nice" "day")
+#+END_SRC
+
+接下來就可以使用 [[https://clojuredocs.org/clojure.core/sort-by][sort-by]] 進行排序
+
+#+BEGIN_SRC clojure
+  (#(sort-by (fn [w] (clojure.string/lower-case w))
+             (re-seq #"\w+" %))
+   "Fools fall for foolish follies.")
+  ;; => ("fall" "follies" "foolish" "Fools" "for")
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 071: Rearranging Code: ->
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/71
+
+The -> macro threads an expression x through a variable number of forms. First,
+x is inserted as the second item in the first form, making a list of it if it is
+not a list already. Then the first form is inserted as the second item in the
+second form, making a list of that form if necessary. This process continues for
+all the forms. Using -> can sometimes make your code more readable.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ (sort (rest (reverse [2 5 4 1 3 6]))))
+   (-> [2 5 4 1 3 6] (reverse) (rest) (sort) (__))
+   5)
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p071')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p071" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  last
+#+END_SRC
+#+HTML: </blockquote>
+
+clojure 的 [[http://clojuredocs.org/clojure.core/-%253E][->]] 可以讓整個語法變得更簡潔，我們先來複習一下
+
+#+BEGIN_SRC clojure
+  ;; Use of `->` (the "thread-first" macro) can help make code
+  ;; more readable by removing nesting. It can be especially
+  ;; useful when using host methods:
+
+  ;; Arguably a bit cumbersome to read:
+  (first (.split (.replace (.toUpperCase "a b c d") "A" "X") " "))
+  ;; => "X"
+
+  ;; Perhaps easier to read:
+  (-> "a b c d"
+      .toUpperCase
+      (.replace "A" "X")
+      (.split " ")
+      first)
+  ;; => "X"
+#+END_SRC
+
+而這題告訴我們最終答案會是 =5= ，因此我們就可以找出 =__= 的部分要填入什麼樣的答案
+
+#+BEGIN_SRC clojure
+  (-> [2 5 4 1 3 6]
+      (reverse)    ; => (6 3 1 4 5 2)
+      (rest)       ; => (3 1 4 5 2)
+      (sort)       ; => (1 2 3 4 5)
+      (last)       ; => 5
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 072: Rearranging Code: ->>
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/72
+
+The ->> macro threads an expression x through a variable number of forms. First,
+x is inserted as the last item in the first form, making a list of it if it is
+not a list already. Then the first form is inserted as the last item in the
+second form, making a list of that form if necessary. This process continues for
+all the forms. Using ->> can sometimes make your code more readable.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ (map inc (take 3 (drop 2 [2 5 4 1 3 6]))))
+     (->> [2 5 4 1 3 6] (drop 2) (take 3) (map inc) (__))
+     11)
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p072')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p072" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  reduce +
+#+END_SRC
+#+HTML: </blockquote>
+
+clojure 的 [[http://clojuredocs.org/clojure.core/-%253E%253E][->>]] 可以讓整個語法變得更簡潔，我們先來複習一下
+
+#+BEGIN_SRC clojure
+  ;; An example of using the "thread-last" macro to get
+  ;; the sum of the first 10 even squares.
+  (->> (range)
+       (map #(* % %))
+       (filter even?)
+       (take 10)
+       (reduce +))
+  ;; => 1140
+
+  ;; This expands to:
+  (reduce +
+          (take 10
+                (filter even?
+                        (map #(* % %)
+                             (range)))))
+  ;; => 1140
+#+END_SRC
+
+而這題告訴我們最終答案會是 =11= ，因此我們就可以找出 =__= 的部分要填入什麼樣的答案
+
+#+BEGIN_SRC clojure
+  (->> [2 5 4 1 3 6]
+       (drop 2)     ; => [4 1 3 6]
+       (take 3)     ; => [4 1 3]
+       (map inc)    ; => [5 2 4]
+       (reduce +))  ; => 11
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+* 083: A Half-Truth
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/83
+
+Write a function which takes a variable number of booleans. Your function should
+return true if some of the parameters are true, but not all of the parameters
+are true. Otherwise your function should return false.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-6 ">
+#+BEGIN_SRC clojure
+  (= false (__ false false))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= true (__ true false))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= false (__ true))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-6">
+
+#+BEGIN_SRC clojure
+  (= true (__ false true false))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= false (__ true true true))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= true (__ true true true false))
+#+END_SRC
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p083')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p083" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [& coll]
+     (if (and
+          (some true? coll)
+          (some false? coll))
+       true false))
+#+END_SRC
+#+HTML: </blockquote>
+
+從題目來看，此題要求寫出一個函式 (function) 並判斷參數中是否至少有一個 =true= 以
+及 =false= ，因此我們可以使用 [[https://clojuredocs.org/clojure.core/some][some]] 來解決這一個題目
+
+#+BEGIN_SRC clojure
+  ((fn [& coll]
+     (and
+          (some true? coll)
+          (some false? coll)))
+    false true)
+  ;; => true
+#+END_SRC
+
+但是這樣的解法有一個問題就是，如果傳送的序列 (sequence) 缺少了 =true= 或 =false=
+，則我們會得到 =nil= 的結果
+
+#+BEGIN_SRC clojure
+  ((fn [& coll]
+     (and
+          (some true? coll)
+          (some false? coll)))
+    false false)
+  ;; => nil
+#+END_SRC
+
+為了解決這個問題，我們使用 [[https://clojuredocs.org/clojure.core/if][if]] ， 在 clojure 中 =false= 和 =nil= 都是邏輯上的
+=false= ，因此我們就可以這樣解決此題
+
+#+BEGIN_SRC clojure
+  ((fn [& coll]
+     (if (and
+          (some true? coll)
+          (some false? coll))
+       true false))
+
+   false false)
+  ;; => false
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 088: Symmetric Difference
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/88
+
+Write a function which returns the symmetric difference of two sets. The
+symmetric difference is the set of items belonging to one but not both of the
+two sets.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ #{1 2 3 4 5 6} #{1 3 5 7}) #{2 4 6 7})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ #{:a :b :c} #{}) #{:a :b :c})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ #{} #{4 5 6}) #{4 5 6})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ #{[1 2] [2 3]} #{[2 3] [3 4]}) #{[1 2] [3 4]})
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p088')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p088" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(clojure.set/union
+    (clojure.set/difference %1 %2)
+    (clojure.set/difference %2 %1))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題可以用數學的觀念來解決，clojure 提供了 [[https://clojuredocs.org/clojure.set/difference][clojure.set/difference]] 來找出第二個
+參數和第一個參數不同的地方:
+
+#+BEGIN_SRC clojure
+  (#(clojure.set/difference %1 %2)
+   #{1 2 3 4 5 6} #{1 3 5 7})
+  ;; =>  #{4 6 2}
+
+  (#(clojure.set/difference %2 %1)
+   #{1 2 3 4 5 6} #{1 3 5 7})
+  ;; => #{7}
+#+END_SRC
+
+因此我們只要對這兩種結果使用 [[https://clojuredocs.org/clojure.set/union][clojure.set/union]] 進行聯集即可
+
+#+BEGIN_SRC clojure
+  (#(clojure.set/union
+     (clojure.set/difference %1 %2)
+     (clojure.set/difference %2 %1))
+   #{1 2 3 4 5 6} #{1 3 5 7})
+  ;; => #{7 4 6 2}
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* ☛ TODO 090: Cartesian Product                                    :noexport:
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/90
+
+Write a function which calculates the [[http://en.wikipedia.org/wiki/Cartesian_product][Cartesian product]] of two sets.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ #{"ace" "king" "queen"} #{"♠" "♥" "♦" "♣"})
+     #{["ace"   "♠"] ["ace"   "♥"] ["ace"   "♦"] ["ace"   "♣"]
+       ["king"  "♠"] ["king"  "♥"] ["king"  "♦"] ["king"  "♣"]
+       ["queen" "♠"] ["queen" "♥"] ["queen" "♦"] ["queen" "♣"]})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ #{1 2 3} #{4 5})
+     #{[1 4] [2 4] [3 4] [1 5] [2 5] [3 5]})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= 300 (count (__ (into #{} (range 10))
+                  (into #{} (range 30)))))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p090')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p090" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+"ANSWER"
+#+END_SRC
+#+HTML: </blockquote>
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 099: Product Digits
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/99
+
+Write a function which multiplies two numbers and returns the result as a
+sequence of its digits.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ 1 1) [1])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 99 9) [8 9 1])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ 999 99) [9 8 9 0 1])
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p099')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p099" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [a b]
+    (map #(Integer/parseInt (str %))  (str (* a b))))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題用比較 tricky 的解法，我們先使用 [[https://clojuredocs.org/clojure.core/map][map]] 將字串切成字串序列 (sequence)，接下來透
+過 [[http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#parseInt%2528java.lang.String%2529][Integer/parseInt]] 將每個字串轉換成數值
+
+#+BEGIN_SRC clojure
+  (map str "891")
+  ;; => ("8" "9" "1")
+
+  ((fn [a b]
+    (map #(Integer/parseInt (str %))  (str (* a b))))
+   99 9)
+  ;; => (8 9 1)
+#+END_SRC
+
+如果你不想使用 [[http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#parseInt%2528java.lang.String%2529][Integer/parseInt]] 來解決這問題，你也可以這樣作
+
+#+BEGIN_SRC clojure
+  ((fn [x y]
+     (map  #(- (int %) (int \0))
+           (-> (* x y)   ;; => 891
+               (str)     ;; => "891"
+               (seq))    ;; => (\8 \9 \1)
+           ))
+   99 9)
+  ;; => (8 9 1)
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+
+* 095: To Tree, or not to Tree
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/95
+
+Write a predicate which checks whether or not a given sequence represents a
+[[http://en.wikipedia.org/wiki/Binary_tree][binary tree]]. Each node in the tree must have a value, a left child, and a right
+child.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ '(:a (:b nil nil) nil))
+   true)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '(:a (:b nil nil)))
+   false)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 nil [2 [3 nil nil] [4 nil nil]]])
+   true)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 [2 nil nil] [3 nil nil] [4 nil nil]])
+   false)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 [2 [3 [4 nil nil] nil] nil] nil])
+   true)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [1 [2 [3 [4 false nil] nil] nil] nil])
+   false)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ '(:a nil ()))
+   false)
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p095')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p095" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+(fn btree? [root]
+  (or (nil? root)
+      (and (sequential? root)
+           (= 3 (count root))
+           (every? btree? (rest root)))))
+#+END_SRC
+#+HTML: </blockquote>
+
+題目要我們找出題目提供的序列(sequence)是否為[[http://www.csie.ntnu.edu.tw/~u91029/BinaryTree.html][二元樹(binary tree)]]。
+
+以題目內的其中一項為例:
+
+#+BEGIN_SRC clojure
+  [1 [2 [3 [4 nil nil] nil] nil] nil]
+#+END_SRC
+
+他是二元樹，其樹則長成這樣:
+
+#+HEADER: :imagemagick yes :iminoptions -density 300 -resize 300
+#+HEADER: :packages '(("" "tikz"))  :border 1pt
+#+HEADER: :cache yes
+#+BEGIN_SRC latex :results raw :file 4Clojure-練習/p096.png
+  \usetikzlibrary{decorations, decorations.text,backgrounds}
+  \begin{tikzpicture}[background rectangle/.style={fill=white}, show background rectangle]
+    \node [circle,draw]{1}  [level distance=10mm,sibling distance=25mm]
+    child {
+      node [circle,draw]{2} [level distance=10mm ,sibling distance=15mm]
+      child {
+        node [circle,draw]{3} [level distance=10mm ,sibling distance=15mm]
+        child { node [circle,draw]{4} [level distance=10mm ,sibling distance=15mm]
+          child {node [circle,draw] {nil}}
+          child {node [circle,draw] {nil}}
+        }
+        child {node [circle,draw] {nil}}
+      }
+      child {node [circle,draw] {nil}}
+    }
+    child {node [circle,draw] {nil}}
+  \end{tikzpicture}
+#+END_SRC
+
+#+RESULTS[6b01b6c2af6e7165bc915f3f1006f8f41241cf86]:
+[[file:4Clojure-練習/p096.png]]
+
+也因此，除了透過 [[https://clojuredocs.org/clojure.core/sequential_q][sequencial?]] 去判斷目標是否為序列(sequence) 外，我們也需要去檢測目標是否滿足題目的條件:
+
+1. Full binary tree: 此二元樹 *必定* 有左右節點
+2. 承上，也因此每個節點共有三個元數
+
+透過這樣的概念，我們就可以用遞回的方式不斷查找這棵樹的內容
+
+#+BEGIN_SRC clojure
+  ((fn btree? [root]
+     (or (nil? root)
+         (and (sequential? root)
+              (= 3 (count root))
+              (every? btree? (rest root)))))
+
+   [1 [2 [3 [4 nil nil] nil] nil] nil])
+  ;; => true
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 102: intoCamelCase
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/102
+
+When working with java, you often need to create an object with fieldsLikeThis,
+but you'd rather work with a hashmap that has :keys-like-this until it's time to
+convert. Write a function which takes lower-case hyphen-separated strings and
+converts them to camel-case strings.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ "something") "something")
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ "multi-word-key") "multiWordKey")
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ "leaveMeAlone") "leaveMeAlone")
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p102')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p102" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(let [[x & xs] (clojure.string/split % #"-")]
+    (->> (cons x (map clojure.string/capitalize xs))
+         (apply str)))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題我最初的想法是使用 [[http://clojuredocs.org/clojure.string/split][split]] 將字串依據 =-= 來進行切割，並將切割出來的序列
+(sequence) 除了第一項以外其他都使用 [[http://clojuredocs.org/clojure.string/capitalize][capitalize]] 將其轉換成首字大寫的狀況，因此最
+初雛形如下
+
+#+BEGIN_SRC clojure
+  (#(apply str
+           (concat (first (clojure.string/split % #"-"))
+                   (map clojure.string/capitalize
+                        (drop 1 (clojure.string/split % #"-")))))
+   "multi-word-key")
+#+END_SRC
+
+將程式碼整理一下後就變成這樣
+
+#+BEGIN_SRC clojure
+  (#(let [[x & xs] (clojure.string/split % #"-")]
+      (->> (cons x (map clojure.string/capitalize xs))
+           (apply str)))
+   "multi-word-key")
+  ;; => "multiWordKey"
+#+END_SRC
+
+這題如果是用正規表達式進行搜尋取代，則可以得到更簡單的答案
+
+#+BEGIN_SRC clojure
+  (#(clojure.string/replace % #"-." (fn [[_ x]] (format "%S" x)))
+   "multi-word-key")
+  ;; => "multiWordKey"
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+
+* 105: Identify keys and values
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/105
+
+Given an input sequence of keywords and numbers, create a map such that each key
+in the map is a keyword, and the value is a sequence of all the numbers (if any)
+between it and the next keyword in the sequence.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= {} (__ []))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= {:a [1]} (__ [:a 1]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= {:a [1], :b [2]} (__ [:a 1, :b 2]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= {:a [1 2 3], :b [], :c [4]} (__ [:a 1 2 3 :b :c 4]))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p105')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p105" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [m]
+    (->> m
+         (interpose [])
+         (partition-by keyword?)
+         (partition 2)
+         (map flatten)
+         (map #(hash-map (first %) (vec (drop 1 %))))
+         (into {})))
+#+END_SRC
+#+HTML: </blockquote>
+
+這問題一開始讓我想到的是使用 [[http://clojuredocs.org/clojure.core/partition-by][partition-by]] 來對所有的 [[http://clojuredocs.org/clojure.core/keyword_q][keyword?]] 進行切割，就像這樣子
+
+#+BEGIN_SRC clojure
+  (partition-by keyword? [:a 1 2 3 :b 2])
+  ;; => ((:a) (1 2 3) (:b) (2))
+#+END_SRC
+
+於是我們就可以以此數據作為基準，做出我們的雛形
+
+#+BEGIN_SRC clojure
+(->> [:a 1 2 3 :b 2]
+     (partition-by keyword?)  ; => ((:a) (1 2 3) (:b) (2))
+     (partition 2)            ; => (((:a) (1 2 3)) ((:b) (2)))
+     (map flatten)            ; => ((:a 1 2 3) (:b 2))
+     (map #(hash-map (first %) (into [] (drop 1 %))))
+     (into {}))
+;; => {:a [1 2 3], :b [2]}
+#+END_SRC
+
+但是如果你覺得這樣就是答案的話，那你就錯了，因為測試條件四的輸入會變成這樣的結果
+
+#+BEGIN_SRC clojure
+  (->> [:a 1 2 3 :b :c 4]
+       (partition-by keyword?) ; => ((:a) (1 2 3) (:b :c) (4))
+       (partition 2)           ; => (((:a) (1 2 3)) ((:b :c) (4)))
+       (map flatten)           ; => ((:a 1 2 3) (:b :c 4))
+       (map #(hash-map (first %) (into [] (drop 1 %))))
+       (into {}))
+  ;; => ({:a [1 2 3]} {:b [:c 4]})
+#+END_SRC
+
+為了解決這個問題，我們要想辦法把輸入變成下面這樣的情況，這樣在使用 [[http://clojuredocs.org/clojure.core/partition-by][partition-by]]
+時就不會出錯
+
+#+BEGIN_SRC clojure
+  [:a 1 2 3 :b :c 4]  => [:a 1 2 3 :b [] :c 4]
+#+END_SRC
+
+但是為了解決這問題實在麻煩，索性使用 [[http://clojuredocs.org/clojure.core/interpose][interpose]] 在每個元素旁邊都加入空向量 (vector) 即可
+
+#+BEGIN_SRC clojure
+  (interpose [] [:a 1 2 3 :b :c 4]) 
+  ;; => (:a [] 1 [] 2 [] 3 [] :b [] :c [] 4)
+#+END_SRC
+
+於是我們最後的答案就出來了
+
+#+BEGIN_SRC clojure
+  ((fn [coll]
+     (->> coll
+          (interpose [])
+          (partition-by keyword?)
+          (partition 2)
+          (map flatten)
+          (map #(hash-map (first %) (into [] (drop 1 %))))
+          (into {})))
+   [:a 1 2 3 :b :c 4])
+  ;; => {:a [1 2 3], :b [], :c [4]}
+#+END_SRC
+
+
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+* 107: Simple closures
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/107
+
+Lexical scope and first-class functions are two of the most basic building
+blocks of a functional language like Clojure. When you combine the two together,
+you get something very powerful called lexical closures. With these, you can
+exercise a great deal of control over the lifetime of your local bindings,
+saving their values for use later, long after the code you're running now has
+finished.
+
+It can be hard to follow in the abstract, so let's build a simple closure. Given
+a positive integer n, return a function (f x) which computes xn. Observe that
+the effect of this is to preserve the value of n for use outside the scope in
+which it is defined.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= 256 ((__ 2) 16),
+     ((__ 8) 2))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= [1 8 27 64] (map (__ 3) [1 2 3 4]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= [1 2 4 8 16] (map #((__ %) 2) [0 1 2 3 4]))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p107')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p107" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn[x]
+      (fn [y] (reduce * (repeat x y))))
+#+END_SRC
+#+HTML: </blockquote>
+
+這個題目要我們實現簡單的[[https://zh.wikipedia.org/wiki/%25E9%2597%25AD%25E5%258C%2585_%2528%25E8%25AE%25A1%25E7%25AE%2597%25E6%259C%25BA%25E7%25A7%2591%25E5%25AD%25A6%2529][閉包]] (Closure) ，簡單的說法就是函式會回傳另外一個函式，
+因此此題就是這樣子來寫
+
+#+BEGIN_SRC clojure
+  (((fn[x]
+      (fn [y] (reduce * (repeat x y))))
+    2) 16)
+  ;; => 256
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+
+* 115: The Balance of N
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/115
+
+A balanced number is one whose component digits have the same sum on the left
+and right halves of the number. Write a function which accepts an integer n, and
+returns true iff n is balanced.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-6 ">
+
+#+BEGIN_SRC clojure
+  (= true (__ 11))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= true (__ 121))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= false (__ 123))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= true (__ 0))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-6">
+
+#+BEGIN_SRC clojure
+  (= false (__ 88099))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= true (__ 89098))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= true (__ 89089))
+#+END_SRC
+
+#+HTML: </div></div>
+
+#+BEGIN_SRC clojure
+  (= (take 20 (filter __ (range)))
+   [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101])  
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p115')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p115" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(let [s (seq (str %))
+         c (count s)
+         m (quot c 2)]
+     (or
+      (= (take m s) (drop (- (count s) m) s))
+      (= (reverse s) s)))
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題和 [[*027: Palindrome Detector][027: Palindrome Detector]] 很像，我們可以將一個數值先變成字串，再使用 [[https://clojuredocs.org/clojure.core/seq][seq]]
+將其變成序列 (sequence)
+
+#+BEGIN_SRC clojure
+  (str 1111)       ; => "1111"
+  (seq (str 1111)) ; => (\1 \1 \1 \1)
+#+END_SRC
+
+為了要取的序列 (sequence) 的中間值，我們使用 [[https://clojuredocs.org/clojure.core/quot][quot]] 來達成這件事
+
+#+BEGIN_SRC clojure
+  (quot 10 3)
+  ; => 3
+  (quot 5 2)
+  ; => 2
+#+END_SRC
+
+接下來就是用 [[https://clojuredocs.org/clojure.core/take][take]] 以及 [[https://clojuredocs.org/clojure.core/drop][drop]] 來完成程式的雛形
+
+#+BEGIN_SRC clojure
+  (#(let [s (seq (str %))
+          c (count s)
+          m (quot c 2)]
+      (=
+       (take m s) ; => (\8 \9)
+       (drop (- (count s) m) s))) ; => (\9 \8)
+   89098)
+  ;; => false
+#+END_SRC
+
+但是根據題目，我們還需要將迴文的狀況考慮進去，因此最後程式就變成了這樣:
+
+#+BEGIN_SRC clojure
+  (#(let [s (seq (str %))
+          c (count s)
+          m (quot c 2)]
+      (or
+       (= (take m s) (drop (- (count s) m) s))
+       (= (reverse s) s)))
+   89098)
+  ;; => true
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+
+* 126: Through the Looking Class
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/126
+
+Enter a value which satisfies the following:
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (let [x __]
+    (and (= (class x) x) x))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p0126')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p126" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  Class
+#+END_SRC
+#+HTML: </blockquote>
+
+在 clojure 中，[[https://clojuredocs.org/clojure.core/class][class]] 是用來查看輸入參數是屬於哪一個 Java Class
+
+#+BEGIN_SRC clojure
+  (class 1)
+  ;; => java.lang.Integer
+  (class [1 2 3])
+  ;; => clojure.lang.PersistentVector
+  (class (String. "foo"))
+  ;; => java.lang.String
+#+END_SRC
+
+而這題的答案之所以會是 =Class= 是因為 =java.lang.Class= 不管是使用 [[https://clojuredocs.org/clojure.core/class][class]] 或是
+[[https://clojuredocs.org/clojure.core/type][type]] 得到的答案都會相同
+
+#+BEGIN_SRC clojure
+  (type Class)
+  ;; => java.lang.Class
+  (type java.lang.Class)
+  ;; => java.lang.Class  
+  (class Class)
+  ;; => java.lang.Class
+  (class java.lang.Class)
+  ;; => java.lang.Class  
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 134: A nil key
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/134
+
+Write a function which, given a key and map, returns true [[http://en.wikipedia.org/wiki/If_and_only_if][iff]] the map contains
+an entry with that key and its value is nil.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (true?  (__ :a {:a nil :b 2}))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (false? (__ :b {:a nil :b 2}))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (false? (__ :c {:a nil :b 2}))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p134')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p134" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [key coll] (and (contains? coll key) (nil? (key coll))))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題要求滿足兩個條件:
+
+1. 參數 1 的 /key/ 必須在參數 2 的 hash-map 中
+2. hash-map 根據參數 1 所得的數值必須為 /nil/
+
+因此我們可以使用 [[https://clojuredocs.org/clojure.core/contains_q][contains?]] 去檢查 hash-map 是否包含這個 key
+
+#+BEGIN_SRC clojure
+  (contains? {:a 1} :a)    ;=> true
+  (contains? {:a nil} :a)  ;=> true
+  (contains? {:a 1} :b)    ;=> false
+#+END_SRC
+
+而在 hash-map 中，我們可以將 /key/ 當作 function 來取得其數值
+#+BEGIN_SRC clojure
+  (:a {:a 1})
+  ;; => 1
+#+END_SRC
+
+當然你也可以用 [[https://clojuredocs.org/clojure.core/get][get]] 去取得 /key/ 對應的數值
+
+#+BEGIN_SRC clojure
+  (get [1 2 3] 1)
+  ;; => 2
+
+  (get {:a 1 :b 2} :b)
+  ;; => 2
+#+END_SRC
+
+最後再使用 [[https://clojuredocs.org/clojure.core/nil_q][nil?]] 去檢查得到的數值是否為 /nil/
+
+#+BEGIN_SRC clojure
+  (nil? nil)
+  ;; => true
+  (nil? 0)
+  ;; => false
+  (nil? false)
+  ;; => false
+  (nil? '())
+  ;; => false
+#+END_SRC
+
+因此就可以得到我們的答案:
+
+#+BEGIN_SRC clojure
+  ((fn [key coll] (and (contains? coll key) (nil? (key coll)))
+     :a {:a nil :b 2}))
+  ; => true
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 143: dot product
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/143
+
+Create a function that computes the [[http://en.wikipedia.org/wiki/Dot_product#Definition][dot product]] of two sequences. You may assume
+that the vectors will have the same length.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= 0 (__ [0 1 0] [1 0 0]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= 3 (__ [1 1 1] [1 1 1]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= 32 (__ [1 2 3] [4 5 6]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= 256 (__ [2 5 6] [100 10 1]))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p143')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p143" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  (fn [a b] (reduce + (map * a b)))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題要我們實現 [[http://en.wikipedia.org/wiki/Dot_product#Definition][dot product]] ，以數學來看就是我們有 A = [A_1, A_2, ..., A_n] 以及
+B = [B_1, B_2, ..., B_n] 這兩組 vector，將其套用到以下公式:
+
+#+BEGIN_SRC latex :results raw :file 4Clojure-練習/p143.png
+  \begin{equation*}
+   A \cdot  B = \sum_{i=1}^{n}A_{i}B_{i} = A_{1}B_{1} + A_{2}B_{2} + \cdots A_{n}B_{n}
+  \end{equation*}
+#+END_SRC
+
+#+RESULTS:
+[[file:4Clojure-練習/p143.png]]
+
+當然，看到序列 (sequence) 就要想到 [[https://clojuredocs.org/clojure.core/map][map]] 、[[https://clojuredocs.org/clojure.core/reduce][reduce]] ，因此這題就解決了
+
+#+BEGIN_SRC clojure
+  (map * [1 2 3] [1 1 1])
+  ;; => [1 2 3]
+  (reduce + (map * [1 2 3] [1 1 1]))
+  ;; => 6
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 145: For the win
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/145
+
+Clojure's [[http://clojuredocs.org/clojure_core/clojure.core/for][for]] macro is a tremendously versatile mechanism for producing a
+sequence based on some other sequence(s). It can take some time to understand
+how to use it properly, but that investment will be paid back with clear,
+concise sequence-wrangling later. With that in mind, read over these for
+expressions and try to see how each of them produces the same result.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= __ (for [x (range 40)
+              :when (= 1 (rem x 4))]
+          x))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (for [x (iterate #(+ 4 %) 0)
+              :let [z (inc x)]
+              :while (< z 40)]
+          z))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (for [[x y] (partition 2 (range 20))]
+        (+ x y)))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p145')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p145" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  '(1 5 9 13 17 21 25 29 33 37)
+#+END_SRC
+#+HTML: </blockquote>
+
+此題在複習 clojure 的迴圈方法之一 : [[http://clojuredocs.org/clojure.core/for][for]]
+
+#+BEGIN_SRC clojure
+  ;; prepare a seq of the even values
+  ;; from the first six multiples of three
+  (for [x [0 1 2 3 4 5]
+        :let [y (* x 3)]
+        :when (even? y)]
+    y)
+  ;;=> (0 6 12)
+
+  ;; produce a seq of all pairs drawn from two vectors
+  (for [x ['a 'b 'c]
+        y [1 2 3]]
+    [x y])
+  ;;=> ([a 1] [a 2] [a 3] [b 1] [b 2] [b 3] [c 1] [c 2] [c 3])
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 156: Map Defaults
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/156
+
+When retrieving values from a map, you can specify default values in case the
+key is not found:
+
+(= 2 (:foo {:bar 0, :baz 1} 2))
+
+However, what if you want the map itself to contain the default values? Write a
+function which takes a default value and a sequence of keys and constructs a
+map.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ 0 [:a :b :c]) {:a 0 :b 0 :c 0})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ "x" [1 2 3]) {1 "x" 2 "x" 3 "x"})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [:a :b] [:foo :bar]) {:foo [:a :b] :bar [:a :b]})
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p156')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p156" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(zipmap %2 (repeat (count %2) %1))
+#+END_SRC
+#+HTML: </blockquote>
+
+這題乍看之下和 [[*032: Duplicate a Sequence][032: Duplicate a Sequence]] 很像，只是他要求的是產生成 [[https://clojuredocs.org/clojure.core/hash-map][hash-map]] ，
+因此我們使用 [[https://clojuredocs.org/clojure.core/zipmap][zipmap]] 來解這一題，照慣例先來複習一下
+
+#+BEGIN_SRC clojure
+  (zipmap [:a :b :c :d :e] [1 2 3 4 5])
+  ;; => {:e 5, :d 4, :c 3, :b 2, :a 1}
+#+END_SRC
+
+因此本題就可以這樣解決
+
+#+BEGIN_SRC clojure
+  (#(zipmap %2 (repeat (count %2) %1)) 0 [:a :b :c])
+  ;; => {:c 0, :b 0, :a, 0}
+#+END_SRC
+
+實際上在寫這個題目時我第一個想到的是 [[https://clojuredocs.org/clojure.core/interleave][interleave]] ，但是很可惜的事情是，interleave
+產生出來的東西是 list，和本題要求的 [[https://clojuredocs.org/clojure.core/hash-map][hash-map]] 是不相容的格式
+
+因此如果這題使用 [[https://clojuredocs.org/clojure.core/interleave][interleave]] 來解的話，要記得將結果轉為 [[https://clojuredocs.org/clojure.core/hash-map][hash-map]]
+
+#+BEGIN_SRC clojure
+  (apply hash-map (#(interleave %2 (repeat (count %2) %1)) 0 [:a :b :c]))
+  ;; => {:c 0, :b 0, :a, 0}
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 157: Indexing Sequences
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/157
+
+Transform a sequence into a sequence of pairs containing the original elements
+along with their index.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= (__ [:a :b :c]) [[:a 0] [:b 1] [:c 2]])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [0 1 3]) '((0 0) (1 1) (3 2)))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= (__ [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]])
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p157')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p157" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(reverse (zipmap  % (range (count %))))
+#+END_SRC
+#+HTML: </blockquote>
+
+我們可以使用 [[https://clojuredocs.org/clojure.core/zipmap][zipmap]] 來將一份 /key/ 以及 /value/ 整合在一起，但是要注意這樣運行的
+結果會是反向的，因此為了滿足此題的要求需要再 [[https://clojuredocs.org/clojure.core/reverse][reverse]] 一次
+
+#+BEGIN_SRC clojure
+  (zipmap [:a :b :c :d :e] [1 2 3 4 5])
+  ;; => {:e 5, :d 4, :c 3, :b 2, :a 1}
+#+END_SRC
+
+也就是說
+
+#+BEGIN_SRC clojure
+  (reverse (zipmap [:a :b :c] '(0 1 2)))
+  ;; ([:a 0] [:b 1] [:c 2])
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+* 161: Subset and Superset
+
+#+BEGIN_VERSE
+URL: [[https://www.4clojure.com/problem/161]]
+
+Set A is a subset of set B, or equivalently B is a superset of A, if A is
+"contained" inside B. A and B may coincide.
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (clojure.set/superset? __ #{2})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (clojure.set/subset? #{1} __)
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (clojure.set/superset? __ #{1 2})
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (clojure.set/subset? #{1 2} __)
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p161')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p161" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #{1 2}
+#+END_SRC
+#+HTML: </blockquote>
+
+這一題其實就是在講數學中的 =子集合 (subset)= 與 =超級合 (superset)= 的概念
+
+[[https://clojuredocs.org/clojure.set/subset_q][subset?]] 的用法:
+
+#+BEGIN_SRC clojure
+  (clojure.set/subset? #{2 3} #{1 2 3 4})
+  ;; => true
+  (clojure.set/subset? #{2 4} #{1 2 3 4})
+  ;; => true
+  (clojure.set/subset? #{2 5} #{1 2 3 4})
+  ;; => false
+#+END_SRC
+
+[[https://clojuredocs.org/clojure.set/superset_q][superset?]] 的用法:
+
+#+BEGIN_SRC clojure
+  (clojure.set/superset? #{0} #{0})
+  ;; => true
+  (clojure.set/superset? #{0 1} #{0})
+  ;; => true
+  (clojure.set/superset? #{0} #{0 1})
+  ;; => false
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* 162: Logical falsity and truth
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/162
+
+In Clojure, only nil and false represent the values of logical falsity in
+conditional tests - anything else is logical truth.
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-6 ">
+
+#+BEGIN_SRC clojure
+  (= __ (if-not false 1 0))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (if-not nil 1 0))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (if true 1 0))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (if true 1 0))
+#+END_SRC
+
+#+HTML: </div><div class="col-md-6">
+
+#+BEGIN_SRC clojure
+  (= __ (if [] 1 0))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (if [0] 1 0))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (if 0 1 0))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= __ (if 1 1 0))
+#+END_SRC
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p162')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p162" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  1
+#+END_SRC
+#+HTML: </blockquote>
+
+在 clojure 中， =nil= 以及 =false= 使用在邏輯判斷時即代表 =false= ，其他其況都是
+=true= ，也因此:
+
+#+BEGIN_SRC clojure
+  (if 1 true false)
+  ;; => true
+  (if 0 true false)
+  ;; => true
+  (if true true false)
+  ;; => true
+  (if false true false)
+  ;; => false
+  (if-not true true false)
+  ;; => false
+  (if-not false true false)
+  ;; => true
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+* 166: Comparisons
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/166
+
+For any orderable data type it's possible to derive all of the basic comparison
+operations (<, ≤, =, ≠, ≥, and >) from a single operation (any operator but = or
+≠ will work). Write a function that takes three arguments, a less than operator
+for the data and two items to compare. The function should return a keyword
+describing the relationship between the two items. The keywords for the
+relationship between x and y are as follows:
+
+- x = y → :eq
+- x > y → :gt
+- x < y → :lt
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+  (= :gt (__ < 5 1))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= :eq (__ (fn [x y] (< (count x) (count y))) "pear" "plum"))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= :lt (__ (fn [x y] (< (mod x 5) (mod y 5))) 21 3))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (= :gt (__ > 0 2))
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p166')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p166" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+  #(if (%1 %2 %3) :lt (if (%1 %3 %2) :gt :eq))
+#+END_SRC
+#+HTML: </blockquote>
+
+題目要求我們寫一個函式 (function) 接收三個參數，第一個參數是 =判斷是否小於= 的運
+算元，其他的則是運算子，也就是說得到答案為 =true= 時，代表 =arg1 < arg2= 。
+
+因此我們就可以使用 [[https://clojuredocs.org/clojure.core/if][if]] 來處理這個問題
+
+#+BEGIN_SRC clojure
+  (#(if (%1 %2 %3) :lt (if (%1 %3 %2) :gt :eq))
+   < 5 1)
+  ;; => :gt
+#+END_SRC
+
+或是使用 [[https://clojuredocs.org/clojure.core/cond][cond]] 依據條件選擇回傳值
+
+#+BEGIN_SRC clojure
+  ((fn [op a b]
+     (cond
+       (op a b) :lt
+       (op b a) :gt
+       :else :eq))
+   < 5 1)
+  ;; => :gt
+#+END_SRC
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* TEMPLATE                                                         :noexport:
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/3
+#+END_VERSE
+
+#+BEGIN_SRC clojure
+
+#+END_SRC
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p000')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p000" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+"ANSWER"
+#+END_SRC
+#+HTML: </blockquote>
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+* TEMPLATE RESTRICTION                                             :noexport:
+
+#+BEGIN_VERSE
+URL: https://www.4clojure.com/problem/38
+#+END_VERSE
+
+#+HTML: <div class="row "><div class="col-md-7 ">
+
+#+BEGIN_SRC clojure
+
+#+END_SRC
+
+#+HTML: </div><div class="col-md-5">
+
+#+HTML: <div class="bs-callout bs-callout-danger">
+*Special Restrictions*
+
+- max-key
+#+HTML: </div>
+
+#+HTML: </div></div>
+
+#+HTML: <br><br> <div class="text-center">
+#+ATTR_HTML: :class btn btn-default :onclick blog.cmds.toggle_visible('p000')
+點我顯示/隱藏內容
+#+HTML: </div><br><br>
+
+#+HTML: <div id="p000" style="display:none">
+#+HTML: <blockquote>
+#+BEGIN_SRC clojure
+
+#+END_SRC
+#+HTML: </blockquote>
+
+#+HTML: </div><br><br><br><br><br><br><br><br><br><br><br>
+
+* Reference                                                        :noexport:
+
+https://github.com/manmyung/study-4clojure/blob/master/src/study_4clojure/p49.clj
+
+
+https://github.com/katox/4clojure-solutions/blob/master/src/foreclojure_solutions/core.clj

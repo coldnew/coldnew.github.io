@@ -1,0 +1,71 @@
+#+TITLE: 從 GitHub 直接下載 Clojure 函式庫
+#+DATE: <2017-05-18 Thu 00:46>
+#+ABBRLINK: f421b76a
+#+TAGS: clojure, clojurescript
+
+Clojure 的用戶多半都是透過 [[https://clojars.org/][Clojars]] 去下載需要用的函式庫，但有些時候你需要的函式庫可能作者還沒將該版本放到 [[https://clojars.org/][Clojars]] 上，這種時候該怎麼辦呢？
+
+#+HTML: <!--more-->
+
+你可以選擇:
+
+1. 透過 =lein install= 安裝該函式庫到本地端
+
+2. 使用本文的方法，透過 [[https://jitpack.io/][Jitpack]] 去下載你上傳到 GitHub 的修正版本
+
+* 關於 Jitpack
+
+  傳統 Java 開發都需要將你的函式庫發布到 [[https://maven.apache.org/][Maven]] 或是其他類似的 repoitory 去，是否想要像 [[https://golang.org/][Go 語言]] 那樣直接從 GitHub 抓取需要的套件呢？透過 [[https://jitpack.io/][JitPack]] 就可以做到這件事。
+
+  [[https://jitpack.io][JitPack]] 會幫你把指定目標的 GitHub 專案的特定 TAG 製作成 JAR 放到他們自己的套件庫，這樣你就可以針對特定 TAG 去直接下載 GitHub 的套件，而不需要等待作者發佈到 [[https://clojars.org/][Clojars]] 去。
+
+  如果原作者沒有加入你需要的 TAG 那要怎辦呢？Fork 就好啦 ~
+
+* 如何使用
+
+  這裡以我自己的 [[https://github.com/coldnew/ipify.clj][ipify.clj]] 函式庫為例，假設我們要抓取的是 tag [[https://github.com/coldnew/ipify.clj/releases/tag/v0.1.0][v0.1.0]] 的版本的話，則可以在你的 =project.clj= 加入這樣
+
+  #+BEGIN_SRC clojure
+    (defproject aa "0.1.0-SNAPSHOT"
+      ;; skip ....
+      :dependencies [[org.clojure/clojure "1.8.0"]
+                     ;; add following
+                     [com.github.coldnew/ipify.clj "v0.1.0"]]
+      :repositories [["jitpack" "https://jitpack.io"]])
+
+  #+END_SRC
+
+  注意到這邊的 =dependencies= 格式是 =[com.github.your-github-name/your-project-name "git-tag"]=
+
+  接下來就可以透過 =lein deps= 去抓取這個函式庫
+
+  #+BEGIN_EXAMPLE
+    coldnew@Fevia ~/test $ lein deps
+    Could not transfer artifact com.github.coldnew:ipify.clj:pom:v0.1.0 from/to jitpack (https://jitpack.io): Read timed out
+    This could be due to a typo in :dependencies or network issues.
+    If you are behind a proxy, try setting the 'http_proxy' environment variable.
+  #+END_EXAMPLE
+
+  第一次執行的時候可能會失敗，因為 [[https://jitpack.io][Jitpack]] 會需要抓取你的 repo 並將其編譯好放置到套件庫去，不過等會兒在重新測試就可以成功囉
+
+  #+BEGIN_EXAMPLE
+    coldnew@Fevia ~/test $ lein deps
+    Retrieving com/github/coldnew/ipify.clj/v0.1.0/ipify.clj-v0.1.0.pom from jitpack
+    Retrieving com/github/coldnew/ipify.clj/v0.1.0/ipify.clj-v0.1.0.jar from jitpack
+  #+END_EXAMPLE
+
+* 後記
+
+  其實還有一個 [[https://github.com/tobyhede/lein-git-deps][lein-git-deps]] 這個 [[https://leiningen.org/][Leinigen]] 套件可以直接透過 git 把程式碼拉到本地端來解決你的專案依賴，不過這套件已經有段時間沒維護了。
+
+  大部分我自己使用的情況，都是透過 =lein install= 安裝到本地端來滿足依賴，[[https://jitpack.io][Jitpack]] 這個套件庫可以自動幫你處理好開源的套件倒是蠻不錯的。
+
+  如果是 =閉源= 的函式庫，則可以考慮付費給 [[https://jitpack.io][Jitpack]] 或是自己在自己的私有雲架設 Maven 倉庫。
+
+* 延伸閱讀
+
+  - [[https://lambdaisland.com/blog/17-05-2017-loading-clojure-libraries-directly-from-github][Loading Clojure Libraries Directly From Github]]
+
+  - [[https://github.com/GcsSloop/AndroidNote/blob/master/Course/ReleaseLibraryByJitPack.md][优雅的发布 Android 开源库(论 JitPack 的优越性)]]
+
+  - [[http://www.jianshu.com/p/e443456bb506][Android 寫自己的開源庫，發佈到 JitPack.io]]

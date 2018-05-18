@@ -1,0 +1,106 @@
+#+TITLE: 使用 yasnippet 自動插入程式碼樣板
+#+TAGS: emacs
+#+DATE: <2017-05-03 Wed 10:19>
+#+ABBRLINK: 7e10e07e
+
+#+LINK: emacs     https://www.gnu.org/s/emacs
+#+LINK: melpa     https://melpa.org/
+#+LINK: yasnippet https://github.com/joaotavora/yasnippet
+
+在 [[https://coldnew.github.io/e10a343/][用 insert-shebang 自動插入直譯器指令]] 一文中我們提到了如何自動對腳本檔案插入 [[https://zh.wikipedia.org/zh-tw/Shebang][shebang]] ，這次來談談如何透過 [[yasnippet][yasnippet]] 自動對你的檔案插入你想要的樣板，比如授權資訊 (copyright)、預設標頭檔等等。
+
+在 [[emacs][Emacs]] 下雖然有其他套件可以完成這種 =插入樣板= 的功能，但是既然我們可以透過 [[yasnippet][yasnippet]] 來辦到，就不需要多學新的樣板標記語言了 :)
+
+#+HTML: <!--more-->
+
+*註*: 本文修改自 2009 年我發佈在 ptt 上的 [[https://www.ptt.cc/bbs/Editor/M.1297600857.A.49F.html][建立新檔案時自動插入樣板 (使用 yasnippet)]] 一文。
+
+* 安裝套件
+
+[[yasnippet][yasnippet]] 已經收錄在 [[melpa][MELPA]] 中，因此你可以直接透過 =M-x= 去安裝這套件
+
+: M-x package-install RET yasnippet RET
+
+* 使用方式
+
+  在你的 =.emacs= 加入以下命令:
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'yasnippet)
+    (yas-global-mode 1)
+  #+END_SRC
+
+  這樣的話就可以啟用 [[yasnippet][yasnippet]] 這個套件的功能囉～
+
+* 對新檔案自動加入樣板
+
+  我們首先要在你的 =.emacs= 加入以下程式碼，這會讓 [[emacs][Emacs]] 在開啟新檔案時，觸發 =find-file-hook= 並尋找這個新檔案是否有相對應名為 =HEADER= 的 [[yasnippet][yasnippet]] 樣板。
+
+  #+BEGIN_SRC emacs-lisp
+    ;; Auto add HEADER in new file
+    (add-hook 'find-file-hook
+              '(lambda ()
+                 (when (and (buffer-file-name)
+                            (not (file-exists-p (buffer-file-name)))
+                            (= (point-max) 1))
+                   (let ((header-snippet "HEADER")
+                         (yas/fallback-behavior 'return-nil))
+                     (insert header-snippet)
+                     ;; if can't expand snippet, delete insert string
+                     (if (not (yas/expand))
+                         (delete-region (point-min) (point-max)))))))
+  #+END_SRC
+
+  好了後，接下來我們要針對我們的目標建立名為 =HEADER= 的樣板。
+
+* 建立樣板
+
+  [[yasnippet][yasnippet]] 對於如何建立樣板(snippet) 有很[[http://joaotavora.github.io/yasnippet/snippet-development.html][完整的說明]] ，在這邊，我用簡單的方法來解釋。
+
+
+  首先假設你是要對 =C 語言= 建立你的樣板(snippet)，那你先透過 [[emacs][emacs]] 打開隨便一個 =xxx.c= 的檔案，接下來透過
+
+  : M-x yas-new-snippet
+
+  去對 =C 語言= 建立你的樣板，我們在裡面填入以下內容
+
+  #+BEGIN_SRC snippet
+    # -*- mode: snippet -*-
+    # name: Header File Template
+    # key: HEADER
+    # --
+
+    //
+    //  This is yasnippet example for c-mode
+    //
+
+    #include <stdio.h>
+    #include <stdlib.h>
+  #+END_SRC
+
+  建立好後，並存成 =HEADER= 這個檔案名稱就完成了。 建立一個新的 C 語言檔案看看，你會發現這個檔案直接填入了你剛剛設定的樣板。
+
+  (假如你的 snippet 資料夾在 =~/.emacs.d/snippets= 則這個 snippet 會存成 =~/.emacs.d/snippets/c-mode/HEADER= 這個檔案。)
+
+* 進階設定
+
+  除了上面的簡單樣板外，我們也可以透過 =emacs-lisp= 作些進階設定，在 [[http://joaotavora.github.io/yasnippet/snippet-development.html#sec-3-2][Embedded Emacs-lisp code]] 這邊就有提到如何在你的樣板(snippet)裡面使用 emacs-lisp 進行更多的擴充。
+
+  (注意到 emacs-lisp 程式碼在樣板(snippet)中，要被 =``= 包住。)
+
+  假設我們想要對 =~/OpenSource/= 這個資料夾的檔案都插入 GPL 授權，而其他狀況則是 APACHE 授權，則你可以這樣作：
+
+  #+BEGIN_SRC newlisp
+    # -*- mode: snippet -*-
+    # name: Header File Template
+    # key: HEADER
+    # --
+
+    `
+    (if (string-equal (file-name-directory (buffer-file-name))
+                      (expand-file-name "~/OpenSource/"))
+        (insert "GPL")
+      ;; else
+      (insert "APACHE"))
+    `
+  #+END_SRC

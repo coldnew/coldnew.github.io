@@ -1,0 +1,188 @@
+#+TITLE: 使用 Leiningen 作為 Java 構建工具
+#+DATE: <2015-03-09 Mon 20:59>
+#+UPDATED: <2015-03-09 Mon 20:59>
+#+ABBRLINK: 53ea73fa
+#+OPTIONS: num:nil ^:nil
+#+TAGS: clojure, java, lein
+#+LANGUAGE: zh-tw
+#+ALIAS: blog/2015/09-30_lein_with_java/index.html
+
+在 Java 專案中，我們有很多自動化編譯工具可以用，比如 [[http://www.gradle.org/][gradle]] 、[[http://www.scala-sbt.org/][sbt]] 、[[https://maven.apache.org][maven]] ，而對
+於常寫 Clojure 又記憶力不好的人而言，是否能夠把 Java 用的編譯工具改成只用
+Clojure 的 [[http://leiningen.org/][Leiningen]] 呢?
+
+本文將介紹如何使用 [[http://leiningen.org/][Leiningen]] 來作為你的 Java 專案的構建系統。
+
+#+HTML: <!--more-->
+
+* 建立我們的專案
+
+本篇文章還是依照以往的規則，使用預設的 /lein/ 樣板，因此我們這樣建立名為
+/myapp/ 的專案:
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~ $ lein new myapp
+#+END_EXAMPLE
+
+專案建立完成後，我們要稍微修改一下 /project.clj/ ，加入 =:java-source-paths= 來
+指定我們 java 程式碼的位置。
+
+#+BEGIN_SRC clojure
+  (defproject myapp "0.1.0-SNAPSHOT"
+    :description "FIXME: write description"
+    :url "http://example.com/FIXME"
+    :license {:name "Eclipse Public License"
+              :url "http://www.eclipse.org/legal/epl-v10.html"}
+    :dependencies [[org.clojure/clojure "1.7.0"]]
+  
+    :java-source-paths ["src/java"])
+#+END_SRC
+
+* Hello World
+
+我們建立一個名為 =src/java/myapp/HelloWorld.java= 的 Java 檔案，裡面加上最簡單的
+程式: Hello World。
+
+#+BEGIN_SRC java
+  package myapp;
+  
+  public class HelloWorld {
+  
+      public static void main(String[] args) {
+          System.out.println("Hello World!");
+      }
+  }
+#+END_SRC
+
+完成後，你可以直接使用 =lein run= 去執行 /myapp.HelloWorld/ 這個 java class
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/myapp $ lein run -m myapp.HelloWorld
+Hello World!
+#+END_EXAMPLE
+
+* 使用第三方函式: 以 Apache Common CSV 為例
+
+如果我們希望使用外部函式庫，作法則是和開發 clojure 是一樣的，首先編輯
+project.clj 並加上我們需要使用的第三方函式庫，這邊以 [[http://commons.apache.org/proper/commons-csv/project-info.html][Apache Common CSV]] 為例。
+
+** 編輯 project.clj
+
+在 =:dependencies= 欄位加入 Apache Common CSV 的函式庫資訊。
+
+#+BEGIN_SRC clojure
+  (defproject myapp "0.1.0-SNAPSHOT"
+    :description "FIXME: write description"
+    :url "http://example.com/FIXME"
+    :license {:name "Eclipse Public License"
+              :url "http://www.eclipse.org/legal/epl-v10.html"}
+    :dependencies [[org.clojure/clojure "1.7.0"]
+                   [org.apache.commons/commons-csv "1.2"]] ;; <-- add this
+    :java-source-paths ["src/java"])
+#+END_SRC
+
+接著我們可以使用 =lein deps= 要求 lein 自動去取得 =org.apache.commons/commons-csv=
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/myapp $ lein deps
+#+END_EXAMPLE
+
+** 加入測試用的 csv 檔案
+
+為了可以確認我們的程式可以運作順利，這邊建立一個簡單的 CSV 檔案: /test.csv/ ，其
+內容如下:
+
+#+BEGIN_SRC text
+  COL1,COL2
+  a,b
+  c,d
+  e,f
+#+END_SRC
+
+** java 主程式
+
+剩下的就是撰寫我們 Java 主程式的時間囉 ~ 首先編輯 =src/java/myapp/CSVRead.java=
+，在這個程式中，我們將第一個接收到的參數傳送給 CSVParser 並透過其功能將剛剛的
+test.csv 內容解析並顯示出來。
+
+#+BEGIN_SRC java
+  package myapp;
+  
+  import java.io.FileNotFoundException;
+  import java.io.FileReader;
+  import java.io.IOException;
+  
+  import org.apache.commons.csv.CSVFormat;
+  import org.apache.commons.csv.CSVParser;
+  import org.apache.commons.csv.CSVRecord;
+  
+  
+  public class CSVRead {
+  
+      public static void main(String[] args) {
+          try {
+              CSVParser parser = new CSVParser(new FileReader(args[0]),
+                                               CSVFormat.DEFAULT.withHeader());
+              for (CSVRecord record : parser) {
+                  System.out.printf("%s\t%s\n",
+                                    record.get("COL1"),
+                                    record.get("COL2"));
+              }
+              parser.close();
+          }
+          catch(IOException e) {
+              e.printStackTrace();
+          }
+      }
+  }
+#+END_SRC
+
+** 執行程式
+
+執行這個程式的方式和前面執行 Hello World 範例是一樣的，我們使用 =lein run= 並添
+加要解析的 csv 檔案給我們的程式。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/myapp $ lein run -m myapp.CSVRead test.csv
+a b
+c d
+e f
+#+END_EXAMPLE
+
+* 將程式打包成 jar
+
+在 lein 中我們可以使用 =lein uberjar= 將剛剛寫的程式進行打包。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/myapp $ lein uberjar
+Compiling 2 source files to /Data/myapp/target/classes
+Created /Data/myapp/target/myapp-0.1.0-SNAPSHOT.jar
+Created /Data/myapp/target/myapp-0.1.0-SNAPSHOT-standalone.jar
+#+END_EXAMPLE
+
+打包好的 jar 檔案可以使用 =java -cp xxx.jar ClassName= 這樣的形式去執行
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/myapp $ java -cp target/myapp-0.1.0-SNAPSHOT-standalone.jar myapp.HelloWorld
+Hello World!
+#+END_EXAMPLE
+
+* 取得範例程式碼
+
+本篇文章的範例程式碼已經上傳到 [[https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java][GitHub]] 上，你可以使用以下方式取得程式碼
+
+: git clone https://github.com/coldnew/blog-tutorial-examples.git
+
+並切換到 =2015/lein_with_java= 資料夾去
+
+#+BEGIN_SRC sh
+  coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/lein_with_java
+#+END_SRC
+
+程式的執行方式則和本篇文章相同 ~ Have Fun~~
+
+* 延伸閱讀
+
+~[1]~ [[http://blog.pengyifan.com/how-to-read-csv-files-in-java-a-case-study-of-iterator-and-decorator/][How to read CSV files in Java – A case study of Iterator and Decorator]]
+
+~[2]~ [[http://www.codedata.com.tw/java/understanding-gradle-1-ant/][【認識 Gradle】（1）講古的時間 Apache Ant]]

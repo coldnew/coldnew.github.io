@@ -1,0 +1,546 @@
+#+TITLE: 在 clojurescript 下使用 readline 實現互動式命令 - Node.js 篇
+#+DATE: <2015-10-04 Sun 00:09>
+#+UPDATED: <2015-10-04 Sun 00:09>
+#+ABBRLINK: 1b4f10a2
+#+OPTIONS: num:nil ^:nil
+#+TAGS: clojurescript, nodejs
+#+LANGUAGE: zh-tw
+#+ALIAS: blog/2015/10-04_cljs_readline_nodejs/index.html
+
+在 [[http://coldnew.github.io/blog/2015/10-01_clojure_jline/][在 clojure 下使用 JLine 2.x 實現互動式命令]] 一文中我們提到了如何在 clojure 實
+現像 bash 那樣的互動式命令，這次來談談如何在 clojurescript 與 node.js 中辦到相同
+的事情。
+
+node.js 本身已經提供了 [[https://nodejs.org/api/readline.html][readline]] 模組，該模組雖然功能不如 [[https://github.com/jline/jline2/][JLine 2.x]] 完整，但是實
+作一個簡單的互動式命令已經非常足夠，本文將講解如何在 clojurescript 下使用 node.js
+的 [[https://nodejs.org/api/readline.html][readline]] 模組。
+
+#+HTML: <!--more-->
+
+* 建立我們的專案
+
+首先我們使用 lein 建立我們的專案，專案名稱為 /readline/ :
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~ $ lein new readline
+#+END_EXAMPLE
+
+專案建立完成後，我們要稍微修改一下 /project.clj/ ，在 =:dependencies= 欄位加上
+clojurescript 的依賴，並且加入 cljsbuild 的一些設定。
+
+在 cljsbuild 設定中，我們指定編譯目標為 =:nodejs= ，並且使用 =:none= 最佳化來加
+快編譯速度，當編譯完成後，產生出來的 javascript 設定存放到 =target/readline.js=
+。
+
+(你可以在 [[https://github.com/clojure/clojurescript][這裡]] 找到最新的 clojurescript 版本資訊)
+
+#+BEGIN_SRC clojure
+  (defproject readline "0.1.0-SNAPSHOT"
+    :description "FIXME: write description"
+    :url "http://example.com/FIXME"
+    :license {:name "Eclipse Public License"
+              :url "http://www.eclipse.org/legal/epl-v10.html"}
+    :dependencies [[org.clojure/clojure "1.7.0"]
+                   [org.clojure/clojurescript "1.7.122"]]
+  
+    :cljsbuild {:builds
+                [{:source-paths ["src"]
+                  :compiler {:output-to "target/readline.js"
+                             :output-dir "target"
+                             :source-map "target/readline.js.map"
+                             :target :nodejs
+                             :optimizations :none
+                             :pretty-print true}}]})
+#+END_SRC
+
+* 基本的 clojurescript 程式框架
+
+clojurescript 在 node.js 下有一些部分和 clojure 不太一樣需要特別注意，一個
+clojurescript on node.js 的基本框架是這樣的：
+
+#+BEGIN_SRC clojure
+  (ns readline.core
+    (:require [cljs.nodejs :as nodejs]))
+  
+  ;; enable *print-fn* in clojurescript
+  (enable-console-print!)
+  
+  (defn -main [& args]
+    (println "Hello World!"))
+  
+  ;; setup node.js starter point
+  (set! *main-cli-fn* -main)
+#+END_SRC
+
+在這個基本框架中，我們打開 =(enable-console-print!)= 這功能讓我們可以在
+clojurescript 中使用 =println= 函式輸出資訊，同時透過指定 =*main-cli-fn*= 這個全
+域變數來讓 clojurescript 編譯器知道程式的進入點在哪?
+
+了解了基本 clojurescript 在 node.js 上的架構後，再來說說要怎樣執行這個程式。我們
+在前面設定了編譯最佳化為 =:none= 也就是不進行最佳化，這種狀況的產生出來的
+javascript 檔案由於不會將 Google Closure 函式庫包入進產生出來的
+=target/readline.js= 裡面，因此是不能單獨執行的。
+
+為了解決這個問題，我們另外加入一個名為 =run-core.js= 的檔案來作為 wrapper，我們
+在裡面指定了要執行我們程式時需要載入的函式庫，並直接執行該程式的 main 函式。
+
+#+BEGIN_SRC js
+  require("./target/goog/bootstrap/nodejs.js");
+  require("./target/readline.js");
+  require("./target/readline/core");
+  readline.core._main();
+#+END_SRC
+
+完成後，我們可以使用 =lein cljsbuild once= 來編譯這個程式。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ lein cljsbuild once
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.847 seconds.
+#+END_EXAMPLE
+
+當然，你也可以使用 =lein cljsbuild auto= 來進行編輯後自動編譯， =:none= 最佳化在
+這個狀況下非常有優勢，可以達到一改完程式馬上就編譯完的狀況。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ lein cljsbuild auto
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.238 seconds.
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 0.221 seconds.
+#+END_EXAMPLE
+
+當編譯完成後，我們就可以透過執行 run-core.js 來測試我們的
+=src/readline/core.cljs= 。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ node run-core.js
+Hello World!
+#+END_EXAMPLE
+
+* Example 0: 顯示使用者輸入
+
+對於互動式命令的實現，第一個程式就會是怎樣將使用者的輸入顯示出來。但是和使用
+[[https://github.com/jline/jline2/][jline2]] 時不一樣，node.js 下是以事件驅動為主，因此基本的顯示使用者輸入資訊的程式
+變成這個樣子:
+
+#+BEGIN_SRC clojure
+  (ns readline.example0
+    (:require [cljs.nodejs :as nodejs]))
+  
+  ;; enable *print-fn* in clojurescript
+  (enable-console-print!)
+  
+  (defn -main [& args]
+    (let [readline (nodejs/require "readline")
+          rl (.createInterface readline
+                               (clj->js {:input  (.-stdin  js/process)
+                                         :output (.-stdout js/process)}))]
+      (doto rl
+        (.setPrompt "user> ")
+        (.prompt)
+        (.on "line"
+             (fn [line]
+               (println (str "You enter: " line))
+               (.close rl)))
+        )))
+  
+  ;; setup node.js starter point
+  (set! *main-cli-fn* -main)
+#+END_SRC
+
+對於這樣的程式，我們可以這樣來理解:
+
+在程式的一開始，我們透過 =cljs.nodejs= 的功能載入 [[https://nodejs.org/api/readline.html][readline]] 模組，並透過其
+[[https://nodejs.org/api/readline.html#readline_readline_createinterface_options][.createInterface]] 呼叫去設定我們的輸入與輸出訊號流，我們將這個 interface 命名為
+=rl= 。
+
+#+BEGIN_SRC clojure
+  (let [readline (nodejs/require "readline")
+        rl (.createInterface readline
+                             (clj->js {:input  (.-stdin  js/process)
+                                       :output (.-stdout js/process)}))]
+      ;; skip
+      )
+#+END_SRC
+
+在這邊的程式有一個有趣的地方，就是我們使用了 =clj->js= 函式，該函式會將 clojure
+的型態轉換成相對應的 javascript 型態，你可以在 clojurescript 的 repl 裡面試試，在
+此例中，clojurescript 編譯器會將其轉換成使用 =#js= 這個 [[https://yobriefca.se/blog/2014/05/19/the-weird-and-wonderful-characters-of-clojure/][dispach macro]] 並搭配
+JSON 形式的物件。
+
+#+BEGIN_SRC clojure
+  (clj->js {:a "testA" :b "testB"})
+  ;; => #js {:b "testB", :a "testA"}
+#+END_SRC
+
+有了 =rl= 這個 readline 模組的 Interface 後，我們就可以透過他的函式去進行相對應
+的事情，在這邊使用了 [[https://clojuredocs.org/clojure.core/doto][doto]] 將需要呼叫 rl 物件的部分都寫在一起。
+
+於是我們設定好 prompt 的內容，並顯示出 prompt 後，透過 [[https://nodejs.org/api/readline.html#readline_event_line][line]] 這個事件去處理接收到
+的訊息，由於 node.js 是屬於 ASYNC 設計，在這一行後面的程式都還是會被執行到，並不
+會卡在這個事件無法結束。
+
+當第一次收到使用者輸入後，會觸發我們所設定的 callback，顯示使用者輸入的訊息並離
+開這個 Interface。
+
+#+BEGIN_SRC clojure
+  (doto rl
+    (.setPrompt "user> ")
+    (.prompt)
+    (.on "line"
+         (fn [line]
+           (println (str "You enter: " line))
+           (.close rl)))
+    ;; non-blocking, you can add anything here
+    )
+#+END_SRC
+
+接下來我們直接透過 =lein cljsbuild once= 編譯這隻程式。
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ lein cljsbuild once
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.847 seconds.
+#+END_EXAMPLE
+
+完成後添加我們的執行程式用 wrapper: =run-example0.js=
+#+BEGIN_SRC js
+  require("./target/goog/bootstrap/nodejs.js");
+  require("./target/readline.js");
+  require("./target/readline/example0");
+  readline.example0._main();
+#+END_SRC
+
+我們可以直接執行這個程式看看是否真的有接收到使用者輸入後並結束程式。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ node run-example0.js
+user> hello node.js
+You enter: hello node.js
+#+END_EXAMPLE
+
+* Example 1: 無窮迴圈讀取輸入
+
+和 [[http://coldnew.github.io/blog/2015/10-01_clojure_jline/][在 clojure 下使用 JLine 2.x 實現互動式命令]] 一文中的 Example 1 不同的地方在於
+由於 Node.js 的設計，我們並不需要針對使用者的輸入而外撰寫迴圈，因此我們的
+Example 1 和 Example 0 大抵是相同的。
+
+為了讓程式執行狀況可以和 clojure 那篇文章一樣，我們另外添加了 [[https://nodejs.org/api/readline.html#readline_rl_close][close]] 的事件，當收
+到離開的訊息時提示使用者程式結束。
+
+#+BEGIN_SRC clojure
+  (ns readline.example1
+    (:require [cljs.nodejs :as nodejs]))
+  
+  ;; enable *print-fn* in clojurescript
+  (enable-console-print!)
+  
+  (defn -main [& args]
+    (let [readline (nodejs/require "readline")
+          rl (.createInterface readline
+                               (clj->js {:input  (.-stdin  js/process)
+                                         :output (.-stdout js/process)}))]
+      (doto rl
+        (.setPrompt "user> ")
+        (.on "line"
+             (fn [line]
+               (case line
+                 "quit" (.close rl)
+                 ;; default
+                 (do
+                   (println (str "You enter: " line))
+                   (.prompt rl)))))
+        ;; show info after enter quit
+        (.on "close" (fn[]
+                       (println "Exit application.")))
+        (.prompt)
+        )))
+  
+  ;; setup node.js starter point
+  (set! *main-cli-fn* -main)
+#+END_SRC
+
+於是我們直接透過 =lein cljsbuild once= 來編譯這隻程式。
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ lein cljsbuild once
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.847 seconds.
+#+END_EXAMPLE
+
+完成後添加我們的執行程式用 wrapper: =run-example1.js=
+#+BEGIN_SRC js
+  require("./target/goog/bootstrap/nodejs.js");
+  require("./target/readline.js");
+  require("./target/readline/example1");
+  readline.example1._main();
+#+END_SRC
+
+我們可以直接執行這個程式看看是否真的有接收到使用者輸入後並結束程式。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ node run-example1.js
+user> test
+You enter: test
+user> hi
+You enter: hi
+user> quit
+Exit application.
+#+END_EXAMPLE
+
+* Example 2: 遮蔽使用者輸入
+
+在互動式命令中，輸入密碼的時候我們不是不顯示密碼，不然就是將密碼轉換成 =*= 進行
+顯示，那在 [[https://nodejs.org/api/readline.html][readline]] 模組 下要怎樣作呢？由於 [[https://nodejs.org/api/readline.html][readline]] 模組 並未提供此類的功能，因
+此我們必須換個方式來實作。
+
+先來看看完整程式碼:
+
+#+BEGIN_SRC clojure
+  (ns readline.example2
+    (:require [cljs.nodejs :as nodejs]
+              [clojure.string :as str]))
+  
+  ;; enable *print-fn* in clojurescript
+  (enable-console-print!)
+  
+  (defn -main [& args]
+    (let [readline (nodejs/require "readline")
+          rl (.createInterface readline
+                               (clj->js {:input  (.-stdin  js/process)
+                                         :output (.-stdout js/process)}))]
+      (.on js/process.stdin "data"
+           (fn [c]
+             (if  (or (and (>= c \A) (<= c \Z))
+                      (and (>= c \a) (<= c \z))
+                      (and (>= c \0) (<= c \9)))
+               (.write js/process.stdout "\b*"))))
+  
+      (doto rl
+        (.setPrompt "user> ")
+        (.on "line"
+             (fn [line]
+               (case line
+                 "quit" (.close rl)
+                 ;; default
+                 (do
+                   (println (str "You enter: " line))
+                   (.prompt rl)))))
+        (.on "close" #(println "Exit application."))
+        (.prompt)
+        )))
+  
+  ;; setup node.js starter point
+  (set! *main-cli-fn* -main)
+#+END_SRC
+
+在這個程式中，我們增加了監控 [[https://nodejs.org/api/process.html#process_process_stdin][process.stdin]] 的 data 事件，當接收的訊息屬於
+[a-zA-Z0-9] 的範圍的時候，輸出 =\b*= 這樣的組合。
+
+=\b= 其實就是鍵盤上的 =<backspace>= 按鍵，也就是說我們清掉輸入的訊息，並填上 =*=
+字元。
+
+#+BEGIN_SRC clojure
+  (.on js/process.stdin "data"
+       (fn [c]
+         (if  (or (and (>= c \A) (<= c \Z))
+                  (and (>= c \a) (<= c \z))
+                  (and (>= c \0) (<= c \9)))
+           (.write js/process.stdout "\b*"))))
+#+END_SRC
+
+我們直接透過 =lein cljsbuild once= 來編譯這隻程式。
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ lein cljsbuild once
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.847 seconds.
+#+END_EXAMPLE
+
+完成後添加我們的執行程式用 wrapper: =run-example2.js=
+#+BEGIN_SRC js
+  require("./target/goog/bootstrap/nodejs.js");
+  require("./target/readline.js");
+  require("./target/readline/example2");
+  readline.example2._main();
+#+END_SRC
+
+讓我們趕快來測試程式看看是不是所有輸入的資訊都被轉換成 =*= 了?
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ node run-example2.js
+user> ********
+You enter: asdadasd
+user> ****
+Exit application.
+#+END_EXAMPLE
+
+* Example 3: 簡易的 shell
+
+經過前面的範例，想必各位對 [[https://nodejs.org/api/readline.html][readline]] 模組 的基本使用已經心裡有數了，那麼就讓我們
+來個複雜一點的程式來作個結束吧。我們要實現一個簡單的 shell，這個 shell 只有 3 種
+指令：ls、clear、echo。
+
+在講解前，先讓我們看看整體程式是長怎樣的:
+
+#+BEGIN_SRC clojure
+  (ns readline.example3
+    (:require [cljs.nodejs :as nodejs]
+              [clojure.string :as str]))
+  
+  ;; enable *print-fn* in clojurescript
+  (enable-console-print!)
+  
+  (defn -main [& args]
+    (let [fs (nodejs/require "fs")
+          readline (nodejs/require "readline")
+          rl (.createInterface readline
+                               (clj->js {:input  (.-stdin  js/process)
+                                         :output (.-stdout js/process)}))]
+      (doto rl
+        (.setPrompt "user> ")
+        (.on "line"
+             (fn [line]
+               (let [line-seq (str/split line #"\s+")]
+                 (case (first line-seq)
+                   "quit" (.close rl)
+                   "ls" (.readdir fs (.cwd js/process)
+                                  (fn [err items]
+                                    (doseq [f items]
+                                      (println (str f)))
+                                    (.prompt rl)))
+                   "clear" (do (println "\033[2J]\033[H") (.prompt rl))
+                   "echo"  (do (println (str (second line-seq))) (.prompt rl))
+                   ;; default
+                   (do
+                     (println (str "No such command!! You enter: " line))
+                     (.prompt rl))))))
+        (.on "close" #(println "Exit application."))
+        (.prompt)
+        )))
+  
+  ;; setup node.js starter point
+  (set! *main-cli-fn* -main)
+#+END_SRC
+
+在這個範例之前，我們都是直接去對 =line= 變數進行比較，但是在 shell 裡面，一行程
+式可以被解析為一道命令與許多參數，因此我們要先將 =line= 裡面的訊息切成許多序列
+(sequence)，序列的第一個即為 =命令= ，剩下的則是參數。
+
+clojure.string 提供了 [[https://clojuredocs.org/clojure.string/split][split]] 函式可以很方便的將字串切割成序列 (sequence)。
+
+#+BEGIN_SRC clojure
+  (clojure.string/split "echo test" #"\s+")
+  ;;=> ["echo" "test"]
+#+END_SRC
+
+將輸入的資訊切割成序列 (sequence) 後，我們就可以使用 [[https://clojuredocs.org/clojure.core/first][first]] 去取得序列的第一個項
+目，也就是使用者實際輸入的命令，我們將其導入 [[https://clojuredocs.org/clojure.core/case][case]] 進行判斷，若有符合的資訊則根據
+批配項目進行相對應的函式，反之則提示說沒有該命令存在。
+
+#+BEGIN_SRC clojure
+  (case (first line-seq)
+    "quit" (.close rl)
+    "ls" (.readdir fs (.cwd js/process)
+                   (fn [err items]
+                     (doseq [f items]
+                       (println (str f)))
+                     (.prompt rl)))
+    "clear" (do (println "\033[2J\033[H") (.prompt rl))
+    "echo"  (do (println (str (second line-seq))) (.prompt rl))
+    ;; default
+    (do
+      (println (str "No such command!! You enter: " line))
+      (.prompt rl)))
+#+END_SRC
+
+我們先從 clear 命令開始，由於 [[https://nodejs.org/api/readline.html][readline]] 模組 似乎沒有提供直接將整個 console 清空的功能，因此我們使用
+[[http://www.termsys.demon.co.uk/vtansi.htm][VT100 terminal]] 控制指令來將螢幕清空並將游標移動到起始位置:
+
+- Erase Screen    =<ESC>[2J=
+
+- Cursor Home     =<ESC>[H=
+
+而 echo 命令則是透過 [[https://clojuredocs.org/clojure.core/second][second]] 方法去取得我們切割出來的命令序列 (sequence) 中的第二
+個項目，並將之印出來。
+
+ls 命令則是當中最為複雜的一個，我們首先透過 [[https://nodejs.org/api/process.html#process_process_cwd][process.cwd[[file:][]]] 去取得當前目錄的位址:
+
+#+BEGIN_SRC clojure
+  (.cwd js/process)
+  ;;=> "/Data/cljs_readline"
+#+END_SRC
+
+知道了當前目錄後，我們再將其透過  的[[https://clojuredocs.org/clojure.java.io/file][ file]] 將目錄內容轉換成序列
+(sequence)。
+
+#+BEGIN_SRC clojure
+  (.readdir (nodejs/require "fs") (.cwd js/process) (fn [err items] (vec items)))
+  ;;=> [".gitignore" "doc" "LICENSE" "project.clj" "README.md" "resources" "src" "test"]
+#+END_SRC
+
+有了序列 (sequence) 以後，接下來就使用 [[https://clojuredocs.org/clojure.core/doseq][doseq]] 去遍歷這整個序列 (sequence) ，並將
+資訊印出來，這樣我們的 ls 命令就完成了。
+
+#+BEGIN_SRC clojure
+  (.readdir (nodejs/require "fs" (.cwd js/process)
+                            (fn [err items]
+                              (doseq [f items]
+                                (println (str f)))
+                              (.prompt rl))))
+  ;;=> .gitignore
+  ;;=> doc
+  ;;=> LICENSE
+  ;;=> project.clj
+  ;;=> README.md
+  ;;=> resources
+  ;;=> src
+  ;;=> test
+#+END_SRC
+
+於是我們透過 =lein cljsbuild once= 來編譯這隻程式。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ lein cljsbuild once
+Compiling "target/readline.js" from ["src"]...
+Successfully compiled "target/readline.js" in 1.847 seconds.
+#+END_EXAMPLE
+
+完成後添加我們的執行程式用 wrapper: =run-example3.js=
+#+BEGIN_SRC js
+  require("./target/goog/bootstrap/nodejs.js");
+  require("./target/readline.js");
+  require("./target/readline/example3");
+  readline.example3._main();
+#+END_SRC
+
+我們可以直接執行這個程式來看看我們寫出來的簡單的 shell。
+
+#+BEGIN_EXAMPLE
+coldnew@Rosia ~/readline $ node run-example1.js
+user> echo hi
+hi
+user>
+#+END_EXAMPLE
+
+* 取得範例程式碼
+
+本篇文章的範例程式碼已經上傳到 [[https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java][GitHub]] 上，你可以使用以下方式取得程式碼
+
+: git clone https://github.com/coldnew/blog-tutorial-examples.git
+
+並切換到 =2015/cljs_readline= 資料夾去
+
+#+BEGIN_SRC sh
+  coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/cljs_readline
+#+END_SRC
+
+程式的執行方式則和本篇文章相同 ~ Have Fun~~
+
+* 延伸閱讀
+
+~[1]~ [[https://nodejs.org/api/readline.html#readline_readline][Node.js v4.1.1 Documentation - Readline]]
+
+~[2]~ [[http://itbilu.com/nodejs/core/41CUGeaP.html][行讀取模塊 readline]]
+
+~[3]~ [[http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/][ClojureScript: JavaScript Interop]]
+
+~[4]~ [[https://yobriefca.se/blog/2014/05/19/the-weird-and-wonderful-characters-of-clojure/][The Weird and Wonderful Characters of Clojure]]
