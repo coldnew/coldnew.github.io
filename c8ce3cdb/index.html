@@ -241,9 +241,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-orgd6d9435" class="outline-2">
-<h2 id="orgd6d9435">設定我們的目標</h2>
-<div class="outline-text-2" id="text-orgd6d9435">
+<div id="outline-container-orga3c831e" class="outline-2">
+<h2 id="orga3c831e">設定我們的目標</h2>
+<div class="outline-text-2" id="text-orga3c831e">
 <p>
 在開始寫程式前，先來確立我們的目標。我們希望取得 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external">台灣銀行牌告匯率</a> 的資訊，並將下圖裡面的資料轉換成 Clojure 的 <a href="https://github.com/edn-format/edn" target="_blank" rel="external">edn</a> 格式。
 </p>
@@ -282,9 +282,9 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgf0bcccf" class="outline-2">
-<h2 id="orgf0bcccf">建立我們的專案</h2>
-<div class="outline-text-2" id="text-orgf0bcccf">
+<div id="outline-container-orga2c71fe" class="outline-2">
+<h2 id="orga2c71fe">建立我們的專案</h2>
+<div class="outline-text-2" id="text-orga2c71fe">
 <p>
 首先我們先透過 <a href="http://leiningen.org/" target="_blank" rel="external">leinigen</a> 產生我們 Clojure 專案的基本樣板，這邊命名該專案為 <code>twbank-forex</code>
 </p>
@@ -310,9 +310,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-org126ddf0" class="outline-2">
-<h2 id="org126ddf0">開始我們的程式</h2>
-<div class="outline-text-2" id="text-org126ddf0">
+<div id="outline-container-orgae973b9" class="outline-2">
+<h2 id="orgae973b9">開始我們的程式</h2>
+<div class="outline-text-2" id="text-orgae973b9">
 <p>
 就讓我們來開始我們的專案吧，首先編輯 <code>src/twbank_forex/core.clj</code> 這個檔案，並添加一些我們需要的函式庫資訊:
 </p>
@@ -342,9 +342,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </p>
 </div>
 
-<div id="outline-container-org229235e" class="outline-3">
-<h3 id="org229235e">取得網頁內容</h3>
-<div class="outline-text-3" id="text-org229235e">
+<div id="outline-container-org172d015" class="outline-3">
+<h3 id="org172d015">取得網頁內容</h3>
+<div class="outline-text-3" id="text-org172d015">
 <p>
 我們的目的是下載 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external">台灣銀行牌告匯率</a> 網頁內容並進行解析，因此我們可以透過 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="external">clj-http</a> 來處理這件事
 </p>
@@ -395,9 +395,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-org355845c" class="outline-3">
-<h3 id="org355845c">取得最新掛牌時間</h3>
-<div class="outline-text-3" id="text-org355845c">
+<div id="outline-container-org834669f" class="outline-3">
+<h3 id="org834669f">取得最新掛牌時間</h3>
+<div class="outline-text-3" id="text-org834669f">
 <p>
 取得網頁內容後，我們可以來查找這個網頁的掛牌時間，從網頁上來看就是這個
 </p>
@@ -454,9 +454,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-org5cb0416" class="outline-3">
-<h3 id="org5cb0416">將網頁轉換成 hickory 格式</h3>
-<div class="outline-text-3" id="text-org5cb0416">
+<div id="outline-container-orge3565af" class="outline-3">
+<h3 id="orge3565af">將網頁轉換成 hickory 格式</h3>
+<div class="outline-text-3" id="text-orge3565af">
 <p>
 在本程式中我們將透過 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 來讓我們解析 HTML 更為簡單，<a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 是一個可用於 Clojure/ClojureScript 的函式庫，可以簡化我們解析 HTML 文件的麻煩，唯一的缺點是，由於目前 <a href="https://nodejs.org/" target="_blank" rel="external">node.js</a> 缺少了 <i>DOM</i> 元件，因此使用 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 寫出的 ClojureScript 是無法在 <a href="https://nodejs.org" target="_blank" rel="external">node.js</a> 上執行的。
 </p>
@@ -522,9 +522,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-orgf1b22b1" class="outline-3">
-<h3 id="orgf1b22b1">取得匯率轉換的資訊</h3>
-<div class="outline-text-3" id="text-orgf1b22b1">
+<div id="outline-container-orgf4789ce" class="outline-3">
+<h3 id="orgf4789ce">取得匯率轉換的資訊</h3>
+<div class="outline-text-3" id="text-orgf4789ce">
 <p>
 接下來就是這個程式的重頭戲了，以網頁來看，我們的目標就是這些匯率資訊
 </p>
@@ -711,9 +711,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-orgfd7559d" class="outline-3">
-<h3 id="orgfd7559d">根據匯率轉換的資訊製作資料</h3>
-<div class="outline-text-3" id="text-orgfd7559d">
+<div id="outline-container-org8934a19" class="outline-3">
+<h3 id="org8934a19">根據匯率轉換的資訊製作資料</h3>
+<div class="outline-text-3" id="text-org8934a19">
 <p>
 在前面我們取得了匯率轉換的資訊，但是我們要怎樣把這些資訊做成以下的形式呢?
 </p>
@@ -791,9 +791,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-orgeb174ce" class="outline-3">
-<h3 id="orgeb174ce">合併所有結果</h3>
-<div class="outline-text-3" id="text-orgeb174ce">
+<div id="outline-container-org18d39bc" class="outline-3">
+<h3 id="org18d39bc">合併所有結果</h3>
+<div class="outline-text-3" id="text-org18d39bc">
 <p>
 在上一步驟中，我們已經幾乎完成我們的程式，是時候將他進行整合成我們期望的結果
 </p>
@@ -837,9 +837,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-org9f0f92b" class="outline-2">
-<h2 id="org9f0f92b">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-org9f0f92b">
+<div id="outline-container-org6d09d94" class="outline-2">
+<h2 id="org6d09d94">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-org6d09d94">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2016/twbank-forex" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -1029,7 +1029,7 @@ skip .....
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd6d9435"><span class="nav-text">設定我們的目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf0bcccf"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org126ddf0"><span class="nav-text">開始我們的程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org229235e"><span class="nav-text">取得網頁內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org355845c"><span class="nav-text">取得最新掛牌時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5cb0416"><span class="nav-text">將網頁轉換成 hickory 格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf1b22b1"><span class="nav-text">取得匯率轉換的資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgfd7559d"><span class="nav-text">根據匯率轉換的資訊製作資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgeb174ce"><span class="nav-text">合併所有結果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9f0f92b"><span class="nav-text">取得範例程式碼</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orga3c831e"><span class="nav-text">設定我們的目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga2c71fe"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgae973b9"><span class="nav-text">開始我們的程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org172d015"><span class="nav-text">取得網頁內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org834669f"><span class="nav-text">取得最新掛牌時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge3565af"><span class="nav-text">將網頁轉換成 hickory 格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf4789ce"><span class="nav-text">取得匯率轉換的資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org8934a19"><span class="nav-text">根據匯率轉換的資訊製作資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org18d39bc"><span class="nav-text">合併所有結果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6d09d94"><span class="nav-text">取得範例程式碼</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -1328,7 +1328,7 @@ skip .....
       function renderGitalk(){
         var gitalk = new Gitalk({
             owner: 'coldnew',
-            repo: 'https://github.com/coldnew/coldnew.github.io',
+            repo: 'coldnew.github.io',
             clientID: 'b68fc8fd50fcc051b95e',
             clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
             admin: 'coldnew',
