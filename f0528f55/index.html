@@ -1,6 +1,6 @@
 <!doctype html>
 <html class="theme-next use-motion theme-next-mist">
-<head>
+  <head>
   
 
 <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
@@ -242,9 +242,9 @@ Raspberry Pi 對於剛接觸嵌入式系統開發的人而言，無疑是一個�
 本使用方式。
 </p>
 
-<div id="outline-container-orgf8bd15a" class="outline-2">
-<h2 id="orgf8bd15a">使用設備</h2>
-<div class="outline-text-2" id="text-orgf8bd15a">
+<div id="outline-container-org8ed29cf" class="outline-2">
+<h2 id="org8ed29cf">使用設備</h2>
+<div class="outline-text-2" id="text-org8ed29cf">
 <p>
 要完成本篇文章所描述的部份，你需要以下幾種器材
 </p>
@@ -261,9 +261,9 @@ Raspberry Pi 對於剛接觸嵌入式系統開發的人而言，無疑是一個�
 </div>
 </div>
 
-<div id="outline-container-orgae4b018" class="outline-2">
-<h2 id="orgae4b018">硬體線路</h2>
-<div class="outline-text-2" id="text-orgae4b018">
+<div id="outline-container-orgee024fb" class="outline-2">
+<h2 id="orgee024fb">硬體線路</h2>
+<div class="outline-text-2" id="text-orgee024fb">
 <p>
 下面的硬體線路使用 <a href="http://fritzing.org/" target="_blank" rel="external">Fritzing</a> 軟體來繪製，連線到 EEPROM 的線路很簡單，只
 要將 I²C 所需要使用的線路連接就好，其中 EEPROM 的 A0~A2 為位址線，這邊將其
@@ -297,9 +297,9 @@ Raspberry Pi 對於剛接觸嵌入式系統開發的人而言，無疑是一個�
 </div>
 </div>
 
-<div id="outline-container-org2b07529" class="outline-2">
-<h2 id="org2b07529">讓 Raspberry Pi 可以讀取 i2c 設備</h2>
-<div class="outline-text-2" id="text-org2b07529">
+<div id="outline-container-org3f77a48" class="outline-2">
+<h2 id="org3f77a48">讓 Raspberry Pi 可以讀取 i2c 設備</h2>
+<div class="outline-text-2" id="text-org3f77a48">
 <ul class="org-ul">
 <li><p>
 將 i2c 模組從黑名單中移除
@@ -363,9 +363,9 @@ pi@raspberrypi:/home/pi$ ls /dev/i2c*
 </div>
 </div>
 
-<div id="outline-container-orga14744a" class="outline-2">
-<h2 id="orga14744a">安裝 i2c-tools</h2>
-<div class="outline-text-2" id="text-orga14744a">
+<div id="outline-container-org19eb5ca" class="outline-2">
+<h2 id="org19eb5ca">安裝 i2c-tools</h2>
+<div class="outline-text-2" id="text-org19eb5ca">
 <p>
 我們在這邊使用最常用的 i2c-tools，因為這個套件並沒有被預先安裝，因此你
 必須自己安裝
@@ -400,9 +400,9 @@ i2cdetect  i2cdump    i2cget     i2cset
 </div>
 </div>
 
-<div id="outline-container-orga42b5ce" class="outline-2">
-<h2 id="orga42b5ce">使用 i2cdetect 察看目前有多少個 i2c bus</h2>
-<div class="outline-text-2" id="text-orga42b5ce">
+<div id="outline-container-orgad31c48" class="outline-2">
+<h2 id="orgad31c48">使用 i2cdetect 察看目前有多少個 i2c bus</h2>
+<div class="outline-text-2" id="text-orgad31c48">
 <p>
 你可以使用以下命令來察看目前的系統有多少個 i2c bus，以我手上的
 Raspberry Pi 為例
@@ -428,9 +428,9 @@ rev.2 版本，則都改成使用 i2c-1 作為 i2c bus。
 </div>
 </div>
 
-<div id="outline-container-org6bd0b25" class="outline-2">
-<h2 id="org6bd0b25">使用 i2cdetect 察看目前掛在 i2c bus 上的設備</h2>
-<div class="outline-text-2" id="text-org6bd0b25">
+<div id="outline-container-orga5516b6" class="outline-2">
+<h2 id="orga5516b6">使用 i2cdetect 察看目前掛在 i2c bus 上的設備</h2>
+<div class="outline-text-2" id="text-orga5516b6">
 <p>
 知道你要查詢的 I²C bus 後，我們可以使用
 </p>
@@ -463,9 +463,9 @@ root@raspberrypi:/home/pi# i2cdetect -y 1
 </div>
 </div>
 
-<div id="outline-container-org121347e" class="outline-2">
-<h2 id="org121347e">使用 i2cdump 查詢設備內所有暫存器</h2>
-<div class="outline-text-2" id="text-org121347e">
+<div id="outline-container-org043a167" class="outline-2">
+<h2 id="org043a167">使用 i2cdump 查詢設備內所有暫存器</h2>
+<div class="outline-text-2" id="text-org043a167">
 <p>
 我們現在知道 EEPROM 是掛在 i2c-1 上的 0x50，若想知道 EEPROM 裏面的資
 訊，則可以使用 i2cdump 來獲得，i2cdump 的使用方式如下
@@ -527,9 +527,9 @@ i2cset 來修改他的數值。
 </div>
 </div>
 
-<div id="outline-container-orgca7501c" class="outline-2">
-<h2 id="orgca7501c">使用 i2cset 修改設備暫存器數值</h2>
-<div class="outline-text-2" id="text-orgca7501c">
+<div id="outline-container-orga60fe0a" class="outline-2">
+<h2 id="orga60fe0a">使用 i2cset 修改設備暫存器數值</h2>
+<div class="outline-text-2" id="text-orga60fe0a">
 <p>
 如果我們想修改 EEPROM 裏面的數值，那要怎麼辦呢？這時候可以使
 用 i2cset 來幫忙完成，i2cset 的使用方式如下
@@ -586,9 +586,9 @@ f0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
 </div>
 </div>
 
-<div id="outline-container-org4c3e044" class="outline-2">
-<h2 id="org4c3e044">使用 i2cget 來取得暫存器的數值</h2>
-<div class="outline-text-2" id="text-org4c3e044">
+<div id="outline-container-org29774a7" class="outline-2">
+<h2 id="org29774a7">使用 i2cget 來取得暫存器的數值</h2>
+<div class="outline-text-2" id="text-org29774a7">
 <p>
 有些時候我們只想要看某個暫存器位址，這時候使用 i2cget 是最快的選擇，
 i2cget 命令格式如下
@@ -615,11 +615,11 @@ root@raspberrypi:/home/pi# i2cget  -y 1 0x50 0x12
 </pre>
 </div>
 </div>
-<div id="outline-container-org4d0a1af" class="outline-2">
-<h2 id="org4d0a1af">理解 EEPROM 的位址設定</h2>
-<div class="outline-text-2" id="text-org4d0a1af">
+<div id="outline-container-orge0de304" class="outline-2">
+<h2 id="orge0de304">理解 EEPROM 的位址設定</h2>
+<div class="outline-text-2" id="text-orge0de304">
 <p>
-在前面 <a href="#orgae4b018">硬體線路</a> 說到了:『其中 EEPROM 的 A0~A2 為位址線，這邊將其全部接地，因此此設備在 I²C 上的位址為 *0x50*』，但是為什麼是 0x50 呢?
+在前面 <a href="#orgee024fb">硬體線路</a> 說到了:『其中 EEPROM 的 A0~A2 為位址線，這邊將其全部接地，因此此設備在 I²C 上的位址為 *0x50*』，但是為什麼是 0x50 呢?
 </p>
 
 <p>
@@ -707,13 +707,9 @@ root@raspberrypi:/home/pi# i2cget  -y 1 0x50 0x12
  </div>
 
         
-
-        
           <div class="comments" id="comments">
             
-              <div id="disqus_thread">
-                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-              </div>
+               <div id="gitalk-container"></div>
             
           </div>
         
@@ -817,7 +813,7 @@ root@raspberrypi:/home/pi# i2cget  -y 1 0x50 0x12
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf8bd15a"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgae4b018"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2b07529"><span class="nav-text">讓 Raspberry Pi 可以讀取 i2c 設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga14744a"><span class="nav-text">安裝 i2c-tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga42b5ce"><span class="nav-text">使用 i2cdetect 察看目前有多少個 i2c bus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6bd0b25"><span class="nav-text">使用 i2cdetect 察看目前掛在 i2c bus 上的設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org121347e"><span class="nav-text">使用 i2cdump 查詢設備內所有暫存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgca7501c"><span class="nav-text">使用 i2cset 修改設備暫存器數值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4c3e044"><span class="nav-text">使用 i2cget 來取得暫存器的數值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4d0a1af"><span class="nav-text">理解 EEPROM 的位址設定</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8ed29cf"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgee024fb"><span class="nav-text">硬體線路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3f77a48"><span class="nav-text">讓 Raspberry Pi 可以讀取 i2c 設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org19eb5ca"><span class="nav-text">安裝 i2c-tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgad31c48"><span class="nav-text">使用 i2cdetect 察看目前有多少個 i2c bus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga5516b6"><span class="nav-text">使用 i2cdetect 察看目前掛在 i2c bus 上的設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org043a167"><span class="nav-text">使用 i2cdump 查詢設備內所有暫存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga60fe0a"><span class="nav-text">使用 i2cset 修改設備暫存器數值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org29774a7"><span class="nav-text">使用 i2cget 來取得暫存器的數值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge0de304"><span class="nav-text">理解 EEPROM 的位址設定</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -1105,5 +1101,30 @@ root@raspberrypi:/home/pi# i2cget  -y 1 0x50 0x12
     });
   </script>
   <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'https://github.com/coldnew/coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
 </body>
 </html>

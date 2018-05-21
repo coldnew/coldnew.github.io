@@ -1,6 +1,6 @@
 <!doctype html>
 <html class="theme-next use-motion theme-next-mist">
-<head>
+  <head>
   
 
 <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
@@ -256,9 +256,9 @@ ubifs 的掛載描述
 我們想讓 Android 的 init 掛載 ubifs 要怎麼辦? 這時候只好自己動手了~
 </p>
 
-<div id="outline-container-org42a7024" class="outline-2">
-<h2 id="org42a7024">讓 init 可以掛載 ubifs 所進行的修改</h2>
-<div class="outline-text-2" id="text-org42a7024">
+<div id="outline-container-orgf64e71a" class="outline-2">
+<h2 id="orgf64e71a">讓 init 可以掛載 ubifs 所進行的修改</h2>
+<div class="outline-text-2" id="text-orgf64e71a">
 <p>
 Android 的 init 原始碼位於 <code>system/core/init</code> 裡面，為了增加 ubifs 的功
 能，我們將針對以下檔案進行修改
@@ -272,9 +272,9 @@ Android 的 init 原始碼位於 <code>system/core/init</code> 裡面，為了�
 </ul>
 </div>
 
-<div id="outline-container-orgc0d936a" class="outline-3">
-<h3 id="orgc0d936a">修改 init/builtins.c</h3>
-<div class="outline-text-3" id="text-orgc0d936a">
+<div id="outline-container-org2f16214" class="outline-3">
+<h3 id="org2f16214">修改 init/builtins.c</h3>
+<div class="outline-text-3" id="text-org2f16214">
 <p>
 我們所希望的是可以在 init.rc 增加下面這樣的描述，讓 init 可以掛載 ubifs
 </p>
@@ -323,9 +323,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org093ca56" class="outline-3">
-<h3 id="org093ca56">修改 init/util.h</h3>
-<div class="outline-text-3" id="text-org093ca56">
+<div id="outline-container-org06be1d1" class="outline-3">
+<h3 id="org06be1d1">修改 init/util.h</h3>
+<div class="outline-text-3" id="text-org06be1d1">
 <p>
 我們在 <code>system/core/init/builtins.c</code> 使用到一些和 ubifs 相關的函式，這
 些函式並未被宣告以及定義，因此我們宣告在 util.h 裡面。
@@ -349,9 +349,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org9d7d9ae" class="outline-3">
-<h3 id="org9d7d9ae">增加 init/ubi-user.h 檔案</h3>
-<div class="outline-text-3" id="text-org9d7d9ae">
+<div id="outline-container-org219267c" class="outline-3">
+<h3 id="org219267c">增加 init/ubi-user.h 檔案</h3>
+<div class="outline-text-3" id="text-org219267c">
 <p>
 由於我們進行一些 ubifs 相關函式的定義時，需要用到 ubifs 的結構，因此
 需要增加相關結構的資訊。 <code>ubi-user.h</code> 這個檔案取自於 Linux Kernel
@@ -788,9 +788,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org4ff564d" class="outline-3">
-<h3 id="org4ff564d">修改 init/util.c</h3>
-<div class="outline-text-3" id="text-org4ff564d">
+<div id="outline-container-org7bb88fe" class="outline-3">
+<h3 id="org7bb88fe">修改 init/util.c</h3>
+<div class="outline-text-3" id="text-org7bb88fe">
 <p>
 由於我們增加了一些 ubifs 相關的函式，因此必須自己在 <code>init/util.c</code> 裡面加入相對應的實現。
 </p>
@@ -923,9 +923,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org994ddb3" class="outline-2">
-<h2 id="org994ddb3">ramdisk 修改</h2>
-<div class="outline-text-2" id="text-org994ddb3">
+<div id="outline-container-org7019220" class="outline-2">
+<h2 id="org7019220">ramdisk 修改</h2>
+<div class="outline-text-2" id="text-org7019220">
 <p>
 將上面的修正加入並重新編譯 Android 後，你就可以在 ramdisk 下使用以下方式去掛載你
 的 ubifs 檔案系統，修改 init.*.rc 並添加以下資訊:
@@ -938,9 +938,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org9980164" class="outline-2">
-<h2 id="org9980164">參考連結</h2>
-<div class="outline-text-2" id="text-org9980164">
+<div id="outline-container-org91874a2" class="outline-2">
+<h2 id="org91874a2">參考連結</h2>
+<div class="outline-text-2" id="text-org91874a2">
 <p>
 <code>[1]</code> <a href="http://blog.chinaunix.net/uid-22028680-id-3015767.html" target="_blank" rel="external">採用 UBIFS 製作 Android 的文件系統</a>
 </p>
@@ -997,13 +997,9 @@ mtd 設備。
  </div>
 
         
-
-        
           <div class="comments" id="comments">
             
-              <div id="disqus_thread">
-                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-              </div>
+               <div id="gitalk-container"></div>
             
           </div>
         
@@ -1107,7 +1103,7 @@ mtd 設備。
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org42a7024"><span class="nav-text">讓 init 可以掛載 ubifs 所進行的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc0d936a"><span class="nav-text">修改 init/builtins.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org093ca56"><span class="nav-text">修改 init/util.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9d7d9ae"><span class="nav-text">增加 init/ubi-user.h 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4ff564d"><span class="nav-text">修改 init/util.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org994ddb3"><span class="nav-text">ramdisk 修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9980164"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf64e71a"><span class="nav-text">讓 init 可以掛載 ubifs 所進行的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org2f16214"><span class="nav-text">修改 init/builtins.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org06be1d1"><span class="nav-text">修改 init/util.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org219267c"><span class="nav-text">增加 init/ubi-user.h 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7bb88fe"><span class="nav-text">修改 init/util.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7019220"><span class="nav-text">ramdisk 修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org91874a2"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -1395,5 +1391,30 @@ mtd 設備。
     });
   </script>
   <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'https://github.com/coldnew/coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
 </body>
 </html>

@@ -1,6 +1,6 @@
 <!doctype html>
 <html class="theme-next use-motion theme-next-mist">
-<head>
+  <head>
   
 
 <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
@@ -263,18 +263,18 @@
 在撰寫本文時，該設定檔 commit id 為 <a href="https://github.com/Digilent/ZYBO/commit/177c2c97c5cae29a05359479565c2f5256d8d629" target="_blank" rel="external">177c2c</a> ，使用的是 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2015.4 版本， 我們要將它升級到 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2016.1 去。
 </p>
 
-<div id="outline-container-org04359b8" class="outline-2">
-<h2 id="org04359b8">事前準備</h2>
-<div class="outline-text-2" id="text-org04359b8">
+<div id="outline-container-org840badb" class="outline-2">
+<h2 id="org840badb">事前準備</h2>
+<div class="outline-text-2" id="text-org840badb">
 <p>
 在進行升級時，你需要安裝好 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2015.4 以及 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2016.1 才能按照本文的步驟進行。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org634bbc2" class="outline-2">
-<h2 id="org634bbc2">下載設定檔並用 Vivado 2015.4 開啟</h2>
-<div class="outline-text-2" id="text-org634bbc2">
+<div id="outline-container-org09cf258" class="outline-2">
+<h2 id="org09cf258">下載設定檔並用 Vivado 2015.4 開啟</h2>
+<div class="outline-text-2" id="text-org09cf258">
 <p>
 我們首先下載 <a href="http://store.digilentinc.com/" target="_blank" rel="external">Digilent</a> 提供的 <a href="https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd" target="_blank" rel="external">Zybo board 設定檔</a>
 </p>
@@ -331,9 +331,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-orgb704ed0" class="outline-2">
-<h2 id="orgb704ed0">升級設定檔</h2>
-<div class="outline-text-2" id="text-orgb704ed0">
+<div id="outline-container-orgaa199cb" class="outline-2">
+<h2 id="orgaa199cb">升級設定檔</h2>
+<div class="outline-text-2" id="text-orgaa199cb">
 <p>
 接下來我們使用 <code>Vivado 2016.1</code> 打開我們剛剛用 Vivado 2015.4 所產生的 <code>linux_bd.*</code> 專案
 </p>
@@ -383,9 +383,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-orgcd503d3" class="outline-2">
-<h2 id="orgcd503d3">產生 tcl 腳本</h2>
-<div class="outline-text-2" id="text-orgcd503d3">
+<div id="outline-container-org0439583" class="outline-2">
+<h2 id="org0439583">產生 tcl 腳本</h2>
+<div class="outline-text-2" id="text-org0439583">
 <p>
 好了，現在我們把原本用於 Vivado 2015.4 的 tcl 腳本所產生的專案升級到 Vivado 2016.1 了，實際上導致我們不能夠直接使用 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2016.1 來產生專案的原因，在於 <code>src/bd/system.tcl</code> 這個檔案和 Vivado 的版本有依賴性，因此我們要重新產生新的 <code>system.tc</code> 去將它替換掉
 </p>
@@ -406,9 +406,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-orgf52d3a2" class="outline-2">
-<h2 id="orgf52d3a2">將預設語言設為 Verilog</h2>
-<div class="outline-text-2" id="text-orgf52d3a2">
+<div id="outline-container-org751e290" class="outline-2">
+<h2 id="org751e290">將預設語言設為 Verilog</h2>
+<div class="outline-text-2" id="text-org751e290">
 <p>
 <a href="http://store.digilentinc.com/" target="_blank" rel="external">Digilent</a> 針對 <a href="http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="external">Zybo board</a> 提供產生專案用的樣板，預設是採用 VHDL 作為這個專案用的硬體描述語言，如果你希望之後這樣建立的專案都是預設使用 Verilog 的話，你可以這樣修改 <code>create_project.tcl</code>
 </p>
@@ -436,9 +436,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-org2f4382f" class="outline-2">
-<h2 id="org2f4382f">重建新的專案</h2>
-<div class="outline-text-2" id="text-org2f4382f">
+<div id="outline-container-org87f2445" class="outline-2">
+<h2 id="org87f2445">重建新的專案</h2>
+<div class="outline-text-2" id="text-org87f2445">
 <p>
 我們剛剛重建了 <code>src/bd/system.tcl</code> 這個檔案，將其升級到 Vivado 2016.1 版本，現在可以試試重新產生新的專案囉
 </p>
@@ -461,9 +461,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ /opt/Xilinx/Vivado/2016.1/bin/viv
 </div>
 </div>
 
-<div id="outline-container-org22e3633" class="outline-2">
-<h2 id="org22e3633">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org22e3633">
+<div id="outline-container-org44e0236" class="outline-2">
+<h2 id="org44e0236">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org44e0236">
 <p>
 <code>[1]</code> <a href="https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd" target="_blank" rel="external">https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd</a>
 </p>
@@ -528,13 +528,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ /opt/Xilinx/Vivado/2016.1/bin/viv
  </div>
 
         
-
-        
           <div class="comments" id="comments">
             
-              <div id="disqus_thread">
-                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-              </div>
+               <div id="gitalk-container"></div>
             
           </div>
         
@@ -638,7 +634,7 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ /opt/Xilinx/Vivado/2016.1/bin/viv
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org04359b8"><span class="nav-text">事前準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org634bbc2"><span class="nav-text">下載設定檔並用 Vivado 2015.4 開啟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb704ed0"><span class="nav-text">升級設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcd503d3"><span class="nav-text">產生 tcl 腳本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf52d3a2"><span class="nav-text">將預設語言設為 Verilog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2f4382f"><span class="nav-text">重建新的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org22e3633"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org840badb"><span class="nav-text">事前準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org09cf258"><span class="nav-text">下載設定檔並用 Vivado 2015.4 開啟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaa199cb"><span class="nav-text">升級設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0439583"><span class="nav-text">產生 tcl 腳本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org751e290"><span class="nav-text">將預設語言設為 Verilog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org87f2445"><span class="nav-text">重建新的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org44e0236"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -926,5 +922,30 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ /opt/Xilinx/Vivado/2016.1/bin/viv
     });
   </script>
   <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'https://github.com/coldnew/coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
 </body>
 </html>

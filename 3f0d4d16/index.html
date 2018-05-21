@@ -1,6 +1,6 @@
 <!doctype html>
 <html class="theme-next use-motion theme-next-mist">
-<head>
+  <head>
   
 
 <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
@@ -425,9 +425,9 @@ Gentoo kernel # tree -L 2 /usr/local/portage/
 8 directories, 2 files
 </pre>
 
-<div id="outline-container-orga5b4691" class="outline-2">
-<h2 id="orga5b4691">建立其他平台的 toolchain</h2>
-<div class="outline-text-2" id="text-orga5b4691">
+<div id="outline-container-orgb908599" class="outline-2">
+<h2 id="orgb908599">建立其他平台的 toolchain</h2>
+<div class="outline-text-2" id="text-orgb908599">
 <p>
 在上面我們講解到了如何使用 crossdev 建立 <code>ARMv7a HardFloat</code> 的 Linux toolchain，
 那如果我們的目標是裸版 (baremetal)呢?
@@ -483,9 +483,9 @@ Gentoo stm32 # crossdev -S USE="-fortran -mudflap -nls -openmp multilib" EXTRA_E
 </div>
 </div>
 
-<div id="outline-container-org05f4cd2" class="outline-2">
-<h2 id="org05f4cd2">測試我們建立的 toolchain</h2>
-<div class="outline-text-2" id="text-org05f4cd2">
+<div id="outline-container-org92a5fa0" class="outline-2">
+<h2 id="org92a5fa0">測試我們建立的 toolchain</h2>
+<div class="outline-text-2" id="text-org92a5fa0">
 <p>
 建立完 toolchain 後，我們可以用簡單的程式搭配 QEMU 來測試我們的 toolchain 是否能正常
 工作，此處以 <code>armv7a-hardfloat-linux-gnueabi-</code> 作為範例，首先建立以下檔案並命名為 <code>hello.c</code>
@@ -530,9 +530,9 @@ Hello cross-compiling world!
 </div>
 </div>
 
-<div id="outline-container-org666adec" class="outline-2">
-<h2 id="org666adec">參考連結</h2>
-<div class="outline-text-2" id="text-org666adec">
+<div id="outline-container-org4ebb9c8" class="outline-2">
+<h2 id="org4ebb9c8">參考連結</h2>
+<div class="outline-text-2" id="text-org4ebb9c8">
 <p>
 <code>[1]</code> <a href="http://gentoo-en.vfose.ru/wiki/Crossdev" target="_blank" rel="external">http://gentoo-en.vfose.ru/wiki/Crossdev</a>
 </p>
@@ -589,13 +589,9 @@ Hello cross-compiling world!
  </div>
 
         
-
-        
           <div class="comments" id="comments">
             
-              <div id="disqus_thread">
-                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-              </div>
+               <div id="gitalk-container"></div>
             
           </div>
         
@@ -699,7 +695,7 @@ Hello cross-compiling world!
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orga5b4691"><span class="nav-text">建立其他平台的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org05f4cd2"><span class="nav-text">測試我們建立的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org666adec"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb908599"><span class="nav-text">建立其他平台的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org92a5fa0"><span class="nav-text">測試我們建立的 toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4ebb9c8"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -987,5 +983,30 @@ Hello cross-compiling world!
     });
   </script>
   <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'https://github.com/coldnew/coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
 </body>
 </html>

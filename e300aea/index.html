@@ -1,6 +1,6 @@
 <!doctype html>
 <html class="theme-next use-motion theme-next-mist">
-<head>
+  <head>
   
 
 <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
@@ -235,9 +235,9 @@ GTK 圖形介面以及 QT 圖形介面，會將你在螢幕上進行的動作錄
 此，我特別使用以下腳本來幫我產生 GIF 動畫檔案。
 </p>
 
-<div id="outline-container-orgc0d98b8" class="outline-2">
-<h2 id="orgc0d98b8">ogv 轉 gif 流程</h2>
-<div class="outline-text-2" id="text-orgc0d98b8">
+<div id="outline-container-org6615363" class="outline-2">
+<h2 id="org6615363">ogv 轉 gif 流程</h2>
+<div class="outline-text-2" id="text-org6615363">
 <p>
 整個 ogv 轉換成 gif 檔案的流程，是使用 mplayer 將影片檔案轉換成一張一張的圖
 片後，再透過 imagemagick 來將所有圖片整合回 GIF 檔案，但是由於這樣做出來的
@@ -291,9 +291,9 @@ output.gif 檔。
 </div>
 </div>
 
-<div id="outline-container-org822a589" class="outline-2">
-<h2 id="org822a589">完整轉換腳本</h2>
-<div class="outline-text-2" id="text-org822a589">
+<div id="outline-container-org5bd7d9d" class="outline-2">
+<h2 id="org5bd7d9d">完整轉換腳本</h2>
+<div class="outline-text-2" id="text-org5bd7d9d">
 <p>
 下面是我在使用的轉換腳本 (<a href="ogv2blog.sh">點我下載</a>)，整個暫存檔案都會在 /tmp 底下運作，完成後，會
 在你想要轉換的 input.ogv 檔案的目錄下產生同名的 .gif 檔案。
@@ -384,13 +384,9 @@ convert $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">OUT
  </div>
 
         
-
-        
           <div class="comments" id="comments">
             
-              <div id="disqus_thread">
-                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-              </div>
+               <div id="gitalk-container"></div>
             
           </div>
         
@@ -494,7 +490,7 @@ convert $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">OUT
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc0d98b8"><span class="nav-text">ogv 轉 gif 流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org822a589"><span class="nav-text">完整轉換腳本</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6615363"><span class="nav-text">ogv 轉 gif 流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5bd7d9d"><span class="nav-text">完整轉換腳本</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -782,5 +778,30 @@ convert $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">OUT
     });
   </script>
   <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'https://github.com/coldnew/coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
 </body>
 </html>
