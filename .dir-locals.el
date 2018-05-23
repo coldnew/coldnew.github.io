@@ -13,9 +13,9 @@
 		   (make-directory dirname)
 		   (expand-file-name filename dirname)))
 
-	       (setq org-download-method 'my-org-download-method)
+	       (setq-local org-download-method 'my-org-download-method)
 
 	       ;; setup for hexo.el
-	       (setq hexo-new-format 'org)
+	       (setq-local hexo-new-format 'org)
 
 	       )))))
