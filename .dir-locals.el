@@ -10,7 +10,8 @@
 			 (car (url-path-and-query
 			       (url-generic-parse-url link)))))
 		       (dirname (file-name-sans-extension (buffer-name)) ))
-		   (make-directory dirname)
+		   (unless (file-exists-p dirname)
+		     (make-directory dirname))
 		   (expand-file-name filename dirname)))
 
 	       (setq-local org-download-method 'my-org-download-method)
