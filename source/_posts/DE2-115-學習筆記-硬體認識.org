@@ -1,0 +1,357 @@
+#+TITLE: DE2-115 開發紀錄: 硬體認識
+#+OPTIONS: num:nil ^:nil
+#+DATE: <2018-05-27 Sun 21:14>
+#+TAGS: fpga, altera, de2-115
+#+LANGUAGE: zh-tw
+#+CATEGORIES: DE2-115 開發紀錄
+
+手邊有一台早期獲得的 [[https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&CategoryNo=171&No=542&PartNo=1][Altera DE2-115 開發平台]] ，一直放著積灰塵也不是辦法，再加上最近想多玩玩 FGPA，所以就來重新玩一次吧 :)
+
+和 [[https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/][Xilinx Zybo Board]] 不同，[[https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&CategoryNo=171&No=542&PartNo=1][Altera DE2-115 開發平台]] 是只有 FPGA 的開發板，並未包含 ARM Cortex-A9 來作為輔助用的 CPU，對於只想學 FPGA 的人而言，這算是不錯的平台，想要 CPU 的話，就自己寫個 CPU 上去或是用 NIOS-II 軟核 CPU 就好了。
+
+總之，就讓我們來玩玩這一片早期的 FPGA 開發板吧 (想當年這一片可是要台幣 3W 的呢!)
+
+不過在我們開始這一切之前，我們需要稍微了解一下這片開發板以及他的週邊等資訊。
+
+#+HTML: <!--more-->
+
+要了解 [[https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&CategoryNo=171&No=542&PartNo=1][Altera DE2-115 開發平台]] 的相關資訊，我們首先先到他的開發商 [[https://www.terasic.com.tw][友晶科技]] 網站去下載 [[https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&No=542&FID=eeba7202febfb39155fdac7b09ceada7][DE2-115 User Manual]] ，這本手冊會帶領我們了解這平台相關的週邊。
+
+注意到這邊會刻意忽略掉 High Speed Mezzanine Card (HSMC) 接口，因為這個接口除非去買擴展板，不然對一般人而言不會有用到的機會。
+
+* 基本硬體認識
+
+拿到手的 [[https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&CategoryNo=171&No=542&PartNo=1][DE2-115]] 就像這個樣子，從正面來看:
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_144839.png]]
+
+
+哇，這片板子週邊有夠多的，難怪不便宜，不過細節我們待會在說吧，先來看看背面還有什麼?
+
+#+attr_html: :width 80%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_145013.png]]
+
+背後偷偷藏了一顆 EEPROM，未來我們有資料要存放的時候就需要他了！
+
+了解了基本板子週邊後，接下來要來一個一個的研究吧~
+
+* 方塊圖
+
+上面的週邊資訊太複雜了，好在  [[https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&No=542&FID=eeba7202febfb39155fdac7b09ceada7][DE2-115 User Manual]] 有提供方塊圖 (Block Diagram) 可以讓我們對這平台用的 IC 以及有的功能再進一步的了解
+
+#+attr_html: :width 80%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_152307.png]]
+
+* FGPA 核心
+
+[[https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&CategoryNo=171&No=542&PartNo=1][DE2-115]] 使用的 FPGA 核心是 =Cyclone IV EP4CE115F29= ，是屬於 [[https://www.altera.com/products/fpga/cyclone-series/cyclone-iv/overview.html][Cyclone IV]] 系列的，當然在一開始玩的時候只需要知道這個是哪個系列，可以裝下多少邏輯閘就夠了。
+
+因此，就讓我們列一下這顆 FPGA 到底有多少能耐:
+
+- 114,480 LEs
+- 432M 9K memory blocks
+- 3,888 K bits embedded memory
+- 4 PLLs
+
+嗯... 看不懂，就只好引用一下 [[https://www.mouser.tw/new/altera/altera-cycloneiv/][Mouser]] 上的圖啦 ~
+
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_153653.png]]
+
+這邊跳過部份資訊，如果想搞懂關於這顆 FPGA 的描述，包含 LE 是啥啦之類的，推薦看一下 [[http://www.cnblogs.com/logic3/p/5466866.html][FPGA 芯片内部硬件介绍]] 的說明。
+
+* JTAG
+
+JTAG 是 DE2-115 上用來下載程式到 FPGA 用的界面，根據設定的不同，我們可以將其分成 JTAG Mode 和 AS-mode，下面就來講解這兩種模式的不同。
+
+簡單的說:
+
+- JTAG mode: 一般下載用，斷電後資料消失。
+- AS mode: 下載後，即使斷電資料也會保存。
+
+** JTAG mode
+
+JTAG mode 是一般下載用的方式，缺點是斷電後資料不會保存在板子上。如果你想要下載後重新上電可以執行上一次下載的程式的話，請使用 AS mode。
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_215436.png]]
+
+使用 JTAG Mode 的時候，請注意以下步驟:
+
+1. 接上電源
+2. 設定 SW19 在 =RUN= 的位置
+3. 接上 USB type B 線到 USB Blaster 的位置
+4. 透過 QUartus II 選擇適合的位元流 (.sof) 檔案進行下載
+
+** JTAG AS mode
+
+當我們想要斷電再上電後，還可以執行上一次下載的程式的話，這時候就需要透過 AS Mode 來進行。
+
+AS Mode (Active Serial Programming) 會將位元流下載到 [[https://www.altera.com/en_US/pdfs/literature/hb/cfg/cyc_c51014.pdf][EPCS64]] 這顆串口 IC，該晶片除了可以透過串口 (Serial) 下載外，同時也是一個儲存裝置，可以存放共 64MB 大小的資料。當電源啟動的時候，DE2-115 會從 [[https://www.altera.com/en_US/pdfs/literature/hb/cfg/cyc_c51014.pdf][EPCS64]] 拉取資料，完成 FPGA 的設定，這也是為何 AS Mode 可以在斷電的情況下保持資料的原因。
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_215741.png]]
+
+使用 AS Mode 的時候，請注意以下步驟:
+
+1. 接上電源
+2. 接上 USB type B 線到 USB Blaster 的位置
+3. 設定 SW19 在 =PROG= 的位置
+4. 透過 QUartus II 選擇適合的位元流 (.pof) 檔案下載到 EPCS64
+5. 下載完成後，將 SW19 切換回 =RUN= 的位置，這樣會讓 DE2-115 在開機的時候抓取 EPCS64 上的資訊。
+
+** JTAG Chain
+
+除了 JTAG mode 和 AS mode 外，如果我們想要透過 DE2-115 將資訊下載到別的 Altera FPGA 開發板的話，這時候就是使用 JTAG Chain 的時機。
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_214634.png]]
+
+參照上圖，當我們要使用 JTAG Chain 的時候，需要將 JP3 的 pin2 和 pin3 短路，讓 JTAG 訊號可以透過 HSMC 接口出去。
+
+如果 JP3 的 pin1 和 pin2 短路 (預設) ，此時形成一個封閉的迴路，這時候 JTAG 在下載的時候只會偵測到 DE2-115 上的 FPGA 晶片。
+
+* 按鈕
+
+DE2-115 共有四個按鈕 (Push Button)，這些按鈕都接上了[[https://zh.wikipedia.org/wiki/%25E6%2596%25BD%25E5%25AF%2586%25E7%2589%25B9%25E8%25A7%25A6%25E5%258F%2591%25E5%2599%25A8][施密特觸發器(Schmitt trigger)]]來對按鈕去除彈跳 [[http://while-true-loop.blogspot.tw/2009/04/de-bounce.html][(debounce)]]
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_170619.png]]
+
+也因為已經在電路上做了[[http://while-true-loop.blogspot.tw/2009/04/de-bounce.html][防彈跳功能 (debounce)]]，因此在使用這些按鈕的時候我們就不需要透過軟體去濾掉按下按鈕後產生的那些雜訊。
+
+我們可以透過以下的表格，找出 FPGA 對應按鈕的腳位:
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_174808.png]]
+
+* 指撥開關
+
+DE2-115 有 18 個指撥開關 (slide switches)，和按鈕不同的地方在於這些指撥開關並未接上施密特觸發器(Schmitt trigger) ，也因此不具有防彈跳的功能。
+
+當指撥開關並未往上撥的時候，其為低電位，也就是邏輯 0。當往上撥的時候，則會變成高電位，也就是邏輯 1。
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_170916.png]]
+
+當如果需要使用指撥開關的時候，我們可能會需要下面這張表來進行 I/O mapping:
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_172531.png]]
+
+* LED
+
+DE2-115 上面共有 27 個 LED, 其中紅色 LED 佔了 18 個，綠色的則是有 9 個
+
+#+attr_html: :width 80%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_171021.png]]
+
+當輸出腳為高電位的時候，會觸發 LED 亮，低電位則是讓 LED 暗。
+
+下面則是 LED 與 I/O 的對應表:
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_171538.png]]
+
+* 七段顯示器
+
+DE2-115 共有 8 個 [[https://en.wikipedia.org/wiki/Seven-segment_display][七段顯示器 (7-segment)]]，每一個七段顯示器和 Cyclone IV 的連接就像這個樣子:
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_172709.png]]
+
+這塊板子上的七段顯示器是採用 =共陽極 (Common Anode)= 的形式接上的 ([[http://www.cypress.com/file/132516/download][圖片來源)]] ，也因此當我們指定接腳為低電位 (邏輯 0) 的時候，可以將該位置點亮，指定為高電位則是關掉顯示。
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_223953.png]]
+
+具體的 I/O mapping 如下表：
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180523_172858.png]]
+
+* 時脈源 (Clock Sources)
+
+DE2-115 上面掛載了一顆 =50MHz= 的有源石英振盪器，而這顆振盪器會經由 [[https://www.diodes.com/assets/Datasheets/PI49FCT3802.pdf][PI49FCT3803 (單端時鐘緩衝器)]] 將訊號變成 3 組 50MHz 輸入到 Cyclone IV 的三個輸入源來提供使用者使用。
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_224245.png]]
+
+當然，如果想要輸入外部的時脈或是將當前的時脈輸出，則可以使用 SMA 連接器來進行輸入/輸出。
+
+另外要注意的是，這邊提到的時脈訊號會接到 FGPA 內的 [[https://zh.wikipedia.org/wiki/%25E9%2594%2581%25E7%259B%25B8%25E7%258E%25AF][鎖相迴路 (Phase-locked loops, PLL)]] , 因此我們可以透過 Altera 的 IP-Core [[https://www.altera.com/en_US/pdfs/literature/ug/ug_altpll.pdf][ALTPLL]] 模組來對輸入時脈進行倍頻或是除頻等運作，產生我們需要的時脈。
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_224553.png]]
+* LCD
+
+DE2-115 除了七段顯示器外，板子上也接上了 LCD 模組 [[https://www.sparkfun.com/datasheets/LCD/HD44780.pdf][HD44780]] ，我們可以透過 LCD 模組來進行一些文字訊息的顯示。
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_230222.png]]
+
+當然，要控制這個 LCD 模組，知道接腳在哪也是必要的:
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_230304.png]]
+* GPIO
+
+前面說到我們不會提到 HSMC (High Speed Mezzanine Card)，但是 GPIO 就必須特別題一下了。一般來說，大多數位訊號都可以透過 GPIO 來模擬達到，這種方式稱為 [[https://en.wikipedia.org/wiki/Bit_banging][Bit baning]] 。也因此，假設我們要自己實做 UART、I2C、SPI 等訊號輸入輸出，都可以透過這些 GPIO 接腳來達到。
+
+當然對初學者而言，GPIO 大概就是拿來點亮 LED 用的 :P
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_232246.png]]
+
+DE2-115 上的 GPIO 設計有保護電路，可以避免輸入的電壓過高 (當然還是不可以太超過~)
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_232307.png]]
+
+那如何控制這些 GPIO 的電壓階度呢？我們可以透過調整 JP6 的短路座 (Jumper) 來將其設定成 3.3V (預設), 2.5V, 1.8V, 1.5V 的電壓位準。
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_232706.png]]
+
+當然這些位準要怎樣調整，就需要看這些 GPIO 的使用方式囉 ~
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_231124.png]]
+* VGA
+
+和 [[https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/][Xilinx Zybo Board]] 的作法不同，[[https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&CategoryNo=171&No=542&PartNo=1][Altera DE2-115]] 採用了 [[http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7123-EP.pdf][ADV7123]] 來將數位訊號轉換成 VGA 使用的類比訊號
+
+#+attr_html: :width 80%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_234205.png]]
+
+當然如果想要控制 VGA 輸出的話，需要知道時序的控制，讓其符合規格，但老實說這邊有點難一次講完，具體請參考: [[http://www.cnblogs.com/oomusou/archive/2008/08/11/de2_vga_timing_table.html][(筆記) D-Sub VGA timing table (SOC) (DE2) (DE2-70)]]
+
+而  [[https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&No=542&FID=eeba7202febfb39155fdac7b09ceada7][DE2-115 User Manual]] 也提供了我們參考用的時序資訊 (Timing Specification)
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_234426.png]]
+
+當然，要控制 [[http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7123-EP.pdf][ADV7123]] 的話，我們也必須要知道 FGPA 拉出來的接腳才行
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_234841.png]]
+* Audio
+
+DE2-115 上面採用了 [[https://www.cirrus.com/products/wm8731/][WM8731]] 作為音頻的解決方案，這顆晶片可以支援麥克風輸入、類比音源轉換輸入/輸出 (line-in/out)，而 Cyclone IV 和這顆晶片的溝通界面則是 [[https://zh.wikipedia.org/wiki/I%25C2%25B2C][I²C]] 。
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_235721.png]]
+
+相關接腳如下:
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180524_235740.png]]
+
+* RS232
+
+在嵌入式系統開發的時候，[[https://zh.wikipedia.org/wiki/RS-232][RS232]] 串列埠是非常常用的接口，我們常常使用其作為最基本的除錯訊息輸出來源，而 DE2-115 已經幫我們把相關的電路處理好了。在這邊，DE2-115 使用 [[https://www.ineltro.ch/media/downloads/SAAItem/45/45377/a4536d49-dc82-4904-8a34-c4f51beb59e9.pdf][ZT3232LEEY]] 這顆電壓轉換電路，將 FPGA 輸出的電壓 (3.3V) 轉換成 RS232 標準的最低許可電壓 ±5V。
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180525_000107.png]]
+
+假設我們要透過 Verilog 撰寫 UART 模組，我們可以採用以下接腳:
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180525_000121.png]]
+
+* PS2 串列埠
+
+現在的人已經很難接觸到 [[https://en.wikipedia.org/wiki/PS/2_port][PS/2 序列埠]] 了，以前的滑鼠和鍵盤都是透過這接口和主機溝通的，現在都已經被 USB 取代。我手邊的這片 DE2-115 畢竟是早期的板子，還留有這樣的接口。
+
+[[file:DE2-115-學習筆記-硬體認識/ps2.png]]
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_181700.png]]
+
+* Gigabit 乙太網路收發器
+
+DE2-115 內建兩個 Gigabit 乙太網路收發器，可以支援 10/100/1000M bps 的網路速度，並支援 GMII/MII/RGMII Mac 接口。
+
+預設的網路設定如下:
+
+[[file:DE2-115-學習筆記-硬體認識/eth.png]]
+
+和 FPGA 的接線方式則是如下圖:
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_210108.png]]
+
+
+我們可以透過調整 JP1 和 JP2 的接法，設定網路設備的工作模式:
+
+[[file:DE2-115-學習筆記-硬體認識/ux.png]]
+
+[[file:DE2-115-學習筆記-硬體認識/uui.png]]
+
+* TV Decoder
+
+DE2-115 採用 [[http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf][Analog Device ADV7180]] 作為影像串流解碼器，此顆晶片可以自動解碼 [[https://zh.wikipedia.org/wiki/NTSC%25E5%2588%25B6%25E5%25BC%258F][NTSC]]、[[https://zh.wikipedia.org/zh-tw/PAL%25E5%2588%25B6%25E5%25BC%258F][PAL]]、[[https://zh.wikipedia.org/wiki/SECAM%25E5%2588%25B6%25E5%25BC%258F][SECAM]] 等影像規格成 [[https://en.wikipedia.org/wiki/ITU-R_BT.656][8-bit ITU-R BT.656]] 格式。
+
+[[http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf][Analog Device ADV7180]] 和 FPGA 採用 [[https://zh.wikipedia.org/wiki/I%25C2%25B2C][I²C]] 接口進行通訊。
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_205349.png]]
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_205911.png]]
+
+* USB
+
+DE2-115 採用了 [[http://www.cypress.com/file/122731/download][Cypress EZ-OTG (CY7C67200)]] 這款支援 [[https://zh.wikipedia.org/wiki/USB_On-The-Go][USB On-The-Go]] 功能的控制器，Host 和 Device 皆支援 USB 2.0 標準。
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_204931.png]]
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_205257.png]]
+
+* IR (紅外線)
+
+DE2-115 盒內附了一個紅外線遙控器，而板子上則有紅外線接收器 ([[https://www.mouser.tw/ProductDetail/Everlight/IRM-V538N7-TR1][IRM-V538N7/TR1]])，我們可以透過這個組合，實現像是冷氣遙控器、電視遙控器等控制界面。
+
+要注意的是，這個紅外線接收模組只相容 =38KHz 載波頻率= ，最大的資料傳輸率是 =4kbps= , 也就是說，不是你隨便拿一個家用的遙控器都可以和 DE2-115 上面的紅外線接收器溝通的。
+
+DE2-115 提供的遙控器採用了 [[http://pdf.datasheet.live/3ca11ca1/necel.com/UPD6121G-001.pdf][uPD6121G]] 則有符合這個規格，因此記得不要把它搞丟呦^^
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_183040.png]]
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_182048.png]]
+
+* SRAM
+
+DE2-115 內建了 2MB 的 SRAM, 這些 SRAM 的資料寬度是 16bit, 在 3.3V 的情況下，最高頻率為 125M Hz
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_183324.png]]
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_202103.png]]
+
+* SDRAM
+
+DE2-115 有 128 MB 的 SDRAM, 這個 SDRAM 實際上是由兩個 64MB 的 SDRAM 組成，每個 SDRAM 具有 16-bit 的資料寬度。
+而由 FPGA 拉出來的位址控制訊號則是共用。
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_183612.png]]
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_202717.png]]
+
+* FLASH
+
+DE2-115 具有 8MB FLASH, 這顆 FLASH 具有 8-bit 的資料寬度。基於 FLASH 的非揮發特性 (斷電後資料會保持)，我們常常使用這些 FLASH 存儲一些特定的資料。
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_183800.png]]
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_203443.png]]
+
+* EEPROM
+
+EEPROM 和 FLASH 一樣，也是斷電後資料可以保存的裝置。DE2-115 具有 32Kb 的 EEPROM, 由 [[https://zh.wikipedia.org/wiki/I%25C2%25B2C][I²C]] 接口對其進行控制。
+根據電路的接線方式，我們可以透過 [[https://zh.wikipedia.org/wiki/I%25C2%25B2C][I²C]] Bus 上的 =0xA0= 以及 =0xA1= 位址來讀寫 EEPROM 的資料。
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_183954.png]]
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_203809.png]]
+
+* SD Card
+
+當我們需要大量的儲存空間的時候，就會有使用到 SD 卡的需求。DE2-115 已經連接好 SD 卡插槽，使用者可以透過 SPI 模式或是 SD 卡的 4-bit 或 1-bit 模式來和 SD 卡進行通訊。
+
+#+attr_html: :width 60%
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_202029.png]]
+
+[[file:DE2-115-學習筆記-硬體認識/Screenshot_20180527_203954.png]]
+
+* 延伸閱讀
+
+- [[https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&No=542&FID=eeba7202febfb39155fdac7b09ceada7][DE2-115 User Manual]]
+- [[https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&CategoryNo=156&No=686&PartNo=1][邏輯電路設計 DE2-115 實戰寶典]]
+* 其他和 FGPA 相關的網站                                           :noexport:
+
+- [[https://www.fpga4fun.com/SiteInformation.html][fpga4fun.com]]
+
+- [[http://excamera.com/sphinx/fpga-uart.html][Simple transmit-only UART in verilog]]
+
+- [[http://www.hlvs.ylc.edu.tw/files/11-1003-2020.php][西螺高工 - FPGA 設計實務]]
