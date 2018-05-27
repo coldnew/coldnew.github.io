@@ -8,8 +8,1576 @@
     <atom:link href="/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Mon, 26 Feb 2018 05:11:00 GMT</pubDate>
+    <pubDate>Sun, 27 May 2018 14:11:27 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>DE2-115 開發紀錄: 硬體認識</title>
+      <link>https://coldnew.github.io/7a67f04e/</link>
+      <guid>https://coldnew.github.io/7a67f04e/</guid>
+      <pubDate>Sun, 27 May 2018 13:14:00 GMT</pubDate>
+      <description>
+         &lt;div id=&quot;content&quot;&gt;
+&lt;p&gt;
+手邊有一台早期獲得的 &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Altera DE2-115 開發平台&lt;/a&gt; ，一直放著積灰塵也不是辦法，再加上最近想多玩玩 FGPA，所以就來重新玩一次吧 :)
+&lt;/p&gt;
+
+&lt;p&gt;
+和 &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Xilinx Zybo Board&lt;/a&gt; 不同，&lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Altera DE2-115 開發平台&lt;/a&gt; 是只有 FPGA 的開發板，並未包含 ARM Cortex-A9 來作為輔助用的 CPU，對於只想學 FPGA 的人而言，這算是不錯的平台，想要 CPU 的話，就自己寫個 CPU 上去或是用 NIOS-II 軟核 CPU 就好了。
+&lt;/p&gt;
+
+&lt;p&gt;
+總之，就讓我們來玩玩這一片早期的 FPGA 開發板吧 (想當年這一片可是要台幣 3W 的呢!)
+&lt;/p&gt;
+
+&lt;p&gt;
+不過在我們開始這一切之前，我們需要稍微了解一下這片開發板以及他的週邊等資訊。
+&lt;/p&gt;
+
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;
+要了解 &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Altera DE2-115 開發平台&lt;/a&gt; 的相關資訊，我們首先先到他的開發商 &lt;a href=&quot;https://www.terasic.com.tw&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;友晶科技&lt;/a&gt; 網站去下載 &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;amp;No=542&amp;amp;FID=eeba7202febfb39155fdac7b09ceada7&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115 User Manual&lt;/a&gt; ，這本手冊會帶領我們了解這平台相關的週邊。
+&lt;/p&gt;
+
+&lt;p&gt;
+注意到這邊會刻意忽略掉 High Speed Mezzanine Card (HSMC) 接口，因為這個接口除非去買擴展板，不然對一般人而言不會有用到的機會。
+&lt;/p&gt;
+
+&lt;div id=&quot;outline-container-org53751a5&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org53751a5&quot;&gt;基本硬體認識&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org53751a5&quot;&gt;
+&lt;p&gt;
+拿到手的 &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115&lt;/a&gt; 就像這個樣子，從正面來看:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_144839.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;
+哇，這片板子週邊有夠多的，難怪不便宜，不過細節我們待會在說吧，先來看看背面還有什麼?
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_145013.png&quot; width=&quot;80%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+背後偷偷藏了一顆 EEPROM，未來我們有資料要存放的時候就需要他了！
+&lt;/p&gt;
+
+&lt;p&gt;
+了解了基本板子週邊後，接下來要來一個一個的研究吧~
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgea895f3&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgea895f3&quot;&gt;方塊圖&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgea895f3&quot;&gt;
+&lt;p&gt;
+上面的週邊資訊太複雜了，好在  &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;amp;No=542&amp;amp;FID=eeba7202febfb39155fdac7b09ceada7&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115 User Manual&lt;/a&gt; 有提供方塊圖 (Block Diagram) 可以讓我們對這平台用的 IC 以及有的功能再進一步的了解
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_152307.png&quot; width=&quot;80%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgc3df72d&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc3df72d&quot;&gt;FGPA 核心&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc3df72d&quot;&gt;
+&lt;p&gt;
+&lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115&lt;/a&gt; 使用的 FPGA 核心是 &lt;code&gt;Cyclone IV EP4CE115F29&lt;/code&gt; ，是屬於 &lt;a href=&quot;https://www.altera.com/products/fpga/cyclone-series/cyclone-iv/overview.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Cyclone IV&lt;/a&gt; 系列的，當然在一開始玩的時候只需要知道這個是哪個系列，可以裝下多少邏輯閘就夠了。
+&lt;/p&gt;
+
+&lt;p&gt;
+因此，就讓我們列一下這顆 FPGA 到底有多少能耐:
+&lt;/p&gt;
+
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;114,480 LEs&lt;/li&gt;
+&lt;li&gt;432M 9K memory blocks&lt;/li&gt;
+&lt;li&gt;3,888 K bits embedded memory&lt;/li&gt;
+&lt;li&gt;4 PLLs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+嗯&amp;#x2026; 看不懂，就只好引用一下 &lt;a href=&quot;https://www.mouser.tw/new/altera/altera-cycloneiv/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Mouser&lt;/a&gt; 上的圖啦 ~
+&lt;/p&gt;
+
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_153653.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+這邊跳過部份資訊，如果想搞懂關於這顆 FPGA 的描述，包含 LE 是啥啦之類的，推薦看一下 &lt;a href=&quot;http://www.cnblogs.com/logic3/p/5466866.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;FPGA 芯片内部硬件介绍&lt;/a&gt; 的說明。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org026ce7c&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org026ce7c&quot;&gt;JTAG&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org026ce7c&quot;&gt;
+&lt;p&gt;
+JTAG 是 DE2-115 上用來下載程式到 FPGA 用的界面，根據設定的不同，我們可以將其分成 JTAG Mode 和 AS-mode，下面就來講解這兩種模式的不同。
+&lt;/p&gt;
+
+&lt;p&gt;
+簡單的說:
+&lt;/p&gt;
+
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;JTAG mode: 一般下載用，斷電後資料消失。&lt;/li&gt;
+&lt;li&gt;AS mode: 下載後，即使斷電資料也會保存。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org147e84f&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org147e84f&quot;&gt;JTAG mode&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org147e84f&quot;&gt;
+&lt;p&gt;
+JTAG mode 是一般下載用的方式，缺點是斷電後資料不會保存在板子上。如果你想要下載後重新上電可以執行上一次下載的程式的話，請使用 AS mode。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_215436.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+使用 JTAG Mode 的時候，請注意以下步驟:
+&lt;/p&gt;
+
+&lt;ol class=&quot;org-ol&quot;&gt;
+&lt;li&gt;接上電源&lt;/li&gt;
+&lt;li&gt;設定 SW19 在 &lt;code&gt;RUN&lt;/code&gt; 的位置&lt;/li&gt;
+&lt;li&gt;接上 USB type B 線到 USB Blaster 的位置&lt;/li&gt;
+&lt;li&gt;透過 QUartus II 選擇適合的位元流 (.sof) 檔案進行下載&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org5d18378&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org5d18378&quot;&gt;JTAG AS mode&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org5d18378&quot;&gt;
+&lt;p&gt;
+當我們想要斷電再上電後，還可以執行上一次下載的程式的話，這時候就需要透過 AS Mode 來進行。
+&lt;/p&gt;
+
+&lt;p&gt;
+AS Mode (Active Serial Programming) 會將位元流下載到 &lt;a href=&quot;https://www.altera.com/en_US/pdfs/literature/hb/cfg/cyc_c51014.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;EPCS64&lt;/a&gt; 這顆串口 IC，該晶片除了可以透過串口 (Serial) 下載外，同時也是一個儲存裝置，可以存放共 64MB 大小的資料。當電源啟動的時候，DE2-115 會從 &lt;a href=&quot;https://www.altera.com/en_US/pdfs/literature/hb/cfg/cyc_c51014.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;EPCS64&lt;/a&gt; 拉取資料，完成 FPGA 的設定，這也是為何 AS Mode 可以在斷電的情況下保持資料的原因。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_215741.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+使用 AS Mode 的時候，請注意以下步驟:
+&lt;/p&gt;
+
+&lt;ol class=&quot;org-ol&quot;&gt;
+&lt;li&gt;接上電源&lt;/li&gt;
+&lt;li&gt;接上 USB type B 線到 USB Blaster 的位置&lt;/li&gt;
+&lt;li&gt;設定 SW19 在 &lt;code&gt;PROG&lt;/code&gt; 的位置&lt;/li&gt;
+&lt;li&gt;透過 QUartus II 選擇適合的位元流 (.pof) 檔案下載到 EPCS64&lt;/li&gt;
+&lt;li&gt;下載完成後，將 SW19 切換回 &lt;code&gt;RUN&lt;/code&gt; 的位置，這樣會讓 DE2-115 在開機的時候抓取 EPCS64 上的資訊。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org8416581&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org8416581&quot;&gt;JTAG Chain&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org8416581&quot;&gt;
+&lt;p&gt;
+除了 JTAG mode 和 AS mode 外，如果我們想要透過 DE2-115 將資訊下載到別的 Altera FPGA 開發板的話，這時候就是使用 JTAG Chain 的時機。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_214634.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+參照上圖，當我們要使用 JTAG Chain 的時候，需要將 JP3 的 pin2 和 pin3 短路，讓 JTAG 訊號可以透過 HSMC 接口出去。
+&lt;/p&gt;
+
+&lt;p&gt;
+如果 JP3 的 pin1 和 pin2 短路 (預設) ，此時形成一個封閉的迴路，這時候 JTAG 在下載的時候只會偵測到 DE2-115 上的 FPGA 晶片。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgd2c51ab&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgd2c51ab&quot;&gt;按鈕&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd2c51ab&quot;&gt;
+&lt;p&gt;
+DE2-115 共有四個按鈕 (Push Button)，這些按鈕都接上了&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E6%96%BD%E5%AF%86%E7%89%B9%E8%A7%A6%E5%8F%91%E5%99%A8&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;施密特觸發器(Schmitt trigger)&lt;/a&gt;來對按鈕去除彈跳 &lt;a href=&quot;http://while-true-loop.blogspot.tw/2009/04/de-bounce.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;(debounce)&lt;/a&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_170619.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+也因為已經在電路上做了&lt;a href=&quot;http://while-true-loop.blogspot.tw/2009/04/de-bounce.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;防彈跳功能 (debounce)&lt;/a&gt;，因此在使用這些按鈕的時候我們就不需要透過軟體去濾掉按下按鈕後產生的那些雜訊。
+&lt;/p&gt;
+
+&lt;p&gt;
+我們可以透過以下的表格，找出 FPGA 對應按鈕的腳位:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_174808.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org0e409ba&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org0e409ba&quot;&gt;指撥開關&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org0e409ba&quot;&gt;
+&lt;p&gt;
+DE2-115 有 18 個指撥開關 (slide switches)，和按鈕不同的地方在於這些指撥開關並未接上施密特觸發器(Schmitt trigger) ，也因此不具有防彈跳的功能。
+&lt;/p&gt;
+
+&lt;p&gt;
+當指撥開關並未往上撥的時候，其為低電位，也就是邏輯 0。當往上撥的時候，則會變成高電位，也就是邏輯 1。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_170916.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當如果需要使用指撥開關的時候，我們可能會需要下面這張表來進行 I/O mapping:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_172531.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orge1c2229&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orge1c2229&quot;&gt;LED&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orge1c2229&quot;&gt;
+&lt;p&gt;
+DE2-115 上面共有 27 個 LED, 其中紅色 LED 佔了 18 個，綠色的則是有 9 個
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_171021.png&quot; width=&quot;80%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當輸出腳為高電位的時候，會觸發 LED 亮，低電位則是讓 LED 暗。
+&lt;/p&gt;
+
+&lt;p&gt;
+下面則是 LED 與 I/O 的對應表:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_171538.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org1837472&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org1837472&quot;&gt;七段顯示器&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org1837472&quot;&gt;
+&lt;p&gt;
+DE2-115 共有 8 個 &lt;a href=&quot;https://en.wikipedia.org/wiki/Seven-segment_display&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;七段顯示器 (7-segment)&lt;/a&gt;，每一個七段顯示器和 Cyclone IV 的連接就像這個樣子:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_172709.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+這塊板子上的七段顯示器是採用 &lt;code&gt;共陽極 (Common Anode)&lt;/code&gt; 的形式接上的 (&lt;a href=&quot;http://www.cypress.com/file/132516/download&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;圖片來源)&lt;/a&gt; ，也因此當我們指定接腳為低電位 (邏輯 0) 的時候，可以將該位置點亮，指定為高電位則是關掉顯示。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_223953.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+具體的 I/O mapping 如下表：
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_172858.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org5fbe132&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org5fbe132&quot;&gt;時脈源 (Clock Sources)&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org5fbe132&quot;&gt;
+&lt;p&gt;
+DE2-115 上面掛載了一顆 &lt;code&gt;50MHz&lt;/code&gt; 的有源石英振盪器，而這顆振盪器會經由 &lt;a href=&quot;https://www.diodes.com/assets/Datasheets/PI49FCT3802.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;PI49FCT3803 (單端時鐘緩衝器)&lt;/a&gt; 將訊號變成 3 組 50MHz 輸入到 Cyclone IV 的三個輸入源來提供使用者使用。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_224245.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當然，如果想要輸入外部的時脈或是將當前的時脈輸出，則可以使用 SMA 連接器來進行輸入/輸出。
+&lt;/p&gt;
+
+&lt;p&gt;
+另外要注意的是，這邊提到的時脈訊號會接到 FGPA 內的 &lt;a href=&quot;https://zh.wikipedia.org/wiki/%E9%94%81%E7%9B%B8%E7%8E%AF&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;鎖相迴路 (Phase-locked loops, PLL)&lt;/a&gt; , 因此我們可以透過 Altera 的 IP-Core &lt;a href=&quot;https://www.altera.com/en_US/pdfs/literature/ug/ug_altpll.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ALTPLL&lt;/a&gt; 模組來對輸入時脈進行倍頻或是除頻等運作，產生我們需要的時脈。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_224553.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org1e776d5&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org1e776d5&quot;&gt;LCD&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org1e776d5&quot;&gt;
+&lt;p&gt;
+DE2-115 除了七段顯示器外，板子上也接上了 LCD 模組 &lt;a href=&quot;https://www.sparkfun.com/datasheets/LCD/HD44780.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;HD44780&lt;/a&gt; ，我們可以透過 LCD 模組來進行一些文字訊息的顯示。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_230222.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當然，要控制這個 LCD 模組，知道接腳在哪也是必要的:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_230304.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-orga815707&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orga815707&quot;&gt;GPIO&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orga815707&quot;&gt;
+&lt;p&gt;
+前面說到我們不會提到 HSMC (High Speed Mezzanine Card)，但是 GPIO 就必須特別題一下了。一般來說，大多數位訊號都可以透過 GPIO 來模擬達到，這種方式稱為 &lt;a href=&quot;https://en.wikipedia.org/wiki/Bit_banging&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Bit baning&lt;/a&gt; 。也因此，假設我們要自己實做 UART、I2C、SPI 等訊號輸入輸出，都可以透過這些 GPIO 接腳來達到。
+&lt;/p&gt;
+
+&lt;p&gt;
+當然對初學者而言，GPIO 大概就是拿來點亮 LED 用的 :P
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_232246.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+DE2-115 上的 GPIO 設計有保護電路，可以避免輸入的電壓過高 (當然還是不可以太超過~)
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_232307.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+那如何控制這些 GPIO 的電壓階度呢？我們可以透過調整 JP6 的短路座 (Jumper) 來將其設定成 3.3V (預設), 2.5V, 1.8V, 1.5V 的電壓位準。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_232706.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當然這些位準要怎樣調整，就需要看這些 GPIO 的使用方式囉 ~
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_231124.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org9722498&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org9722498&quot;&gt;VGA&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org9722498&quot;&gt;
+&lt;p&gt;
+和 &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Xilinx Zybo Board&lt;/a&gt; 的作法不同，&lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Altera DE2-115&lt;/a&gt; 採用了 &lt;a href=&quot;http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7123-EP.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ADV7123&lt;/a&gt; 來將數位訊號轉換成 VGA 使用的類比訊號
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_234205.png&quot; width=&quot;80%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當然如果想要控制 VGA 輸出的話，需要知道時序的控制，讓其符合規格，但老實說這邊有點難一次講完，具體請參考: &lt;a href=&quot;http://www.cnblogs.com/oomusou/archive/2008/08/11/de2_vga_timing_table.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;(筆記) D-Sub VGA timing table (SOC) (DE2) (DE2-70)&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+而  &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;amp;No=542&amp;amp;FID=eeba7202febfb39155fdac7b09ceada7&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115 User Manual&lt;/a&gt; 也提供了我們參考用的時序資訊 (Timing Specification)
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_234426.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當然，要控制 &lt;a href=&quot;http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7123-EP.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ADV7123&lt;/a&gt; 的話，我們也必須要知道 FGPA 拉出來的接腳才行
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_234841.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-orgc80421b&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc80421b&quot;&gt;Audio&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc80421b&quot;&gt;
+&lt;p&gt;
+DE2-115 上面採用了 &lt;a href=&quot;https://www.cirrus.com/products/wm8731/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WM8731&lt;/a&gt; 作為音頻的解決方案，這顆晶片可以支援麥克風輸入、類比音源轉換輸入/輸出 (line-in/out)，而 Cyclone IV 和這顆晶片的溝通界面則是 &lt;a href=&quot;https://zh.wikipedia.org/wiki/I%C2%B2C&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;I²C&lt;/a&gt; 。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_235721.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+相關接腳如下:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_235740.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgd471d47&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgd471d47&quot;&gt;RS232&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd471d47&quot;&gt;
+&lt;p&gt;
+在嵌入式系統開發的時候，&lt;a href=&quot;https://zh.wikipedia.org/wiki/RS-232&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;RS232&lt;/a&gt; 串列埠是非常常用的接口，我們常常使用其作為最基本的除錯訊息輸出來源，而 DE2-115 已經幫我們把相關的電路處理好了。在這邊，DE2-115 使用 &lt;a href=&quot;https://www.ineltro.ch/media/downloads/SAAItem/45/45377/a4536d49-dc82-4904-8a34-c4f51beb59e9.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ZT3232LEEY&lt;/a&gt; 這顆電壓轉換電路，將 FPGA 輸出的電壓 (3.3V) 轉換成 RS232 標準的最低許可電壓 ±5V。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180525_000107.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+假設我們要透過 Verilog 撰寫 UART 模組，我們可以採用以下接腳:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180525_000121.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org216ef77&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org216ef77&quot;&gt;PS2 串列埠&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org216ef77&quot;&gt;
+&lt;p&gt;
+現在的人已經很難接觸到 &lt;a href=&quot;https://en.wikipedia.org/wiki/PS/2_port&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;PS/2 序列埠&lt;/a&gt; 了，以前的滑鼠和鍵盤都是透過這接口和主機溝通的，現在都已經被 USB 取代。我手邊的這片 DE2-115 畢竟是早期的板子，還留有這樣的接口。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/ps2.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_181700.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org7b74772&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org7b74772&quot;&gt;Gigabit 乙太網路收發器&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org7b74772&quot;&gt;
+&lt;p&gt;
+DE2-115 內建兩個 Gigabit 乙太網路收發器，可以支援 10/100/1000M bps 的網路速度，並支援 GMII/MII/RGMII Mac 接口。
+&lt;/p&gt;
+
+&lt;p&gt;
+預設的網路設定如下:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/eth.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+和 FPGA 的接線方式則是如下圖:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_210108.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;
+我們可以透過調整 JP1 和 JP2 的接法，設定網路設備的工作模式:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/ux.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/uui.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org7ee6ede&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org7ee6ede&quot;&gt;TV Decoder&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org7ee6ede&quot;&gt;
+&lt;p&gt;
+DE2-115 採用 &lt;a href=&quot;http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Analog Device ADV7180&lt;/a&gt; 作為影像串流解碼器，此顆晶片可以自動解碼 &lt;a href=&quot;https://zh.wikipedia.org/wiki/NTSC%E5%88%B6%E5%BC%8F&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;NTSC&lt;/a&gt;、&lt;a href=&quot;https://zh.wikipedia.org/zh-tw/PAL%E5%88%B6%E5%BC%8F&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;PAL&lt;/a&gt;、&lt;a href=&quot;https://zh.wikipedia.org/wiki/SECAM%E5%88%B6%E5%BC%8F&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;SECAM&lt;/a&gt; 等影像規格成 &lt;a href=&quot;https://en.wikipedia.org/wiki/ITU-R_BT.656&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;8-bit ITU-R BT.656&lt;/a&gt; 格式。
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href=&quot;http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Analog Device ADV7180&lt;/a&gt; 和 FPGA 採用 &lt;a href=&quot;https://zh.wikipedia.org/wiki/I%C2%B2C&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;I²C&lt;/a&gt; 接口進行通訊。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_205349.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_205911.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org73cce5a&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org73cce5a&quot;&gt;USB&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org73cce5a&quot;&gt;
+&lt;p&gt;
+DE2-115 採用了 &lt;a href=&quot;http://www.cypress.com/file/122731/download&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Cypress EZ-OTG (CY7C67200)&lt;/a&gt; 這款支援 &lt;a href=&quot;https://zh.wikipedia.org/wiki/USB_On-The-Go&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;USB On-The-Go&lt;/a&gt; 功能的控制器，Host 和 Device 皆支援 USB 2.0 標準。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_204931.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_205257.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org13b8c29&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org13b8c29&quot;&gt;IR (紅外線)&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org13b8c29&quot;&gt;
+&lt;p&gt;
+DE2-115 盒內附了一個紅外線遙控器，而板子上則有紅外線接收器 (&lt;a href=&quot;https://www.mouser.tw/ProductDetail/Everlight/IRM-V538N7-TR1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;IRM-V538N7/TR1&lt;/a&gt;)，我們可以透過這個組合，實現像是冷氣遙控器、電視遙控器等控制界面。
+&lt;/p&gt;
+
+&lt;p&gt;
+要注意的是，這個紅外線接收模組只相容 &lt;code&gt;38KHz 載波頻率&lt;/code&gt; ，最大的資料傳輸率是 &lt;code&gt;4kbps&lt;/code&gt; , 也就是說，不是你隨便拿一個家用的遙控器都可以和 DE2-115 上面的紅外線接收器溝通的。
+&lt;/p&gt;
+
+&lt;p&gt;
+DE2-115 提供的遙控器採用了 &lt;a href=&quot;http://pdf.datasheet.live/3ca11ca1/necel.com/UPD6121G-001.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;uPD6121G&lt;/a&gt; 則有符合這個規格，因此記得不要把它搞丟呦^^
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_183040.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_182048.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgdb16eae&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgdb16eae&quot;&gt;SRAM&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdb16eae&quot;&gt;
+&lt;p&gt;
+DE2-115 內建了 2MB 的 SRAM, 這些 SRAM 的資料寬度是 16bit, 在 3.3V 的情況下，最高頻率為 125M Hz
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_183324.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_202103.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgc61aa1b&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc61aa1b&quot;&gt;SDRAM&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc61aa1b&quot;&gt;
+&lt;p&gt;
+DE2-115 有 128 MB 的 SDRAM, 這個 SDRAM 實際上是由兩個 64MB 的 SDRAM 組成，每個 SDRAM 具有 16-bit 的資料寬度。
+而由 FPGA 拉出來的位址控制訊號則是共用。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_183612.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_202717.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org3ddc2f1&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org3ddc2f1&quot;&gt;FLASH&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org3ddc2f1&quot;&gt;
+&lt;p&gt;
+DE2-115 具有 8MB FLASH, 這顆 FLASH 具有 8-bit 的資料寬度。基於 FLASH 的非揮發特性 (斷電後資料會保持)，我們常常使用這些 FLASH 存儲一些特定的資料。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_183800.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_203443.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org2adddd3&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org2adddd3&quot;&gt;EEPROM&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org2adddd3&quot;&gt;
+&lt;p&gt;
+EEPROM 和 FLASH 一樣，也是斷電後資料可以保存的裝置。DE2-115 具有 32Kb 的 EEPROM, 由 &lt;a href=&quot;https://zh.wikipedia.org/wiki/I%C2%B2C&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;I²C&lt;/a&gt; 接口對其進行控制。
+根據電路的接線方式，我們可以透過 &lt;a href=&quot;https://zh.wikipedia.org/wiki/I%C2%B2C&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;I²C&lt;/a&gt; Bus 上的 &lt;code&gt;0xA0&lt;/code&gt; 以及 &lt;code&gt;0xA1&lt;/code&gt; 位址來讀寫 EEPROM 的資料。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_183954.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_203809.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgb604574&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgb604574&quot;&gt;SD Card&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgb604574&quot;&gt;
+&lt;p&gt;
+當我們需要大量的儲存空間的時候，就會有使用到 SD 卡的需求。DE2-115 已經連接好 SD 卡插槽，使用者可以透過 SPI 模式或是 SD 卡的 4-bit 或 1-bit 模式來和 SD 卡進行通訊。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_202029.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_203954.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orga6f07a5&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orga6f07a5&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orga6f07a5&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;amp;No=542&amp;amp;FID=eeba7202febfb39155fdac7b09ceada7&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115 User Manual&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=156&amp;amp;No=686&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;邏輯電路設計 DE2-115 實戰寶典&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+      </description>
+      <content:encoded><![CDATA[&lt;div id=&quot;content&quot;&gt;
+&lt;p&gt;
+手邊有一台早期獲得的 &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Altera DE2-115 開發平台&lt;/a&gt; ，一直放著積灰塵也不是辦法，再加上最近想多玩玩 FGPA，所以就來重新玩一次吧 :)
+&lt;/p&gt;
+
+&lt;p&gt;
+和 &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Xilinx Zybo Board&lt;/a&gt; 不同，&lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Altera DE2-115 開發平台&lt;/a&gt; 是只有 FPGA 的開發板，並未包含 ARM Cortex-A9 來作為輔助用的 CPU，對於只想學 FPGA 的人而言，這算是不錯的平台，想要 CPU 的話，就自己寫個 CPU 上去或是用 NIOS-II 軟核 CPU 就好了。
+&lt;/p&gt;
+
+&lt;p&gt;
+總之，就讓我們來玩玩這一片早期的 FPGA 開發板吧 (想當年這一片可是要台幣 3W 的呢!)
+&lt;/p&gt;
+
+&lt;p&gt;
+不過在我們開始這一切之前，我們需要稍微了解一下這片開發板以及他的週邊等資訊。
+&lt;/p&gt;
+
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;
+要了解 &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Altera DE2-115 開發平台&lt;/a&gt; 的相關資訊，我們首先先到他的開發商 &lt;a href=&quot;https://www.terasic.com.tw&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;友晶科技&lt;/a&gt; 網站去下載 &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;amp;No=542&amp;amp;FID=eeba7202febfb39155fdac7b09ceada7&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115 User Manual&lt;/a&gt; ，這本手冊會帶領我們了解這平台相關的週邊。
+&lt;/p&gt;
+
+&lt;p&gt;
+注意到這邊會刻意忽略掉 High Speed Mezzanine Card (HSMC) 接口，因為這個接口除非去買擴展板，不然對一般人而言不會有用到的機會。
+&lt;/p&gt;
+
+&lt;div id=&quot;outline-container-org53751a5&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org53751a5&quot;&gt;基本硬體認識&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org53751a5&quot;&gt;
+&lt;p&gt;
+拿到手的 &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115&lt;/a&gt; 就像這個樣子，從正面來看:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_144839.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;
+哇，這片板子週邊有夠多的，難怪不便宜，不過細節我們待會在說吧，先來看看背面還有什麼?
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_145013.png&quot; width=&quot;80%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+背後偷偷藏了一顆 EEPROM，未來我們有資料要存放的時候就需要他了！
+&lt;/p&gt;
+
+&lt;p&gt;
+了解了基本板子週邊後，接下來要來一個一個的研究吧~
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgea895f3&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgea895f3&quot;&gt;方塊圖&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgea895f3&quot;&gt;
+&lt;p&gt;
+上面的週邊資訊太複雜了，好在  &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;amp;No=542&amp;amp;FID=eeba7202febfb39155fdac7b09ceada7&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115 User Manual&lt;/a&gt; 有提供方塊圖 (Block Diagram) 可以讓我們對這平台用的 IC 以及有的功能再進一步的了解
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_152307.png&quot; width=&quot;80%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgc3df72d&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc3df72d&quot;&gt;FGPA 核心&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc3df72d&quot;&gt;
+&lt;p&gt;
+&lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115&lt;/a&gt; 使用的 FPGA 核心是 &lt;code&gt;Cyclone IV EP4CE115F29&lt;/code&gt; ，是屬於 &lt;a href=&quot;https://www.altera.com/products/fpga/cyclone-series/cyclone-iv/overview.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Cyclone IV&lt;/a&gt; 系列的，當然在一開始玩的時候只需要知道這個是哪個系列，可以裝下多少邏輯閘就夠了。
+&lt;/p&gt;
+
+&lt;p&gt;
+因此，就讓我們列一下這顆 FPGA 到底有多少能耐:
+&lt;/p&gt;
+
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;114,480 LEs&lt;/li&gt;
+&lt;li&gt;432M 9K memory blocks&lt;/li&gt;
+&lt;li&gt;3,888 K bits embedded memory&lt;/li&gt;
+&lt;li&gt;4 PLLs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+嗯&amp;#x2026; 看不懂，就只好引用一下 &lt;a href=&quot;https://www.mouser.tw/new/altera/altera-cycloneiv/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Mouser&lt;/a&gt; 上的圖啦 ~
+&lt;/p&gt;
+
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_153653.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+這邊跳過部份資訊，如果想搞懂關於這顆 FPGA 的描述，包含 LE 是啥啦之類的，推薦看一下 &lt;a href=&quot;http://www.cnblogs.com/logic3/p/5466866.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;FPGA 芯片内部硬件介绍&lt;/a&gt; 的說明。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org026ce7c&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org026ce7c&quot;&gt;JTAG&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org026ce7c&quot;&gt;
+&lt;p&gt;
+JTAG 是 DE2-115 上用來下載程式到 FPGA 用的界面，根據設定的不同，我們可以將其分成 JTAG Mode 和 AS-mode，下面就來講解這兩種模式的不同。
+&lt;/p&gt;
+
+&lt;p&gt;
+簡單的說:
+&lt;/p&gt;
+
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;JTAG mode: 一般下載用，斷電後資料消失。&lt;/li&gt;
+&lt;li&gt;AS mode: 下載後，即使斷電資料也會保存。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org147e84f&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org147e84f&quot;&gt;JTAG mode&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org147e84f&quot;&gt;
+&lt;p&gt;
+JTAG mode 是一般下載用的方式，缺點是斷電後資料不會保存在板子上。如果你想要下載後重新上電可以執行上一次下載的程式的話，請使用 AS mode。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_215436.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+使用 JTAG Mode 的時候，請注意以下步驟:
+&lt;/p&gt;
+
+&lt;ol class=&quot;org-ol&quot;&gt;
+&lt;li&gt;接上電源&lt;/li&gt;
+&lt;li&gt;設定 SW19 在 &lt;code&gt;RUN&lt;/code&gt; 的位置&lt;/li&gt;
+&lt;li&gt;接上 USB type B 線到 USB Blaster 的位置&lt;/li&gt;
+&lt;li&gt;透過 QUartus II 選擇適合的位元流 (.sof) 檔案進行下載&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org5d18378&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org5d18378&quot;&gt;JTAG AS mode&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org5d18378&quot;&gt;
+&lt;p&gt;
+當我們想要斷電再上電後，還可以執行上一次下載的程式的話，這時候就需要透過 AS Mode 來進行。
+&lt;/p&gt;
+
+&lt;p&gt;
+AS Mode (Active Serial Programming) 會將位元流下載到 &lt;a href=&quot;https://www.altera.com/en_US/pdfs/literature/hb/cfg/cyc_c51014.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;EPCS64&lt;/a&gt; 這顆串口 IC，該晶片除了可以透過串口 (Serial) 下載外，同時也是一個儲存裝置，可以存放共 64MB 大小的資料。當電源啟動的時候，DE2-115 會從 &lt;a href=&quot;https://www.altera.com/en_US/pdfs/literature/hb/cfg/cyc_c51014.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;EPCS64&lt;/a&gt; 拉取資料，完成 FPGA 的設定，這也是為何 AS Mode 可以在斷電的情況下保持資料的原因。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_215741.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+使用 AS Mode 的時候，請注意以下步驟:
+&lt;/p&gt;
+
+&lt;ol class=&quot;org-ol&quot;&gt;
+&lt;li&gt;接上電源&lt;/li&gt;
+&lt;li&gt;接上 USB type B 線到 USB Blaster 的位置&lt;/li&gt;
+&lt;li&gt;設定 SW19 在 &lt;code&gt;PROG&lt;/code&gt; 的位置&lt;/li&gt;
+&lt;li&gt;透過 QUartus II 選擇適合的位元流 (.pof) 檔案下載到 EPCS64&lt;/li&gt;
+&lt;li&gt;下載完成後，將 SW19 切換回 &lt;code&gt;RUN&lt;/code&gt; 的位置，這樣會讓 DE2-115 在開機的時候抓取 EPCS64 上的資訊。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org8416581&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org8416581&quot;&gt;JTAG Chain&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org8416581&quot;&gt;
+&lt;p&gt;
+除了 JTAG mode 和 AS mode 外，如果我們想要透過 DE2-115 將資訊下載到別的 Altera FPGA 開發板的話，這時候就是使用 JTAG Chain 的時機。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_214634.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+參照上圖，當我們要使用 JTAG Chain 的時候，需要將 JP3 的 pin2 和 pin3 短路，讓 JTAG 訊號可以透過 HSMC 接口出去。
+&lt;/p&gt;
+
+&lt;p&gt;
+如果 JP3 的 pin1 和 pin2 短路 (預設) ，此時形成一個封閉的迴路，這時候 JTAG 在下載的時候只會偵測到 DE2-115 上的 FPGA 晶片。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgd2c51ab&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgd2c51ab&quot;&gt;按鈕&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd2c51ab&quot;&gt;
+&lt;p&gt;
+DE2-115 共有四個按鈕 (Push Button)，這些按鈕都接上了&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E6%96%BD%E5%AF%86%E7%89%B9%E8%A7%A6%E5%8F%91%E5%99%A8&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;施密特觸發器(Schmitt trigger)&lt;/a&gt;來對按鈕去除彈跳 &lt;a href=&quot;http://while-true-loop.blogspot.tw/2009/04/de-bounce.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;(debounce)&lt;/a&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_170619.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+也因為已經在電路上做了&lt;a href=&quot;http://while-true-loop.blogspot.tw/2009/04/de-bounce.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;防彈跳功能 (debounce)&lt;/a&gt;，因此在使用這些按鈕的時候我們就不需要透過軟體去濾掉按下按鈕後產生的那些雜訊。
+&lt;/p&gt;
+
+&lt;p&gt;
+我們可以透過以下的表格，找出 FPGA 對應按鈕的腳位:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_174808.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org0e409ba&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org0e409ba&quot;&gt;指撥開關&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org0e409ba&quot;&gt;
+&lt;p&gt;
+DE2-115 有 18 個指撥開關 (slide switches)，和按鈕不同的地方在於這些指撥開關並未接上施密特觸發器(Schmitt trigger) ，也因此不具有防彈跳的功能。
+&lt;/p&gt;
+
+&lt;p&gt;
+當指撥開關並未往上撥的時候，其為低電位，也就是邏輯 0。當往上撥的時候，則會變成高電位，也就是邏輯 1。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_170916.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當如果需要使用指撥開關的時候，我們可能會需要下面這張表來進行 I/O mapping:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_172531.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orge1c2229&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orge1c2229&quot;&gt;LED&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orge1c2229&quot;&gt;
+&lt;p&gt;
+DE2-115 上面共有 27 個 LED, 其中紅色 LED 佔了 18 個，綠色的則是有 9 個
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_171021.png&quot; width=&quot;80%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當輸出腳為高電位的時候，會觸發 LED 亮，低電位則是讓 LED 暗。
+&lt;/p&gt;
+
+&lt;p&gt;
+下面則是 LED 與 I/O 的對應表:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_171538.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org1837472&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org1837472&quot;&gt;七段顯示器&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org1837472&quot;&gt;
+&lt;p&gt;
+DE2-115 共有 8 個 &lt;a href=&quot;https://en.wikipedia.org/wiki/Seven-segment_display&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;七段顯示器 (7-segment)&lt;/a&gt;，每一個七段顯示器和 Cyclone IV 的連接就像這個樣子:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_172709.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+這塊板子上的七段顯示器是採用 &lt;code&gt;共陽極 (Common Anode)&lt;/code&gt; 的形式接上的 (&lt;a href=&quot;http://www.cypress.com/file/132516/download&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;圖片來源)&lt;/a&gt; ，也因此當我們指定接腳為低電位 (邏輯 0) 的時候，可以將該位置點亮，指定為高電位則是關掉顯示。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_223953.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+具體的 I/O mapping 如下表：
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180523_172858.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org5fbe132&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org5fbe132&quot;&gt;時脈源 (Clock Sources)&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org5fbe132&quot;&gt;
+&lt;p&gt;
+DE2-115 上面掛載了一顆 &lt;code&gt;50MHz&lt;/code&gt; 的有源石英振盪器，而這顆振盪器會經由 &lt;a href=&quot;https://www.diodes.com/assets/Datasheets/PI49FCT3802.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;PI49FCT3803 (單端時鐘緩衝器)&lt;/a&gt; 將訊號變成 3 組 50MHz 輸入到 Cyclone IV 的三個輸入源來提供使用者使用。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_224245.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當然，如果想要輸入外部的時脈或是將當前的時脈輸出，則可以使用 SMA 連接器來進行輸入/輸出。
+&lt;/p&gt;
+
+&lt;p&gt;
+另外要注意的是，這邊提到的時脈訊號會接到 FGPA 內的 &lt;a href=&quot;https://zh.wikipedia.org/wiki/%E9%94%81%E7%9B%B8%E7%8E%AF&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;鎖相迴路 (Phase-locked loops, PLL)&lt;/a&gt; , 因此我們可以透過 Altera 的 IP-Core &lt;a href=&quot;https://www.altera.com/en_US/pdfs/literature/ug/ug_altpll.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ALTPLL&lt;/a&gt; 模組來對輸入時脈進行倍頻或是除頻等運作，產生我們需要的時脈。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_224553.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org1e776d5&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org1e776d5&quot;&gt;LCD&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org1e776d5&quot;&gt;
+&lt;p&gt;
+DE2-115 除了七段顯示器外，板子上也接上了 LCD 模組 &lt;a href=&quot;https://www.sparkfun.com/datasheets/LCD/HD44780.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;HD44780&lt;/a&gt; ，我們可以透過 LCD 模組來進行一些文字訊息的顯示。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_230222.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當然，要控制這個 LCD 模組，知道接腳在哪也是必要的:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_230304.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-orga815707&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orga815707&quot;&gt;GPIO&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orga815707&quot;&gt;
+&lt;p&gt;
+前面說到我們不會提到 HSMC (High Speed Mezzanine Card)，但是 GPIO 就必須特別題一下了。一般來說，大多數位訊號都可以透過 GPIO 來模擬達到，這種方式稱為 &lt;a href=&quot;https://en.wikipedia.org/wiki/Bit_banging&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Bit baning&lt;/a&gt; 。也因此，假設我們要自己實做 UART、I2C、SPI 等訊號輸入輸出，都可以透過這些 GPIO 接腳來達到。
+&lt;/p&gt;
+
+&lt;p&gt;
+當然對初學者而言，GPIO 大概就是拿來點亮 LED 用的 :P
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_232246.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+DE2-115 上的 GPIO 設計有保護電路，可以避免輸入的電壓過高 (當然還是不可以太超過~)
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_232307.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+那如何控制這些 GPIO 的電壓階度呢？我們可以透過調整 JP6 的短路座 (Jumper) 來將其設定成 3.3V (預設), 2.5V, 1.8V, 1.5V 的電壓位準。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_232706.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當然這些位準要怎樣調整，就需要看這些 GPIO 的使用方式囉 ~
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_231124.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org9722498&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org9722498&quot;&gt;VGA&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org9722498&quot;&gt;
+&lt;p&gt;
+和 &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Xilinx Zybo Board&lt;/a&gt; 的作法不同，&lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=171&amp;amp;No=542&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Altera DE2-115&lt;/a&gt; 採用了 &lt;a href=&quot;http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7123-EP.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ADV7123&lt;/a&gt; 來將數位訊號轉換成 VGA 使用的類比訊號
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_234205.png&quot; width=&quot;80%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當然如果想要控制 VGA 輸出的話，需要知道時序的控制，讓其符合規格，但老實說這邊有點難一次講完，具體請參考: &lt;a href=&quot;http://www.cnblogs.com/oomusou/archive/2008/08/11/de2_vga_timing_table.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;(筆記) D-Sub VGA timing table (SOC) (DE2) (DE2-70)&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+而  &lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;amp;No=542&amp;amp;FID=eeba7202febfb39155fdac7b09ceada7&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115 User Manual&lt;/a&gt; 也提供了我們參考用的時序資訊 (Timing Specification)
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_234426.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+當然，要控制 &lt;a href=&quot;http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7123-EP.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ADV7123&lt;/a&gt; 的話，我們也必須要知道 FGPA 拉出來的接腳才行
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_234841.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-orgc80421b&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc80421b&quot;&gt;Audio&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc80421b&quot;&gt;
+&lt;p&gt;
+DE2-115 上面採用了 &lt;a href=&quot;https://www.cirrus.com/products/wm8731/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WM8731&lt;/a&gt; 作為音頻的解決方案，這顆晶片可以支援麥克風輸入、類比音源轉換輸入/輸出 (line-in/out)，而 Cyclone IV 和這顆晶片的溝通界面則是 &lt;a href=&quot;https://zh.wikipedia.org/wiki/I%C2%B2C&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;I²C&lt;/a&gt; 。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_235721.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+相關接腳如下:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180524_235740.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgd471d47&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgd471d47&quot;&gt;RS232&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd471d47&quot;&gt;
+&lt;p&gt;
+在嵌入式系統開發的時候，&lt;a href=&quot;https://zh.wikipedia.org/wiki/RS-232&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;RS232&lt;/a&gt; 串列埠是非常常用的接口，我們常常使用其作為最基本的除錯訊息輸出來源，而 DE2-115 已經幫我們把相關的電路處理好了。在這邊，DE2-115 使用 &lt;a href=&quot;https://www.ineltro.ch/media/downloads/SAAItem/45/45377/a4536d49-dc82-4904-8a34-c4f51beb59e9.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ZT3232LEEY&lt;/a&gt; 這顆電壓轉換電路，將 FPGA 輸出的電壓 (3.3V) 轉換成 RS232 標準的最低許可電壓 ±5V。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180525_000107.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+假設我們要透過 Verilog 撰寫 UART 模組，我們可以採用以下接腳:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180525_000121.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org216ef77&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org216ef77&quot;&gt;PS2 串列埠&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org216ef77&quot;&gt;
+&lt;p&gt;
+現在的人已經很難接觸到 &lt;a href=&quot;https://en.wikipedia.org/wiki/PS/2_port&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;PS/2 序列埠&lt;/a&gt; 了，以前的滑鼠和鍵盤都是透過這接口和主機溝通的，現在都已經被 USB 取代。我手邊的這片 DE2-115 畢竟是早期的板子，還留有這樣的接口。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/ps2.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_181700.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org7b74772&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org7b74772&quot;&gt;Gigabit 乙太網路收發器&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org7b74772&quot;&gt;
+&lt;p&gt;
+DE2-115 內建兩個 Gigabit 乙太網路收發器，可以支援 10/100/1000M bps 的網路速度，並支援 GMII/MII/RGMII Mac 接口。
+&lt;/p&gt;
+
+&lt;p&gt;
+預設的網路設定如下:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/eth.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+和 FPGA 的接線方式則是如下圖:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_210108.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;
+我們可以透過調整 JP1 和 JP2 的接法，設定網路設備的工作模式:
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/ux.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/uui.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org7ee6ede&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org7ee6ede&quot;&gt;TV Decoder&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org7ee6ede&quot;&gt;
+&lt;p&gt;
+DE2-115 採用 &lt;a href=&quot;http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Analog Device ADV7180&lt;/a&gt; 作為影像串流解碼器，此顆晶片可以自動解碼 &lt;a href=&quot;https://zh.wikipedia.org/wiki/NTSC%E5%88%B6%E5%BC%8F&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;NTSC&lt;/a&gt;、&lt;a href=&quot;https://zh.wikipedia.org/zh-tw/PAL%E5%88%B6%E5%BC%8F&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;PAL&lt;/a&gt;、&lt;a href=&quot;https://zh.wikipedia.org/wiki/SECAM%E5%88%B6%E5%BC%8F&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;SECAM&lt;/a&gt; 等影像規格成 &lt;a href=&quot;https://en.wikipedia.org/wiki/ITU-R_BT.656&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;8-bit ITU-R BT.656&lt;/a&gt; 格式。
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href=&quot;http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Analog Device ADV7180&lt;/a&gt; 和 FPGA 採用 &lt;a href=&quot;https://zh.wikipedia.org/wiki/I%C2%B2C&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;I²C&lt;/a&gt; 接口進行通訊。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_205349.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_205911.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org73cce5a&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org73cce5a&quot;&gt;USB&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org73cce5a&quot;&gt;
+&lt;p&gt;
+DE2-115 採用了 &lt;a href=&quot;http://www.cypress.com/file/122731/download&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Cypress EZ-OTG (CY7C67200)&lt;/a&gt; 這款支援 &lt;a href=&quot;https://zh.wikipedia.org/wiki/USB_On-The-Go&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;USB On-The-Go&lt;/a&gt; 功能的控制器，Host 和 Device 皆支援 USB 2.0 標準。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_204931.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_205257.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org13b8c29&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org13b8c29&quot;&gt;IR (紅外線)&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org13b8c29&quot;&gt;
+&lt;p&gt;
+DE2-115 盒內附了一個紅外線遙控器，而板子上則有紅外線接收器 (&lt;a href=&quot;https://www.mouser.tw/ProductDetail/Everlight/IRM-V538N7-TR1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;IRM-V538N7/TR1&lt;/a&gt;)，我們可以透過這個組合，實現像是冷氣遙控器、電視遙控器等控制界面。
+&lt;/p&gt;
+
+&lt;p&gt;
+要注意的是，這個紅外線接收模組只相容 &lt;code&gt;38KHz 載波頻率&lt;/code&gt; ，最大的資料傳輸率是 &lt;code&gt;4kbps&lt;/code&gt; , 也就是說，不是你隨便拿一個家用的遙控器都可以和 DE2-115 上面的紅外線接收器溝通的。
+&lt;/p&gt;
+
+&lt;p&gt;
+DE2-115 提供的遙控器採用了 &lt;a href=&quot;http://pdf.datasheet.live/3ca11ca1/necel.com/UPD6121G-001.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;uPD6121G&lt;/a&gt; 則有符合這個規格，因此記得不要把它搞丟呦^^
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_183040.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_182048.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgdb16eae&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgdb16eae&quot;&gt;SRAM&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdb16eae&quot;&gt;
+&lt;p&gt;
+DE2-115 內建了 2MB 的 SRAM, 這些 SRAM 的資料寬度是 16bit, 在 3.3V 的情況下，最高頻率為 125M Hz
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_183324.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_202103.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgc61aa1b&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc61aa1b&quot;&gt;SDRAM&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc61aa1b&quot;&gt;
+&lt;p&gt;
+DE2-115 有 128 MB 的 SDRAM, 這個 SDRAM 實際上是由兩個 64MB 的 SDRAM 組成，每個 SDRAM 具有 16-bit 的資料寬度。
+而由 FPGA 拉出來的位址控制訊號則是共用。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_183612.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_202717.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org3ddc2f1&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org3ddc2f1&quot;&gt;FLASH&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org3ddc2f1&quot;&gt;
+&lt;p&gt;
+DE2-115 具有 8MB FLASH, 這顆 FLASH 具有 8-bit 的資料寬度。基於 FLASH 的非揮發特性 (斷電後資料會保持)，我們常常使用這些 FLASH 存儲一些特定的資料。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_183800.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_203443.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org2adddd3&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org2adddd3&quot;&gt;EEPROM&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org2adddd3&quot;&gt;
+&lt;p&gt;
+EEPROM 和 FLASH 一樣，也是斷電後資料可以保存的裝置。DE2-115 具有 32Kb 的 EEPROM, 由 &lt;a href=&quot;https://zh.wikipedia.org/wiki/I%C2%B2C&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;I²C&lt;/a&gt; 接口對其進行控制。
+根據電路的接線方式，我們可以透過 &lt;a href=&quot;https://zh.wikipedia.org/wiki/I%C2%B2C&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;I²C&lt;/a&gt; Bus 上的 &lt;code&gt;0xA0&lt;/code&gt; 以及 &lt;code&gt;0xA1&lt;/code&gt; 位址來讀寫 EEPROM 的資料。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_183954.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_203809.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgb604574&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgb604574&quot;&gt;SD Card&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgb604574&quot;&gt;
+&lt;p&gt;
+當我們需要大量的儲存空間的時候，就會有使用到 SD 卡的需求。DE2-115 已經連接好 SD 卡插槽，使用者可以透過 SPI 模式或是 SD 卡的 4-bit 或 1-bit 模式來和 SD 卡進行通訊。
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_202029.png&quot; width=&quot;60%&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/7a67f04e/Screenshot_20180527_203954.png&quot;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orga6f07a5&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orga6f07a5&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orga6f07a5&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;amp;No=542&amp;amp;FID=eeba7202febfb39155fdac7b09ceada7&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DE2-115 User Manual&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;amp;CategoryNo=156&amp;amp;No=686&amp;amp;PartNo=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;邏輯電路設計 DE2-115 實戰寶典&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+]]></content:encoded>
+      <comments>https://coldnew.github.io/7a67f04e/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>i.MX6SoloX SabreSD 學習筆記: 使用 Yocto 製作開機卡</title>
@@ -14637,272 +16205,6 @@ Vivado 告訴我們找到了一台使用 &lt;code&gt;xc7z010&lt;/code&gt; IC 的
 &lt;/div&gt;
 ]]></content:encoded>
       <comments>https://coldnew.github.io/6c5717d7/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>zybo board 開發記錄: 讓 Vivado 有 Zybo Board 的設定檔</title>
-      <link>https://coldnew.github.io/cd57308/</link>
-      <guid>https://coldnew.github.io/cd57308/</guid>
-      <pubDate>Mon, 27 Jun 2016 09:49:00 GMT</pubDate>
-      <description>
-         &lt;div id=&quot;content&quot;&gt;
-&lt;p&gt;
-在透過 &lt;a href=&quot;http://www.xilinx.com/products/design-tools/vivado.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vivado&lt;/a&gt; 去建立新的專案的時候，開發板沒有 Zybo Board 的選項可以選，我們就必須自己去設定關於 Zybo Board 的資訊。幸好， &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Digilentinc&lt;/a&gt; 針對這個問題有提供關於 Zybo Board 的設定檔，就讓我們來搞定他吧。
-&lt;/p&gt;
-
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;p&gt;
-關於 Zybo Board 的設定檔可以在 &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Digilentinc&lt;/a&gt; 的 GitHub 上找到
-&lt;/p&gt;
-
-&lt;div data-theme=&quot;default&quot; data-height=&quot;150&quot; data-width=&quot;400&quot; data-github=&quot;Digilent/vivado-boards&quot; class=&quot;github-card&quot;&gt;&lt;/div&gt;
-&lt;script src=&quot;//cdn.jsdelivr.net/github-cards/latest/widget.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;outline-container-org241a87c&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org241a87c&quot;&gt;下載設定檔&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org241a87c&quot;&gt;
-&lt;p&gt;
-我們可以透過 git 或是直接下載 &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Digilentinc&lt;/a&gt; 位於 GitHub 的 &lt;a href=&quot;https://github.com/Digilent/vivado-boards/archive/master.zip&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;設定檔&lt;/a&gt; ，這邊採用 wget 進行下載。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~ $ wget https://github.com/Digilent/vivado-boards/archive/master.zip
-
-&lt;/pre&gt;
-
-&lt;p&gt;
-下載完成後，將其解壓
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~ $ unzip master.zip
-
-&lt;/pre&gt;
-
-&lt;p&gt;
-你會看到裡面有以下內容，實際上這份壓縮包包含了所有 &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Digilentinc&lt;/a&gt; 設計的 Xilinx 相關的開發板的設定資訊。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/vivado-boards-master $ tree -L 3 .
-. &amp;lt;b&amp;gt;
-├── new &amp;lt;b&amp;gt;
-│   └── board_files &amp;lt;b&amp;gt;
-│       ├── arty &amp;lt;b&amp;gt;
-│       ├── arty-z20  &amp;lt;b&amp;gt;
-│       ├── basys3  &amp;lt;b&amp;gt;
-│       ├── cmod_a7-15t  &amp;lt;b&amp;gt;
-│       ├── cmod_a7-35t  &amp;lt;b&amp;gt;
-│       ├── genesys2  &amp;lt;b&amp;gt;
-│       ├── nexys4  &amp;lt;b&amp;gt;
-│       ├── nexys4_ddr  &amp;lt;b&amp;gt;
-│       ├── nexys_video  &amp;lt;b&amp;gt;
-│       └── zybo  &amp;lt;b&amp;gt;
-├── old  &amp;lt;b&amp;gt;
-│   └── board_parts  &amp;lt;b&amp;gt;
-│       ├── artix7  &amp;lt;b&amp;gt;
-│       ├── kintex7  &amp;lt;b&amp;gt;
-│       └── zynq  &amp;lt;b&amp;gt;
-└── README.md
-
-17 directories, 1 file
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgd112efc&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgd112efc&quot;&gt;安裝設定檔&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd112efc&quot;&gt;
-&lt;p&gt;
-接下來就是進行安裝了，假設你的 &lt;a href=&quot;http://www.xilinx.com/products/design-tools/vivado.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vivado&lt;/a&gt; 安裝到 &lt;code&gt;/opt/Xilinx/Vivado/2016.1/&lt;/code&gt; 的話，我們要把 &lt;code&gt;vivado-boards-master/new/board_files&lt;/code&gt; 複製過去
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/vivado-boards-master $ cp -rf new/board_files /opt/Xilinx/Vivado/2016.1/data/boards/
-&lt;/pre&gt;
-
-&lt;p&gt;
-完成後，你在 &lt;code&gt;/opt/Xilinx/Vivado/2016.1/data/boards/&lt;/code&gt; 的資料應該會像這樣
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo /opt/Xilinx/Vivado/2016.1/data/boards/board_files $ tree -L 1 .
-. &amp;lt;b&amp;gt;
-├── ac701 &amp;lt;b&amp;gt;
-├── arty &amp;lt;b&amp;gt;
-├── basys3 &amp;lt;b&amp;gt;
-├── cmod_a7-15t &amp;lt;b&amp;gt;
-├── cmod_a7-35t &amp;lt;b&amp;gt;
-├── genesys2 &amp;lt;b&amp;gt;
-├── nexys4 &amp;lt;b&amp;gt;
-├── nexys4_ddr &amp;lt;b&amp;gt;
-├── nexys_video &amp;lt;b&amp;gt;
-├── README.md
-├── zc702 &amp;lt;b&amp;gt;
-├── zed &amp;lt;b&amp;gt;
-└── zybo &amp;lt;b&amp;gt;
-
-12 directories, 1 file
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org3b5c696&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org3b5c696&quot;&gt;建立專案&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org3b5c696&quot;&gt;
-&lt;p&gt;
-如果你安裝過程都沒遇到問題，重新啟動 &lt;a href=&quot;http://www.xilinx.com/products/design-tools/vivado.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vivado&lt;/a&gt; 建立新的專案，就可以看到 Zybo Board 的開發板設定囉~
-&lt;/p&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/cd57308/zybo_create_prj.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org9e6dfc5&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org9e6dfc5&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org9e6dfc5&quot;&gt;
-&lt;p&gt;
-&lt;code&gt;[1]&lt;/code&gt; &lt;a href=&quot;https://reference.digilentinc.com/vivado/boardfiles2015&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://reference.digilentinc.com/vivado/boardfiles2015&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-      </description>
-      <content:encoded><![CDATA[&lt;div id=&quot;content&quot;&gt;
-&lt;p&gt;
-在透過 &lt;a href=&quot;http://www.xilinx.com/products/design-tools/vivado.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vivado&lt;/a&gt; 去建立新的專案的時候，開發板沒有 Zybo Board 的選項可以選，我們就必須自己去設定關於 Zybo Board 的資訊。幸好， &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Digilentinc&lt;/a&gt; 針對這個問題有提供關於 Zybo Board 的設定檔，就讓我們來搞定他吧。
-&lt;/p&gt;
-
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;p&gt;
-關於 Zybo Board 的設定檔可以在 &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Digilentinc&lt;/a&gt; 的 GitHub 上找到
-&lt;/p&gt;
-
-&lt;div data-theme=&quot;default&quot; data-height=&quot;150&quot; data-width=&quot;400&quot; data-github=&quot;Digilent/vivado-boards&quot; class=&quot;github-card&quot;&gt;&lt;/div&gt;
-&lt;script src=&quot;//cdn.jsdelivr.net/github-cards/latest/widget.js&quot;&gt;&lt;/script&gt;
-
-&lt;div id=&quot;outline-container-org241a87c&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org241a87c&quot;&gt;下載設定檔&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org241a87c&quot;&gt;
-&lt;p&gt;
-我們可以透過 git 或是直接下載 &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Digilentinc&lt;/a&gt; 位於 GitHub 的 &lt;a href=&quot;https://github.com/Digilent/vivado-boards/archive/master.zip&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;設定檔&lt;/a&gt; ，這邊採用 wget 進行下載。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~ $ wget https://github.com/Digilent/vivado-boards/archive/master.zip
-
-&lt;/pre&gt;
-
-&lt;p&gt;
-下載完成後，將其解壓
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~ $ unzip master.zip
-
-&lt;/pre&gt;
-
-&lt;p&gt;
-你會看到裡面有以下內容，實際上這份壓縮包包含了所有 &lt;a href=&quot;https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Digilentinc&lt;/a&gt; 設計的 Xilinx 相關的開發板的設定資訊。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/vivado-boards-master $ tree -L 3 .
-. &amp;lt;b&amp;gt;
-├── new &amp;lt;b&amp;gt;
-│   └── board_files &amp;lt;b&amp;gt;
-│       ├── arty &amp;lt;b&amp;gt;
-│       ├── arty-z20  &amp;lt;b&amp;gt;
-│       ├── basys3  &amp;lt;b&amp;gt;
-│       ├── cmod_a7-15t  &amp;lt;b&amp;gt;
-│       ├── cmod_a7-35t  &amp;lt;b&amp;gt;
-│       ├── genesys2  &amp;lt;b&amp;gt;
-│       ├── nexys4  &amp;lt;b&amp;gt;
-│       ├── nexys4_ddr  &amp;lt;b&amp;gt;
-│       ├── nexys_video  &amp;lt;b&amp;gt;
-│       └── zybo  &amp;lt;b&amp;gt;
-├── old  &amp;lt;b&amp;gt;
-│   └── board_parts  &amp;lt;b&amp;gt;
-│       ├── artix7  &amp;lt;b&amp;gt;
-│       ├── kintex7  &amp;lt;b&amp;gt;
-│       └── zynq  &amp;lt;b&amp;gt;
-└── README.md
-
-17 directories, 1 file
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgd112efc&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgd112efc&quot;&gt;安裝設定檔&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd112efc&quot;&gt;
-&lt;p&gt;
-接下來就是進行安裝了，假設你的 &lt;a href=&quot;http://www.xilinx.com/products/design-tools/vivado.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vivado&lt;/a&gt; 安裝到 &lt;code&gt;/opt/Xilinx/Vivado/2016.1/&lt;/code&gt; 的話，我們要把 &lt;code&gt;vivado-boards-master/new/board_files&lt;/code&gt; 複製過去
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/vivado-boards-master $ cp -rf new/board_files /opt/Xilinx/Vivado/2016.1/data/boards/
-&lt;/pre&gt;
-
-&lt;p&gt;
-完成後，你在 &lt;code&gt;/opt/Xilinx/Vivado/2016.1/data/boards/&lt;/code&gt; 的資料應該會像這樣
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo /opt/Xilinx/Vivado/2016.1/data/boards/board_files $ tree -L 1 .
-. &amp;lt;b&amp;gt;
-├── ac701 &amp;lt;b&amp;gt;
-├── arty &amp;lt;b&amp;gt;
-├── basys3 &amp;lt;b&amp;gt;
-├── cmod_a7-15t &amp;lt;b&amp;gt;
-├── cmod_a7-35t &amp;lt;b&amp;gt;
-├── genesys2 &amp;lt;b&amp;gt;
-├── nexys4 &amp;lt;b&amp;gt;
-├── nexys4_ddr &amp;lt;b&amp;gt;
-├── nexys_video &amp;lt;b&amp;gt;
-├── README.md
-├── zc702 &amp;lt;b&amp;gt;
-├── zed &amp;lt;b&amp;gt;
-└── zybo &amp;lt;b&amp;gt;
-
-12 directories, 1 file
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org3b5c696&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org3b5c696&quot;&gt;建立專案&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org3b5c696&quot;&gt;
-&lt;p&gt;
-如果你安裝過程都沒遇到問題，重新啟動 &lt;a href=&quot;http://www.xilinx.com/products/design-tools/vivado.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vivado&lt;/a&gt; 建立新的專案，就可以看到 Zybo Board 的開發板設定囉~
-&lt;/p&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/cd57308/zybo_create_prj.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org9e6dfc5&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org9e6dfc5&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org9e6dfc5&quot;&gt;
-&lt;p&gt;
-&lt;code&gt;[1]&lt;/code&gt; &lt;a href=&quot;https://reference.digilentinc.com/vivado/boardfiles2015&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://reference.digilentinc.com/vivado/boardfiles2015&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-]]></content:encoded>
-      <comments>https://coldnew.github.io/cd57308/#disqus_thread</comments>
     </item>
     
   </channel>
