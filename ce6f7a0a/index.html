@@ -60,7 +60,7 @@
 <meta property="og:image" content="https://coldnew.github.io/ce6f7a0a/Screenshot_20180606_234616.png">
 <meta property="og:image" content="https://coldnew.github.io/ce6f7a0a/Screenshot_20180605_235553.png">
 <meta property="og:image" content="https://coldnew.github.io/ce6f7a0a/Screenshot_20180607_004559.png">
-<meta property="og:updated_time" content="2018-06-06T16:48:29.230Z">
+<meta property="og:updated_time" content="2018-06-07T01:22:53.750Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DE2-115 開發紀錄: 在 Linux 下使用 ModelSim">
 <meta name="twitter:description" content="撰寫完 Verilog 程式後，除了下載到 FPGA 開發板上，我們也可以透過 ModelSim 來對我們的程式進行波型的模擬。    由於 Altera 的 ModelSim 在 Linux 下運作可能會遇到一些問題導致不能執行，本篇將整理我自己遇到的情況。">
@@ -201,7 +201,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2018-06-07T00:48:29+08:00" content="2018-06-07">
+          <time itemprop="dateCreated" datetime="2018-06-07T09:22:53+08:00" content="2018-06-07">
             2018-06-07
           </time>
         </span>
@@ -246,9 +246,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-org6b64877" class="outline-2">
-<h2 id="org6b64877">執行 RTL Simulation 出錯</h2>
-<div class="outline-text-2" id="text-org6b64877">
+<div id="outline-container-org6e3c087" class="outline-2">
+<h2 id="org6e3c087">執行 RTL Simulation 出錯</h2>
+<div class="outline-text-2" id="text-org6e3c087">
 <p>
 我遇到的第一個錯誤在執行 <code>Tools -&gt; RUn Simulation Tool -&gt; RTL Simulation</code> , 它就這樣給我跑出一個不相干的錯誤視窗&#x2026;
 </p>
@@ -288,9 +288,9 @@ coldnew@gentoo ~ $ sudo emerge -v sys-libs/ncurses:5
 </div>
 </div>
 
-<div id="outline-container-org8cb315b" class="outline-2">
-<h2 id="org8cb315b">修改 vco 腳本</h2>
-<div class="outline-text-2" id="text-org8cb315b">
+<div id="outline-container-org233f21d" class="outline-2">
+<h2 id="org233f21d">修改 vco 腳本</h2>
+<div class="outline-text-2" id="text-org233f21d">
 <p>
 我安裝的 ModelSim 在 <code>/opt/Altera/18.0/modelsim_ase/</code> ，而其中有一個 <code>vco</code> 腳本需要做這樣的修改，不然會找不到對應的 <code>vsim</code> 執行檔
 </p>
@@ -316,11 +316,11 @@ coldnew@gentoo ~ $ sudo emerge -v sys-libs/ncurses:5
 </div>
 </div>
 
-<div id="outline-container-org76414a7" class="outline-2">
-<h2 id="org76414a7">Initialization problem, exiting.</h2>
-<div class="outline-text-2" id="text-org76414a7">
+<div id="outline-container-orge42768f" class="outline-2">
+<h2 id="orge42768f">Initialization problem, exiting.</h2>
+<div class="outline-text-2" id="text-orge42768f">
 <p>
-除了上面的問題以外，如果直接執行  <code>/opt/Altera/18.0/modelsim_ase/vsim</code> ，也就是直接呼叫 ModelSim 程式的話，還會遇到像是這樣的錯誤訊息：
+除了上面的問題以外，如果直接執行  <code>/opt/Altera/18.0/modelsim_ase/linux/vsim</code> ，也就是直接呼叫 ModelSim 程式的話，還會遇到像是這樣的錯誤訊息：
 </p>
 
 <pre class="example">
@@ -401,9 +401,9 @@ coldnew@gentoo /opt/Altera/18.0/lib32 $ tree  .
 </div>
 </div>
 
-<div id="outline-container-orgfaeb34f" class="outline-2">
-<h2 id="orgfaeb34f">執行結果</h2>
-<div class="outline-text-2" id="text-orgfaeb34f">
+<div id="outline-container-org8955ed2" class="outline-2">
+<h2 id="org8955ed2">執行結果</h2>
+<div class="outline-text-2" id="text-org8955ed2">
 <p>
 我目前遇到就上面這些問題，解決以後就可以呼叫 ModelSim 囉 ~
 </p>
@@ -416,9 +416,9 @@ coldnew@gentoo /opt/Altera/18.0/lib32 $ tree  .
 </div>
 </div>
 
-<div id="outline-container-org322258a" class="outline-2">
-<h2 id="org322258a">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org322258a">
+<div id="outline-container-org8f9bf93" class="outline-2">
+<h2 id="org8f9bf93">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org8f9bf93">
 <ul class="org-ul">
 <li><a href="https://wiki.archlinux.org/index.php/Altera_Design_Software#ModelSim-Altera_Edition" target="_blank" rel="external">Altera Design Software - ArchWiki</a></li>
 
@@ -581,7 +581,7 @@ coldnew@gentoo /opt/Altera/18.0/lib32 $ tree  .
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6b64877"><span class="nav-text">執行 RTL Simulation 出錯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8cb315b"><span class="nav-text">修改 vco 腳本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org76414a7"><span class="nav-text">Initialization problem, exiting.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfaeb34f"><span class="nav-text">執行結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org322258a"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6e3c087"><span class="nav-text">執行 RTL Simulation 出錯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org233f21d"><span class="nav-text">修改 vco 腳本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge42768f"><span class="nav-text">Initialization problem, exiting.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8955ed2"><span class="nav-text">執行結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8f9bf93"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
