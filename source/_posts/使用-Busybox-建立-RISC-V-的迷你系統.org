@@ -95,17 +95,17 @@ git checkout -f -t origin/master
 
 接著我們就可以使用預設的設定去編譯 Linux Kernel
 #+BEGIN_SRC sh
-  coldnew@Rosia ~/linux-3.14.41 $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- defconfig
+  coldnew@Rosia ~/linux-3.14.41 $ ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- make defconfig
 #+END_SRC
 
 如果你喜歡客製化，也可以使用 menuconfig 去加/減你的 Linux Kernel 設定
 #+BEGIN_SRC sh
-  coldnew@Rosia ~/linux-3.14.41 $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- menuconfig
+  coldnew@Rosia ~/linux-3.14.41 $ ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- make menuconfig
 #+END_SRC
 
 設定都完成後，就是編譯 Linux Kernel 的時候了，這邊我們只需要編譯 vmlinux 就好
 #+BEGIN_SRC sh
-  coldnew@Rosia ~/linux-3.14.41 $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- vmlinux
+  coldnew@Rosia ~/linux-3.14.41 $ ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- make vmlinux
 #+END_SRC
 
 編譯完成後，你會在當前目錄下看到 =vmlinux= 這個檔案
@@ -225,7 +225,7 @@ coldnew@Rosia ~/busybox $ git checkout -b 1_23_stable origin/1_23_stable
 
 進行我們自己的設定
 #+BEGIN_EXAMPLE
-coldnew@Rosia ~/busybox $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- menuconfig
+coldnew@Rosia ~/busybox $ ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- make menuconfig
 #+END_EXAMPLE
 
 在進行設定時有以下幾點要確實注意，我們要將 busybox 編譯為靜態連結，並且增加
@@ -247,14 +247,14 @@ Shells  --->
 
 設定完成後開始進行編譯
 #+BEGIN_SRC sh
-  coldnew@Rosia ~/busybox $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu-
+  coldnew@Rosia ~/busybox $ ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- make
 #+END_SRC
 
 編譯完成後透過 =make install= 命令，會將編譯出來的 busybox 與軟連結(symlink)產生
 在 =_install= 資料夾內
 
 #+BEGIN_SRC sh
-  coldnew@Rosia ~/busybox $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- install
+  coldnew@Rosia ~/busybox $ ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- make install
 #+END_SRC
 
 我們將剛剛測試用的 =root.ext2= 掛載到 =/tmp/root= 資料夾下，並將 =_install= 資料夾內的東西全部複製過去
