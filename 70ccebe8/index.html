@@ -229,9 +229,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-org8a33ae2" class="outline-2">
-<h2 id="org8a33ae2">安裝依賴的相關套件</h2>
-<div class="outline-text-2" id="text-org8a33ae2">
+<div id="outline-container-org0aeaef9" class="outline-2">
+<h2 id="org0aeaef9">安裝依賴的相關套件</h2>
+<div class="outline-text-2" id="text-org0aeaef9">
 <p>
 第一步要做的，當然就是安裝相關套件啦，這點我們直接透過 <a href="http://brew.sh/" target="_blank" rel="external">homebrew</a> 來安裝
 </p>
@@ -259,9 +259,9 @@ coldnew@MacOSX ~ $ brew install crosstool-ng
 </div>
 </div>
 
-<div id="outline-container-org870ea6f" class="outline-2">
-<h2 id="org870ea6f">建立編譯環境</h2>
-<div class="outline-text-2" id="text-org870ea6f">
+<div id="outline-container-org4f813ff" class="outline-2">
+<h2 id="org4f813ff">建立編譯環境</h2>
+<div class="outline-text-2" id="text-org4f813ff">
 <p>
 安裝好 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 後，我們需要建立一個 <code>Case Sensitive</code> 的 HFS+ 硬碟來讓 MacOSX 可以順利編譯，以下為我建立這顆硬碟所用的命令 (佔 10G 的硬碟空間)
 </p>
@@ -338,9 +338,9 @@ coldnew@MacOSX /Volumes/CrossToolNG $ ct-ng build
 </div>
 </div>
 
-<div id="outline-container-org581861d" class="outline-2">
-<h2 id="org581861d">設定編譯環境</h2>
-<div class="outline-text-2" id="text-org581861d">
+<div id="outline-container-org2a78cbc" class="outline-2">
+<h2 id="org2a78cbc">設定編譯環境</h2>
+<div class="outline-text-2" id="text-org2a78cbc">
 <p>
 完成編譯我們要的工具鍊 (toolchain) 後，我們可以在 <code>/Volumes/CrossToolNG</code> 看到以下的資料夾，其中 <code>x-tools</code> 就是我們編譯出來的結果
 </p>
@@ -372,9 +372,9 @@ coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
 </div>
 </div>
 
-<div id="outline-container-orga3bf6ca" class="outline-2">
-<h2 id="orga3bf6ca">可能會遇到的錯誤</h2>
-<div class="outline-text-2" id="text-orga3bf6ca">
+<div id="outline-container-orge2b1e60" class="outline-2">
+<h2 id="orge2b1e60">可能會遇到的錯誤</h2>
+<div class="outline-text-2" id="text-orge2b1e60">
 <p>
 在 Mac OSX 下編譯非 Apple 官方的東西常常會出現一堆奇怪的錯誤，有時是因為 XCode 的改動，有時是因為你透過 <a href="http://brew.sh/" target="_blank" rel="external">homebrew</a> 安裝了其他命令和 Mac OSX 內建的有衝突。
 </p>
@@ -384,9 +384,9 @@ coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
 </p>
 </div>
 
-<div id="outline-container-orge638b82" class="outline-3">
-<h3 id="orge638b82">stat: cannot read file system information for '%Lp'</h3>
-<div class="outline-text-3" id="text-orge638b82">
+<div id="outline-container-org4c87517" class="outline-3">
+<h3 id="org4c87517">stat: cannot read file system information for '%Lp'</h3>
+<div class="outline-text-3" id="text-org4c87517">
 <p>
 如果你遇到了這個問題，哪很有可能是因為你的系統同時也裝了 <a href="http://www.gnu.org/software/coreutils/coreutils.html" target="_blank" rel="external">GNU coreutils</a> 導致 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 調用的命令是 GNU 的 <code>stat</code> 命令，而不是系統內建的 stat 命令。
 </p>
@@ -440,9 +440,9 @@ coldnew@MacOSX ~ $ which stat
 </div>
 </div>
 
-<div id="outline-container-org118fab5" class="outline-3">
-<h3 id="org118fab5">ld: library not found for -lcrt0.o</h3>
-<div class="outline-text-3" id="text-org118fab5">
+<div id="outline-container-org27f65af" class="outline-3">
+<h3 id="org27f65af">ld: library not found for -lcrt0.o</h3>
+<div class="outline-text-3" id="text-org27f65af">
 <p>
 <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr</a> 提供的 <code>.config</code> 有打開靜態連結 (static link) 相關的設定，於是你會遇到這樣的狀況，解法參考 <a href="https://github.com/crosstool-ng/crosstool-ng/issues/31" target="_blank" rel="external">issue #31</a> 移除 static link 相關設定。
 </p>
@@ -482,9 +482,9 @@ coldnew@MacOSX ~ $ which stat
 </div>
 </div>
 
-<div id="outline-container-org66b3e2e" class="outline-2">
-<h2 id="org66b3e2e">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org66b3e2e">
+<div id="outline-container-orgb820544" class="outline-2">
+<h2 id="orgb820544">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgb820544">
 <p>
 <code>[1]</code> <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr Project Website</a>
 </p>
@@ -649,7 +649,7 @@ coldnew@MacOSX ~ $ which stat
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8a33ae2"><span class="nav-text">安裝依賴的相關套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org870ea6f"><span class="nav-text">建立編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org581861d"><span class="nav-text">設定編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga3bf6ca"><span class="nav-text">可能會遇到的錯誤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orge638b82"><span class="nav-text">stat: cannot read file system information for '%Lp'</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org118fab5"><span class="nav-text">ld: library not found for -lcrt0.o</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org66b3e2e"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0aeaef9"><span class="nav-text">安裝依賴的相關套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4f813ff"><span class="nav-text">建立編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2a78cbc"><span class="nav-text">設定編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge2b1e60"><span class="nav-text">可能會遇到的錯誤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org4c87517"><span class="nav-text">stat: cannot read file system information for '%Lp'</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org27f65af"><span class="nav-text">ld: library not found for -lcrt0.o</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb820544"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

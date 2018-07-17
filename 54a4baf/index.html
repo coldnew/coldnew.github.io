@@ -235,9 +235,9 @@ ClojureScript 來寫 node.js 的程式，可是如果要引用 node.js 的外部
 node.js 程式。
 </p>
 
-<div id="outline-container-org91e9b1a" class="outline-2">
-<h2 id="org91e9b1a">建立新的專案</h2>
-<div class="outline-text-2" id="text-org91e9b1a">
+<div id="outline-container-org5b49a99" class="outline-2">
+<h2 id="org5b49a99">建立新的專案</h2>
+<div class="outline-text-2" id="text-org5b49a99">
 <p>
 我們首先先來建立一個新的開發環境，就叫他為 <code>cljs-tty</code> 好了
 </p>
@@ -249,9 +249,9 @@ lein new cljs-tty
 </div>
 </div>
 
-<div id="outline-container-orge36a803" class="outline-2">
-<h2 id="orge36a803">加入 cljsbuild 到你的專案</h2>
-<div class="outline-text-2" id="text-orge36a803">
+<div id="outline-container-org425c2b9" class="outline-2">
+<h2 id="org425c2b9">加入 cljsbuild 到你的專案</h2>
+<div class="outline-text-2" id="text-org425c2b9">
 <p>
 接下來，編輯 <code>project.clj</code> 將他變成下面這樣，注意到在這篇範例中，我
 們還是使用 src 作為 ClojureScript 程式的資料夾。
@@ -275,7 +275,7 @@ lein new cljs-tty
                                    <span style="color: #ccaaff;">:target</span> <span style="color: #ccaaff;">:nodejs</span>
                                    <span style="color: #ccaaff;">:optimizations</span> <span style="color: #ccaaff;">:simple</span>
                                    <span style="color: #ccaaff;">:pretty-print</span> <span style="color: #ccaaff;">true</span><span style="color: #ccaaff;">}</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
-  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.5.1"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #000000; background-color: #ffffff;">/</span>clojure <span style="color: #aadddd;">"1.5.1"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -288,9 +288,9 @@ lein new cljs-tty
 </div>
 </div>
 
-<div id="outline-container-orge706f48" class="outline-2">
-<h2 id="orge706f48">使用 npm 來加入 node.js 套件</h2>
-<div class="outline-text-2" id="text-orge706f48">
+<div id="outline-container-orgb1938c5" class="outline-2">
+<h2 id="orgb1938c5">使用 npm 來加入 node.js 套件</h2>
+<div class="outline-text-2" id="text-orgb1938c5">
 <p>
 畢竟我們是要透過 ClojureScript 來呼叫 node.js 的函式庫，自然需要使用 npm
 來安裝需要的套件，因此你必須先在專案的頂層目錄加上 <b>package.json</b> ，
@@ -324,9 +324,9 @@ npm install
 </div>
 </div>
 
-<div id="outline-container-org28eb716" class="outline-2">
-<h2 id="org28eb716">改程式碼的時間到了</h2>
-<div class="outline-text-2" id="text-org28eb716">
+<div id="outline-container-orgd4fdb39" class="outline-2">
+<h2 id="orgd4fdb39">改程式碼的時間到了</h2>
+<div class="outline-text-2" id="text-orgd4fdb39">
 <p>
 在我們的主程式 core.cljs 裏面，要添加下面的 ClojureScript 程式碼，你
 可以將他和左邊的 javascript 程式碼來對照看看 (tty.js 提供的範例程式)，
@@ -366,7 +366,7 @@ app.listen<span style="color: #aadddd;">()</span>;
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-hello.core</span>
   <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">tty</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"tty.js"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">tty</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #000000; background-color: #ffffff;">/</span>require <span style="color: #aadddd;">"tty.js"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">app</span> <span style="color: #81d4fa;">(</span><span style="color: #ff8888;">.createServer</span> tty
    <span style="color: #aaccff;">(</span>clj-&gt;js <span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:shell</span> <span style="color: #aadddd;">"bash"</span>
@@ -415,7 +415,7 @@ cljsbuild 已經幫你做好了。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojurescript"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">tty</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #c6cccc; background-color: #202020;">/</span>require <span style="color: #aadddd;">"tty.js"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<pre class="src src-clojurescript"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">tty</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #000000; background-color: #ffffff;">/</span>require <span style="color: #aadddd;">"tty.js"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -503,9 +503,9 @@ bar 訊息，相對應的，在 ClojureScript 裏面我們可以這樣寫
 </div>
 </div>
 
-<div id="outline-container-org1afc06c" class="outline-2">
-<h2 id="org1afc06c">編譯我們的程式</h2>
-<div class="outline-text-2" id="text-org1afc06c">
+<div id="outline-container-orgb5397e1" class="outline-2">
+<h2 id="orgb5397e1">編譯我們的程式</h2>
+<div class="outline-text-2" id="text-orgb5397e1">
 <p>
 在 <a href="http://coldnew.github.io/blog/2013/06/29_82531.html">使用 ClojureScript 來寫 node.js 程式</a> 一文說過要怎樣編譯我們的
 ClojureScript 程式，你可以使用
@@ -531,9 +531,9 @@ lein cljsbuild auto
 </div>
 </div>
 
-<div id="outline-container-org04063ca" class="outline-2">
-<h2 id="org04063ca">執行程式看看結果</h2>
-<div class="outline-text-2" id="text-org04063ca">
+<div id="outline-container-org90997f5" class="outline-2">
+<h2 id="org90997f5">執行程式看看結果</h2>
+<div class="outline-text-2" id="text-org90997f5">
 <p>
 我們可以用以下命令來執行我們的程式
 </p>
@@ -557,9 +557,9 @@ node target/cljsbuild-main.js
 </div>
 </div>
 
-<div id="outline-container-orgd65b150" class="outline-2">
-<h2 id="orgd65b150">參考連結</h2>
-<div class="outline-text-2" id="text-orgd65b150">
+<div id="outline-container-orga7ffffb" class="outline-2">
+<h2 id="orga7ffffb">參考連結</h2>
+<div class="outline-text-2" id="text-orga7ffffb">
 <p>
 <code>[1]</code> <a href="https://github.com/chjj/tty.js" target="_blank" rel="external">GitHub - tty.js</a>
 </p>
@@ -722,7 +722,7 @@ node target/cljsbuild-main.js
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org91e9b1a"><span class="nav-text">建立新的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge36a803"><span class="nav-text">加入 cljsbuild 到你的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge706f48"><span class="nav-text">使用 npm 來加入 node.js 套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org28eb716"><span class="nav-text">改程式碼的時間到了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1afc06c"><span class="nav-text">編譯我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org04063ca"><span class="nav-text">執行程式看看結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd65b150"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org5b49a99"><span class="nav-text">建立新的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org425c2b9"><span class="nav-text">加入 cljsbuild 到你的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb1938c5"><span class="nav-text">使用 npm 來加入 node.js 套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd4fdb39"><span class="nav-text">改程式碼的時間到了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb5397e1"><span class="nav-text">編譯我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org90997f5"><span class="nav-text">執行程式看看結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga7ffffb"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -236,9 +236,9 @@ vi 他都具有相對應的簡單實現，此外，這些命令實際上都只�
 個迷你的 Linux 系統。
 </p>
 
-<div id="outline-container-orge6450a1" class="outline-2">
-<h2 id="orge6450a1">編譯 RISC-V Linux Toolchain</h2>
-<div class="outline-text-2" id="text-orge6450a1">
+<div id="outline-container-orge6a443a" class="outline-2">
+<h2 id="orge6a443a">編譯 RISC-V Linux Toolchain</h2>
+<div class="outline-text-2" id="text-orge6a443a">
 <p>
 在 <a href="http://coldnew.github.io/blog/2015/a_brief_view_on_riscv.html">RISC-V 初探</a> 一文中我們說到了如何編譯 <code>riscv-tools</code> 套件去產生開發用的
 toolchain 與模擬器，在當時所產生的開發環境中其實不包含 RISC-V Linux 用的
@@ -304,9 +304,9 @@ riscv64-unknown-elf-ld          riscv64-unknown-linux-gnu-gcc-nm
 </div>
 </div>
 
-<div id="outline-container-orgbbd640f" class="outline-2">
-<h2 id="orgbbd640f">編譯 RISC-V Linux Kernel</h2>
-<div class="outline-text-2" id="text-orgbbd640f">
+<div id="outline-container-orgf529108" class="outline-2">
+<h2 id="orgf529108">編譯 RISC-V Linux Kernel</h2>
+<div class="outline-text-2" id="text-orgf529108">
 <p>
 RISC-V 官方提供了基於 Linux 3.14 (LTS) 版本的移植，和 RISC-V 相關的移植位於
 <a href="https://github.com/riscv/riscv-linux" target="_blank" rel="external">riscv/riscv-linux</a> 裡面，由於 <a href="https://github.com/riscv/riscv-linux" target="_blank" rel="external">GitHub</a> 上面只包含的 RISC-V 的移植，因此我們還需要下
@@ -335,7 +335,7 @@ git checkout -f -t origin/master
 接著我們就可以使用預設的設定去編譯 Linux Kernel
 </p>
 <div class="org-src-container">
-<pre class="src src-sh">coldnew@Rosia ~/linux-3.14.41 $ make <span style="color: #aaccff;">ARCH</span>=riscv <span style="color: #aaccff;">CROSS_COMPILE</span>=riscv64-unknown-linux-gnu- defconfig
+<pre class="src src-sh">coldnew@Rosia ~/linux-3.14.41 $ <span style="color: #aaccff;">ARCH</span>=riscv <span style="color: #aaccff;">CROSS_COMPILE</span>=riscv64-unknown-linux-gnu- make defconfig
 </pre>
 </div>
 
@@ -343,7 +343,7 @@ git checkout -f -t origin/master
 如果你喜歡客製化，也可以使用 menuconfig 去加/減你的 Linux Kernel 設定
 </p>
 <div class="org-src-container">
-<pre class="src src-sh">coldnew@Rosia ~/linux-3.14.41 $ make <span style="color: #aaccff;">ARCH</span>=riscv <span style="color: #aaccff;">CROSS_COMPILE</span>=riscv64-unknown-linux-gnu- menuconfig
+<pre class="src src-sh">coldnew@Rosia ~/linux-3.14.41 $ <span style="color: #aaccff;">ARCH</span>=riscv <span style="color: #aaccff;">CROSS_COMPILE</span>=riscv64-unknown-linux-gnu- make menuconfig
 </pre>
 </div>
 
@@ -351,7 +351,7 @@ git checkout -f -t origin/master
 設定都完成後，就是編譯 Linux Kernel 的時候了，這邊我們只需要編譯 vmlinux 就好
 </p>
 <div class="org-src-container">
-<pre class="src src-sh">coldnew@Rosia ~/linux-3.14.41 $ make <span style="color: #aaccff;">ARCH</span>=riscv <span style="color: #aaccff;">CROSS_COMPILE</span>=riscv64-unknown-linux-gnu- vmlinux
+<pre class="src src-sh">coldnew@Rosia ~/linux-3.14.41 $ <span style="color: #aaccff;">ARCH</span>=riscv <span style="color: #aaccff;">CROSS_COMPILE</span>=riscv64-unknown-linux-gnu- make vmlinux
 </pre>
 </div>
 
@@ -402,9 +402,9 @@ coldnew@Rosia ~/linux-3.14.41 $ spike bbl vmlinux
 </div>
 </div>
 
-<div id="outline-container-orge7b8e11" class="outline-2">
-<h2 id="orge7b8e11">使用 Hello, World 建立最簡易系統</h2>
-<div class="outline-text-2" id="text-orge7b8e11">
+<div id="outline-container-org4d9583b" class="outline-2">
+<h2 id="org4d9583b">使用 Hello, World 建立最簡易系統</h2>
+<div class="outline-text-2" id="text-org4d9583b">
 <p>
 為了避免開機的時候會出現 <code>kernel panic</code> 的訊息，要稍微了解一下 Linux 的開機流程。
 當 kernel 載入完成後會去嘗試掛載 rootfs 並執行 <code>/sbin/init</code> 這一隻程式，這個程式
@@ -483,9 +483,9 @@ Hello, RISC-V
 </div>
 </div>
 
-<div id="outline-container-org58a39fd" class="outline-2">
-<h2 id="org58a39fd">使用 Busybox 來建立我們的迷你系統</h2>
-<div class="outline-text-2" id="text-org58a39fd">
+<div id="outline-container-orgfda2d25" class="outline-2">
+<h2 id="orgfda2d25">使用 Busybox 來建立我們的迷你系統</h2>
+<div class="outline-text-2" id="text-orgfda2d25">
 <p>
 理解了如何使用 Hello, World 建立最簡易的 rootfs 後，這次我們來使用 busybox 來建
 立我們的 rootfs，首先先從官網下載 busybox 程式碼
@@ -506,7 +506,7 @@ coldnew@Rosia ~/busybox $ git checkout -b 1_23_stable origin/1_23_stable
 進行我們自己的設定
 </p>
 <pre class="example">
-coldnew@Rosia ~/busybox $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- menuconfig
+coldnew@Rosia ~/busybox $ ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- make menuconfig
 </pre>
 
 <p>
@@ -532,7 +532,7 @@ Shells  ---&gt;
 設定完成後開始進行編譯
 </p>
 <div class="org-src-container">
-<pre class="src src-sh">coldnew@Rosia ~/busybox $ make <span style="color: #aaccff;">ARCH</span>=riscv <span style="color: #aaccff;">CROSS_COMPILE</span>=riscv64-unknown-linux-gnu-
+<pre class="src src-sh">coldnew@Rosia ~/busybox $ <span style="color: #aaccff;">ARCH</span>=riscv <span style="color: #aaccff;">CROSS_COMPILE</span>=riscv64-unknown-linux-gnu- make
 </pre>
 </div>
 
@@ -542,7 +542,7 @@ Shells  ---&gt;
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">coldnew@Rosia ~/busybox $ make <span style="color: #aaccff;">ARCH</span>=riscv <span style="color: #aaccff;">CROSS_COMPILE</span>=riscv64-unknown-linux-gnu- install
+<pre class="src src-sh">coldnew@Rosia ~/busybox $ <span style="color: #aaccff;">ARCH</span>=riscv <span style="color: #aaccff;">CROSS_COMPILE</span>=riscv64-unknown-linux-gnu- make install
 </pre>
 </div>
 
@@ -615,9 +615,9 @@ Please press Enter to activate this console.
 </div>
 </div>
 
-<div id="outline-container-orgde00811" class="outline-2">
-<h2 id="orgde00811">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgde00811">
+<div id="outline-container-orgb3b0513" class="outline-2">
+<h2 id="orgb3b0513">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgb3b0513">
 <p>
 <code>[1]</code> <a href="https://balau82.wordpress.com/2010/03/27/busybox-for-arm-on-qemu/" target="_blank" rel="external">Busybox for ARM on QEMU</a>
 </p>
@@ -784,7 +784,7 @@ Please press Enter to activate this console.
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge6450a1"><span class="nav-text">編譯 RISC-V Linux Toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbbd640f"><span class="nav-text">編譯 RISC-V Linux Kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge7b8e11"><span class="nav-text">使用 Hello, World 建立最簡易系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org58a39fd"><span class="nav-text">使用 Busybox 來建立我們的迷你系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgde00811"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge6a443a"><span class="nav-text">編譯 RISC-V Linux Toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf529108"><span class="nav-text">編譯 RISC-V Linux Kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4d9583b"><span class="nav-text">使用 Hello, World 建立最簡易系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfda2d25"><span class="nav-text">使用 Busybox 來建立我們的迷你系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb3b0513"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

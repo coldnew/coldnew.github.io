@@ -245,9 +245,9 @@
 (Xilinx 的開發環境 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 使用 Java 開發，而 Altera 的 <a href="http://dl.altera.com/?edition=lite" target="_blank" rel="external">Quartus</a> 使用 Qt 開發，以我遇到的狀況來說，後者在 Linux 上的體驗好多了。)
 </p>
 
-<div id="outline-container-org4b6ff3a" class="outline-2">
-<h2 id="org4b6ff3a">安裝 Vivado 在其他的 Linux 平台</h2>
-<div class="outline-text-2" id="text-org4b6ff3a">
+<div id="outline-container-org087eaa1" class="outline-2">
+<h2 id="org087eaa1">安裝 Vivado 在其他的 Linux 平台</h2>
+<div class="outline-text-2" id="text-org087eaa1">
 <p>
 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 安裝程式在非官方支援的 Linux 平台上可能會導致安裝出問題，以我的 Gentoo Linux 為例，我必須把解壓出的 <code>xsetup</code> 安裝腳本裡面的這部分修改掉，不然會在 64bit 並具有 32bit 函式庫的 Gentoo Linux 下安裝失敗。
 </p>
@@ -255,7 +255,7 @@
 <div class="org-src-container">
 <pre class="src src-sh"><span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">ERROR out if this installation is running on 32 bit OS</span>
 <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">and does not support 32 bit installation</span>
-<span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">[</span> <span style="color: #aadddd;">"$(</span><span style="color: #fa8072;">uname</span><span style="color: #aadddd;"> -i)"</span> != <span style="color: #aadddd;">"x86_64"</span> <span style="color: #aadddd;">]</span>; <span style="color: #aaffaa;">then</span>
+<span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">[</span> <span style="color: #aadddd;">"$(</span><span style="font-weight: bold;">uname</span><span style="color: #aadddd;"> -i)"</span> != <span style="color: #aadddd;">"x86_64"</span> <span style="color: #aadddd;">]</span>; <span style="color: #aaffaa;">then</span>
     <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">check that the 32 bit library directory exist or not</span>
     <span style="color: #aaccff;">lnx32LibDir</span>=<span style="color: #aadddd;">"${workingDir}/lib/lnx32.o"</span>
     <span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">[</span> <span style="color: #ff3333;">!</span> -d $<span style="color: #aaccff;">lnx32LibDir</span> <span style="color: #aadddd;">]</span>; <span style="color: #aaffaa;">then</span>
@@ -269,9 +269,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgda921ed" class="outline-2">
-<h2 id="orgda921ed">讓 Linux 辨識 USB UART</h2>
-<div class="outline-text-2" id="text-orgda921ed">
+<div id="outline-container-orgba58305" class="outline-2">
+<h2 id="orgba58305">讓 Linux 辨識 USB UART</h2>
+<div class="outline-text-2" id="text-orgba58305">
 <p>
 如果你接上 USB 到 Zybo Board 的 USB UART 接腳，卻沒在你的 Linux 上面看到任何 <code>/dev/ttyUSB*</code> 被建立的話，那就是你少裝了一些 UDEV rule，這邊的說明可以在  <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_2/ug973-vivado-release-notes-install-license.pdf" target="_blank" rel="external">Vivado Design Suite User Guide</a> 找到，簡單的說&#x2026;.
 </p>
@@ -287,9 +287,9 @@
 </div>
 </div>
 
-<div id="outline-container-org076a670" class="outline-2">
-<h2 id="org076a670">HiDPI 環境下的 Vivado 問題</h2>
-<div class="outline-text-2" id="text-org076a670">
+<div id="outline-container-org77b8f88" class="outline-2">
+<h2 id="org77b8f88">HiDPI 環境下的 Vivado 問題</h2>
+<div class="outline-text-2" id="text-org77b8f88">
 <p>
 我是在 Macbook Pro 2015 上直接安裝 Gentoo Linux 來執行 Vivado, 因此會遇到顯示出來的 Vivado 程式因為 DPI 設定的問題，導致畫面太小，像這樣
 </p>
@@ -427,9 +427,9 @@ coldnew@gentoo ~ $ vncdesk 21
 </div>
 </div>
 
-<div id="outline-container-org704278c" class="outline-2">
-<h2 id="org704278c">一定要設定 export SWT_GTK3=0</h2>
-<div class="outline-text-2" id="text-org704278c">
+<div id="outline-container-orgb11026a" class="outline-2">
+<h2 id="orgb11026a">一定要設定 export SWT_GTK3=0</h2>
+<div class="outline-text-2" id="text-orgb11026a">
 <p>
 在上面我們說了要設定 <code>SWT_GTK3=0</code> ，如果不設定的話，很容易出現問題，以我遇到的狀況來講，我在 Xilinx SDK 想要建立 Zynq Boot Image，但是視窗卻不會給我彈出來
 </p>
@@ -444,9 +444,9 @@ coldnew@gentoo ~ $ vncdesk 21
 </div>
 </div>
 
-<div id="outline-container-orgfad84c9" class="outline-2">
-<h2 id="orgfad84c9">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgfad84c9">
+<div id="outline-container-orge1c806d" class="outline-2">
+<h2 id="orge1c806d">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orge1c806d">
 <p>
 <code>[1]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_2/ug973-vivado-release-notes-install-license.pdf" target="_blank" rel="external">Vivado Design Suite User Guide</a>
 </p>
@@ -609,7 +609,7 @@ coldnew@gentoo ~ $ vncdesk 21
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org4b6ff3a"><span class="nav-text">安裝 Vivado 在其他的 Linux 平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgda921ed"><span class="nav-text">讓 Linux 辨識 USB UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org076a670"><span class="nav-text">HiDPI 環境下的 Vivado 問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org704278c"><span class="nav-text">一定要設定 export SWT_GTK3=0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfad84c9"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org087eaa1"><span class="nav-text">安裝 Vivado 在其他的 Linux 平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgba58305"><span class="nav-text">讓 Linux 辨識 USB UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org77b8f88"><span class="nav-text">HiDPI 環境下的 Vivado 問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb11026a"><span class="nav-text">一定要設定 export SWT_GTK3=0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge1c806d"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

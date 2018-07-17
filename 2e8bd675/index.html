@@ -244,16 +244,16 @@
 讓我們來開始使用 qpm 吧 :)
 </p>
 
-<div id="outline-container-orgb8cfe54" class="outline-2">
-<h2 id="orgb8cfe54">安裝 qpm</h2>
-<div class="outline-text-2" id="text-orgb8cfe54">
+<div id="outline-container-org22ea6da" class="outline-2">
+<h2 id="org22ea6da">安裝 qpm</h2>
+<div class="outline-text-2" id="text-org22ea6da">
 <p>
 如果你是 Windows、Mac OSX 的使用者，你可以直接連到 <a href="http://qpm.io" target="_blank" rel="external">http://qpm.io</a>  ，上面會有安裝
 教學。
 </p>
 
 <p>
-由於目前沒有提供 Linux 的二進制版，因此必須自己編譯，Linux 使用者請參考 <a href="#orgab1c4a0">手動編譯
+由於目前沒有提供 Linux 的二進制版，因此必須自己編譯，Linux 使用者請參考 <a href="#org8a0c55d">手動編譯
 qpm</a> 一節來編譯你的 qpm 程式。
 </p>
 
@@ -267,9 +267,9 @@ qpm</a> 一節來編譯你的 qpm 程式。
 </div>
 </div>
 
-<div id="outline-container-orgab1c4a0" class="outline-2">
-<h2 id="orgab1c4a0">手動編譯 qpm</h2>
-<div class="outline-text-2" id="text-orgab1c4a0">
+<div id="outline-container-org8a0c55d" class="outline-2">
+<h2 id="org8a0c55d">手動編譯 qpm</h2>
+<div class="outline-text-2" id="text-org8a0c55d">
 <p>
 目前 qpm 提供了 Windows、Mac OSX 兩個系統的 binary 程式，Linux 下就必須自己動手編
 譯，不過也不要灰心，編譯 qpm 是非常容易的。
@@ -324,9 +324,9 @@ qpm
 </div>
 </div>
 
-<div id="outline-container-org8ca91c8" class="outline-2">
-<h2 id="org8ca91c8">Hello Qpm</h2>
-<div class="outline-text-2" id="text-org8ca91c8">
+<div id="outline-container-org60ad69f" class="outline-2">
+<h2 id="org60ad69f">Hello Qpm</h2>
+<div class="outline-text-2" id="text-org60ad69f">
 <p>
 我們首先使用 QtCreator 建立一個簡單的 Qt Quick Application 專案
 </p>
@@ -472,26 +472,26 @@ resource 位置 (ex: qml, images)。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/main.cpp b/main.cpp</span>
+<pre class="src src-diff">diff --git a/main.cpp b/main.cpp
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/main.cpp</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/main.cpp</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -1,12 +1,18 @@</span>
-<span style="color: #dddddd;"> #include &lt;QApplication&gt;</span>
-<span style="color: #dddddd;"> #include &lt;QQmlApplicationEngine&gt;</span>
+ #include &lt;QApplication&gt;
+ #include &lt;QQmlApplicationEngine&gt;
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">#include &lt;QDebug&gt;</span>
 
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">#include &lt;io/qpm/example/helloqpm.h&gt;</span>
 
-<span style="color: #dddddd;"> int main(int argc, char *argv[])</span>
-<span style="color: #dddddd;"> {</span>
-<span style="color: #dddddd;">     QApplication app(argc, argv);</span>
+ int main(int argc, char *argv[])
+ {
+     QApplication app(argc, argv);
 
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    io::qpm::example::HelloQpm hello;</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    qDebug() &lt;&lt; hello.message();</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span>
-<span style="color: #dddddd;">     QQmlApplicationEngine engine;</span>
+     QQmlApplicationEngine engine;
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    QPM_INIT(engine) // &lt;-- Add this for qml, images resource</span>
-<span style="color: #dddddd;">     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));</span>
+     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
      return app.exec();
 </pre>
@@ -536,9 +536,9 @@ resource 位置 (ex: qml, images)。
 </div>
 </div>
 
-<div id="outline-container-org411fd62" class="outline-2">
-<h2 id="org411fd62">更多 qpm 使用方式</h2>
-<div class="outline-text-2" id="text-org411fd62">
+<div id="outline-container-org00fdc51" class="outline-2">
+<h2 id="org00fdc51">更多 qpm 使用方式</h2>
+<div class="outline-text-2" id="text-org00fdc51">
 <p>
 想要知道完整的 qpm 使用方式，問 qpm 最快了，目前我使用的 qpm 顯示的結果如下:
 </p>
@@ -607,9 +607,9 @@ Description:
 </div>
 </div>
 
-<div id="outline-container-orga4483c2" class="outline-2">
-<h2 id="orga4483c2">建立 qpm 套件</h2>
-<div class="outline-text-2" id="text-orga4483c2">
+<div id="outline-container-orgb07ed75" class="outline-2">
+<h2 id="orgb07ed75">建立 qpm 套件</h2>
+<div class="outline-text-2" id="text-orgb07ed75">
 <p>
 會使用 qpm 以後，我們也可以試著自己動手製作自己的 qpm 模組，首先先建立一個新的資
 料夾，並使用 <code>qpm init</code> 初始化他，這時 qpm 會問你一些關於該模組的資訊
@@ -697,13 +697,13 @@ QPM_END_NAMESPACE<span style="color: #aadddd;">(</span>io, coldnew, hello<span s
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/io_coldnew_hello.pri b/io_coldnew_hello.pri</span>
+<pre class="src src-diff">diff --git a/io_coldnew_hello.pri b/io_coldnew_hello.pri
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/io_coldnew_hello.pri</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/io_coldnew_hello.pri</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -1,3 +1,9 @@</span>
 
-<span style="color: #dddddd;"> RESOURCES += \</span>
-<span style="color: #dddddd;">     $$PWD/io_coldnew_hello.qrc</span>
+ RESOURCES += \
+     $$PWD/io_coldnew_hello.qrc
 <span style="color: #aaffaa; font-weight: bold;">+</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">HEADERS += \</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    $$PWD/helloqpm.h</span>
@@ -739,12 +739,12 @@ QPM_END_NAMESPACE<span style="color: #aadddd;">(</span>io, coldnew, hello<span s
 接著修改 qmldir，讓他知道有 HelloQpm.qml 的存在以及相對應的版本、模組名稱
 </p>
 <div class="org-src-container">
-<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/qmldir b/qmldir</span>
+<pre class="src src-diff">diff --git a/qmldir b/qmldir
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/qmldir</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/qmldir</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -1,2 +1,3 @@</span>
 
-<span style="color: #dddddd;"> module io.coldnew.hello</span>
+ module io.coldnew.hello
 +HelloQpm 1.0 HelloQpm.qml
 </pre>
 </div>
@@ -753,15 +753,15 @@ QPM_END_NAMESPACE<span style="color: #aadddd;">(</span>io, coldnew, hello<span s
 我們也記得要將這個 qml 加入到我們的 resource 檔案: <code>io_coldnew_hello.qrc</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/io_coldnew_hello.qrc b/io_coldnew_hello.qrc</span>
+<pre class="src src-diff">diff --git a/io_coldnew_hello.qrc b/io_coldnew_hello.qrc
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/io_coldnew_hello.qrc</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/io_coldnew_hello.qrc</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -2,5 +2,6 @@</span>
-<span style="color: #dddddd;"> &lt;RCC&gt;</span>
-<span style="color: #dddddd;">     &lt;qresource prefix="/io/coldnew/hello"&gt;</span>
-<span style="color: #dddddd;">         &lt;file&gt;qmldir&lt;/file&gt;</span>
+ &lt;RCC&gt;
+     &lt;qresource prefix="/io/coldnew/hello"&gt;
+         &lt;file&gt;qmldir&lt;/file&gt;
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">        &lt;file&gt;HelloQpm.qml&lt;/file&gt;</span>
-<span style="color: #dddddd;">     &lt;/qresource&gt;</span>
+     &lt;/qresource&gt;
  &lt;/RCC&gt;
 </pre>
 </div>
@@ -824,9 +824,9 @@ Description:
 </div>
 </div>
 
-<div id="outline-container-org6fadd9a" class="outline-2">
-<h2 id="org6fadd9a">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org6fadd9a">
+<div id="outline-container-orgc1142f0" class="outline-2">
+<h2 id="orgc1142f0">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgc1142f0">
 <p>
 <code>[1]</code> <a href="http://www.cutehacks.com/blog/2015/10/5/say-hello-to-qpm-a-package-manager-for-qtqml" target="_blank" rel="external">Say hello to qpm. A package manager for Qt/QML!</a>
 </p>
@@ -987,7 +987,7 @@ Description:
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb8cfe54"><span class="nav-text">安裝 qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgab1c4a0"><span class="nav-text">手動編譯 qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8ca91c8"><span class="nav-text">Hello Qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org411fd62"><span class="nav-text">更多 qpm 使用方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga4483c2"><span class="nav-text">建立 qpm 套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6fadd9a"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org22ea6da"><span class="nav-text">安裝 qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8a0c55d"><span class="nav-text">手動編譯 qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org60ad69f"><span class="nav-text">Hello Qpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org00fdc51"><span class="nav-text">更多 qpm 使用方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb07ed75"><span class="nav-text">建立 qpm 套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc1142f0"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

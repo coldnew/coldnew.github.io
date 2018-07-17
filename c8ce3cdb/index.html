@@ -234,9 +234,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-org9e316d1" class="outline-2">
-<h2 id="org9e316d1">設定我們的目標</h2>
-<div class="outline-text-2" id="text-org9e316d1">
+<div id="outline-container-org4719dcc" class="outline-2">
+<h2 id="org4719dcc">設定我們的目標</h2>
+<div class="outline-text-2" id="text-org4719dcc">
 <p>
 在開始寫程式前，先來確立我們的目標。我們希望取得 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external">台灣銀行牌告匯率</a> 的資訊，並將下圖裡面的資料轉換成 Clojure 的 <a href="https://github.com/edn-format/edn" target="_blank" rel="external">edn</a> 格式。
 </p>
@@ -275,9 +275,9 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orge95258f" class="outline-2">
-<h2 id="orge95258f">建立我們的專案</h2>
-<div class="outline-text-2" id="text-orge95258f">
+<div id="outline-container-org4535296" class="outline-2">
+<h2 id="org4535296">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org4535296">
 <p>
 首先我們先透過 <a href="http://leiningen.org/" target="_blank" rel="external">leinigen</a> 產生我們 Clojure 專案的基本樣板，這邊命名該專案為 <code>twbank-forex</code>
 </p>
@@ -294,7 +294,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">twbank-forex</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
 
   <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip ...</span>
-  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.8.0"</span><span style="color: #aaccff;">]</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #000000; background-color: #ffffff;">/</span>clojure <span style="color: #aadddd;">"1.8.0"</span><span style="color: #aaccff;">]</span>
                  <span style="color: #aaccff;">[</span>hickory <span style="color: #aadddd;">"0.6.0"</span><span style="color: #aaccff;">]</span>
                  <span style="color: #aaccff;">[</span>clj-http <span style="color: #aadddd;">"2.1.0"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
   <span style="color: #ccaaff;">:main</span> <span style="color: #fff59d;">twbank-forex.core</span><span style="color: #aadddd;">)</span>
@@ -303,9 +303,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-org14e7fac" class="outline-2">
-<h2 id="org14e7fac">開始我們的程式</h2>
-<div class="outline-text-2" id="text-org14e7fac">
+<div id="outline-container-org356b87a" class="outline-2">
+<h2 id="org356b87a">開始我們的程式</h2>
+<div class="outline-text-2" id="text-org356b87a">
 <p>
 就讓我們來開始我們的專案吧，首先編輯 <code>src/twbank_forex/core.clj</code> 這個檔案，並添加一些我們需要的函式庫資訊:
 </p>
@@ -335,15 +335,15 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </p>
 </div>
 
-<div id="outline-container-org056bad0" class="outline-3">
-<h3 id="org056bad0">取得網頁內容</h3>
-<div class="outline-text-3" id="text-org056bad0">
+<div id="outline-container-orge1ba691" class="outline-3">
+<h3 id="orge1ba691">取得網頁內容</h3>
+<div class="outline-text-3" id="text-orge1ba691">
 <p>
 我們的目的是下載 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external">台灣銀行牌告匯率</a> 網頁內容並進行解析，因此我們可以透過 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="external">clj-http</a> 來處理這件事
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span>get twbank-url<span style="color: #aadddd;">)</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">http</span><span style="color: #000000; background-color: #ffffff;">/</span>get twbank-url<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -382,15 +382,15 @@ coldnew@Rosia ~ $ lein new twbank-forex
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">fetch-html</span> <span style="color: #81d4fa;">[]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:body</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">http</span><span style="color: #c6cccc; background-color: #202020;">/</span>get twbank-url<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:body</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">http</span><span style="color: #000000; background-color: #ffffff;">/</span>get twbank-url<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbf808e4" class="outline-3">
-<h3 id="orgbf808e4">取得最新掛牌時間</h3>
-<div class="outline-text-3" id="text-orgbf808e4">
+<div id="outline-container-org3fc8088" class="outline-3">
+<h3 id="org3fc8088">取得最新掛牌時間</h3>
+<div class="outline-text-3" id="text-org3fc8088">
 <p>
 取得網頁內容後，我們可以來查找這個網頁的掛牌時間，從網頁上來看就是這個
 </p>
@@ -447,9 +447,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-org2deca4a" class="outline-3">
-<h3 id="org2deca4a">將網頁轉換成 hickory 格式</h3>
-<div class="outline-text-3" id="text-org2deca4a">
+<div id="outline-container-orgdecfece" class="outline-3">
+<h3 id="orgdecfece">將網頁轉換成 hickory 格式</h3>
+<div class="outline-text-3" id="text-orgdecfece">
 <p>
 在本程式中我們將透過 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 來讓我們解析 HTML 更為簡單，<a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 是一個可用於 Clojure/ClojureScript 的函式庫，可以簡化我們解析 HTML 文件的麻煩，唯一的缺點是，由於目前 <a href="https://nodejs.org/" target="_blank" rel="external">node.js</a> 缺少了 <i>DOM</i> 元件，因此使用 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 寫出的 ClojureScript 是無法在 <a href="https://nodejs.org" target="_blank" rel="external">node.js</a> 上執行的。
 </p>
@@ -459,7 +459,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">hickory</span><span style="color: #c6cccc; background-color: #202020;">/</span>parse <span style="color: #aadddd;">"&lt;b&gt;TEST&lt;/b&gt;"</span><span style="color: #aadddd;">)</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">hickory</span><span style="color: #000000; background-color: #ffffff;">/</span>parse <span style="color: #aadddd;">"&lt;b&gt;TEST&lt;/b&gt;"</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">#object[org.jsoup.nodes.Document</span>
@@ -473,7 +473,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">hickory</span><span style="color: #c6cccc; background-color: #202020;">/</span>as-hickory <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">hickory</span><span style="color: #c6cccc; background-color: #202020;">/</span>parse <span style="color: #aadddd;">"&lt;b&gt;TEST&lt;/b&gt;"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">hickory</span><span style="color: #000000; background-color: #ffffff;">/</span>as-hickory <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">hickory</span><span style="color: #000000; background-color: #ffffff;">/</span>parse <span style="color: #aadddd;">"&lt;b&gt;TEST&lt;/b&gt;"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">{</span><span style="color: #9ac; font-style: italic;">:type</span><span style="color: #9ac; font-style: italic;"> </span><span style="color: #9ac; font-style: italic;">:document</span><span style="color: #9ac; font-style: italic;">,</span>
@@ -498,8 +498,8 @@ coldnew@Rosia ~ $ lein new twbank-forex
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">html-&gt;hickory</span> <span style="color: #81d4fa;">[</span>html<span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> html
-       <span style="color: #fff59d;">hickory</span><span style="color: #c6cccc; background-color: #202020;">/</span>parse
-       <span style="color: #fff59d;">hickory</span><span style="color: #c6cccc; background-color: #202020;">/</span>as-hickory<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+       <span style="color: #fff59d;">hickory</span><span style="color: #000000; background-color: #ffffff;">/</span>parse
+       <span style="color: #fff59d;">hickory</span><span style="color: #000000; background-color: #ffffff;">/</span>as-hickory<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -515,9 +515,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-orgac09bb6" class="outline-3">
-<h3 id="orgac09bb6">取得匯率轉換的資訊</h3>
-<div class="outline-text-3" id="text-orgac09bb6">
+<div id="outline-container-org7ae3774" class="outline-3">
+<h3 id="org7ae3774">取得匯率轉換的資訊</h3>
+<div class="outline-text-3" id="text-org7ae3774">
 <p>
 接下來就是這個程式的重頭戲了，以網頁來看，我們的目標就是這些匯率資訊
 </p>
@@ -544,9 +544,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">[</span>data <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaeecc;">(</span>fetch-html<span style="color: #aaeecc;">)</span> html-&gt;hickory<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>select <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>child
-             <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>or <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #ccaaff;">)</span>
-                   <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>class <span style="color: #aadddd;">"decimal"</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>select <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>child
+             <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>or <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #ccaaff;">)</span>
+                   <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>class <span style="color: #aadddd;">"decimal"</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
             data<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
@@ -596,9 +596,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">[</span>data <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaeecc;">(</span>fetch-html<span style="color: #aaeecc;">)</span> html-&gt;hickory<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>child
-                  <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
-                        <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>child
+                  <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
+                        <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
                  data<span style="color: #aaccff;">)</span>
        <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaccff;">%</span> <span style="color: #ccaaff;">:content</span> last<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>   <span style="color: #9ac; font-style: italic;">; &lt;= add this</span>
 </pre>
@@ -629,12 +629,12 @@ coldnew@Rosia ~ $ lein new twbank-forex
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">[</span>data <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaeecc;">(</span>fetch-html<span style="color: #aaeecc;">)</span> html-&gt;hickory<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span>  <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>child
-                   <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
-                         <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span>  <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>child
+                   <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
+                         <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
                   data<span style="color: #aaccff;">)</span>
         <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaccff;">%</span> <span style="color: #ccaaff;">:content</span> last<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
-        <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #fff59d;">str</span><span style="color: #c6cccc; background-color: #202020;">/</span>replace <span style="color: #aaccff;">%</span> #<span style="color: #aadddd;">"&#160;"</span> <span style="color: #aadddd;">""</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; &lt;= add this</span>
+        <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #fff59d;">str</span><span style="color: #000000; background-color: #ffffff;">/</span>replace <span style="color: #aaccff;">%</span> #<span style="color: #aadddd;">"&#160;"</span> <span style="color: #aadddd;">""</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; &lt;= add this</span>
 </pre>
 </div>
 
@@ -663,12 +663,12 @@ coldnew@Rosia ~ $ lein new twbank-forex
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">[</span>data <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaeecc;">(</span>fetch-html<span style="color: #aaeecc;">)</span> html-&gt;hickory<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span>  <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>child
-                   <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
-                         <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span>  <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>child
+                   <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
+                         <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
                   data<span style="color: #aaccff;">)</span>
         <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaccff;">%</span> <span style="color: #ccaaff;">:content</span> last<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
-        <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #fff59d;">str</span><span style="color: #c6cccc; background-color: #202020;">/</span>replace <span style="color: #aaccff;">%</span> #<span style="color: #aadddd;">"&#160;"</span> <span style="color: #aadddd;">""</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+        <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #fff59d;">str</span><span style="color: #000000; background-color: #ffffff;">/</span>replace <span style="color: #aaccff;">%</span> #<span style="color: #aadddd;">"&#160;"</span> <span style="color: #aadddd;">""</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
         <span style="color: #aaccff;">(</span>partition 5<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>                 <span style="color: #9ac; font-style: italic;">; &lt;= add this</span>
 </pre>
 </div>
@@ -692,21 +692,21 @@ coldnew@Rosia ~ $ lein new twbank-forex
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">parse-data</span> <span style="color: #81d4fa;">[</span>data<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>child
-                  <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
-                        <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #c6cccc; background-color: #202020;">/</span>class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>child
+                  <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
+                        <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span><span style="color: #000000; background-color: #ffffff;">/</span>class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
                  data<span style="color: #aaccff;">)</span>
        <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaccff;">%</span> <span style="color: #ccaaff;">:content</span> last<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
-       <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #fff59d;">str</span><span style="color: #c6cccc; background-color: #202020;">/</span>replace <span style="color: #aaccff;">%</span> #<span style="color: #aadddd;">"&#160;"</span> <span style="color: #aadddd;">""</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #fff59d;">str</span><span style="color: #000000; background-color: #ffffff;">/</span>replace <span style="color: #aaccff;">%</span> #<span style="color: #aadddd;">"&#160;"</span> <span style="color: #aadddd;">""</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
        <span style="color: #aaccff;">(</span>partition 5<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf47b1a4" class="outline-3">
-<h3 id="orgf47b1a4">根據匯率轉換的資訊製作資料</h3>
-<div class="outline-text-3" id="text-orgf47b1a4">
+<div id="outline-container-org3c09a5b" class="outline-3">
+<h3 id="org3c09a5b">根據匯率轉換的資訊製作資料</h3>
+<div class="outline-text-3" id="text-org3c09a5b">
 <p>
 在前面我們取得了匯率轉換的資訊，但是我們要怎樣把這些資訊做成以下的形式呢?
 </p>
@@ -784,9 +784,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-org113ea9e" class="outline-3">
-<h3 id="org113ea9e">合併所有結果</h3>
-<div class="outline-text-3" id="text-org113ea9e">
+<div id="outline-container-orge7794f3" class="outline-3">
+<h3 id="orge7794f3">合併所有結果</h3>
+<div class="outline-text-3" id="text-orge7794f3">
 <p>
 在上一步驟中，我們已經幾乎完成我們的程式，是時候將他進行整合成我們期望的結果
 </p>
@@ -830,9 +830,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-orgaaa0240" class="outline-2">
-<h2 id="orgaaa0240">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-orgaaa0240">
+<div id="outline-container-orgea3551b" class="outline-2">
+<h2 id="orgea3551b">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-orgea3551b">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2016/twbank-forex" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -1022,7 +1022,7 @@ skip .....
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org9e316d1"><span class="nav-text">設定我們的目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge95258f"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org14e7fac"><span class="nav-text">開始我們的程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org056bad0"><span class="nav-text">取得網頁內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgbf808e4"><span class="nav-text">取得最新掛牌時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2deca4a"><span class="nav-text">將網頁轉換成 hickory 格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgac09bb6"><span class="nav-text">取得匯率轉換的資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf47b1a4"><span class="nav-text">根據匯率轉換的資訊製作資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org113ea9e"><span class="nav-text">合併所有結果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaaa0240"><span class="nav-text">取得範例程式碼</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org4719dcc"><span class="nav-text">設定我們的目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4535296"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org356b87a"><span class="nav-text">開始我們的程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orge1ba691"><span class="nav-text">取得網頁內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org3fc8088"><span class="nav-text">取得最新掛牌時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgdecfece"><span class="nav-text">將網頁轉換成 hickory 格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7ae3774"><span class="nav-text">取得匯率轉換的資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org3c09a5b"><span class="nav-text">根據匯率轉換的資訊製作資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge7794f3"><span class="nav-text">合併所有結果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgea3551b"><span class="nav-text">取得範例程式碼</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

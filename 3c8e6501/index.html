@@ -255,9 +255,9 @@ wandboard Android 系統，而不是只是取得被閹掉 .git 資訊的原始�
 
 </div>
 
-<div id="outline-container-org8a8d538" class="outline-2">
-<h2 id="org8a8d538">安裝 repo 命令</h2>
-<div class="outline-text-2" id="text-org8a8d538">
+<div id="outline-container-org2129109" class="outline-2">
+<h2 id="org2129109">安裝 repo 命令</h2>
+<div class="outline-text-2" id="text-org2129109">
 <p>
 要取得 Android 原始碼，就必須先安裝 Android 用來管理專案用的工具 <code>repo</code> ，你可以透
 過以下命令將其存放到你的 <code>~/bin</code> 目錄
@@ -288,9 +288,9 @@ coldnew@Rosia ~ $ which repo
 </div>
 </div>
 
-<div id="outline-container-org00be0c4" class="outline-2">
-<h2 id="org00be0c4">取得 AOSP 4.4.2 原始碼</h2>
-<div class="outline-text-2" id="text-org00be0c4">
+<div id="outline-container-org4fc2b87" class="outline-2">
+<h2 id="org4fc2b87">取得 AOSP 4.4.2 原始碼</h2>
+<div class="outline-text-2" id="text-org4fc2b87">
 <p>
 首先先建立我們要用來存放 Android 原始碼的資料夾
 </p>
@@ -317,9 +317,9 @@ coldnew@Rosia ~/aosp_imx-4.4.2_r1 $ repo sync -j9
 </div>
 </div>
 
-<div id="outline-container-orga7856c9" class="outline-2">
-<h2 id="orga7856c9">下載 Freescale patches</h2>
-<div class="outline-text-2" id="text-orga7856c9">
+<div id="outline-container-org7759228" class="outline-2">
+<h2 id="org7759228">下載 Freescale patches</h2>
+<div class="outline-text-2" id="text-org7759228">
 <p>
 <a href="https://www.freescale.com" target="_blank" rel="external">Freescale</a> 針對其旗下的 i.MX6 CPU 提供了建立 Android 系統所需要的 patch，我們可以
 到 <a href="https://www.freescale.com" target="_blank" rel="external">Freescale</a> 官方網站去下載 Android 4.4.2 所需要的 BSP (Board Support Packages)。
@@ -358,9 +358,9 @@ c_patch android_kk4.4.2_1.0.0-ga_core_source/code/kk4.4.2_1.0.0-ga imx_kk4.4.2_1
 </div>
 </div>
 
-<div id="outline-container-org42b7d17" class="outline-2">
-<h2 id="org42b7d17">下載 wandboard 的 device 設定與 kernel/u-boot</h2>
-<div class="outline-text-2" id="text-org42b7d17">
+<div id="outline-container-orgf14419f" class="outline-2">
+<h2 id="orgf14419f">下載 wandboard 的 device 設定與 kernel/u-boot</h2>
+<div class="outline-text-2" id="text-orgf14419f">
 <p>
 除了打上 Freescale 的 patch 以外，我們還需要下載 wandboard 的 kernel/uboot 以及設定檔。
 </p>
@@ -411,9 +411,9 @@ git clone https://github.com/coldnew/u-boot-fslc.git -b wandboard_imx_3.0.35_kk4
 </div>
 </div>
 
-<div id="outline-container-orga9133e0" class="outline-2">
-<h2 id="orga9133e0">進行一些小修正</h2>
-<div class="outline-text-2" id="text-orga9133e0">
+<div id="outline-container-orgfc67f16" class="outline-2">
+<h2 id="orgfc67f16">進行一些小修正</h2>
+<div class="outline-text-2" id="text-orgfc67f16">
 <p>
 由於 <a href="http://www.wandboard.org/" target="_blank" rel="external">wandboard</a> 使用的 wifi driver 和 Freescale 提供的開發版 (sabresd &#x2026;etc) 設
 定不太一樣，因此我們必須對 wifi 驅動進行修正，這樣才能避免編譯錯誤。造成這個問題
@@ -440,14 +440,14 @@ hardware/realtek/wlan/Android.mk
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/Android.mk b/Android.mk</span>
-<span style="color: #dddddd;">index ff0812e..7e77b6c 100755</span>
+<pre class="src src-diff">diff --git a/Android.mk b/Android.mk
+index ff0812e..7e77b6c 100755
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/Android.mk</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/Android.mk</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -1,4 +1,4 @@</span>
 <span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">ifeq ($(BOARD_WLAN_DEVICE),$(filter $(BOARD_WLAN_DEVICE), REALTEK UNITE))</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">ifeq ($(BOARD_WLAN_DEVICE),$(filter $(BOARD_WLAN_DEVICE), REALTEK UNITE brcmfmac))</span>
-<span style="color: #dddddd;">        include $(call all-subdir-makefiles)</span>
+        include $(call all-subdir-makefiles)
  endif
 </pre>
 </div></li>
@@ -457,14 +457,14 @@ hardware/qcom/wlan/qcwcn/Android.mk
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/Android.mk b/Android.mk</span>
-<span style="color: #dddddd;">index b83e42b..44c9fe7 100644</span>
+<pre class="src src-diff">diff --git a/Android.mk b/Android.mk
+index b83e42b..44c9fe7 100644
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/Android.mk</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/Android.mk</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -1,3 +1,3 @@</span>
 <span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">ifeq ($(BOARD_WLAN_DEVICE),$(filter $(BOARD_WLAN_DEVICE), qcwcn UNITE))</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">ifeq ($(BOARD_WLAN_DEVICE),$(filter $(BOARD_WLAN_DEVICE), qcwcn UNITE brcmfmac))</span>
-<span style="color: #dddddd;">     include $(call all-subdir-makefiles)</span>
+     include $(call all-subdir-makefiles)
  endif
 </pre>
 </div></li>
@@ -472,9 +472,9 @@ hardware/qcom/wlan/qcwcn/Android.mk
 </div>
 </div>
 
-<div id="outline-container-org75cbf9d" class="outline-2">
-<h2 id="org75cbf9d">加入 codec 支援</h2>
-<div class="outline-text-2" id="text-org75cbf9d">
+<div id="outline-container-org6ca319f" class="outline-2">
+<h2 id="org6ca319f">加入 codec 支援</h2>
+<div class="outline-text-2" id="text-org6ca319f">
 <p>
 除了前面提到的修正，我們也需要替 wandboard 加上 codec 的支援，這部分要設定在
 <code>hardware/imx/alsa</code> 裡面，由於 wandboard 使用的 codec IC 為 <code>sgtl5000</code> ，因此我們
@@ -553,40 +553,40 @@ hardware/qcom/wlan/qcwcn/Android.mk
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/tinyalsa_hal.c b/tinyalsa_hal.c</span>
-<span style="color: #dddddd;">index 5084138..05a8e9f 100644</span>
+<pre class="src src-diff">diff --git a/tinyalsa_hal.c b/tinyalsa_hal.c
+index 5084138..05a8e9f 100644
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/tinyalsa_hal.c</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/tinyalsa_hal.c</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -46,6 +46,7 @@</span>
-<span style="color: #dddddd;"> #include "config_nullcard.h"</span>
-<span style="color: #dddddd;"> #include "config_spdif.h"</span>
-<span style="color: #dddddd;"> #include "config_cs42888.h"</span>
+ #include "config_nullcard.h"
+ #include "config_spdif.h"
+ #include "config_cs42888.h"
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">#include "config_sgtl5000.h"</span>
 
 
-<span style="color: #dddddd;"> /* ALSA ports for IMX */</span>
+ /* ALSA ports for IMX */
 <span style="color: #aaaaaa; background-color: #202020;">@@ -95,10 +96,11 @@</span>
 
-<span style="color: #dddddd;"> /*"null_card" must be in the end of this array*/</span>
-<span style="color: #dddddd;"> struct audio_card *audio_card_list[SUPPORT_CARD_NUM] = {</span>
+ /*"null_card" must be in the end of this array*/
+ struct audio_card *audio_card_list[SUPPORT_CARD_NUM] = {
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    &amp;usbaudio_card,</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    &amp;sgtl5000_card,</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    &amp;hdmi_card,</span>
-<span style="color: #dddddd;">     &amp;wm8958_card,</span>
-<span style="color: #dddddd;">     &amp;wm8962_card,</span>
+     &amp;wm8958_card,
+     &amp;wm8962_card,
 <span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">    &amp;hdmi_card,</span>
 <span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">    &amp;usbaudio_card,</span>
-<span style="color: #dddddd;">     &amp;spdif_card,</span>
-<span style="color: #dddddd;">     &amp;cs42888_card,</span>
+     &amp;spdif_card,
+     &amp;cs42888_card,
      &amp;null_card,
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbd4d34f" class="outline-2">
-<h2 id="orgbd4d34f">編譯 Android</h2>
-<div class="outline-text-2" id="text-orgbd4d34f">
+<div id="outline-container-orgdde5c8a" class="outline-2">
+<h2 id="orgdde5c8a">編譯 Android</h2>
+<div class="outline-text-2" id="text-orgdde5c8a">
 <p>
 上面的修改都完成後，我們就可以開始來編譯 Android, 首先要切換一下目前的 shell 環境
 </p>
@@ -668,9 +668,9 @@ dex_bootjars      obj                  recovery                  system        u
 </div>
 </div>
 
-<div id="outline-container-org9d56d73" class="outline-2">
-<h2 id="org9d56d73">製作 SD 卡並安裝 Android</h2>
-<div class="outline-text-2" id="text-org9d56d73">
+<div id="outline-container-org98cd9a1" class="outline-2">
+<h2 id="org98cd9a1">製作 SD 卡並安裝 Android</h2>
+<div class="outline-text-2" id="text-org98cd9a1">
 <p>
 Android 編譯完成後，就讓我們來製作 SD 卡吧，首先先將你的 SD Card 插入到電腦中，
 並確認其編號(這邊以 <code>/dev/sdc</code> 作為範例)
@@ -780,9 +780,9 @@ coldnew@Rosia ~ $ sudo dd if=out/target/product/wandboard/system.img of=/dev/sdc
 </div>
 </div>
 
-<div id="outline-container-org633586c" class="outline-2">
-<h2 id="org633586c">加入 Google Apps 支援</h2>
-<div class="outline-text-2" id="text-org633586c">
+<div id="outline-container-org9adbdb9" class="outline-2">
+<h2 id="org9adbdb9">加入 Google Apps 支援</h2>
+<div class="outline-text-2" id="text-org9adbdb9">
 <p>
 我們從 AOSP 下載編譯出來的 Android 系統是不會包含 google-apps 的支援，正常要包含
 他的話必須通過 Google 的 <a href="http://source.android.com/compatibility/" target="_blank" rel="external">Compatibility Test Suite (CTS) 認證</a> ，因此我們只能使用
@@ -840,9 +840,9 @@ coldnew@Rosia ~ $ sudo umount /tmp/system &amp;&amp; sync
 </div>
 </div>
 
-<div id="outline-container-orgad16e31" class="outline-2">
-<h2 id="orgad16e31">截圖</h2>
-<div class="outline-text-2" id="text-orgad16e31">
+<div id="outline-container-orgdd26796" class="outline-2">
+<h2 id="orgdd26796">截圖</h2>
+<div class="outline-text-2" id="text-orgdd26796">
 <p>
 下圖為 wandboard 打上了 Google Play 等程式，並搭配 給奇創造 的 GeChic On-Lap 1002
 觸碰式筆記型螢幕，我們將在下一篇文章來講如何讓你的 wandboard 可以使用 GeChic
@@ -860,9 +860,9 @@ On-Lap 1002 的多點觸碰功能。
 </div>
 </div>
 
-<div id="outline-container-org49a71ae" class="outline-2">
-<h2 id="org49a71ae">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org49a71ae">
+<div id="outline-container-org89125a2" class="outline-2">
+<h2 id="org89125a2">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org89125a2">
 <p>
 <code>[1]</code> <a href="https://tinyurl.com/z69pa8b" target="_blank" rel="external">i.MX6 Android kk4.4.2_1.0.0 BSP Documentation (REV KK4.4.2_1.0.0)</a>
 </p>
@@ -1027,7 +1027,7 @@ On-Lap 1002 的多點觸碰功能。
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8a8d538"><span class="nav-text">安裝 repo 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org00be0c4"><span class="nav-text">取得 AOSP 4.4.2 原始碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga7856c9"><span class="nav-text">下載 Freescale patches</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org42b7d17"><span class="nav-text">下載 wandboard 的 device 設定與 kernel/u-boot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga9133e0"><span class="nav-text">進行一些小修正</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org75cbf9d"><span class="nav-text">加入 codec 支援</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbd4d34f"><span class="nav-text">編譯 Android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9d56d73"><span class="nav-text">製作 SD 卡並安裝 Android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org633586c"><span class="nav-text">加入 Google Apps 支援</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgad16e31"><span class="nav-text">截圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org49a71ae"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2129109"><span class="nav-text">安裝 repo 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4fc2b87"><span class="nav-text">取得 AOSP 4.4.2 原始碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7759228"><span class="nav-text">下載 Freescale patches</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf14419f"><span class="nav-text">下載 wandboard 的 device 設定與 kernel/u-boot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfc67f16"><span class="nav-text">進行一些小修正</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6ca319f"><span class="nav-text">加入 codec 支援</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdde5c8a"><span class="nav-text">編譯 Android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org98cd9a1"><span class="nav-text">製作 SD 卡並安裝 Android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9adbdb9"><span class="nav-text">加入 Google Apps 支援</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdd26796"><span class="nav-text">截圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org89125a2"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

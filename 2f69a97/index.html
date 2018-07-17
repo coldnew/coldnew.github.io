@@ -250,9 +250,9 @@ OpenCV 3.0 和 OpenCV 2.x 的 Java 版本有一些不同，3.0 拿掉了以往�
 </p>
 </blockquote>
 
-<div id="outline-container-orgdf8eae7" class="outline-2">
-<h2 id="orgdf8eae7">下載 OpenCV 原始碼並編譯</h2>
-<div class="outline-text-2" id="text-orgdf8eae7">
+<div id="outline-container-org7dbb3cf" class="outline-2">
+<h2 id="org7dbb3cf">下載 OpenCV 原始碼並編譯</h2>
+<div class="outline-text-2" id="text-org7dbb3cf">
 <p>
 OpenCV 官網上面並未提供 Linux 或是 Mac OSX 的二進制檔案，所以就讓我們
 自己動手編譯吧 ~
@@ -317,9 +317,9 @@ coldnew@Sara ~/opencv/build $ cmake -DBUILD_SHARED_LIBS=OFF ..
 </div>
 </div>
 
-<div id="outline-container-org4f1a195" class="outline-2">
-<h2 id="org4f1a195">將本地端的函式庫打包成 jar 檔案</h2>
-<div class="outline-text-2" id="text-org4f1a195">
+<div id="outline-container-org994bfeb" class="outline-2">
+<h2 id="org994bfeb">將本地端的函式庫打包成 jar 檔案</h2>
+<div class="outline-text-2" id="text-org994bfeb">
 <p>
 編譯完 opencv-300.jar 以及 libopencv_java300.dylib 後，我們需要先將動態函式庫
 <code>libopencv_java300.dylib</code> 打包成 .jar 檔案方便日後使用，因此根據你的系統建立
@@ -381,9 +381,9 @@ coldnew@Sara ~ $ jar -cMf opencv-native-300.jar native
 </div>
 </div>
 
-<div id="outline-container-org09efc4b" class="outline-2">
-<h2 id="org09efc4b">使用 lein-local 將套件加入本地端的 maven 倉庫</h2>
-<div class="outline-text-2" id="text-org09efc4b">
+<div id="outline-container-orgd3ad29e" class="outline-2">
+<h2 id="orgd3ad29e">使用 lein-local 將套件加入本地端的 maven 倉庫</h2>
+<div class="outline-text-2" id="text-orgd3ad29e">
 <p>
 為了可以讓之後的專案都使用我們剛剛編譯好的 OpenCV 函式，最好的方式就是將他加入到
 本地倉庫，對於 <i>Leiningen</i> 的使用者而言，我們可以透過 <a href="https://github.com/kumarshantanu/lein-localrepo" target="_blank" rel="external">lein-localrepo</a> 來將需要的
@@ -424,9 +424,9 @@ coldnew@Rosia ~ $ lein localrepo install opencv-native-300.jar opencv/opencv-nat
 </div>
 </div>
 
-<div id="outline-container-org722b6d8" class="outline-2">
-<h2 id="org722b6d8">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org722b6d8">
+<div id="outline-container-org11a6cd7" class="outline-2">
+<h2 id="org11a6cd7">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org11a6cd7">
 <p>
 終於到建立專案的時間了，我們一樣使用 lein 預設的樣板來建立我們的專案，這裡建立名為 <i>myapp</i> 的專案
 </p>
@@ -446,10 +446,10 @@ opencv 的依賴。
   <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
   <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
             <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
-  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #c6cccc; background-color: #202020;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
-                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">opencv</span><span style="color: #c6cccc; background-color: #202020;">/</span>opencv <span style="color: #aadddd;">"3.0.0"</span><span style="color: #aaccff;">]</span>
-                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">opencv</span><span style="color: #c6cccc; background-color: #202020;">/</span>opencv-native <span style="color: #aadddd;">"3.0.0"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
-  <span style="color: #ccaaff;">:injections</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">(</span><span style="color: #fff59d;">clojure.lang.RT</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">loadLibrary</span> <span style="color: #fff59d;">org.opencv.core.Core</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">NATIVE_LIBRARY_NAME</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #000000; background-color: #ffffff;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">opencv</span><span style="color: #000000; background-color: #ffffff;">/</span>opencv <span style="color: #aadddd;">"3.0.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">opencv</span><span style="color: #000000; background-color: #ffffff;">/</span>opencv-native <span style="color: #aadddd;">"3.0.0"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #ccaaff;">:injections</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">(</span><span style="color: #fff59d;">clojure.lang.RT</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ff8888;">loadLibrary</span> <span style="color: #fff59d;">org.opencv.core.Core</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ccaaff;">NATIVE_LIBRARY_NAME</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -459,7 +459,7 @@ opencv 的依賴。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user=&gt; <span style="color: #aadddd;">(</span><span style="color: #fff59d;">clojure.lang.RT</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">loadLibrary</span> <span style="color: #fff59d;">org.opencv.core.Core</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">NATIVE_LIBRARY_NAME</span><span style="color: #aadddd;">)</span>
+<pre class="src src-clojure">user=&gt; <span style="color: #aadddd;">(</span><span style="color: #fff59d;">clojure.lang.RT</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ff8888;">loadLibrary</span> <span style="color: #fff59d;">org.opencv.core.Core</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ccaaff;">NATIVE_LIBRARY_NAME</span><span style="color: #aadddd;">)</span>
 <span style="color: #ccaaff;">nil</span>
 </pre>
 </div>
@@ -472,7 +472,7 @@ opencv 的依賴。
 <pre class="src src-clojure">user=&gt; <span style="color: #aadddd;">(</span>import '<span style="color: #81d4fa;">[</span><span style="color: #fff59d;">org.opencv.core</span> <span style="color: #fff59d;">Mat</span> <span style="color: #fff59d;">CvType</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
 <span style="color: #fff59d;">org.opencv.core.CvType</span>
 
-user=&gt; <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">m</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">Mat.</span> 7 7 <span style="color: #fff59d;">CvType</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">CV_64F</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+user=&gt; <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">m</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">Mat.</span> 7 7 <span style="color: #fff59d;">CvType</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ccaaff;">CV_64F</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 <span style="color: #fff59d;">CompilerException</span> <span style="color: #fff59d;">java.lang.reflect.InvocationTargetException</span>, compiling:<span style="color: #aadddd;">(</span><span style="color: #fff59d;">form-init400412585733312455.clj</span>:1:1<span style="color: #aadddd;">)</span>
 
 user=&gt; <span style="color: #aadddd;">(</span><span style="color: #fff59d;">Mat.</span><span style="color: #aadddd;">)</span>
@@ -482,9 +482,9 @@ user=&gt; <span style="color: #aadddd;">(</span><span style="color: #fff59d;">Ma
 </div>
 </div>
 
-<div id="outline-container-org83096a7" class="outline-2">
-<h2 id="org83096a7">Example 0: 彩色圖變成灰階圖</h2>
-<div class="outline-text-2" id="text-org83096a7">
+<div id="outline-container-org7b9f6fc" class="outline-2">
+<h2 id="org7b9f6fc">Example 0: 彩色圖變成灰階圖</h2>
+<div class="outline-text-2" id="text-org7b9f6fc">
 <p>
 我們先來個簡單的範例，將一張彩色圖片轉換成灰階圖片，我選用的範例是這張:
 </p>
@@ -507,9 +507,9 @@ user=&gt; <span style="color: #aadddd;">(</span><span style="color: #fff59d;">Ma
            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.opencv.imgproc</span> <span style="color: #fff59d;">Imgproc</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">img-&gt;gray</span> <span style="color: #81d4fa;">[</span>f<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>img <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Imgcodecs</span><span style="color: #c6cccc; background-color: #202020;">/</span>imread f<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
-    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgproc</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">cvtColor</span> img img <span style="color: #fff59d;">Imgproc</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">COLOR_RGB2GRAY</span><span style="color: #aaccff;">)</span>
-    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgcodecs</span><span style="color: #c6cccc; background-color: #202020;">/</span>imwrite <span style="color: #aadddd;">"example0-gray.png"</span> img<span style="color: #aaccff;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>img <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Imgcodecs</span><span style="color: #000000; background-color: #ffffff;">/</span>imread f<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgproc</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ff8888;">cvtColor</span> img img <span style="color: #fff59d;">Imgproc</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ccaaff;">COLOR_RGB2GRAY</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgcodecs</span><span style="color: #000000; background-color: #ffffff;">/</span>imwrite <span style="color: #aadddd;">"example0-gray.png"</span> img<span style="color: #aaccff;">)</span>
     <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"generate generate example0-gray.png"</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
@@ -542,9 +542,9 @@ coldnew@Rosia ~/myapp $ lein run -m myapp.example0 sample0.png
 </div>
 </div>
 
-<div id="outline-container-org841215d" class="outline-2">
-<h2 id="org841215d">Example 1: 動畫人臉偵測</h2>
-<div class="outline-text-2" id="text-org841215d">
+<div id="outline-container-org3b78618" class="outline-2">
+<h2 id="org3b78618">Example 1: 動畫人臉偵測</h2>
+<div class="outline-text-2" id="text-org3b78618">
 <p>
 除了人臉偵測以外，我們也可以對動畫人物進行臉部偵測，這邊使用了 <a href="https://github.com/nagadomi/lbpcascade_animeface" target="_blank" rel="external">GitHub/nagadomi</a>
 提供的 <i>lbpcascade_animeface.xml</i> 來作為我們臉部偵測的分類器。
@@ -574,13 +574,13 @@ coldnew@Rosia ~/myapp $ lein run -m myapp.example0 sample0.png
            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.opencv.objdetect</span> <span style="color: #fff59d;">CascadeClassifier</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">face-detect</span> <span style="color: #81d4fa;">[</span>f<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>img <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Imgcodecs</span><span style="color: #c6cccc; background-color: #202020;">/</span>imread f<span style="color: #aaeecc;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>img <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Imgcodecs</span><span style="color: #000000; background-color: #ffffff;">/</span>imread f<span style="color: #aaeecc;">)</span>
         gray <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Mat.</span><span style="color: #aaeecc;">)</span>
         faces <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">MatOfRect.</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
 
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Convert image to graylevel and equalize the histogram</span>
-    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgproc</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">cvtColor</span> img gray <span style="color: #fff59d;">Imgproc</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ccaaff;">COLOR_RGB2GRAY</span><span style="color: #aaccff;">)</span>
-    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgproc</span><span style="color: #c6cccc; background-color: #202020;">/</span><span style="color: #ff8888;">equalizeHist</span> gray gray<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgproc</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ff8888;">cvtColor</span> img gray <span style="color: #fff59d;">Imgproc</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ccaaff;">COLOR_RGB2GRAY</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgproc</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ff8888;">equalizeHist</span> gray gray<span style="color: #aaccff;">)</span>
 
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Load the classifier file from</span>
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">https://github.com/nagadomi/lbpcascade_animeface</span>
@@ -590,14 +590,14 @@ coldnew@Rosia ~/myapp $ lein run -m myapp.example0 sample0.png
 
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Draw rectangle according to face size</span>
     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #aaeecc;">[</span>face <span style="color: #ccaaff;">(</span><span style="color: #ff8888;">.toList</span> faces<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">]</span>
-      <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Imgproc</span><span style="color: #c6cccc; background-color: #202020;">/</span>rectangle img
+      <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Imgproc</span><span style="color: #000000; background-color: #ffffff;">/</span>rectangle img
                          <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">Point.</span> <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.x</span> face<span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span><span style="color: #ff8888;">.y</span> face<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
                          <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">Point.</span> <span style="color: #fff59d;">(</span>+ <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.x</span> face<span style="color: #ff8888;">)</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.width</span> face<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
                                  <span style="color: #fff59d;">(</span>+ <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.y</span> face<span style="color: #ff8888;">)</span> <span style="color: #ff8888;">(</span><span style="color: #ff8888;">.height</span> face<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
                          <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">Scalar.</span> 144 48 255<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
 
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Write the result</span>
-    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgcodecs</span><span style="color: #c6cccc; background-color: #202020;">/</span>imwrite <span style="color: #aadddd;">"example1-fdetect.png"</span> img<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgcodecs</span><span style="color: #000000; background-color: #ffffff;">/</span>imwrite <span style="color: #aadddd;">"example1-fdetect.png"</span> img<span style="color: #aaccff;">)</span>
     <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"generate generate example1-fdetect.png"</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
@@ -630,9 +630,9 @@ coldnew@Rosia ~/myapp $ lein run -m myapp.example1 sample1.png
 </div>
 </div>
 
-<div id="outline-container-org04a443a" class="outline-2">
-<h2 id="org04a443a">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-org04a443a">
+<div id="outline-container-org62d8d2a" class="outline-2">
+<h2 id="org62d8d2a">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-org62d8d2a">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/opencv3_hello" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -657,9 +657,9 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
 </div>
 </div>
 
-<div id="outline-container-org8648134" class="outline-2">
-<h2 id="org8648134">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org8648134">
+<div id="outline-container-org7908621" class="outline-2">
+<h2 id="org7908621">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org7908621">
 <p>
 <code>[1]</code> <a href="http://docs.opencv.org/2.4/doc/tutorials/introduction/clojure_dev_intro/clojure_dev_intro.html" target="_blank" rel="external">Introduction to OpenCV Development with Clojure</a>
 </p>
@@ -842,7 +842,7 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdf8eae7"><span class="nav-text">下載 OpenCV 原始碼並編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4f1a195"><span class="nav-text">將本地端的函式庫打包成 jar 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org09efc4b"><span class="nav-text">使用 lein-local 將套件加入本地端的 maven 倉庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org722b6d8"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org83096a7"><span class="nav-text">Example 0: 彩色圖變成灰階圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org841215d"><span class="nav-text">Example 1: 動畫人臉偵測</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org04a443a"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8648134"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org7dbb3cf"><span class="nav-text">下載 OpenCV 原始碼並編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org994bfeb"><span class="nav-text">將本地端的函式庫打包成 jar 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd3ad29e"><span class="nav-text">使用 lein-local 將套件加入本地端的 maven 倉庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org11a6cd7"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7b9f6fc"><span class="nav-text">Example 0: 彩色圖變成灰階圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3b78618"><span class="nav-text">Example 1: 動畫人臉偵測</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org62d8d2a"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7908621"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

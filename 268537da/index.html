@@ -249,9 +249,9 @@ ubifs 的掛載描述
 我們想讓 Android 的 init 掛載 ubifs 要怎麼辦? 這時候只好自己動手了~
 </p>
 
-<div id="outline-container-org6bf122a" class="outline-2">
-<h2 id="org6bf122a">讓 init 可以掛載 ubifs 所進行的修改</h2>
-<div class="outline-text-2" id="text-org6bf122a">
+<div id="outline-container-org0be9aae" class="outline-2">
+<h2 id="org0be9aae">讓 init 可以掛載 ubifs 所進行的修改</h2>
+<div class="outline-text-2" id="text-org0be9aae">
 <p>
 Android 的 init 原始碼位於 <code>system/core/init</code> 裡面，為了增加 ubifs 的功
 能，我們將針對以下檔案進行修改
@@ -265,9 +265,9 @@ Android 的 init 原始碼位於 <code>system/core/init</code> 裡面，為了�
 </ul>
 </div>
 
-<div id="outline-container-org1bcaaa3" class="outline-3">
-<h3 id="org1bcaaa3">修改 init/builtins.c</h3>
-<div class="outline-text-3" id="text-org1bcaaa3">
+<div id="outline-container-org797f536" class="outline-3">
+<h3 id="org797f536">修改 init/builtins.c</h3>
+<div class="outline-text-3" id="text-org797f536">
 <p>
 我們所希望的是可以在 init.rc 增加下面這樣的描述，讓 init 可以掛載 ubifs
 </p>
@@ -284,14 +284,14 @@ mtd 設備。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/init/builtins.c b/init/builtins.c</span>
-<span style="color: #dddddd;">index b0a97ae..d8066a2 100644</span>
+<pre class="src src-diff">diff --git a/init/builtins.c b/init/builtins.c
+index b0a97ae..d8066a2 100644
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/init/builtins.c</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/init/builtins.c</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -325,6 +325,22 @@</span><span style="color: #aaaaaa; background-color: #202020;"> int do_mount(int nargs, char **args)</span>
-<span style="color: #dddddd;">         }</span>
+         }
 
-<span style="color: #dddddd;">         goto exit_success;</span>
+         goto exit_success;
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    } else if (!strncmp(source, "ubi@", 4)) {</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">        n = ubi_attach_mtd(source + 4);</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">        if (n &lt; 0) {</span>
@@ -308,31 +308,31 @@ mtd 設備。
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">        }</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">        goto exit_success;</span>
-<span style="color: #dddddd;">     } else if (!strncmp(source, "loop@", 5)) {</span>
-<span style="color: #dddddd;">         int mode, loop, fd;</span>
+     } else if (!strncmp(source, "loop@", 5)) {
+         int mode, loop, fd;
          struct loop_info info;
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga2b948b" class="outline-3">
-<h3 id="orga2b948b">修改 init/util.h</h3>
-<div class="outline-text-3" id="text-orga2b948b">
+<div id="outline-container-org17ea4e0" class="outline-3">
+<h3 id="org17ea4e0">修改 init/util.h</h3>
+<div class="outline-text-3" id="text-org17ea4e0">
 <p>
 我們在 <code>system/core/init/builtins.c</code> 使用到一些和 ubifs 相關的函式，這
 些函式並未被宣告以及定義，因此我們宣告在 util.h 裡面。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/init/util.h b/init/util.h</span>
-<span style="color: #dddddd;">index 45905b6..09aa574 100644</span>
+<pre class="src src-diff">diff --git a/init/util.h b/init/util.h
+index 45905b6..09aa574 100644
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/init/util.h</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/init/util.h</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -41,4 +41,7 @@</span><span style="color: #aaaaaa; background-color: #202020;"> void get_hardware_name(char *hardware, unsigned int *revision);</span>
-<span style="color: #dddddd;"> void import_kernel_cmdline(int in_qemu, void (*import_kernel_nv)(char *name, int in_qemu));</span>
-<span style="color: #dddddd;"> int make_dir(const char *path, mode_t mode);</span>
-<span style="color: #dddddd;"> int restorecon(const char *pathname);</span>
+ void import_kernel_cmdline(int in_qemu, void (*import_kernel_nv)(char *name, int in_qemu));
+ int make_dir(const char *path, mode_t mode);
+ int restorecon(const char *pathname);
 <span style="color: #aaffaa; font-weight: bold;">+</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">int ubi_attach_mtd(const char *name);</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">int ubi_detach_dev(int dev);</span>
@@ -342,9 +342,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org15e61bd" class="outline-3">
-<h3 id="org15e61bd">增加 init/ubi-user.h 檔案</h3>
-<div class="outline-text-3" id="text-org15e61bd">
+<div id="outline-container-orgd0e1b83" class="outline-3">
+<h3 id="orgd0e1b83">增加 init/ubi-user.h 檔案</h3>
+<div class="outline-text-3" id="text-orgd0e1b83">
 <p>
 由於我們進行一些 ubifs 相關函式的定義時，需要用到 ubifs 的結構，因此
 需要增加相關結構的資訊。 <code>ubi-user.h</code> 這個檔案取自於 Linux Kernel
@@ -781,39 +781,39 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org59d1fe3" class="outline-3">
-<h3 id="org59d1fe3">修改 init/util.c</h3>
-<div class="outline-text-3" id="text-org59d1fe3">
+<div id="outline-container-org4c08c02" class="outline-3">
+<h3 id="org4c08c02">修改 init/util.c</h3>
+<div class="outline-text-3" id="text-org4c08c02">
 <p>
 由於我們增加了一些 ubifs 相關的函式，因此必須自己在 <code>init/util.c</code> 裡面加入相對應的實現。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff"><span style="color: #dddddd;">diff --git a/init/util.c b/init/util.c</span>
-<span style="color: #dddddd;">index 743748b..aa9ca87 100755</span>
+<pre class="src src-diff">diff --git a/init/util.c b/init/util.c
+index 743748b..aa9ca87 100755
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/init/util.c</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/init/util.c</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -31,6 +31,8 @@</span>
-<span style="color: #dddddd;"> #include &lt;sys/types.h&gt;</span>
-<span style="color: #dddddd;"> #include &lt;sys/socket.h&gt;</span>
-<span style="color: #dddddd;"> #include &lt;sys/un.h&gt;</span>
+ #include &lt;sys/types.h&gt;
+ #include &lt;sys/socket.h&gt;
+ #include &lt;sys/un.h&gt;
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">#include &lt;sys/ioctl.h&gt;</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span>
 
-<span style="color: #dddddd;"> /* for ANDROID_SOCKET_* */</span>
-<span style="color: #dddddd;"> #include &lt;cutils/sockets.h&gt;</span>
+ /* for ANDROID_SOCKET_* */
+ #include &lt;cutils/sockets.h&gt;
 <span style="color: #aaaaaa; background-color: #202020;">@@ -40,3 +42,4 @@</span>
-<span style="color: #dddddd;"> #include "init.h"</span>
-<span style="color: #dddddd;"> #include "log.h"</span>
-<span style="color: #dddddd;"> #include "util.h"</span>
+ #include "init.h"
+ #include "log.h"
+ #include "util.h"
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">#include "ubi-user.h"</span>
 
-<span style="color: #dddddd;"> /*</span>
-<span style="color: #dddddd;">  * android_name_to_id - returns the integer uid/gid associated with the given</span>
+ /*
+  * android_name_to_id - returns the integer uid/gid associated with the given
 <span style="color: #aaaaaa; background-color: #202020;">@@ -512,3 +515,99 @@</span><span style="color: #aaaaaa; background-color: #202020;"> int restorecon(const char *pathname)</span>
-<span style="color: #dddddd;"> #endif</span>
-<span style="color: #dddddd;">     return 0;</span>
-<span style="color: #dddddd;"> }</span>
+ #endif
+     return 0;
+ }
 <span style="color: #aaffaa; font-weight: bold;">+</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">#define UBI_CTRL_DEV "/dev/ubi_ctrl"</span>
 <span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">#define UBI_SYS_PATH "/sys/class/ubi"</span>
@@ -916,9 +916,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org18251d3" class="outline-2">
-<h2 id="org18251d3">ramdisk 修改</h2>
-<div class="outline-text-2" id="text-org18251d3">
+<div id="outline-container-org222e02b" class="outline-2">
+<h2 id="org222e02b">ramdisk 修改</h2>
+<div class="outline-text-2" id="text-org222e02b">
 <p>
 將上面的修正加入並重新編譯 Android 後，你就可以在 ramdisk 下使用以下方式去掛載你
 的 ubifs 檔案系統，修改 init.*.rc 並添加以下資訊:
@@ -931,9 +931,9 @@ mtd 設備。
 </div>
 </div>
 
-<div id="outline-container-org9127cd1" class="outline-2">
-<h2 id="org9127cd1">參考連結</h2>
-<div class="outline-text-2" id="text-org9127cd1">
+<div id="outline-container-orgb06c293" class="outline-2">
+<h2 id="orgb06c293">參考連結</h2>
+<div class="outline-text-2" id="text-orgb06c293">
 <p>
 <code>[1]</code> <a href="http://blog.chinaunix.net/uid-22028680-id-3015767.html" target="_blank" rel="external">採用 UBIFS 製作 Android 的文件系統</a>
 </p>
@@ -1096,7 +1096,7 @@ mtd 設備。
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6bf122a"><span class="nav-text">讓 init 可以掛載 ubifs 所進行的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org1bcaaa3"><span class="nav-text">修改 init/builtins.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga2b948b"><span class="nav-text">修改 init/util.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org15e61bd"><span class="nav-text">增加 init/ubi-user.h 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org59d1fe3"><span class="nav-text">修改 init/util.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org18251d3"><span class="nav-text">ramdisk 修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9127cd1"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0be9aae"><span class="nav-text">讓 init 可以掛載 ubifs 所進行的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org797f536"><span class="nav-text">修改 init/builtins.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org17ea4e0"><span class="nav-text">修改 init/util.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd0e1b83"><span class="nav-text">增加 init/ubi-user.h 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4c08c02"><span class="nav-text">修改 init/util.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org222e02b"><span class="nav-text">ramdisk 修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb06c293"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
