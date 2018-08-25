@@ -8,8 +8,370 @@
     <atom:link href="/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Thu, 07 Jun 2018 01:22:53 GMT</pubDate>
+    <pubDate>Sat, 25 Aug 2018 07:56:10 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>在 Linux 下掛載 SD 卡映像檔</title>
+      <link>https://coldnew.github.io/ff159f7c/</link>
+      <guid>https://coldnew.github.io/ff159f7c/</guid>
+      <pubDate>Sat, 25 Aug 2018 01:56:00 GMT</pubDate>
+      <description>
+         &lt;div id=&quot;content&quot;&gt;
+&lt;p&gt;
+最近有需求是要將 Raspbian 之類提供的 SD 卡映像檔 (.img) 裡面的 rootfs 給提出來，因此找了一下不需要將該映像檔燒到實體 SD 卡，而是將其掛載到目錄後再將需要的檔案複製出來的方法。
+&lt;/p&gt;
+
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;
+這邊以我下載的 &lt;a href=&quot;https://www.raspberrypi.org/downloads/raspbian/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Raspbian&lt;/a&gt; 檔案為例，本文收集了三種方式，分別為透過 fdisk 計算 offset 後掛載、使用 kpartx 進行掛載、使用 losetup 進行掛載等。
+&lt;/p&gt;
+
+&lt;p&gt;
+在進行之前，先確認下載的 sdcard image 的類型， &lt;code&gt;2018-06-27-raspbian-stretch.zip&lt;/code&gt; 解壓縮後的檔案，用 &lt;code&gt;file&lt;/code&gt; 命令看會是這樣:
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ file 2018-06-27-raspbian-stretch.img
+2018-06-27-raspbian-stretch.img: DOS/MBR boot sector; partition 1 : ID=0xc, start-CHS (0x0,130,3), end-CHS (0x6,4,22), startsector 8192, 88472 sectors; partition 2 : ID=0x83, start-CHS (0x6,30,25), end-CHS (0x24a,106,32), startsector 98304, 9322496 sectors
+&lt;/pre&gt;
+
+&lt;p&gt;
+那就讓我們來看看要怎樣掛載這個 &lt;code&gt;2018-06-27-raspbian-stretch.img&lt;/code&gt; 的某些分割區吧!
+&lt;/p&gt;
+
+&lt;div id=&quot;outline-container-orgdc73430&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgdc73430&quot;&gt;fdisk&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdc73430&quot;&gt;
+&lt;p&gt;
+最基本的方式，就是透過 &lt;a href=&quot;http://man7.org/linux/man-pages/man8/fdisk.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;fdisk&lt;/a&gt; 去查看這個映像檔(.img) 的內容，我們可以看到這個映像檔有兩個分割區以及其格式
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ sudo fdisk -u -l 2018-06-27-raspbian-stretch.img
+Disk 2018-06-27-raspbian-stretch.img: 4.5 GiB, 4823449600 bytes, 9420800 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xbd98648d
+
+Device                           Boot Start     End Sectors  Size Id Type
+2018-06-27-raspbian-stretch.img1       8192   96663   88472 43.2M  c W95 FAT32 (LBA)
+2018-06-27-raspbian-stretch.img2      98304 9420799 9322496  4.5G 83 Linux
+&lt;/pre&gt;
+
+&lt;p&gt;
+接下來注意到了 &lt;code&gt;2018-06-27-raspbian-stretch.img2 (分割區 2)&lt;/code&gt; 的起始位址是 &lt;code&gt;98304&lt;/code&gt; ，因為每一個 sector 是 &lt;code&gt;512 bytes&lt;/code&gt; ，所以我們可以算出 offset 為 &lt;code&gt;98304 * 512 = 50331648&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ echo $((98304 * 512))
+50331648
+&lt;/pre&gt;
+
+&lt;p&gt;
+知道了 offset 後，我們就可以用掛載 loop 設備的方式來掛載這個 &lt;code&gt;.img&lt;/code&gt; 的分割區 2 到 &lt;code&gt;rootfs&lt;/code&gt; 資料夾去
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ mkdir -p rootfs
+coldnew@gentoo ~ $ sudo mount -o loop,offset=$((98304 * 512)) 2018-06-27-raspbian-stretch.img rootfs
+&lt;/pre&gt;
+
+&lt;p&gt;
+這樣 rootfs 就有 &lt;code&gt;2018-06-27-raspbian-stretch.img&lt;/code&gt; 的分割區 2 內的檔案囉~
+&lt;/p&gt;
+
+&lt;p&gt;
+如果想要現成的腳本做這件事的話，可以試試看 &lt;a href=&quot;https://github.com/AlexanderAmelkin/mountimg/blob/master/mountimg&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/AlexanderAmelkin/mountimg/blob/master/mountimg&lt;/a&gt; 這份腳本
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org1738956&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org1738956&quot;&gt;kpartx&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org1738956&quot;&gt;
+&lt;p&gt;
+對於 Gentoo 的使用者來說，要使用 &lt;a href=&quot;https://www.linux.org/docs/man8/kpartx.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;kpartx&lt;/a&gt; 命令的話，需要先安裝 &lt;code&gt;multipath-tools&lt;/code&gt; 這個工具
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ sudo emerge sys-fs/multipath-tools
+&lt;/pre&gt;
+
+&lt;p&gt;
+接下來，就透過 &lt;a href=&quot;https://www.linux.org/docs/man8/kpartx.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;kpartx&lt;/a&gt; 這工具來掛載 .img 檔案
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ kpartx -av 2018-06-27-raspbian-stretch.img
+add map loop0p1 (254:0): 0 88472 linear /dev/loop0 8192
+add map loop0p2 (254:1): 0 9322496 linear /dev/loop0 98304
+&lt;/pre&gt;
+
+&lt;p&gt;
+使用上面的命令後，會將檔案掛載到 &lt;code&gt;/dev/mapper/loop0p1&lt;/code&gt; 和 &lt;code&gt;/dev/mapper/loop0p2&lt;/code&gt; 這兩個位置，如果我們想要掛載 &lt;code&gt;/dev/mapper/loop0p2&lt;/code&gt; 到 &lt;code&gt;rootfs&lt;/code&gt; 資料夾的話，則這樣
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ mkdir -p rootfs
+coldnew@gentoo ~ $ sudo mount /dev/mapper/loop0p2 rootfs
+&lt;/pre&gt;
+
+&lt;p&gt;
+要解除掛載的話，則是這樣
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ sudo umount rootfs
+coldnew@gentoo ~ $ sudo kpartx -d 2018-06-27-raspbian-stretch.img
+loop deleted : /dev/loop0
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org4ea9571&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org4ea9571&quot;&gt;losetup&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org4ea9571&quot;&gt;
+&lt;p&gt;
+&lt;a href=&quot;http://man7.org/linux/man-pages/man8/losetup.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;losetup&lt;/a&gt; 是位於 util-linux 的命令，正常的 Linux 發行板都會內建安裝，我們可以透過這個命令對 loop 設備進行管理
+&lt;/p&gt;
+
+&lt;p&gt;
+首先先透過 losetup 找出合適的 &lt;code&gt;/dev/loop*&lt;/code&gt; 節點，並將映像檔弄上去
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ sudo losetup --show -f -P 2018-06-27-raspbian-stretch.img
+/dev/loop0
+&lt;/pre&gt;
+
+&lt;p&gt;
+接下來，你可以透過 &lt;code&gt;ls&lt;/code&gt; 命令發現到 &lt;code&gt;/dev/loop0&lt;/code&gt; 多出了兩個分割區
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ ls -l /dev/loop0*
+brw-rw---- 1 root disk   7, 0  8 月 25 11:26 /dev/loop0
+brw-rw---- 1 root disk 259, 0  8 月 25 11:26 /dev/loop0p1
+brw-rw---- 1 root disk 259, 1  8 月 25 11:26 /dev/loop0p2
+&lt;/pre&gt;
+
+&lt;p&gt;
+然後我們就可以透過一般的 &lt;code&gt;mount&lt;/code&gt; 命令來進行掛載了，這邊一樣以第二個分割區為例:
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ mkdir -p rootfs
+coldnew@gentoo ~ $ sudo mount /dev/loop0p2 rootfs
+&lt;/pre&gt;
+
+&lt;p&gt;
+事情都搞定後記得將掛載到 loop device 的位置給 deatch 掉:
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ sudo umount rootfs
+coldnew@gentoo ~ $ sudo losetup -d /dev/loop0
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org8462ec0&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org8462ec0&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org8462ec0&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;https://askubuntu.com/questions/445979/how-to-mount-sd-card-image-created-with-dd&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;How to mount sd-card image created with dd ?&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/questions/42435226/mount-a-sd-card-image-change-files-on-a-partition-and-write-back&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;mount a sd-card image - change files on a partition and write back&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;https://github.com/AlexanderAmelkin/mountimg/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/AlexanderAmelkin/mountimg/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+      </description>
+      <content:encoded><![CDATA[&lt;div id=&quot;content&quot;&gt;
+&lt;p&gt;
+最近有需求是要將 Raspbian 之類提供的 SD 卡映像檔 (.img) 裡面的 rootfs 給提出來，因此找了一下不需要將該映像檔燒到實體 SD 卡，而是將其掛載到目錄後再將需要的檔案複製出來的方法。
+&lt;/p&gt;
+
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;
+這邊以我下載的 &lt;a href=&quot;https://www.raspberrypi.org/downloads/raspbian/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Raspbian&lt;/a&gt; 檔案為例，本文收集了三種方式，分別為透過 fdisk 計算 offset 後掛載、使用 kpartx 進行掛載、使用 losetup 進行掛載等。
+&lt;/p&gt;
+
+&lt;p&gt;
+在進行之前，先確認下載的 sdcard image 的類型， &lt;code&gt;2018-06-27-raspbian-stretch.zip&lt;/code&gt; 解壓縮後的檔案，用 &lt;code&gt;file&lt;/code&gt; 命令看會是這樣:
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ file 2018-06-27-raspbian-stretch.img
+2018-06-27-raspbian-stretch.img: DOS/MBR boot sector; partition 1 : ID=0xc, start-CHS (0x0,130,3), end-CHS (0x6,4,22), startsector 8192, 88472 sectors; partition 2 : ID=0x83, start-CHS (0x6,30,25), end-CHS (0x24a,106,32), startsector 98304, 9322496 sectors
+&lt;/pre&gt;
+
+&lt;p&gt;
+那就讓我們來看看要怎樣掛載這個 &lt;code&gt;2018-06-27-raspbian-stretch.img&lt;/code&gt; 的某些分割區吧!
+&lt;/p&gt;
+
+&lt;div id=&quot;outline-container-orgdc73430&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgdc73430&quot;&gt;fdisk&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdc73430&quot;&gt;
+&lt;p&gt;
+最基本的方式，就是透過 &lt;a href=&quot;http://man7.org/linux/man-pages/man8/fdisk.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;fdisk&lt;/a&gt; 去查看這個映像檔(.img) 的內容，我們可以看到這個映像檔有兩個分割區以及其格式
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ sudo fdisk -u -l 2018-06-27-raspbian-stretch.img
+Disk 2018-06-27-raspbian-stretch.img: 4.5 GiB, 4823449600 bytes, 9420800 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xbd98648d
+
+Device                           Boot Start     End Sectors  Size Id Type
+2018-06-27-raspbian-stretch.img1       8192   96663   88472 43.2M  c W95 FAT32 (LBA)
+2018-06-27-raspbian-stretch.img2      98304 9420799 9322496  4.5G 83 Linux
+&lt;/pre&gt;
+
+&lt;p&gt;
+接下來注意到了 &lt;code&gt;2018-06-27-raspbian-stretch.img2 (分割區 2)&lt;/code&gt; 的起始位址是 &lt;code&gt;98304&lt;/code&gt; ，因為每一個 sector 是 &lt;code&gt;512 bytes&lt;/code&gt; ，所以我們可以算出 offset 為 &lt;code&gt;98304 * 512 = 50331648&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ echo $((98304 * 512))
+50331648
+&lt;/pre&gt;
+
+&lt;p&gt;
+知道了 offset 後，我們就可以用掛載 loop 設備的方式來掛載這個 &lt;code&gt;.img&lt;/code&gt; 的分割區 2 到 &lt;code&gt;rootfs&lt;/code&gt; 資料夾去
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ mkdir -p rootfs
+coldnew@gentoo ~ $ sudo mount -o loop,offset=$((98304 * 512)) 2018-06-27-raspbian-stretch.img rootfs
+&lt;/pre&gt;
+
+&lt;p&gt;
+這樣 rootfs 就有 &lt;code&gt;2018-06-27-raspbian-stretch.img&lt;/code&gt; 的分割區 2 內的檔案囉~
+&lt;/p&gt;
+
+&lt;p&gt;
+如果想要現成的腳本做這件事的話，可以試試看 &lt;a href=&quot;https://github.com/AlexanderAmelkin/mountimg/blob/master/mountimg&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/AlexanderAmelkin/mountimg/blob/master/mountimg&lt;/a&gt; 這份腳本
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org1738956&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org1738956&quot;&gt;kpartx&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org1738956&quot;&gt;
+&lt;p&gt;
+對於 Gentoo 的使用者來說，要使用 &lt;a href=&quot;https://www.linux.org/docs/man8/kpartx.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;kpartx&lt;/a&gt; 命令的話，需要先安裝 &lt;code&gt;multipath-tools&lt;/code&gt; 這個工具
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ sudo emerge sys-fs/multipath-tools
+&lt;/pre&gt;
+
+&lt;p&gt;
+接下來，就透過 &lt;a href=&quot;https://www.linux.org/docs/man8/kpartx.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;kpartx&lt;/a&gt; 這工具來掛載 .img 檔案
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ kpartx -av 2018-06-27-raspbian-stretch.img
+add map loop0p1 (254:0): 0 88472 linear /dev/loop0 8192
+add map loop0p2 (254:1): 0 9322496 linear /dev/loop0 98304
+&lt;/pre&gt;
+
+&lt;p&gt;
+使用上面的命令後，會將檔案掛載到 &lt;code&gt;/dev/mapper/loop0p1&lt;/code&gt; 和 &lt;code&gt;/dev/mapper/loop0p2&lt;/code&gt; 這兩個位置，如果我們想要掛載 &lt;code&gt;/dev/mapper/loop0p2&lt;/code&gt; 到 &lt;code&gt;rootfs&lt;/code&gt; 資料夾的話，則這樣
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ mkdir -p rootfs
+coldnew@gentoo ~ $ sudo mount /dev/mapper/loop0p2 rootfs
+&lt;/pre&gt;
+
+&lt;p&gt;
+要解除掛載的話，則是這樣
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ sudo umount rootfs
+coldnew@gentoo ~ $ sudo kpartx -d 2018-06-27-raspbian-stretch.img
+loop deleted : /dev/loop0
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org4ea9571&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org4ea9571&quot;&gt;losetup&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org4ea9571&quot;&gt;
+&lt;p&gt;
+&lt;a href=&quot;http://man7.org/linux/man-pages/man8/losetup.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;losetup&lt;/a&gt; 是位於 util-linux 的命令，正常的 Linux 發行板都會內建安裝，我們可以透過這個命令對 loop 設備進行管理
+&lt;/p&gt;
+
+&lt;p&gt;
+首先先透過 losetup 找出合適的 &lt;code&gt;/dev/loop*&lt;/code&gt; 節點，並將映像檔弄上去
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ sudo losetup --show -f -P 2018-06-27-raspbian-stretch.img
+/dev/loop0
+&lt;/pre&gt;
+
+&lt;p&gt;
+接下來，你可以透過 &lt;code&gt;ls&lt;/code&gt; 命令發現到 &lt;code&gt;/dev/loop0&lt;/code&gt; 多出了兩個分割區
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ ls -l /dev/loop0*
+brw-rw---- 1 root disk   7, 0  8 月 25 11:26 /dev/loop0
+brw-rw---- 1 root disk 259, 0  8 月 25 11:26 /dev/loop0p1
+brw-rw---- 1 root disk 259, 1  8 月 25 11:26 /dev/loop0p2
+&lt;/pre&gt;
+
+&lt;p&gt;
+然後我們就可以透過一般的 &lt;code&gt;mount&lt;/code&gt; 命令來進行掛載了，這邊一樣以第二個分割區為例:
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ mkdir -p rootfs
+coldnew@gentoo ~ $ sudo mount /dev/loop0p2 rootfs
+&lt;/pre&gt;
+
+&lt;p&gt;
+事情都搞定後記得將掛載到 loop device 的位置給 deatch 掉:
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+coldnew@gentoo ~ $ sudo umount rootfs
+coldnew@gentoo ~ $ sudo losetup -d /dev/loop0
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org8462ec0&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org8462ec0&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org8462ec0&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;https://askubuntu.com/questions/445979/how-to-mount-sd-card-image-created-with-dd&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;How to mount sd-card image created with dd ?&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/questions/42435226/mount-a-sd-card-image-change-files-on-a-partition-and-write-back&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;mount a sd-card image - change files on a partition and write back&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a href=&quot;https://github.com/AlexanderAmelkin/mountimg/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/AlexanderAmelkin/mountimg/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+]]></content:encoded>
+      <comments>https://coldnew.github.io/ff159f7c/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>DE2-115 開發紀錄: 在 Linux 下使用 ModelSim</title>
@@ -12993,746 +13355,6 @@ clojure.zip 是用來處理樹狀結構用函式庫，這篇文章有很好的�
 &lt;/div&gt;
 ]]></content:encoded>
       <comments>https://coldnew.github.io/eea89759/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>zybo board 開發記錄: 使用 Yocto 建立系統</title>
-      <link>https://coldnew.github.io/c3e8558e/</link>
-      <guid>https://coldnew.github.io/c3e8558e/</guid>
-      <pubDate>Sun, 11 Sep 2016 13:47:00 GMT</pubDate>
-      <description>
-         &lt;div id=&quot;content&quot;&gt;
-&lt;p&gt;
-在 &lt;a href=&quot;http://coldnew.github.io/zybo-board/zynq_linux_simple/&quot;&gt;zybo board 開發記錄: 執行 Linux 作業系統&lt;/a&gt; 一文中，我們提到了如何自行編譯 u-boot、Linux kernel、busybox 來讓 Zybo Board 可以開機進到 SD 卡上的 Linux 系統。這一次，我們要來談談怎樣使用 &lt;a href=&quot;https://www.yoctoproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project&lt;/a&gt; 來建立 Zybo board 的 Linux 系統。
-&lt;/p&gt;
-
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;p&gt;
-&lt;a href=&quot;https://www.yoctoproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project&lt;/a&gt; 是近年來各大 SoC 商以及開發板商皆參與的 Linux 系統構件工具，透過 Yocto Project 的協助，使用者可以針對自己的需求構件想要的映像檔(image)或是 Root File System，和 Yocto 類似功能的工具則是 &lt;a href=&quot;https://buildroot.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;buildroot&lt;/a&gt; 。
-&lt;/p&gt;
-
-&lt;p&gt;
-本文將以 &lt;a href=&quot;http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zybo Board&lt;/a&gt; 作為目標開發板，示範如何使用 Yocto 來構件他的系統。
-&lt;/p&gt;
-
-&lt;div id=&quot;outline-container-org4e43782&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org4e43782&quot;&gt;預先準備&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org4e43782&quot;&gt;
-&lt;p&gt;
-根據你使用的 Linux 發行板的不同，你需要安裝一些套件，這邊列出一些發行板的資訊，詳細請參考 &lt;a href=&quot;http://www.yoctoproject.org/docs/2.0/ref-manual/ref-manual.html#intro-requirements&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project Reference Manual&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;ul class=&quot;org-ul&quot;&gt;
-&lt;li&gt;&lt;p&gt;
-Debian/Ubuntu
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@debian ~ $ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat
-&lt;/pre&gt;
-&lt;/div&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;
-Fedora
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@fedora ~ $ sudo dnf install gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue socat findutils which
-&lt;/pre&gt;
-&lt;/div&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;
-Gentoo
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@gentoo ~ $ emerge -v dev-vcs/git dev-util/diffstat app-arch/unzip sys-apps/texinfo app-admin/chrpath media-libs/libsdl2 sys-apps/iproute2 x11-terms/xterm net-nds/rpcbind
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-如果你和我一樣，使用 Gentoo Linux 的話，在 Gentoo Linux 下要確認你使用的是 Python 2.7
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@gentoo ~ $ eselect python set python2.7
-
-eselect python list
-Available Python interpreters:
-  &lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;1&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;   python2.7 *
-  &lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;2&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;   python3.2
-  &lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;3&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;   python3.3
-
-python
-Python 2.7.5 &lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;default, Oct 19 2013, 22:52:27&lt;span style=&quot;color: #aadddd;&quot;&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orge7ca46c&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orge7ca46c&quot;&gt;格式化 MicroSD 卡&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orge7ca46c&quot;&gt;
-&lt;p&gt;
-在這次的開發中，我們要設定 MicroSD 卡片成兩個分區，第一個是 &lt;code&gt;fat32&lt;/code&gt; 格式，第二個則使用 &lt;code&gt;ext4&lt;/code&gt; 格式，若不會使用 &lt;code&gt;fdisk&lt;/code&gt; 命令的話，可以透過 &lt;code&gt;gparted&lt;/code&gt; 來進行格式化，以下是我格式化卡片的範例 (8GB 卡片)。
-&lt;/p&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/c3e8558e/format.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgdea3591&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgdea3591&quot;&gt;下載 Poky&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdea3591&quot;&gt;
-&lt;p&gt;
-在開始用 &lt;a href=&quot;https://www.yoctoproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project&lt;/a&gt; 之前，我們需要下載 Poky, Poky 是 Yocto 的構建系統，基本上我們會用到的東西都會在 poky 資料夾內
-&lt;/p&gt;
-
-&lt;p&gt;
-注意到我們這邊切換到 &lt;code&gt;krogoth&lt;/code&gt; 這個分支，Yocto 裡面不同的分支(branch) 代表了不同版本。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~ $ git clone git://git.yoctoproject.org/poky -b krogoth
-&lt;/pre&gt;
-
-&lt;p&gt;
-好了後，進入到 poky 資料夾
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky $ cd poky
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org789e6ec&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org789e6ec&quot;&gt;下載 meta-xilinx&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org789e6ec&quot;&gt;
-&lt;p&gt;
-Yocto 對於不同的 SoC 廠商，會有提供不同的 layer 來對特定的開源程式加上合適的 patch，或是添加不同 SoC 廠各自需要的韌體(firmware)，以及各開發板特定的設定。
-在 Xilinx 平台上，我們需要下載 &lt;code&gt;meta-xilinx&lt;/code&gt; ，我們需要的 kernel 以及 Zybo board 的設定資訊都在裡面。
-&lt;/p&gt;
-
-&lt;p&gt;
-這邊一樣切換到 &lt;code&gt;krogoth&lt;/code&gt; 這個分支(branch)
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky $ git clone git://github.com/Xilinx/meta-xilinx -b krogoth
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org981f1be&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org981f1be&quot;&gt;切換到編譯用目錄&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org981f1be&quot;&gt;
-&lt;p&gt;
-接下來，我們將透過 &lt;code&gt;source&lt;/code&gt; 指令暫時修改當前 shell 的環境變數，並切換到 &lt;code&gt;build&lt;/code&gt; 資料夾
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky $ source oe-init-build-env build
-You had no conf/local.conf file. This configuration file has therefore been
-created for you with some default values. You may wish to edit it to, for
-example, select a different MACHINE (target hardware). See conf/local.conf
-for more information as common configuration options are commented.
-
-You had no conf/bblayers.conf file. This configuration file has therefore been
-created for you with some default values. To add additional metadata layers
-into your configuration please add entries to conf/bblayers.conf.
-
-The Yocto Project has extensive documentation about OE including a reference
-manual which can be found at:
-    http://yoctoproject.org/documentation
-
-For more information about OpenEmbedded see their website:
-    http://www.openembedded.org/
-
-
-### Shell environment set up for builds. ###
-
-You can now run &#39;bitbake &amp;lt;target&amp;gt;&#39;
-
-Common targets are:
-    core-image-minimal
-    core-image-sato
-    meta-toolchain
-    meta-ide-support
-
-You can also run generated qemu images with a command like &#39;runqemu qemux86&#39;
-&lt;/pre&gt;
-
-&lt;p&gt;
-預設的目標機器是 &lt;code&gt;qemux86&lt;/code&gt; 因此我們需要修改一下，不過先看一下當前目錄結構
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky/build $ tree  .
-. &amp;lt;b&amp;gt;
-└── conf &amp;lt;b&amp;gt;
-    ├── bblayers.conf
-    ├── local.conf
-    └── templateconf.cfg
-
-1 directory, 3 files
-&lt;/pre&gt;
-
-&lt;p&gt;
-我們首先要修改 &lt;code&gt;conf/bblayers.conf&lt;/code&gt; ，在上面添加我們剛剛下載的 &lt;code&gt;meta-xilinx&lt;/code&gt; ，修改完會像這樣
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;&lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf&lt;/span&gt;
-&lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;changes incompatibly&lt;/span&gt;
-POKY_BBLAYERS_CONF_VERSION = &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;2&quot;&lt;/span&gt;
-
-BBPATH = &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;${TOPDIR}&quot;&lt;/span&gt;
-BBFILES ?= &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;&quot;&lt;/span&gt;
-
-BBLAYERS ?= &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot; \&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;  /home/coldnew/poky/meta \&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;  /home/coldnew/poky/meta-poky \&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;  /home/coldnew/poky/meta-yocto-bsp \&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;  /home/coldnew/poky/meta-xilinx \&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;  &quot;&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-接下來，修改 &lt;code&gt;conf/local.conf&lt;/code&gt; ，這份檔案可以用來設定要編譯的目標機器，在這邊，我們將目標機器改成 &lt;code&gt;zybo-linux-bd-zynq7&lt;/code&gt;
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;MACHINE ??= &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;zybo-linux-bd-zynq7&quot;&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-都改好了後，就可以開始準備編譯了
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org867575f&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org867575f&quot;&gt;編譯 core-image-minimal&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org867575f&quot;&gt;
-&lt;p&gt;
-Yocto 下有許多預設的 image 可以進行編譯，其中最基本的 image 就是 &lt;code&gt;core-image-minimal&lt;/code&gt; 了，裡面只會包含一些幾本的組件而已，我們可以透過他來確認我們編譯出來的 rootfs 是否能用。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky/build $ bitbake core-image-minimal
-Parsing recipes: 100% |#######################################################################################################################| Time: 00:01:03
-Parsing of 883 .bb files complete (0 cached, 883 parsed). 1313 targets, 71 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION        = &quot;1.30.0&quot;
-BUILD_SYS         = &quot;x86_64-linux&quot;
-NATIVELSBSTRING   = &quot;Gentoo-2.3&quot;
-TARGET_SYS        = &quot;arm-poky-linux-gnueabi&quot;
-MACHINE           = &quot;zybo-linux-bd-zynq7&quot;
-DISTRO            = &quot;poky&quot;
-DISTRO_VERSION    = &quot;2.1.1&quot;
-TUNE_FEATURES     = &quot;arm armv7a vfp thumb neon       callconvention-hard       cortexa9&quot;
-TARGET_FPU        = &quot;hard&quot;
-meta
-meta-poky
-meta-yocto-bsp    = &quot;krogoth:aad7166704021d82ad3a5ec468552f8f10360d41&quot;
-meta-xilinx       = &quot;krogoth:dcd1c218f943c3657b138cb05012c90c65f32a35&quot;
-
-NOTE: Fetching uninative binary shim from http://downloads.yoctoproject.org/releases/uninative/1.0.1/x86_64-nativesdk-libc.tar.bz2;sha256sum=acf1e44a0ac2e855e81da6426197d36358bf7b4e88e552ef933128498c8910f8
-NOTE: Preparing RunQueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-Currently 4 running tasks (78 of 2127):
-0: gcc-source-5.3.0-5.3.0-r0 do_unpack (pid 10582)
-1: m4-native-1.4.17-r0 do_configure (pid 14097)
-2: binutils-cross-arm-2.26-r0 do_unpack (pid 14533)
-3: glibc-initial-2.23-r0 do_fetch (pid 15428)
-&lt;/pre&gt;
-
-&lt;p&gt;
-接下來因為這是第一次編譯，Yocto 需要下載原始碼以及進行編譯，會花很多時間，所以這時候可以去睡個覺或是看看書等它編譯完成，第二次編譯後會因為有快取機制 (cache)，就不須要花這樣多的時間來進行編譯囉~
-&lt;/p&gt;
-
-&lt;p&gt;
-編譯好了以後，我們切入到 &lt;code&gt;tmp/deploy/images/zybo-linux-bd-zynq7/&lt;/code&gt; 資料夾，裡面有的就是我們需要的檔案
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky/build $ ls tmp/deploy/images/zybo-linux-bd-zynq7/
-bitstream                                                                    modules--4.4-xilinx+git0+89cc643aff-r0-zybo-linux-bd-zynq7-20160910030958.tgz
-bitstream-+gitAUTOINC+63ca49fe02-r0.bit                                      modules-zybo-linux-bd-zynq7.tgz
-boot.bin                                                                     README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-boot.bin-zybo-linux-bd-zynq7                                                 u-boot-dtb.img
-boot.bin-zybo-linux-bd-zynq7-v2016.03+gitAUTOINC+df61a74e68-r0               u-boot.elf
-core-image-minimal-zybo-linux-bd-zynq7-20160910030958.rootfs.cpio            u-boot-zybo-linux-bd-zynq7.elf
-core-image-minimal-zybo-linux-bd-zynq7-20160910030958.rootfs.cpio.gz.u-boot  u-boot-zybo-linux-bd-zynq7.img
-core-image-minimal-zybo-linux-bd-zynq7-20160910030958.rootfs.manifest        u-boot-zybo-linux-bd-zynq7-v2016.03+gitAUTOINC+df61a74e68-r0.elf
-core-image-minimal-zybo-linux-bd-zynq7-20160910030958.rootfs.tar.gz          u-boot-zybo-linux-bd-zynq7-v2016.03+gitAUTOINC+df61a74e68-r0.img
-core-image-minimal-zybo-linux-bd-zynq7.cpio                                  uImage
-core-image-minimal-zybo-linux-bd-zynq7.cpio.gz.u-boot                        uImage--4.4-xilinx+git0+89cc643aff-r0-zybo-linux-bd-zynq7-20160910030958.bin
-core-image-minimal-zybo-linux-bd-zynq7.manifest                              uImage-zybo-linux-bd-zynq7.bin
-core-image-minimal-zybo-linux-bd-zynq7.tar.gz                                zybo-linux-bd-zynq7.dtb
-download.bit
-&lt;/pre&gt;
-
-&lt;p&gt;
-我們將以下這些檔案複製到 SD 卡的第一個分區
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-bitstream  boot.bin  u-boot-dtb.img  uImage  zybo-linux-bd-zynq7.dtb
-&lt;/pre&gt;
-
-&lt;p&gt;
-接下來，在 SD 卡的第一個分割區 (fat32) 建立 &lt;code&gt;uEnv.txt&lt;/code&gt; 檔案，用來告訴 u-boot 開機的方式
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;kernel_image&lt;/span&gt;=uImage
-&lt;span style=&quot;color: #aaccff;&quot;&gt;devicetree_image&lt;/span&gt;=zybo-linux-bd-zynq7.dtb
-&lt;span style=&quot;color: #aaccff;&quot;&gt;bootargs&lt;/span&gt;=&lt;span style=&quot;color: #aaccff;&quot;&gt;root&lt;/span&gt;=/dev/mmcblk0p2 rw rootwait
-&lt;span style=&quot;color: #aaccff;&quot;&gt;uenvcmd&lt;/span&gt;=fatload mmc 0 0x3000000 $&lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;kernel_image&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt; &amp;amp;&amp;amp; fatload mmc 0 0x2A00000 $&lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;devicetree_image&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt; &amp;amp;&amp;amp; bootm 0x3000000 - 0x2A00000
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-好了後，將 &lt;code&gt;core-image-minimal-zybo-linux-bd-zynq7.tar.gz&lt;/code&gt; 解壓縮到 SD 卡的第二個分割區
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linux-bd-zynq7/core-image-minimal-zybo-linux-bd-zynq7.tar.gz
-&lt;/pre&gt;
-
-&lt;p&gt;
-如果你需要 kernel modules 的話，將 &lt;code&gt;modules-zybo-linux-bd-zynq7.tgz&lt;/code&gt; 解壓到 SD 卡的第二個分割區
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linux-bd-zynq7/modules-zybo-linux-bd-zynq7.tgz
-&lt;/pre&gt;
-
-&lt;p&gt;
-至此，我們 SD 卡開機的準備已經完成!!
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgd4433dd&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgd4433dd&quot;&gt;測試開機與結果&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd4433dd&quot;&gt;
-&lt;p&gt;
-是時候來測試結果了，要注意到你的 Zybo Board 的 &lt;code&gt;JP5&lt;/code&gt; 要設定成下面這樣，這樣給電時，Zynq 才會讀取 SD 卡上面的 u-boot 並將位元流 (bitstream) 燒錄到 FPGA 中。
-&lt;/p&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/c3e8558e/sdboot.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-插入剛剛建立好的 SD 卡，並提供電源後，我們可以使用可以接收 UART 相關的程式，如 gtkterm、teraterm、screen、emacs 等，啟動它並開啟 &lt;code&gt;/dev/ttyUSB1&lt;/code&gt; 後，設定 baudrate 為 &lt;code&gt;115200&lt;/code&gt; ，就可以看到開機並進入到 rootfs 囉。
-&lt;/p&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/c3e8558e/console.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org3bf64be&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org3bf64be&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org3bf64be&quot;&gt;
-&lt;p&gt;
-&lt;code&gt;[1]&lt;/code&gt; &lt;a href=&quot;https://github.com/Xilinx/meta-xilinx/blob/master/README.booting.md&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Booting meta-xilinx boards&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;code&gt;[2]&lt;/code&gt; &lt;a href=&quot;http://www.yoctoproject.org/docs/2.0/ref-manual/ref-manual.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project Reference Manual&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-      </description>
-      <content:encoded><![CDATA[&lt;div id=&quot;content&quot;&gt;
-&lt;p&gt;
-在 &lt;a href=&quot;http://coldnew.github.io/zybo-board/zynq_linux_simple/&quot;&gt;zybo board 開發記錄: 執行 Linux 作業系統&lt;/a&gt; 一文中，我們提到了如何自行編譯 u-boot、Linux kernel、busybox 來讓 Zybo Board 可以開機進到 SD 卡上的 Linux 系統。這一次，我們要來談談怎樣使用 &lt;a href=&quot;https://www.yoctoproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project&lt;/a&gt; 來建立 Zybo board 的 Linux 系統。
-&lt;/p&gt;
-
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;p&gt;
-&lt;a href=&quot;https://www.yoctoproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project&lt;/a&gt; 是近年來各大 SoC 商以及開發板商皆參與的 Linux 系統構件工具，透過 Yocto Project 的協助，使用者可以針對自己的需求構件想要的映像檔(image)或是 Root File System，和 Yocto 類似功能的工具則是 &lt;a href=&quot;https://buildroot.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;buildroot&lt;/a&gt; 。
-&lt;/p&gt;
-
-&lt;p&gt;
-本文將以 &lt;a href=&quot;http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Zybo Board&lt;/a&gt; 作為目標開發板，示範如何使用 Yocto 來構件他的系統。
-&lt;/p&gt;
-
-&lt;div id=&quot;outline-container-org4e43782&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org4e43782&quot;&gt;預先準備&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org4e43782&quot;&gt;
-&lt;p&gt;
-根據你使用的 Linux 發行板的不同，你需要安裝一些套件，這邊列出一些發行板的資訊，詳細請參考 &lt;a href=&quot;http://www.yoctoproject.org/docs/2.0/ref-manual/ref-manual.html#intro-requirements&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project Reference Manual&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;ul class=&quot;org-ul&quot;&gt;
-&lt;li&gt;&lt;p&gt;
-Debian/Ubuntu
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@debian ~ $ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat
-&lt;/pre&gt;
-&lt;/div&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;
-Fedora
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@fedora ~ $ sudo dnf install gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue socat findutils which
-&lt;/pre&gt;
-&lt;/div&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;
-Gentoo
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@gentoo ~ $ emerge -v dev-vcs/git dev-util/diffstat app-arch/unzip sys-apps/texinfo app-admin/chrpath media-libs/libsdl2 sys-apps/iproute2 x11-terms/xterm net-nds/rpcbind
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-如果你和我一樣，使用 Gentoo Linux 的話，在 Gentoo Linux 下要確認你使用的是 Python 2.7
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;coldnew@gentoo ~ $ eselect python set python2.7
-
-eselect python list
-Available Python interpreters:
-  &lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;1&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;   python2.7 *
-  &lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;2&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;   python3.2
-  &lt;span style=&quot;color: #aadddd;&quot;&gt;[&lt;/span&gt;3&lt;span style=&quot;color: #aadddd;&quot;&gt;]&lt;/span&gt;   python3.3
-
-python
-Python 2.7.5 &lt;span style=&quot;color: #aadddd;&quot;&gt;(&lt;/span&gt;default, Oct 19 2013, 22:52:27&lt;span style=&quot;color: #aadddd;&quot;&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orge7ca46c&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orge7ca46c&quot;&gt;格式化 MicroSD 卡&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orge7ca46c&quot;&gt;
-&lt;p&gt;
-在這次的開發中，我們要設定 MicroSD 卡片成兩個分區，第一個是 &lt;code&gt;fat32&lt;/code&gt; 格式，第二個則使用 &lt;code&gt;ext4&lt;/code&gt; 格式，若不會使用 &lt;code&gt;fdisk&lt;/code&gt; 命令的話，可以透過 &lt;code&gt;gparted&lt;/code&gt; 來進行格式化，以下是我格式化卡片的範例 (8GB 卡片)。
-&lt;/p&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/c3e8558e/format.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgdea3591&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgdea3591&quot;&gt;下載 Poky&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdea3591&quot;&gt;
-&lt;p&gt;
-在開始用 &lt;a href=&quot;https://www.yoctoproject.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project&lt;/a&gt; 之前，我們需要下載 Poky, Poky 是 Yocto 的構建系統，基本上我們會用到的東西都會在 poky 資料夾內
-&lt;/p&gt;
-
-&lt;p&gt;
-注意到我們這邊切換到 &lt;code&gt;krogoth&lt;/code&gt; 這個分支，Yocto 裡面不同的分支(branch) 代表了不同版本。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~ $ git clone git://git.yoctoproject.org/poky -b krogoth
-&lt;/pre&gt;
-
-&lt;p&gt;
-好了後，進入到 poky 資料夾
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky $ cd poky
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org789e6ec&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org789e6ec&quot;&gt;下載 meta-xilinx&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org789e6ec&quot;&gt;
-&lt;p&gt;
-Yocto 對於不同的 SoC 廠商，會有提供不同的 layer 來對特定的開源程式加上合適的 patch，或是添加不同 SoC 廠各自需要的韌體(firmware)，以及各開發板特定的設定。
-在 Xilinx 平台上，我們需要下載 &lt;code&gt;meta-xilinx&lt;/code&gt; ，我們需要的 kernel 以及 Zybo board 的設定資訊都在裡面。
-&lt;/p&gt;
-
-&lt;p&gt;
-這邊一樣切換到 &lt;code&gt;krogoth&lt;/code&gt; 這個分支(branch)
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky $ git clone git://github.com/Xilinx/meta-xilinx -b krogoth
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org981f1be&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org981f1be&quot;&gt;切換到編譯用目錄&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org981f1be&quot;&gt;
-&lt;p&gt;
-接下來，我們將透過 &lt;code&gt;source&lt;/code&gt; 指令暫時修改當前 shell 的環境變數，並切換到 &lt;code&gt;build&lt;/code&gt; 資料夾
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky $ source oe-init-build-env build
-You had no conf/local.conf file. This configuration file has therefore been
-created for you with some default values. You may wish to edit it to, for
-example, select a different MACHINE (target hardware). See conf/local.conf
-for more information as common configuration options are commented.
-
-You had no conf/bblayers.conf file. This configuration file has therefore been
-created for you with some default values. To add additional metadata layers
-into your configuration please add entries to conf/bblayers.conf.
-
-The Yocto Project has extensive documentation about OE including a reference
-manual which can be found at:
-    http://yoctoproject.org/documentation
-
-For more information about OpenEmbedded see their website:
-    http://www.openembedded.org/
-
-
-### Shell environment set up for builds. ###
-
-You can now run &#39;bitbake &amp;lt;target&amp;gt;&#39;
-
-Common targets are:
-    core-image-minimal
-    core-image-sato
-    meta-toolchain
-    meta-ide-support
-
-You can also run generated qemu images with a command like &#39;runqemu qemux86&#39;
-&lt;/pre&gt;
-
-&lt;p&gt;
-預設的目標機器是 &lt;code&gt;qemux86&lt;/code&gt; 因此我們需要修改一下，不過先看一下當前目錄結構
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky/build $ tree  .
-. &amp;lt;b&amp;gt;
-└── conf &amp;lt;b&amp;gt;
-    ├── bblayers.conf
-    ├── local.conf
-    └── templateconf.cfg
-
-1 directory, 3 files
-&lt;/pre&gt;
-
-&lt;p&gt;
-我們首先要修改 &lt;code&gt;conf/bblayers.conf&lt;/code&gt; ，在上面添加我們剛剛下載的 &lt;code&gt;meta-xilinx&lt;/code&gt; ，修改完會像這樣
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;&lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf&lt;/span&gt;
-&lt;span style=&quot;color: #5f5f5f; font-style: italic;&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;color: #9ac; font-style: italic;&quot;&gt;changes incompatibly&lt;/span&gt;
-POKY_BBLAYERS_CONF_VERSION = &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;2&quot;&lt;/span&gt;
-
-BBPATH = &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;${TOPDIR}&quot;&lt;/span&gt;
-BBFILES ?= &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;&quot;&lt;/span&gt;
-
-BBLAYERS ?= &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot; \&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;  /home/coldnew/poky/meta \&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;  /home/coldnew/poky/meta-poky \&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;  /home/coldnew/poky/meta-yocto-bsp \&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;  /home/coldnew/poky/meta-xilinx \&lt;/span&gt;
-&lt;span style=&quot;color: #aadddd;&quot;&gt;  &quot;&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-接下來，修改 &lt;code&gt;conf/local.conf&lt;/code&gt; ，這份檔案可以用來設定要編譯的目標機器，在這邊，我們將目標機器改成 &lt;code&gt;zybo-linux-bd-zynq7&lt;/code&gt;
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;MACHINE ??= &lt;span style=&quot;color: #aadddd;&quot;&gt;&quot;zybo-linux-bd-zynq7&quot;&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-都改好了後，就可以開始準備編譯了
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org867575f&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org867575f&quot;&gt;編譯 core-image-minimal&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org867575f&quot;&gt;
-&lt;p&gt;
-Yocto 下有許多預設的 image 可以進行編譯，其中最基本的 image 就是 &lt;code&gt;core-image-minimal&lt;/code&gt; 了，裡面只會包含一些幾本的組件而已，我們可以透過他來確認我們編譯出來的 rootfs 是否能用。
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky/build $ bitbake core-image-minimal
-Parsing recipes: 100% |#######################################################################################################################| Time: 00:01:03
-Parsing of 883 .bb files complete (0 cached, 883 parsed). 1313 targets, 71 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION        = &quot;1.30.0&quot;
-BUILD_SYS         = &quot;x86_64-linux&quot;
-NATIVELSBSTRING   = &quot;Gentoo-2.3&quot;
-TARGET_SYS        = &quot;arm-poky-linux-gnueabi&quot;
-MACHINE           = &quot;zybo-linux-bd-zynq7&quot;
-DISTRO            = &quot;poky&quot;
-DISTRO_VERSION    = &quot;2.1.1&quot;
-TUNE_FEATURES     = &quot;arm armv7a vfp thumb neon       callconvention-hard       cortexa9&quot;
-TARGET_FPU        = &quot;hard&quot;
-meta
-meta-poky
-meta-yocto-bsp    = &quot;krogoth:aad7166704021d82ad3a5ec468552f8f10360d41&quot;
-meta-xilinx       = &quot;krogoth:dcd1c218f943c3657b138cb05012c90c65f32a35&quot;
-
-NOTE: Fetching uninative binary shim from http://downloads.yoctoproject.org/releases/uninative/1.0.1/x86_64-nativesdk-libc.tar.bz2;sha256sum=acf1e44a0ac2e855e81da6426197d36358bf7b4e88e552ef933128498c8910f8
-NOTE: Preparing RunQueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-Currently 4 running tasks (78 of 2127):
-0: gcc-source-5.3.0-5.3.0-r0 do_unpack (pid 10582)
-1: m4-native-1.4.17-r0 do_configure (pid 14097)
-2: binutils-cross-arm-2.26-r0 do_unpack (pid 14533)
-3: glibc-initial-2.23-r0 do_fetch (pid 15428)
-&lt;/pre&gt;
-
-&lt;p&gt;
-接下來因為這是第一次編譯，Yocto 需要下載原始碼以及進行編譯，會花很多時間，所以這時候可以去睡個覺或是看看書等它編譯完成，第二次編譯後會因為有快取機制 (cache)，就不須要花這樣多的時間來進行編譯囉~
-&lt;/p&gt;
-
-&lt;p&gt;
-編譯好了以後，我們切入到 &lt;code&gt;tmp/deploy/images/zybo-linux-bd-zynq7/&lt;/code&gt; 資料夾，裡面有的就是我們需要的檔案
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo ~/poky/build $ ls tmp/deploy/images/zybo-linux-bd-zynq7/
-bitstream                                                                    modules--4.4-xilinx+git0+89cc643aff-r0-zybo-linux-bd-zynq7-20160910030958.tgz
-bitstream-+gitAUTOINC+63ca49fe02-r0.bit                                      modules-zybo-linux-bd-zynq7.tgz
-boot.bin                                                                     README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-boot.bin-zybo-linux-bd-zynq7                                                 u-boot-dtb.img
-boot.bin-zybo-linux-bd-zynq7-v2016.03+gitAUTOINC+df61a74e68-r0               u-boot.elf
-core-image-minimal-zybo-linux-bd-zynq7-20160910030958.rootfs.cpio            u-boot-zybo-linux-bd-zynq7.elf
-core-image-minimal-zybo-linux-bd-zynq7-20160910030958.rootfs.cpio.gz.u-boot  u-boot-zybo-linux-bd-zynq7.img
-core-image-minimal-zybo-linux-bd-zynq7-20160910030958.rootfs.manifest        u-boot-zybo-linux-bd-zynq7-v2016.03+gitAUTOINC+df61a74e68-r0.elf
-core-image-minimal-zybo-linux-bd-zynq7-20160910030958.rootfs.tar.gz          u-boot-zybo-linux-bd-zynq7-v2016.03+gitAUTOINC+df61a74e68-r0.img
-core-image-minimal-zybo-linux-bd-zynq7.cpio                                  uImage
-core-image-minimal-zybo-linux-bd-zynq7.cpio.gz.u-boot                        uImage--4.4-xilinx+git0+89cc643aff-r0-zybo-linux-bd-zynq7-20160910030958.bin
-core-image-minimal-zybo-linux-bd-zynq7.manifest                              uImage-zybo-linux-bd-zynq7.bin
-core-image-minimal-zybo-linux-bd-zynq7.tar.gz                                zybo-linux-bd-zynq7.dtb
-download.bit
-&lt;/pre&gt;
-
-&lt;p&gt;
-我們將以下這些檔案複製到 SD 卡的第一個分區
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-bitstream  boot.bin  u-boot-dtb.img  uImage  zybo-linux-bd-zynq7.dtb
-&lt;/pre&gt;
-
-&lt;p&gt;
-接下來，在 SD 卡的第一個分割區 (fat32) 建立 &lt;code&gt;uEnv.txt&lt;/code&gt; 檔案，用來告訴 u-boot 開機的方式
-&lt;/p&gt;
-
-&lt;div class=&quot;org-src-container&quot;&gt;
-&lt;pre class=&quot;src src-sh&quot;&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;kernel_image&lt;/span&gt;=uImage
-&lt;span style=&quot;color: #aaccff;&quot;&gt;devicetree_image&lt;/span&gt;=zybo-linux-bd-zynq7.dtb
-&lt;span style=&quot;color: #aaccff;&quot;&gt;bootargs&lt;/span&gt;=&lt;span style=&quot;color: #aaccff;&quot;&gt;root&lt;/span&gt;=/dev/mmcblk0p2 rw rootwait
-&lt;span style=&quot;color: #aaccff;&quot;&gt;uenvcmd&lt;/span&gt;=fatload mmc 0 0x3000000 $&lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;kernel_image&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt; &amp;amp;&amp;amp; fatload mmc 0 0x2A00000 $&lt;span style=&quot;color: #aadddd;&quot;&gt;{&lt;/span&gt;&lt;span style=&quot;color: #aaccff;&quot;&gt;devicetree_image&lt;/span&gt;&lt;span style=&quot;color: #aadddd;&quot;&gt;}&lt;/span&gt; &amp;amp;&amp;amp; bootm 0x3000000 - 0x2A00000
-&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-好了後，將 &lt;code&gt;core-image-minimal-zybo-linux-bd-zynq7.tar.gz&lt;/code&gt; 解壓縮到 SD 卡的第二個分割區
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linux-bd-zynq7/core-image-minimal-zybo-linux-bd-zynq7.tar.gz
-&lt;/pre&gt;
-
-&lt;p&gt;
-如果你需要 kernel modules 的話，將 &lt;code&gt;modules-zybo-linux-bd-zynq7.tgz&lt;/code&gt; 解壓到 SD 卡的第二個分割區
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linux-bd-zynq7/modules-zybo-linux-bd-zynq7.tgz
-&lt;/pre&gt;
-
-&lt;p&gt;
-至此，我們 SD 卡開機的準備已經完成!!
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-orgd4433dd&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgd4433dd&quot;&gt;測試開機與結果&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd4433dd&quot;&gt;
-&lt;p&gt;
-是時候來測試結果了，要注意到你的 Zybo Board 的 &lt;code&gt;JP5&lt;/code&gt; 要設定成下面這樣，這樣給電時，Zynq 才會讀取 SD 卡上面的 u-boot 並將位元流 (bitstream) 燒錄到 FPGA 中。
-&lt;/p&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/c3e8558e/sdboot.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-插入剛剛建立好的 SD 卡，並提供電源後，我們可以使用可以接收 UART 相關的程式，如 gtkterm、teraterm、screen、emacs 等，啟動它並開啟 &lt;code&gt;/dev/ttyUSB1&lt;/code&gt; 後，設定 baudrate 為 &lt;code&gt;115200&lt;/code&gt; ，就可以看到開機並進入到 rootfs 囉。
-&lt;/p&gt;
-
-
-&lt;div class=&quot;figure&quot;&gt;
-&lt;p&gt;&lt;img src=&quot;https://coldnew.github.io/c3e8558e/console.png&quot;&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id=&quot;outline-container-org3bf64be&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org3bf64be&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org3bf64be&quot;&gt;
-&lt;p&gt;
-&lt;code&gt;[1]&lt;/code&gt; &lt;a href=&quot;https://github.com/Xilinx/meta-xilinx/blob/master/README.booting.md&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Booting meta-xilinx boards&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;code&gt;[2]&lt;/code&gt; &lt;a href=&quot;http://www.yoctoproject.org/docs/2.0/ref-manual/ref-manual.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Yocto Project Reference Manual&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-]]></content:encoded>
-      <comments>https://coldnew.github.io/c3e8558e/#disqus_thread</comments>
     </item>
     
   </channel>
