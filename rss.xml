@@ -8,7 +8,7 @@
     <atom:link href="/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Sat, 25 Aug 2018 07:56:10 GMT</pubDate>
+    <pubDate>Sat, 25 Aug 2018 10:41:33 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -41,9 +41,9 @@ coldnew@gentoo ~ $ file 2018-06-27-raspbian-stretch.img
 那就讓我們來看看要怎樣掛載這個 &lt;code&gt;2018-06-27-raspbian-stretch.img&lt;/code&gt; 的某些分割區吧!
 &lt;/p&gt;
 
-&lt;div id=&quot;outline-container-orgdc73430&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgdc73430&quot;&gt;fdisk&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdc73430&quot;&gt;
+&lt;div id=&quot;outline-container-orgc343d52&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc343d52&quot;&gt;fdisk&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc343d52&quot;&gt;
 &lt;p&gt;
 最基本的方式，就是透過 &lt;a href=&quot;http://man7.org/linux/man-pages/man8/fdisk.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;fdisk&lt;/a&gt; 去查看這個映像檔(.img) 的內容，我們可以看到這個映像檔有兩個分割區以及其格式
 &lt;/p&gt;
@@ -90,9 +90,9 @@ coldnew@gentoo ~ $ sudo mount -o loop,offset=$((98304 * 512)) 2018-06-27-raspbia
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org1738956&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org1738956&quot;&gt;kpartx&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org1738956&quot;&gt;
+&lt;div id=&quot;outline-container-orgc22b559&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc22b559&quot;&gt;kpartx&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc22b559&quot;&gt;
 &lt;p&gt;
 對於 Gentoo 的使用者來說，要使用 &lt;a href=&quot;https://www.linux.org/docs/man8/kpartx.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;kpartx&lt;/a&gt; 命令的話，需要先安裝 &lt;code&gt;multipath-tools&lt;/code&gt; 這個工具
 &lt;/p&gt;
@@ -132,15 +132,15 @@ loop deleted : /dev/loop0
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org4ea9571&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org4ea9571&quot;&gt;losetup&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org4ea9571&quot;&gt;
+&lt;div id=&quot;outline-container-orgb09c346&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgb09c346&quot;&gt;losetup&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgb09c346&quot;&gt;
 &lt;p&gt;
-&lt;a href=&quot;http://man7.org/linux/man-pages/man8/losetup.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;losetup&lt;/a&gt; 是位於 util-linux 的命令，正常的 Linux 發行板都會內建安裝，我們可以透過這個命令對 loop 設備進行管理
+&lt;a href=&quot;http://man7.org/linux/man-pages/man8/losetup.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;losetup&lt;/a&gt; 是位於 util-linux 的命令，正常的 Linux 發行板都會內建安裝，我們可以透過這個命令對 loop 設備進行管理。
 &lt;/p&gt;
 
 &lt;p&gt;
-首先先透過 losetup 找出合適的 &lt;code&gt;/dev/loop*&lt;/code&gt; 節點，並將映像檔弄上去
+首先先透過 &lt;a href=&quot;http://man7.org/linux/man-pages/man8/losetup.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;losetup&lt;/a&gt; 找出合適的 &lt;code&gt;/dev/loop*&lt;/code&gt; 節點，並將映像檔弄上去:
 &lt;/p&gt;
 
 &lt;pre class=&quot;example&quot;&gt;
@@ -179,9 +179,9 @@ coldnew@gentoo ~ $ sudo losetup -d /dev/loop0
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org8462ec0&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org8462ec0&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org8462ec0&quot;&gt;
+&lt;div id=&quot;outline-container-org6af3109&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org6af3109&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org6af3109&quot;&gt;
 &lt;ul class=&quot;org-ul&quot;&gt;
 &lt;li&gt;&lt;a href=&quot;https://askubuntu.com/questions/445979/how-to-mount-sd-card-image-created-with-dd&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;How to mount sd-card image created with dd ?&lt;/a&gt;&lt;/li&gt;
 
@@ -218,9 +218,9 @@ coldnew@gentoo ~ $ file 2018-06-27-raspbian-stretch.img
 那就讓我們來看看要怎樣掛載這個 &lt;code&gt;2018-06-27-raspbian-stretch.img&lt;/code&gt; 的某些分割區吧!
 &lt;/p&gt;
 
-&lt;div id=&quot;outline-container-orgdc73430&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgdc73430&quot;&gt;fdisk&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdc73430&quot;&gt;
+&lt;div id=&quot;outline-container-orgc343d52&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc343d52&quot;&gt;fdisk&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc343d52&quot;&gt;
 &lt;p&gt;
 最基本的方式，就是透過 &lt;a href=&quot;http://man7.org/linux/man-pages/man8/fdisk.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;fdisk&lt;/a&gt; 去查看這個映像檔(.img) 的內容，我們可以看到這個映像檔有兩個分割區以及其格式
 &lt;/p&gt;
@@ -267,9 +267,9 @@ coldnew@gentoo ~ $ sudo mount -o loop,offset=$((98304 * 512)) 2018-06-27-raspbia
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org1738956&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org1738956&quot;&gt;kpartx&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org1738956&quot;&gt;
+&lt;div id=&quot;outline-container-orgc22b559&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc22b559&quot;&gt;kpartx&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc22b559&quot;&gt;
 &lt;p&gt;
 對於 Gentoo 的使用者來說，要使用 &lt;a href=&quot;https://www.linux.org/docs/man8/kpartx.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;kpartx&lt;/a&gt; 命令的話，需要先安裝 &lt;code&gt;multipath-tools&lt;/code&gt; 這個工具
 &lt;/p&gt;
@@ -309,15 +309,15 @@ loop deleted : /dev/loop0
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org4ea9571&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org4ea9571&quot;&gt;losetup&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org4ea9571&quot;&gt;
+&lt;div id=&quot;outline-container-orgb09c346&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgb09c346&quot;&gt;losetup&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgb09c346&quot;&gt;
 &lt;p&gt;
-&lt;a href=&quot;http://man7.org/linux/man-pages/man8/losetup.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;losetup&lt;/a&gt; 是位於 util-linux 的命令，正常的 Linux 發行板都會內建安裝，我們可以透過這個命令對 loop 設備進行管理
+&lt;a href=&quot;http://man7.org/linux/man-pages/man8/losetup.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;losetup&lt;/a&gt; 是位於 util-linux 的命令，正常的 Linux 發行板都會內建安裝，我們可以透過這個命令對 loop 設備進行管理。
 &lt;/p&gt;
 
 &lt;p&gt;
-首先先透過 losetup 找出合適的 &lt;code&gt;/dev/loop*&lt;/code&gt; 節點，並將映像檔弄上去
+首先先透過 &lt;a href=&quot;http://man7.org/linux/man-pages/man8/losetup.8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;losetup&lt;/a&gt; 找出合適的 &lt;code&gt;/dev/loop*&lt;/code&gt; 節點，並將映像檔弄上去:
 &lt;/p&gt;
 
 &lt;pre class=&quot;example&quot;&gt;
@@ -356,9 +356,9 @@ coldnew@gentoo ~ $ sudo losetup -d /dev/loop0
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org8462ec0&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org8462ec0&quot;&gt;延伸閱讀&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org8462ec0&quot;&gt;
+&lt;div id=&quot;outline-container-org6af3109&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org6af3109&quot;&gt;延伸閱讀&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org6af3109&quot;&gt;
 &lt;ul class=&quot;org-ul&quot;&gt;
 &lt;li&gt;&lt;a href=&quot;https://askubuntu.com/questions/445979/how-to-mount-sd-card-image-created-with-dd&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;How to mount sd-card image created with dd ?&lt;/a&gt;&lt;/li&gt;
 
