@@ -1,0 +1,130 @@
+#+TITLE: 在 Linux 下掛載 SD 卡映像檔
+#+DATE: <2018-08-25 Sat 09:56>
+#+ABBRLINK: ff159f7c
+#+OPTIONS: num:nil ^:nil
+#+TAGS: linux
+#+LANGUAGE: zh-tw
+
+最近有需求是要將 Raspbian 之類提供的 SD 卡映像檔 (.img) 裡面的 rootfs 給提出來，因此找了一下不需要將該映像檔燒到實體 SD 卡，而是將其掛載到目錄後再將需要的檔案複製出來的方法。
+
+#+HTML: <!-- more -->
+
+這邊以我下載的 [[https://www.raspberrypi.org/downloads/raspbian/][Raspbian]] 檔案為例，本文收集了三種方式，分別為透過 fdisk 計算 offset 後掛載、使用 kpartx 進行掛載、使用 losetup 進行掛載等。
+
+在進行之前，先確認下載的 sdcard image 的類型， =2018-06-27-raspbian-stretch.zip= 解壓縮後的檔案，用 =file= 命令看會是這樣:
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ file 2018-06-27-raspbian-stretch.img
+  2018-06-27-raspbian-stretch.img: DOS/MBR boot sector; partition 1 : ID=0xc, start-CHS (0x0,130,3), end-CHS (0x6,4,22), startsector 8192, 88472 sectors; partition 2 : ID=0x83, start-CHS (0x6,30,25), end-CHS (0x24a,106,32), startsector 98304, 9322496 sectors
+#+END_EXAMPLE
+
+那就讓我們來看看要怎樣掛載這個 =2018-06-27-raspbian-stretch.img= 的某些分割區吧!
+
+* fdisk
+
+最基本的方式，就是透過 [[http://man7.org/linux/man-pages/man8/fdisk.8.html][fdisk]] 去查看這個映像檔(.img) 的內容，我們可以看到這個映像檔有兩個分割區以及其格式
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ sudo fdisk -u -l 2018-06-27-raspbian-stretch.img
+  Disk 2018-06-27-raspbian-stretch.img: 4.5 GiB, 4823449600 bytes, 9420800 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: dos
+  Disk identifier: 0xbd98648d
+
+  Device                           Boot Start     End Sectors  Size Id Type
+  2018-06-27-raspbian-stretch.img1       8192   96663   88472 43.2M  c W95 FAT32 (LBA)
+  2018-06-27-raspbian-stretch.img2      98304 9420799 9322496  4.5G 83 Linux
+#+END_EXAMPLE
+
+接下來注意到了 =2018-06-27-raspbian-stretch.img2 (分割區 2)= 的起始位址是 =98304= ，因為每一個 sector 是 =512 bytes= ，所以我們可以算出 offset 為 ~98304 * 512 = 50331648~
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ echo $((98304 * 512))
+  50331648
+#+END_EXAMPLE
+
+知道了 offset 後，我們就可以用掛載 loop 設備的方式來掛載這個 =.img= 的分割區 2 到 =rootfs= 資料夾去
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ mkdir -p rootfs
+  coldnew@gentoo ~ $ sudo mount -o loop,offset=$((98304 * 512)) 2018-06-27-raspbian-stretch.img rootfs
+#+END_EXAMPLE
+
+這樣 rootfs 就有 =2018-06-27-raspbian-stretch.img= 的分割區 2 內的檔案囉~
+
+如果想要現成的腳本做這件事的話，可以試試看 https://github.com/AlexanderAmelkin/mountimg/blob/master/mountimg 這份腳本
+
+* kpartx
+
+對於 Gentoo 的使用者來說，要使用 [[https://www.linux.org/docs/man8/kpartx.html][kpartx]] 命令的話，需要先安裝 =multipath-tools= 這個工具
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ sudo emerge sys-fs/multipath-tools
+#+END_EXAMPLE
+
+接下來，就透過 [[https://www.linux.org/docs/man8/kpartx.html][kpartx]] 這工具來掛載 .img 檔案
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ kpartx -av 2018-06-27-raspbian-stretch.img
+  add map loop0p1 (254:0): 0 88472 linear /dev/loop0 8192
+  add map loop0p2 (254:1): 0 9322496 linear /dev/loop0 98304
+#+END_EXAMPLE
+
+使用上面的命令後，會將檔案掛載到 =/dev/mapper/loop0p1= 和 =/dev/mapper/loop0p2= 這兩個位置，如果我們想要掛載 =/dev/mapper/loop0p2= 到 =rootfs= 資料夾的話，則這樣
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ mkdir -p rootfs
+  coldnew@gentoo ~ $ sudo mount /dev/mapper/loop0p2 rootfs
+#+END_EXAMPLE
+
+要解除掛載的話，則是這樣
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ sudo umount rootfs
+  coldnew@gentoo ~ $ sudo kpartx -d 2018-06-27-raspbian-stretch.img
+  loop deleted : /dev/loop0
+#+END_EXAMPLE
+
+* losetup
+
+[[http://man7.org/linux/man-pages/man8/losetup.8.html][losetup]] 是位於 util-linux 的命令，正常的 Linux 發行板都會內建安裝，我們可以透過這個命令對 loop 設備進行管理
+
+首先先透過 losetup 找出合適的 =/dev/loop*= 節點，並將映像檔弄上去
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ sudo losetup --show -f -P 2018-06-27-raspbian-stretch.img
+  /dev/loop0
+#+END_EXAMPLE
+
+接下來，你可以透過 =ls= 命令發現到 =/dev/loop0= 多出了兩個分割區
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ ls -l /dev/loop0*
+  brw-rw---- 1 root disk   7, 0  8 月 25 11:26 /dev/loop0
+  brw-rw---- 1 root disk 259, 0  8 月 25 11:26 /dev/loop0p1
+  brw-rw---- 1 root disk 259, 1  8 月 25 11:26 /dev/loop0p2
+#+END_EXAMPLE
+
+然後我們就可以透過一般的 =mount= 命令來進行掛載了，這邊一樣以第二個分割區為例:
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ mkdir -p rootfs
+  coldnew@gentoo ~ $ sudo mount /dev/loop0p2 rootfs
+#+END_EXAMPLE
+
+事情都搞定後記得將掛載到 loop device 的位置給 deatch 掉:
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ sudo umount rootfs
+  coldnew@gentoo ~ $ sudo losetup -d /dev/loop0
+#+END_EXAMPLE
+
+* 延伸閱讀
+
+- [[https://askubuntu.com/questions/445979/how-to-mount-sd-card-image-created-with-dd][How to mount sd-card image created with dd ?]]
+
+- [[https://stackoverflow.com/questions/42435226/mount-a-sd-card-image-change-files-on-a-partition-and-write-back][mount a sd-card image - change files on a partition and write back]]
+
+- [[https://github.com/AlexanderAmelkin/mountimg/]]
