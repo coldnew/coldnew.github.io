@@ -185,6 +185,181 @@
           
           
             
+              <a class="post-title-link" href="/a1ed40e3/" itemprop="url">
+                去除 org-mode 輸出 HTML 時產生多餘的空格
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2013-12-17T21:27:00+08:00" content="2013-12-17">
+            2013-12-17
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+使用 org-mode 產生 HTML 網頁的時候，偶而會看到中文字中間會夾雜著一個空
+白符號，其狀況如下圖，這到底是怎麼一回事?
+
+
+
+
+
+
+
+
+
+會出現這個問題，是因為在 org-mode 中啟用了 auto-fill-mode，會自動將一
+行控制在 80 的文字以內，而換行符號則會在 org-mode 轉換成 HTML 的過程中，
+被置換為空白符號。這個空格在英文中並不是問題，但是在非英語系的語言中，
+可能就會產生令人討厭的感覺。
+
+
+
+由於目前這個問題尚未被 org-mode 官方修正，因此讓我們透過 emacs 的
+defadvice 功能，來 修正 一下這個問題吧，請在你的 .
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/a1ed40e3/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/3aac9391/" itemprop="url">
+                使用 raspberry.local 連到你的 Raspberry Pi
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2013-12-15T18:32:00+08:00" content="2013-12-15">
+            2013-12-15
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+在測試 Google Coder 的時候，我發現到他預先建立好的 SD Card 映像檔可以
+直接使用瀏覽器透過 http://coder.local 連線進去，這到底是怎麼辦到的？
+
+
+
+經過了一些資料的收集，原來這就是 Zeroconf 。大約在 2008 年
+前後，Gentoo Linux 突然增加了 zeroconf 與 avahi 的 USE flag，當時一直
+無法理解這兩個 flag 的用途，現今終於豁然開朗。
+
+
+
+Avahi 是開源的 Zeroconf 協定的實現，Zeroconf 全名為 Zero configuration
+networking，是一種用於自動生成可用
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/3aac9391/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/68fbe311/" itemprop="url">
                 為你的 Raspberry Pi 裝上 Watchdog
               </a>
@@ -914,203 +1089,6 @@ ogv 轉 gif 流程
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/278279c4/" itemprop="url">
-                在 org-mode 中顯示圖片
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          最後更新
-          <time itemprop="dateCreated" datetime="2013-07-14T11:15:00+08:00" content="2013-07-14">
-            2013-07-14
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            
-
-emacs 除了是非常強大的文件編輯器，事實上 emacs 也能夠顯示圖片在緩衝區中，
-也就是說當你編輯文章的時候，你可以直接觀看你要插入的圖片，而不需要再打
-開一個圖片瀏覽器來使用。
-
-
-
-在 org-mode 中，提供了一個 org-toggle-inline-images 的命令，可以將你插
-入的圖片顯示出來，就如下面的截圖一樣。
-
-
-
-
-
-
-
-
-
-
-
-修改顯示圖片的大小
-
-
-預設的圖片是顯示原圖大小，但是有些時候我們希望是觀看圖片實際上輸出成網
-頁、PDF 的大小，這時後就必須修改一下 org-image-actual-width 這個變數。
-
-
-
-在 org-mode 中，這個變
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/278279c4/#more" rel="contents">
-              閱讀全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/787b7d73/" itemprop="url">
-                在 org-mode 中使用 Graphviz 畫關係圖
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          最後更新
-          <time itemprop="dateCreated" datetime="2013-07-13T22:58:00+08:00" content="2013-07-13">
-            2013-07-13
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            
-
-Graphviz 是一個非常強大的 關係圖 繪製軟體，可以透過 dot 語言來描述節點與
-節點之間的關係，來畫出非常漂亮的關係圖。
-
-
-
-舉例來說，你可以很輕鬆的畫出下面這樣的圖: (圖片取自 Graphviz 官網)
-
-
-
-
-
-
-
-
-
-
-
-設定你的 emacs
-
-
-org-mode 有一個 babel 功能，可以讓你對程式碼區塊 (src block) 使用 C-c C-c 來進行運
-算，對於 Graphviz 程式，這樣的運算可以直接獲得結果，也因此，在 org-mode
-裏面使用 Graphviz 你並不需要建立新的檔案。
-
-
-
-預設的 org-mode 並沒有打開這項功能，因此你要
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/787b7d73/#more" rel="contents">
-              閱讀全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1147,21 +1125,21 @@ org-mode 有一個 babel 功能，可以讓你對程式碼區塊 (src block) 使
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">107</span>
+              <span class="site-state-item-count">109</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">78</span>
+              <span class="site-state-item-count">81</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
