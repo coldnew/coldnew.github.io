@@ -87,7 +87,7 @@
 <meta property="og:image" content="https://coldnew.github.io/d1be86fb/ar67462.png">
 <meta property="og:image" content="https://coldnew.github.io/d1be86fb/pcie.png">
 <meta property="og:image" content="https://coldnew.github.io/d1be86fb/p3.png">
-<meta property="og:updated_time" content="2018-11-15T07:03:28.130Z">
+<meta property="og:updated_time" content="2018-11-15T07:04:36.970Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UltraZed-EG PCIe Carrier Card 開發紀錄: 硬體認識">
 <meta name="twitter:description" content="最近入手了 UltraZed-EG PCIe Carrier Card ，這是一款基於 UltraZed-EG 核心板進行延伸的開發板，和 Zybo Board 類似，是一款同時具有 Xilinx FPGA 並且包含了 ARM CPU 的開發平台。    但是不同的是，此開發板主板採用的核心為 Xilinx UltraScale+ MPSoC ，這一款具有 Cortex-A53 以及 Mali">
@@ -228,7 +228,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2018-11-15T15:03:28+08:00" content="2018-11-15">
+          <time itemprop="dateCreated" datetime="2018-11-15T15:04:36+08:00" content="2018-11-15">
             2018-11-15
           </time>
         </span>
@@ -277,9 +277,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-org57bed02" class="outline-2">
-<h2 id="org57bed02">開發板概觀</h2>
-<div class="outline-text-2" id="text-org57bed02">
+<div id="outline-container-org56ae395" class="outline-2">
+<h2 id="org56ae395">開發板概觀</h2>
+<div class="outline-text-2" id="text-org56ae395">
 <p>
 首先，這一整塊開發板是 <code>核心板</code> 搭配 <code>擴充板</code> 組合在一起的產品，因此我們應該要先理解核心板的功能，再來看擴充板基於核心板的腳位，做了哪些延伸。
 </p>
@@ -296,9 +296,9 @@
 </div>
 </div>
 
-<div id="outline-container-orga1cdfd6" class="outline-2">
-<h2 id="orga1cdfd6">UltraZed-EG</h2>
-<div class="outline-text-2" id="text-orga1cdfd6">
+<div id="outline-container-orgc10f71f" class="outline-2">
+<h2 id="orgc10f71f">UltraZed-EG</h2>
+<div class="outline-text-2" id="text-orgc10f71f">
 <p>
 <a href="http://zedboard.org/product/ultrazed-EG" target="_blank" rel="external">UltraZed-EG</a> 是包含了 Xilinx FGPA 的核心板(System-On-Module, SOM)，中間的核心晶片為 <a href="https://www.xilinx.com/products/silicon-devices/soc/zynq-ultrascale-mpsoc.html" target="_blank" rel="external">Xilinx UltraScale+ MPSoC</a> 系列的 <code>Zynq UltraScale+ EG (XCZU3EG-SFVA625)</code> ，這一系列不同版本的晶片差異如下:
 </p>
@@ -344,11 +344,11 @@
 </p>
 </div>
 
-<div id="outline-container-org1e6f5f7" class="outline-3">
-<h3 id="org1e6f5f7">SW2</h3>
-<div class="outline-text-3" id="text-org1e6f5f7">
+<div id="outline-container-org9f9bbec" class="outline-3">
+<h3 id="org9f9bbec">SW2</h3>
+<div class="outline-text-3" id="text-org9f9bbec">
 <p>
-首先，這塊核心板最重要的就是用來設定開機模式的 <code>SW2</code> 這個 DIP Switch。整塊板子的開機行為都會根據你的不同設定而改變，在後續文章裡面，我大部分都會選用 <code>SD1/MMC33</code> 這種透過 MicroSD 卡來進行開機的模式。
+首先，這塊核心板最重要的就是用來設定開機模式的 <code>SW2</code>  這個指撥開關。整塊板子的開機行為都會根據你的不同設定而改變，在後續文章裡面，我大部分都會選用 <code>SD1/MMC33</code> 這種透過 MicroSD 卡來進行開機的模式。
 </p>
 
 
@@ -359,9 +359,9 @@
 </div>
 </div>
 
-<div id="outline-container-org808981b" class="outline-3">
-<h3 id="org808981b">QSPI</h3>
-<div class="outline-text-3" id="text-org808981b">
+<div id="outline-container-org541b337" class="outline-3">
+<h3 id="org541b337">QSPI</h3>
+<div class="outline-text-3" id="text-org541b337">
 <p>
 核心板上有 2 顆 Micron QPSI MT25QU256ABAIEW7-0SIT NOR Flash, 不過我找不到相關的 datasheet&#x2026;.
 </p>
@@ -382,9 +382,9 @@
 </div>
 </div>
 
-<div id="outline-container-orge1c4b10" class="outline-3">
-<h3 id="orge1c4b10">eMMC</h3>
-<div class="outline-text-3" id="text-orge1c4b10">
+<div id="outline-container-orgaa65f80" class="outline-3">
+<h3 id="orgaa65f80">eMMC</h3>
+<div class="outline-text-3" id="text-orgaa65f80">
 <p>
 核心板有一顆 <a href="https://www.micron.com/parts/nand-flash/managed-nand/mtfc8gakajcn-4m-it" target="_blank" rel="external">Micron MTFC8GAKAJCN-4M IT</a> eMMC 晶片，大小為 8GB，在預設的情況下這個 eMMC 會被當作是 <code>SD0</code> ，而擴充板的 MicroSD 卡則是會被當作 <code>SD1</code>
 </p>
@@ -398,9 +398,9 @@
 </div>
 </div>
 
-<div id="outline-container-org711ac32" class="outline-2">
-<h2 id="org711ac32">UltraZed-EG PCIe Carrier Card</h2>
-<div class="outline-text-2" id="text-org711ac32">
+<div id="outline-container-orgea8fcf6" class="outline-2">
+<h2 id="orgea8fcf6">UltraZed-EG PCIe Carrier Card</h2>
+<div class="outline-text-2" id="text-orgea8fcf6">
 <p>
 本文使用的擴充板為 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed PCIe Carrier Card</a>,  為 <a href="https://www.avnet.com" target="_blank" rel="external">AVNET</a> 公司所出品的延伸板。由於 <a href="http://zedboard.org/product/ultrazed-EG" target="_blank" rel="external">UltraZed-EG</a> 本身只是將該 SoC 最基本的功能組裝在一起，實際上需要使用比如 USB、PCIe 等週邊的時候，就會需要透過延伸板來增加 I/O 的連接。
 </p>
@@ -410,9 +410,9 @@
 </p>
 </div>
 
-<div id="outline-container-orgb36d965" class="outline-3">
-<h3 id="orgb36d965">概觀</h3>
-<div class="outline-text-3" id="text-orgb36d965">
+<div id="outline-container-orgeb3e52e" class="outline-3">
+<h3 id="orgeb3e52e">概觀</h3>
+<div class="outline-text-3" id="text-orgeb3e52e">
 <p>
 我們先從 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed PCIe Carrier Card</a> 的外觀來了解這片板子的大概功能，之後再透過電路等資訊來看要如何使用這片板子。
 </p>
@@ -439,9 +439,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgebc54f7" class="outline-3">
-<h3 id="orgebc54f7">USB 2.0/3.0 (J4)</h3>
-<div class="outline-text-3" id="text-orgebc54f7">
+<div id="outline-container-org782471e" class="outline-3">
+<h3 id="org782471e">USB 2.0/3.0 (J4)</h3>
+<div class="outline-text-3" id="text-org782471e">
 <p>
 USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 OTG 的設備。我們可以透過調整 JP2, JP3 以及 JP5 來設定我們對這塊板子上的 USB 的使用需求。
 </p>
@@ -464,9 +464,9 @@ USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 
 </div>
 </div>
 
-<div id="outline-container-org1a1844d" class="outline-3">
-<h3 id="org1a1844d">1000Mb/s 網路</h3>
-<div class="outline-text-3" id="text-org1a1844d">
+<div id="outline-container-orgede92c8" class="outline-3">
+<h3 id="orgede92c8">1000Mb/s 網路</h3>
+<div class="outline-text-3" id="text-orgede92c8">
 <p>
 由於 <a href="http://zedboard.org/product/ultrazed-EG" target="_blank" rel="external">UltraZed-EG</a> 已經做好了 MAC 和 PHY (<a href="http://www.ti.com/lit/ds/symlink/dp83867ir.pdf" target="_blank" rel="external">DP83867</a>) 的連線，因此 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed PCIe Carrier Card</a> 上的網路相關電路是直接將核心板的接線拉出，直接連線到 <a href="https://www.belfuse.com/resources/ICMs/ICMs%20Drawings/L829-1J1T-43.pdf" target="_blank" rel="external">L829-1J1t-43G</a> 這個 RJ45 連接器來用。
 </p>
@@ -479,9 +479,9 @@ USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 
 </div>
 </div>
 
-<div id="outline-container-org7d90cea" class="outline-3">
-<h3 id="org7d90cea">SATA3 Host</h3>
-<div class="outline-text-3" id="text-org7d90cea">
+<div id="outline-container-org85aafc5" class="outline-3">
+<h3 id="org85aafc5">SATA3 Host</h3>
+<div class="outline-text-3" id="text-org85aafc5">
 <p>
 在 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed PCIe Carrier Card</a> 上有一個 SATA3 Host 界面連接到處理器系統(Processing Syste, PS)，我們可以在這邊接上外接硬碟擴充儲存空間，該界面傳輸速度最快可以到達 6 Gb/s。
 </p>
@@ -494,9 +494,9 @@ USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 
 </div>
 </div>
 
-<div id="outline-container-org898af0c" class="outline-3">
-<h3 id="org898af0c">USB 轉 UART (J2)</h3>
-<div class="outline-text-3" id="text-org898af0c">
+<div id="outline-container-orgcbaf717" class="outline-3">
+<h3 id="orgcbaf717">USB 轉 UART (J2)</h3>
+<div class="outline-text-3" id="text-orgcbaf717">
 <p>
 位於 <code>J2</code> 的 micro USB 接頭，會經過 USB 轉 UART 晶片 <a href="https://www.silabs.com/documents/public/data-sheets/CP2105.pdf" target="_blank" rel="external">CP2105</a> 而變成兩個 UART 設備。
 </p>
@@ -517,9 +517,9 @@ USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 
 </div>
 </div>
 
-<div id="outline-container-org6606db0" class="outline-3">
-<h3 id="org6606db0">MicroSD 卡座 (J1)</h3>
-<div class="outline-text-3" id="text-org6606db0">
+<div id="outline-container-org0e4d6a4" class="outline-3">
+<h3 id="org0e4d6a4">MicroSD 卡座 (J1)</h3>
+<div class="outline-text-3" id="text-org0e4d6a4">
 <p>
 位於 <code>J1</code> 的 MicroSD 卡座提供了讓我們透過 SD 卡開機的用途，而附近的 <code>JP1</code> 短路的情況則是打開了 SD 卡的 <code>write proteced</code> 的功能。
 </p>
@@ -536,9 +536,9 @@ USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 
 </div>
 </div>
 
-<div id="outline-container-org471fb68" class="outline-3">
-<h3 id="org471fb68">User LED D1</h3>
-<div class="outline-text-3" id="text-org471fb68">
+<div id="outline-container-org28a0a29" class="outline-3">
+<h3 id="org28a0a29">User LED D1</h3>
+<div class="outline-text-3" id="text-org28a0a29">
 <p>
 位於 <code>D1</code> 的 LED 是直接接到處理器系統 (Processing System, PS) 的 <code>MIO26</code> 上，這是這塊板子唯一一個使用者可以透過處理器系統(Processing System, PS)去控制的 LED。
 </p>
@@ -551,9 +551,9 @@ USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 
 </div>
 </div>
 
-<div id="outline-container-orgf5b9d1c" class="outline-3">
-<h3 id="orgf5b9d1c">User LED D12 ~ D19</h3>
-<div class="outline-text-3" id="text-orgf5b9d1c">
+<div id="outline-container-orgb849327" class="outline-3">
+<h3 id="orgb849327">User LED D12 ~ D19</h3>
+<div class="outline-text-3" id="text-orgb849327">
 <p>
 和 LED D1 不同，D12 ~ D19 的 LED 是位於可程式邏輯區(Programming Logic, PL)上，因此我們需要透過 <code>AXI_GPIO</code> 模組讓 Cortex-A53 能夠對其進行控制。
 </p>
@@ -566,9 +566,9 @@ USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 
 </div>
 </div>
 
-<div id="outline-container-org2c94f1b" class="outline-3">
-<h3 id="org2c94f1b">User Switch SW1 ~ SW5</h3>
-<div class="outline-text-3" id="text-org2c94f1b">
+<div id="outline-container-org2cd67e4" class="outline-3">
+<h3 id="org2cd67e4">User Switch SW1 ~ SW5</h3>
+<div class="outline-text-3" id="text-org2cd67e4">
 <p>
 除了 LED 外，這塊擴充板內建了 4 個無段按鈕 SW1 ~ SW4 以及一個 DIP Switch SW5 提供使用者輸入訊號使用，這幾個輸入源皆是接在可程式邏輯區 (Programming Logic, PL) 的位置，一般來說我們會透過 <code>AXI_GPIO</code> 模組讓 ARM Cortex-A53 可以使用這些輸入源。
 </p>
@@ -581,9 +581,9 @@ USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 
 </div>
 </div>
 
-<div id="outline-container-org5ae8b6e" class="outline-3">
-<h3 id="org5ae8b6e">SOM Reset Input (SW6)</h3>
-<div class="outline-text-3" id="text-org5ae8b6e">
+<div id="outline-container-org8d5906c" class="outline-3">
+<h3 id="org8d5906c">SOM Reset Input (SW6)</h3>
+<div class="outline-text-3" id="text-org8d5906c">
 <p>
 <code>SW6</code> 是用來重置 <a href="http://zedboard.org/product/ultrazed-EG" target="_blank" rel="external">UltraZed-EG</a> 用的無段按鈕，和電腦上使用的 Restart 按鈕功用一樣，都是在不完全斷電的情況下對 CPU 進行重置的動做。
 </p>
@@ -596,9 +596,9 @@ USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 
 </div>
 </div>
 
-<div id="outline-container-orgf57ce6b" class="outline-3">
-<h3 id="orgf57ce6b">PS PMOD (JP5)</h3>
-<div class="outline-text-3" id="text-orgf57ce6b">
+<div id="outline-container-org1459cbf" class="outline-3">
+<h3 id="org1459cbf">PS PMOD (JP5)</h3>
+<div class="outline-text-3" id="text-org1459cbf">
 <p>
 位於 <code>JP5</code> 位置的 PMod 腳位是直接連接到 ZynqMP 的 MIO (Multiplexed Input Output) 腳位上的，因此這個 PMOD 是交由處理器系統 (Processing System, PS) 來進行控制。
 </p>
@@ -615,9 +615,9 @@ USB 位於 <code>J4</code> 的位置，為支援 USB 2.0/3.0 Host/Device 以及 
 </div>
 </div>
 
-<div id="outline-container-orgb99572e" class="outline-3">
-<h3 id="orgb99572e">PL PMOD (JA, JB)</h3>
-<div class="outline-text-3" id="text-orgb99572e">
+<div id="outline-container-org15195ae" class="outline-3">
+<h3 id="org15195ae">PL PMOD (JA, JB)</h3>
+<div class="outline-text-3" id="text-org15195ae">
 <p>
 如果想要更有彈性一點的 I/O 的話，我們則可以透過 PL PMOD JA 和 JB 來對我們的輸入/出進行控制。
 </p>
@@ -638,9 +638,9 @@ PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，�
 </div>
 </div>
 
-<div id="outline-container-orgef9e563" class="outline-3">
-<h3 id="orgef9e563">FMC Header JX1, 2 CON1A-E</h3>
-<div class="outline-text-3" id="text-orgef9e563">
+<div id="outline-container-org19b154c" class="outline-3">
+<h3 id="org19b154c">FMC Header JX1, 2 CON1A-E</h3>
+<div class="outline-text-3" id="text-org19b154c">
 <p>
 這塊板子上有一個 FMC (<a href="https://en.wikipedia.org/wiki/FPGA_Mezzanine_Card" target="_blank" rel="external">FPGA Mezzanine Card</a>) 界面，這是一種高速 I/O 界面，我們可以使用不同具有 FMC 界面的擴充板繼續擴充這塊板子的功能。
 </p>
@@ -662,9 +662,9 @@ PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，�
 </div>
 </div>
 
-<div id="outline-container-org8bc297b" class="outline-3">
-<h3 id="org8bc297b">Clock Generator (U5)</h3>
-<div class="outline-text-3" id="text-org8bc297b">
+<div id="outline-container-org6aabbbf" class="outline-3">
+<h3 id="org6aabbbf">Clock Generator (U5)</h3>
+<div class="outline-text-3" id="text-org6aabbbf">
 <p>
 位於 <code>U5</code> 的 IC 為 <a href="https://www.mouser.tw/datasheet/2/464/IDT_5P49V5935_DST_20171101-1500296.pdf" target="_blank" rel="external">IDT 5P49V5935B521LTGI</a> ，是一個時脈產生器。該晶片透過 I2C 界面連接到處理器系統 (Processing System, PS)，其中 I2C 位址為
  <code>0xD4</code> 。
@@ -692,9 +692,9 @@ PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，�
 </div>
 </div>
 
-<div id="outline-container-org283745d" class="outline-3">
-<h3 id="org283745d">EEPROM (U6)</h3>
-<div class="outline-text-3" id="text-org283745d">
+<div id="outline-container-orgf8e1f8c" class="outline-3">
+<h3 id="orgf8e1f8c">EEPROM (U6)</h3>
+<div class="outline-text-3" id="text-orgf8e1f8c">
 <p>
 位於 <code>U6</code> 的 IC 則是 <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/24AA02E48-24AA025E48-24AA02E64-24AA025E64-Data-Sheet-20002124H.pdf" target="_blank" rel="external">Microchip 24AA025E48T-I/OTCT-ND</a> ，這是一顆具有 2kbit (256 bytes) 大小的 EEPROM，一樣是透過 I2C 界面和處理器系統(Processing System, PS) 連接，其 I2C 位址為 <code>0xA2</code> 。
 </p>
@@ -711,9 +711,9 @@ PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，�
 </div>
 </div>
 
-<div id="outline-container-org4f1dbc6" class="outline-3">
-<h3 id="org4f1dbc6">JTAG Debug Interfaces</h3>
-<div class="outline-text-3" id="text-org4f1dbc6">
+<div id="outline-container-org1f62eb1" class="outline-3">
+<h3 id="org1f62eb1">JTAG Debug Interfaces</h3>
+<div class="outline-text-3" id="text-org1f62eb1">
 <p>
 這塊板子具有兩個 <a href="https://en.wikipedia.org/wiki/JTAG" target="_blank" rel="external">JTAG</a> 界面，一個是透過 USB，另外一個則是傳統的 JTAG 接腳 (14p 牛頭母座)
 </p>
@@ -740,9 +740,9 @@ PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，�
 </div>
 </div>
 
-<div id="outline-container-org1c1a2e1" class="outline-3">
-<h3 id="org1c1a2e1">Display Port (P2)</h3>
-<div class="outline-text-3" id="text-org1c1a2e1">
+<div id="outline-container-org806b759" class="outline-3">
+<h3 id="org806b759">Display Port (P2)</h3>
+<div class="outline-text-3" id="text-org806b759">
 <p>
 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed PCIe Carrier Card</a> 雖然沒有 HDMI 或是 VGA 可以輸出畫面，作為替代的則是加入了 <a href="https://en.wikipedia.org/wiki/DisplayPort" target="_blank" rel="external">DisplayPort</a> 來作為圖形顯示的輸出，我們可以將其接到支援 DisplayPort 輸入的螢幕上來進行畫面的顯示，或是購買 <code>DP 轉 VGA</code> 的線材來透過 VGA 將影像輸出。
 </p>
@@ -769,9 +769,9 @@ PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，�
 </div>
 </div>
 
-<div id="outline-container-org7b8132a" class="outline-3">
-<h3 id="org7b8132a">PCIe Edge Connector (P1)</h3>
-<div class="outline-text-3" id="text-org7b8132a">
+<div id="outline-container-org8927b37" class="outline-3">
+<h3 id="org8927b37">PCIe Edge Connector (P1)</h3>
+<div class="outline-text-3" id="text-org8927b37">
 <p>
 位於 <code>P1</code> 的 PCIe 接腳就是這塊板子為何會冠以 PCIe 之名的理由。這個 PCIe 界面連接到了處理器系統 (Processing System, PS) 上的 GTR transceiver，這是一個可以支援速度高達 6.0Gb/s 的高速傳輸界面，並可以支援 PCIe, SATA, USB 3.0, SGMII 和 DisplayPort 等訊號傳輸。
 </p>
@@ -788,9 +788,9 @@ PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，�
 </div>
 </div>
 
-<div id="outline-container-org55c7c6d" class="outline-3">
-<h3 id="org55c7c6d">LVDS Touch Panel Interface (P3)</h3>
-<div class="outline-text-3" id="text-org55c7c6d">
+<div id="outline-container-org1efc2da" class="outline-3">
+<h3 id="org1efc2da">LVDS Touch Panel Interface (P3)</h3>
+<div class="outline-text-3" id="text-org1efc2da">
 <p>
 如果你有購買 <a href="https://www.avnet.com" target="_blank" rel="external">AVNET</a> 公司的 <a href="http://picozed.org/product/10-inch-touch-display-kit" target="_blank" rel="external">10-inch Touch Display Kit</a> 的話，則可以將其接到 P3 這個位置上。
 </p>
@@ -808,9 +808,9 @@ PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，�
 </div>
 </div>
 
-<div id="outline-container-orgbf0cb4b" class="outline-2">
-<h2 id="orgbf0cb4b">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgbf0cb4b">
+<div id="outline-container-org00277cf" class="outline-2">
+<h2 id="org00277cf">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org00277cf">
 <ul class="org-ul">
 <li><a href="https://www.xilinx.com/support/documentation/data_sheets/ds890-ultrascale-overview.pdf" target="_blank" rel="external">DS890: UltraScale Architecture and Product Data Sheet: Overview.pdf</a></li>
 
@@ -989,7 +989,7 @@ PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，�
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org57bed02"><span class="nav-text">開發板概觀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga1cdfd6"><span class="nav-text">UltraZed-EG</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org1e6f5f7"><span class="nav-text">SW2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org808981b"><span class="nav-text">QSPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge1c4b10"><span class="nav-text">eMMC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org711ac32"><span class="nav-text">UltraZed-EG PCIe Carrier Card</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb36d965"><span class="nav-text">概觀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgebc54f7"><span class="nav-text">USB 2.0/3.0 (J4)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1a1844d"><span class="nav-text">1000Mb/s 網路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7d90cea"><span class="nav-text">SATA3 Host</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org898af0c"><span class="nav-text">USB 轉 UART (J2)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6606db0"><span class="nav-text">MicroSD 卡座 (J1)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org471fb68"><span class="nav-text">User LED D1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf5b9d1c"><span class="nav-text">User LED D12 ~ D19</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2c94f1b"><span class="nav-text">User Switch SW1 ~ SW5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5ae8b6e"><span class="nav-text">SOM Reset Input (SW6)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf57ce6b"><span class="nav-text">PS PMOD (JP5)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb99572e"><span class="nav-text">PL PMOD (JA, JB)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgef9e563"><span class="nav-text">FMC Header JX1, 2 CON1A-E</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org8bc297b"><span class="nav-text">Clock Generator (U5)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org283745d"><span class="nav-text">EEPROM (U6)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4f1dbc6"><span class="nav-text">JTAG Debug Interfaces</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1c1a2e1"><span class="nav-text">Display Port (P2)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7b8132a"><span class="nav-text">PCIe Edge Connector (P1)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org55c7c6d"><span class="nav-text">LVDS Touch Panel Interface (P3)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbf0cb4b"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org56ae395"><span class="nav-text">開發板概觀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc10f71f"><span class="nav-text">UltraZed-EG</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org9f9bbec"><span class="nav-text">SW2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org541b337"><span class="nav-text">QSPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgaa65f80"><span class="nav-text">eMMC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgea8fcf6"><span class="nav-text">UltraZed-EG PCIe Carrier Card</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgeb3e52e"><span class="nav-text">概觀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org782471e"><span class="nav-text">USB 2.0/3.0 (J4)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgede92c8"><span class="nav-text">1000Mb/s 網路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org85aafc5"><span class="nav-text">SATA3 Host</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgcbaf717"><span class="nav-text">USB 轉 UART (J2)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0e4d6a4"><span class="nav-text">MicroSD 卡座 (J1)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org28a0a29"><span class="nav-text">User LED D1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb849327"><span class="nav-text">User LED D12 ~ D19</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2cd67e4"><span class="nav-text">User Switch SW1 ~ SW5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org8d5906c"><span class="nav-text">SOM Reset Input (SW6)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1459cbf"><span class="nav-text">PS PMOD (JP5)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org15195ae"><span class="nav-text">PL PMOD (JA, JB)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org19b154c"><span class="nav-text">FMC Header JX1, 2 CON1A-E</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6aabbbf"><span class="nav-text">Clock Generator (U5)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf8e1f8c"><span class="nav-text">EEPROM (U6)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1f62eb1"><span class="nav-text">JTAG Debug Interfaces</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org806b759"><span class="nav-text">Display Port (P2)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org8927b37"><span class="nav-text">PCIe Edge Connector (P1)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1efc2da"><span class="nav-text">LVDS Touch Panel Interface (P3)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org00277cf"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
