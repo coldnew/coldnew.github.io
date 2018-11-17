@@ -164,9 +164,9 @@ USB 位於 =J4= 的位置，為支援 USB 2.0/3.0 Host/Device 以及 OTG 的設�
 
 ** PL PMOD (JA, JB)
 
-如果想要更有彈性一點的 I/O 的話，我們則可以透過 PL PMOD JA 和 JB 來對我們的輸入/出進行控制。
+如果想要更有彈性一點的 I/O 的話，我們則可以透過 PMOD JA 和 JB 來對我們的輸入/出進行控制。
 
-PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，也意味著我們可以透過 Verilog 等硬體描述語言自訂我們自己的模組，然後在透過遮些 PMOD 的腳位進行輸出 (ex: 撰寫 UART 模組)
+PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，也意味著我們可以透過 Verilog 等硬體描述語言自訂我們自己的模組，然後在透過遮些 PMOD 的腳位進行輸出 (ex: 撰寫 UART 模組並將 TX/RX 從 PMOD 導出)
 
 注意到這邊 I/O 的電壓準位為 =3.3V= ，如果要連接更低/高電壓的設備的話則需要做些保護才行。
 
@@ -178,10 +178,8 @@ PMOD JA 和 JB 是連接在可程式邏輯區 (Programming Logic, PL) 上的，�
 
 (有點類似 Altera DE2-115 上的 High Speed Mezzannie Card, HSMC 接口)
 
-由於我並未有任何 FMC 界面的擴充板，因此這邊就不對其做多餘的介紹，只需要知道這個界面可以把一些 [[http://zedboard.org/product/ultrazed-EG][UltraZed-EG]] 並未用於這塊擴充板的腳位拉出，因此我們可以在接上別的擴充板繼續擴充。
+由於我並未有任何 FMC 界面的擴充板，因此這邊就不對其做多餘的介紹，只需要知道這個界面可以把一些 [[http://zedboard.org/product/ultrazed-EG][UltraZed-EG]] 並未用於這塊擴充板的腳位拉出，因此我們可以再接上別的擴充板繼續擴充。
 
-
-#+DOWNLOADED: file:///tmp/ramdisk/fmc.png @ 2018-11-14 15:50:32
 [[file:UltraZed-EG-PCIe-Carrier-Card-開發紀錄-:-硬體認識/fmc.png]]
 
 ** Clock Generator (U5)
