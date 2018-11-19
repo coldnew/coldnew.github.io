@@ -252,9 +252,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-org87ab2f8" class="outline-2">
-<h2 id="org87ab2f8">安裝 mu4e</h2>
-<div class="outline-text-2" id="text-org87ab2f8">
+<div id="outline-container-org97f46eb" class="outline-2">
+<h2 id="org97f46eb">安裝 mu4e</h2>
+<div class="outline-text-2" id="text-org97f46eb">
 <p>
 <a href="http://www.djcbsoftware.nl/code/mu/mu4e.html" target="_blank" rel="external">mu4e</a> 實際上是 <a href="http://www.djcbsoftware.nl/code/mu/mu4e.html" target="_blank" rel="external">mu</a> 的 emacs 客戶端，因此我們真正要安裝的是 <a href="http://www.djcbsoftware.nl/code/mu/mu4e.html" target="_blank" rel="external">mu</a> 這套軟體。
 </p>
@@ -288,9 +288,9 @@ coldnew@osx ~ $ brew install mu --with-emacs --HEAD
 </div>
 </div>
 
-<div id="outline-container-orgf654069" class="outline-2">
-<h2 id="orgf654069">安裝 offlineimap</h2>
-<div class="outline-text-2" id="text-orgf654069">
+<div id="outline-container-org11feb1e" class="outline-2">
+<h2 id="org11feb1e">安裝 offlineimap</h2>
+<div class="outline-text-2" id="text-org11feb1e">
 <p>
 <a href="http://www.djcbsoftware.nl/code/mu/mu4e.html" target="_blank" rel="external">mu</a> 只負責進行索引，並未內建擷取信件的工具，因此你需要安裝第三方程式來幫忙下載郵件到本地端，常用的有 <a href="http://offlineimap.org/" target="_blank" rel="external">offlineimap</a> 以及 <a href="http://isync.sourceforge.net/" target="_blank" rel="external">mbsync</a> ，在本文中使用 offlinemap 來負責擷取信件。
 </p>
@@ -312,9 +312,9 @@ coldnew@gentoo ~ $ sudo emerge net-mail/offlineimap
 </pre>
 </div>
 
-<div id="outline-container-orgf0d52a8" class="outline-3">
-<h3 id="orgf0d52a8">設定 .offlineimaprc</h3>
-<div class="outline-text-3" id="text-orgf0d52a8">
+<div id="outline-container-org5ff4435" class="outline-3">
+<h3 id="org5ff4435">設定 .offlineimaprc</h3>
+<div class="outline-text-3" id="text-org5ff4435">
 <p>
 安裝完成後，我們需要設定 <code>~/.offlineimaprc</code> 這個檔案，這邊以收發 Gmail 為例，我的設定檔是長這個樣子的
 </p>
@@ -370,17 +370,17 @@ nametrans = <span style="color: #aaffaa;">lambda</span> foldername: foldername.d
 </div>
 </div>
 
-<div id="outline-container-org10302d7" class="outline-3">
-<h3 id="org10302d7">設定 .offlineimap.py</h3>
-<div class="outline-text-3" id="text-org10302d7">
+<div id="outline-container-orgd3c2414" class="outline-3">
+<h3 id="orgd3c2414">設定 .offlineimap.py</h3>
+<div class="outline-text-3" id="text-orgd3c2414">
 <p>
 於是我們該來看看 <code>~/.offlineimap.py</code> 裡面到底賣什麼膏藥囉～
 </p>
 </div>
 
-<div id="outline-container-org7dbb374" class="outline-4">
-<h4 id="org7dbb374">.offlineimap.py - 增加編碼成 UTF-8 功能</h4>
-<div class="outline-text-4" id="text-org7dbb374">
+<div id="outline-container-orgc953804" class="outline-4">
+<h4 id="orgc953804">.offlineimap.py - 增加編碼成 UTF-8 功能</h4>
+<div class="outline-text-4" id="text-orgc953804">
 <p>
 首先我們最需要的就是避免中文信件或是標籤出現問題，因此我們需要將以下這段加入到 <code>~/.offlineimap.py</code> 中。
 </p>
@@ -460,9 +460,9 @@ codecs.register<span style="color: #aadddd;">(</span>imap4_utf_7<span style="col
 </div>
 </div>
 
-<div id="outline-container-org437f463" class="outline-4">
-<h4 id="org437f463">.offlineimap.py - 從 emacs 中獲取密碼</h4>
-<div class="outline-text-4" id="text-org437f463">
+<div id="outline-container-org8e02654" class="outline-4">
+<h4 id="org8e02654">.offlineimap.py - 從 emacs 中獲取密碼</h4>
+<div class="outline-text-4" id="text-org8e02654">
 <p>
 在我的系統中，emacs 負責進行解密 <code>~/.authinfo.gpg</code> 這個透過 gnupg 加密的設定檔案，並且我的 emacs 是不關掉的，因此就直接啟動一個 emacsclient 去執行 <code>offlineimap-get-password</code> 這個函式 (需定義在你的 ~/.emacs.d/ 裡面)
 </p>
@@ -496,9 +496,9 @@ codecs.register<span style="color: #aadddd;">(</span>imap4_utf_7<span style="col
 </div>
 </div>
 
-<div id="outline-container-orgdb64f24" class="outline-3">
-<h3 id="orgdb64f24">Mac OSX 下可能遇到的錯誤</h3>
-<div class="outline-text-3" id="text-orgdb64f24">
+<div id="outline-container-org05f3612" class="outline-3">
+<h3 id="org05f3612">Mac OSX 下可能遇到的錯誤</h3>
+<div class="outline-text-3" id="text-org05f3612">
 <p>
 在 Mac OSX 下使用 offlineimap 時候你可能會遇到以下的錯誤
 </p>
@@ -566,9 +566,9 @@ coldnew@osx ~ $ sudo ln -s /usr/local/etc/openssl/cert.pem /etc/ssl/certs/ca-cer
 </div>
 </div>
 
-<div id="outline-container-org54aaeec" class="outline-2">
-<h2 id="org54aaeec">設定 Google 驗證</h2>
-<div class="outline-text-2" id="text-org54aaeec">
+<div id="outline-container-org3a9fbed" class="outline-2">
+<h2 id="org3a9fbed">設定 Google 驗證</h2>
+<div class="outline-text-2" id="text-org3a9fbed">
 <p>
 最近才發現 Google 換個驗證方式，假如你用 offlineimap 之類的軟體下載 Gmail 遇到這樣的問題，那就是你必須要照 Google 的要求進行新的驗證方式
 </p>
@@ -622,9 +622,9 @@ Server nnimap+gmail previously determined to be down; not retrying;
 </div>
 </div>
 
-<div id="outline-container-orga50bccd" class="outline-2">
-<h2 id="orga50bccd">設定 ~/.authinfo.gpg</h2>
-<div class="outline-text-2" id="text-orga50bccd">
+<div id="outline-container-org5d4cddb" class="outline-2">
+<h2 id="org5d4cddb">設定 ~/.authinfo.gpg</h2>
+<div class="outline-text-2" id="text-org5d4cddb">
 <p>
 設定完 Google 驗證並且取得你的 app 密碼後，就把你的資料填入到 <code>~/.authinfo.gpg</code> 中吧，只要你的 emacs 有進行設定，他會幫你將 <code>.gpg</code> 結尾的檔案加密起來的。
 </p>
@@ -637,9 +637,9 @@ machine smtp.gmail.com login YOUR_EMAIL_ACCOUNT port 587 password YOUR_PASSWORD 
 </div>
 </div>
 
-<div id="outline-container-org723e5e9" class="outline-2">
-<h2 id="org723e5e9">設定你的 emacs</h2>
-<div class="outline-text-2" id="text-org723e5e9">
+<div id="outline-container-org84b33e0" class="outline-2">
+<h2 id="org84b33e0">設定你的 emacs</h2>
+<div class="outline-text-2" id="text-org84b33e0">
 <p>
 上述工作都完成後，我們就可以準備來設定我們的 emacs 了~ 首先先加上一個函式讓 emacsclient 可以取得寫在 <code>~/.authinfo.gpg</code> 的密碼
 </p>
@@ -749,9 +749,9 @@ localfolders = ~/Maildir/Gmail
 </div>
 </div>
 
-<div id="outline-container-org4454bcd" class="outline-2">
-<h2 id="org4454bcd">第一次使用的額外設定</h2>
-<div class="outline-text-2" id="text-org4454bcd">
+<div id="outline-container-orgaec16e8" class="outline-2">
+<h2 id="orgaec16e8">第一次使用的額外設定</h2>
+<div class="outline-text-2" id="text-orgaec16e8">
 <p>
 第一次進行使用的時候，我們要先透過 <a href="http://offlineimap.org/" target="_blank" rel="external">offlineimap</a> 來收取 Gmail 上的郵件，於是在另外一個終端機上手動執行 offlineimap 這個程式，如果你仿照我的設定，你會看到執行完 offlineimap 後，emacs 會來相你詢問 <code>~/.authinfo.gpg</code> 的密碼，提供給他後 offlineimap 就開始下載郵件了
 </p>
@@ -786,9 +786,9 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
 </div>
 </div>
 
-<div id="outline-container-org4fa1052" class="outline-2">
-<h2 id="org4fa1052">在 emacs 下觀看郵件</h2>
-<div class="outline-text-2" id="text-org4fa1052">
+<div id="outline-container-org70c0563" class="outline-2">
+<h2 id="org70c0563">在 emacs 下觀看郵件</h2>
+<div class="outline-text-2" id="text-org70c0563">
 <p>
 前面的設定都完成後，就可以執行 <code>M-x mu4e</code> 來啟動我們來啟動我們的 mu4e 程式，首先會進到歡迎畫面
 </p>
@@ -825,9 +825,9 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
 </div>
 </div>
 
-<div id="outline-container-orgcca7258" class="outline-2">
-<h2 id="orgcca7258">在 emacs 下寄送信件</h2>
-<div class="outline-text-2" id="text-orgcca7258">
+<div id="outline-container-org4a2d2f9" class="outline-2">
+<h2 id="org4a2d2f9">在 emacs 下寄送信件</h2>
+<div class="outline-text-2" id="text-org4a2d2f9">
 <p>
 會收信了以後，讓我們來看看怎樣發送信件，前面說到了 mu4e 實際上是透過 emacs 內建的功能來寄送信件，因此我們只要呼叫 <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Sending-Mail.html" target="_blank" rel="external">compose-mail</a> 這個命令 (<code>C-x m</code>) 即可進入寫信件的視窗
 </p>
@@ -850,9 +850,9 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
 </div>
 </div>
 
-<div id="outline-container-org081c963" class="outline-2">
-<h2 id="org081c963">總結</h2>
-<div class="outline-text-2" id="text-org081c963">
+<div id="outline-container-orgb546c99" class="outline-2">
+<h2 id="orgb546c99">總結</h2>
+<div class="outline-text-2" id="text-orgb546c99">
 <p>
 我自己使用 emacs 的習慣是用他來看 mailing-list, 畢竟信件太多用 gmail 或是 app 不見的好瀏覽，私人信件才會使用 APP 或是 thunderbird 來收。對我而言在 emacs 中收信有幾個好處
 </p>
@@ -877,9 +877,9 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
 </div>
 </div>
 
-<div id="outline-container-org2e0db3e" class="outline-2">
-<h2 id="org2e0db3e">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org2e0db3e">
+<div id="outline-container-org12244ae" class="outline-2">
+<h2 id="org12244ae">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org12244ae">
 <p>
 <code>[1]</code> <a href="http://www.djcbsoftware.nl/code/mu/mu4e.html" target="_blank" rel="external">http://www.djcbsoftware.nl/code/mu/mu4e.html</a>
 </p>
@@ -987,21 +987,21 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">109</span>
+              <span class="site-state-item-count">110</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">80</span>
+              <span class="site-state-item-count">82</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -1052,7 +1052,7 @@ indexing messages under /Users/coldnew/Maildir [/Users/coldnew/.mu/xapian]
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org87ab2f8"><span class="nav-text">安裝 mu4e</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf654069"><span class="nav-text">安裝 offlineimap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf0d52a8"><span class="nav-text">設定 .offlineimaprc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org10302d7"><span class="nav-text">設定 .offlineimap.py</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org7dbb374"><span class="nav-text">.offlineimap.py - 增加編碼成 UTF-8 功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org437f463"><span class="nav-text">.offlineimap.py - 從 emacs 中獲取密碼</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgdb64f24"><span class="nav-text">Mac OSX 下可能遇到的錯誤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org54aaeec"><span class="nav-text">設定 Google 驗證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga50bccd"><span class="nav-text">設定 ~/.authinfo.gpg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org723e5e9"><span class="nav-text">設定你的 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4454bcd"><span class="nav-text">第一次使用的額外設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4fa1052"><span class="nav-text">在 emacs 下觀看郵件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcca7258"><span class="nav-text">在 emacs 下寄送信件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org081c963"><span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2e0db3e"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org97f46eb"><span class="nav-text">安裝 mu4e</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org11feb1e"><span class="nav-text">安裝 offlineimap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org5ff4435"><span class="nav-text">設定 .offlineimaprc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd3c2414"><span class="nav-text">設定 .offlineimap.py</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgc953804"><span class="nav-text">.offlineimap.py - 增加編碼成 UTF-8 功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org8e02654"><span class="nav-text">.offlineimap.py - 從 emacs 中獲取密碼</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org05f3612"><span class="nav-text">Mac OSX 下可能遇到的錯誤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3a9fbed"><span class="nav-text">設定 Google 驗證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5d4cddb"><span class="nav-text">設定 ~/.authinfo.gpg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org84b33e0"><span class="nav-text">設定你的 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaec16e8"><span class="nav-text">第一次使用的額外設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org70c0563"><span class="nav-text">在 emacs 下觀看郵件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4a2d2f9"><span class="nav-text">在 emacs 下寄送信件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb546c99"><span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org12244ae"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

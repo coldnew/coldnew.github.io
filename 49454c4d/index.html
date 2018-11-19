@@ -256,18 +256,18 @@
 在撰寫本文時，該設定檔 commit id 為 <a href="https://github.com/Digilent/ZYBO/commit/177c2c97c5cae29a05359479565c2f5256d8d629" target="_blank" rel="external">177c2c</a> ，使用的是 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2015.4 版本， 我們要將它升級到 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2016.1 去。
 </p>
 
-<div id="outline-container-org918e772" class="outline-2">
-<h2 id="org918e772">事前準備</h2>
-<div class="outline-text-2" id="text-org918e772">
+<div id="outline-container-org3d4eaec" class="outline-2">
+<h2 id="org3d4eaec">事前準備</h2>
+<div class="outline-text-2" id="text-org3d4eaec">
 <p>
 在進行升級時，你需要安裝好 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2015.4 以及 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2016.1 才能按照本文的步驟進行。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org677c258" class="outline-2">
-<h2 id="org677c258">下載設定檔並用 Vivado 2015.4 開啟</h2>
-<div class="outline-text-2" id="text-org677c258">
+<div id="outline-container-org3a2d732" class="outline-2">
+<h2 id="org3a2d732">下載設定檔並用 Vivado 2015.4 開啟</h2>
+<div class="outline-text-2" id="text-org3a2d732">
 <p>
 我們首先下載 <a href="http://store.digilentinc.com/" target="_blank" rel="external">Digilent</a> 提供的 <a href="https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd" target="_blank" rel="external">Zybo board 設定檔</a>
 </p>
@@ -324,9 +324,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-org8dd4fcc" class="outline-2">
-<h2 id="org8dd4fcc">升級設定檔</h2>
-<div class="outline-text-2" id="text-org8dd4fcc">
+<div id="outline-container-orgc5cdedc" class="outline-2">
+<h2 id="orgc5cdedc">升級設定檔</h2>
+<div class="outline-text-2" id="text-orgc5cdedc">
 <p>
 接下來我們使用 <code>Vivado 2016.1</code> 打開我們剛剛用 Vivado 2015.4 所產生的 <code>linux_bd.*</code> 專案
 </p>
@@ -376,9 +376,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-org8accddd" class="outline-2">
-<h2 id="org8accddd">產生 tcl 腳本</h2>
-<div class="outline-text-2" id="text-org8accddd">
+<div id="outline-container-org248f450" class="outline-2">
+<h2 id="org248f450">產生 tcl 腳本</h2>
+<div class="outline-text-2" id="text-org248f450">
 <p>
 好了，現在我們把原本用於 Vivado 2015.4 的 tcl 腳本所產生的專案升級到 Vivado 2016.1 了，實際上導致我們不能夠直接使用 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2016.1 來產生專案的原因，在於 <code>src/bd/system.tcl</code> 這個檔案和 Vivado 的版本有依賴性，因此我們要重新產生新的 <code>system.tc</code> 去將它替換掉
 </p>
@@ -399,9 +399,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 </div>
 
-<div id="outline-container-orgf41c11e" class="outline-2">
-<h2 id="orgf41c11e">將預設語言設為 Verilog</h2>
-<div class="outline-text-2" id="text-orgf41c11e">
+<div id="outline-container-org8de1be6" class="outline-2">
+<h2 id="org8de1be6">將預設語言設為 Verilog</h2>
+<div class="outline-text-2" id="text-org8de1be6">
 <p>
 <a href="http://store.digilentinc.com/" target="_blank" rel="external">Digilent</a> 針對 <a href="http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="external">Zybo board</a> 提供產生專案用的樣板，預設是採用 VHDL 作為這個專案用的硬體描述語言，如果你希望之後這樣建立的專案都是預設使用 Verilog 的話，你可以這樣修改 <code>create_project.tcl</code>
 </p>
@@ -415,8 +415,8 @@ index 825281a..74c726e 100644
  set_property "part" $part $obj
  set_property "board_part" $brd_part $obj
  set_property "simulator_language" "Mixed" $obj
-<span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">set_property "target_language" "VHDL" $obj</span>
-<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">set_property "target_language" "Verilog" $obj</span>
+<span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">set_property "target_language" "</span><span style="color: #ff3333; font-weight: bold;">VHDL</span><span style="color: #ff3333; font-weight: bold;">" $obj</span>
+<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">set_property "target_language" "</span><span style="color: #aaffaa; font-weight: bold;">Verilog</span><span style="color: #aaffaa; font-weight: bold;">" $obj</span>
 
  # Create 'sources_1' fileset (if not found)
  if {[string equal [get_filesets -quiet sources_1] ""]} {
@@ -429,9 +429,9 @@ index 825281a..74c726e 100644
 </div>
 </div>
 
-<div id="outline-container-org77a5232" class="outline-2">
-<h2 id="org77a5232">重建新的專案</h2>
-<div class="outline-text-2" id="text-org77a5232">
+<div id="outline-container-org3010882" class="outline-2">
+<h2 id="org3010882">重建新的專案</h2>
+<div class="outline-text-2" id="text-org3010882">
 <p>
 我們剛剛重建了 <code>src/bd/system.tcl</code> 這個檔案，將其升級到 Vivado 2016.1 版本，現在可以試試重新產生新的專案囉
 </p>
@@ -454,9 +454,9 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ /opt/Xilinx/Vivado/2016.1/bin/viv
 </div>
 </div>
 
-<div id="outline-container-org737c24b" class="outline-2">
-<h2 id="org737c24b">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org737c24b">
+<div id="outline-container-orgcbe2c28" class="outline-2">
+<h2 id="orgcbe2c28">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgcbe2c28">
 <p>
 <code>[1]</code> <a href="https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd" target="_blank" rel="external">https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd</a>
 </p>
@@ -562,21 +562,21 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ /opt/Xilinx/Vivado/2016.1/bin/viv
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">109</span>
+              <span class="site-state-item-count">110</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">80</span>
+              <span class="site-state-item-count">82</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -627,7 +627,7 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ /opt/Xilinx/Vivado/2016.1/bin/viv
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org918e772"><span class="nav-text">事前準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org677c258"><span class="nav-text">下載設定檔並用 Vivado 2015.4 開啟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8dd4fcc"><span class="nav-text">升級設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8accddd"><span class="nav-text">產生 tcl 腳本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf41c11e"><span class="nav-text">將預設語言設為 Verilog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org77a5232"><span class="nav-text">重建新的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org737c24b"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org3d4eaec"><span class="nav-text">事前準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3a2d732"><span class="nav-text">下載設定檔並用 Vivado 2015.4 開啟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc5cdedc"><span class="nav-text">升級設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org248f450"><span class="nav-text">產生 tcl 腳本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8de1be6"><span class="nav-text">將預設語言設為 Verilog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3010882"><span class="nav-text">重建新的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcbe2c28"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
