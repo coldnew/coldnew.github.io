@@ -81,7 +81,9 @@ Gentoo Linux 則是:
 
 * 更新 udev rules
 
-接下來我們需要更新 udev rules，讓 Linux 可以知道怎樣的 uid:pid 可以對應到 STM32 的產品，因此將這些 =*.rules= 的檔案複製到你的 =/etc/udev/rules.d= 資料夾下
+接下來我們需要更新 udev rules，讓 Linux 可以知道怎樣的 uid:pid 可以對應到 STM32 的產品，並針對這些設備設定權限讓非 root 使用者也可以使用。
+
+將這些 =*.rules= 的檔案複製到你的 =/etc/udev/rules.d= 資料夾下
 
 #+BEGIN_EXAMPLE
   coldnew@gentoo ~/stsw-link007 $ sudo cp -rf AllPlatforms/StlinkRulesFilesForLinux/*.rules /etc/udev/rules.d/
