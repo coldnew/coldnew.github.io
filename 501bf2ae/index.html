@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://coldnew.github.io/501bf2ae/r1.png">
 <meta property="og:image" content="https://coldnew.github.io/501bf2ae/r2.png">
 <meta property="og:image" content="https://coldnew.github.io/501bf2ae/r3.png">
-<meta property="og:updated_time" content="2018-11-21T08:27:30.080Z">
+<meta property="og:updated_time" content="2018-11-21T09:07:53.240Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-A53">
 <meta name="twitter:description" content="在 UltraZed-EG PCIe Carrier Card 開發紀錄: 硬體認識 一文中我們了解了 UltraZed-EG PCIe Carrier Card 這一塊開發板的一些資訊後，是時候來開發點專案啦~    在這篇文章中，我們將讓這塊開發板的 Cortex-A53 透過 AXIO_GPIO 模組，點亮板子上的 LED 燈，並且透過 UART1 輸出一些訊息。    (本文以 Viv">
@@ -231,7 +231,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2018-11-21T16:27:30+08:00" content="2018-11-21">
+          <time itemprop="dateCreated" datetime="2018-11-21T17:07:53+08:00" content="2018-11-21">
             2018-11-21
           </time>
         </span>
@@ -280,9 +280,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-org71616f4" class="outline-2">
-<h2 id="org71616f4">開發目標</h2>
-<div class="outline-text-2" id="text-org71616f4">
+<div id="outline-container-org2f6b456" class="outline-2">
+<h2 id="org2f6b456">開發目標</h2>
+<div class="outline-text-2" id="text-org2f6b456">
 <p>
 我們這次的開發目標是這樣子的，除了透過 <code>UART1</code> 輸出訊息外，順便驗證如何透過 <code>AXI_GPIO</code> 去控制 <code>User Leds D12 ~ D19</code> 這些位於可程式邏輯區 (Programmable Logic, PL) 上的 LED 們。
 </p>
@@ -299,9 +299,9 @@
 </div>
 </div>
 
-<div id="outline-container-org00a078e" class="outline-2">
-<h2 id="org00a078e">建立專案</h2>
-<div class="outline-text-2" id="text-org00a078e">
+<div id="outline-container-org5a15383" class="outline-2">
+<h2 id="org5a15383">建立專案</h2>
+<div class="outline-text-2" id="text-org5a15383">
 <p>
 首先讓我們打開 Vivado 吧~ 不過在進行這一步之前，請先確定你有依照 <a href="https://coldnew.github.io/2c97574c/">讓 Vivado 有 UltraZed-EG PCIe Carrier Card 的設定檔</a> 一文的說明，讓我們在建立專案的時候可以找到  <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 這塊板子。
 </p>
@@ -358,9 +358,9 @@
 </div>
 </div>
 
-<div id="outline-container-org9fe5ec3" class="outline-2">
-<h2 id="org9fe5ec3">建立 Block Design</h2>
-<div class="outline-text-2" id="text-org9fe5ec3">
+<div id="outline-container-org7572505" class="outline-2">
+<h2 id="org7572505">建立 Block Design</h2>
+<div class="outline-text-2" id="text-org7572505">
 <p>
 由於我們的設計需要用到 Xilinx 一些現成的 IP 的時候，就會需要透過 Block Design 來建立我們的電路設計。
 </p>
@@ -420,7 +420,7 @@
 </div>
 
 <p>
-接下來，我們根據我們的 <a href="#org71616f4">開發目標</a> 來加入 LED 的接線
+接下來，我們根據我們的 <a href="#org2f6b456">開發目標</a> 來加入 LED 的接線
 </p>
 
 <p>
@@ -475,9 +475,9 @@
 </div>
 </div>
 
-<div id="outline-container-org7729387" class="outline-2">
-<h2 id="org7729387">產生 HDL Wrapper</h2>
-<div class="outline-text-2" id="text-org7729387">
+<div id="outline-container-orgd190c0e" class="outline-2">
+<h2 id="orgd190c0e">產生 HDL Wrapper</h2>
+<div class="outline-text-2" id="text-orgd190c0e">
 <p>
 接下來我們要將剛剛用 Block Design 建立的電路變成 verilog 程式碼，因此會需要進行產生 HDL Wrapper 這個步驟。
 </p>
@@ -508,9 +508,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgbf2c991" class="outline-2">
-<h2 id="orgbf2c991">產生位元流 (bitstream)</h2>
-<div class="outline-text-2" id="text-orgbf2c991">
+<div id="outline-container-org9233fa8" class="outline-2">
+<h2 id="org9233fa8">產生位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-org9233fa8">
 <p>
 前面的處理都好了後，接下來點選 <code>Program and Debug -&gt; Generate Bitstream</code> 去讓 Viavado 將這個專案產生出
 位元流 (bitstream) ，Zynq UltraScale+ 會在開機的時候根據 bitstream 的資訊對 FPGA 進行設定。
@@ -562,9 +562,9 @@
 </div>
 </div>
 
-<div id="outline-container-org101a283" class="outline-2">
-<h2 id="org101a283">Xilinx SDK</h2>
-<div class="outline-text-2" id="text-org101a283">
+<div id="outline-container-orgec74943" class="outline-2">
+<h2 id="orgec74943">Xilinx SDK</h2>
+<div class="outline-text-2" id="text-orgec74943">
 <p>
 啟動 Xilinx SDK 後，點選 <code>File -&gt; New -&gt; Application Project</code> 去建立新的專案
 </p>
@@ -616,9 +616,9 @@
 </div>
 </div>
 
-<div id="outline-container-org1e26c99" class="outline-3">
-<h3 id="org1e26c99">打開 helloworld.c</h3>
-<div class="outline-text-3" id="text-org1e26c99">
+<div id="outline-container-orgb247ece" class="outline-3">
+<h3 id="orgb247ece">打開 helloworld.c</h3>
+<div class="outline-text-3" id="text-orgb247ece">
 <p>
 由於我們是使用樣板 <code>Hello World</code> 去建立我們的專案的，因此預設的程式是 <code>helloworld.c</code> ，我們打開它可以看到以下內容
 </p>
@@ -667,9 +667,9 @@
 </div>
 </div>
 
-<div id="outline-container-org67ccaf1" class="outline-3">
-<h3 id="org67ccaf1">加入 LED 控制</h3>
-<div class="outline-text-3" id="text-org67ccaf1">
+<div id="outline-container-org2b5ee28" class="outline-3">
+<h3 id="org2b5ee28">加入 LED 控制</h3>
+<div class="outline-text-3" id="text-org2b5ee28">
 <p>
 我們基於剛剛打開的 <code>helloworld.c</code> 來加入我們對 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841921/AXI+gpio+standalone+driver" target="_blank" rel="external">AXI_GPIO</a> 的控制，首先先加入兩個 header file。
 </p>
@@ -795,9 +795,9 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </div>
 </div>
 
-<div id="outline-container-org5752c2e" class="outline-2">
-<h2 id="org5752c2e">設定 JTAG 下載</h2>
-<div class="outline-text-2" id="text-org5752c2e">
+<div id="outline-container-org0df1a07" class="outline-2">
+<h2 id="org0df1a07">設定 JTAG 下載</h2>
+<div class="outline-text-2" id="text-org0df1a07">
 <p>
 為了透過 Micro USB 連接到 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 上的 JTAG 來進行下載，我們需要對 <a href="http://zedboard.org/product/ultrazed-EG" target="_blank" rel="external">UltraZed-EG</a> 上的 <code>SW2</code> 要進行一些調整，變成下圖這樣。
 </p>
@@ -814,9 +814,9 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </div>
 </div>
 
-<div id="outline-container-orge4255eb" class="outline-2">
-<h2 id="orge4255eb">下載到開發板 (FPGA)</h2>
-<div class="outline-text-2" id="text-orge4255eb">
+<div id="outline-container-org226fac4" class="outline-2">
+<h2 id="org226fac4">下載到開發板 (FPGA)</h2>
+<div class="outline-text-2" id="text-org226fac4">
 <p>
 由於我們到目前為止還沒有將編譯好的位元流 (bitstream) 下載到我們的 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 去，因此先來下載吧。
 </p>
@@ -847,9 +847,9 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </div>
 </div>
 
-<div id="outline-container-org9b0bbe9" class="outline-2">
-<h2 id="org9b0bbe9">下載到開發板 (ELF)</h2>
-<div class="outline-text-2" id="text-org9b0bbe9">
+<div id="outline-container-orgd52fa02" class="outline-2">
+<h2 id="orgd52fa02">下載到開發板 (ELF)</h2>
+<div class="outline-text-2" id="text-orgd52fa02">
 <p>
 點選 <code>Run -&gt; Run Configuration</code> 去建立我們新的執行目標
 </p>
@@ -886,9 +886,9 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </div>
 </div>
 
-<div id="outline-container-orge41a40d" class="outline-2">
-<h2 id="orge41a40d">結果</h2>
-<div class="outline-text-2" id="text-orge41a40d">
+<div id="outline-container-org9ec0906" class="outline-2">
+<h2 id="org9ec0906">結果</h2>
+<div class="outline-text-2" id="text-org9ec0906">
 <p>
 按照本篇文章的設定，你的 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a>  顯示應該如以下影片:
 </p>
@@ -904,23 +904,23 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </div>
 </div>
 
-<div id="outline-container-org3bc5b2a" class="outline-2">
-<h2 id="org3bc5b2a">取得程式碼</h2>
-<div class="outline-text-2" id="text-org3bc5b2a">
+<div id="outline-container-orgf3b72c7" class="outline-2">
+<h2 id="orgf3b72c7">取得程式碼</h2>
+<div class="outline-text-2" id="text-orgf3b72c7">
 <p>
 本文的範例已經上傳到 <a href="https://github.com/coldnew-examples/ultrazed_pciecc_helloA53" target="_blank" rel="external">coldnew/ultrazed_pciecc_helloA53</a> ，你可以透過以下命令獲得
 </p>
 
 <pre class="example">
-git clone git@github.com:coldnew-examples/ultrazed_pciecc_helloA53.git
+git clone https://github.com/coldnew-examples/ultrazed_pciecc_helloA53.git
 
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org32ed42e" class="outline-2">
-<h2 id="org32ed42e">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org32ed42e">
+<div id="outline-container-orga2715c8" class="outline-2">
+<h2 id="orga2715c8">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orga2715c8">
 <ul class="org-ul">
 <li><a href="https://ece.gmu.edu/coursewebpages/ECE/ECE699_SW_HW/S15/viewgraphs/ECE699_lecture_4.pdf" target="_blank" rel="external">ECE699: Lecture 4 - Intrrrupts AXI GPIO and AXI Timer.pdf</a></li>
 
@@ -1089,7 +1089,7 @@ git clone git@github.com:coldnew-examples/ultrazed_pciecc_helloA53.git
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org71616f4"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org00a078e"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9fe5ec3"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7729387"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbf2c991"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org101a283"><span class="nav-text">Xilinx SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org1e26c99"><span class="nav-text">打開 helloworld.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org67ccaf1"><span class="nav-text">加入 LED 控制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5752c2e"><span class="nav-text">設定 JTAG 下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge4255eb"><span class="nav-text">下載到開發板 (FPGA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9b0bbe9"><span class="nav-text">下載到開發板 (ELF)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge41a40d"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3bc5b2a"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org32ed42e"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2f6b456"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5a15383"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7572505"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd190c0e"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9233fa8"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgec74943"><span class="nav-text">Xilinx SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb247ece"><span class="nav-text">打開 helloworld.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2b5ee28"><span class="nav-text">加入 LED 控制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0df1a07"><span class="nav-text">設定 JTAG 下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org226fac4"><span class="nav-text">下載到開發板 (FPGA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd52fa02"><span class="nav-text">下載到開發板 (ELF)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9ec0906"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf3b72c7"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga2715c8"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
