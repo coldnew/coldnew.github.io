@@ -1,7 +1,7 @@
 #+TITLE: UltraZed-EG PCIe Carrier Card 開發紀錄: 硬體認識
 #+DATE: <2018-08-26 Sun 13:51>
 #+ABBRLINK: d1be86fb
-#+UPDATE: <2018-11-15 Thu 15:04>
+#+UPDATE: <2018-12-02 Sun 11:41>
 #+OPTIONS: num:nil ^:nil
 #+TAGS: fpga, xilinx, zynqmp, ultrazed-3eg-pciecc
 #+CATEGORIES: UltraZed-EG PCIe Carrier Card 開發紀錄
@@ -114,11 +114,20 @@ USB 位於 =J4= 的位置，為支援 USB 2.0/3.0 Host/Device 以及 OTG 的設�
 
 位於 =J2= 的 micro USB 接頭，會經過 USB 轉 UART 晶片 [[https://www.silabs.com/documents/public/data-sheets/CP2105.pdf][CP2105]] 而變成兩個 UART 設備。
 
-在一般的情況下，UART1 會被用於 Cortex-A53 的 UART Debug 用，而 UART0 則是用於 Cortex-R5 的 UART Debug。
+接到 Linux 上，會得到 =/dev/ttyUSB0= 和 =/dev/ttyUSB1= 兩個設備，預設都是從 =/dev/ttyUSB1= 輸出資訊。
 
 這兩個 UART 對應到的 MIO (Multiplexed Input Output) 如下表所述：
 
 [[file:UltraZed-EG-PCIe-Carrier-Card-開發紀錄-:-硬體認識/usb_uart.png]]
+
+從上圖的 =MIO= 對應表可以發現到，之所以預設從 =/dev/ttyUSB1= 輸出，是因為這塊板子把 SoC 上的 =ps_uart0= 接到了 MIO_34 和 MIO_35 上，也因此實際上的 UART 對應表如下：
+
+| MPSoC PS  | MIO                      | Linux        |
+|-----------+--------------------------+--------------|
+| ps_uart_0 | MIO_32 (TX), MIO_33 (RX) | /dev/ttyUSB1 |
+| ps_uart_1 | MIO_35 (TX), MIO_34 (RX) | /dev/ttyUSB0 |
+
+總之如果有透過 UART 輸出訊息，又奇怪怎樣都看不到的話，兩個 UART 都接收看看就對了 ^_^
 
 ** MicroSD 卡座 (J1)
 
