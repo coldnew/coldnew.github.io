@@ -57,6 +57,14 @@
 ;; Enable globally
 (hes-mode 1)
 
+;;;; Highlight numbers
+(package-install 'highlight-numbers)
+(require 'highlight-numbers)
+;; json-mode has it's own highlight numbers method
+(add-hook 'prog-mode-hook '(lambda()
+			     (if (not (derived-mode-p 'json-mode))
+				 (highlight-numbers-mode))))
+
 
 ;;;; u-mode is some example I write for my blog post
 (require 'generic-x)
