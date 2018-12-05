@@ -49,6 +49,14 @@
 ;; use night-coldnew theme
 (load-theme 'night-coldnew t)
 
+;;;; Highlight escape char
+(package-install 'highlight-escape-sequences)
+(require 'highlight-escape-sequences)
+;; Make face the same as builtin face
+(put 'font-lock-regexp-grouping-backslash 'face-alias 'font-lock-builtin-face)
+;; Enable globally
+(hes-mode 1)
+
 
 ;;;; u-mode is some example I write for my blog post
 (require 'generic-x)
