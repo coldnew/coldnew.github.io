@@ -50,23 +50,23 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linu 裝上來啦。    針對不同嵌入式環境的需求，Xlinux 針對他們自己的平台，提供了基於 Yocto Project 製作的發行板製作工具，並命名為 PetaLinux 。這篇文章將介紹如何使用基本的 PetaLinux 功能，並建立一個可開機的映像檔 (I">
+<meta name="description" content="在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linux 裝上來啦。    針對不同嵌入式環境的需求，Xlinux 針對他們自己的平台，提供了基於 Yocto Project 製作的發行板製作工具，並命名為 PetaLinux 。這篇文章將介紹如何使用基本的 PetaLinux 功能，並建立一個可開機的映像檔 (">
 <meta name="keywords" content="yocto,fpga,xilinx,mpsoc,zynq,petalinux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UltraZed-EG PCIe Carrier Card 開發紀錄: 使用 PetaLinux 建立系統">
 <meta property="og:url" content="https://coldnew.github.io/b394a9ce/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:description" content="在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linu 裝上來啦。    針對不同嵌入式環境的需求，Xlinux 針對他們自己的平台，提供了基於 Yocto Project 製作的發行板製作工具，並命名為 PetaLinux 。這篇文章將介紹如何使用基本的 PetaLinux 功能，並建立一個可開機的映像檔 (I">
+<meta property="og:description" content="在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linux 裝上來啦。    針對不同嵌入式環境的需求，Xlinux 針對他們自己的平台，提供了基於 Yocto Project 製作的發行板製作工具，並命名為 PetaLinux 。這篇文章將介紹如何使用基本的 PetaLinux 功能，並建立一個可開機的映像檔 (">
 <meta property="og:image" content="https://coldnew.github.io/b394a9ce/p1.png">
 <meta property="og:image" content="https://coldnew.github.io/b394a9ce/p2.png">
 <meta property="og:image" content="https://coldnew.github.io/b394a9ce/p3.png">
 <meta property="og:image" content="https://coldnew.github.io/b394a9ce/p4.png">
 <meta property="og:image" content="https://coldnew.github.io/b394a9ce/p5.png">
 <meta property="og:image" content="https://coldnew.github.io/b394a9ce/boot.png">
-<meta property="og:updated_time" content="2018-12-08T02:00:24.860Z">
+<meta property="og:updated_time" content="2018-12-08T09:59:05.080Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UltraZed-EG PCIe Carrier Card 開發紀錄: 使用 PetaLinux 建立系統">
-<meta name="twitter:description" content="在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linu 裝上來啦。    針對不同嵌入式環境的需求，Xlinux 針對他們自己的平台，提供了基於 Yocto Project 製作的發行板製作工具，並命名為 PetaLinux 。這篇文章將介紹如何使用基本的 PetaLinux 功能，並建立一個可開機的映像檔 (I">
+<meta name="twitter:description" content="在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linux 裝上來啦。    針對不同嵌入式環境的需求，Xlinux 針對他們自己的平台，提供了基於 Yocto Project 製作的發行板製作工具，並命名為 PetaLinux 。這篇文章將介紹如何使用基本的 PetaLinux 功能，並建立一個可開機的映像檔 (">
 <meta name="twitter:image" content="https://coldnew.github.io/b394a9ce/p1.png">
 
 
@@ -204,7 +204,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2018-12-08T10:00:24+08:00" content="2018-12-08">
+          <time itemprop="dateCreated" datetime="2018-12-08T17:59:05+08:00" content="2018-12-08">
             2018-12-08
           </time>
         </span>
@@ -240,7 +240,7 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linu 裝上來啦。
+在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linux 裝上來啦。
 </p>
 
 <p>
@@ -253,15 +253,15 @@
 
 <a id="more"></a>
 
-<div id="outline-container-org61a4268" class="outline-2">
-<h2 id="org61a4268">PetaLinux 和 Yocto 的不同</h2>
-<div class="outline-text-2" id="text-org61a4268">
+<div id="outline-container-org9685c4e" class="outline-2">
+<h2 id="org9685c4e">PetaLinux 和 Yocto 的不同</h2>
+<div class="outline-text-2" id="text-org9685c4e">
 <p>
 一開始遇到 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 時會覺的奇怪，使用 <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 建立自己的 Linux 系統就好了，為什麼還需要 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 呢？實際上，Xilinux 在 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 加了不少工具，包含如何讓 PetaLinux 呼叫一些 Xilinux SDK 裡面的工具，讓你可以方便的產生出開機用的 <code>BOOT.bin</code> ，除此之外，最重要的應該就是 <code>device tree</code> 的產生了。
 </p>
 
 <p>
-由於 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 這塊板子上的 SoC 是 FPGA 搭配 ARM Cortex-A53/R5 這樣的組合，有些我們需要加速處理的部份會需要透過 FPGA 來實做，而在 <a href="https://coldnew.github.io/7006a3f7/">UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-R5</a> 一文中，我們產生中斷(interrupt)時候需要的中斷編號 (XPAR_FABRIC_AXI_GPIO_0_IP2INTC_IRPT_INTR) 也是透過 Xilinx SDK 來幫我們產生的。
+由於 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 這塊板子上的 SoC 是 FPGA 搭配 ARM Cortex-A53/R5 這樣的組合，有些我們需要加速處理的部份會需要透過 FPGA 來實做，而在 <a href="https://coldnew.github.io/7006a3f7/">UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-R5</a> 一文中，我們產生中斷(interrupt)時候需要的中斷編號 (<code>XPAR_FABRIC_AXI_GPIO_0_IP2INTC_IRPT_INTR</code>) 也是透過 Xilinx SDK 來幫我們產生的。
 </p>
 
 <p>
@@ -282,9 +282,9 @@
 </div>
 </div>
 
-<div id="outline-container-org5b98d1a" class="outline-2">
-<h2 id="org5b98d1a">下載 PetaLinux</h2>
-<div class="outline-text-2" id="text-org5b98d1a">
+<div id="outline-container-org2125001" class="outline-2">
+<h2 id="org2125001">下載 PetaLinux</h2>
+<div class="outline-text-2" id="text-org2125001">
 <p>
 首先第一步就是連到 <a href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools.html" target="_blank" rel="external">Xilinx 官網</a> 去下載 PetaLinux 啦，由於 PetaLinux 只能在 Linux 下面執行，因此你也需要準備一個 Linux 虛擬機才行呦~
 </p>
@@ -305,9 +305,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgba6565a" class="outline-2">
-<h2 id="orgba6565a">下載 sstate-cache (optional)</h2>
-<div class="outline-text-2" id="text-orgba6565a">
+<div id="outline-container-org857a849" class="outline-2">
+<h2 id="org857a849">下載 sstate-cache (optional)</h2>
+<div class="outline-text-2" id="text-org857a849">
 <p>
 除了下載 <code>PetaLinux 2018.2 Installer</code> 外，有用過 <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a>  的人應該都知道，為了減少時間， <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 會把已經編譯好的物件檔放到 <code>sstate-cacehe</code> 資料夾內，因此為了加速編譯的速度，我們也下載一下 Xilinx 提供的 <code>sstate-cache</code> 吧
 </p>
@@ -328,11 +328,11 @@
 </div>
 </div>
 
-<div id="outline-container-org7cbd229" class="outline-2">
-<h2 id="org7cbd229">下載 UltraZed-EG PCIeCC BSP</h2>
-<div class="outline-text-2" id="text-org7cbd229">
+<div id="outline-container-org5259e9d" class="outline-2">
+<h2 id="org5259e9d">下載 UltraZed-EG PCIeCC BSP</h2>
+<div class="outline-text-2" id="text-org5259e9d">
 <p>
-接下來，我們要到 <a href="http://ultrazed.org/support/design/17956/141" target="_blank" rel="external">這裡</a> 去下載由 <a href="https://www.avnet.com" target="_blank" rel="external">AVNET</a> 公司所提供的預先製作好的 petalinux-bsp 包，這裡選擇 <code>UltraaZed-EG PCIe Carrier Card -PetaLinux 2018.2 Standard BSP</code>
+接下來，我們要到 <a href="http://ultrazed.org/support/design/17956/141" target="_blank" rel="external">這裡</a> 去下載由 <a href="https://www.avnet.com" target="_blank" rel="external">AVNET</a> 公司所提供的預先製作好的 petalinux-bsp 包，這裡選擇 <code>UltraaZed-EG PCIe Carrier Card - PetaLinux 2018.2 Standard BSP</code>
 </p>
 
 
@@ -347,9 +347,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgc6cc751" class="outline-2">
-<h2 id="orgc6cc751">安裝 PetaLinux</h2>
-<div class="outline-text-2" id="text-orgc6cc751">
+<div id="outline-container-org1ade749" class="outline-2">
+<h2 id="org1ade749">安裝 PetaLinux</h2>
+<div class="outline-text-2" id="text-org1ade749">
 <p>
 現在我們有了 <code>petalinux-v2018.2-final-installer.run</code> 、 <code>sstate-rel-v2018.2.tar.gz</code> 、 <code>uz3eg_pciec_2018_2.zip</code> 這三個檔案，就來安裝吧
 </p>
@@ -384,7 +384,6 @@ Each time you wish to use the SDK in a new shell session, you need to source the
  $ . /home/coldnew/petalinux/2018.2/components/yocto/source/environment-setup-cortexa9hf-neon-xilinx-linux-gnueabi
  $ . /home/coldnew/petalinux/2018.2/components/yocto/source/environment-setup-microblazeel-v10.0-bs-cmp-re-mh-div-xilinx-linux
  $ . /home/coldnew/petalinux/2018.2/components/yocto/source/environment-setup-microblazeel-v10.0-bs-cmp-re-ml-xilinx-linux
-environment: line 277: locked_signs: bad array subscript
 INFO: PetaLinux SDK has been installed to /home/coldnew/petalinux/2018.2/.
 </pre>
 
@@ -413,7 +412,7 @@ coldnew@gentoo ~/petalinux/2018.2 $ tree -L 2.
     ├── common &lt;b&gt;
     ├── hsm &lt;b&gt;
     ├── lib &lt;b&gt;
-    ├── linux-i386 &lt;b.
+    ├── linux-i386 &lt;b&gt;
     └── webtalk &lt;b&gt;
 
 18 directories, 2 files
@@ -437,9 +436,9 @@ coldnew@gentoo ~/petalinux/2018.2 $ tar xvf ~/sstate-rel-v2018.2.tar.gz
 </div>
 </div>
 
-<div id="outline-container-orgb46d68f" class="outline-2">
-<h2 id="orgb46d68f">建立編譯環境</h2>
-<div class="outline-text-2" id="text-orgb46d68f">
+<div id="outline-container-org170c028" class="outline-2">
+<h2 id="org170c028">建立編譯環境</h2>
+<div class="outline-text-2" id="text-org170c028">
 <p>
 要進入到 PetaLinux 的環境，我們首先要 <code>source settings.sh</code> 一下
 </p>
@@ -495,9 +494,9 @@ coldnew@gentoo ~/petalinux/2018.2/project1 $ tree -L 2.
 </div>
 </div>
 
-<div id="outline-container-orgefa849f" class="outline-2">
-<h2 id="orgefa849f">設定 PetaLinux</h2>
-<div class="outline-text-2" id="text-orgefa849f">
+<div id="outline-container-org3f83e88" class="outline-2">
+<h2 id="org3f83e88">設定 PetaLinux</h2>
+<div class="outline-text-2" id="text-org3f83e88">
 <p>
 進入到我們開發用的 <code>project1</code> 目錄後，第一步就是對 PetaLinux 進行設定
 </p>
@@ -574,9 +573,9 @@ coldnew@gentoo ~/petalinux/2018.2/project1 $ petalinux-config
 </div>
 </div>
 
-<div id="outline-container-org7ac0101" class="outline-2">
-<h2 id="org7ac0101">編譯系統</h2>
-<div class="outline-text-2" id="text-org7ac0101">
+<div id="outline-container-orgfc09601" class="outline-2">
+<h2 id="orgfc09601">編譯系統</h2>
+<div class="outline-text-2" id="text-orgfc09601">
 <p>
 編譯 PetaLinux 是很輕鬆愉快的，只要下 <code>petalinux-build</code> 然後去睡個覺就好了~
 </p>
@@ -586,7 +585,7 @@ coldnew@gentoo ~/petalinux/2018.2/project1 $ petalinux-build
 </pre>
 
 <p>
-如果你有遇到編譯錯誤，可以到 <a href="#orgdaa3a78">其他遇到的問題</a> 找看看是否我也有遇到
+如果你有遇到編譯錯誤，可以到 <a href="#org3c0d2d2">其他遇到的問題</a> 找看看是否我也有遇到
 </p>
 
 <p>
@@ -634,9 +633,9 @@ images/ &lt;b&gt;
 </div>
 </div>
 
-<div id="outline-container-orgbe241c7" class="outline-2">
-<h2 id="orgbe241c7">製作 BOOT.bin</h2>
-<div class="outline-text-2" id="text-orgbe241c7">
+<div id="outline-container-org27287d1" class="outline-2">
+<h2 id="org27287d1">製作 BOOT.bin</h2>
+<div class="outline-text-2" id="text-org27287d1">
 <p>
 在 <code>images</code> 資料夾下生出的一駝檔案內，沒有開機時第一個被載入的 <code>BOOT.bin</code> ，因此我們需要自己透過命令去產生。注意到這邊命令一定要把你的位元流 (bitstream) 給包進來，以此範例就是 <code>images/linux/system.bit</code> 這個檔案。
 </p>
@@ -679,9 +678,9 @@ coldnew@gentoo ~/petalinux/2018.2/project1 $ ls -lh images/linux/BOOT.BIN
 </div>
 </div>
 
-<div id="outline-container-org5c72093" class="outline-2">
-<h2 id="org5c72093">製作 SD 卡</h2>
-<div class="outline-text-2" id="text-org5c72093">
+<div id="outline-container-org2e0f3c5" class="outline-2">
+<h2 id="org2e0f3c5">製作 SD 卡</h2>
+<div class="outline-text-2" id="text-org2e0f3c5">
 <p>
 現在來製作 SD 卡啦，基本上你的卡片只要第一個分割區是 <code>fat32</code> 就可以了，我們複製 <code>images/linux/</code> 下的這兩個檔案到 SD 卡 的 <code>分割區 1</code>
 </p>
@@ -697,9 +696,9 @@ image.ub
 </div>
 </div>
 
-<div id="outline-container-orgd7c63d6" class="outline-2">
-<h2 id="orgd7c63d6">設定 SD 卡開機</h2>
-<div class="outline-text-2" id="text-orgd7c63d6">
+<div id="outline-container-orgb01407c" class="outline-2">
+<h2 id="orgb01407c">設定 SD 卡開機</h2>
+<div class="outline-text-2" id="text-orgb01407c">
 <p>
 為了透過 MicroSD 卡開機，我們需要對 <a href="http://zedboard.org/product/ultrazed-EG" target="_blank" rel="external">UltraZed-EG</a> 上的 <code>SW2</code> 要進行一些調整，變成下圖這樣。
 </p>
@@ -716,9 +715,9 @@ image.ub
 </div>
 </div>
 
-<div id="outline-container-org9ee2766" class="outline-2">
-<h2 id="org9ee2766">結果</h2>
-<div class="outline-text-2" id="text-org9ee2766">
+<div id="outline-container-org72d53b8" class="outline-2">
+<h2 id="org72d53b8">結果</h2>
+<div class="outline-text-2" id="text-org72d53b8">
 <p>
 按照本篇文章的設定，你的 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a>  顯示應該如以下影片:
 </p>
@@ -781,9 +780,9 @@ root@uz3eg-pciec-2018-2:~#
 </div>
 </div>
 
-<div id="outline-container-orgdaa3a78" class="outline-2">
-<h2 id="orgdaa3a78">其他遇到的問題</h2>
-<div class="outline-text-2" id="text-orgdaa3a78">
+<div id="outline-container-org3c0d2d2" class="outline-2">
+<h2 id="org3c0d2d2">其他遇到的問題</h2>
+<div class="outline-text-2" id="text-org3c0d2d2">
 <p>
 以下列出我在使用 PetaLinux 2018.2 搭配 Gentoo Linux 遇到的一些問題與處理方案
 </p>
@@ -864,9 +863,9 @@ cp <span style="color: #aadddd;">"${LOCALEPY}"</span> $<span style="color: #aadd
 </div>
 </div>
 
-<div id="outline-container-org82e3c01" class="outline-2">
-<h2 id="org82e3c01">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org82e3c01">
+<div id="outline-container-org6a2cdc5" class="outline-2">
+<h2 id="org6a2cdc5">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org6a2cdc5">
 <ul class="org-ul">
 <li><a href="https://www.avnet.com/wps/portal/us/resources/technical-articles/article/technologies/boards%20and%20modules/building-petalinux-for-the-ultrazed-and-pcie-carrier-card/" target="_blank" rel="external">Building PetaLinux for the UltraZed &amp; PCIe Carrier Card</a></li>
 
@@ -1035,7 +1034,7 @@ cp <span style="color: #aadddd;">"${LOCALEPY}"</span> $<span style="color: #aadd
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org61a4268"><span class="nav-text">PetaLinux 和 Yocto 的不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5b98d1a"><span class="nav-text">下載 PetaLinux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgba6565a"><span class="nav-text">下載 sstate-cache (optional)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7cbd229"><span class="nav-text">下載 UltraZed-EG PCIeCC BSP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc6cc751"><span class="nav-text">安裝 PetaLinux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb46d68f"><span class="nav-text">建立編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgefa849f"><span class="nav-text">設定 PetaLinux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7ac0101"><span class="nav-text">編譯系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbe241c7"><span class="nav-text">製作 BOOT.bin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5c72093"><span class="nav-text">製作 SD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd7c63d6"><span class="nav-text">設定 SD 卡開機</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9ee2766"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdaa3a78"><span class="nav-text">其他遇到的問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org82e3c01"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org9685c4e"><span class="nav-text">PetaLinux 和 Yocto 的不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2125001"><span class="nav-text">下載 PetaLinux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org857a849"><span class="nav-text">下載 sstate-cache (optional)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5259e9d"><span class="nav-text">下載 UltraZed-EG PCIeCC BSP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1ade749"><span class="nav-text">安裝 PetaLinux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org170c028"><span class="nav-text">建立編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3f83e88"><span class="nav-text">設定 PetaLinux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfc09601"><span class="nav-text">編譯系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org27287d1"><span class="nav-text">製作 BOOT.bin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2e0f3c5"><span class="nav-text">製作 SD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb01407c"><span class="nav-text">設定 SD 卡開機</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org72d53b8"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3c0d2d2"><span class="nav-text">其他遇到的問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6a2cdc5"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
