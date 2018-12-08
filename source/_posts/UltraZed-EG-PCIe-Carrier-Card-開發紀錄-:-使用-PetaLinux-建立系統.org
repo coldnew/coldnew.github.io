@@ -450,6 +450,12 @@
   cp "${LOCALEPY}" ${PETALINUX}/components/yocto/source/buildtools/sysroots/x86_64-petalinux-linux/usr/lib/python3.5/locale.py
 #+END_SRC
 
+或是直接用 =find= 一行命令解決 (假設已經修改好的 locale.py 放在 =~/locale.py=)
+
+#+BEGIN_SRC sh
+  find ${PETALINUX} -name locale.py -exec cp ~/locale.py {} \;
+#+END_SRC
+
 這樣再重新編譯就沒問題囉~
 
 * 延伸閱讀
