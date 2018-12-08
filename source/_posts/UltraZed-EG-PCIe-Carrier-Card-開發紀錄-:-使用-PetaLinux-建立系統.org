@@ -6,7 +6,7 @@
 #+CATEGORIES: UltraZed-EG PCIe Carrier Card 開發紀錄
 #+LANGUAGE: zh-tw
 
-在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linu 裝上來啦。
+在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linux 裝上來啦。
 
 針對不同嵌入式環境的需求，Xlinux 針對他們自己的平台，提供了基於 [[http://www.yoctoproject.org/][Yocto Project]] 製作的發行板製作工具，並命名為 [[https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html][PetaLinux]] 。這篇文章將介紹如何使用基本的 [[https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html][PetaLinux]] 功能，並建立一個可開機的映像檔 (Image) 讓 [[http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card][UltraZed-EG PCIe Carrier Card]] 開機並進入到 Linux 系統。
 
@@ -18,7 +18,7 @@
 
 一開始遇到 [[https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html][PetaLinux]] 時會覺的奇怪，使用 [[http://www.yoctoproject.org/][Yocto Project]] 建立自己的 Linux 系統就好了，為什麼還需要 [[https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html][PetaLinux]] 呢？實際上，Xilinux 在 [[https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html][PetaLinux]] 加了不少工具，包含如何讓 PetaLinux 呼叫一些 Xilinux SDK 裡面的工具，讓你可以方便的產生出開機用的 =BOOT.bin= ，除此之外，最重要的應該就是 =device tree= 的產生了。
 
-由於 [[http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card][UltraZed-EG PCIe Carrier Card]] 這塊板子上的 SoC 是 FPGA 搭配 ARM Cortex-A53/R5 這樣的組合，有些我們需要加速處理的部份會需要透過 FPGA 來實做，而在 [[https://coldnew.github.io/7006a3f7/][UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-R5]] 一文中，我們產生中斷(interrupt)時候需要的中斷編號 (XPAR_FABRIC_AXI_GPIO_0_IP2INTC_IRPT_INTR) 也是透過 Xilinx SDK 來幫我們產生的。
+由於 [[http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card][UltraZed-EG PCIe Carrier Card]] 這塊板子上的 SoC 是 FPGA 搭配 ARM Cortex-A53/R5 這樣的組合，有些我們需要加速處理的部份會需要透過 FPGA 來實做，而在 [[https://coldnew.github.io/7006a3f7/][UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-R5]] 一文中，我們產生中斷(interrupt)時候需要的中斷編號 (=XPAR_FABRIC_AXI_GPIO_0_IP2INTC_IRPT_INTR=) 也是透過 Xilinx SDK 來幫我們產生的。
 
 使用 [[https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html][PetaLinux]] 來建立系統時候，PetaLinux 會根據你的硬體設置，自動幫你生成相對應的 [[https://en.wikipedia.org/wiki/Device_tree][Device Tree]] ，讓我們的開發可以變得比較輕鬆。如果是用純粹的 [[http://www.yoctoproject.org/][Yocto Project]] 的話，很多地方就要先確認好才可以整合進去了，會比較麻煩些。
 
@@ -50,7 +50,7 @@
 
 * 下載 UltraZed-EG PCIeCC BSP
 
-接下來，我們要到 [[http://ultrazed.org/support/design/17956/141][這裡]] 去下載由 [[https://www.avnet.com][AVNET]] 公司所提供的預先製作好的 petalinux-bsp 包，這裡選擇 =UltraaZed-EG PCIe Carrier Card -PetaLinux 2018.2 Standard BSP=
+接下來，我們要到 [[http://ultrazed.org/support/design/17956/141][這裡]] 去下載由 [[https://www.avnet.com][AVNET]] 公司所提供的預先製作好的 petalinux-bsp 包，這裡選擇 =UltraaZed-EG PCIe Carrier Card - PetaLinux 2018.2 Standard BSP=
 
 [[file:UltraZed-EG-PCIe-Carrier-Card-開發紀錄-:-使用-PetaLinux-建立系統/p3.png]]
 
@@ -86,7 +86,6 @@
    $ . /home/coldnew/petalinux/2018.2/components/yocto/source/environment-setup-cortexa9hf-neon-xilinx-linux-gnueabi
    $ . /home/coldnew/petalinux/2018.2/components/yocto/source/environment-setup-microblazeel-v10.0-bs-cmp-re-mh-div-xilinx-linux
    $ . /home/coldnew/petalinux/2018.2/components/yocto/source/environment-setup-microblazeel-v10.0-bs-cmp-re-ml-xilinx-linux
-  environment: line 277: locked_signs: bad array subscript
   INFO: PetaLinux SDK has been installed to /home/coldnew/petalinux/2018.2/.
 #+END_EXAMPLE
 
@@ -113,7 +112,7 @@
       ├── common <b>
       ├── hsm <b>
       ├── lib <b>
-      ├── linux-i386 <b.
+      ├── linux-i386 <b>
       └── webtalk <b>
 
   18 directories, 2 files
