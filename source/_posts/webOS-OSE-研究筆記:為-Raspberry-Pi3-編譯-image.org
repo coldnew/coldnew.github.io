@@ -1,0 +1,201 @@
+#+TITLE: webOS OSE 研究筆記: 編譯 webOS OSE 到 Raspberry Pi 3
+#+OPTIONS: num:nil ^:nil
+#+TAGS: webos, raspberry pi
+#+DATE: <2018-12-22 Sat 12:45>
+#+LANGUAGE: zh-tw
+#+CATEGORIES: webOS OSE 研究筆記
+
+在 [[https://coldnew.github.io/6ea67721/][webOS OSE 研究筆記: 認識 webOS]] 一文中我們稍微介紹了關於 LG 在今年 (2018) 的 3 月開源的  [[http://webosose.org][webOS OSE]] (webOS Open Source Edition), 這款類似 LG 用於 TV 上面的 [[http://webostv.developer.lge.com/][webOS TV]] 的系統。
+
+本文將介紹如何使用 [[http://webosose.org][webOS OSE]] 提供的基於 [[http://www.yoctoproject.org/][Yocto Project]] 的編譯系統，編譯並建立 Raspberry Pi 3 上的 webOS OSE 系統。
+
+#+HTML: <!-- more -->
+
+* 下載
+
+要編譯 [[http://webosose.org][webOS OSE]] 之前，建議先看一下 [[http://webosose.org/discover/setting/requirements/][WebOS OSE]] 官方網站的介紹。
+
+首先，我們先透過 git 取得基本的編譯環境
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ git clone https://github.com/webosose/build-webos.git
+#+END_EXAMPLE
+
+由於這個編譯環境是基於 [[http://www.yoctoproject.org/][Yocto Project]] 所建立，因此請先確定你的系統有滿足  [[http://www.yoctoproject.org/][Yocto Project]] 編譯需要的一些基本依賴，如果不確定並且你的系統是 Ubuntu 系列的話，你可以透果以下腳本來確認環境是否有滿足編譯需求。
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ sudo scripts/prerequisites.sh
+#+END_EXAMPLE
+
+* 設定
+
+第一次進入到這個編譯環境，我們需要透過 webOS OSE 提供的 =mcf= 腳本來指定目標機器。由於目前只提供 =Raspberry Pi 3= 這個執行目標，因此這樣下命令讓我們編譯環境設定成編譯給 Raspberry Pi 3 使用
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ ./mcf raspberrypi3
+#+END_EXAMPLE
+
+設定完成後，接下來就是進行編譯的工作了
+
+* 編譯
+
+首先我們先透過 =source= 命令設定好當前 shell 的環境
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ source oe-init-build-env
+#+END_EXAMPLE
+
+完成後，接下來就是選擇編譯目標，如果只是一般驗證用，可以選擇 =webos-image=
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ bitbake webos-image
+#+END_EXAMPLE
+
+如果是想要進行開發的話，推薦選擇 =wenos-image-devel= 會比較好
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ bitbake webos-image-devel
+#+END_EXAMPLE
+
+接下來可以去睡一覺，因為編譯過程中會編譯到 Chromium，這會編譯非常久喔 ~
+
+* 燒錄到 SD 卡
+
+編譯完成後，我們可以在 =BUILD/deploy/images/raspberrypi3= 下面找到名為 =*.rpi-sdimg= 的檔案，這是做好給 Raspberry Pi3 開機用的 SD 卡
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ ls BUILD/deploy/images/raspberrypi3/*.rpi-sdimg
+  BUILD/deploy/images/raspberrypi3/webos-image-devel-raspberrypi3-master-20181221030950.rpi-sdimg
+  BUILD/deploy/images/raspberrypi3/webos-image-devel-raspberrypi3.rootfs.rpi-sdimg
+  BUILD/deploy/images/raspberrypi3/webos-image-raspberrypi3-master-20181221040749.rpi-sdimg
+  BUILD/deploy/images/raspberrypi3/webos-image-raspberrypi3.rootfs.rpi-sdimg
+#+END_EXAMPLE
+
+我們先進入到 =BUILD/deploy/images/raspberrypi3= 資料夾去
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ cd BUILD/deploy/images/raspberrypi3/
+#+END_EXAMPLE
+
+將你的 SD 卡裝到電腦上，這邊假設建立了 =/dev/sdd*= 這樣的 device node, 則我們可以透過 =dd= 命令這樣將 image 燒錄到 SD 卡上
+
+#+BEGIN_EXAMPLE
+ sudo dd if=webos-image-devel-raspberrypi3-master-20181221030950.rpi-sdimg of=/dev/sdd bs=1M
+#+END_EXAMPLE
+
+完成後，就可以將卡片插入到你的 Raspberry Pi 3 開機並等啟動完成 (可以接上 TTL 轉 UART 線看 console 上的訊息)
+
+開機完成會看到下面這樣的畫面
+
+[[file:webOS-OSE-研究筆記:為-Raspberry-Pi3-編譯-image/screenshot-1.jpg]]
+
+* 基本的使用
+
+由於桌面上沒有任何東西，也無法進入到 App Launcher 去，因此需要將鍵盤和滑鼠接到你的 Raspberry Pi 3 上
+
+接上鍵盤後，點擊 =Super= 按鈕 (或是 Windows 按鈕，就是有微軟符號的那個) 會啟動 App Launcher, 有少數幾個 App 可以使用
+
+[[file:webOS-OSE-研究筆記:為-Raspberry-Pi3-編譯-image/screenshot-2.jpg]]
+
+注意到 webOS OSE 目前似乎不支援觸控功能，因此操作都需要依賴滑鼠或是鍵盤 (就像 webOS TV 那樣用遙控器控制)
+
+如果網路有通的話，可以透過 =ssh= 來登入你的 Raspberry Pi 3，和一般的 Linux 發行板不同 webOS OSE 採用的是 [[https://matt.ucc.asn.au/dropbear/dropbear.html][Dropbear]] 來替代傳統使用的 OpenSSH 來作為 ssh service。
+
+#+BEGIN_EXAMPLE
+  root@raspberrypi3:~# ps aux | grep drop
+  root       800  0.0  0.0   3800   668 ?        Ss   20:30   0:00 /usr/sbin/dropbear -B -F -d /var/lib/dropbear/dropbear_dss_host_key -r /var/lib/dropbear/dropbear_rsa_host_key
+  root     18899  0.0  0.0   3384   556 ttyS0    S+   21:03   0:00 grep drop
+#+END_EXAMPLE
+
+* 如何擷圖
+
+雖然我們還沒要講 webOS OSE 的架構，不過這邊就先來簡單說說如何透過指令進行擷圖 (screenshot) 吧
+
+整個 webOS 系統 (包含分支的 [[http://www.webos-ports.org/wiki/Main_Page][LuneOS]]) 皆是透過 [[https://github.com/webosose/luna-service2][luna-service]] 來進行訊息的傳遞 (IPC) ，因此如果我們要擷圖的話，則這樣下命令
+
+#+BEGIN_SRC shell
+  luna-send -n 1 -f luna://com.webos.surfacemanager/captureCompositorOutput '{"output":"/home/root/screenshot.jpg","format":"JPG"}'
+#+END_SRC
+
+下完後就會在 =/home/root= 下面看到 =screenshot.jpg= 產生，此外該命令也會以 JSON 格式回傳執行結果
+
+#+BEGIN_EXAMPLE
+  root@raspberrypi3:~# luna-send -n 1 -f luna://com.webos.surfacemanager/captureCompositorOutput '{"output":"/home/root/screenshot.jpg","format":"JPG"}'
+  {
+      "output": "/home/root/screenshot.jpg",
+      "format": "JPG",
+      "resolution": "1920x1080",
+      "returnValue": true
+  }
+#+END_EXAMPLE
+
+* 其他擷圖
+
+這邊提供一些 screenshot 作為參考。
+
+** webOS OSE
+
+會進入到 webOS 的網頁
+
+[[file:webOS-OSE-研究筆記:為-Raspberry-Pi3-編譯-image/screenshot-3.jpg]]
+
+** Enact
+
+webOS OSE 提供使用者使用 [[https://enactjs.com/][Enact]] 來作為 App 構件用的語言，這是基於 React 的 web framework。點擊這個 App 會進到 Enact 的首頁
+
+[[file:webOS-OSE-研究筆記:為-Raspberry-Pi3-編譯-image/screenshot-5.jpg]]
+
+** Web Browser
+
+web OSE 採用 Chromium 來作為瀏覽器的核心，看養子他們也有自己做一套 UI
+
+[[file:webOS-OSE-研究筆記:為-Raspberry-Pi3-編譯-image/screenshot-9.jpg]]
+
+** Youtube
+
+預設最完整的就是 Youtube 的程式了， *記得為了防止非洲豬瘟入侵台灣， 不可以攜帶任何肉品入關呦!*
+
+[[file:webOS-OSE-研究筆記:為-Raspberry-Pi3-編譯-image/screenshot-6.jpg]]
+
+** System Setting
+
+系統設定就比較陽春點，只能查看一些訊息和設定網路連線。
+
+[[file:webOS-OSE-研究筆記:為-Raspberry-Pi3-編譯-image/screenshot-7.jpg]]
+
+[[file:webOS-OSE-研究筆記:為-Raspberry-Pi3-編譯-image/screenshot-8.jpg]]
+
+* 總結
+
+根據實測的狀況來看，目前 LG 開源的  [[http://webosose.org][webOS OSE]] 已經非常偏向 [[http://webostv.developer.lge.com/][webOS TV]] 系統，和最早期設計用於手機/平板上 webOS 已經大相逕庭，如果你想要採用這個 Framework 在你的產品上，根據狀況考量可能可以這樣來做決策
+
+- 用於按鍵控制的平台 (比如電視) : 選擇 [[http://webosose.org][webOS OSE]]
+- 用於平板之類的環境 : 選擇 [[http://www.webos-ports.org/wiki/Main_Page][LuneOS]]
+
+這兩套的差別，主要在於  [[http://webosose.org][webOS OSE]] 是由 LG 主導的，而  [[http://www.webos-ports.org/wiki/Main_Page][LuneOS]] 則是由開源社群(?) 主導的，前者預設使用  [[https://enactjs.com/][Enact]]  來設計你的 App , 後者則是主打使用 Qt 來製作你的 App。
+
+不過根據系統的依賴來看，我們也是可以透過撰寫 Qt 程式來執行於 webOS OSE 上的，這邊就後面再說囉 ~
+
+* 延伸閱讀
+
+- [[http://forum.webosose.org/t/capturing-screenshots-on-webos/326/5][Capturing screenshots on WebOS]]
+
+- [[https://www.cnx-software.com/2018/03/19/lg-releases-webos-open-source-edition-optimized-for-raspberry-pi-3/][LG Releases webOS Open Source Edition Optimized for Raspberry Pi 3]]
+
+- [[https://www.trustedreviews.com/news/why-webos-failed-according-to-ex-palm-exec-2907024][Why WebOS Failed, According to ex-Palm Exec]]
+
+- [[http://webosose.org/discover/setting/building-webos-ose/][Building webOS Open Source Edition]]
+
+- [[https://www.techbang.com/posts/57420-lg-will-open-the-webos-operating-system-to-raspberry-pi-3][LG 將 webOS 作業系統開源化，可安裝至 Raspberry Pi 3]]
+
+- [[https://pivotce.com/2018/03/22/a-quick-tour-of-webos-ose-on-the-raspberry-pi/][A Quick Tour of webOS OSE on the Raspberry Pi]]
+
+* 其他資料                                                         :noexport:
+
+- [[https://pivotce.com/2018/03/22/a-quick-tour-of-webos-ose-on-the-raspberry-pi/][A Quick Tour of webOS OSE on the Raspberry Pi]]
+
+- [[https://chinese.engadget.com/2018/03/20/lg-webos-open-source-edition/][webOS 又被 LG 開源了]]
+
+- [[https://itsfoss.com/webos-goes-open-source/][LG’s Linux-based webOS Goes Open Source, Again!]]
+
+- [[http://ifans.pixnet.net/blog/post/25918157-%25E8%25BC%2595%25E9%25AC%2586%25E6%2598%2593%25E6%2587%2582%25E7%259A%2584%25E9%259B%25BB%25E8%25A6%2596%25E5%25B0%2588%25E7%2594%25A8%25E4%25BD%259C%25E6%25A5%25AD%25E7%25B3%25BB%25E7%25B5%25B1-webos-%25E8%25AE%2593%25E4%25BD%25A0%25E6%258B%25BF%25E8%2591%2597][鬆易懂的電視專用作業系統 WebOS 讓你拿著遙控器就能輕鬆控制遊戲並將手機畫面投影播放唷！^^]]
