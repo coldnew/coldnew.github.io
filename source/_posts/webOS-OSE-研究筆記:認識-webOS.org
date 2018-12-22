@@ -1,0 +1,161 @@
+#+TITLE: webOS OSE 研究筆記: 認識 webOS
+#+OPTIONS: num:nil ^:nil
+#+ABBRLINK: 6ea67721
+#+DATE: <2018-12-22 Sat 11:24>
+#+UPDATE: <2018-12-22 Sat 11:22>
+#+TAGS: webos
+#+LANGUAGE: zh-tw
+#+CATEGORIES: webOS OSE 研究筆記
+
+LG 在今年開源了 [[http://webosose.org][webOS OSE]] (webOS Open Source Edition), 這是一款類似 LG 用於 TV 上面的 [[http://webostv.developer.lge.com/][webOS TV]] 系統，但是相對的缺少許多預建設的 app。
+
+由於 [[http://webosose.org][webOS OSE]] 也是 Linux based 的系統，個人覺的有趣有打算拿來寫一系列的文章。
+
+本文將粗略介紹 webOS 的歷史， =由於資料皆是網路上找來，並未受過嚴密的審查，請僅供參考就好= 。
+
+#+HTML: <!-- more -->
+
+* 從 PDA 開始說起
+
+在現代的智慧型手機崛起之前，商務人士中一定會攜帶的東西是 [[https://zh.wikipedia.org/wiki/%25E4%25B8%25AA%25E4%25BA%25BA%25E6%2595%25B0%25E7%25A0%2581%25E5%258A%25A9%25E7%2590%2586][PDA (personal digital assistant)]], 中文名為 "個人行動助理"，和現代的智慧型手機很像，具有通訊錄、備忘錄、行程表、代辦事項等工具。
+
+人們會透過觸控筆在電阻螢幕上書寫資訊，或是查看股市等應用，以 2004 年的 Palm Zire 21 來看，PDA 長成這樣 ([[http://www.mobile-review.com/print.php?filename=/pda/review/palm-zire-21-en.shtml][Review Palm Zire 21]])
+
+[[file:webOS-OSE-研究筆記:認識-webOS/Screenshot_20180616_211240.png]]
+
+甚至也有類似如今 Apple Watch 的手錶型 PDA [[https://en.wikipedia.org/wiki/Fossil_Wrist_PDA][Fossil Wrist]] 的出現，如下圖 ([[https://en.wikipedia.org/wiki/Fossil_Wrist_PDA][圖片來源]])
+
+[[file:webOS-OSE-研究筆記:認識-webOS/440px-Fossil_Wrist_PDA_on_wrist.JPG]]
+
+後來 PDA 加入了電話功能後，開始出現了智慧型手機的雛型，當時知名的系統有以下這幾家: (不過現在都死的差不多了)
+
+- [[https://zh.wikipedia.org/wiki/Palm_OS][Palm OS]]
+
+- [[https://zh.wikipedia.org/wiki/Palm_OS][Nokia Symbian]]
+
+- [[https://zh.wikipedia.org/wiki/Windows_Embedded_Compact][Windows CE]]
+
+當然當時也有不少台灣廠商加入競爭，具體請參考: [[https://www.ithome.com.tw/node/1598][PDA OS 引發本土軟體業爭相投入，應用軟體沾光]]
+
+** 延伸閱讀
+
+- [[http://technews.tw/2018/06/04/history-of-smart-phone-and-pda/][你可能不清楚的經典科技發展史：智慧手機與 PDA 的糾葛]]
+
+- [[https://panx.asia/archives/53643][蘋果的一小步，智慧手機的一大步：掌上型裝置「Newton」誕生]]
+
+* iPhone 的出現
+
+2007 年的 iPhone 發表會，宣告了一個新的時代的產生，也同時定義了「智慧型手機」，當然，如果你沒有看過 Steve Jobs 當時的發表會的話，建議看一下
+
+#+BEGIN_EXPORT html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9hUIxyE2Ns8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+#+END_EXPORT
+
+#+HTML: <br> <br>
+
+這邊提及 iPhone 雖然有些離題，但是事實上 Palm 的 webOS 可以說是被 iOS 打敗而導致業務虧損，最後 Palm 被惠普 (HP) 買下。但好景不常，惠普 (HP) 出了幾款產品後 覺的無利可圖於是又把 webOS 賣給了 LG。
+
+就讓我們真的進入 webOS 的故事吧:P
+
+* Palm
+
+在個人行動助理 也就是 [[https://zh.wikipedia.org/wiki/%25E4%25B8%25AA%25E4%25BA%25BA%25E6%2595%25B0%25E7%25A0%2581%25E5%258A%25A9%25E7%2590%2586][PDA (personal digital assistant)]] 還在盛行的時候，當時的領導公司就是 [[https://en.wikipedia.org/wiki/Palm_(PDA)][Palm]] ，為了和新興的智慧型手機對抗，[[https://en.wikipedia.org/wiki/Palm_(PDA)][Palm]] 推出了搭載 webOS 的 [[https://zh.wikipedia.org/zh-tw/Palm_Pre][Palm Pre]] ，其長相如下 ([[https://www.cultofmac.com/502864/iphone-x-palm-pre/][圖片來源]])
+
+[[file:webOS-OSE-研究筆記:認識-webOS/pp.jpeg]]
+
+但由於諸多原因，Palm 失敗了，最後被惠普 (HP) 買了下來
+
+** 延伸閱讀
+
+- [[https://medium.com/@marcus930/%25E3%2580%2587-palm-%25E5%2585%25AC%25E5%258F%25B8%25E5%2589%258D%25E4%25B8%2596%25E4%25BB%258A%25E7%2594%259F-4ad017e0b38e][巨星陨落的 Palm 和中途夭折的 webOS]]
+
+- [[http://kimmynet.blogspot.com/2015/01/palm.html][Palm 情意結（胖子成長記）]]
+
+- [[http://www.businessinsider.com/history-of-the-palm-pre-2011-8][The Short, Sad, And Painful History Of The Palm Pre]]
+
+* HP
+
+惠普 (HP) 買下了 Palm 以及 webOS 後，將其用於 [[https://en.wikipedia.org/wiki/HP_TouchPad][HP TouchPad]] 上並發表了出來
+
+[[file:webOS-OSE-研究筆記:認識-webOS/ht.jpeg]]
+
+但沒過多久，惠普 (HP) 就決定宣告放棄 webOS，並將其開源出來，此舉造成了 [[http://webos-ports.org/wiki/Main_Page][webOS-ports]] 社群的誕生
+
+** 延伸閱讀
+
+- [[http://tech.sina.com.cn/z/webOS/][惠普 webOS 的前世今生]]
+
+- [[https://chinese.engadget.com/2011/08/19/goodbye-hp-webos/][石專欄：HP webOS，也許是時候說再見了！]]
+
+- [[https://vrzone.com/articles/hp-makes-webos-open-source/14195.html][HP makes webOS open-source]]
+
+* webOS Ports (LuneOS)
+
+開源版本的 webOS 由  [[http://webos-ports.org/wiki/Main_Page][webOS-ports]] 社群維護，你可以在 https://github.com/webOS-ports 看到整個專案的程式碼，大約在  2016 年時候，webOS-ports 正式命名為 [[https://en.wikipedia.org/wiki/LuneOS][LuneOS]] 。([[https://generationmobiles.net/2014/09/webos-renomme-en-luneos-met-laccent-sur-le-nexus-4-et-hp-touchpad/][圖片來源]])
+
+[[file:webOS-OSE-研究筆記:認識-webOS/lo.jpg]]
+
+LuneOS 有一點要特別題的是，在當時由於 [[http://mer-project.blogspot.com/2013/04/wayland-utilizing-android-gpu-drivers.html][libhybris]] 逐漸成熟，因此整個 LuneOS 專案也改用以 [[https://github.com/libhybris/libhybris][libhybris]] 作為 GPU 函式庫的設計，並使用 [[https://wayland.freedesktop.org/][Wayland]] 來作為視窗管理系統。
+
+註:
+
+1. [[https://github.com/libhybris/libhybris][libhybris]] 是一種可以讓你在 Linux 的 glibc 上觸摸到 Android bionic 上的函式庫的中介層函式庫，簡單點來說就是透過 dlopen() 搭配 hook() 的方式，讓 Linux 端可以重用 Android 端的相關函式庫，特別是 OpenGLES 函式庫。其原始作者為 [[https://jolla.com/][Jolla]] 的工程師 [[https://twitter.com/stskeeps][Carsten Munk]] 。
+
+2. 筆者有幸在 [[https://github.com/libhybris/libhybris][libhybris]] 發展的過程中一窺 [[https://github.com/libhybris/libhybris][Ubuntu Touch]]、[[http://merproject.org/][Mer]]、[[https://sailfishos.org/][Salifish]] 等以 [[https://github.com/libhybris/libhybris][libhybris]] 為基底的系統的架構，但由於細講這一部份會偏離這一篇文章的主題，所以我們就到此為止吧 :)
+
+** 延伸閱讀
+
+- [[https://generationmobiles.net/2014/09/webos-renomme-en-luneos-met-laccent-sur-le-nexus-4-et-hp-touchpad/][webOS renommé LuneOS, met l'accent sur le Nexus 4 et HPTouchPad]]
+
+- [[http://mer-project.blogspot.com/2013/04/wayland-utilizing-android-gpu-drivers.html][Wayland utilizing Android GPU drivers on glibc based systems, Part 1]]
+
+* LG
+
+雖然惠普 (HP) 放棄了 webOS, 並將部份程式開源，但韓國的 LG 公司為了製作智慧電視，因此決定向惠普 (HP) 購買 webOS 的授權，用來製作在 LG 的電視上 ([[http://www.lgnewsroom.com/2014/01/lg-makes-smart-tv-simple-with-new-webos-smart-tv-platform/][圖片來源]])
+
+[[file:webOS-OSE-研究筆記:認識-webOS/lg.jpg]]
+
+這套系統目前已經在很多 LG 自己的智慧電視上面跑了，希望可以這樣持續下去
+
+** 延伸閱讀
+
+- [[https://www8.hp.com/us/en/hp-news/press-release.html?id=1375489][LG Electronics Acquires webOS from HP to Enhance Smart TV]]
+
+- [[https://www.theverge.com/2013/2/25/4027018/lg-buys-webos-smart-tv][LG buys webOS from HP for use in smart TVs]]
+
+* webOS OSE
+
+就在今年 (2018) 的 3 月，LG 決定將他們買下的 webOS 做一些整理，變成開源版本的 [[http://webosose.org][webOS OSE]] (webOS Open Source Edition) 釋放出來，這個版本包含了基本的 framework, 但是 LG 用於電視上面的的 App 以及 UI 並不會跟個被開放出來。
+
+[[file:webOS-OSE-研究筆記:認識-webOS/wose.png]]
+
+在後續文章中，我們將試玩看看 LG 的 [[http://webosose.org/][webOS OSE]]。
+
+** 延伸閱讀
+
+- [[https://www.cnx-software.com/2018/03/19/lg-releases-webos-open-source-edition-optimized-for-raspberry-pi-3/][LG Releases webOS Open Source Edition Optimized for Raspberry Pi 3]]
+
+- [[https://www.infoq.com/news/2018/03/lg-open-sources-webos][LG Relase webOS Open Source Edition (OSE), an IoT-Friendly OS]]
+
+- [[https://itsfoss.com/webos-goes-open-source/][LG’s Linux-based webOS Goes Open Source, Again!]]
+
+* 其他參考                                                         :noexport:
+
+- [[https://www.techbang.com/posts/57420-lg-will-open-the-webos-operating-system-to-raspberry-pi-3][LG 將 webOS 作業系統開源化，可安裝至 Raspberry Pi 3]]
+
+- [[https://chinese.engadget.com/2018/03/20/lg-webos-open-source-edition/][webOS 又被 LG 開源了]]
+
+- [[http://www8.hp.com/us/en/hp-news/press-release.html?id=1164460][HP to Commit webOS to Open Source by Fall 2012]]
+
+- [[https://www.webosnation.com/open-webos-10-lands][Open webOS 1.0 lands]]
+
+- https://news.ycombinator.com/item?id=16621444
+
+- [[http://dy.163.com/v2/article/detail/CVH5QJP80511D4SA.html][iPhone X 全屏交互师承“故”人 Palm webOS 的前世今生]]
+
+#+BEGIN_EXAMPLE
+  WebOS is a Linux-based multitasking operating system (OS) that was
+  originally developed by Palm in order to power the Palm Pre mobile
+  phone. It was later acquired by HP, and made partially open source in
+  2011. LG have used it for their smart TV sets since 2013.
+#+END_EXAMPLE
