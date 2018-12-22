@@ -1,0 +1,936 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="webos," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="LG 在今年開源了 webOS OSE (webOS Open Source Edition), 這是一款類似 LG 用於 TV 上面的 webOS TV 系統，但是相對的缺少許多預建設的 app。    由於 webOS OSE 也是 Linux based 的系統，個人覺的有趣有打算拿來寫一系列的文章。    本文將粗略介紹 webOS 的歷史， 由於資料皆是網路上找來，並未受過嚴密的審查">
+<meta name="keywords" content="webos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webOS OSE 研究筆記: 認識 webOS">
+<meta property="og:url" content="https://coldnew.github.io/6ea67721/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="LG 在今年開源了 webOS OSE (webOS Open Source Edition), 這是一款類似 LG 用於 TV 上面的 webOS TV 系統，但是相對的缺少許多預建設的 app。    由於 webOS OSE 也是 Linux based 的系統，個人覺的有趣有打算拿來寫一系列的文章。    本文將粗略介紹 webOS 的歷史， 由於資料皆是網路上找來，並未受過嚴密的審查">
+<meta property="og:image" content="https://coldnew.github.io/6ea67721/Screenshot_20180616_211240.png">
+<meta property="og:image" content="https://coldnew.github.io/6ea67721/440px-Fossil_Wrist_PDA_on_wrist.JPG">
+<meta property="og:image" content="https://coldnew.github.io/6ea67721/pp.jpeg">
+<meta property="og:image" content="https://coldnew.github.io/6ea67721/ht.jpeg">
+<meta property="og:image" content="https://coldnew.github.io/6ea67721/lo.jpg">
+<meta property="og:image" content="https://coldnew.github.io/6ea67721/lg.jpg">
+<meta property="og:image" content="https://coldnew.github.io/6ea67721/wose.png">
+<meta property="og:updated_time" content="2018-12-22T03:24:55.590Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webOS OSE 研究筆記: 認識 webOS">
+<meta name="twitter:description" content="LG 在今年開源了 webOS OSE (webOS Open Source Edition), 這是一款類似 LG 用於 TV 上面的 webOS TV 系統，但是相對的缺少許多預建設的 app。    由於 webOS OSE 也是 Linux based 的系統，個人覺的有趣有打算拿來寫一系列的文章。    本文將粗略介紹 webOS 的歷史， 由於資料皆是網路上找來，並未受過嚴密的審查">
+<meta name="twitter:image" content="https://coldnew.github.io/6ea67721/Screenshot_20180616_211240.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> webOS OSE 研究筆記: 認識 webOS | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/6ea67721/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              webOS OSE 研究筆記: 認識 webOS
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2018-12-22T11:24:55+08:00" content="2018-12-22">
+            2018-12-22
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/webOS-OSE-研究筆記/" itemprop="url" rel="index">
+                  <span itemprop="name">webOS OSE 研究筆記</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+LG 在今年開源了 <a href="http://webosose.org" target="_blank" rel="external">webOS OSE</a> (webOS Open Source Edition), 這是一款類似 LG 用於 TV 上面的 <a href="http://webostv.developer.lge.com/" target="_blank" rel="external">webOS TV</a> 系統，但是相對的缺少許多預建設的 app。
+</p>
+
+<p>
+由於 <a href="http://webosose.org" target="_blank" rel="external">webOS OSE</a> 也是 Linux based 的系統，個人覺的有趣有打算拿來寫一系列的文章。
+</p>
+
+<p>
+本文將粗略介紹 webOS 的歷史， <code>由於資料皆是網路上找來，並未受過嚴密的審查，請僅供參考就好</code> 。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-org90ab6cb" class="outline-2">
+<h2 id="org90ab6cb">從 PDA 開始說起</h2>
+<div class="outline-text-2" id="text-org90ab6cb">
+<p>
+在現代的智慧型手機崛起之前，商務人士中一定會攜帶的東西是 <a href="https://zh.wikipedia.org/wiki/%E4%B8%AA%E4%BA%BA%E6%95%B0%E7%A0%81%E5%8A%A9%E7%90%86" target="_blank" rel="external">PDA (personal digital assistant)</a>, 中文名為 "個人行動助理"，和現代的智慧型手機很像，具有通訊錄、備忘錄、行程表、代辦事項等工具。
+</p>
+
+<p>
+人們會透過觸控筆在電阻螢幕上書寫資訊，或是查看股市等應用，以 2004 年的 Palm Zire 21 來看，PDA 長成這樣 (<a href="http://www.mobile-review.com/print.php?filename=/pda/review/palm-zire-21-en.shtml" target="_blank" rel="external">Review Palm Zire 21</a>)
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180616_211240.png">
+</p>
+</div>
+
+<p>
+甚至也有類似如今 Apple Watch 的手錶型 PDA <a href="https://en.wikipedia.org/wiki/Fossil_Wrist_PDA" target="_blank" rel="external">Fossil Wrist</a> 的出現，如下圖 (<a href="https://en.wikipedia.org/wiki/Fossil_Wrist_PDA" target="_blank" rel="external">圖片來源</a>)
+</p>
+
+
+<div class="figure">
+<p><img src="440px-Fossil_Wrist_PDA_on_wrist.JPG">
+</p>
+</div>
+
+<p>
+後來 PDA 加入了電話功能後，開始出現了智慧型手機的雛型，當時知名的系統有以下這幾家: (不過現在都死的差不多了)
+</p>
+
+<ul class="org-ul">
+<li><a href="https://zh.wikipedia.org/wiki/Palm_OS" target="_blank" rel="external">Palm OS</a></li>
+
+<li><a href="https://zh.wikipedia.org/wiki/Palm_OS" target="_blank" rel="external">Nokia Symbian</a></li>
+
+<li><a href="https://zh.wikipedia.org/wiki/Windows_Embedded_Compact" target="_blank" rel="external">Windows CE</a></li>
+</ul>
+
+<p>
+當然當時也有不少台灣廠商加入競爭，具體請參考: <a href="https://www.ithome.com.tw/node/1598" target="_blank" rel="external">PDA OS 引發本土軟體業爭相投入，應用軟體沾光</a>
+</p>
+</div>
+
+<div id="outline-container-orgfef1d6c" class="outline-3">
+<h3 id="orgfef1d6c">延伸閱讀</h3>
+<div class="outline-text-3" id="text-orgfef1d6c">
+<ul class="org-ul">
+<li><a href="http://technews.tw/2018/06/04/history-of-smart-phone-and-pda/" target="_blank" rel="external">你可能不清楚的經典科技發展史：智慧手機與 PDA 的糾葛</a></li>
+
+<li><a href="https://panx.asia/archives/53643" target="_blank" rel="external">蘋果的一小步，智慧手機的一大步：掌上型裝置「Newton」誕生</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org01edf28" class="outline-2">
+<h2 id="org01edf28">iPhone 的出現</h2>
+<div class="outline-text-2" id="text-org01edf28">
+<p>
+2007 年的 iPhone 發表會，宣告了一個新的時代的產生，也同時定義了「智慧型手機」，當然，如果你沒有看過 Steve Jobs 當時的發表會的話，建議看一下
+</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9hUIxyE2Ns8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+<br> <br>
+
+<p>
+這邊提及 iPhone 雖然有些離題，但是事實上 Palm 的 webOS 可以說是被 iOS 打敗而導致業務虧損，最後 Palm 被惠普 (HP) 買下。但好景不常，惠普 (HP) 出了幾款產品後 覺的無利可圖於是又把 webOS 賣給了 LG。
+</p>
+
+<p>
+就讓我們真的進入 webOS 的故事吧:P
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1903ba8" class="outline-2">
+<h2 id="org1903ba8">Palm</h2>
+<div class="outline-text-2" id="text-org1903ba8">
+<p>
+在個人行動助理 也就是 <a href="https://zh.wikipedia.org/wiki/%E4%B8%AA%E4%BA%BA%E6%95%B0%E7%A0%81%E5%8A%A9%E7%90%86" target="_blank" rel="external">PDA (personal digital assistant)</a> 還在盛行的時候，當時的領導公司就是 <a href="https://en.wikipedia.org/wiki/Palm_(PDA)" target="_blank" rel="external">Palm</a> ，為了和新興的智慧型手機對抗，<a href="https://en.wikipedia.org/wiki/Palm_(PDA)" target="_blank" rel="external">Palm</a> 推出了搭載 webOS 的 <a href="https://zh.wikipedia.org/zh-tw/Palm_Pre" target="_blank" rel="external">Palm Pre</a> ，其長相如下 (<a href="https://www.cultofmac.com/502864/iphone-x-palm-pre/" target="_blank" rel="external">圖片來源</a>)
+</p>
+
+
+<div class="figure">
+<p><img src="pp.jpeg">
+</p>
+</div>
+
+<p>
+但由於諸多原因，Palm 失敗了，最後被惠普 (HP) 買了下來
+</p>
+</div>
+
+<div id="outline-container-orge4701f7" class="outline-3">
+<h3 id="orge4701f7">延伸閱讀</h3>
+<div class="outline-text-3" id="text-orge4701f7">
+<ul class="org-ul">
+<li><a href="https://medium.com/@marcus930/%E3%80%87-palm-%E5%85%AC%E5%8F%B8%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F-4ad017e0b38e" target="_blank" rel="external">巨星陨落的 Palm 和中途夭折的 webOS</a></li>
+
+<li><a href="http://kimmynet.blogspot.com/2015/01/palm.html" target="_blank" rel="external">Palm 情意結（胖子成長記）</a></li>
+
+<li><a href="http://www.businessinsider.com/history-of-the-palm-pre-2011-8" target="_blank" rel="external">The Short, Sad, And Painful History Of The Palm Pre</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc1871c8" class="outline-2">
+<h2 id="orgc1871c8">HP</h2>
+<div class="outline-text-2" id="text-orgc1871c8">
+<p>
+惠普 (HP) 買下了 Palm 以及 webOS 後，將其用於 <a href="https://en.wikipedia.org/wiki/HP_TouchPad" target="_blank" rel="external">HP TouchPad</a> 上並發表了出來
+</p>
+
+
+<div class="figure">
+<p><img src="ht.jpeg">
+</p>
+</div>
+
+<p>
+但沒過多久，惠普 (HP) 就決定宣告放棄 webOS，並將其開源出來，此舉造成了 <a href="http://webos-ports.org/wiki/Main_Page" target="_blank" rel="external">webOS-ports</a> 社群的誕生
+</p>
+</div>
+
+<div id="outline-container-orge7f5612" class="outline-3">
+<h3 id="orge7f5612">延伸閱讀</h3>
+<div class="outline-text-3" id="text-orge7f5612">
+<ul class="org-ul">
+<li><a href="http://tech.sina.com.cn/z/webOS/" target="_blank" rel="external">惠普 webOS 的前世今生</a></li>
+
+<li><a href="https://chinese.engadget.com/2011/08/19/goodbye-hp-webos/" target="_blank" rel="external">石專欄：HP webOS，也許是時候說再見了！</a></li>
+
+<li><a href="https://vrzone.com/articles/hp-makes-webos-open-source/14195.html" target="_blank" rel="external">HP makes webOS open-source</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1171543" class="outline-2">
+<h2 id="org1171543">webOS Ports (LuneOS)</h2>
+<div class="outline-text-2" id="text-org1171543">
+<p>
+開源版本的 webOS 由  <a href="http://webos-ports.org/wiki/Main_Page" target="_blank" rel="external">webOS-ports</a> 社群維護，你可以在 <a href="https://github.com/webOS-ports" target="_blank" rel="external">https://github.com/webOS-ports</a> 看到整個專案的程式碼，大約在  2016 年時候，webOS-ports 正式命名為 <a href="https://en.wikipedia.org/wiki/LuneOS" target="_blank" rel="external">LuneOS</a> 。(<a href="https://generationmobiles.net/2014/09/webos-renomme-en-luneos-met-laccent-sur-le-nexus-4-et-hp-touchpad/" target="_blank" rel="external">圖片來源</a>)
+</p>
+
+
+<div class="figure">
+<p><img src="lo.jpg">
+</p>
+</div>
+
+<p>
+LuneOS 有一點要特別題的是，在當時由於 <a href="http://mer-project.blogspot.com/2013/04/wayland-utilizing-android-gpu-drivers.html" target="_blank" rel="external">libhybris</a> 逐漸成熟，因此整個 LuneOS 專案也改用以 <a href="https://github.com/libhybris/libhybris" target="_blank" rel="external">libhybris</a> 作為 GPU 函式庫的設計，並使用 <a href="https://wayland.freedesktop.org/" target="_blank" rel="external">Wayland</a> 來作為視窗管理系統。
+</p>
+
+<p>
+註:
+</p>
+
+<ol class="org-ol">
+<li><a href="https://github.com/libhybris/libhybris" target="_blank" rel="external">libhybris</a> 是一種可以讓你在 Linux 的 glibc 上觸摸到 Android bionic 上的函式庫的中介層函式庫，簡單點來說就是透過 dlopen() 搭配 hook() 的方式，讓 Linux 端可以重用 Android 端的相關函式庫，特別是 OpenGLES 函式庫。其原始作者為 <a href="https://jolla.com/" target="_blank" rel="external">Jolla</a> 的工程師 <a href="https://twitter.com/stskeeps" target="_blank" rel="external">Carsten Munk</a> 。</li>
+
+<li>筆者有幸在 <a href="https://github.com/libhybris/libhybris" target="_blank" rel="external">libhybris</a> 發展的過程中一窺 <a href="https://github.com/libhybris/libhybris" target="_blank" rel="external">Ubuntu Touch</a>、<a href="http://merproject.org/" target="_blank" rel="external">Mer</a>、<a href="https://sailfishos.org/" target="_blank" rel="external">Salifish</a> 等以 <a href="https://github.com/libhybris/libhybris" target="_blank" rel="external">libhybris</a> 為基底的系統的架構，但由於細講這一部份會偏離這一篇文章的主題，所以我們就到此為止吧 :)</li>
+</ol>
+</div>
+
+<div id="outline-container-org9e6fb47" class="outline-3">
+<h3 id="org9e6fb47">延伸閱讀</h3>
+<div class="outline-text-3" id="text-org9e6fb47">
+<ul class="org-ul">
+<li><a href="https://generationmobiles.net/2014/09/webos-renomme-en-luneos-met-laccent-sur-le-nexus-4-et-hp-touchpad/" target="_blank" rel="external">webOS renommé LuneOS, met l'accent sur le Nexus 4 et HPTouchPad</a></li>
+
+<li><a href="http://mer-project.blogspot.com/2013/04/wayland-utilizing-android-gpu-drivers.html" target="_blank" rel="external">Wayland utilizing Android GPU drivers on glibc based systems, Part 1</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7ebb051" class="outline-2">
+<h2 id="org7ebb051">LG</h2>
+<div class="outline-text-2" id="text-org7ebb051">
+<p>
+雖然惠普 (HP) 放棄了 webOS, 並將部份程式開源，但韓國的 LG 公司為了製作智慧電視，因此決定向惠普 (HP) 購買 webOS 的授權，用來製作在 LG 的電視上 (<a href="http://www.lgnewsroom.com/2014/01/lg-makes-smart-tv-simple-with-new-webos-smart-tv-platform/" target="_blank" rel="external">圖片來源</a>)
+</p>
+
+
+<div class="figure">
+<p><img src="lg.jpg">
+</p>
+</div>
+
+<p>
+這套系統目前已經在很多 LG 自己的智慧電視上面跑了，希望可以這樣持續下去
+</p>
+</div>
+
+<div id="outline-container-org42cb27d" class="outline-3">
+<h3 id="org42cb27d">延伸閱讀</h3>
+<div class="outline-text-3" id="text-org42cb27d">
+<ul class="org-ul">
+<li><a href="https://www8.hp.com/us/en/hp-news/press-release.html?id=1375489" target="_blank" rel="external">LG Electronics Acquires webOS from HP to Enhance Smart TV</a></li>
+
+<li><a href="https://www.theverge.com/2013/2/25/4027018/lg-buys-webos-smart-tv" target="_blank" rel="external">LG buys webOS from HP for use in smart TVs</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6d6a3ea" class="outline-2">
+<h2 id="org6d6a3ea">webOS OSE</h2>
+<div class="outline-text-2" id="text-org6d6a3ea">
+<p>
+就在今年 (2018) 的 3 月，LG 決定將他們買下的 webOS 做一些整理，變成開源版本的 <a href="http://webosose.org" target="_blank" rel="external">webOS OSE</a> (webOS Open Source Edition) 釋放出來，這個版本包含了基本的 framework, 但是 LG 用於電視上面的的 App 以及 UI 並不會跟個被開放出來。
+</p>
+
+
+<div class="figure">
+<p><img src="wose.png">
+</p>
+</div>
+
+<p>
+在後續文章中，我們將試玩看看 LG 的 <a href="http://webosose.org/" target="_blank" rel="external">webOS OSE</a>。
+</p>
+</div>
+
+<div id="outline-container-orgd3b5e6c" class="outline-3">
+<h3 id="orgd3b5e6c">延伸閱讀</h3>
+<div class="outline-text-3" id="text-orgd3b5e6c">
+<ul class="org-ul">
+<li><a href="https://www.cnx-software.com/2018/03/19/lg-releases-webos-open-source-edition-optimized-for-raspberry-pi-3/" target="_blank" rel="external">LG Releases webOS Open Source Edition Optimized for Raspberry Pi 3</a></li>
+
+<li><a href="https://www.infoq.com/news/2018/03/lg-open-sources-webos" target="_blank" rel="external">LG Relase webOS Open Source Edition (OSE), an IoT-Friendly OS</a></li>
+
+<li><a href="https://itsfoss.com/webos-goes-open-source/" target="_blank" rel="external">LG’s Linux-based webOS Goes Open Source, Again!</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webos/" rel="tag">#webos</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/b394a9ce/" rel="prev">UltraZed-EG PCIe Carrier Card 開發紀錄: 使用 PetaLinux 建立系統</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">114</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">86</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org90ab6cb"><span class="nav-text">從 PDA 開始說起</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgfef1d6c"><span class="nav-text">延伸閱讀</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org01edf28"><span class="nav-text">iPhone 的出現</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1903ba8"><span class="nav-text">Palm</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orge4701f7"><span class="nav-text">延伸閱讀</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc1871c8"><span class="nav-text">HP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orge7f5612"><span class="nav-text">延伸閱讀</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1171543"><span class="nav-text">webOS Ports (LuneOS)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org9e6fb47"><span class="nav-text">延伸閱讀</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7ebb051"><span class="nav-text">LG</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org42cb27d"><span class="nav-text">延伸閱讀</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6d6a3ea"><span class="nav-text">webOS OSE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd3b5e6c"><span class="nav-text">延伸閱讀</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>
