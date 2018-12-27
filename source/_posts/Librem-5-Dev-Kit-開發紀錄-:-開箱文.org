@@ -110,20 +110,19 @@
 
 #+HTML: </div> </div>
 
-
 * 啟動板子
 
-開完箱後，我快快樂樂的接上電源，然後....... 螢幕不會亮 orz....
+開完箱後，我快快樂樂的接上電源，然後....... 發現到螢幕不會亮 orz....
 
-根據 [[https://developer.puri.sm/Librem5/Development_Environment/Boards/imx8.html][Librem 5 Development Kit]] 的說明，目前驅動還沒搞好，因此板子上的螢幕還不會顯示....
+根據 [[https://developer.puri.sm/Librem5/Development_Environment/Boards/imx8.html][Librem 5 Development Kit]] 的說明，由於目前驅動還沒搞好，因此板子上的螢幕還不會顯示...
 
 [[file:Librem-5-Dev-Kit-開發紀錄-:-開箱文/d.png]]
 
-由於這一塊開發板有 Mini HDMI 接口，所以可能可以從 Mini HDMI 看到輸出吧，但是由於筆者此時沒有相關線材，因此這邊要後面才能測試囉~
+不過由於這一塊開發板有 Mini HDMI 接口，所以可能也可以從 Mini HDMI 看到輸出吧，但是筆者此時沒有相關線材，因此這邊要後面才能測試囉~
 
-當然，就算沒有畫面顯示，只要能夠透過 UART 輸出就沒有煩惱啦，因此將 USB Type C 接到電腦上，並透過比如 =tio= 、 =emacs= 、 =screen= 等軟體打開 =/dev/ttyACM0= 來看看看有沒有訊息
+當然，就算沒有畫面顯示，只要能夠透過 UART 輸出就不用擔心拿到壞掉的板子啦，因此將 USB Type C 接到電腦上，並透過比如 =tio= 、 =emacs= 、 =screen= 等軟體打開 =/dev/ttyACM0= 來看看看有沒有訊息
 
-我們可以用 =root/root= 這樣的 =帳號/密碼= 組合來登入系統，或是用 =purism= 作為帳號，並輸入 =123456= 作為密碼來登入
+我們可以用 =root= 作為 =帳號= 以及 =密碼= 來登入系統，或是用 =purism= 作為帳號，並輸入 =123456= 作為密碼來登入
 
 #+BEGIN_EXAMPLE
   coldnew@gentoo ~ $ tio /dev/ttyACM0
@@ -137,14 +136,13 @@
   Password:
 #+END_EXAMPLE
 
-目前筆者就先玩到這樣，接下來就是好好嗑一下硬體電路以及 i.MX8 的相關 CPU 手冊啦 ~
+目前筆者就先玩到這樣，接下來就是好好嗑一下硬體電路以及 i.MX8 的相關 CPU 手冊 ~
 
 * 下一步
 
 拿到這塊板子的下一步，當然是參與社群好好的玩玩看啦～
 
 但不能忘記的是，先到 [[https://developer.puri.sm/Librem5/Development_Environment/Boards/imx8.html][Librem 5 Development Kit]] 這邊看一下基本的使用說明，接下來則是到 https://source.puri.sm/Librem5 這個 [[https://puri.sm/][puri.sm]] 的 GitLab 來看看相關更改，以及參與開發。
-
 
 * 延伸閱讀
 
