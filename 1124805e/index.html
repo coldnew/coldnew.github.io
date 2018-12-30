@@ -1,0 +1,936 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="librem-5,imx8," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 Librem 5 Dev-Kit 開發紀錄: 開箱文 一文中，我們開箱了 Librem 5  手機的開發板。    由於這一塊開發板其實也可以區分為核心板以及擴充板，因此筆者在這次的硬體介紹部份將會切成兩篇文章，好方便後續開發時的查看。    在這篇文章中，我們將看看 Librem 5 所使用的核心板，為 EmCraft 所開發的 NXP i.MX 8M System-On-Module。">
+<meta name="keywords" content="librem-5,imx8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Librem 5 Dev-Kit 開發紀錄: 硬體認識 - 核心板篇">
+<meta property="og:url" content="https://coldnew.github.io/1124805e/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 Librem 5 Dev-Kit 開發紀錄: 開箱文 一文中，我們開箱了 Librem 5  手機的開發板。    由於這一塊開發板其實也可以區分為核心板以及擴充板，因此筆者在這次的硬體介紹部份將會切成兩篇文章，好方便後續開發時的查看。    在這篇文章中，我們將看看 Librem 5 所使用的核心板，為 EmCraft 所開發的 NXP i.MX 8M System-On-Module。">
+<meta property="og:image" content="https://coldnew.github.io/1124805e/c1.png">
+<meta property="og:image" content="https://coldnew.github.io/1124805e/c2.png">
+<meta property="og:image" content="https://coldnew.github.io/1124805e/c3.png">
+<meta property="og:image" content="https://coldnew.github.io/1124805e/c4.jpg">
+<meta property="og:image" content="https://coldnew.github.io/1124805e/c5.png">
+<meta property="og:image" content="https://coldnew.github.io/1124805e/pmic1.png">
+<meta property="og:image" content="https://coldnew.github.io/1124805e/pmic.png">
+<meta property="og:image" content="https://coldnew.github.io/1124805e/s1.jpg">
+<meta property="og:image" content="https://coldnew.github.io/1124805e/s2.jpg">
+<meta property="og:updated_time" content="2018-12-30T06:08:16.090Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Librem 5 Dev-Kit 開發紀錄: 硬體認識 - 核心板篇">
+<meta name="twitter:description" content="在 Librem 5 Dev-Kit 開發紀錄: 開箱文 一文中，我們開箱了 Librem 5  手機的開發板。    由於這一塊開發板其實也可以區分為核心板以及擴充板，因此筆者在這次的硬體介紹部份將會切成兩篇文章，好方便後續開發時的查看。    在這篇文章中，我們將看看 Librem 5 所使用的核心板，為 EmCraft 所開發的 NXP i.MX 8M System-On-Module。">
+<meta name="twitter:image" content="https://coldnew.github.io/1124805e/c1.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Librem 5 Dev-Kit 開發紀錄: 硬體認識 - 核心板篇 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/1124805e/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Librem 5 Dev-Kit 開發紀錄: 硬體認識 - 核心板篇
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2018-12-30T14:08:16+08:00" content="2018-12-30">
+            2018-12-30
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/librem-5-dev-kit/" itemprop="url" rel="index">
+                  <span itemprop="name">Librem 5 Dev-Kit 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+在 <a href="https://coldnew.github.io/4c50d1c9/">Librem 5 Dev-Kit 開發紀錄: 開箱文</a> 一文中，我們開箱了 <a href="https://puri.sm/products/librem-5/" target="_blank" rel="external">Librem 5</a>  手機的開發板。
+</p>
+
+<p>
+由於這一塊開發板其實也可以區分為核心板以及擴充板，因此筆者在這次的硬體介紹部份將會切成兩篇文章，好方便後續開發時的查看。
+</p>
+
+<p>
+在這篇文章中，我們將看看 <a href="https://puri.sm/products/librem-5/" target="_blank" rel="external">Librem 5</a> 所使用的核心板，為 <a href="https://emcraft.com/" target="_blank" rel="external">EmCraft</a> 所開發的 <a href="https://emcraft.com/products/868" target="_blank" rel="external">NXP i.MX 8M System-On-Module</a>。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-orgfd8a7be" class="outline-2">
+<h2 id="orgfd8a7be">核心板在哪 ?</h2>
+<div class="outline-text-2" id="text-orgfd8a7be">
+<p>
+由於 <a href="https://coldnew.github.io/4c50d1c9/">Librem 5 Dev-Kit 開發紀錄: 開箱文</a> 一文中我們只做簡單的開箱，因此先指出核心板在哪吧! 就在背面 (沒有螢幕那面) 的中間
+</p>
+
+
+<div class="figure">
+<p><img src="c1.png">
+</p>
+</div>
+
+<p>
+從上面的資訊，可以得知這部份是  <a href="https://emcraft.com/" target="_blank" rel="external">EmCraft</a> 所開發的板子，為 <a href="https://emcraft.com/products/868" target="_blank" rel="external">NXP i.MX 8M System-On-Module</a>。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org01843e8" class="outline-2">
+<h2 id="org01843e8">概觀</h2>
+<div class="outline-text-2" id="text-org01843e8">
+<p>
+知道核心板是 <a href="https://emcraft.com/products/868" target="_blank" rel="external">NXP i.MX 8M System-On-Module</a> 後，我們可以在該網站下載 <a href="https://emcraft.com/component/jdownloads/view.download/153/1159" target="_blank" rel="external">i.MX 8M SOM hardware architecture specification.pdf</a> ，這份 PDF 檔案描述了關於這塊核心板的相關資訊。
+</p>
+
+<p>
+我們來看看這塊板子與其方塊圖吧
+</p>
+
+<div class="row "><div class="col-md-5 ">
+
+<p>
+<b>核心板正面</b>
+</p>
+
+
+<div class="figure">
+<p><img src="c2.png">
+</p>
+</div>
+
+</div><div class="col-md-7">
+
+<p>
+<b>方塊圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="c3.png">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+這邊有一點要特別提及的事情是，從  <a href="https://emcraft.com/products/868" target="_blank" rel="external">NXP i.MX 8M System-On-Module</a> 上面的資訊來看，這塊核心板本該有 藍芽/WiFi 模組的，但可能是成本或是設計的關係，<a href="https://puri.sm/" target="_blank" rel="external">Purism</a> 並未將這邊的組件放在核心板上，也因此本文的方塊圖也有做些調整。
+</p>
+
+<p>
+大概知道這塊核心板的架構後，我們一項一項的來看各部份吧 :)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org789b4d0" class="outline-2">
+<h2 id="org789b4d0">NXP i.MX 8M</h2>
+<div class="outline-text-2" id="text-org789b4d0">
+<p>
+整塊核心板最重要的部份就是 <a href="https://www.nxp.com/products/processors-and-microcontrollers/arm-based-processors-and-mcus/i.mx-applications-processors/i.mx-8-processors/i.mx-8m-family-armcortex-a53-cortex-m4-audio-voice-video:i.MX8M?tab=Documentation_" target="_blank" rel="external">NXP i.MX 8M</a> ，為 <code>Arm Cortex-A53</code> 搭配 <code>Arm Cortex-M4</code> 的 HMP (Heterogeneous multi-processing) 架構的 SoC，也是 <a href="https://www.nxp.com" target="_blank" rel="external">NXP</a> 公司接下來主推的晶片系列之一。
+</p>
+
+<p>
+在本文中的核心板採用的是 <a href="https://www.digikey.com/product-detail/en/nxp-usa-inc/MIMX8MQ6DVAJZAA/568-13720-ND/7803874" target="_blank" rel="external">MIMX8MQ6DVAJZAA</a> 這個型號的 <a href="https://www.nxp.com/products/processors-and-microcontrollers/arm-based-processors-and-mcus/i.mx-applications-processors/i.mx-8-processors/i.mx-8m-family-armcortex-a53-cortex-m4-audio-voice-video:i.MX8M" target="_blank" rel="external">i.MX 8M</a> 晶片，根據 <a href="https://www.nxp.com/docs/en/data-sheet/IMX8MDQLQCEC.pdf" target="_blank" rel="external">i.MX 8M Quad Aplications Processors Data Sheet for Consumer Products.pdf</a> 可以知道，這是一顆具有 <code>4 核 Cortex-A53</code>  搭配 <code>1 核 Cortex-M4</code> 的 SoC，並且內建了 GPU (<a href="http://www.vivantecorp.com/index.php/en/media-article/news/277-20140403-vivante-gc7000-delivers-desktop-graphics-to-mobile.html" target="_blank" rel="external">Vivante GC7000Lite</a>)、VPU 等功能。
+</p>
+
+<div class="row "><div class="col-md-7 ">
+
+<p>
+<b>方塊圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="c4.jpg">
+</p>
+</div>
+
+</div><div class="col-md-5">
+
+<p>
+<b>型號功能判斷</b>
+</p>
+
+
+<div class="figure">
+<p><img src="c5.png">
+</p>
+</div>
+
+</div> </div>
+</div>
+</div>
+
+<div id="outline-container-org9987465" class="outline-2">
+<h2 id="org9987465">PMIC</h2>
+<div class="outline-text-2" id="text-org9987465">
+<p>
+核心板選用了 <a href="https://www.rohm.com/products/power-management/power-management-ic-for-system/industrial-consumer-applications/nxp-imx/bd71837mwv-product" target="_blank" rel="external">ROHM BD71837MWV</a> 這顆 <a href="https://zh.wikipedia.org/zh-tw/%E9%9B%BB%E6%BA%90%E7%AE%A1%E7%90%86IC" target="_blank" rel="external">電源管理晶片</a> (Power Control Integrated Circuit, PMIC) 來控制電源時序，而在 i.MX8 上，我們可以透過 I2C 接口的 Bus 1 來控制這一顆 PMIC。
+</p>
+
+
+<div class="row "><div class="col-md-6 ">
+
+<p>
+<b>I2C Bus</b>
+</p>
+
+
+<div class="figure">
+<p><img src="pmic1.png">
+</p>
+</div>
+
+</div><div class="col-md-6">
+
+<p>
+<b>Power Map</b>
+</p>
+
+
+<div class="figure">
+<p><img src="pmic.png">
+</p>
+</div>
+
+</div> </div>
+</div>
+</div>
+
+<div id="outline-container-orgfad7385" class="outline-2">
+<h2 id="orgfad7385">SDRAM</h2>
+<div class="outline-text-2" id="text-orgfad7385">
+<p>
+這塊核心板採用了 <code>3GB LPDDR4</code> 的 DDR 晶片，不過由於有貼紙蓋在上面具體型號不得而知，但可以透過 <code>free</code> 命令確認系統的確是只抓到了 3GB 的 DRAM 空間。
+</p>
+
+<pre class="example">
+root@pureos-test:~# free -m
+              total        used        free      shared  buff/cache   available
+Mem:           3001          85        2810           0         106        2843
+Swap:             0           0           0
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org85f1e73" class="outline-2">
+<h2 id="org85f1e73">eMMC</h2>
+<div class="outline-text-2" id="text-org85f1e73">
+<p>
+核心板使用了 <a href="https://media.kingston.com/pdfs/emmc/eMMC_Product_flyer.pdf" target="_blank" rel="external">Kinston EMMC32G-M525</a> ，為 <code>32GB</code> 大小的 EMMC，我們可以透過 <code>fdisk</code> 命令確認這一點
+</p>
+
+<pre class="example">
+root@pureos-test:~# fdisk /dev/mmcblk0
+
+Welcome to fdisk (util-linux 2.33).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): p
+Disk /dev/mmcblk0: 28.5 GiB, 30601641984 bytes, 59768832 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xe5daba62
+
+Device         Boot  Start     End Sectors  Size Id Type
+/dev/mmcblk0p1 *     10240  380927  370688  181M 83 Linux
+/dev/mmcblk0p2      380928 7030783 6649856  3.2G 83 Linux
+
+Command (m for help): q
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd1e84a2" class="outline-2">
+<h2 id="orgd1e84a2">SOM Connector</h2>
+<div class="outline-text-2" id="text-orgd1e84a2">
+<p>
+由於這片 SOM (System-On-Module) 的主要任務就是加速開發者電路的開發，因此主要的元件就只有這樣，我們來看看到底是怎樣將這片核心板接到擴充板上的吧~
+</p>
+
+<div class="row "><div class="col-md-4 ">
+
+<p>
+<b>核心板(背面)</b>
+</p>
+
+
+<div class="figure">
+<p><img src="s1.jpg">
+</p>
+</div>
+
+</div><div class="col-md-8">
+
+<p>
+<b>擴充板 (沒有螢幕那面)</b>
+</p>
+
+
+<div class="figure">
+<p><img src="s2.jpg">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+核心板和擴充板採用 <a href="https://www.hirose.com" target="_blank" rel="external">HRS</a> 的 <a href="https://www.hirose.com/product/en/download_file/key_name/DF40/category/Catalog/doc_file_id/31649/?file_category_id=4&amp;item_id=22&amp;is_series=1" target="_blank" rel="external">DF40 Connector</a> 來作為連接器材，從整個 <a href="https://puri.sm/products/librem-5/" target="_blank" rel="external">Librem 5</a> 開發板支援 HDMI 的情況來看，這個聯接器應該是支援高頻訊號的 。拆卸再組裝其實蠻簡單的，但是由於這塊板子這邊接腳沒有防呆機制，小心拆下後裝錯燒掉呦~ (裝回來都要拜拜一下，因為我只有買一台 orz&#x2026;)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf46de24" class="outline-2">
+<h2 id="orgf46de24">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgf46de24">
+<ul class="org-ul">
+<li><a href="https://www.nxp.com/products/processors-and-microcontrollers/arm-based-processors-and-mcus/i.mx-applications-processors/i.mx-8-processors/i.mx-8m-family-armcortex-a53-cortex-m4-audio-voice-video:i.MX8M?tab=Documentation_Tab" target="_blank" rel="external">i.MX 8M Family - Arm Cortex-A53, Cortex-M4, Audio, Voice, Video</a></li>
+
+<li><a href="https://emcraft.com/products/868" target="_blank" rel="external">EmCraft NXP i.MX 8M System-On-Module</a></li>
+</ul>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/librem-5/" rel="tag">#librem-5</a>
+          
+            <a href="/tags/imx8/" rel="tag">#imx8</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/4c50d1c9/" rel="prev">Librem 5 Dev-Kit 開發紀錄: 開箱文</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">117</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">88</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfd8a7be"><span class="nav-text">核心板在哪 ?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org01843e8"><span class="nav-text">概觀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org789b4d0"><span class="nav-text">NXP i.MX 8M</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9987465"><span class="nav-text">PMIC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfad7385"><span class="nav-text">SDRAM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org85f1e73"><span class="nav-text">eMMC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd1e84a2"><span class="nav-text">SOM Connector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf46de24"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>
