@@ -17,6 +17,8 @@
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
+
 
 
   <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
@@ -50,13 +52,13 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。">
+<meta name="description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。    (本文以 Vivado 2016.2 進行開發)">
 <meta name="keywords" content="fpga,xilinx,vivado,zynq,zybo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zybo board 開發記錄: Zynq 與 LED 閃爍控制">
 <meta property="og:url" content="https://coldnew.github.io/dec85bd3/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。">
+<meta property="og:description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。    (本文以 Vivado 2016.2 進行開發)">
 <meta property="og:image" content="https://coldnew.github.io/dec85bd3/zybo_led.png">
 <meta property="og:image" content="https://coldnew.github.io/dec85bd3/zynq_axi_gpio_led.png">
 <meta property="og:image" content="https://coldnew.github.io/dec85bd3/zynq_hw_arch.png">
@@ -110,7 +112,7 @@
 <meta property="og:updated_time" content="2016-07-05T15:41:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zybo board 開發記錄: Zynq 與 LED 閃爍控制">
-<meta name="twitter:description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。">
+<meta name="twitter:description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。    (本文以 Vivado 2016.2 進行開發)">
 <meta name="twitter:image" content="https://coldnew.github.io/dec85bd3/zybo_led.png">
 
 
@@ -287,15 +289,19 @@
 在 <a href="http://coldnew.github.io/zybo-board/pl_led/">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a> 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。
 </p>
 
+<p>
+(本文以 <code>Vivado 2016.2</code> 進行開發)
+</p>
+
 <a id="more"></a>
 
 <p>
 本文主要參考自 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="external">Digilentinc</a> 的 <a href="https://reference.digilentinc.com/zybo/gsg" target="_blank" rel="external">Getting Start Guide</a> 並加入我自己試玩的一些心得。
 </p>
 
-<div id="outline-container-org859f414" class="outline-2">
-<h2 id="org859f414">開發目標</h2>
-<div class="outline-text-2" id="text-org859f414">
+<div id="outline-container-org8c3d12b" class="outline-2">
+<h2 id="org8c3d12b">開發目標</h2>
+<div class="outline-text-2" id="text-org8c3d12b">
 <p>
 我們要透過 Zynq 上的 ARM 處理器，也就是 處理系統 (Processing System, PS)去控制 LED，具體目標與電路資訊如下:
 </p>
@@ -318,9 +324,9 @@
 </div>
 </div>
 
-<div id="outline-container-org7a5ff50" class="outline-2">
-<h2 id="org7a5ff50">認識 AXI 匯流排</h2>
-<div class="outline-text-2" id="text-org7a5ff50">
+<div id="outline-container-org5a4a6df" class="outline-2">
+<h2 id="org5a4a6df">認識 AXI 匯流排</h2>
+<div class="outline-text-2" id="text-org5a4a6df">
 <p>
 AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a href="http://www.zynqbook.com/" target="_blank" rel="external">The Zynq Book</a> p.28)
 </p>
@@ -341,9 +347,9 @@ AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a h
 </div>
 </div>
 
-<div id="outline-container-org6fc416e" class="outline-2">
-<h2 id="org6fc416e">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org6fc416e">
+<div id="outline-container-orgd56952d" class="outline-2">
+<h2 id="orgd56952d">建立我們的專案</h2>
+<div class="outline-text-2" id="text-orgd56952d">
 <p>
 我們首先當然是建立我們的專案了，在進行這一步前，請先確定你有按照 <a href="https://coldnew.github.io/zybo-board/vivado_zybo_setting_file/">讓 Vivado 有 Zybo Board 的設定檔</a> 一文所說，將 Zybo board 的設計導入。
 </p>
@@ -402,9 +408,9 @@ AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a h
 </div>
 </div>
 
-<div id="outline-container-org3191a37" class="outline-2">
-<h2 id="org3191a37">建立 Block Design</h2>
-<div class="outline-text-2" id="text-org3191a37">
+<div id="outline-container-org3775f1f" class="outline-2">
+<h2 id="org3775f1f">建立 Block Design</h2>
+<div class="outline-text-2" id="text-org3775f1f">
 <p>
 當我們的設計需要用到 Zynq 的處理器系統(Processing System, PS)時候，就需要透過 Block Design 來建立我們的電路設計，首先點選 <code>IP Integrator -&gt; Create Block Design</code> 。
 </p>
@@ -539,9 +545,9 @@ AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a h
 </div>
 </div>
 
-<div id="outline-container-orgd46eac1" class="outline-2">
-<h2 id="orgd46eac1">加入 Constraints</h2>
-<div class="outline-text-2" id="text-orgd46eac1">
+<div id="outline-container-org0ca0f50" class="outline-2">
+<h2 id="org0ca0f50">加入 Constraints</h2>
+<div class="outline-text-2" id="text-org0ca0f50">
 <p>
 在 <a href="http://coldnew.github.io/zybo-board/pl_led/">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a> 一文有提到如何取得 Constraints 檔案，不過為了讓這篇文章完整，我們再講一次。
 </p>
@@ -598,9 +604,9 @@ Archive:  zybo_master_xdc.zip
 </div>
 </div>
 
-<div id="outline-container-org776578d" class="outline-3">
-<h3 id="org776578d">ZYBO_Master.xdc</h3>
-<div class="outline-text-3" id="text-org776578d">
+<div id="outline-container-orge4b0639" class="outline-3">
+<h3 id="orge4b0639">ZYBO_Master.xdc</h3>
+<div class="outline-text-3" id="text-orge4b0639">
 <p>
 在 ZYBO_Master.xdc 裡面，預設所有對應接腳都是被註解掉的，這邊我們反註解我們需要的 led 接腳，要記得一下這邊的 I/O 名稱，我們等等要和產生出來的 HDL Wrapper 進行對應的工作。
 </p>
@@ -608,20 +614,20 @@ Archive:  zybo_master_xdc.zip
 <div class="org-src-container">
 <pre class="src src-sh"><span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">LEDs</span>
 <span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_L23P_T3_35</span>
-set_property PACKAGE_PIN M14 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span>0<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
-set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span>0<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property PACKAGE_PIN M14 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">0</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">0</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
 
 <span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_L23N_T3_35</span>
-set_property PACKAGE_PIN M15 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span>1<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
-set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span>1<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property PACKAGE_PIN M15 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">1</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">1</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
 
 <span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_0_35</span>
-set_property PACKAGE_PIN G14 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span>2<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
-set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span>2<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property PACKAGE_PIN G14 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">2</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">2</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
 
 <span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_L3N_T0_DQS_AD1N_35</span>
-set_property PACKAGE_PIN D18 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span>3<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
-set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span>3<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property PACKAGE_PIN D18 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">3</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">3</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
 </pre>
 </div>
 
@@ -632,9 +638,9 @@ set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports
 </div>
 </div>
 
-<div id="outline-container-org8f8de78" class="outline-2">
-<h2 id="org8f8de78">產生 HDL Wrapper</h2>
-<div class="outline-text-2" id="text-org8f8de78">
+<div id="outline-container-org1020676" class="outline-2">
+<h2 id="org1020676">產生 HDL Wrapper</h2>
+<div class="outline-text-2" id="text-org1020676">
 <p>
 接下來我們要透過 Block Design 產生我們的 HDL wrapper，對你的 Block Design 檔案點選右鍵，選擇 <code>Create HDL Wrapper</code> 。它會根據你專案設定的語言 (VHDL 或是 Verilog) 來產生相對的 HDL 程式碼。
 </p>
@@ -680,8 +686,8 @@ set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff">diff --git a/led_flash_zynq.srcs/sources_1/imports/hdl/design_1_wrapper.v b/led_flash_zynq.srcs/sources_1/imports/hdl/design_1_wrapper.v
-index 7b1b0bd..c57caa0 100644
+<pre class="src src-diff"><span style="color: #aaaaaa; background-color: #202020;">diff --git a/led_flash_zynq.srcs/sources_1/imports/hdl/design_1_wrapper.v b/led_flash_zynq.srcs/sources_1/imports/hdl/design_1_wrapper.v</span>
+<span style="color: #aaaaaa; background-color: #202020;">index 7b1b0bd..c57caa0 100644</span>
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/led_flash_zynq.srcs/sources_1/imports/hdl/design_1_wrapper.v</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/led_flash_zynq.srcs/sources_1/imports/hdl/design_1_wrapper.v</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -31,7 +31,7 @@</span><span style="color: #aaaaaa; background-color: #202020;"> module design_1_wrapper</span>
@@ -733,9 +739,9 @@ index 7b1b0bd..c57caa0 100644
 </div>
 </div>
 
-<div id="outline-container-org520d01f" class="outline-2">
-<h2 id="org520d01f">產生位元流 (bitstream)</h2>
-<div class="outline-text-2" id="text-org520d01f">
+<div id="outline-container-orgf4e3ea4" class="outline-2">
+<h2 id="orgf4e3ea4">產生位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-orgf4e3ea4">
 <p>
 前面的處理都好了後，接下來點選 <code>Program and Debug -&gt; Generate Bitstream</code> 去讓 Vivado 將這個專案產生出位元流 (bitstream)，ZYNQ 會根據 bitstream 的資訊對 FPGA 進行設定。
 </p>
@@ -782,9 +788,9 @@ index 7b1b0bd..c57caa0 100644
 </div>
 </div>
 
-<div id="outline-container-org145a707" class="outline-2">
-<h2 id="org145a707">Xilinx SDK</h2>
-<div class="outline-text-2" id="text-org145a707">
+<div id="outline-container-org2acfca8" class="outline-2">
+<h2 id="org2acfca8">Xilinx SDK</h2>
+<div class="outline-text-2" id="text-org2acfca8">
 <p>
 我們啟動 Xilinx SDK 後，可以先看到一些像是位址映射 (Address Map) 的資訊
 </p>
@@ -856,9 +862,9 @@ index 7b1b0bd..c57caa0 100644
 </div>
 </div>
 
-<div id="outline-container-orge22ff84" class="outline-3">
-<h3 id="orge22ff84">建立 main.c</h3>
-<div class="outline-text-3" id="text-orge22ff84">
+<div id="outline-container-org5abb88a" class="outline-3">
+<h3 id="org5abb88a">建立 main.c</h3>
+<div class="outline-text-3" id="text-org5abb88a">
 <p>
 由於我們建立的是空白專案，必須自己添加自己的主程式，因此我們對 LED 專案的 src 按下右鍵，選擇建立新的檔案
 </p>
@@ -891,43 +897,43 @@ index 7b1b0bd..c57caa0 100644
 
 <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">simple_delay</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">simple_delay</span><span style="color: #aadddd;">)</span>
 <span style="color: #aadddd;">{</span>
-        <span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = 0;
-        <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span>i = 0; i &lt; simple_delay; i++<span style="color: #81d4fa;">)</span>;
+        <span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = <span style="color: #ccaaff;">0</span>;
+        <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span>i = <span style="color: #ccaaff;">0</span>; i &lt; simple_delay; i++<span style="color: #81d4fa;">)</span>;
 <span style="color: #aadddd;">}</span>
 
 <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">argv</span><span style="color: #81d4fa;">[]</span><span style="color: #aadddd;">)</span>
 <span style="color: #aadddd;">{</span>
-        <span style="color: #fff59d;">XGpio</span> <span style="color: #aaccff;">led_gpio</span>;              <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">LED Instance </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        <span style="color: #fff59d;">XGpio</span> <span style="color: #aaccff;">led_gpio</span>;              <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">LED Instance</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Initialize LED GPIO settings </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Initialize LED GPIO settings</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
         XGpio_Initialize<span style="color: #81d4fa;">(</span>&amp;led_gpio, XPAR_AXI_GPIO_0_DEVICE_ID<span style="color: #81d4fa;">)</span>;
-        XGpio_SetDataDirection<span style="color: #81d4fa;">(</span>&amp;led_gpio, 1, 0<span style="color: #81d4fa;">)</span>;
+        XGpio_SetDataDirection<span style="color: #81d4fa;">(</span>&amp;led_gpio, <span style="color: #ccaaff;">1</span>, <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">)</span>;
 
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Output something via UART1, 115200 baudrate </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        printf<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Start to blink led_gpio !!!\n\r"</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Output something via UART1, 115200 baudrate</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        printf<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Start to blink led_gpio !!!</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">r</span><span style="color: #aadddd;">"</span><span style="color: #81d4fa;">)</span>;
 
-        <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">led_value</span> = 0x03;   <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">default led_gpio value </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        <span style="color: #aaffaa;">while</span><span style="color: #81d4fa;">(</span>1<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
-                printf<span style="color: #aaccff;">(</span><span style="color: #aadddd;">"led_gpio value set to 0x%X\n\r"</span>, led_value<span style="color: #aaccff;">)</span>;
+        <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">led_value</span> = <span style="color: #ccaaff;">0x03</span>;   <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">default led_gpio value</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        <span style="color: #aaffaa;">while</span><span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">1</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+                printf<span style="color: #aaccff;">(</span><span style="color: #aadddd;">"led_gpio value set to 0x%X</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">r</span><span style="color: #aadddd;">"</span>, led_value<span style="color: #aaccff;">)</span>;
 
-                <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set GPIO Channel 1 value. </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-                XGpio_DiscreteWrite<span style="color: #aaccff;">(</span>&amp;led_gpio, 1 , led_value<span style="color: #aaccff;">)</span>;
+                <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set GPIO Channel 1 value.</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+                XGpio_DiscreteWrite<span style="color: #aaccff;">(</span>&amp;led_gpio, <span style="color: #ccaaff;">1</span> , led_value<span style="color: #aaccff;">)</span>;
 
-                <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">sleep and change led_gpio value </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-                simple_delay<span style="color: #aaccff;">(</span>10000000<span style="color: #aaccff;">)</span>;
+                <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">sleep and change led_gpio value</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+                simple_delay<span style="color: #aaccff;">(</span><span style="color: #ccaaff;">10000000</span><span style="color: #aaccff;">)</span>;
                 led_value = ~led_value;
         <span style="color: #81d4fa;">}</span>
 
-        <span style="color: #aaffaa;">return</span> 0;
+        <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">0</span>;
 <span style="color: #aadddd;">}</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga015ffb" class="outline-3">
-<h3 id="orga015ffb">main.c</h3>
-<div class="outline-text-3" id="text-orga015ffb">
+<div id="outline-container-org1c25c2e" class="outline-3">
+<h3 id="org1c25c2e">main.c</h3>
+<div class="outline-text-3" id="text-org1c25c2e">
 <p>
 在 main.c 的開頭，我們載入了需要使用的幾個標頭檔，在 Xilinx SDK 中，已經包含了一些預設好的函式庫等功能，具體資訊請查閱 <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_3/oslib_rm.pdf" target="_blank" rel="external">Xilinx OS and Libraries Document Collection</a> (UG643) 手冊。
 </p>
@@ -951,8 +957,8 @@ index 7b1b0bd..c57caa0 100644
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #fff59d;">void</span> <span style="color: #aaccff;">simple_delay</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">simple_delay</span><span style="color: #aadddd;">)</span>
 <span style="color: #aadddd;">{</span>
-        <span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = 0;
-        <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span>i = 0; i &lt; simple_delay; i++<span style="color: #81d4fa;">)</span>;
+        <span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = <span style="color: #ccaaff;">0</span>;
+        <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span>i = <span style="color: #ccaaff;">0</span>; i &lt; simple_delay; i++<span style="color: #81d4fa;">)</span>;
 <span style="color: #aadddd;">}</span>
 </pre>
 </div>
@@ -965,7 +971,7 @@ index 7b1b0bd..c57caa0 100644
 <pre class="src src-c"><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">argv</span><span style="color: #81d4fa;">[]</span><span style="color: #aadddd;">)</span>
 <span style="color: #aadddd;">{</span>
         <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">code</span>
-        <span style="color: #aaffaa;">return</span> 0;
+        <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">0</span>;
 <span style="color: #aadddd;">}</span>
 </pre>
 </div>
@@ -975,11 +981,11 @@ index 7b1b0bd..c57caa0 100644
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #fff59d;">XGpio</span> <span style="color: #aaccff;">led_gpio</span>;              <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">LED Instance </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<pre class="src src-c"><span style="color: #fff59d;">XGpio</span> <span style="color: #aaccff;">led_gpio</span>;              <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">LED Instance</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Initialize LED GPIO settings </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Initialize LED GPIO settings</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 XGpio_Initialize<span style="color: #aadddd;">(</span>&amp;led_gpio, XPAR_AXI_GPIO_0_DEVICE_ID<span style="color: #aadddd;">)</span>;
-XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;led_gpio, 1, 0<span style="color: #aadddd;">)</span>;
+XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;led_gpio, <span style="color: #ccaaff;">1</span>, <span style="color: #ccaaff;">0</span><span style="color: #aadddd;">)</span>;
 </pre>
 </div>
 
@@ -988,8 +994,8 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;led_gpio, 1, 0<
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Output something via UART1, 115200 baudrate </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start to blink led !!!\n\r"</span><span style="color: #aadddd;">)</span>;
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Output something via UART1, 115200 baudrate</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start to blink led !!!</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">r</span><span style="color: #aadddd;">"</span><span style="color: #aadddd;">)</span>;
 </pre>
 </div>
 
@@ -1002,15 +1008,15 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">led_value</span> = 0x03;   <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">default led value </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #aaffaa;">while</span><span style="color: #aadddd;">(</span>1<span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
-        printf<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"led value set to 0x%X\n\n"</span>, led_value<span style="color: #81d4fa;">)</span>;
+<pre class="src src-c"><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">led_value</span> = <span style="color: #ccaaff;">0x03</span>;   <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">default led value</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #aaffaa;">while</span><span style="color: #aadddd;">(</span><span style="color: #ccaaff;">1</span><span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
+        printf<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"led value set to 0x%X</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #aadddd;">"</span>, led_value<span style="color: #81d4fa;">)</span>;
 
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set GPIO Channel 1 value. </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        XGpio_DiscreteWrite<span style="color: #81d4fa;">(</span>&amp;led_gpio, 1, led_value<span style="color: #81d4fa;">)</span>;
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set GPIO Channel 1 value.</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        XGpio_DiscreteWrite<span style="color: #81d4fa;">(</span>&amp;led_gpio, <span style="color: #ccaaff;">1</span>, led_value<span style="color: #81d4fa;">)</span>;
 
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">sleep and change led value </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        simple_delay<span style="color: #81d4fa;">(</span>10000000<span style="color: #81d4fa;">)</span>;
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">sleep and change led value</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        simple_delay<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">10000000</span><span style="color: #81d4fa;">)</span>;
         led_value = ~led_value;
 <span style="color: #aadddd;">}</span>
 </pre>
@@ -1019,9 +1025,9 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
 </div>
 </div>
 
-<div id="outline-container-orge34c2c1" class="outline-2">
-<h2 id="orge34c2c1">下載到 Zybo board</h2>
-<div class="outline-text-2" id="text-orge34c2c1">
+<div id="outline-container-org767b380" class="outline-2">
+<h2 id="org767b380">下載到 Zybo board</h2>
+<div class="outline-text-2" id="text-org767b380">
 <p>
 確定此時你有將 Zybo board 接到電腦，並且你 <code>JP5</code> 設定在 <code>QSPI</code> 模式下，就像這樣
 </p>
@@ -1094,9 +1100,9 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
 </div>
 </div>
 
-<div id="outline-container-org1aaa0d5" class="outline-2">
-<h2 id="org1aaa0d5">結果</h2>
-<div class="outline-text-2" id="text-org1aaa0d5">
+<div id="outline-container-orgb286666" class="outline-2">
+<h2 id="orgb286666">結果</h2>
+<div class="outline-text-2" id="text-orgb286666">
 <p>
 在你執行 <i>Program device</i> 以及 <i>Run</i> 後，Xilinx SDK 會將位元流(bitstream) 下載到我們的 Zybo Board，接著重設 CPU 後執行我們下載的程式，最後完成的成果如下
 </p>
@@ -1119,9 +1125,9 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
 </div>
 </div>
 
-<div id="outline-container-orgad90c05" class="outline-2">
-<h2 id="orgad90c05">取得程式碼</h2>
-<div class="outline-text-2" id="text-orgad90c05">
+<div id="outline-container-org67c0816" class="outline-2">
+<h2 id="org67c0816">取得程式碼</h2>
+<div class="outline-text-2" id="text-org67c0816">
 <p>
 本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="external">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
 </p>
@@ -1131,9 +1137,9 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
 </div>
 </div>
 
-<div id="outline-container-org34337a5" class="outline-2">
-<h2 id="org34337a5">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org34337a5">
+<div id="outline-container-org6291b37" class="outline-2">
+<h2 id="org6291b37">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org6291b37">
 <p>
 <code>[1]</code> <a href="http://www.zynqbook.com/" target="_blank" rel="external">The Zynq Book</a>
 </p>
@@ -1257,21 +1263,21 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">117</span>
+              <span class="site-state-item-count">118</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">88</span>
+              <span class="site-state-item-count">89</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -1298,6 +1304,10 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
                 <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
               </span>
             
+              <span class="links-of-author-item">
+                <a href="" target="_blank">linkedln</a>
+              </span>
+            
           
         </div>
 
@@ -1322,7 +1332,7 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org859f414"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7a5ff50"><span class="nav-text">認識 AXI 匯流排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6fc416e"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3191a37"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd46eac1"><span class="nav-text">加入 Constraints</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org776578d"><span class="nav-text">ZYBO_Master.xdc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8f8de78"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org520d01f"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org145a707"><span class="nav-text">Xilinx SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orge22ff84"><span class="nav-text">建立 main.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga015ffb"><span class="nav-text">main.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge34c2c1"><span class="nav-text">下載到 Zybo board</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1aaa0d5"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgad90c05"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org34337a5"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8c3d12b"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5a4a6df"><span class="nav-text">認識 AXI 匯流排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd56952d"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3775f1f"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0ca0f50"><span class="nav-text">加入 Constraints</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orge4b0639"><span class="nav-text">ZYBO_Master.xdc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1020676"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf4e3ea4"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2acfca8"><span class="nav-text">Xilinx SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org5abb88a"><span class="nav-text">建立 main.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1c25c2e"><span class="nav-text">main.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org767b380"><span class="nav-text">下載到 Zybo board</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb286666"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org67c0816"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6291b37"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -1341,7 +1351,7 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
 <div class="copyright" >
   
   Copyright  &copy; &nbsp;  2012 - 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
    &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
 </div>
