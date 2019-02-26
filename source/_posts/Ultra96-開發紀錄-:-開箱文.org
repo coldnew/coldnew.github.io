@@ -1,0 +1,79 @@
+#+TITLE: Ultra96 開發紀錄: 開箱文
+#+OPTIONS: num:nil ^:nil
+#+ABBRLINK: b728d8e8
+#+DATE: <2019-02-26 Tue 18:15>
+#+LANGUAGE: zh-tw
+#+CATEGORIES: Ultra96 開發紀錄
+#+TAGS: fpga, xilinx, zynqmp, ultra96
+
+在 [[https://coldnew.github.io/categories/ultrazed-3eg-pciecc/][UltraZed-EG PCIe Carrier Card 開發紀錄]] 系列文中，筆者曾經撰寫一些關於 [[https://www.xilinx.com/products/silicon-devices/soc/zynq-ultrascale-mpsoc.html][Xilinx UltraScale+ MPSoC]] 系列的 =Zynq UltraScale+ EG= 這顆同時具有 ARM Cortex-A53、ARM Cortex-R5 以及 Xilinx FPGA 的 SOC。
+
+不過由於當時系列文使用的開發板是向人借的，最近也還回去了。因此筆者自行入手了同樣為 [[https://www.avnet.com][AVNET]] 公司所出品的 [[https://www.96boards.org/product/ultra96/][Ultra96]]。
+
+本文先做簡單的開箱動作以及提供一些相關的 FAQ，正式開發紀錄則會下篇後才開始。
+
+#+HTML: <!-- more -->
+
+* Ultra96v1 與 Ultra96v2
+
+假設你不急著買 [[https://www.96boards.org/product/ultra96/][Ultra96]] 的話，也許花點耐心等待就可以等到 Ultra96 rev2 的版本囉，從  [[https://discuss.96boards.org/t/how-many-versions-of-ultra96-board-are-available-now/6340][How many versions of Ultra96 board are available now?]] 這邊的資訊來看，也許等到 2019 年中就可以買到第二板的 Ultra96 了。
+
+* 去哪邊買 Ultra96
+
+我是到 [[https://www.avnet.com][AVNET]] 的官方網站去購買，注意到該網站可以選擇不同地方的商城，比如日本或是亞洲區等。由於我不知道可以選，因此是在美國的商城下單的。
+
+[[file:Ultra96-開發紀錄-:-開箱文/a1.png]]
+
+選擇 [[https://www.avnet.com][AVNET]] 的官方網站來購買這些商品，主要是他是生產商，因此價格會比其他代理商還要便宜一點，我買的時候價格如下:
+
+[[file:Ultra96-開發紀錄-:-開箱文/a2.png]]
+
+注意到由於如果是以台幣計價的代理商，有可能會因為匯差導致你要付比較多錢呦~
+
+* 是否 JTAG 必買?
+
+[[https://www.96boards.org/product/ultra96/][Ultra96]] 有一個令人討厭的點，就是沒有內建 JTAG，因此我有另外花 $39 買了 [[https://www.96boards.org/product/ultra96/][Ultra96]] 專用的
+[[https://www.avnet.com/shop/us/products/avnet-engineering-services-1/aes-acc-u96-jtag-3074457345635355958/][JTAG 轉接板]]。是否必買這個東西會根據你的需求改變，比如你買 Ultra96 只是為了玩 [[http://www.pynq.io/board.html][PYNQ]]的話，那 JTAG 就不是必要囉。
+
+* 開箱文
+
+在購買的時候，我是選擇透過 [[http://www.dhl.com.tw/zt/express/tracking.html][DHL]] 來送貨，由於這個商品總價也是超過新台幣 $5000 元，因此我需要向國家繳納一些保護費，總共繳交了新台幣 $490 元。
+
+[[file:Ultra96-開發紀錄-:-開箱文/o3.jpg]]
+
+拿到的包裹打開後擺放方式如下:
+
+[[file:Ultra96-開發紀錄-:-開箱文/o2.jpg]]
+
+裡面就是我的新玩具啦，讓我來介紹一下。
+
+
+* 12V 電源供應器
+
+首先是電源供應器，這塊板子吃 =12V DC= 的電源，由於我目前規劃要用到的電應該不會太多，因此我買的是 12V DC, 2A 的版本。
+
+如果你要使用在很多週邊的情況下，可能你要買 12VDC, 4A 或更多電流的版本。
+
+另外要注意到他的電源接到板子端的接頭走得規格比較特別，是 =4.7mm * 1.7mm * 10mm= 的接頭，自行購買別家的變壓器的時候要注意一下接頭是否可以用於這塊板子上。
+
+[[file:Ultra96-開發紀錄-:-開箱文/p1.jpg]]
+
+* USB JTAG
+
+由於 Ultra96 沒有內建 JTAG, 因此如果你有需要的話需要自行購買 USB 轉 JTAG/UART 的板子，大約 US $39。
+
+[[file:Ultra96-開發紀錄-:-開箱文/j1.jpg]]
+
+* Ultra96v1
+
+接下來就是我們的 Ultra96 啦，注意到由於 Ultra96v2 還沒出，因此我買的是 Ultra96v1 的版本。
+
+左上角的 RaspberryPi 1 是用來當作對照組的，可以看到這塊板子真的不大。
+
+[[file:Ultra96-開發紀錄-:-開箱文/b1.jpg]]
+
+除了板子外，裡面另外附上 Xilinx 提供的 license，所以我可以用完整的 Xilinx 開發工具在 =Zynq UltraScale+ EG=  系列的 SoC 上。
+
+* 結語
+
+以上就是我的 Ultra96 的開箱文，後面就會來講講這塊板子囉~
