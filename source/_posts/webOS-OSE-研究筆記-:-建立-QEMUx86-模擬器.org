@@ -1,0 +1,250 @@
+#+TITLE: webOS OSE 研究筆記: 建立 QEMUx86 模擬器
+#+OPTIONS: num:nil ^:nil
+#+ABBRLINK: eb8ad016
+#+TAGS: webos, qemu
+#+DATE: <2019-04-12 Fri 18:01>
+#+LANGUAGE: zh-tw
+#+CATEGORIES: webOS OSE 研究筆記
+
+在 [[https://coldnew.github.io/9df34338/][webOS OSE 研究筆記: 編譯 webOS OSE 到 Raspberry Pi 3]] 一文中我們題到了如何透過 [[http://webosose.org][webOS OSE]] 提供的基於 [[http://www.yoctoproject.org/][Yocto Project]] 的編譯系統，建立開機卡片讓你的 Raspberry Pi 3 執行  [[http://webosose.org][webOS OSE]] 系統。
+
+而在這邊文章中，我們將改建立用於 webOS OSE 的模擬器環境，以便於手邊沒有 Raspberry Pi 3 可以用時候的開發。
+
+#+HTML: <!-- more -->
+
+* 下載
+
+首先，我們先透過 git 取得基本的編譯環境
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ git clone https://github.com/webosose/build-webos.git
+#+END_EXAMPLE
+
+由於這個編譯環境是基於 [[http://www.yoctoproject.org/][Yocto Project]] 所建立，因此請先確定你的系統有滿足  [[http://www.yoctoproject.org/][Yocto Project]] 編譯需要的一些基本依賴，如果不確定並且你的系統是 Ubuntu 系列的話，你可以透果以下腳本來確認環境是否有滿足編譯需求。
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ sudo ./scripts/prerequisites.sh
+#+END_EXAMPLE
+
+* 設定
+
+第一次進入到這個編譯環境，我們需要透過 webOS OSE 提供的 =mcf= 腳本來指
+定目標機器。對於模擬器這個目邊，我們需要這樣下命令讓我們編譯環境設定成
+編譯給 =qemux86= 使用
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ ./mcf qemux86
+#+END_EXAMPLE
+
+設定完成後，接下來就是進行編譯的工作了
+
+* 編譯
+
+首先我們先透過 =source= 命令設定好當前 shell 的環境
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ source oe-init-build-env
+#+END_EXAMPLE
+
+完成後，接下來就是選擇編譯目標，如果只是一般驗證用，可以選擇 =webos-image=
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ bitbake webos-image
+#+END_EXAMPLE
+
+如果是想要進行開發的話，推薦選擇 =wenos-image-devel= 會比較好
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ bitbake webos-image-devel
+#+END_EXAMPLE
+
+接下來可以去睡一覺，因為編譯過程中會編譯到 Chromium，這會編譯非常久喔 ~
+
+編譯完成後，會在 =BUILD/deploy/image= 下面出現我們想要的虛擬機映像檔: =BUILD/deploy/images/qemux86/webos-image-qemux86.vmdk=
+
+* 執行虛擬機 (Ubuntu)
+
+根據 [[http://webosose.org/develop/sdk-tools/emulator/qemux86-emulator-linux/][QEMUx86 Emulator for Linux]] 一文，如果你是 Ubuntu 的使用者，你可以透過下載 [[https://github.com/webosose-emulator/prebuilt-emulator][webosose-emulator/prebuilt-emulator]] 這個 repo 裡面預先做好的 QEMU 執行檔，搭配 =emulator= 腳本來執行你的系統
+
+(*註: Gentoo Linux 使用者可以跳過這一步驟, 因為 emulator 腳本要修改才能在 Gentoo Linux 上執行*)
+
+我們首先先下載這個 repo
+
+: git clone https://github.com/webosose-emulator/prebuilt-emulator.git
+
+仔細看一下，這整份 repo 基本上就是 QEMU 執行檔和執行腳本而已
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/prebuilt-emulator $ tree -L 2 .
+  . <b>
+  ├── bin <b>
+  │   ├── pc-bios <b>
+  │   ├── x86 <b>
+  │   └── x86_64 <b>
+  ├── emulator <g>
+  ├── lib <b>
+  │   ├── x86 <b>
+  │   └── x86_64 <b>
+  ├── README <g>
+  ├── README-builds.md
+  ├── README.md
+  └── webos-config-sample.json <g>
+
+  7 directories, 5 files
+#+END_EXAMPLE
+
+我們好奇的是 =webos-config-sample.json= 這個檔案，裡面到底有什麼呢?
+
+#+BEGIN_SRC json
+  {
+      "description":"qemux86",
+      "name":"webos-image-qemux86-master-20180524053534",
+      "vmdk_file_path":"~/Downloads/webos-image-qemux86.vmdk",
+      "hw.core":"1",
+      "hw.ramSize":"1024",
+      "hw.accel":"true",
+      "hw.gl.accel":"true",
+      "debug":"false",
+      "portforwarding.SSH":"6622",
+      "portforwarding.inspector":"9998"
+  }
+#+END_SRC
+
+實際上這份檔案就是用來設定你要執行的模擬器，比如剛剛編譯好的 image 的路徑，或是你要給你的虛擬機多少 RAM 來使用。
+我們複製這份檔案成 =webos-config.json= 並加入我們自己的修改後，就可以這樣執行虛擬機。
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/prebuilt-emulator $ ./emulator webos-config.json
+#+END_EXAMPLE
+
+然後如果沒意外的話，你就會看到一個 QEMU 的視窗跑起來了
+
+* 執行虛擬機 (Gentoo)
+
+由於 [[https://github.com/webosose-emulator/prebuilt-emulator][webosose-emulator/prebuilt-emulator]] 裡面提供的 =emulator= 腳本是針對 Ubuntu 而寫，因此對於 Gentoo Linux 的使用者而言，你可以使用我改好的 [[file:webOS-OSE-研究筆記-:-建立-QEMUx86-模擬器/emulator-gentoo][emulator-gentoo]] 腳本來替代它，使用方式一樣是
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/build-webos $ ./emulator-gentoo webos-config.json
+#+END_EXAMPLE
+
+在執行之前，請先確定你的系統有透過 [[https://wiki.gentoo.org/wiki/Portage][Portage]] 來安裝以下套件，並且需要的 USE flag 皆有打開
+
+| 套件名稱                 | USE Flag              |
+|--------------------------+-----------------------|
+| media-libs/virglrenderer |                       |
+| app-emulation/qemu       | sdl alsa opengl virgl |
+| media-libs/mesa          | gles2                 |
+
+* 截圖
+
+如果一切順利，你應該會看到 QEMU 進入到 webOSOSE 的桌布
+
+[[file:webOS-OSE-研究筆記-:-建立-QEMUx86-模擬器/qemu1.png]]
+
+不順利的話，會看到進入到 QEMU, 但是卻沒有畫面顯示，這時後請確認一下你的 QEMU 使用的 backend 是否有問題
+
+[[file:webOS-OSE-研究筆記-:-建立-QEMUx86-模擬器/qemu2.png]]
+
+如果想要叫出內建的 App 的話，按下鍵盤上的 =Super= 按鍵 (或是 =Windows= 按鍵) 即可
+
+[[file:webOS-OSE-研究筆記-:-建立-QEMUx86-模擬器/qemu3.png]]
+
+* 使用 SSH 登入虛擬機
+
+我們可以透過以下命令來 SSH 到你的虛擬機，注意到這邊的 =Port: 6622= 是設定在你的 =webos-config.json= 上
+
+#+BEGIN_EXAMPLE
+  ssh -p 6622 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@localhost
+#+END_EXAMPLE
+
+* 使用瀏覽器找問題
+
+除了 SSH 外，我們也可以透過網頁瀏覽器連線到 =Port: 9998= 的位置，來執行 inspector，注意到這邊的 Port 一樣是設定在 =webos-config.json= 上的。
+
+[[file:webOS-OSE-研究筆記-:-建立-QEMUx86-模擬器/inspect.png]]
+
+不過此時我還是不知道這功能要怎樣用，因此後續再來談 :)
+
+* Prebuilt image
+
+如果你不想要自行編譯模擬器或是 Raspberry Pi3 的 image 的話，你可以到以下網址去下載已經編譯好的來玩玩看
+
+http://build.webos-ports.org/webosose/
+
+* 延伸閱讀
+
+- [[http://webosose.org/develop/sdk-tools/emulator/qemux86-emulator-linux/][webOS OSE: QEMUx86 Emulator for Linux]]
+
+- [[http://forum.webosose.org/t/pre-built-images-available/392/2][webOS OSE Fourm: Pre-built images available]]
+
+* NO EXPORT                                                        :noexport:
+** 啟用
+
+#+BEGIN_EXAMPLE
+  qemu-system-i386 -name webos-image-qemux86-master-20180524053534 -smp 1 -m 1024 -drive file=/home/coldnew/Yocto/build-webos/BUILD/deploy/images/qemux86/webos-image-qemux86.vmdk,if=virtio -enable-kvm -display sdl,gl=on -show-cursor -usb -usbdevice tablet -device virtio-vga,virgl -soundhw hda -net nic -net user,hostfwd=tcp::6622-:22,hostfwd=tcp::9998-:9998
+#+END_EXAMPLE
+
+注意:
+
+-device virtio-rng-pci 變成 -device virtio-vga,virg
+
+
+diff:
+
+#+BEGIN_SRC diff
+  diff --git a/emulator b/emulator
+  index 2314241..1426788 100755
+  --- a/emulator
+  +++ b/emulator
+  @@ -169,27 +169,28 @@ ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
+   echo $HOST_OS $OS $LINUX_VERSION $ARCH
+
+   # check libsdl2-2.0-0 package
+  -if [ `isPackageInstalled libsdl2-2.0-0` == "false" ]; then
+  -    printError "libsdl2-2.0-0 is not installed."
+  -    echo "----------------------------------"
+  -    echo "sudo apt-get install libsdl2-2.0-0"
+  -    exit
+  -fi
+  -# check libpng12-0 package
+  -if [ `isPackageInstalled libpng12-0` == "false" ]; then
+  -    printError "libpng12-0 is not installed."
+  -    echo "----------------------------------"
+  -    if [ "${LINUX_VERSION:0:2}" == "18" ]; then
+  -        echo "wget -q -O http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb"
+  -        echo "sudo dpkg -i libpng12-0_1.2.54-1ubuntu1_amd64.deb"
+  -    else
+  -        echo "sudo apt-get install libpng12-0"
+  -    fi
+  -    exit
+  -fi
+  +#if [ `isPackageInstalled libsdl2-2.0-0` == "false" ]; then
+  +#    printError "libsdl2-2.0-0 is not installed."
+  +#    echo "----------------------------------"
+  +#    echo "sudo apt-get install libsdl2-2.0-0"
+  +#    exit
+  +#fi
+  +## check libpng12-0 package
+  +#if [ `isPackageInstalled libpng12-0` == "false" ]; then
+  +#    printError "libpng12-0 is not installed."
+  +#    echo "----------------------------------"
+  +#    if [ "${LINUX_VERSION:0:2}" == "18" ]; then
+  +#        echo "wget -q -O http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb"
+  +#        echo "sudo dpkg -i libpng12-0_1.2.54-1ubuntu1_amd64.deb"
+  +#    else
+  +#        echo "sudo apt-get install libpng12-0"
+  +#    fi
+  +#    exit
+  +#fi
+
+   # check mesa-utils package to check whether your pc suppor openGL 3.0 version at least
+  -if [ `isPackageInstalled mesa-utils` == "false" ]; then
+  +#if [ `isPackageInstalled mesa-utils` == "false" ]; then
+  +if [ 0 ]; then
+       printError "mesa-utils is not installed. Please install mesa-utils to check whether your pc suppor openGL 3.0 version."
+       echo "----------------------------------"
+       echo "sudo apt-get install mesa-utils"
+
+#+END_SRC
+
+With Gentoo it's easy, just enable following USE-flags: opengl, virgl and gtk or sdl2.
