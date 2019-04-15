@@ -1,0 +1,98 @@
+#+TITLE: webOS OSE 研究筆記: 安裝 SDK
+#+OPTIONS: num:nil ^:nil
+#+ABBRLINK: ecf86c20
+#+DATE: <2019-04-15 Mon 23:48>
+#+TAGS: webos, nodejs
+#+LANGUAGE: zh-tw
+#+CATEGORIES: webOS OSE 研究筆記
+
+在建立完 [[https://coldnew.github.io/9df34338/][Raspberry Pi 3]] 或是 [[https://coldnew.github.io/eb8ad016/][QEMU x86]] 的 [[http://webosose.org][webOS OSE]] 系統後，我們就可以準備來開始寫我們的程式了。
+
+不過在這之前，先來裝個 SDK 來方便專案的管理與發佈 (deploy)。
+
+#+HTML: <!-- more -->
+
+[[http://webosose.org][webOS OSE]] 的 SDK 是由 [[https://nodejs.org/en/][Node.js]] 套件組成，主要是用來建立/安裝以及除錯 Web app 使用，整體使用流程大致如下:
+
+[[file:webOS-OSE-研究筆記-:-安裝-SDK/Development_Process_with_CLI_-_No_Dev_Mode.png]]
+
+除了處理 Web app 外，這份 SDK 也包含了類似 Android 的 =adb shell (ares-shell)= 或是 =adb push (ares-push)= 之類的命令好方便我們開發除錯用。
+
+* 下載 SDK
+
+首先先依照 [[http://webosose.org/develop/sdk-tools/cli/download-and-install/][Download and Install the CLI]] 這邊的說明，根據你的平台下載對應的壓縮檔，本文只以 =Linux= 平台為例，請先點選
+[[http://webosose.org/download_file/pforce/6948/8436/][ares-webos-cli-ose_sdk-linux.tgz]] 的連結進行下載。
+
+[[file:webOS-OSE-研究筆記-:-安裝-SDK/sdk.png]]
+
+* 解壓縮
+
+接下來將其解壓縮，會得到名為 =ares-cli= 的資料夾，並有以下的結構
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/ares-cli $ tree -L 3 .
+  . <b>
+  ├── bin <b>
+  │   ├── ares <g>
+  │   ├── ares-generate <g>
+  │   ├── ares-inspect <g>
+  │   ├── ares-install <g>
+  │   ├── ares-launch <g>
+  │   ├── ares-package <g>
+  │   ├── ares-pull <g>
+  │   ├── ares-push <g>
+  │   ├── ares-server <g>
+  │   ├── ares-setup-device <g>
+  │   ├── ares-shell <g>
+  │   ├── i686 <b>
+  │   │   └── node <g>
+  │   └── x86_64 <b>
+  │       └── node <g>
+  ├── lib <b>
+  │   └── node_modules <b>
+  │       └── ares-webos-sdk <b>
+  └── OSSNotice-1153_webOS SDK CLI_1.8_180712.html
+
+  6 directories, 14 files
+#+END_EXAMPLE
+
+* 安裝
+
+Linux 下的安裝方式很簡單，將這個解壓縮產生的 =ares-cli= 搬到某個位置，比如 =~/ares-cli= 後，在你的 =~/.bashrc= 或是 =~/.profile= 加入以下這幾行
+
+#+BEGIN_SRC sh
+  # Add webos cli
+  if [ -d "$HOME/ares-cli/bin" ]; then
+    export PATH="$PATH:$HOME/ares-cli/bin"
+  fi
+#+END_SRC
+
+這樣當你建立一個新的 shell 後，這個 SDK 的指令就在系統的路徑上囉~
+
+* 延伸閱讀
+
+- [[http://webosose.org/develop/sdk-tools/cli/overview/][webOS OSE SDK Tools: Command Line Interface]]
+
+* 使用                                                             :noexport:
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~/ramdisk/A/sampleApp $ ares-setup-device
+  name      deviceinfo                connection  profile
+  --------  ------------------------  ----------  -------
+  emulator  developer@127.0.0.1:6622  ssh         ose
+
+  ,** You can modify the device info in the above list, or add new device.
+  ? Select add
+  ? Enter Device Name: raspberrypi
+  ? Enter Device IP address: 192.168.0.121
+  ? Enter Device Port: 22
+  ? Enter ssh user: root
+  ? Enter description: raspberrypi
+  ? Select authentication password
+  ? Enter password: [hidden]
+  ? Save ? Yes
+  name         deviceinfo                connection  profile
+  -----------  ------------------------  ----------  -------
+  raspberrypi  root@192.168.0.121:22     ssh         ose
+  emulator     developer@127.0.0.1:6622  ssh         ose
+#+END_EXAMPLE
