@@ -1,0 +1,134 @@
+#+TITLE: Ultra96 開發紀錄: 快速開始
+#+OPTIONS: num:nil ^:nil
+#+DATE: <2019-04-27 Sat 20:47>
+#+ABBRLINK: a75bc6c4
+#+LANGUAGE: zh-tw
+#+CATEGORIES: Ultra96 開發紀錄
+#+TAGS: fpga, xilinx, zynqmp, ultra96
+
+在 [[https://coldnew.github.io/b728d8e8/][Ultra96 開發紀錄: 開箱文]] 一文中筆者紀錄了如何購買 [[https://www.96boards.org/product/ultra96/][Ultra96]] 開發板，而裡面付的 SD Card 其實已經有預先燒錄好一個可以開機的映像檔 (Image)。
+
+就讓我們先插入 SD Card 並搭配 [[http://ultra96.org/sites/default/files/documentations/Ultra96-GSG-v1_0.pdf][Ultra96 Getting Started Guide]] 來看看這塊板子吧。
+
+#+HTML: <!-- more -->
+
+* 開機與畫面顯示
+
+當筆者透過 Mini-DisplayPort 將資訊顯示到螢幕並點擊電源按鈕 =SW3= 讓機器開機後，一進系統會顯示 [[https://www.enlightenment.org/][Enlightnment]] 的桌面環境，並預先開啟好了 =Chromium= 以及預設的網頁，裡面顯示著這台機器當前的 =IP= 以及 =Mac Address=
+
+[[file:Ultra96-開發紀錄-:-快速開始/x2.jpg]]
+
+* 連上機器
+
+你可以透過滑鼠搭配螢幕直接控制你的 [[https://www.96boards.org/product/ultra96/][Ultra96]] ，或者是用你電腦的 =Wifi= 尋找 =Ultra96= 開頭的 =SSID= 並連線過去
+
+[[file:Ultra96-開發紀錄-:-快速開始/u1.png]]
+
+連入這個 SSID 後，我們就可以在 Firefox/Chromium 上面輸入 IP: =192.168.2.1= 來進入到這台機器的網頁，其結果如下:
+
+[[file:Ultra96-開發紀錄-:-快速開始/u2.png]]
+
+
+* 範例專案
+
+首先我們點選 =Example Projects= 來看看這片 [[https://www.96boards.org/product/ultra96/][Ultra96]]  內建的 SD Card Image 到底有哪些範例
+
+[[file:Ultra96-開發紀錄-:-快速開始/u5.png]]
+
+
+* GPIO 範例
+
+由於筆者此時並未購買 [[https://www.newark.com/seeed-studio/110060157/grove-starter-kit-8bit-avr-mcu/dp/52AC3171][Grove Starter Kit]] ，因此網頁有些功能無法使用，就讓我們來看看 GPIO example 吧
+
+在這個頁面會提供簡單的界面讓你透過下拉式選單來決定要怎樣讓板子上的 LED 進行亮/暗的變化，我們可以根據網頁上的描述，來透過不同的訊號源讓板子恆亮/暗或是閃爍。
+
+[[file:Ultra96-開發紀錄-:-快速開始/u32.png]]
+
+* OpenAMP 範例
+
+除了 GPIO 範例外，你也可以玩玩 OpenAMP 範例，這會透過 Cortex-A53 的 CPU, 將矩陣運算資料從 Linux 傳送到 Cortex-R5 的 RTOS 上，並將計算完的結果透過 [[https://en.wikipedia.org/wiki/RPMsg][rpmsg]] 回傳給 Linux ，讓其顯示結果在網頁上。
+
+[[file:Ultra96-開發紀錄-:-快速開始/u6.png]]
+
+這個範例用看的可能無法理解內部的運作，後續文章我們將會探討 [[http://openamp.github.io/][OpenAMP]] 這個 Xilinx 近幾年力推的非對稱多處理 AMP (Asymmetric Multi-Processing) 框架。
+
+* ssh
+
+我們也可以透過 SSH 協定進入到 [[https://www.96boards.org/product/ultra96/][Ultra96]] 內，直接輸入 =ssh root@192.168.2.1= 後即可登入系統，不需要輸入密碼
+
+#+BEGIN_EXAMPLE
+  coldnew@gentoo ~ $ ssh root@192.168.2.1
+  root@Ultra96:~#
+#+END_EXAMPLE
+
+進系統後，第一個先查詢一下這張 SD 卡是用哪套 Linux 發行板建立的，從 =/etc/issue= 的資訊來看，這是透過 =PetaLinux= 建立的 Linux 發行板，對應到的 [[https://www.yoctoproject.org/][Yocto]] 分支是 =Morty (2.2)=
+
+#+BEGIN_EXAMPLE
+  root@Ultra96:~# cat /etc/issue
+  PetaLinux 2017.3 \n \l
+  root@Ultra96:~# cat /etc/lsb-release
+  LSB_VERSION="core-4.1-noarch:core-4.1-aarch64"
+  DISTRIB_ID=petalinux
+  DISTRIB_RELEASE=2017.3
+  DISTRIB_CODENAME=morty
+  DISTRIB_DESCRIPTION="PetaLinux 2017.3"
+#+END_EXAMPLE
+
+* 如何關機
+
+稍微了解一下這塊板子後，如果要關機可要注意囉! 因為電源開關 =SW3= 是 =無段開關= ，代表這塊板子是有一個機制來處理你按下 =SW3= 的訊號的。
+
+正常關機只要壓一下 =SW3= 然後 =等個 20 秒= 讓系統正常結束就會順利關機了，如果要強制關機的話，壓住 =SW3= 超過 10 秒就會強制斷電。
+
+*記住不要直接拔掉電源* ，這樣的行為可能會讓你的 SD Card 內的東西壞掉呦~
+
+* 延伸閱讀
+
+- [[http://ultra96.org/sites/default/files/documentations/Ultra96-GSG-v1_0.pdf][Ultra96 Getting Started Guide]]
+
+* 其他                                                             :noexport:
+
+#+BEGIN_EXAMPLE
+root@Ultra96:~# cat /proc/cmdline
+earlycon clk_ignore_unused root=/dev/mmcblk0p2 rw rootwait
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  root@Ultra96:~# i2cdetect -y -r 1
+       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+  00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+  10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  40: UU -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- UU --
+  60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  70: -- -- -- -- -- UU -- --
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  root@Ultra96:~# sensors
+  ina226-i2c-7-40
+  Adapter: i2c-1-mux (chan_id 5)
+  in0:          +0.00 V
+  in1:         +12.24 V
+  power1:        4.72 W
+  curr1:        +0.39 A
+
+  iio_hwmon-isa-0000
+  Adapter: ISA adapter
+  in1:          +0.85 V
+  in2:          +0.83 V
+  in3:          +1.81 V
+  in4:          +1.09 V
+  in5:          +1.80 V
+  in6:          +1.79 V
+  in7:          +1.79 V
+  in8:          +1.80 V
+  in9:          +0.90 V
+  in10:         +1.80 V
+  in11:         +0.60 V
+  temp1:        +50.3 C
+  temp2:        +49.9 C
+
+#+END_EXAMPLE
