@@ -1,0 +1,850 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="fpga,xilinx,zynqmp,ultra96," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 Ultra96 開發紀錄: 開箱文 一文中筆者紀錄了如何購買 Ultra96 開發板，而裡面付的 SD Card 其實已經有預先燒錄好一個可以開機的映像檔 (Image)。    就讓我們先插入 SD Card 並搭配 Ultra96 Getting Started Guide 來看看這塊板子吧。">
+<meta name="keywords" content="fpga,xilinx,zynqmp,ultra96">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ultra96 開發紀錄: 快速開始">
+<meta property="og:url" content="https://coldnew.github.io/a75bc6c4/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 Ultra96 開發紀錄: 開箱文 一文中筆者紀錄了如何購買 Ultra96 開發板，而裡面付的 SD Card 其實已經有預先燒錄好一個可以開機的映像檔 (Image)。    就讓我們先插入 SD Card 並搭配 Ultra96 Getting Started Guide 來看看這塊板子吧。">
+<meta property="og:image" content="https://coldnew.github.io/a75bc6c4/x2.jpg">
+<meta property="og:image" content="https://coldnew.github.io/a75bc6c4/u1.png">
+<meta property="og:image" content="https://coldnew.github.io/a75bc6c4/u2.png">
+<meta property="og:image" content="https://coldnew.github.io/a75bc6c4/u5.png">
+<meta property="og:image" content="https://coldnew.github.io/a75bc6c4/u32.png">
+<meta property="og:image" content="https://coldnew.github.io/a75bc6c4/u6.png">
+<meta property="og:updated_time" content="2019-04-27T13:08:56.200Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ultra96 開發紀錄: 快速開始">
+<meta name="twitter:description" content="在 Ultra96 開發紀錄: 開箱文 一文中筆者紀錄了如何購買 Ultra96 開發板，而裡面付的 SD Card 其實已經有預先燒錄好一個可以開機的映像檔 (Image)。    就讓我們先插入 SD Card 並搭配 Ultra96 Getting Started Guide 來看看這塊板子吧。">
+<meta name="twitter:image" content="https://coldnew.github.io/a75bc6c4/x2.jpg">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Ultra96 開發紀錄: 快速開始 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/a75bc6c4/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Ultra96 開發紀錄: 快速開始
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-04-27T21:08:56+08:00" content="2019-04-27">
+            2019-04-27
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultra96/" itemprop="url" rel="index">
+                  <span itemprop="name">Ultra96 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+在 <a href="https://coldnew.github.io/b728d8e8/">Ultra96 開發紀錄: 開箱文</a> 一文中筆者紀錄了如何購買 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="external">Ultra96</a> 開發板，而裡面付的 SD Card 其實已經有預先燒錄好一個可以開機的映像檔 (Image)。
+</p>
+
+<p>
+就讓我們先插入 SD Card 並搭配 <a href="http://ultra96.org/sites/default/files/documentations/Ultra96-GSG-v1_0.pdf" target="_blank" rel="external">Ultra96 Getting Started Guide</a> 來看看這塊板子吧。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-org14229b0" class="outline-2">
+<h2 id="org14229b0">開機與畫面顯示</h2>
+<div class="outline-text-2" id="text-org14229b0">
+<p>
+當筆者透過 Mini-DisplayPort 將資訊顯示到螢幕並點擊電源按鈕 <code>SW3</code> 讓機器開機後，一進系統會顯示 <a href="https://www.enlightenment.org/" target="_blank" rel="external">Enlightnment</a> 的桌面環境，並預先開啟好了 <code>Chromium</code> 以及預設的網頁，裡面顯示著這台機器當前的 <code>IP</code> 以及 <code>Mac Address</code>
+</p>
+
+
+<div class="figure">
+<p><img src="x2.jpg">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org917cf2f" class="outline-2">
+<h2 id="org917cf2f">連上機器</h2>
+<div class="outline-text-2" id="text-org917cf2f">
+<p>
+你可以透過滑鼠搭配螢幕直接控制你的 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="external">Ultra96</a> ，或者是用你電腦的 <code>Wifi</code> 尋找 <code>Ultra96</code> 開頭的 <code>SSID</code> 並連線過去
+</p>
+
+
+<div class="figure">
+<p><img src="u1.png">
+</p>
+</div>
+
+<p>
+連入這個 SSID 後，我們就可以在 Firefox/Chromium 上面輸入 IP: <code>192.168.2.1</code> 來進入到這台機器的網頁，其結果如下:
+</p>
+
+
+<div class="figure">
+<p><img src="u2.png">
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org16d3fce" class="outline-2">
+<h2 id="org16d3fce">範例專案</h2>
+<div class="outline-text-2" id="text-org16d3fce">
+<p>
+首先我們點選 <code>Example Projects</code> 來看看這片 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="external">Ultra96</a>  內建的 SD Card Image 到底有哪些範例
+</p>
+
+
+<div class="figure">
+<p><img src="u5.png">
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfe085e6" class="outline-2">
+<h2 id="orgfe085e6">GPIO 範例</h2>
+<div class="outline-text-2" id="text-orgfe085e6">
+<p>
+由於筆者此時並未購買 <a href="https://www.newark.com/seeed-studio/110060157/grove-starter-kit-8bit-avr-mcu/dp/52AC3171" target="_blank" rel="external">Grove Starter Kit</a> ，因此網頁有些功能無法使用，就讓我們來看看 GPIO example 吧
+</p>
+
+<p>
+在這個頁面會提供簡單的界面讓你透過下拉式選單來決定要怎樣讓板子上的 LED 進行亮/暗的變化，我們可以根據網頁上的描述，來透過不同的訊號源讓板子恆亮/暗或是閃爍。
+</p>
+
+
+<div class="figure">
+<p><img src="u32.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8063d70" class="outline-2">
+<h2 id="org8063d70">OpenAMP 範例</h2>
+<div class="outline-text-2" id="text-org8063d70">
+<p>
+除了 GPIO 範例外，你也可以玩玩 OpenAMP 範例，這會透過 Cortex-A53 的 CPU, 將矩陣運算資料從 Linux 傳送到 Cortex-R5 的 RTOS 上，並將計算完的結果透過 <a href="https://en.wikipedia.org/wiki/RPMsg" target="_blank" rel="external">rpmsg</a> 回傳給 Linux ，讓其顯示結果在網頁上。
+</p>
+
+
+<div class="figure">
+<p><img src="u6.png">
+</p>
+</div>
+
+<p>
+這個範例用看的可能無法理解內部的運作，後續文章我們將會探討 <a href="http://openamp.github.io/" target="_blank" rel="external">OpenAMP</a> 這個 Xilinx 近幾年力推的非對稱多處理 AMP (Asymmetric Multi-Processing) 框架。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc10c47f" class="outline-2">
+<h2 id="orgc10c47f">ssh</h2>
+<div class="outline-text-2" id="text-orgc10c47f">
+<p>
+我們也可以透過 SSH 協定進入到 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="external">Ultra96</a> 內，直接輸入 <code>ssh root@192.168.2.1</code> 後即可登入系統，不需要輸入密碼
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ ssh root@192.168.2.1
+root@Ultra96:~#
+</pre>
+
+<p>
+進系統後，第一個先查詢一下這張 SD 卡是用哪套 Linux 發行板建立的，從 <code>/etc/issue</code> 的資訊來看，這是透過 <code>PetaLinux</code> 建立的 Linux 發行板，對應到的 <a href="https://www.yoctoproject.org/" target="_blank" rel="external">Yocto</a> 分支是 <code>Morty (2.2)</code>
+</p>
+
+<pre class="example">
+root@Ultra96:~# cat /etc/issue
+PetaLinux 2017.3 \n \l
+root@Ultra96:~# cat /etc/lsb-release
+LSB_VERSION="core-4.1-noarch:core-4.1-aarch64"
+DISTRIB_ID=petalinux
+DISTRIB_RELEASE=2017.3
+DISTRIB_CODENAME=morty
+DISTRIB_DESCRIPTION="PetaLinux 2017.3"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4fb42dd" class="outline-2">
+<h2 id="org4fb42dd">如何關機</h2>
+<div class="outline-text-2" id="text-org4fb42dd">
+<p>
+稍微了解一下這塊板子後，如果要關機可要注意囉! 因為電源開關 <code>SW3</code> 是 <code>無段開關</code> ，代表這塊板子是有一個機制來處理你按下 <code>SW3</code> 的訊號的。
+</p>
+
+<p>
+正常關機只要壓一下 <code>SW3</code> 然後 <code>等個 20 秒</code> 讓系統正常結束就會順利關機了，如果要強制關機的話，壓住 <code>SW3</code> 超過 10 秒就會強制斷電。
+</p>
+
+<p>
+<b>記住不要直接拔掉電源</b> ，這樣的行為可能會讓你的 SD Card 內的東西壞掉呦~
+</p>
+</div>
+</div>
+
+<div id="outline-container-org41d36c8" class="outline-2">
+<h2 id="org41d36c8">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org41d36c8">
+<ul class="org-ul">
+<li><a href="http://ultra96.org/sites/default/files/documentations/Ultra96-GSG-v1_0.pdf" target="_blank" rel="external">Ultra96 Getting Started Guide</a></li>
+</ul>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fpga/" rel="tag">#fpga</a>
+          
+            <a href="/tags/xilinx/" rel="tag">#xilinx</a>
+          
+            <a href="/tags/zynqmp/" rel="tag">#zynqmp</a>
+          
+            <a href="/tags/ultra96/" rel="tag">#ultra96</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/d9eb5a84/" rel="prev">webOS OSE 研究筆記: webOS OSE 與 Qt5</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">122</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">89</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org14229b0"><span class="nav-text">開機與畫面顯示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org917cf2f"><span class="nav-text">連上機器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org16d3fce"><span class="nav-text">範例專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfe085e6"><span class="nav-text">GPIO 範例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8063d70"><span class="nav-text">OpenAMP 範例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc10c47f"><span class="nav-text">ssh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4fb42dd"><span class="nav-text">如何關機</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org41d36c8"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>
