@@ -187,6 +187,98 @@
           
           
             
+              <a class="post-title-link" href="/b394a9ce/" itemprop="url">
+                UltraZed-EG PCIe Carrier Card 開發紀錄: 使用 PetaLinux 建立系統
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2018-12-09T20:05:10+08:00" content="2018-12-09">
+            2018-12-09
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultrazed-3eg-pciecc/" itemprop="url" rel="index">
+                  <span itemprop="name">UltraZed-EG PCIe Carrier Card 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在了解了如何透過 Vivado 搭配 Xilinx SDK 來控制 Cortex-A53 和 Cortex-R5 後，是時候把 Linux 裝上來啦。
+</p>
+
+<p>
+針對不同嵌入式環境的需求，Xlinux 針對他們自己的平台，提供了基於 <a href="http://www.yoctoproject.org/">Yocto Project</a> 製作的發行板製作工具，並命名為 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html">PetaLinux</a> 。這篇文章將介紹如何使用基本的 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html">PetaLinux</a> 功能，並建立一個可開機的映像檔 (Image) 讓 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card">UltraZed-EG PCIe Carrier Card</a> 開機並進入到 Linux 系統。
+</p>
+
+<p>
+(本文以 <code>Vivado 2018.2</code> 以及 <code>PetaLinux 2018.2</code> 進行開發)
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/b394a9ce/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/7006a3f7/" itemprop="url">
                 UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-R5
               </a>
@@ -957,102 +1049,6 @@
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/7a67f04e/" itemprop="url">
-                DE2-115 開發紀錄: 硬體認識
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          最後更新
-          <time itemprop="dateCreated" datetime="2018-05-28T15:09:16+08:00" content="2018-05-28">
-            2018-05-28
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分類於
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/de2-115/" itemprop="url" rel="index">
-                  <span itemprop="name">DE2-115 開發紀錄</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <div id="content">
-<p>
-手邊有一台早期獲得的 <a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1">Altera DE2-115 開發平台</a> ，一直放著積灰塵也不是辦法，再加上最近想多玩玩 FGPA，所以就來重新玩一次吧 :)
-</p>
-
-<p>
-和 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/">Xilinx Zybo Board</a> 不同，<a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1">Altera DE2-115 開發平台</a> 是只有 FPGA 的開發板，並未包含 ARM Cortex-A9 來作為輔助用的 CPU，對於只想學 FPGA 的人而言，這算是不錯的平台，想要 CPU 的話，就自己寫個 CPU 上去或是用 NIOS-II 軟核 CPU 就好了。
-</p>
-
-<p>
-總之，就讓我們來玩玩這一片早期的 FPGA 開發板吧 (想當年這一片可是要台幣 3W 的呢!)
-</p>
-
-<p>
-不過在我們開始這一切之前，我們需要稍微了解一下這片開發板以及他的週邊等資訊。
-</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/7a67f04e/#more" rel="contents">
-              閱讀全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1089,7 +1085,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">122</span>
+              <span class="site-state-item-count">123</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
