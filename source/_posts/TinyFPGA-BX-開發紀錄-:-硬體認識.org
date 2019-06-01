@@ -1,0 +1,99 @@
+#+TITLE: TinyFPGA BX 開發紀錄: 硬體認識
+#+OPTIONS: num:nil ^:nil
+#+ABBRLINK: ea2f6f83
+#+DATE: <2019-06-01 Sat 15:57>
+#+LANGUAGE: zh-tw
+#+CATEGORIES: TinyFPGA BX 開發紀錄
+#+TAGS: fpga, lattice, tinyfpga
+
+在 [[https://coldnew.github.io/68814ae4/][TinyFPGA BX 開發紀錄: 開箱文]] 一文中我開箱了最近買的 [[https://tinyfpga.com/][TinyFPGA BX]] 這款迷你的 FPGA 開發板，在這篇文章中將來講講他的硬體的一些資訊，好讓我們對這塊板子有初步的認識。
+
+#+HTML: <!-- more -->
+
+* 下載電路圖
+
+[[https://tinyfpga.com/][TinyFPGA BX]] 的電路圖和範例程式接在 [[https://github.com/tinyfpga/TinyFPGA-BX][GitHub]] 上，你可以這樣直接下載下來
+
+: git clone https://github.com/tinyfpga/TinyFPGA-BX.git
+
+其中，電路圖位於 =board= 資料夾下，你可以直接打開 [[https://github.com/tinyfpga/TinyFPGA-BX/blob/master/board/TinyFPGA-BX-Schematic.pdf][TinyFPGA-BX-Schematic.pdf]] 或是透過 [[http://kicad-pcb.org/][KiCAD]] 這款開源的 PCB 設計軟體來查看這塊開發板的設計
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/s3.png]]
+
+
+* Lattice ICE40LP8K
+
+[[https://tinyfpga.com/][TinyFPGA BX]] 的核心採用 [[http://www.latticesemi.com/Products/FPGAandCPLD/iCE40.aspx][Lattice]] 的 [[http://www.latticesemi.com/~/media/LatticeSemi/Documents/DataSheets/iCE/iCE40LPHXFamilyDataSheet.pdf][ICE40LP8K]] ，具有 =7680 個邏輯閘(Logic Cell)= 可供使用。
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/s1.png]]
+
+之所以選用 [[http://www.latticesemi.com/Products/FPGAandCPLD/iCE40.aspx][Lattice]] 的這個系列，推測是因為該系列 FPGA 有一套開源的，透過逆向工程的工具可以用來產生 bitstream，這套工具叫做 [[http://www.clifford.at/icestorm/][IceStorm]] 。也因此，我們可以不需要透過 [[http://www.latticesemi.com/Products/FPGAandCPLD/iCE40.aspx][Lattice]] 的 [[http://www.latticesemi.com/latticediamond][Diamond]] 工具來撰寫並燒錄我們的 FPGA，整個從 verilog 變成 bitstream 到燒錄進 FPGA 都可以透過開源工具來進行。
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/c1.png]]
+
+* MEMS 震盪器
+
+[[https://tinyfpga.com/][TinyFPGA BX]] 採用了 =16MHz= 的 [[https://en.wikipedia.org/wiki/Microelectromechanical_system_oscillator][MEMS Oscillators]] (MEMS 震盪器)，其型號為 [[http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en587410][DSC6001CI2A-016.0000T]]
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/m1.png]]
+
+* LEDs
+
+板子上有兩個 LED，其中一個是電源顯示用的 LED (D1) ，另外一個則是和大多數 FPGA 開發板一樣，會提供給使用者可以自行控制用的 LED (D2)
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/lx.png]]
+
+
+* MicroUSB
+
+[[https://tinyfpga.com/][TinyFPGA BX]] 是透過 MicroUSB 和電腦端的燒錄程式溝通的，和其他的 FPGA 開發板都需要透過別的晶片來幫忙進行燒路的狀況不同，[[https://tinyfpga.com/][TinyFPGA BX]] 使用了特殊的 [[https://github.com/tinyfpga/TinyFPGA-Bootloader][Bootloader]] 來實現虛擬的 USB 通訊，讓電腦端的程式可以將要燒錄的資訊寫入到板端的 Flash 上。
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/u1.png]]
+
+* 穩壓電路
+
+在穩壓電路的部份，則是透過 [[http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en580292][MIC5504-3.3YM5-TR]] 搭配 [[http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en580022][MIC5365-1.2YC5-TR]] 來將 USB 端提供的 5V 電壓轉化成 =3.3V= 以及 =1.2V= 位準的電壓。
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/vo.png]]
+
+* SPI Flash
+
+[[https://tinyfpga.com/][TinyFPGA BX]] 搭載的 Flash 為 [[http://www.adestotech.com/wp-content/uploads/DS-AT25SF081_045.pdf][AT25SF081-SSHD-B]] ，此一 Flash 透過 =SPI= 協定進行溝通，具有 =8Mbit= 的空間可以提供使用者存放資料 (有一部份空間會被 [[https://github.com/tinyfpga/TinyFPGA-Bootloader][TinyFPGA-Bootloader]] 吃掉)
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/ss.png]]
+
+* Reset Button
+
+當你的板子運作不良或是希望重新啟動的話，這時候就可以敲敲 Reset 按鈕了~
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/r.png]]
+
+
+* Reference Card
+
+除了上面的基本硬體認識外，隨著 [[https://tinyfpga.com/][TinyFPGA BX]] 過來的還有一張 Reference Card, 可以讓我們快速查找每一隻腳的用途
+
+#+HTML: <div class="row "><div class="col-md-6 ">
+
+*TinyFPGA BX Top*
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/c1.jpg]]
+
+#+HTML: </div><div class="col-md-6">
+
+*TinyFPGA BX Bottom*
+
+[[file:TinyFPGA-BX-開發紀錄-:-硬體認識/c2.jpg]]
+
+#+HTML: </div> </div>
+
+
+* 延伸閱讀
+
+- [[http://www.latticesemi.com/~/media/LatticeSemi/Documents/DataSheets/iCE/iCE40LPHXFamilyDataSheet.pdf][iCE40 LP/HX Family Data Sheet]]
+
+- [[https://www.crowdsupply.com/tinyfpga/tinyfpga-bx/updates/manufacturing-continues%20][TinyFPGA BX: Manufacturing Continues]]
+
+- https://github.com/tinyfpga/TinyFPGA-Bootloader
+
+- https://github.com/tinyfpga/TinyFPGA-BX
