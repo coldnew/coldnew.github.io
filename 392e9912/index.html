@@ -244,9 +244,9 @@ CPU 相比相差甚遠，但是非常適合用來學習一個 CPU 的運作以�
 node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </p>
 
-<div id="outline-container-org29f1e9c" class="outline-2">
-<h2 id="org29f1e9c">4917 的暫存器 (Register)</h2>
-<div class="outline-text-2" id="text-org29f1e9c">
+<div id="outline-container-orgf4fa678" class="outline-2">
+<h2 id="orgf4fa678">4917 的暫存器 (Register)</h2>
+<div class="outline-text-2" id="text-orgf4fa678">
 <p>
 4917 共具有 4 個暫存器，分別為 R0, R1, PC, IS, 其用途如下表
 </p>
@@ -298,9 +298,9 @@ node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </div>
 </div>
 
-<div id="outline-container-org6daf9c4" class="outline-2">
-<h2 id="org6daf9c4">從指令集認識 4917</h2>
-<div class="outline-text-2" id="text-org6daf9c4">
+<div id="outline-container-org036e052" class="outline-2">
+<h2 id="org036e052">從指令集認識 4917</h2>
+<div class="outline-text-2" id="text-org036e052">
 <p>
 4917 共有 16 種指令，其中 0 ~ 7 這一類的指令屬於 1-byte 指令，不接受而外的參數，
 而 8 ~ 15 這幾個操作碼則會接受 Program counter (或稱為 Instruction pointer) 所指
@@ -321,9 +321,9 @@ node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </p>
 </div>
 
-<div id="outline-container-orgee9863b" class="outline-3">
-<h3 id="orgee9863b">1-byte 指令</h3>
-<div class="outline-text-3" id="text-orgee9863b">
+<div id="outline-container-orgc09264d" class="outline-3">
+<h3 id="orgc09264d">1-byte 指令</h3>
+<div class="outline-text-3" id="text-orgc09264d">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -383,9 +383,9 @@ node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </div>
 </div>
 
-<div id="outline-container-org8ef87ad" class="outline-3">
-<h3 id="org8ef87ad">2-byte 指令，指令後面的 byte 的內容以 &lt;﻿data﻿&gt; 表示</h3>
-<div class="outline-text-3" id="text-org8ef87ad">
+<div id="outline-container-org4da12bb" class="outline-3">
+<h3 id="org4da12bb">2-byte 指令，指令後面的 byte 的內容以 &lt;﻿data﻿&gt; 表示</h3>
+<div class="outline-text-3" id="text-org4da12bb">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -446,9 +446,9 @@ node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </div>
 </div>
 
-<div id="outline-container-org139c604" class="outline-2">
-<h2 id="org139c604">從範例來看 4917 的指令運作</h2>
-<div class="outline-text-2" id="text-org139c604">
+<div id="outline-container-org72d1f24" class="outline-2">
+<h2 id="org72d1f24">從範例來看 4917 的指令運作</h2>
+<div class="outline-text-2" id="text-org72d1f24">
 <p>
 我們可以使用簡單的範例來了解 4917 的運作，假設目前的記憶體內容如下:
 </p>
@@ -553,19 +553,19 @@ R0 = R0 + 1 = 9 + 1 = 10
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">R0 = 6
-R1 = 3
+<pre class="src src-python">R0 = <span style="color: #ccaaff;">6</span>
+R1 = <span style="color: #ccaaff;">3</span>
 R0 = R0 + R1
-R0 = R0 + 1
+R0 = R0 + <span style="color: #ccaaff;">1</span>
 <span style="color: #aaffaa;">print</span> R0
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8d54017" class="outline-2">
-<h2 id="org8d54017">建立我們的 Clojure/Clojurescript 專案</h2>
-<div class="outline-text-2" id="text-org8d54017">
+<div id="outline-container-org9a41297" class="outline-2">
+<h2 id="org9a41297">建立我們的 Clojure/Clojurescript 專案</h2>
+<div class="outline-text-2" id="text-org9a41297">
 <p>
 了解到了 4917 的運作模式以及指令集後，我們可以開始寫程式囉，首先使用 <code>lein</code> 建立我們的專案
 </p>
@@ -585,8 +585,8 @@ coldnew@Rosia ~ $ lein new emulator-4917
 
   <span style="color: #ccaaff;">:source-paths</span> <span style="color: #81d4fa;">[</span><span style="color: #aadddd;">"src"</span><span style="color: #81d4fa;">]</span>
 
-  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #000000; background-color: #ffffff;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
-                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #000000; background-color: #ffffff;">/</span>clojurescript <span style="color: #aadddd;">"0.0-3308"</span> <span style="color: #ccaaff;">:scope</span> <span style="color: #aadddd;">"provided"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span>/clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span>/clojurescript <span style="color: #aadddd;">"0.0-3308"</span> <span style="color: #ccaaff;">:scope</span> <span style="color: #aadddd;">"provided"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
 
   <span style="color: #ccaaff;">:plugins</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span>lein-cljsbuild <span style="color: #aadddd;">"1.0.6"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
 
@@ -601,8 +601,8 @@ coldnew@Rosia ~ $ lein new emulator-4917
                            <span style="color: #ccaaff;">:target</span> <span style="color: #ccaaff;">:nodejs</span>
                            <span style="color: #ccaaff;">:optimizations</span> <span style="color: #ccaaff;">:none</span>
                            <span style="color: #ccaaff;">:pretty-print</span> <span style="color: #ccaaff;">true</span><span style="color: #ccaaff;">}</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
-  <span style="color: #ccaaff;">:aot</span> <span style="color: #81d4fa;">[</span><span style="color: #fff59d;">emulator-4917.core</span><span style="color: #81d4fa;">]</span>
-  <span style="color: #ccaaff;">:main</span> <span style="color: #fff59d;">emulator-4917.core</span><span style="color: #aadddd;">)</span>
+  <span style="color: #ccaaff;">:aot</span> <span style="color: #81d4fa;">[</span>emulator-4917.core<span style="color: #81d4fa;">]</span>
+  <span style="color: #ccaaff;">:main</span> emulator-4917.core<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -630,7 +630,7 @@ Clojure/Clojurescript 版本必須依照以上設定或選用更高版本，並�
 require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/goog/bootstrap/nodejs.js"</span><span style="color: #aadddd;">)</span>;
 require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/emulator-4917.js"</span><span style="color: #aadddd;">)</span>;
 require<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"./target/emulator_4917/core"</span><span style="color: #aadddd;">)</span>;
-emulator_4917.core._main<span style="color: #aadddd;">(</span>process.argv<span style="color: #81d4fa;">[</span>2<span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>; <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">passing argument</span>
+emulator_4917.core._main<span style="color: #aadddd;">(</span>process.argv<span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">2</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>; <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">passing argument</span>
 </pre>
 </div>
 
@@ -642,27 +642,27 @@ emulator_4917.core._main<span style="color: #aadddd;">(</span>process.argv<span 
 </div>
 </div>
 
-<div id="outline-container-org79ba659" class="outline-2">
-<h2 id="org79ba659">建立初始樣板</h2>
-<div class="outline-text-2" id="text-org79ba659">
+<div id="outline-container-org22f6dbf" class="outline-2">
+<h2 id="org22f6dbf">建立初始樣板</h2>
+<div class="outline-text-2" id="text-org22f6dbf">
 <p>
 我們首先先建立我們程式的雛形，讓其根據不同條件選擇要載入的 library 或是預先執行的方法，我們修改 <code>src/emulator_4917/core.cljc</code> 成以下
 </p>
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">emulator-4917.core</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> #?<span style="color: #aaccff;">(</span><span style="color: #ccaaff;">:cljs</span> <span style="color: #aaeecc;">[</span><span style="color: #fff59d;">cljs.nodejs</span> <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">)</span>
-            #?<span style="color: #aaccff;">(</span><span style="color: #ccaaff;">:cljs</span> <span style="color: #aaeecc;">[</span><span style="color: #fff59d;">goog.crypt</span> <span style="color: #ccaaff;">:as</span> gcrypt<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">)</span>
-            <span style="color: #aaccff;">[</span><span style="color: #fff59d;">clojure.string</span> <span style="color: #ccaaff;">:as</span> str<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> #?<span style="color: #aaccff;">(</span><span style="color: #ccaaff;">:cljs</span> <span style="color: #aaeecc;">[</span>cljs.nodejs <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">)</span>
+            #?<span style="color: #aaccff;">(</span><span style="color: #ccaaff;">:cljs</span> <span style="color: #aaeecc;">[</span>goog.crypt <span style="color: #ccaaff;">:as</span> gcrypt<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">)</span>
+            <span style="color: #aaccff;">[</span>clojure.string <span style="color: #ccaaff;">:as</span> str<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
   #?<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:clj</span> <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">:gen-class</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">enable *print-fn* in clojurescript</span>
 #?<span style="color: #aadddd;">(</span><span style="color: #ccaaff;">:cljs</span> <span style="color: #81d4fa;">(</span>enable-console-print!<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args 0<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> arg1
-      <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"TODO: read binary file and execute it."</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"</span><span style="color: #ff3333; font-weight: bold;">TODO</span><span style="color: #aadddd;">: read binary file and execute it."</span><span style="color: #aaeecc;">)</span>
       <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"Error: Please specify filename."</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">setup node.js starter point</span>
@@ -682,15 +682,15 @@ Clojure (JVM)上，則其會顯示 <code>Hi, Clojure</code> ，反之若是執�
 <pre class="src src-clojure">#?<span style="color: #aadddd;">(</span><span style="color: #ccaaff;">:clj</span>
    <span style="color: #81d4fa;">(</span>println <span style="color: #aadddd;">"Hi, Clojure"</span><span style="color: #81d4fa;">)</span>
    <span style="color: #ccaaff;">:cljs</span>
-   <span style="color: #81d4fa;">(</span><span style="color: #ff8888;">.log</span> <span style="color: #fff59d;">js</span><span style="color: #000000; background-color: #ffffff;">/</span>console <span style="color: #aadddd;">"Hi, Clojurescript"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #81d4fa;">(</span>.log <span style="color: #fff59d;">js</span>/console <span style="color: #aadddd;">"Hi, Clojurescript"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org428dfc1" class="outline-2">
-<h2 id="org428dfc1">讀取二進制檔案並解析</h2>
-<div class="outline-text-2" id="text-org428dfc1">
+<div id="outline-container-org5aebea9" class="outline-2">
+<h2 id="org5aebea9">讀取二進制檔案並解析</h2>
+<div class="outline-text-2" id="text-org5aebea9">
 <p>
 為了讓這個模擬器更像模擬器，我們讓他讀取二進制檔案到 memory 去來模擬 CPU 載入
 ROM 動作，讀取完成後則將資料變成 Clojure 的陣列，好方便之後的程式運作，也就是說，
@@ -718,9 +718,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">parse-binary-file</span>
   <span style="color: #97abc6; font-style: italic;">"Clojure method to read binary file and convert to byte-array."</span>
   <span style="color: #81d4fa;">[</span>file<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">with-open</span> <span style="color: #aaccff;">[</span>out <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">java.io.ByteArrayOutputStream.</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
-    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">clojure.java.io</span><span style="color: #000000; background-color: #ffffff;">/</span>copy <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">clojure.java.io</span><span style="color: #000000; background-color: #ffffff;">/</span>input-stream file<span style="color: #aaeecc;">)</span> out<span style="color: #aaccff;">)</span>
-    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.toByteArray</span> out<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">with-open</span> <span style="color: #aaccff;">[</span>out <span style="color: #aaeecc;">(</span>java.io.ByteArrayOutputStream.<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">clojure.java.io</span>/copy <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">clojure.java.io</span>/input-stream file<span style="color: #aaeecc;">)</span> out<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>.toByteArray out<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -734,10 +734,10 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">parse-binary-file</span>
   <span style="color: #97abc6; font-style: italic;">"Clojurescript method to read binary file and convert to byte-array."</span>
   <span style="color: #81d4fa;">[</span>file<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;</span>  <span style="color: #aaccff;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #000000; background-color: #ffffff;">/</span>require <span style="color: #aadddd;">"fs"</span><span style="color: #aaccff;">)</span>
-       <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.readFileSync</span> file <span style="color: #aadddd;">"binary"</span><span style="color: #aaccff;">)</span>
-       <span style="color: #ff8888;">.toString</span>
-       <span style="color: #fff59d;">gcrypt</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ff8888;">stringToByteArray</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;</span>  <span style="color: #aaccff;">(</span><span style="color: #fff59d;">nodejs</span>/require <span style="color: #aadddd;">"fs"</span><span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>.readFileSync file <span style="color: #aadddd;">"binary"</span><span style="color: #aaccff;">)</span>
+       .toString
+       <span style="color: #fff59d;">gcrypt</span>/stringToByteArray<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -749,14 +749,14 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">parse-binary-file</span>
   <span style="color: #81d4fa;">[</span>file<span style="color: #81d4fa;">]</span>
   #?<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:clj</span>
-     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">with-open</span> <span style="color: #aaeecc;">[</span>out <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">java.io.ByteArrayOutputStream.</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">]</span>
-       <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">clojure.java.io</span><span style="color: #000000; background-color: #ffffff;">/</span>copy <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">clojure.java.io</span><span style="color: #000000; background-color: #ffffff;">/</span>input-stream file<span style="color: #ccaaff;">)</span> out<span style="color: #aaeecc;">)</span>
-       <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.toByteArray</span> out<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">with-open</span> <span style="color: #aaeecc;">[</span>out <span style="color: #ccaaff;">(</span>java.io.ByteArrayOutputStream.<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">]</span>
+       <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">clojure.java.io</span>/copy <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">clojure.java.io</span>/input-stream file<span style="color: #ccaaff;">)</span> out<span style="color: #aaeecc;">)</span>
+       <span style="color: #aaeecc;">(</span>.toByteArray out<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
      <span style="color: #ccaaff;">:cljs</span>
-     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span>  <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span><span style="color: #000000; background-color: #ffffff;">/</span>require <span style="color: #aadddd;">"fs"</span><span style="color: #aaeecc;">)</span>
-          <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.readFileSync</span> file <span style="color: #aadddd;">"binary"</span><span style="color: #aaeecc;">)</span>
-          <span style="color: #ff8888;">.toString</span>
-          <span style="color: #fff59d;">gcrypt</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #ff8888;">stringToByteArray</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span>  <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span>/require <span style="color: #aadddd;">"fs"</span><span style="color: #aaeecc;">)</span>
+          <span style="color: #aaeecc;">(</span>.readFileSync file <span style="color: #aadddd;">"binary"</span><span style="color: #aaeecc;">)</span>
+          .toString
+          <span style="color: #fff59d;">gcrypt</span>/stringToByteArray<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -770,8 +770,8 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">to-4bit-array</span>
   <span style="color: #97abc6; font-style: italic;">"Convert 0xf4 to [f 4]"</span>
   <span style="color: #81d4fa;">[</span>s<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>h <span style="color: #aaeecc;">(</span>bit-and <span style="color: #ccaaff;">(</span>bit-shift-right s 4<span style="color: #ccaaff;">)</span> 0x0f<span style="color: #aaeecc;">)</span> <span style="color: #9ac; font-style: italic;">; (0xf4 &gt;&gt; 4) &amp; 0x0f   =&gt; f</span>
-        l <span style="color: #aaeecc;">(</span>bit-and s 0x0f<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>                    <span style="color: #9ac; font-style: italic;">; 0xf4 &amp; 0x0f =&gt; 4</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>h <span style="color: #aaeecc;">(</span>bit-and <span style="color: #ccaaff;">(</span>bit-shift-right s <span style="color: #ccaaff;">4</span><span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">0x0f</span><span style="color: #aaeecc;">)</span> <span style="color: #9ac; font-style: italic;">; (0xf4 &gt;&gt; 4) &amp; 0x0f   =&gt; f</span>
+        l <span style="color: #aaeecc;">(</span>bit-and s <span style="color: #ccaaff;">0x0f</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>                    <span style="color: #9ac; font-style: italic;">; 0xf4 &amp; 0x0f =&gt; 4</span>
     <span style="color: #aaccff;">[</span>h l<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
@@ -791,7 +791,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span>flatten <span style="color: #81d4fa;">[</span> <span style="color: #aaccff;">[</span>7, 7<span style="color: #aaccff;">]</span> <span style="color: #aaccff;">[</span>7, 0<span style="color: #aaccff;">]</span> <span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; (7, 7, 7, 0)</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>flatten <span style="color: #81d4fa;">[</span> <span style="color: #aaccff;">[</span><span style="color: #ccaaff;">7</span>, <span style="color: #ccaaff;">7</span><span style="color: #aaccff;">]</span> <span style="color: #aaccff;">[</span><span style="color: #ccaaff;">7</span>, <span style="color: #ccaaff;">0</span><span style="color: #aaccff;">]</span> <span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; (7, 7, 7, 0)</span>
 </pre>
 </div>
 
@@ -809,9 +809,9 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-org47075aa" class="outline-2">
-<h2 id="org47075aa">建立 4917 這顆 CPU</h2>
-<div class="outline-text-2" id="text-org47075aa">
+<div id="outline-container-orgbb97c67" class="outline-2">
+<h2 id="orgbb97c67">建立 4917 這顆 CPU</h2>
+<div class="outline-text-2" id="text-orgbb97c67">
 <p>
 在 Clojure 這種函數式的語言中我們要怎樣定義一個 CPU 呢？最簡單的方式就是透過
 <code>defrecord</code> 去創建這個 CPU 的狀態，以 4917 來說，他共有四個暫存器(R0, R1, PC, IS)
@@ -828,8 +828,8 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span>-&gt;State <span style="color: #81d4fa;">(</span>vec <span style="color: #aaccff;">(</span>repeat 16 0<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span> 0 0 0 0<span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; #user.State{</span><span style="color: #9ac; font-style: italic;">:memory</span><span style="color: #9ac; font-style: italic;"> [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0], </span><span style="color: #9ac; font-style: italic;">:r0</span><span style="color: #9ac; font-style: italic;"> 0, </span><span style="color: #9ac; font-style: italic;">:r1</span><span style="color: #9ac; font-style: italic;"> 0, </span><span style="color: #9ac; font-style: italic;">:pc</span><span style="color: #9ac; font-style: italic;"> 0, </span><span style="color: #9ac; font-style: italic;">:is</span><span style="color: #9ac; font-style: italic;"> 0}</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>-&gt;State <span style="color: #81d4fa;">(</span>vec <span style="color: #aaccff;">(</span>repeat <span style="color: #ccaaff;">16</span> <span style="color: #ccaaff;">0</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; #user.State{:memory [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0], :r0 0, :r1 0, :pc 0, :is 0}</span>
 </pre>
 </div>
 
@@ -841,11 +841,11 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">make-cpu</span>
   <span style="color: #81d4fa;">(</span><span style="color: #aaccff;">[</span>&amp; <span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #ccaaff;">[</span>memory r0 r1 pc is<span style="color: #ccaaff;">]</span>
-       <span style="color: #ccaaff;">:or</span> <span style="color: #ccaaff;">{</span>r0 0
-            r1 0
-            pc 0
-            is 0<span style="color: #ccaaff;">}</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">]</span>
-   <span style="color: #aaccff;">(</span><span style="color: #fff59d;">State.</span> <span style="color: #aaeecc;">(</span>vec <span style="color: #ccaaff;">(</span>take 16 <span style="color: #fff59d;">(</span>concat memory <span style="color: #ff8888;">(</span>repeat 16 0<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span> r0 r1 pc is<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+       <span style="color: #ccaaff;">:or</span> <span style="color: #ccaaff;">{</span>r0 <span style="color: #ccaaff;">0</span>
+            r1 <span style="color: #ccaaff;">0</span>
+            pc <span style="color: #ccaaff;">0</span>
+            is <span style="color: #ccaaff;">0</span><span style="color: #ccaaff;">}</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">]</span>
+   <span style="color: #aaccff;">(</span>State. <span style="color: #aaeecc;">(</span>vec <span style="color: #ccaaff;">(</span>take <span style="color: #ccaaff;">16</span> <span style="color: #fff59d;">(</span>concat memory <span style="color: #ff8888;">(</span>repeat <span style="color: #ccaaff;">16</span> <span style="color: #ccaaff;">0</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span> r0 r1 pc is<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -855,8 +855,8 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span>make-cpu <span style="color: #ccaaff;">:memory</span> <span style="color: #81d4fa;">[</span>5, 2, 2<span style="color: #81d4fa;">]</span> <span style="color: #ccaaff;">:r0</span> 5<span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; #user.State{</span><span style="color: #9ac; font-style: italic;">:memory</span><span style="color: #9ac; font-style: italic;"> [5 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0], </span><span style="color: #9ac; font-style: italic;">:r0</span><span style="color: #9ac; font-style: italic;"> 5, </span><span style="color: #9ac; font-style: italic;">:r1</span><span style="color: #9ac; font-style: italic;"> 0, </span><span style="color: #9ac; font-style: italic;">:pc</span><span style="color: #9ac; font-style: italic;"> 0, </span><span style="color: #9ac; font-style: italic;">:is</span><span style="color: #9ac; font-style: italic;"> 0}</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>make-cpu <span style="color: #ccaaff;">:memory</span> <span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">5</span>, <span style="color: #ccaaff;">2</span>, <span style="color: #ccaaff;">2</span><span style="color: #81d4fa;">]</span> <span style="color: #ccaaff;">:r0</span> <span style="color: #ccaaff;">5</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; #user.State{:memory [5 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0], :r0 5, :r1 0, :pc 0, :is 0}</span>
 </pre>
 </div>
 
@@ -866,23 +866,23 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 </div>
 
-<div id="outline-container-orgcdd8cd6" class="outline-2">
-<h2 id="orgcdd8cd6">定義指令集</h2>
-<div class="outline-text-2" id="text-orgcdd8cd6">
+<div id="outline-container-org3dc89aa" class="outline-2">
+<h2 id="org3dc89aa">定義指令集</h2>
+<div class="outline-text-2" id="text-org3dc89aa">
 <p>
 前面說到了 4917 這顆 CPU 共有 16 種指令 (0 ~ 15)，因此我們來一個一個定義吧，
 </p>
 </div>
 
-<div id="outline-container-orgfcee454" class="outline-3">
-<h3 id="orgfcee454">指令 0 : 結束程式</h3>
-<div class="outline-text-3" id="text-orgfcee454">
+<div id="outline-container-org39a32d2" class="outline-3">
+<h3 id="org39a32d2">指令 0 : 結束程式</h3>
+<div class="outline-text-3" id="text-org39a32d2">
 <p>
 首先定義指令 0，當 4917 接收到這個命令後，會結束程式。結束程式的方式，在 Clojure 中我們可以透過
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">System</span><span style="color: #000000; background-color: #ffffff;">/</span>exit 0<span style="color: #aadddd;">)</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">System</span>/exit <span style="color: #ccaaff;">0</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -891,7 +891,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #ff8888;">.exit</span> <span style="color: #fff59d;">nodejs</span><span style="color: #000000; background-color: #ffffff;">/</span>process 0<span style="color: #aadddd;">)</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>.exit <span style="color: #fff59d;">nodejs</span>/process <span style="color: #ccaaff;">0</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -905,17 +905,17 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>println <span style="color: #aadddd;">"Terminate application."</span><span style="color: #81d4fa;">)</span>
   #?<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:clj</span>
-     <span style="color: #aaccff;">(</span><span style="color: #fff59d;">System</span><span style="color: #000000; background-color: #ffffff;">/</span>exit 0<span style="color: #aaccff;">)</span>
+     <span style="color: #aaccff;">(</span><span style="color: #fff59d;">System</span>/exit <span style="color: #ccaaff;">0</span><span style="color: #aaccff;">)</span>
      <span style="color: #ccaaff;">:cljs</span>
-     <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.exit</span> <span style="color: #fff59d;">nodejs</span><span style="color: #000000; background-color: #ffffff;">/</span>process 0<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+     <span style="color: #aaccff;">(</span>.exit <span style="color: #fff59d;">nodejs</span>/process <span style="color: #ccaaff;">0</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3b2d8c3" class="outline-3">
-<h3 id="org3b2d8c3">指令 1 : R0 = R0 + R1</h3>
-<div class="outline-text-3" id="text-org3b2d8c3">
+<div id="outline-container-orgf66545e" class="outline-3">
+<h3 id="orgf66545e">指令 1 : R0 = R0 + R1</h3>
+<div class="outline-text-3" id="text-orgf66545e">
 <p>
 指令 1 是我們第一個實作指令，首先我們將目前 CPU 的狀態傳送到指令 1 中，再根據需
 求透過 <code>make-cpu</code> 建立新的狀態並回傳，由於 PC (Program Counter) 在執行完此命令後
@@ -928,15 +928,15 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #97abc6; font-style: italic;">"cmd 1: R0 = R0 + R1"</span>
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> <span style="color: #aaccff;">(</span>+ r0 r1<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 1<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> <span style="color: #aaccff;">(</span>+ r0 r1<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">1</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org6a7fc42" class="outline-3">
-<h3 id="org6a7fc42">指令 2 : R0 = R0 - R1</h3>
-<div class="outline-text-3" id="text-org6a7fc42">
+<div id="outline-container-orga486a12" class="outline-3">
+<h3 id="orga486a12">指令 2 : R0 = R0 - R1</h3>
+<div class="outline-text-3" id="text-orga486a12">
 <p>
 指令 2 和指令 1 非常相似，唯一的差別在於 :r0 存放的內容是 r0 - r1 的結果。
 </p>
@@ -946,15 +946,15 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #97abc6; font-style: italic;">"cmd 2: R0 = R0 - R1"</span>
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> <span style="color: #aaccff;">(</span>- r0 r1<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 2<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> <span style="color: #aaccff;">(</span>- r0 r1<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">2</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org044d6a0" class="outline-3">
-<h3 id="org044d6a0">指令 3 : R0 = R0 + 1</h3>
-<div class="outline-text-3" id="text-org044d6a0">
+<div id="outline-container-org2ab945a" class="outline-3">
+<h3 id="org2ab945a">指令 3 : R0 = R0 + 1</h3>
+<div class="outline-text-3" id="text-org2ab945a">
 <p>
 指令 3 使用類似指令 1 的實作，我們使用 <code>(inc r0)</code> 來進行 r0 + 1 的動作，當然，你
 也可以使用 <code>(+ r0 1)</code> 。
@@ -965,15 +965,15 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #97abc6; font-style: italic;">"cmd 3: R0 = R0 + 1"</span>
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> <span style="color: #aaccff;">(</span>inc r0<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 3<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> <span style="color: #aaccff;">(</span>inc r0<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">3</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf48354f" class="outline-3">
-<h3 id="orgf48354f">指令 4 : R1 = R1 + 1</h3>
-<div class="outline-text-3" id="text-orgf48354f">
+<div id="outline-container-orgde2a805" class="outline-3">
+<h3 id="orgde2a805">指令 4 : R1 = R1 + 1</h3>
+<div class="outline-text-3" id="text-orgde2a805">
 <p>
 指令 4 和指令 3 非常相似，只是將目標暫存器從 r0 改成 r1 而已。
 </p>
@@ -983,15 +983,15 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #97abc6; font-style: italic;">"cmd 4: R1 = R1 + 1"</span>
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> <span style="color: #aaccff;">(</span>inc r1<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 4<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> <span style="color: #aaccff;">(</span>inc r1<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">4</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc8eed3f" class="outline-3">
-<h3 id="orgc8eed3f">指令 5 : R0 = R0 -1</h3>
-<div class="outline-text-3" id="text-orgc8eed3f">
+<div id="outline-container-org4874669" class="outline-3">
+<h3 id="org4874669">指令 5 : R0 = R0 -1</h3>
+<div class="outline-text-3" id="text-org4874669">
 <p>
 使用類似指令 3 的實作模式，我們使用 <code>(dec r0)</code> 來進行 r0 - 1 的動作，當然，你
 也可以使用 <code>(- r0 1)</code> 。
@@ -1002,15 +1002,15 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #97abc6; font-style: italic;">"cmd 5: R0 = R0 - 1"</span>
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> <span style="color: #aaccff;">(</span>dec r0<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 5<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> <span style="color: #aaccff;">(</span>dec r0<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">5</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org7306042" class="outline-3">
-<h3 id="org7306042">指令 6 : R1 = R1 -1</h3>
-<div class="outline-text-3" id="text-org7306042">
+<div id="outline-container-org1aea6c8" class="outline-3">
+<h3 id="org1aea6c8">指令 6 : R1 = R1 -1</h3>
+<div class="outline-text-3" id="text-org1aea6c8">
 <p>
 指令 6 和指令 5 非常相似，只是將目標暫存器從 r0 改成 r1 而已。
 </p>
@@ -1020,15 +1020,15 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #97abc6; font-style: italic;">"cmd 6: R1 = R1 - 1"</span>
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> <span style="color: #aaccff;">(</span>dec r1<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 6<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> <span style="color: #aaccff;">(</span>dec r1<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">6</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8bd635f" class="outline-3">
-<h3 id="org8bd635f">指令 7 : 響鈴</h3>
-<div class="outline-text-3" id="text-org8bd635f">
+<div id="outline-container-orgba04086" class="outline-3">
+<h3 id="orgba04086">指令 7 : 響鈴</h3>
+<div class="outline-text-3" id="text-orgba04086">
 <p>
 若 4917 真的有實體的話，指令 7 的功用應該是響蜂鳴器才對，這邊使用 <code>println</code> 將訊息印
 出來作為替代，記得要增加 PC (Program Counter) 的數值。
@@ -1040,22 +1040,22 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>println <span style="color: #aadddd;">"Ring the bell!!"</span><span style="color: #81d4fa;">)</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 7<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>inc pc<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">7</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1101dfc" class="outline-3">
-<h3 id="org1101dfc">指令 8 : 印出 &lt;﻿data﻿&gt;</h3>
-<div class="outline-text-3" id="text-org1101dfc">
+<div id="outline-container-orgb843240" class="outline-3">
+<h3 id="orgb843240">指令 8 : 印出 &lt;﻿data﻿&gt;</h3>
+<div class="outline-text-3" id="text-orgb843240">
 <p>
 指令 8 就好玩一點點了，我們可以透過 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="external">nth</a> 命令，取得記憶體陣列(memory)的某個位置的
 數值
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span>nth <span style="color: #81d4fa;">[</span> a b c d <span style="color: #81d4fa;">]</span> 2<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; c</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>nth <span style="color: #81d4fa;">[</span> a b c d <span style="color: #81d4fa;">]</span> <span style="color: #ccaaff;">2</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; c</span>
 </pre>
 </div>
 
@@ -1080,15 +1080,15 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>println <span style="color: #aaccff;">(</span>nth memory <span style="color: #aaeecc;">(</span>inc pc<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>+ pc 2<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 8<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>+ pc <span style="color: #ccaaff;">2</span><span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">8</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org12e39b9" class="outline-3">
-<h3 id="org12e39b9">指令 9 : 從位址 &lt;﻿data﻿&gt; 讀取資料存入 R0</h3>
-<div class="outline-text-3" id="text-org12e39b9">
+<div id="outline-container-org2a73245" class="outline-3">
+<h3 id="org2a73245">指令 9 : 從位址 &lt;﻿data﻿&gt; 讀取資料存入 R0</h3>
+<div class="outline-text-3" id="text-org2a73245">
 <p>
 指令 9 中，我們必須知道 &lt;﻿data﻿&gt; 得內容後，再根據其數值去找尋記憶體位址的內容，並
 將其存入 R0 中，而取得 &lt;﻿data﻿&gt; 內容的方式在指令 8 時說過了，使用 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="external">nth</a> 可以達成
@@ -1117,16 +1117,16 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #97abc6; font-style: italic;">"cmd 9: Load value from &lt;data&gt; to R0"</span>
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>+ pc 2<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 9
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>+ pc <span style="color: #ccaaff;">2</span><span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">9</span>
    <span style="color: #ccaaff;">:r0</span> <span style="color: #aaccff;">(</span>nth memory <span style="color: #aaeecc;">(</span>nth memory <span style="color: #ccaaff;">(</span>inc pc<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5772ec4" class="outline-3">
-<h3 id="org5772ec4">指令 10 : 從位址 &lt;﻿data﻿&gt; 讀取資料存入 R1</h3>
-<div class="outline-text-3" id="text-org5772ec4">
+<div id="outline-container-org91cdca1" class="outline-3">
+<h3 id="org91cdca1">指令 10 : 從位址 &lt;﻿data﻿&gt; 讀取資料存入 R1</h3>
+<div class="outline-text-3" id="text-org91cdca1">
 <p>
 指令 10 和指令 9 很像，只是將目標轉換成 R1 而已，我們可以參考指令 9 進行實作。
 </p>
@@ -1136,16 +1136,16 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #97abc6; font-style: italic;">"cmd 10: Load value from &lt;data&gt; to R1"</span>
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>+ pc 2<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 10
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>+ pc <span style="color: #ccaaff;">2</span><span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">10</span>
    <span style="color: #ccaaff;">:r1</span> <span style="color: #aaccff;">(</span>nth memory <span style="color: #aaeecc;">(</span>nth memory <span style="color: #ccaaff;">(</span>inc pc<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga611002" class="outline-3">
-<h3 id="orga611002">指令 11 : 將 R0 內容存入 位址 &lt;﻿data﻿&gt; 內</h3>
-<div class="outline-text-3" id="text-orga611002">
+<div id="outline-container-org41a47ee" class="outline-3">
+<h3 id="org41a47ee">指令 11 : 將 R0 內容存入 位址 &lt;﻿data﻿&gt; 內</h3>
+<div class="outline-text-3" id="text-org41a47ee">
 <p>
 現在我們知道了 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="external">nth</a> 可以用來取得陣列中某一位置的內容，那我們要怎樣更新陣列的內容
 呢?這時候就是 <a href="https://clojuredocs.org/clojure.core/assoc" target="_blank" rel="external">assoc</a> 出場的時候啦! <a href="https://clojuredocs.org/clojure.core/assoc" target="_blank" rel="external">assoc</a> 用在陣列的時候，可以根據你提供的位置以及
@@ -1153,8 +1153,8 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span>assoc <span style="color: #81d4fa;">[</span>0 0 0 0<span style="color: #81d4fa;">]</span> 1 5<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; [0 5 0 0]</span>
-<span style="color: #aadddd;">(</span>assoc <span style="color: #81d4fa;">[</span>0 0 0 0<span style="color: #81d4fa;">]</span> 4 6<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; [0 0 0 0 6]</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>assoc <span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">]</span> <span style="color: #ccaaff;">1</span> <span style="color: #ccaaff;">5</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; [0 5 0 0]</span>
+<span style="color: #aadddd;">(</span>assoc <span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">]</span> <span style="color: #ccaaff;">4</span> <span style="color: #ccaaff;">6</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; [0 0 0 0 6]</span>
 </pre>
 </div>
 
@@ -1177,15 +1177,15 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
    <span style="color: #ccaaff;">:memory</span> <span style="color: #aaccff;">(</span>assoc memory <span style="color: #aaeecc;">(</span>nth memory <span style="color: #ccaaff;">(</span>inc pc<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span> r0<span style="color: #aaccff;">)</span>
-   <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>+ pc 2<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 11<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>+ pc <span style="color: #ccaaff;">2</span><span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">11</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4f9c6c2" class="outline-3">
-<h3 id="org4f9c6c2">指令 12 : 將 R1 內容存入 位址 &lt;﻿data﻿&gt; 內</h3>
-<div class="outline-text-3" id="text-org4f9c6c2">
+<div id="outline-container-org6aa5d78" class="outline-3">
+<h3 id="org6aa5d78">指令 12 : 將 R1 內容存入 位址 &lt;﻿data﻿&gt; 內</h3>
+<div class="outline-text-3" id="text-org6aa5d78">
 <p>
 指令 12 和指令 11 非常相似，只是將來源暫存器從 r0 改成 r1 而已。
 </p>
@@ -1196,15 +1196,15 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
    <span style="color: #ccaaff;">:memory</span> <span style="color: #aaccff;">(</span>assoc memory <span style="color: #aaeecc;">(</span>nth memory <span style="color: #ccaaff;">(</span>inc pc<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span> r1<span style="color: #aaccff;">)</span>
-   <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>+ pc 2<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 12<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>+ pc <span style="color: #ccaaff;">2</span><span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">12</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1de49e6" class="outline-3">
-<h3 id="org1de49e6">指令 13 : 將 PC 指向 位址 &lt;﻿data﻿&gt; (即 JUMP 命令)</h3>
-<div class="outline-text-3" id="text-org1de49e6">
+<div id="outline-container-org5198da8" class="outline-3">
+<h3 id="org5198da8">指令 13 : 將 PC 指向 位址 &lt;﻿data﻿&gt; (即 JUMP 命令)</h3>
+<div class="outline-text-3" id="text-org5198da8">
 <p>
 指令 13 其實就是一般 CPU 都會有的 <code>JUMP</code> 命令，透過更改 PC (Program Counter) 的
 位址，來讓 CPU 去讀取不同記憶體位址。
@@ -1215,15 +1215,15 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #97abc6; font-style: italic;">"cmd 13: jump to address &lt;data&gt;"</span>
   <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:keys</span> <span style="color: #aaeecc;">[</span>memory r0 r1 pc is<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span>
   <span style="color: #81d4fa;">(</span>make-cpu
-   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>nth memory <span style="color: #aaeecc;">(</span>inc pc<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> 13<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1 <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span>nth memory <span style="color: #aaeecc;">(</span>inc pc<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">13</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org0ccb6ef" class="outline-3">
-<h3 id="org0ccb6ef">指令 14 : 如果 R0 為 0，將 PC 指向 位址 &lt;﻿data﻿&gt;</h3>
-<div class="outline-text-3" id="text-org0ccb6ef">
+<div id="outline-container-orga0d1740" class="outline-3">
+<h3 id="orga0d1740">指令 14 : 如果 R0 為 0，將 PC 指向 位址 &lt;﻿data﻿&gt;</h3>
+<div class="outline-text-3" id="text-orga0d1740">
 <p>
 指令 14 很單純，我們比對傳入的 r0 數值，若是 0 的話則將 PC (Program Counter) 調
 整為 &lt;﻿data﻿&gt;，反之則進行 <code>pc + 2</code> 的動作，而判斷數值是否為 0，在 clojure 可以使用
@@ -1231,8 +1231,8 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span>zero? 0<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; true</span>
-<span style="color: #aadddd;">(</span>zero? 3<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; false</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>zero? <span style="color: #ccaaff;">0</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; true</span>
+<span style="color: #aadddd;">(</span>zero? <span style="color: #ccaaff;">3</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; false</span>
 </pre>
 </div>
 
@@ -1248,16 +1248,16 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
    <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1
    <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaeecc;">(</span>zero? r0<span style="color: #aaeecc;">)</span>
          <span style="color: #aaeecc;">(</span>nth memory <span style="color: #ccaaff;">(</span>inc pc<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
-         <span style="color: #aaeecc;">(</span>+ pc 2<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
-   <span style="color: #ccaaff;">:is</span> 14<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+         <span style="color: #aaeecc;">(</span>+ pc <span style="color: #ccaaff;">2</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+   <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">14</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1bfa949" class="outline-3">
-<h3 id="org1bfa949">指令 15 : 如果 R0 不為 0, 將 PC 指向 位址 &lt;﻿data﻿&gt;</h3>
-<div class="outline-text-3" id="text-org1bfa949">
+<div id="outline-container-orga5be257" class="outline-3">
+<h3 id="orga5be257">指令 15 : 如果 R0 不為 0, 將 PC 指向 位址 &lt;﻿data﻿&gt;</h3>
+<div class="outline-text-3" id="text-orga5be257">
 <p>
 指令 15 其實和指令 14 一樣，我們只要調整 <code>if</code> 判斷式參數的順序就夠了，如果 R0 為
 0，則進行 <code>pc + 2</code> ，反之則將 PC (Program Counter) 內容改為 &lt;﻿data﻿&gt; 數值。
@@ -1270,18 +1270,18 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
   <span style="color: #81d4fa;">(</span>make-cpu
    <span style="color: #ccaaff;">:memory</span> memory <span style="color: #ccaaff;">:r0</span> r0 <span style="color: #ccaaff;">:r1</span> r1
    <span style="color: #ccaaff;">:pc</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaeecc;">(</span>zero? r0<span style="color: #aaeecc;">)</span>
-         <span style="color: #aaeecc;">(</span>+ pc 2<span style="color: #aaeecc;">)</span>
+         <span style="color: #aaeecc;">(</span>+ pc <span style="color: #ccaaff;">2</span><span style="color: #aaeecc;">)</span>
          <span style="color: #aaeecc;">(</span>nth memory <span style="color: #ccaaff;">(</span>inc pc<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
-   <span style="color: #ccaaff;">:is</span> 15<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+   <span style="color: #ccaaff;">:is</span> <span style="color: #ccaaff;">15</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1bc7ea1" class="outline-2">
-<h2 id="org1bc7ea1">建立執行指令的迴圈</h2>
-<div class="outline-text-2" id="text-org1bc7ea1">
+<div id="outline-container-org57cdee2" class="outline-2">
+<h2 id="org57cdee2">建立執行指令的迴圈</h2>
+<div class="outline-text-2" id="text-org57cdee2">
 <p>
 當指令集完成後，是時候執行一個迴圈，不斷的執行記憶體內的命令直到結束，在這邊我們
 的迴圈直接使用 <a href="https://clojuredocs.org/clojure.core/recur" target="_blank" rel="external">recur</a> 來完成，<a href="https://clojuredocs.org/clojure.core/recur" target="_blank" rel="external">recur</a> 是 Clojure 迴圈的一個方式，基本上就是讓函數自己
@@ -1296,7 +1296,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
       <span style="color: #aaeecc;">(</span>println n<span style="color: #aaeecc;">)</span>
       <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">recur</span> <span style="color: #ccaaff;">(</span>dec n<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span>countdown 2<span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span>countdown <span style="color: #ccaaff;">2</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 2</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 1</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; finished!</span>
@@ -1331,28 +1331,28 @@ Node.js 在 <code>Exception</code> 的地方和 Clojure 不同，要使用 <code
         <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">try</span> <span style="color: #ccaaff;">(</span>nth <span style="color: #fff59d;">(</span><span style="color: #ccaaff;">:memory</span> state<span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span><span style="color: #ccaaff;">:pc</span> state<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
              <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">catch</span>
                  #?<span style="color: #fff59d;">(</span><span style="color: #ccaaff;">:clj</span>
-                    <span style="color: #fff59d;">Exception</span>
+                    Exception
                     <span style="color: #ccaaff;">:cljs</span>
-                    <span style="color: #fff59d;">js</span><span style="color: #000000; background-color: #ffffff;">/</span><span style="color: #fff59d;">Error</span><span style="color: #fff59d;">)</span> _ 0<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+                    <span style="color: #fff59d;">js</span>/Error<span style="color: #fff59d;">)</span> _ <span style="color: #ccaaff;">0</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
     <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">(println state)</span>
     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">case</span> curr
       <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">1-byte instruction</span>
-      1 <span style="color: #aaeecc;">(</span>cmd1 state<span style="color: #aaeecc;">)</span>
-      2 <span style="color: #aaeecc;">(</span>cmd2 state<span style="color: #aaeecc;">)</span>
-      3 <span style="color: #aaeecc;">(</span>cmd3 state<span style="color: #aaeecc;">)</span>
-      4 <span style="color: #aaeecc;">(</span>cmd4 state<span style="color: #aaeecc;">)</span>
-      5 <span style="color: #aaeecc;">(</span>cmd5 state<span style="color: #aaeecc;">)</span>
-      6 <span style="color: #aaeecc;">(</span>cmd6 state<span style="color: #aaeecc;">)</span>
-      7 <span style="color: #aaeecc;">(</span>cmd7 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">1</span> <span style="color: #aaeecc;">(</span>cmd1 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">2</span> <span style="color: #aaeecc;">(</span>cmd2 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">3</span> <span style="color: #aaeecc;">(</span>cmd3 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">4</span> <span style="color: #aaeecc;">(</span>cmd4 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">5</span> <span style="color: #aaeecc;">(</span>cmd5 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">6</span> <span style="color: #aaeecc;">(</span>cmd6 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">7</span> <span style="color: #aaeecc;">(</span>cmd7 state<span style="color: #aaeecc;">)</span>
       <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">2-byte instruction</span>
-      8 <span style="color: #aaeecc;">(</span>cmd8 state<span style="color: #aaeecc;">)</span>
-      9 <span style="color: #aaeecc;">(</span>cmd9 state<span style="color: #aaeecc;">)</span>
-      10 <span style="color: #aaeecc;">(</span>cmd10 state<span style="color: #aaeecc;">)</span>
-      11 <span style="color: #aaeecc;">(</span>cmd11 state<span style="color: #aaeecc;">)</span>
-      12 <span style="color: #aaeecc;">(</span>cmd12 state<span style="color: #aaeecc;">)</span>
-      13 <span style="color: #aaeecc;">(</span>cmd13 state<span style="color: #aaeecc;">)</span>
-      14 <span style="color: #aaeecc;">(</span>cmd14 state<span style="color: #aaeecc;">)</span>
-      15 <span style="color: #aaeecc;">(</span>cmd15 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">8</span> <span style="color: #aaeecc;">(</span>cmd8 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">9</span> <span style="color: #aaeecc;">(</span>cmd9 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">10</span> <span style="color: #aaeecc;">(</span>cmd10 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">11</span> <span style="color: #aaeecc;">(</span>cmd11 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">12</span> <span style="color: #aaeecc;">(</span>cmd12 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">13</span> <span style="color: #aaeecc;">(</span>cmd13 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">14</span> <span style="color: #aaeecc;">(</span>cmd14 state<span style="color: #aaeecc;">)</span>
+      <span style="color: #ccaaff;">15</span> <span style="color: #aaeecc;">(</span>cmd15 state<span style="color: #aaeecc;">)</span>
       <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
       <span style="color: #aaeecc;">(</span>cmd0 state<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
@@ -1360,15 +1360,15 @@ Node.js 在 <code>Exception</code> 的地方和 Clojure 不同，要使用 <code
 </div>
 </div>
 
-<div id="outline-container-org2a6dd3c" class="outline-2">
-<h2 id="org2a6dd3c">進行最後的修改</h2>
-<div class="outline-text-2" id="text-org2a6dd3c">
+<div id="outline-container-org4b71e6e" class="outline-2">
+<h2 id="org4b71e6e">進行最後的修改</h2>
+<div class="outline-text-2" id="text-org4b71e6e">
 <p>
 我們可以丟幾道簡單的程式讓 4917 模擬器執行看看
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span>run <span style="color: #81d4fa;">(</span>make-cpu <span style="color: #ccaaff;">:memory</span> <span style="color: #aaccff;">[</span> 7 0 <span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>run <span style="color: #81d4fa;">(</span>make-cpu <span style="color: #ccaaff;">:memory</span> <span style="color: #aaccff;">[</span> <span style="color: #ccaaff;">7</span> <span style="color: #ccaaff;">0</span> <span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; Ring the bell!!</span>
 </pre>
 </div>
@@ -1378,7 +1378,7 @@ Node.js 在 <code>Exception</code> 的地方和 Clojure 不同，要使用 <code
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span>run <span style="color: #81d4fa;">(</span>make-cpu <span style="color: #ccaaff;">:memory</span> <span style="color: #aaccff;">[</span> 8 5 <span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>run <span style="color: #81d4fa;">(</span>make-cpu <span style="color: #ccaaff;">:memory</span> <span style="color: #aaccff;">[</span> <span style="color: #ccaaff;">8</span> <span style="color: #ccaaff;">5</span> <span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 5</span>
 </pre>
 </div>
@@ -1389,7 +1389,7 @@ Node.js 在 <code>Exception</code> 的地方和 Clojure 不同，要使用 <code
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args 0<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> arg1
       <span style="color: #aaeecc;">(</span>run <span style="color: #ccaaff;">(</span>make-cpu <span style="color: #ccaaff;">:memory</span> <span style="color: #fff59d;">(</span>parse-rom arg1<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
       <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"Error: Please specify filename."</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
@@ -1398,9 +1398,9 @@ Node.js 在 <code>Exception</code> 的地方和 Clojure 不同，要使用 <code
 </div>
 </div>
 
-<div id="outline-container-org7ebef60" class="outline-2">
-<h2 id="org7ebef60">取得完整程式碼與執行程式</h2>
-<div class="outline-text-2" id="text-org7ebef60">
+<div id="outline-container-orgb832297" class="outline-2">
+<h2 id="orgb832297">取得完整程式碼與執行程式</h2>
+<div class="outline-text-2" id="text-orgb832297">
 <p>
 本篇文章的完整程式碼已經放置於 <a href="https://github.com/coldnew/emulator-4917" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -1452,9 +1452,9 @@ git clone https://github.com/coldnew/emulator-4917.git
 </table>
 </div>
 
-<div id="outline-container-org9da4cdc" class="outline-3">
-<h3 id="org9da4cdc">執行程式 (JVM)</h3>
-<div class="outline-text-3" id="text-org9da4cdc">
+<div id="outline-container-org018f40f" class="outline-3">
+<h3 id="org018f40f">執行程式 (JVM)</h3>
+<div class="outline-text-3" id="text-org018f40f">
 <p>
 若要使用 JVM 來執行本篇文章的程式，則可以直接使用 <code>lein run</code> 進行
 </p>
@@ -1476,9 +1476,9 @@ java -jar target/emulator-4917-0.1.0-SNAPSHOT-standalone.jar examples/countdown.
 </div>
 </div>
 
-<div id="outline-container-orge7c5368" class="outline-3">
-<h3 id="orge7c5368">執行程式 (Node.js)</h3>
-<div class="outline-text-3" id="text-orge7c5368">
+<div id="outline-container-orgb4b44da" class="outline-3">
+<h3 id="orgb4b44da">執行程式 (Node.js)</h3>
+<div class="outline-text-3" id="text-orgb4b44da">
 <p>
 本篇文章預設是使用 <code>none</code> 最佳化編譯, 因此需透過 <code>run.js</code> 來協助執行程式
 </p>
@@ -1511,9 +1511,9 @@ node target/emulator-4917.js examples/countdown.bin
 </div>
 </div>
 
-<div id="outline-container-org3f4a6ff" class="outline-2">
-<h2 id="org3f4a6ff">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org3f4a6ff">
+<div id="outline-container-org9fc8f76" class="outline-2">
+<h2 id="org9fc8f76">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org9fc8f76">
 <p>
 <code>[1]</code> <a href="https://www.youtube.com/watch?v=gTeDX4yAdyU&amp;index=3&amp;list=PL6B940F08B9773B9F&amp;hd=1" target="_blank" rel="external">Youtube - Lecture 3: Machine Code - Richard Buckland UNSW</a>
 </p>
@@ -1625,7 +1625,7 @@ node target/emulator-4917.js examples/countdown.bin
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1694,7 +1694,7 @@ node target/emulator-4917.js examples/countdown.bin
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org29f1e9c"><span class="nav-text">4917 的暫存器 (Register)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6daf9c4"><span class="nav-text">從指令集認識 4917</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgee9863b"><span class="nav-text">1-byte 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org8ef87ad"><span class="nav-text">2-byte 指令，指令後面的 byte 的內容以 <﻿data﻿> 表示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org139c604"><span class="nav-text">從範例來看 4917 的指令運作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8d54017"><span class="nav-text">建立我們的 Clojure/Clojurescript 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org79ba659"><span class="nav-text">建立初始樣板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org428dfc1"><span class="nav-text">讀取二進制檔案並解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org47075aa"><span class="nav-text">建立 4917 這顆 CPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcdd8cd6"><span class="nav-text">定義指令集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgfcee454"><span class="nav-text">指令 0 : 結束程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org3b2d8c3"><span class="nav-text">指令 1 : R0 = R0 + R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6a7fc42"><span class="nav-text">指令 2 : R0 = R0 - R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org044d6a0"><span class="nav-text">指令 3 : R0 = R0 + 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf48354f"><span class="nav-text">指令 4 : R1 = R1 + 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc8eed3f"><span class="nav-text">指令 5 : R0 = R0 -1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7306042"><span class="nav-text">指令 6 : R1 = R1 -1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org8bd635f"><span class="nav-text">指令 7 : 響鈴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1101dfc"><span class="nav-text">指令 8 : 印出 <﻿data﻿></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org12e39b9"><span class="nav-text">指令 9 : 從位址 <﻿data﻿> 讀取資料存入 R0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5772ec4"><span class="nav-text">指令 10 : 從位址 <﻿data﻿> 讀取資料存入 R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga611002"><span class="nav-text">指令 11 : 將 R0 內容存入 位址 <﻿data﻿> 內</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4f9c6c2"><span class="nav-text">指令 12 : 將 R1 內容存入 位址 <﻿data﻿> 內</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1de49e6"><span class="nav-text">指令 13 : 將 PC 指向 位址 <﻿data﻿> (即 JUMP 命令)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0ccb6ef"><span class="nav-text">指令 14 : 如果 R0 為 0，將 PC 指向 位址 <﻿data﻿></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1bfa949"><span class="nav-text">指令 15 : 如果 R0 不為 0, 將 PC 指向 位址 <﻿data﻿></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1bc7ea1"><span class="nav-text">建立執行指令的迴圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2a6dd3c"><span class="nav-text">進行最後的修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7ebef60"><span class="nav-text">取得完整程式碼與執行程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org9da4cdc"><span class="nav-text">執行程式 (JVM)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge7c5368"><span class="nav-text">執行程式 (Node.js)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3f4a6ff"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf4fa678"><span class="nav-text">4917 的暫存器 (Register)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org036e052"><span class="nav-text">從指令集認識 4917</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc09264d"><span class="nav-text">1-byte 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4da12bb"><span class="nav-text">2-byte 指令，指令後面的 byte 的內容以 <﻿data﻿> 表示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org72d1f24"><span class="nav-text">從範例來看 4917 的指令運作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9a41297"><span class="nav-text">建立我們的 Clojure/Clojurescript 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org22f6dbf"><span class="nav-text">建立初始樣板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5aebea9"><span class="nav-text">讀取二進制檔案並解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbb97c67"><span class="nav-text">建立 4917 這顆 CPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3dc89aa"><span class="nav-text">定義指令集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org39a32d2"><span class="nav-text">指令 0 : 結束程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf66545e"><span class="nav-text">指令 1 : R0 = R0 + R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga486a12"><span class="nav-text">指令 2 : R0 = R0 - R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2ab945a"><span class="nav-text">指令 3 : R0 = R0 + 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgde2a805"><span class="nav-text">指令 4 : R1 = R1 + 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4874669"><span class="nav-text">指令 5 : R0 = R0 -1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1aea6c8"><span class="nav-text">指令 6 : R1 = R1 -1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgba04086"><span class="nav-text">指令 7 : 響鈴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb843240"><span class="nav-text">指令 8 : 印出 <﻿data﻿></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2a73245"><span class="nav-text">指令 9 : 從位址 <﻿data﻿> 讀取資料存入 R0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org91cdca1"><span class="nav-text">指令 10 : 從位址 <﻿data﻿> 讀取資料存入 R1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org41a47ee"><span class="nav-text">指令 11 : 將 R0 內容存入 位址 <﻿data﻿> 內</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6aa5d78"><span class="nav-text">指令 12 : 將 R1 內容存入 位址 <﻿data﻿> 內</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5198da8"><span class="nav-text">指令 13 : 將 PC 指向 位址 <﻿data﻿> (即 JUMP 命令)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga0d1740"><span class="nav-text">指令 14 : 如果 R0 為 0，將 PC 指向 位址 <﻿data﻿></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga5be257"><span class="nav-text">指令 15 : 如果 R0 不為 0, 將 PC 指向 位址 <﻿data﻿></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org57cdee2"><span class="nav-text">建立執行指令的迴圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4b71e6e"><span class="nav-text">進行最後的修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb832297"><span class="nav-text">取得完整程式碼與執行程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org018f40f"><span class="nav-text">執行程式 (JVM)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb4b44da"><span class="nav-text">執行程式 (Node.js)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9fc8f76"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

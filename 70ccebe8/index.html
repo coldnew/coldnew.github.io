@@ -231,9 +231,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-orgb71389a" class="outline-2">
-<h2 id="orgb71389a">安裝依賴的相關套件</h2>
-<div class="outline-text-2" id="text-orgb71389a">
+<div id="outline-container-org9110638" class="outline-2">
+<h2 id="org9110638">安裝依賴的相關套件</h2>
+<div class="outline-text-2" id="text-org9110638">
 <p>
 第一步要做的，當然就是安裝相關套件啦，這點我們直接透過 <a href="http://brew.sh/" target="_blank" rel="external">homebrew</a> 來安裝
 </p>
@@ -261,9 +261,9 @@ coldnew@MacOSX ~ $ brew install crosstool-ng
 </div>
 </div>
 
-<div id="outline-container-org97d281e" class="outline-2">
-<h2 id="org97d281e">建立編譯環境</h2>
-<div class="outline-text-2" id="text-org97d281e">
+<div id="outline-container-org10eb96e" class="outline-2">
+<h2 id="org10eb96e">建立編譯環境</h2>
+<div class="outline-text-2" id="text-org10eb96e">
 <p>
 安裝好 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 後，我們需要建立一個 <code>Case Sensitive</code> 的 HFS+ 硬碟來讓 MacOSX 可以順利編譯，以下為我建立這顆硬碟所用的命令 (佔 10G 的硬碟空間)
 </p>
@@ -271,7 +271,7 @@ coldnew@MacOSX ~ $ brew install crosstool-ng
 <div class="org-src-container">
 <pre class="src src-sh">hdiutil create -volname CrossToolNG -type SPARSE <span style="color: #aadddd;">\</span>
         -fs <span style="color: #aadddd;">'Case-sensitive Journaled HFS+'</span> <span style="color: #aadddd;">\</span>
-        -size 10g CrossToolNG.sparseimage
+        -size <span style="color: #ccaaff;">10g</span> CrossToolNG.sparseimage
 </pre>
 </div>
 
@@ -340,9 +340,9 @@ coldnew@MacOSX /Volumes/CrossToolNG $ ct-ng build
 </div>
 </div>
 
-<div id="outline-container-orgd1aecd3" class="outline-2">
-<h2 id="orgd1aecd3">設定編譯環境</h2>
-<div class="outline-text-2" id="text-orgd1aecd3">
+<div id="outline-container-orge6879fd" class="outline-2">
+<h2 id="orge6879fd">設定編譯環境</h2>
+<div class="outline-text-2" id="text-orge6879fd">
 <p>
 完成編譯我們要的工具鍊 (toolchain) 後，我們可以在 <code>/Volumes/CrossToolNG</code> 看到以下的資料夾，其中 <code>x-tools</code> 就是我們編譯出來的結果
 </p>
@@ -374,9 +374,9 @@ coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
 </div>
 </div>
 
-<div id="outline-container-org92ed746" class="outline-2">
-<h2 id="org92ed746">可能會遇到的錯誤</h2>
-<div class="outline-text-2" id="text-org92ed746">
+<div id="outline-container-orge54cd0b" class="outline-2">
+<h2 id="orge54cd0b">可能會遇到的錯誤</h2>
+<div class="outline-text-2" id="text-orge54cd0b">
 <p>
 在 Mac OSX 下編譯非 Apple 官方的東西常常會出現一堆奇怪的錯誤，有時是因為 XCode 的改動，有時是因為你透過 <a href="http://brew.sh/" target="_blank" rel="external">homebrew</a> 安裝了其他命令和 Mac OSX 內建的有衝突。
 </p>
@@ -386,9 +386,9 @@ coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
 </p>
 </div>
 
-<div id="outline-container-org195dc94" class="outline-3">
-<h3 id="org195dc94">stat: cannot read file system information for '%Lp'</h3>
-<div class="outline-text-3" id="text-org195dc94">
+<div id="outline-container-org42772ee" class="outline-3">
+<h3 id="org42772ee">stat: cannot read file system information for '%Lp'</h3>
+<div class="outline-text-3" id="text-org42772ee">
 <p>
 如果你遇到了這個問題，哪很有可能是因為你的系統同時也裝了 <a href="http://www.gnu.org/software/coreutils/coreutils.html" target="_blank" rel="external">GNU coreutils</a> 導致 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 調用的命令是 GNU 的 <code>stat</code> 命令，而不是系統內建的 stat 命令。
 </p>
@@ -442,9 +442,9 @@ coldnew@MacOSX ~ $ which stat
 </div>
 </div>
 
-<div id="outline-container-org1bb849b" class="outline-3">
-<h3 id="org1bb849b">ld: library not found for -lcrt0.o</h3>
-<div class="outline-text-3" id="text-org1bb849b">
+<div id="outline-container-org4a00432" class="outline-3">
+<h3 id="org4a00432">ld: library not found for -lcrt0.o</h3>
+<div class="outline-text-3" id="text-org4a00432">
 <p>
 <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr</a> 提供的 <code>.config</code> 有打開靜態連結 (static link) 相關的設定，於是你會遇到這樣的狀況，解法參考 <a href="https://github.com/crosstool-ng/crosstool-ng/issues/31" target="_blank" rel="external">issue #31</a> 移除 static link 相關設定。
 </p>
@@ -484,9 +484,9 @@ coldnew@MacOSX ~ $ which stat
 </div>
 </div>
 
-<div id="outline-container-orgb643343" class="outline-2">
-<h2 id="orgb643343">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgb643343">
+<div id="outline-container-org8db4043" class="outline-2">
+<h2 id="org8db4043">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org8db4043">
 <p>
 <code>[1]</code> <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr Project Website</a>
 </p>
@@ -586,7 +586,7 @@ coldnew@MacOSX ~ $ which stat
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -655,7 +655,7 @@ coldnew@MacOSX ~ $ which stat
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb71389a"><span class="nav-text">安裝依賴的相關套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org97d281e"><span class="nav-text">建立編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd1aecd3"><span class="nav-text">設定編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org92ed746"><span class="nav-text">可能會遇到的錯誤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org195dc94"><span class="nav-text">stat: cannot read file system information for '%Lp'</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1bb849b"><span class="nav-text">ld: library not found for -lcrt0.o</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb643343"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org9110638"><span class="nav-text">安裝依賴的相關套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org10eb96e"><span class="nav-text">建立編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge6879fd"><span class="nav-text">設定編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge54cd0b"><span class="nav-text">可能會遇到的錯誤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org42772ee"><span class="nav-text">stat: cannot read file system information for '%Lp'</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4a00432"><span class="nav-text">ld: library not found for -lcrt0.o</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8db4043"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

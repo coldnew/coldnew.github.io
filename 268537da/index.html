@@ -251,9 +251,9 @@ ubifs 的掛載描述
 我們想讓 Android 的 init 掛載 ubifs 要怎麼辦? 這時候只好自己動手了~
 </p>
 
-<div id="outline-container-orge8320a9" class="outline-2">
-<h2 id="orge8320a9">讓 init 可以掛載 ubifs 所進行的修改</h2>
-<div class="outline-text-2" id="text-orge8320a9">
+<div id="outline-container-org4d4e300" class="outline-2">
+<h2 id="org4d4e300">讓 init 可以掛載 ubifs 所進行的修改</h2>
+<div class="outline-text-2" id="text-org4d4e300">
 <p>
 Android 的 init 原始碼位於 <code>system/core/init</code> 裡面，為了增加 ubifs 的功
 能，我們將針對以下檔案進行修改
@@ -267,9 +267,9 @@ Android 的 init 原始碼位於 <code>system/core/init</code> 裡面，為了�
 </ul>
 </div>
 
-<div id="outline-container-orgbc34197" class="outline-3">
-<h3 id="orgbc34197">修改 init/builtins.c</h3>
-<div class="outline-text-3" id="text-orgbc34197">
+<div id="outline-container-org46770a7" class="outline-3">
+<h3 id="org46770a7">修改 init/builtins.c</h3>
+<div class="outline-text-3" id="text-org46770a7">
 <p>
 我們所希望的是可以在 init.rc 增加下面這樣的描述，讓 init 可以掛載 ubifs
 </p>
@@ -286,8 +286,8 @@ mtd 設備。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff">diff --git a/init/builtins.c b/init/builtins.c
-index b0a97ae..d8066a2 100644
+<pre class="src src-diff"><span style="color: #aaaaaa; background-color: #202020;">diff --git a/init/builtins.c b/init/builtins.c</span>
+<span style="color: #aaaaaa; background-color: #202020;">index b0a97ae..d8066a2 100644</span>
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/init/builtins.c</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/init/builtins.c</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -325,6 +325,22 @@</span><span style="color: #aaaaaa; background-color: #202020;"> int do_mount(int nargs, char **args)</span>
@@ -318,17 +318,17 @@ index b0a97ae..d8066a2 100644
 </div>
 </div>
 
-<div id="outline-container-org09fda3f" class="outline-3">
-<h3 id="org09fda3f">修改 init/util.h</h3>
-<div class="outline-text-3" id="text-org09fda3f">
+<div id="outline-container-org0331d68" class="outline-3">
+<h3 id="org0331d68">修改 init/util.h</h3>
+<div class="outline-text-3" id="text-org0331d68">
 <p>
 我們在 <code>system/core/init/builtins.c</code> 使用到一些和 ubifs 相關的函式，這
 些函式並未被宣告以及定義，因此我們宣告在 util.h 裡面。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff">diff --git a/init/util.h b/init/util.h
-index 45905b6..09aa574 100644
+<pre class="src src-diff"><span style="color: #aaaaaa; background-color: #202020;">diff --git a/init/util.h b/init/util.h</span>
+<span style="color: #aaaaaa; background-color: #202020;">index 45905b6..09aa574 100644</span>
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/init/util.h</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/init/util.h</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -41,4 +41,7 @@</span><span style="color: #aaaaaa; background-color: #202020;"> void get_hardware_name(char *hardware, unsigned int *revision);</span>
@@ -344,9 +344,9 @@ index 45905b6..09aa574 100644
 </div>
 </div>
 
-<div id="outline-container-org5e02226" class="outline-3">
-<h3 id="org5e02226">增加 init/ubi-user.h 檔案</h3>
-<div class="outline-text-3" id="text-org5e02226">
+<div id="outline-container-org6474a25" class="outline-3">
+<h3 id="org6474a25">增加 init/ubi-user.h 檔案</h3>
+<div class="outline-text-3" id="text-org6474a25">
 <p>
 由於我們進行一些 ubifs 相關函式的定義時，需要用到 ubifs 的結構，因此
 需要增加相關結構的資訊。 <code>ubi-user.h</code> 這個檔案取自於 Linux Kernel
@@ -382,7 +382,7 @@ index 45905b6..09aa574 100644
 <span style="color: #9ac; font-style: italic;"> * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA</span>
 <span style="color: #9ac; font-style: italic;"> *</span>
 <span style="color: #9ac; font-style: italic;"> * Author: Artem Bityutskiy (&#1041;&#1080;&#1090;&#1102;&#1094;&#1082;&#1080;&#1081; &#1040;&#1088;&#1090;&#1105;&#1084;)</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
 
 <span style="color: #ff8888;">#if</span><span style="color: #ff8888;">n</span><span style="color: #ff8888;">def</span> __UBI_USER_H__
 <span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">__UBI_USER_H__</span>
@@ -500,66 +500,66 @@ index 45905b6..09aa574 100644
 <span style="color: #9ac; font-style: italic;"> * used. A pointer to a &amp;struct ubi_set_vol_prop_req object is expected to be</span>
 <span style="color: #9ac; font-style: italic;"> * passed. The object describes which property should be set, and to which value</span>
 <span style="color: #9ac; font-style: italic;"> * it should be set.</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
 
 <span style="color: #5f5f5f; font-style: italic;">/*</span>
 <span style="color: #9ac; font-style: italic;"> * When a new UBI volume or UBI device is created, users may either specify the</span>
 <span style="color: #9ac; font-style: italic;"> * volume/device number they want to create or to let UBI automatically assign</span>
 <span style="color: #9ac; font-style: italic;"> * the number using these constants.</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_VOL_NUM_AUTO</span> <span style="color: #aadddd;">(</span>-1<span style="color: #aadddd;">)</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_DEV_NUM_AUTO</span> <span style="color: #aadddd;">(</span>-1<span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_VOL_NUM_AUTO</span> <span style="color: #aadddd;">(</span>-<span style="color: #ccaaff;">1</span><span style="color: #aadddd;">)</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_DEV_NUM_AUTO</span> <span style="color: #aadddd;">(</span>-<span style="color: #ccaaff;">1</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Maximum volume name length </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_MAX_VOLUME_NAME</span> 127
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Maximum volume name length</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_MAX_VOLUME_NAME</span> <span style="color: #ccaaff;">127</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">ioctl commands of UBI character devices </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">ioctl commands of UBI character devices</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 
 <span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOC_MAGIC</span> <span style="color: #aadddd;">'o'</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Create an UBI volume </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCMKVOL</span> _IOW<span style="color: #aadddd;">(</span>UBI_IOC_MAGIC, 0, <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_mkvol_req</span><span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Remove an UBI volume </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCRMVOL</span> _IOW<span style="color: #aadddd;">(</span>UBI_IOC_MAGIC, 1, __s32<span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Re-size an UBI volume </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCRSVOL</span> _IOW<span style="color: #aadddd;">(</span>UBI_IOC_MAGIC, 2, <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_rsvol_req</span><span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Re-name volumes </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCRNVOL</span> _IOW<span style="color: #aadddd;">(</span>UBI_IOC_MAGIC, 3, <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_rnvol_req</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Create an UBI volume</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCMKVOL</span> _IOW<span style="color: #aadddd;">(</span>UBI_IOC_MAGIC, <span style="color: #ccaaff;">0</span>, <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_mkvol_req</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Remove an UBI volume</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCRMVOL</span> _IOW<span style="color: #aadddd;">(</span>UBI_IOC_MAGIC, <span style="color: #ccaaff;">1</span>, __s32<span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Re-size an UBI volume</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCRSVOL</span> _IOW<span style="color: #aadddd;">(</span>UBI_IOC_MAGIC, <span style="color: #ccaaff;">2</span>, <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_rsvol_req</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Re-name volumes</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCRNVOL</span> _IOW<span style="color: #aadddd;">(</span>UBI_IOC_MAGIC, <span style="color: #ccaaff;">3</span>, <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_rnvol_req</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">ioctl commands of the UBI control character device </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">ioctl commands of the UBI control character device</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 
 <span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_CTRL_IOC_MAGIC</span> <span style="color: #aadddd;">'o'</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Attach an MTD device </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCATT</span> _IOW<span style="color: #aadddd;">(</span>UBI_CTRL_IOC_MAGIC, 64, <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_attach_req</span><span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Detach an MTD device </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCDET</span> _IOW<span style="color: #aadddd;">(</span>UBI_CTRL_IOC_MAGIC, 65, __s32<span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Attach an MTD device</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCATT</span> _IOW<span style="color: #aadddd;">(</span>UBI_CTRL_IOC_MAGIC, <span style="color: #ccaaff;">64</span>, <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_attach_req</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Detach an MTD device</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCDET</span> _IOW<span style="color: #aadddd;">(</span>UBI_CTRL_IOC_MAGIC, <span style="color: #ccaaff;">65</span>, __s32<span style="color: #aadddd;">)</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">ioctl commands of UBI volume character devices </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">ioctl commands of UBI volume character devices</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 
 <span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_VOL_IOC_MAGIC</span> <span style="color: #aadddd;">'O'</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Start UBI volume update </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCVOLUP</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, 0, __s64<span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">LEB erasure command, used for debugging, disabled by default </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCEBER</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, 1, __s32<span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Atomic LEB change command </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCEBCH</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, 2, __s32<span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Map LEB command </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCEBMAP</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, 3, <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_map_req</span><span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Unmap LEB command </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCEBUNMAP</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, 4, __s32<span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Check if LEB is mapped command </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCEBISMAP</span> _IOR<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, 5, __s32<span style="color: #aadddd;">)</span>
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set an UBI volume property </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCSETVOLPROP</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, 6, \
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Start UBI volume update</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCVOLUP</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, <span style="color: #ccaaff;">0</span>, __s64<span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">LEB erasure command, used for debugging, disabled by default</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCEBER</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, <span style="color: #ccaaff;">1</span>, __s32<span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Atomic LEB change command</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCEBCH</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, <span style="color: #ccaaff;">2</span>, __s32<span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Map LEB command</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCEBMAP</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, <span style="color: #ccaaff;">3</span>, <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_map_req</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Unmap LEB command</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCEBUNMAP</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, <span style="color: #ccaaff;">4</span>, __s32<span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Check if LEB is mapped command</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCEBISMAP</span> _IOR<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, <span style="color: #ccaaff;">5</span>, __s32<span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set an UBI volume property</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_IOCSETVOLPROP</span> _IOW<span style="color: #aadddd;">(</span>UBI_VOL_IOC_MAGIC, <span style="color: #ccaaff;">6</span>, \
                                <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_set_vol_prop_req</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Maximum MTD device name length supported by UBI </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">MAX_UBI_MTD_NAME_LEN</span> 127
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Maximum MTD device name length supported by UBI</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">MAX_UBI_MTD_NAME_LEN</span> <span style="color: #ccaaff;">127</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Maximum amount of UBI volumes that can be re-named at one go </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_MAX_RNVOL</span> 32
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Maximum amount of UBI volumes that can be re-named at one go</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">UBI_MAX_RNVOL</span> <span style="color: #ccaaff;">32</span>
 
 <span style="color: #5f5f5f; font-style: italic;">/*</span>
 <span style="color: #9ac; font-style: italic;"> * UBI data type hint constants.</span>
@@ -571,11 +571,11 @@ index 45905b6..09aa574 100644
 <span style="color: #9ac; font-style: italic;"> * These constants are used when data is written to UBI volumes in order to</span>
 <span style="color: #9ac; font-style: italic;"> * help the UBI wear-leveling unit to find more appropriate physical</span>
 <span style="color: #9ac; font-style: italic;"> * eraseblocks.</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
 <span style="color: #aaffaa;">enum</span> <span style="color: #aadddd;">{</span>
-        <span style="color: #aaccff;">UBI_LONGTERM</span>  = 1,
-        <span style="color: #aaccff;">UBI_SHORTTERM</span> = 2,
-        <span style="color: #aaccff;">UBI_UNKNOWN</span>   = 3,
+        <span style="color: #aaccff;">UBI_LONGTERM</span>  = <span style="color: #ccaaff;">1</span>,
+        <span style="color: #aaccff;">UBI_SHORTTERM</span> = <span style="color: #ccaaff;">2</span>,
+        <span style="color: #aaccff;">UBI_UNKNOWN</span>   = <span style="color: #ccaaff;">3</span>,
 <span style="color: #aadddd;">}</span>;
 
 <span style="color: #5f5f5f; font-style: italic;">/*</span>
@@ -583,10 +583,10 @@ index 45905b6..09aa574 100644
 <span style="color: #9ac; font-style: italic;"> *</span>
 <span style="color: #9ac; font-style: italic;"> * @UBI_DYNAMIC_VOLUME: dynamic volume</span>
 <span style="color: #9ac; font-style: italic;"> * @UBI_STATIC_VOLUME:  static volume</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
 <span style="color: #aaffaa;">enum</span> <span style="color: #aadddd;">{</span>
-        <span style="color: #aaccff;">UBI_DYNAMIC_VOLUME</span> = 3,
-        <span style="color: #aaccff;">UBI_STATIC_VOLUME</span>  = 4,
+        <span style="color: #aaccff;">UBI_DYNAMIC_VOLUME</span> = <span style="color: #ccaaff;">3</span>,
+        <span style="color: #aaccff;">UBI_STATIC_VOLUME</span>  = <span style="color: #ccaaff;">4</span>,
 <span style="color: #aadddd;">}</span>;
 
 <span style="color: #5f5f5f; font-style: italic;">/*</span>
@@ -595,9 +595,9 @@ index 45905b6..09aa574 100644
 <span style="color: #9ac; font-style: italic;"> * @UBI_VOL_PROP_DIRECT_WRITE: allow (any non-zero value) or disallow (value 0)</span>
 <span style="color: #9ac; font-style: italic;"> *                             user to directly write and erase individual</span>
 <span style="color: #9ac; font-style: italic;"> *                             eraseblocks on dynamic volumes</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
 <span style="color: #aaffaa;">enum</span> <span style="color: #aadddd;">{</span>
-        <span style="color: #aaccff;">UBI_VOL_PROP_DIRECT_WRITE</span> = 1,
+        <span style="color: #aaccff;">UBI_VOL_PROP_DIRECT_WRITE</span> = <span style="color: #ccaaff;">1</span>,
 <span style="color: #aadddd;">}</span>;
 
 <span style="color: #97abc6; font-style: italic;">/**</span>
@@ -633,7 +633,7 @@ index 45905b6..09aa574 100644
         <span style="color: #fff59d;">__s32</span> <span style="color: #aaccff;">ubi_num</span>;
         <span style="color: #fff59d;">__s32</span> <span style="color: #aaccff;">mtd_num</span>;
         <span style="color: #fff59d;">__s32</span> <span style="color: #aaccff;">vid_hdr_offset</span>;
-        <span style="color: #fff59d;">__s8</span> <span style="color: #aaccff;">padding</span><span style="color: #81d4fa;">[</span>12<span style="color: #81d4fa;">]</span>;
+        <span style="color: #fff59d;">__s8</span> <span style="color: #aaccff;">padding</span><span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">12</span><span style="color: #81d4fa;">]</span>;
 <span style="color: #aadddd;">}</span>;
 
 <span style="color: #97abc6; font-style: italic;">/**</span>
@@ -674,8 +674,8 @@ index 45905b6..09aa574 100644
         <span style="color: #fff59d;">__s8</span> <span style="color: #aaccff;">vol_type</span>;
         <span style="color: #fff59d;">__s8</span> <span style="color: #aaccff;">padding1</span>;
         <span style="color: #fff59d;">__s16</span> <span style="color: #aaccff;">name_len</span>;
-        <span style="color: #fff59d;">__s8</span> <span style="color: #aaccff;">padding2</span><span style="color: #81d4fa;">[</span>4<span style="color: #81d4fa;">]</span>;
-        <span style="color: #fff59d;">char</span> <span style="color: #aaccff;">name</span><span style="color: #81d4fa;">[</span>UBI_MAX_VOLUME_NAME + 1<span style="color: #81d4fa;">]</span>;
+        <span style="color: #fff59d;">__s8</span> <span style="color: #aaccff;">padding2</span><span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">4</span><span style="color: #81d4fa;">]</span>;
+        <span style="color: #fff59d;">char</span> <span style="color: #aaccff;">name</span><span style="color: #81d4fa;">[</span>UBI_MAX_VOLUME_NAME + <span style="color: #ccaaff;">1</span><span style="color: #81d4fa;">]</span>;
 <span style="color: #aadddd;">}</span> <span style="color: #aaccff;">__packed</span>;
 
 <span style="color: #97abc6; font-style: italic;">/**</span>
@@ -727,12 +727,12 @@ index 45905b6..09aa574 100644
 <span style="color: #97abc6; font-style: italic;"> */</span>
 <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_rnvol_req</span> <span style="color: #aadddd;">{</span>
         <span style="color: #fff59d;">__s32</span> <span style="color: #aaccff;">count</span>;
-        <span style="color: #fff59d;">__s8</span> <span style="color: #aaccff;">padding1</span><span style="color: #81d4fa;">[</span>12<span style="color: #81d4fa;">]</span>;
+        <span style="color: #fff59d;">__s8</span> <span style="color: #aaccff;">padding1</span><span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">12</span><span style="color: #81d4fa;">]</span>;
         <span style="color: #aaffaa;">struct</span> <span style="color: #81d4fa;">{</span>
                 <span style="color: #fff59d;">__s32</span> <span style="color: #aaccff;">vol_id</span>;
                 <span style="color: #fff59d;">__s16</span> <span style="color: #aaccff;">name_len</span>;
-                <span style="color: #fff59d;">__s8</span>  <span style="color: #aaccff;">padding2</span><span style="color: #aaccff;">[</span>2<span style="color: #aaccff;">]</span>;
-                <span style="color: #fff59d;">char</span>    <span style="color: #aaccff;">name</span><span style="color: #aaccff;">[</span>UBI_MAX_VOLUME_NAME + 1<span style="color: #aaccff;">]</span>;
+                <span style="color: #fff59d;">__s8</span>  <span style="color: #aaccff;">padding2</span><span style="color: #aaccff;">[</span><span style="color: #ccaaff;">2</span><span style="color: #aaccff;">]</span>;
+                <span style="color: #fff59d;">char</span>    <span style="color: #aaccff;">name</span><span style="color: #aaccff;">[</span>UBI_MAX_VOLUME_NAME + <span style="color: #ccaaff;">1</span><span style="color: #aaccff;">]</span>;
         <span style="color: #81d4fa;">}</span> <span style="color: #aaccff;">ents</span><span style="color: #81d4fa;">[</span>UBI_MAX_RNVOL<span style="color: #81d4fa;">]</span>;
 <span style="color: #aadddd;">}</span> <span style="color: #aaccff;">__packed</span>;
 
@@ -748,7 +748,7 @@ index 45905b6..09aa574 100644
         <span style="color: #fff59d;">__s32</span> <span style="color: #aaccff;">lnum</span>;
         <span style="color: #fff59d;">__s32</span> <span style="color: #aaccff;">bytes</span>;
         <span style="color: #fff59d;">__s8</span>  <span style="color: #aaccff;">dtype</span>;
-        <span style="color: #fff59d;">__s8</span>  <span style="color: #aaccff;">padding</span><span style="color: #81d4fa;">[</span>7<span style="color: #81d4fa;">]</span>;
+        <span style="color: #fff59d;">__s8</span>  <span style="color: #aaccff;">padding</span><span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">7</span><span style="color: #81d4fa;">]</span>;
 <span style="color: #aadddd;">}</span> <span style="color: #aaccff;">__packed</span>;
 
 <span style="color: #97abc6; font-style: italic;">/**</span>
@@ -760,7 +760,7 @@ index 45905b6..09aa574 100644
 <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_map_req</span> <span style="color: #aadddd;">{</span>
         <span style="color: #fff59d;">__s32</span> <span style="color: #aaccff;">lnum</span>;
         <span style="color: #fff59d;">__s8</span>  <span style="color: #aaccff;">dtype</span>;
-        <span style="color: #fff59d;">__s8</span>  <span style="color: #aaccff;">padding</span><span style="color: #81d4fa;">[</span>3<span style="color: #81d4fa;">]</span>;
+        <span style="color: #fff59d;">__s8</span>  <span style="color: #aaccff;">padding</span><span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">3</span><span style="color: #81d4fa;">]</span>;
 <span style="color: #aadddd;">}</span> <span style="color: #aaccff;">__packed</span>;
 
 
@@ -773,26 +773,26 @@ index 45905b6..09aa574 100644
 <span style="color: #97abc6; font-style: italic;"> */</span>
 <span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">ubi_set_vol_prop_req</span> <span style="color: #aadddd;">{</span>
         <span style="color: #fff59d;">__u8</span>  <span style="color: #aaccff;">property</span>;
-        <span style="color: #fff59d;">__u8</span>  <span style="color: #aaccff;">padding</span><span style="color: #81d4fa;">[</span>7<span style="color: #81d4fa;">]</span>;
+        <span style="color: #fff59d;">__u8</span>  <span style="color: #aaccff;">padding</span><span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">7</span><span style="color: #81d4fa;">]</span>;
         <span style="color: #fff59d;">__u64</span> <span style="color: #aaccff;">value</span>;
 <span style="color: #aadddd;">}</span>  <span style="color: #aaccff;">__packed</span>;
 
-<span style="color: #ff8888;">#endif</span> <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">__UBI_USER_H__ </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #ff8888;">#endif</span> <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">__UBI_USER_H__</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3d79547" class="outline-3">
-<h3 id="org3d79547">修改 init/util.c</h3>
-<div class="outline-text-3" id="text-org3d79547">
+<div id="outline-container-org49e2465" class="outline-3">
+<h3 id="org49e2465">修改 init/util.c</h3>
+<div class="outline-text-3" id="text-org49e2465">
 <p>
 由於我們增加了一些 ubifs 相關的函式，因此必須自己在 <code>init/util.c</code> 裡面加入相對應的實現。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-diff">diff --git a/init/util.c b/init/util.c
-index 743748b..aa9ca87 100755
+<pre class="src src-diff"><span style="color: #aaaaaa; background-color: #202020;">diff --git a/init/util.c b/init/util.c</span>
+<span style="color: #aaaaaa; background-color: #202020;">index 743748b..aa9ca87 100755</span>
 <span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/init/util.c</span>
 <span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/init/util.c</span>
 <span style="color: #aaaaaa; background-color: #202020;">@@ -31,6 +31,8 @@</span>
@@ -918,9 +918,9 @@ index 743748b..aa9ca87 100755
 </div>
 </div>
 
-<div id="outline-container-org731a3e4" class="outline-2">
-<h2 id="org731a3e4">ramdisk 修改</h2>
-<div class="outline-text-2" id="text-org731a3e4">
+<div id="outline-container-org0ed24f5" class="outline-2">
+<h2 id="org0ed24f5">ramdisk 修改</h2>
+<div class="outline-text-2" id="text-org0ed24f5">
 <p>
 將上面的修正加入並重新編譯 Android 後，你就可以在 ramdisk 下使用以下方式去掛載你
 的 ubifs 檔案系統，修改 init.*.rc 並添加以下資訊:
@@ -933,9 +933,9 @@ index 743748b..aa9ca87 100755
 </div>
 </div>
 
-<div id="outline-container-orgd0a6d9a" class="outline-2">
-<h2 id="orgd0a6d9a">參考連結</h2>
-<div class="outline-text-2" id="text-orgd0a6d9a">
+<div id="outline-container-org76693bd" class="outline-2">
+<h2 id="org76693bd">參考連結</h2>
+<div class="outline-text-2" id="text-org76693bd">
 <p>
 <code>[1]</code> <a href="http://blog.chinaunix.net/uid-22028680-id-3015767.html" target="_blank" rel="external">採用 UBIFS 製作 Android 的文件系統</a>
 </p>
@@ -1033,7 +1033,7 @@ index 743748b..aa9ca87 100755
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1102,7 +1102,7 @@ index 743748b..aa9ca87 100755
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge8320a9"><span class="nav-text">讓 init 可以掛載 ubifs 所進行的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgbc34197"><span class="nav-text">修改 init/builtins.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org09fda3f"><span class="nav-text">修改 init/util.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5e02226"><span class="nav-text">增加 init/ubi-user.h 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org3d79547"><span class="nav-text">修改 init/util.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org731a3e4"><span class="nav-text">ramdisk 修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd0a6d9a"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org4d4e300"><span class="nav-text">讓 init 可以掛載 ubifs 所進行的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org46770a7"><span class="nav-text">修改 init/builtins.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0331d68"><span class="nav-text">修改 init/util.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6474a25"><span class="nav-text">增加 init/ubi-user.h 檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org49e2465"><span class="nav-text">修改 init/util.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0ed24f5"><span class="nav-text">ramdisk 修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org76693bd"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

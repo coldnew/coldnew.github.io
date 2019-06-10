@@ -265,9 +265,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-orgad8d4f7" class="outline-2">
-<h2 id="orgad8d4f7">開發目標</h2>
-<div class="outline-text-2" id="text-orgad8d4f7">
+<div id="outline-container-org1dd3a34" class="outline-2">
+<h2 id="org1dd3a34">開發目標</h2>
+<div class="outline-text-2" id="text-org1dd3a34">
 <p>
 我們要透過純粹的可程式邏輯(Programmable Logic, PL) 去控制 LED，也就是說，我們只寫硬體描述語言 Verilog 來控制 DE2-115 上面的 LED，讓他依照我們設定的頻率進行閃爍/亮滅。
 </p>
@@ -288,9 +288,9 @@
 </div>
 </div>
 
-<div id="outline-container-org1e5947e" class="outline-2">
-<h2 id="org1e5947e">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org1e5947e">
+<div id="outline-container-org22b34d2" class="outline-2">
+<h2 id="org22b34d2">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org22b34d2">
 <p>
 我們首先透過 <code>File -&gt; New Project Wizard</code> 建立一個新的專案
 </p>
@@ -373,9 +373,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgcc47540" class="outline-2">
-<h2 id="orgcc47540">撰寫程式</h2>
-<div class="outline-text-2" id="text-orgcc47540">
+<div id="outline-container-org361bd2d" class="outline-2">
+<h2 id="org361bd2d">撰寫程式</h2>
+<div class="outline-text-2" id="text-org361bd2d">
 <p>
 建好專案後，你會發現如果對 <code>Project Navigator</code> 裡面的 <code>blink</code> 點兩下，會彈出 <code>Can't find design entity "blink</code> 的視窗，這是因為我們還沒建立我們的程式碼檔案 <code>blink.v</code> , 這邊就來建立它。
 </p>
@@ -401,20 +401,20 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-verilog"><span style="color: #ff8888;">`timescale</span> 1ns / 1ps
+<pre class="src src-verilog"><span style="color: #ff8888;">`timescale</span> <span style="color: #ccaaff;">1ns</span> / <span style="color: #ccaaff;">1ps</span>
 
-<span style="color: #aaffaa;">module</span> <span style="color: #aaccff;">blink</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">output</span> <span style="color: #fff59d;">reg</span> <span style="color: #81d4fa;">[</span>3:0<span style="color: #81d4fa;">]</span> led,
+<span style="color: #aaffaa;">module</span> <span style="color: #aaccff;">blink</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">output</span> <span style="color: #fff59d;">reg</span> <span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">3</span>:<span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">]</span> led,
              <span style="color: #fff59d;">input</span> clk<span style="color: #aadddd;">)</span>;
 
-   <span style="color: #fff59d;">reg</span> <span style="color: #aadddd;">[</span>26:0<span style="color: #aadddd;">]</span>      counter;
+   <span style="color: #fff59d;">reg</span> <span style="color: #aadddd;">[</span><span style="color: #ccaaff;">26</span>:<span style="color: #ccaaff;">0</span><span style="color: #aadddd;">]</span>      counter;
 
    <span style="color: #aaffaa;">always</span> <span style="color: #fff59d;">@</span><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">posedge</span> clk<span style="color: #aadddd;">)</span> <span style="color: #fff59d;">begin</span>
-      <span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">(</span>counter == 27'd50000000<span style="color: #aadddd;">)</span> <span style="color: #fff59d;">begin</span>
-         led &lt;= led + 1;
-         counter &lt;= 0;
+      <span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">(</span>counter == <span style="color: #ccaaff;">27</span>'d50000000<span style="color: #aadddd;">)</span> <span style="color: #fff59d;">begin</span>
+         led &lt;= led + <span style="color: #ccaaff;">1</span>;
+         counter &lt;= <span style="color: #ccaaff;">0</span>;
       <span style="color: #fff59d;">end</span>
       <span style="color: #aaffaa;">else</span> <span style="color: #fff59d;">begin</span>
-         counter &lt;= counter +1;
+         counter &lt;= counter +<span style="color: #ccaaff;">1</span>;
       <span style="color: #fff59d;">end</span>
    <span style="color: #fff59d;">end</span>
 
@@ -447,9 +447,9 @@
 </div>
 </div>
 
-<div id="outline-container-org7a26658" class="outline-2">
-<h2 id="org7a26658">腳位設定</h2>
-<div class="outline-text-2" id="text-org7a26658">
+<div id="outline-container-org597100b" class="outline-2">
+<h2 id="org597100b">腳位設定</h2>
+<div class="outline-text-2" id="text-org597100b">
 <p>
 由於我們建立這個專案的時候還是空專案，並未指定對應的 FPGA 腳位，因此就現在來設定吧。
 </p>
@@ -510,9 +510,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgcfbfc83" class="outline-2">
-<h2 id="orgcfbfc83">下載到 DE2-115</h2>
-<div class="outline-text-2" id="text-orgcfbfc83">
+<div id="outline-container-org2ef5638" class="outline-2">
+<h2 id="org2ef5638">下載到 DE2-115</h2>
+<div class="outline-text-2" id="text-org2ef5638">
 <p>
 要下載到 DE2-115 的話，選擇 <code>Tools -&gt; Programmer</code> 召喚下載用的程式
 </p>
@@ -545,9 +545,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgc246d72" class="outline-2">
-<h2 id="orgc246d72">結果</h2>
-<div class="outline-text-2" id="text-orgc246d72">
+<div id="outline-container-orgb733fe2" class="outline-2">
+<h2 id="orgb733fe2">結果</h2>
+<div class="outline-text-2" id="text-orgb733fe2">
 <p>
 按照本篇文章的設定，你的 DE2-115 顯示應該如以下影片:
 </p>
@@ -559,9 +559,9 @@
 </div>
 </div>
 
-<div id="outline-container-orga921453" class="outline-2">
-<h2 id="orga921453">取得程式碼</h2>
-<div class="outline-text-2" id="text-orga921453">
+<div id="outline-container-orgd15c122" class="outline-2">
+<h2 id="orgd15c122">取得程式碼</h2>
+<div class="outline-text-2" id="text-orgd15c122">
 <p>
 本篇的程式碼已經上傳到 <a href="https://github.com/coldnew-examples/DE2-115-Led-Blink" target="_blank" rel="external">github</a>, 你可以透過以下命令下載並透過 Quartus 打開專案
 </p>
@@ -574,9 +574,9 @@
 </div>
 
 
-<div id="outline-container-orga03ec23" class="outline-2">
-<h2 id="orga03ec23">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orga03ec23">
+<div id="outline-container-orgfdd3fae" class="outline-2">
+<h2 id="orgfdd3fae">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgfdd3fae">
 <ul class="org-ul">
 <li><a href="https://coldnew.github.io/6c5717d7/">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a></li>
 
@@ -676,7 +676,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -745,7 +745,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgad8d4f7"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1e5947e"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcc47540"><span class="nav-text">撰寫程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7a26658"><span class="nav-text">腳位設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcfbfc83"><span class="nav-text">下載到 DE2-115</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc246d72"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga921453"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga03ec23"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org1dd3a34"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org22b34d2"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org361bd2d"><span class="nav-text">撰寫程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org597100b"><span class="nav-text">腳位設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2ef5638"><span class="nav-text">下載到 DE2-115</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb733fe2"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd15c122"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfdd3fae"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

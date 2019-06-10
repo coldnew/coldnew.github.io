@@ -41,7 +41,7 @@
 
 
 
-  <meta name="keywords" content="fpga,xilinx,zynqmp,ultrazed-3eg-pciecc,vivado," />
+  <meta name="keywords" content="fpga,xilinx,zynqmp,vivado,ultrazed-3eg-pciecc," />
 
 
 
@@ -53,7 +53,7 @@
 
 
 <meta name="description" content="在 UltraZed-EG PCIe Carrier Card 開發紀錄: 硬體認識 一文中我們了解了 UltraZed-EG PCIe Carrier Card 這一塊開發板的一些資訊後，是時候來開發點專案啦~    在這篇文章中，我們將讓這塊開發板的 Cortex-A53 透過 AXIO_GPIO 模組，點亮板子上的 LED 燈，並且透過 ps_uart0 輸出一些訊息。    (本文以">
-<meta name="keywords" content="fpga,xilinx,zynqmp,ultrazed-3eg-pciecc,vivado">
+<meta name="keywords" content="fpga,xilinx,zynqmp,vivado,ultrazed-3eg-pciecc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-A53">
 <meta property="og:url" content="https://coldnew.github.io/501bf2ae/index.html">
@@ -282,9 +282,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-org81bde65" class="outline-2">
-<h2 id="org81bde65">開發目標</h2>
-<div class="outline-text-2" id="text-org81bde65">
+<div id="outline-container-org5045a31" class="outline-2">
+<h2 id="org5045a31">開發目標</h2>
+<div class="outline-text-2" id="text-org5045a31">
 <p>
 我們這次的開發目標是這樣子的，除了透過 <code>ps_uart0</code> 輸出訊息外，順便驗證如何透過 <code>AXI_GPIO</code> 去控制 <code>User Leds D12 ~ D19</code> 這些位於可程式邏輯區 (Programmable Logic, PL) 上的 LED 們。
 </p>
@@ -301,9 +301,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgbd7071a" class="outline-2">
-<h2 id="orgbd7071a">建立專案</h2>
-<div class="outline-text-2" id="text-orgbd7071a">
+<div id="outline-container-org6b57448" class="outline-2">
+<h2 id="org6b57448">建立專案</h2>
+<div class="outline-text-2" id="text-org6b57448">
 <p>
 首先讓我們打開 Vivado 吧~ 不過在進行這一步之前，請先確定你有依照 <a href="https://coldnew.github.io/2c97574c/">讓 Vivado 有 UltraZed-EG PCIe Carrier Card 的設定檔</a> 一文的說明，讓我們在建立專案的時候可以找到  <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 這塊板子。
 </p>
@@ -360,9 +360,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgf1ce41d" class="outline-2">
-<h2 id="orgf1ce41d">建立 Block Design</h2>
-<div class="outline-text-2" id="text-orgf1ce41d">
+<div id="outline-container-org98a883c" class="outline-2">
+<h2 id="org98a883c">建立 Block Design</h2>
+<div class="outline-text-2" id="text-org98a883c">
 <p>
 由於我們的設計需要用到 Xilinx 一些現成的 IP 的時候，就會需要透過 Block Design 來建立我們的電路設計。
 </p>
@@ -422,7 +422,7 @@
 </div>
 
 <p>
-接下來，我們根據我們的 <a href="#org81bde65">開發目標</a> 來加入 LED 的接線
+接下來，我們根據我們的 <a href="#org5045a31">開發目標</a> 來加入 LED 的接線
 </p>
 
 <p>
@@ -477,9 +477,9 @@
 </div>
 </div>
 
-<div id="outline-container-org9c3f29c" class="outline-2">
-<h2 id="org9c3f29c">產生 HDL Wrapper</h2>
-<div class="outline-text-2" id="text-org9c3f29c">
+<div id="outline-container-org53e7c94" class="outline-2">
+<h2 id="org53e7c94">產生 HDL Wrapper</h2>
+<div class="outline-text-2" id="text-org53e7c94">
 <p>
 接下來我們要將剛剛用 Block Design 建立的電路變成 verilog 程式碼，因此會需要進行產生 HDL Wrapper 這個步驟。
 </p>
@@ -510,9 +510,9 @@
 </div>
 </div>
 
-<div id="outline-container-org4b29069" class="outline-2">
-<h2 id="org4b29069">產生位元流 (bitstream)</h2>
-<div class="outline-text-2" id="text-org4b29069">
+<div id="outline-container-org0cbff8d" class="outline-2">
+<h2 id="org0cbff8d">產生位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-org0cbff8d">
 <p>
 前面的處理都好了後，接下來點選 <code>Program and Debug -&gt; Generate Bitstream</code> 去讓 Viavado 將這個專案產生出
 位元流 (bitstream) ，Zynq UltraScale+ 會在開機的時候根據 bitstream 的資訊對 FPGA 進行設定。
@@ -564,9 +564,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgee5dbb8" class="outline-2">
-<h2 id="orgee5dbb8">Xilinx SDK</h2>
-<div class="outline-text-2" id="text-orgee5dbb8">
+<div id="outline-container-org23307e6" class="outline-2">
+<h2 id="org23307e6">Xilinx SDK</h2>
+<div class="outline-text-2" id="text-org23307e6">
 <p>
 啟動 Xilinx SDK 後，點選 <code>File -&gt; New -&gt; Application Project</code> 去建立新的專案
 </p>
@@ -618,9 +618,9 @@
 </div>
 </div>
 
-<div id="outline-container-org8566fee" class="outline-3">
-<h3 id="org8566fee">打開 helloworld.c</h3>
-<div class="outline-text-3" id="text-org8566fee">
+<div id="outline-container-orgd4afb6a" class="outline-3">
+<h3 id="orgd4afb6a">打開 helloworld.c</h3>
+<div class="outline-text-3" id="text-orgd4afb6a">
 <p>
 由於我們是使用樣板 <code>Hello World</code> 去建立我們的專案的，因此預設的程式是 <code>helloworld.c</code> ，我們打開它可以看到以下內容
 </p>
@@ -639,7 +639,7 @@
 <span style="color: #9ac; font-style: italic;"> *   uartns550   9600</span>
 <span style="color: #9ac; font-style: italic;"> *   uartlite    Configurable only in HW design</span>
 <span style="color: #9ac; font-style: italic;"> *   ps7_uart    115200 (configured by bootrom/bsp)</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
 
 <span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdio.h</span><span style="color: #aadddd;">&gt;</span>
 <span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">"platform.h"</span>
@@ -650,10 +650,10 @@
 <span style="color: #aadddd;">{</span>
     init_platform<span style="color: #81d4fa;">()</span>;
 
-    print<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Hello World\n\r"</span><span style="color: #81d4fa;">)</span>;
+    print<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Hello World</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">r</span><span style="color: #aadddd;">"</span><span style="color: #81d4fa;">)</span>;
 
     cleanup_platform<span style="color: #81d4fa;">()</span>;
-    <span style="color: #aaffaa;">return</span> 0;
+    <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">0</span>;
 <span style="color: #aadddd;">}</span>
 
 </pre>
@@ -669,9 +669,9 @@
 </div>
 </div>
 
-<div id="outline-container-org40b63cd" class="outline-3">
-<h3 id="org40b63cd">加入 LED 控制</h3>
-<div class="outline-text-3" id="text-org40b63cd">
+<div id="outline-container-org0d58ea4" class="outline-3">
+<h3 id="org0d58ea4">加入 LED 控制</h3>
+<div class="outline-text-3" id="text-org0d58ea4">
 <p>
 我們基於剛剛打開的 <code>helloworld.c</code> 來加入我們對 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841921/AXI+gpio+standalone+driver" target="_blank" rel="external">AXI_GPIO</a> 的控制，首先先加入兩個 header file。
 </p>
@@ -690,8 +690,8 @@
 <pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/*</span>
 <span style="color: #9ac; font-style: italic;"> * The following constant is used to determine which channel of the GPIO is</span>
 <span style="color: #9ac; font-style: italic;"> * used for the LED if there are 2 channels supported.</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">LED_CHANNEL</span> 1
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">LED_CHANNEL</span> <span style="color: #ccaaff;">1</span>
 </pre>
 </div>
 
@@ -704,12 +704,12 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #fff59d;">XGpio</span> <span style="color: #aaccff;">Gpio</span>; <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">The Instance of the GPIO Driver </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<pre class="src src-c"><span style="color: #fff59d;">XGpio</span> <span style="color: #aaccff;">Gpio</span>; <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">The Instance of the GPIO Driver</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 
-<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Initialize the GPIO driver </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Initialize the GPIO driver</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">Status</span> = XGpio_Initialize<span style="color: #aadddd;">(</span>&amp;Gpio, XPAR_GPIO_0_DEVICE_ID<span style="color: #aadddd;">)</span>;
 <span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">(</span>Status != XST_SUCCESS<span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
-        xil_printf<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Gpio Initialization Failed\r\n"</span><span style="color: #81d4fa;">)</span>;
+        xil_printf<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Gpio Initialization Failed</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">r</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #aadddd;">"</span><span style="color: #81d4fa;">)</span>;
         <span style="color: #aaffaa;">return</span> XST_FAILURE;
 <span style="color: #aadddd;">}</span>
 </pre>
@@ -720,8 +720,8 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set the direction for all signals as LED output </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANNEL, 0<span style="color: #aadddd;">)</span>;
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set the direction for all signals as LED output</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANNEL, <span style="color: #ccaaff;">0</span><span style="color: #aadddd;">)</span>;
 </pre>
 </div>
 
@@ -736,14 +736,14 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 <span style="color: #9ac; font-style: italic;"> * D19, D18, D17, D16, D15, D14, D13, D12</span>
 <span style="color: #9ac; font-style: italic;"> *</span>
 <span style="color: #9ac; font-style: italic;"> *  0    0    0    0    0    0    0    1</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
 <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">LED</span> = 0b00000001;
 
 <span style="color: #5f5f5f; font-style: italic;">/*</span>
 <span style="color: #9ac; font-style: italic;"> * 0: left to right (D12 -&gt; D19)</span>
 <span style="color: #9ac; font-style: italic;"> * 1: right to left (D19 -&gt; D12)</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">direction</span> = 0;
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">direction</span> = <span style="color: #ccaaff;">0</span>;
 </pre>
 </div>
 
@@ -760,32 +760,32 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Loop forever blinking the LED </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-<span style="color: #aaffaa;">while</span> <span style="color: #aadddd;">(</span>1<span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set the LED to High </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Loop forever blinking the LED</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #aaffaa;">while</span> <span style="color: #aadddd;">(</span><span style="color: #ccaaff;">1</span><span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set the LED to High</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
         XGpio_DiscreteWrite<span style="color: #81d4fa;">(</span>&amp;Gpio, LED_CHANNEL, LED<span style="color: #81d4fa;">)</span>;
 
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Wait a small amount of time so the LED is visible </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        usleep<span style="color: #81d4fa;">(</span>20 * 1000<span style="color: #81d4fa;">)</span>;    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">delay 20ms </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Wait a small amount of time so the LED is visible</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        usleep<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">20</span> * <span style="color: #ccaaff;">1000</span><span style="color: #81d4fa;">)</span>;    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">delay 20ms</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Clear the LED bit </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Clear the LED bit</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
         XGpio_DiscreteClear<span style="color: #81d4fa;">(</span>&amp;Gpio, LED_CHANNEL, LED<span style="color: #81d4fa;">)</span>;
 
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Wait a small amount of time so the LED is visible </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        usleep<span style="color: #81d4fa;">(</span>20 * 1000<span style="color: #81d4fa;">)</span>;    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">delay 20ms </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Wait a small amount of time so the LED is visible</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        usleep<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">20</span> * <span style="color: #ccaaff;">1000</span><span style="color: #81d4fa;">)</span>;    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">delay 20ms</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">When D19 is ON, change direction </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">When D19 is ON, change direction</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
         <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span>LED == 0b1000000<span style="color: #81d4fa;">)</span>
-                direction = 1;  <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">1: right to left (D19 -&gt; D12) </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">When D12 is ON, change direction </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                direction = <span style="color: #ccaaff;">1</span>;  <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">1: right to left (D19 -&gt; D12)</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">When D12 is ON, change direction</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
         <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span>LED == 0b0000001<span style="color: #81d4fa;">)</span>
-                direction = 0;  <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">0: left to right (D12 -&gt; D19) </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                direction = <span style="color: #ccaaff;">0</span>;  <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">0: left to right (D12 -&gt; D19)</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 
-        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Change LED status according to direction </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-        <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span>direction == 0<span style="color: #81d4fa;">)</span>
-                LED = LED &lt;&lt; 1; <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">shift left </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Change LED status according to direction</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span>direction == <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">)</span>
+                LED = LED &lt;&lt; <span style="color: #ccaaff;">1</span>; <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">shift left</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
         <span style="color: #aaffaa;">else</span>
-                LED = LED &gt;&gt; 1; <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">shift right </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+                LED = LED &gt;&gt; <span style="color: #ccaaff;">1</span>; <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">shift right</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
 <span style="color: #aadddd;">}</span>
 </pre>
 </div>
@@ -797,9 +797,9 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </div>
 </div>
 
-<div id="outline-container-orge714da2" class="outline-2">
-<h2 id="orge714da2">設定 JTAG 下載</h2>
-<div class="outline-text-2" id="text-orge714da2">
+<div id="outline-container-org537ec1b" class="outline-2">
+<h2 id="org537ec1b">設定 JTAG 下載</h2>
+<div class="outline-text-2" id="text-org537ec1b">
 <p>
 為了透過 Micro USB 連接到 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 上的 JTAG 來進行下載，我們需要對 <a href="http://zedboard.org/product/ultrazed-EG" target="_blank" rel="external">UltraZed-EG</a> 上的 <code>SW2</code> 要進行一些調整，變成下圖這樣。
 </p>
@@ -816,9 +816,9 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </div>
 </div>
 
-<div id="outline-container-org1ed1e4e" class="outline-2">
-<h2 id="org1ed1e4e">下載到開發板 (FPGA)</h2>
-<div class="outline-text-2" id="text-org1ed1e4e">
+<div id="outline-container-org4d2d1f8" class="outline-2">
+<h2 id="org4d2d1f8">下載到開發板 (FPGA)</h2>
+<div class="outline-text-2" id="text-org4d2d1f8">
 <p>
 由於我們到目前為止還沒有將編譯好的位元流 (bitstream) 下載到我們的 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 去，因此先來下載吧。
 </p>
@@ -849,9 +849,9 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </div>
 </div>
 
-<div id="outline-container-org0a6bffd" class="outline-2">
-<h2 id="org0a6bffd">下載到開發板 (ELF)</h2>
-<div class="outline-text-2" id="text-org0a6bffd">
+<div id="outline-container-orgb672881" class="outline-2">
+<h2 id="orgb672881">下載到開發板 (ELF)</h2>
+<div class="outline-text-2" id="text-orgb672881">
 <p>
 點選 <code>Run -&gt; Run Configuration</code> 去建立我們新的執行目標
 </p>
@@ -888,9 +888,9 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </div>
 </div>
 
-<div id="outline-container-org8fda907" class="outline-2">
-<h2 id="org8fda907">結果</h2>
-<div class="outline-text-2" id="text-org8fda907">
+<div id="outline-container-orgf7fb62d" class="outline-2">
+<h2 id="orgf7fb62d">結果</h2>
+<div class="outline-text-2" id="text-orgf7fb62d">
 <p>
 按照本篇文章的設定，你的 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a>  顯示應該如以下影片:
 </p>
@@ -906,9 +906,9 @@ XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;Gpio, LED_CHANN
 </div>
 </div>
 
-<div id="outline-container-org2e036c9" class="outline-2">
-<h2 id="org2e036c9">取得程式碼</h2>
-<div class="outline-text-2" id="text-org2e036c9">
+<div id="outline-container-org2909559" class="outline-2">
+<h2 id="org2909559">取得程式碼</h2>
+<div class="outline-text-2" id="text-org2909559">
 <p>
 本文的範例已經上傳到 <a href="https://github.com/coldnew-examples/ultrazed_pciecc_helloA53" target="_blank" rel="external">coldnew/ultrazed_pciecc_helloA53</a> ，你可以透過以下命令獲得
 </p>
@@ -920,9 +920,9 @@ git clone https://github.com/coldnew-examples/ultrazed_pciecc_helloA53.git
 </div>
 </div>
 
-<div id="outline-container-orgc922d79" class="outline-2">
-<h2 id="orgc922d79">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgc922d79">
+<div id="outline-container-org93b6f22" class="outline-2">
+<h2 id="org93b6f22">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org93b6f22">
 <ul class="org-ul">
 <li><a href="https://coldnew.github.io/dec85bd3/">zybo board 開發記錄: Zynq 與 LED 閃爍控制</a></li>
 
@@ -953,9 +953,9 @@ git clone https://github.com/coldnew-examples/ultrazed_pciecc_helloA53.git
           
             <a href="/tags/zynqmp/" rel="tag">#zynqmp</a>
           
-            <a href="/tags/ultrazed-3eg-pciecc/" rel="tag">#ultrazed-3eg-pciecc</a>
-          
             <a href="/tags/vivado/" rel="tag">#vivado</a>
+          
+            <a href="/tags/ultrazed-3eg-pciecc/" rel="tag">#ultrazed-3eg-pciecc</a>
           
         </div>
       
@@ -1032,7 +1032,7 @@ git clone https://github.com/coldnew-examples/ultrazed_pciecc_helloA53.git
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1101,7 +1101,7 @@ git clone https://github.com/coldnew-examples/ultrazed_pciecc_helloA53.git
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org81bde65"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbd7071a"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf1ce41d"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9c3f29c"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4b29069"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgee5dbb8"><span class="nav-text">Xilinx SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org8566fee"><span class="nav-text">打開 helloworld.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org40b63cd"><span class="nav-text">加入 LED 控制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge714da2"><span class="nav-text">設定 JTAG 下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1ed1e4e"><span class="nav-text">下載到開發板 (FPGA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0a6bffd"><span class="nav-text">下載到開發板 (ELF)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8fda907"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2e036c9"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc922d79"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org5045a31"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6b57448"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org98a883c"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org53e7c94"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0cbff8d"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org23307e6"><span class="nav-text">Xilinx SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd4afb6a"><span class="nav-text">打開 helloworld.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0d58ea4"><span class="nav-text">加入 LED 控制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org537ec1b"><span class="nav-text">設定 JTAG 下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4d2d1f8"><span class="nav-text">下載到開發板 (FPGA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb672881"><span class="nav-text">下載到開發板 (ELF)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf7fb62d"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2909559"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org93b6f22"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

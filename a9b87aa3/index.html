@@ -225,9 +225,9 @@ lein 擴展 <a href="https://github.com/kumarshantanu/lein-localrepo" target="_b
 Libraries 加入到本地的 Maven repo
 </p>
 
-<div id="outline-container-org6ba2ab0" class="outline-2">
-<h2 id="org6ba2ab0">來複習一下傳統的作法</h2>
-<div class="outline-text-2" id="text-org6ba2ab0">
+<div id="outline-container-orgc0df6ef" class="outline-2">
+<h2 id="orgc0df6ef">來複習一下傳統的作法</h2>
+<div class="outline-text-2" id="text-orgc0df6ef">
 <p>
 在 <a href="http://coldnew.github.io/blog/2013/03/09_4add8.html">用 Clojure 寫 javafx 的 Hello World</a> 一文有說到你可以使用以下的命
 令將 javafx 加入到你本地的 Maven repo, 是不是覺得這個方法很麻煩？
@@ -235,7 +235,7 @@ Libraries 加入到本地的 Maven repo
 
 <div class="org-src-container">
 <pre class="src src-sh">mvn deploy:deploy-file -DgroupId=local.oracle -DartifactId=javafxrt <span style="color: #aadddd;">\</span>
-    -Dversion=2.2.0 -Dpackaging=jar <span style="color: #aadddd;">\</span>
+    -Dversion=<span style="color: #ccaaff;">2.2.0</span> -Dpackaging=jar <span style="color: #aadddd;">\</span>
     -Durl=file:$<span style="color: #aadddd;">{</span><span style="color: #aaccff;">HOME</span><span style="color: #aadddd;">}</span>/.m2/repository <span style="color: #aadddd;">\</span>
     -Dfile=/opt/oracle-jre-bin-1.7.0.17/lib/jfxrt.jar
 </pre>
@@ -243,9 +243,9 @@ Libraries 加入到本地的 Maven repo
 </div>
 </div>
 
-<div id="outline-container-org0e39175" class="outline-2">
-<h2 id="org0e39175">使用 lein-localrepo 來簡化這麻煩的步驟</h2>
-<div class="outline-text-2" id="text-org0e39175">
+<div id="outline-container-org444da67" class="outline-2">
+<h2 id="org444da67">使用 lein-localrepo 來簡化這麻煩的步驟</h2>
+<div class="outline-text-2" id="text-org444da67">
 <p>
 要讓 lein 有管理本地 repo 的功能，首先你需要在 ~/.lein/profiles.clj
 加入以下資訊
@@ -258,9 +258,9 @@ Libraries 加入到本地的 Maven repo
 </div>
 </div>
 
-<div id="outline-container-org1f66aca" class="outline-2">
-<h2 id="org1f66aca">猜測 jar 的 Maven coordinates</h2>
-<div class="outline-text-2" id="text-org1f66aca">
+<div id="outline-container-orgb49373b" class="outline-2">
+<h2 id="orgb49373b">猜測 jar 的 Maven coordinates</h2>
+<div class="outline-text-2" id="text-orgb49373b">
 <p>
 這功能其實我不知道是做什麼的(汗)，大體是取得這個檔案的資訊，使用以下
 命令獲得該檔案的 Maven coordinates
@@ -291,9 +291,9 @@ foo-bar-1.0.6.jar foo-bar/foo-bar 1.0.6
 </div>
 </div>
 
-<div id="outline-container-orgef6d017" class="outline-2">
-<h2 id="orgef6d017">安裝 jar 到本地 repo</h2>
-<div class="outline-text-2" id="text-orgef6d017">
+<div id="outline-container-org47a7410" class="outline-2">
+<h2 id="org47a7410">安裝 jar 到本地 repo</h2>
+<div class="outline-text-2" id="text-org47a7410">
 <p>
 安裝 jar 的命令很簡單，如果有需要 POM 文件，他會自動生出一個迷你板
 的 POM 文件，命令格式如下
@@ -316,9 +316,9 @@ lein localrepo coords /tmp/foobar-1.0.0-SNAPSHOT.jar | xargs lein localrepo inst
 </div>
 </div>
 
-<div id="outline-container-org6a6c82c" class="outline-2">
-<h2 id="org6a6c82c">顯示本地端 Maven repo 安裝的 jar 資訊</h2>
-<div class="outline-text-2" id="text-org6a6c82c">
+<div id="outline-container-org96eb4a8" class="outline-2">
+<h2 id="org96eb4a8">顯示本地端 Maven repo 安裝的 jar 資訊</h2>
+<div class="outline-text-2" id="text-org96eb4a8">
 <p>
 你可以透過
 </p>
@@ -342,9 +342,9 @@ lein localrepo list -d    <span style="color: #5f5f5f; font-style: italic;"># </
 </div>
 </div>
 
-<div id="outline-container-orgd02695b" class="outline-2">
-<h2 id="orgd02695b">移除本地端的 jar 檔案 (目前尚無這功能)</h2>
-<div class="outline-text-2" id="text-orgd02695b">
+<div id="outline-container-org9a13a34" class="outline-2">
+<h2 id="org9a13a34">移除本地端的 jar 檔案 (目前尚無這功能)</h2>
+<div class="outline-text-2" id="text-org9a13a34">
 <p>
 作者似乎還沒將這個功能加上去，但是 GitHub 上的 Readme 已經有命令了，所
 以我也將他列出來
@@ -366,7 +366,7 @@ lein localrepo remove &lt;[groupId/]artifactId&gt; [&lt;version&gt;]
 <div class="org-src-container">
 <pre class="src src-sh">lein localrepo remove com.example/foo        <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">removes all versions</span>
 lein localrepo remove foomatic               <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">removes all versions</span>
-lein localrepo remove com.example/foo 1.0.3  <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">removes only specified version</span>
+lein localrepo remove com.example/foo <span style="color: #ccaaff;">1.0.3</span>  <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">removes only specified version</span>
 </pre>
 </div>
 </div>
@@ -457,7 +457,7 @@ lein localrepo remove com.example/foo 1.0.3  <span style="color: #5f5f5f; font-s
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -526,7 +526,7 @@ lein localrepo remove com.example/foo 1.0.3  <span style="color: #5f5f5f; font-s
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6ba2ab0"><span class="nav-text">來複習一下傳統的作法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0e39175"><span class="nav-text">使用 lein-localrepo 來簡化這麻煩的步驟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1f66aca"><span class="nav-text">猜測 jar 的 Maven coordinates</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgef6d017"><span class="nav-text">安裝 jar 到本地 repo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6a6c82c"><span class="nav-text">顯示本地端 Maven repo 安裝的 jar 資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd02695b"><span class="nav-text">移除本地端的 jar 檔案 (目前尚無這功能)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc0df6ef"><span class="nav-text">來複習一下傳統的作法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org444da67"><span class="nav-text">使用 lein-localrepo 來簡化這麻煩的步驟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb49373b"><span class="nav-text">猜測 jar 的 Maven coordinates</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org47a7410"><span class="nav-text">安裝 jar 到本地 repo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org96eb4a8"><span class="nav-text">顯示本地端 Maven repo 安裝的 jar 資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9a13a34"><span class="nav-text">移除本地端的 jar 檔案 (目前尚無這功能)</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

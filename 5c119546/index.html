@@ -239,9 +239,9 @@ JavaFX 是目前 Java 發展的重點項目，自 Java 8 後已經整合進 JRE 
 HTML 來進行顯示，為了讓文章更簡單些，這邊只講述如何使用 WebView 的部分。
 </p>
 
-<div id="outline-container-orge86b60d" class="outline-2">
-<h2 id="orge86b60d">先來看看 JAVA 要怎樣寫</h2>
-<div class="outline-text-2" id="text-orge86b60d">
+<div id="outline-container-org1e5db46" class="outline-2">
+<h2 id="org1e5db46">先來看看 JAVA 要怎樣寫</h2>
+<div class="outline-text-2" id="text-org1e5db46">
 <p>
 在剛開始學習 Clojure/Clojurescript 時，常常會需要參考 JAVA/Javascript 了解原本的
 程式怎樣運行，接著再將其改寫、修化成更適合 lisp 開發者的函式，也因此學習 Clojure
@@ -273,7 +273,7 @@ HTML 來進行顯示，為了讓文章更簡單些，這邊只講述如何使用
 
         root.getChildren<span style="color: #aaccff;">()</span>.add<span style="color: #aaccff;">(</span>view<span style="color: #aaccff;">)</span>;
 
-        <span style="color: #fff59d;">Scene</span> <span style="color: #aaccff;">scene</span> = <span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">Scene</span><span style="color: #aaccff;">(</span>root, 800, 600<span style="color: #aaccff;">)</span>;
+        <span style="color: #fff59d;">Scene</span> <span style="color: #aaccff;">scene</span> = <span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">Scene</span><span style="color: #aaccff;">(</span>root, <span style="color: #ccaaff;">800</span>, <span style="color: #ccaaff;">600</span><span style="color: #aaccff;">)</span>;
         stage.setScene<span style="color: #aaccff;">(</span>scene<span style="color: #aaccff;">)</span>;
         stage.show<span style="color: #aaccff;">()</span>;
     <span style="color: #81d4fa;">}</span>
@@ -287,9 +287,9 @@ HTML 來進行顯示，為了讓文章更簡單些，這邊只講述如何使用
 </div>
 </div>
 
-<div id="outline-container-org8ff55c1" class="outline-2">
-<h2 id="org8ff55c1">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org8ff55c1">
+<div id="outline-container-org7ad002a" class="outline-2">
+<h2 id="org7ad002a">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org7ad002a">
 <p>
 本篇文章還是依照以往的規則，使用預設的 <i>lein</i> 樣板，因此我們這樣建立名為 <i>myapp</i> 的專案:
 </p>
@@ -306,22 +306,22 @@ Time) 編譯。
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">myapp</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
-  <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"FIXME: write description"</span>
+  <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"</span><span style="color: #ff3333; font-weight: bold;">FIXME</span><span style="color: #aadddd;">: write description"</span>
   <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
   <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
             <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
-  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #000000; background-color: #ffffff;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span>/clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
 
   <span style="color: #ccaaff;">:aot</span> <span style="color: #ccaaff;">:all</span>
-  <span style="color: #ccaaff;">:main</span> <span style="color: #fff59d;">myapp.core</span><span style="color: #aadddd;">)</span>
+  <span style="color: #ccaaff;">:main</span> myapp.core<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org660a061" class="outline-2">
-<h2 id="org660a061">編輯 core.clj</h2>
-<div class="outline-text-2" id="text-org660a061">
+<div id="outline-container-org91ddeb7" class="outline-2">
+<h2 id="org91ddeb7">編輯 core.clj</h2>
+<div class="outline-text-2" id="text-org91ddeb7">
 <p>
 接著編輯 <code>src/myapp/core.clj</code> ，將原本的內容清除，我們將仿照 Java 的版本一一加上我們的程式
 </p>
@@ -333,11 +333,11 @@ Time) 編譯。
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">myapp.core</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">javafx.application</span> <span style="color: #fff59d;">Application</span><span style="color: #aaccff;">]</span>
-           <span style="color: #aaccff;">[</span><span style="color: #fff59d;">javafx.scene</span> <span style="color: #fff59d;">Scene</span><span style="color: #aaccff;">]</span>
-           <span style="color: #aaccff;">[</span><span style="color: #fff59d;">javafx.stage</span> <span style="color: #fff59d;">Stage</span><span style="color: #aaccff;">]</span>
-           <span style="color: #aaccff;">[</span><span style="color: #fff59d;">javafx.scene.layout</span> <span style="color: #fff59d;">StackPane</span><span style="color: #aaccff;">]</span>
-           <span style="color: #aaccff;">[</span><span style="color: #fff59d;">javafx.scene.web</span> <span style="color: #fff59d;">WebView</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span>javafx.application Application<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>javafx.scene Scene<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>javafx.stage Stage<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>javafx.scene.layout StackPane<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>javafx.scene.web WebView<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -349,8 +349,8 @@ Time) 編譯。
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span>gen-class
- <span style="color: #ccaaff;">:name</span> <span style="color: #fff59d;">myapp.core</span>
- <span style="color: #ccaaff;">:extends</span> <span style="color: #fff59d;">javafx.application.Application</span><span style="color: #aadddd;">)</span>
+ <span style="color: #ccaaff;">:name</span> myapp.core
+ <span style="color: #ccaaff;">:extends</span> javafx.application.Application<span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -360,7 +360,7 @@ Time) 編譯。
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">Application</span><span style="color: #000000; background-color: #ffffff;">/</span>launch <span style="color: #fff59d;">myapp.core</span> args<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">Application</span>/launch myapp.core args<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -372,17 +372,17 @@ Time) 編譯。
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-start</span> <span style="color: #81d4fa;">[</span>this ^<span style="color: #fff59d;">Stage</span> stage<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>root <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">StackPane.</span><span style="color: #aaeecc;">)</span>
-        view <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">WebView.</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-start</span> <span style="color: #81d4fa;">[</span>this <span style="color: #000000; background-color: #ffffff;">^</span><span style="color: #fff59d;">Stage</span> stage<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>root <span style="color: #aaeecc;">(</span>StackPane.<span style="color: #aaeecc;">)</span>
+        view <span style="color: #aaeecc;">(</span>WebView.<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
 
-    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.load</span> <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.getEngine</span> view<span style="color: #aaeecc;">)</span> <span style="color: #aadddd;">"http://coldnew.github.io"</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>.load <span style="color: #aaeecc;">(</span>.getEngine view<span style="color: #aaeecc;">)</span> <span style="color: #aadddd;">"http://coldnew.github.io"</span><span style="color: #aaccff;">)</span>
 
-    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.add</span> <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.getChildren</span> root<span style="color: #aaeecc;">)</span> view<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>.add <span style="color: #aaeecc;">(</span>.getChildren root<span style="color: #aaeecc;">)</span> view<span style="color: #aaccff;">)</span>
 
     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">doto</span> stage
-      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.setScene</span> <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">Scene.</span> root 800 600<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
-      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.show</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+      <span style="color: #aaeecc;">(</span>.setScene <span style="color: #ccaaff;">(</span>Scene. root <span style="color: #ccaaff;">800</span> <span style="color: #ccaaff;">600</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>.show<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -394,9 +394,9 @@ Time) 編譯。
 </div>
 </div>
 
-<div id="outline-container-orgfa43c74" class="outline-2">
-<h2 id="orgfa43c74">執行我們的程式</h2>
-<div class="outline-text-2" id="text-orgfa43c74">
+<div id="outline-container-orge3b2267" class="outline-2">
+<h2 id="orge3b2267">執行我們的程式</h2>
+<div class="outline-text-2" id="text-orge3b2267">
 <p>
 由於我們一開始就在 <code>project.clj</code> 裡面加上了 <code>:aot all</code> 的設定，因此我們可以直接
 使用 <code>lein run</code> 來執行並測試這隻程式。
@@ -416,9 +416,9 @@ coldnew@Rosia ~/myapp $ lein run
 </div>
 </div>
 
-<div id="outline-container-orgabcbd86" class="outline-2">
-<h2 id="orgabcbd86">完整程式碼</h2>
-<div class="outline-text-2" id="text-orgabcbd86">
+<div id="outline-container-orgfe89da2" class="outline-2">
+<h2 id="orgfe89da2">完整程式碼</h2>
+<div class="outline-text-2" id="text-orgfe89da2">
 <p>
 由於這篇文章的程式很單純，因此我就不提供 git repo 讓各位測試，本文完整的程式碼如
 下：
@@ -426,38 +426,38 @@ coldnew@Rosia ~/myapp $ lein run
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">myapp.core</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span><span style="color: #fff59d;">javafx.application</span> <span style="color: #fff59d;">Application</span><span style="color: #aaccff;">]</span>
-           <span style="color: #aaccff;">[</span><span style="color: #fff59d;">javafx.scene</span> <span style="color: #fff59d;">Scene</span><span style="color: #aaccff;">]</span>
-           <span style="color: #aaccff;">[</span><span style="color: #fff59d;">javafx.stage</span> <span style="color: #fff59d;">Stage</span><span style="color: #aaccff;">]</span>
-           <span style="color: #aaccff;">[</span><span style="color: #fff59d;">javafx.scene.layout</span> <span style="color: #fff59d;">StackPane</span><span style="color: #aaccff;">]</span>
-           <span style="color: #aaccff;">[</span><span style="color: #fff59d;">javafx.scene.web</span> <span style="color: #fff59d;">WebView</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span>javafx.application Application<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>javafx.scene Scene<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>javafx.stage Stage<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>javafx.scene.layout StackPane<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>javafx.scene.web WebView<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span>gen-class
- <span style="color: #ccaaff;">:name</span> <span style="color: #fff59d;">myapp.core</span>
- <span style="color: #ccaaff;">:extends</span> <span style="color: #fff59d;">javafx.application.Application</span><span style="color: #aadddd;">)</span>
+ <span style="color: #ccaaff;">:name</span> myapp.core
+ <span style="color: #ccaaff;">:extends</span> javafx.application.Application<span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-start</span> <span style="color: #81d4fa;">[</span>this ^<span style="color: #fff59d;">Stage</span> stage<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>root <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">StackPane.</span><span style="color: #aaeecc;">)</span>
-        view <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">WebView.</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-start</span> <span style="color: #81d4fa;">[</span>this <span style="color: #000000; background-color: #ffffff;">^</span><span style="color: #fff59d;">Stage</span> stage<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>root <span style="color: #aaeecc;">(</span>StackPane.<span style="color: #aaeecc;">)</span>
+        view <span style="color: #aaeecc;">(</span>WebView.<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
 
-    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.load</span> <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.getEngine</span> view<span style="color: #aaeecc;">)</span> <span style="color: #aadddd;">"http://coldnew.github.io"</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>.load <span style="color: #aaeecc;">(</span>.getEngine view<span style="color: #aaeecc;">)</span> <span style="color: #aadddd;">"http://coldnew.github.io"</span><span style="color: #aaccff;">)</span>
 
-    <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.add</span> <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.getChildren</span> root<span style="color: #aaeecc;">)</span> view<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>.add <span style="color: #aaeecc;">(</span>.getChildren root<span style="color: #aaeecc;">)</span> view<span style="color: #aaccff;">)</span>
 
     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">doto</span> stage
-      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.setScene</span> <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">Scene.</span> root 800 600<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
-      <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.show</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+      <span style="color: #aaeecc;">(</span>.setScene <span style="color: #ccaaff;">(</span>Scene. root <span style="color: #ccaaff;">800</span> <span style="color: #ccaaff;">600</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>.show<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">Application</span><span style="color: #000000; background-color: #ffffff;">/</span>launch <span style="color: #fff59d;">myapp.core</span> args<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">Application</span>/launch myapp.core args<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf7027b5" class="outline-2">
-<h2 id="orgf7027b5">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgf7027b5">
+<div id="outline-container-orgb7f5ea1" class="outline-2">
+<h2 id="orgb7f5ea1">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgb7f5ea1">
 <p>
 <code>[1]</code> <a href="http://www.codedata.com.tw/java/hello-java-fx-part1/" target="_blank" rel="external">Hello JavaFX! Part 1</a>
 </p>
@@ -553,7 +553,7 @@ coldnew@Rosia ~/myapp $ lein run
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -622,7 +622,7 @@ coldnew@Rosia ~/myapp $ lein run
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge86b60d"><span class="nav-text">先來看看 JAVA 要怎樣寫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8ff55c1"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org660a061"><span class="nav-text">編輯 core.clj</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfa43c74"><span class="nav-text">執行我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgabcbd86"><span class="nav-text">完整程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf7027b5"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org1e5db46"><span class="nav-text">先來看看 JAVA 要怎樣寫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7ad002a"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org91ddeb7"><span class="nav-text">編輯 core.clj</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge3b2267"><span class="nav-text">執行我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfe89da2"><span class="nav-text">完整程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb7f5ea1"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

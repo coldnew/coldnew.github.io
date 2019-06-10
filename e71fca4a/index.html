@@ -247,9 +247,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-orga1484bd" class="outline-2">
-<h2 id="orga1484bd">001: Multiples of 3 and 5</h2>
-<div class="outline-text-2" id="text-orga1484bd">
+<div id="outline-container-orgb1dceed" class="outline-2">
+<h2 id="orgb1dceed">001: Multiples of 3 and 5</h2>
+<div class="outline-text-2" id="text-orgb1dceed">
 <p>
 If we list all the natural numbers below 10 that are multiples of 3 or 5, we get
 3, 5, 6 and 9. The sum of these multiples is 23.
@@ -286,11 +286,11 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">is-multiples-of-3-or-5?</span>
   <span style="color: #81d4fa;">[</span>x<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">or</span> <span style="color: #aaeecc;">(</span>zero? <span style="color: #ccaaff;">(</span>mod x 3<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
-          <span style="color: #aaeecc;">(</span>zero? <span style="color: #ccaaff;">(</span>mod x 5<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
-    x 0<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">or</span> <span style="color: #aaeecc;">(</span>zero? <span style="color: #ccaaff;">(</span>mod x <span style="color: #ccaaff;">3</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+          <span style="color: #aaeecc;">(</span>zero? <span style="color: #ccaaff;">(</span>mod x <span style="color: #ccaaff;">5</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    x <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span>reduce + <span style="color: #81d4fa;">(</span>map is-multiples-of-3-or-5? <span style="color: #aaccff;">(</span>range 1 1000<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span>reduce + <span style="color: #81d4fa;">(</span>map is-multiples-of-3-or-5? <span style="color: #aaccff;">(</span>range <span style="color: #ccaaff;">1</span> <span style="color: #ccaaff;">1000</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 233168</span>
 </pre>
 </div>
@@ -317,9 +317,9 @@ sum(n) = <span style="color: #aaffaa;">\sum</span>_{i=1}^{\left [ \frac{n}{3} \r
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span>-
- <span style="color: #81d4fa;">(</span>+ <span style="color: #aaccff;">(</span>reduce + <span style="color: #aaeecc;">(</span>range 3 1000 3<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
-    <span style="color: #aaccff;">(</span>reduce + <span style="color: #aaeecc;">(</span>range 5 1000 5<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
- <span style="color: #81d4fa;">(</span>reduce + <span style="color: #aaccff;">(</span>range 15 1000 15<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+ <span style="color: #81d4fa;">(</span>+ <span style="color: #aaccff;">(</span>reduce + <span style="color: #aaeecc;">(</span>range <span style="color: #ccaaff;">3</span> <span style="color: #ccaaff;">1000</span> <span style="color: #ccaaff;">3</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>reduce + <span style="color: #aaeecc;">(</span>range <span style="color: #ccaaff;">5</span> <span style="color: #ccaaff;">1000</span> <span style="color: #ccaaff;">5</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+ <span style="color: #81d4fa;">(</span>reduce + <span style="color: #aaccff;">(</span>range <span style="color: #ccaaff;">15</span> <span style="color: #ccaaff;">1000</span> <span style="color: #ccaaff;">15</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 233168</span>
 </pre>
 </div>
@@ -328,9 +328,9 @@ sum(n) = <span style="color: #aaffaa;">\sum</span>_{i=1}^{\left [ \frac{n}{3} \r
 </div>
 </div>
 
-<div id="outline-container-orge2f1c7a" class="outline-2">
-<h2 id="orge2f1c7a">002: Even Fibonacci numbers</h2>
-<div class="outline-text-2" id="text-orge2f1c7a">
+<div id="outline-container-org7f6963b" class="outline-2">
+<h2 id="org7f6963b">002: Even Fibonacci numbers</h2>
+<div class="outline-text-2" id="text-org7f6963b">
 <p>
 Each new term in the Fibonacci sequence is generated by adding the previous two
 terms. By starting with 1 and 2, the first 10 terms will be:
@@ -368,11 +368,11 @@ four million, find the sum of the even-valued terms.
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">fib-1</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> <span style="color: #aaccff;">[</span>0 1<span style="color: #aaccff;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> <span style="color: #aaccff;">[</span><span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">1</span><span style="color: #aaccff;">]</span>
        <span style="color: #aaccff;">(</span>iterate <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #ccaaff;">[</span><span style="color: #fff59d;">[</span>a b<span style="color: #fff59d;">]</span><span style="color: #ccaaff;">]</span> <span style="color: #ccaaff;">[</span>b <span style="color: #fff59d;">(</span>+ a b<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">]</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
        <span style="color: #aaccff;">(</span>map first<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span>take 10 fib-1<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; (0 1 1 2 3 5 8 13 21 34)</span>
+<span style="color: #aadddd;">(</span>take <span style="color: #ccaaff;">10</span> fib-1<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; (0 1 1 2 3 5 8 13 21 34)</span>
 </pre>
 </div>
 
@@ -383,9 +383,9 @@ four million, find the sum of the even-valued terms.
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span>reduce + <span style="color: #81d4fa;">(</span>map <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaeecc;">[</span>x<span style="color: #aaeecc;">]</span>
-                 <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">and</span> <span style="color: #fff59d;">(</span>&gt; 4000000 x<span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>even? x<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
-                   x 0<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
-               <span style="color: #aaccff;">(</span>take 1000000 fib-1<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 4613732</span>
+                 <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">and</span> <span style="color: #fff59d;">(</span>&gt; <span style="color: #ccaaff;">4000000</span> x<span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>even? x<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+                   x <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+               <span style="color: #aaccff;">(</span>take <span style="color: #ccaaff;">1000000</span> fib-1<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 4613732</span>
 </pre>
 </div>
 
@@ -396,9 +396,9 @@ four million, find the sum of the even-valued terms.
 
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">fib-2</span>
-  <span style="color: #81d4fa;">(</span>lazy-cat <span style="color: #aaccff;">[</span>0 1<span style="color: #aaccff;">]</span> <span style="color: #aaccff;">(</span>map + fib-2 <span style="color: #aaeecc;">(</span>rest fib-2<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span>lazy-cat <span style="color: #aaccff;">[</span><span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">1</span><span style="color: #aaccff;">]</span> <span style="color: #aaccff;">(</span>map + fib-2 <span style="color: #aaeecc;">(</span>rest fib-2<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span>take 10 fib-2<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; (0 1 1 2 3 5 8 13 21 34)</span>
+<span style="color: #aadddd;">(</span>take <span style="color: #ccaaff;">10</span> fib-2<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; (0 1 1 2 3 5 8 13 21 34)</span>
 </pre>
 </div>
 
@@ -409,7 +409,7 @@ four million, find the sum of the even-valued terms.
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span>reduce +
         <span style="color: #81d4fa;">(</span>filter even?
-                <span style="color: #aaccff;">(</span>take-while #<span style="color: #aaeecc;">(</span>&lt; <span style="color: #aaccff;">%</span> 4000000<span style="color: #aaeecc;">)</span> fib-2<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 4613732</span>
+                <span style="color: #aaccff;">(</span>take-while #<span style="color: #aaeecc;">(</span>&lt; <span style="color: #aaccff;">%</span> <span style="color: #ccaaff;">4000000</span><span style="color: #aaeecc;">)</span> fib-2<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 4613732</span>
 </pre>
 </div>
 
@@ -417,9 +417,9 @@ four million, find the sum of the even-valued terms.
 </div>
 </div>
 
-<div id="outline-container-org58fab48" class="outline-2">
-<h2 id="org58fab48">013: Large sum</h2>
-<div class="outline-text-2" id="text-org58fab48">
+<div id="outline-container-org2778232" class="outline-2">
+<h2 id="org2778232">013: Large sum</h2>
+<div class="outline-text-2" id="text-org2778232">
 <p>
 Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.
 </p>
@@ -552,9 +552,9 @@ Work out the first ten digits of the sum of the following one-hundred 50-digit n
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">first-10-digits</span>
   <span style="color: #81d4fa;">[</span>x<span style="color: #81d4fa;">]</span>
-  <span style="color: #81d4fa;">(</span>subs <span style="color: #aaccff;">(</span>str x<span style="color: #aaccff;">)</span> 0 10<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span>subs <span style="color: #aaccff;">(</span>str x<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">10</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span>first-10-digits 123456789012345<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 1234567890</span>
+<span style="color: #aadddd;">(</span>first-10-digits <span style="color: #ccaaff;">123456789012345</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 1234567890</span>
 </pre>
 </div>
 
@@ -565,106 +565,106 @@ Work out the first ten digits of the sum of the following one-hundred 50-digit n
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span>first-10-digits
  <span style="color: #81d4fa;">(</span>+
-  37107287533902102798797998220837590246510135740250
-  46376937677490009712648124896970078050417018260538
-  74324986199524741059474233309513058123726617309629
-  91942213363574161572522430563301811072406154908250
-  23067588207539346171171980310421047513778063246676
-  89261670696623633820136378418383684178734361726757
-  28112879812849979408065481931592621691275889832738
-  44274228917432520321923589422876796487670272189318
-  47451445736001306439091167216856844588711603153276
-  70386486105843025439939619828917593665686757934951
-  62176457141856560629502157223196586755079324193331
-  64906352462741904929101432445813822663347944758178
-  92575867718337217661963751590579239728245598838407
-  58203565325359399008402633568948830189458628227828
-  80181199384826282014278194139940567587151170094390
-  35398664372827112653829987240784473053190104293586
-  86515506006295864861532075273371959191420517255829
-  71693888707715466499115593487603532921714970056938
-  54370070576826684624621495650076471787294438377604
-  53282654108756828443191190634694037855217779295145
-  36123272525000296071075082563815656710885258350721
-  45876576172410976447339110607218265236877223636045
-  17423706905851860660448207621209813287860733969412
-  81142660418086830619328460811191061556940512689692
-  51934325451728388641918047049293215058642563049483
-  62467221648435076201727918039944693004732956340691
-  15732444386908125794514089057706229429197107928209
-  55037687525678773091862540744969844508330393682126
-  18336384825330154686196124348767681297534375946515
-  80386287592878490201521685554828717201219257766954
-  78182833757993103614740356856449095527097864797581
-  16726320100436897842553539920931837441497806860984
-  48403098129077791799088218795327364475675590848030
-  87086987551392711854517078544161852424320693150332
-  59959406895756536782107074926966537676326235447210
-  69793950679652694742597709739166693763042633987085
-  41052684708299085211399427365734116182760315001271
-  65378607361501080857009149939512557028198746004375
-  35829035317434717326932123578154982629742552737307
-  94953759765105305946966067683156574377167401875275
-  88902802571733229619176668713819931811048770190271
-  25267680276078003013678680992525463401061632866526
-  36270218540497705585629946580636237993140746255962
-  24074486908231174977792365466257246923322810917141
-  91430288197103288597806669760892938638285025333403
-  34413065578016127815921815005561868836468420090470
-  23053081172816430487623791969842487255036638784583
-  11487696932154902810424020138335124462181441773470
-  63783299490636259666498587618221225225512486764533
-  67720186971698544312419572409913959008952310058822
-  95548255300263520781532296796249481641953868218774
-  76085327132285723110424803456124867697064507995236
-  37774242535411291684276865538926205024910326572967
-  23701913275725675285653248258265463092207058596522
-  29798860272258331913126375147341994889534765745501
-  18495701454879288984856827726077713721403798879715
-  38298203783031473527721580348144513491373226651381
-  34829543829199918180278916522431027392251122869539
-  40957953066405232632538044100059654939159879593635
-  29746152185502371307642255121183693803580388584903
-  41698116222072977186158236678424689157993532961922
-  62467957194401269043877107275048102390895523597457
-  23189706772547915061505504953922979530901129967519
-  86188088225875314529584099251203829009407770775672
-  11306739708304724483816533873502340845647058077308
-  82959174767140363198008187129011875491310547126581
-  97623331044818386269515456334926366572897563400500
-  42846280183517070527831839425882145521227251250327
-  55121603546981200581762165212827652751691296897789
-  32238195734329339946437501907836945765883352399886
-  75506164965184775180738168837861091527357929701337
-  62177842752192623401942399639168044983993173312731
-  32924185707147349566916674687634660915035914677504
-  99518671430235219628894890102423325116913619626622
-  73267460800591547471830798392868535206946944540724
-  76841822524674417161514036427982273348055556214818
-  97142617910342598647204516893989422179826088076852
-  87783646182799346313767754307809363333018982642090
-  10848802521674670883215120185883543223812876952786
-  71329612474782464538636993009049310363619763878039
-  62184073572399794223406235393808339651327408011116
-  66627891981488087797941876876144230030984490851411
-  60661826293682836764744779239180335110989069790714
-  85786944089552990653640447425576083659976645795096
-  66024396409905389607120198219976047599490197230297
-  64913982680032973156037120041377903785566085089252
-  16730939319872750275468906903707539413042652315011
-  94809377245048795150954100921645863754710598436791
-  78639167021187492431995700641917969777599028300699
-  15368713711936614952811305876380278410754449733078
-  40789923115535562561142322423255033685442488917353
-  44889911501440648020369068063960672322193204149535
-  41503128880339536053299340368006977710650566631954
-  81234880673210146739058568557934581403627822703280
-  82616570773948327592232845941706525094512325230608
-  22918802058777319719839450180888072429661980811197
-  77158542502016545090413245809786882778948721859617
-  72107838435069186155435662884062257473692284509516
-  20849603980134001723930671666823555245252804609722
-  53503534226472524250874054075591789781264330331690<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 5537376230</span>
+  <span style="color: #ccaaff;">37107287533902102798797998220837590246510135740250</span>
+  <span style="color: #ccaaff;">46376937677490009712648124896970078050417018260538</span>
+  <span style="color: #ccaaff;">74324986199524741059474233309513058123726617309629</span>
+  <span style="color: #ccaaff;">91942213363574161572522430563301811072406154908250</span>
+  <span style="color: #ccaaff;">23067588207539346171171980310421047513778063246676</span>
+  <span style="color: #ccaaff;">89261670696623633820136378418383684178734361726757</span>
+  <span style="color: #ccaaff;">28112879812849979408065481931592621691275889832738</span>
+  <span style="color: #ccaaff;">44274228917432520321923589422876796487670272189318</span>
+  <span style="color: #ccaaff;">47451445736001306439091167216856844588711603153276</span>
+  <span style="color: #ccaaff;">70386486105843025439939619828917593665686757934951</span>
+  <span style="color: #ccaaff;">62176457141856560629502157223196586755079324193331</span>
+  <span style="color: #ccaaff;">64906352462741904929101432445813822663347944758178</span>
+  <span style="color: #ccaaff;">92575867718337217661963751590579239728245598838407</span>
+  <span style="color: #ccaaff;">58203565325359399008402633568948830189458628227828</span>
+  <span style="color: #ccaaff;">80181199384826282014278194139940567587151170094390</span>
+  <span style="color: #ccaaff;">35398664372827112653829987240784473053190104293586</span>
+  <span style="color: #ccaaff;">86515506006295864861532075273371959191420517255829</span>
+  <span style="color: #ccaaff;">71693888707715466499115593487603532921714970056938</span>
+  <span style="color: #ccaaff;">54370070576826684624621495650076471787294438377604</span>
+  <span style="color: #ccaaff;">53282654108756828443191190634694037855217779295145</span>
+  <span style="color: #ccaaff;">36123272525000296071075082563815656710885258350721</span>
+  <span style="color: #ccaaff;">45876576172410976447339110607218265236877223636045</span>
+  <span style="color: #ccaaff;">17423706905851860660448207621209813287860733969412</span>
+  <span style="color: #ccaaff;">81142660418086830619328460811191061556940512689692</span>
+  <span style="color: #ccaaff;">51934325451728388641918047049293215058642563049483</span>
+  <span style="color: #ccaaff;">62467221648435076201727918039944693004732956340691</span>
+  <span style="color: #ccaaff;">15732444386908125794514089057706229429197107928209</span>
+  <span style="color: #ccaaff;">55037687525678773091862540744969844508330393682126</span>
+  <span style="color: #ccaaff;">18336384825330154686196124348767681297534375946515</span>
+  <span style="color: #ccaaff;">80386287592878490201521685554828717201219257766954</span>
+  <span style="color: #ccaaff;">78182833757993103614740356856449095527097864797581</span>
+  <span style="color: #ccaaff;">16726320100436897842553539920931837441497806860984</span>
+  <span style="color: #ccaaff;">48403098129077791799088218795327364475675590848030</span>
+  <span style="color: #ccaaff;">87086987551392711854517078544161852424320693150332</span>
+  <span style="color: #ccaaff;">59959406895756536782107074926966537676326235447210</span>
+  <span style="color: #ccaaff;">69793950679652694742597709739166693763042633987085</span>
+  <span style="color: #ccaaff;">41052684708299085211399427365734116182760315001271</span>
+  <span style="color: #ccaaff;">65378607361501080857009149939512557028198746004375</span>
+  <span style="color: #ccaaff;">35829035317434717326932123578154982629742552737307</span>
+  <span style="color: #ccaaff;">94953759765105305946966067683156574377167401875275</span>
+  <span style="color: #ccaaff;">88902802571733229619176668713819931811048770190271</span>
+  <span style="color: #ccaaff;">25267680276078003013678680992525463401061632866526</span>
+  <span style="color: #ccaaff;">36270218540497705585629946580636237993140746255962</span>
+  <span style="color: #ccaaff;">24074486908231174977792365466257246923322810917141</span>
+  <span style="color: #ccaaff;">91430288197103288597806669760892938638285025333403</span>
+  <span style="color: #ccaaff;">34413065578016127815921815005561868836468420090470</span>
+  <span style="color: #ccaaff;">23053081172816430487623791969842487255036638784583</span>
+  <span style="color: #ccaaff;">11487696932154902810424020138335124462181441773470</span>
+  <span style="color: #ccaaff;">63783299490636259666498587618221225225512486764533</span>
+  <span style="color: #ccaaff;">67720186971698544312419572409913959008952310058822</span>
+  <span style="color: #ccaaff;">95548255300263520781532296796249481641953868218774</span>
+  <span style="color: #ccaaff;">76085327132285723110424803456124867697064507995236</span>
+  <span style="color: #ccaaff;">37774242535411291684276865538926205024910326572967</span>
+  <span style="color: #ccaaff;">23701913275725675285653248258265463092207058596522</span>
+  <span style="color: #ccaaff;">29798860272258331913126375147341994889534765745501</span>
+  <span style="color: #ccaaff;">18495701454879288984856827726077713721403798879715</span>
+  <span style="color: #ccaaff;">38298203783031473527721580348144513491373226651381</span>
+  <span style="color: #ccaaff;">34829543829199918180278916522431027392251122869539</span>
+  <span style="color: #ccaaff;">40957953066405232632538044100059654939159879593635</span>
+  <span style="color: #ccaaff;">29746152185502371307642255121183693803580388584903</span>
+  <span style="color: #ccaaff;">41698116222072977186158236678424689157993532961922</span>
+  <span style="color: #ccaaff;">62467957194401269043877107275048102390895523597457</span>
+  <span style="color: #ccaaff;">23189706772547915061505504953922979530901129967519</span>
+  <span style="color: #ccaaff;">86188088225875314529584099251203829009407770775672</span>
+  <span style="color: #ccaaff;">11306739708304724483816533873502340845647058077308</span>
+  <span style="color: #ccaaff;">82959174767140363198008187129011875491310547126581</span>
+  <span style="color: #ccaaff;">97623331044818386269515456334926366572897563400500</span>
+  <span style="color: #ccaaff;">42846280183517070527831839425882145521227251250327</span>
+  <span style="color: #ccaaff;">55121603546981200581762165212827652751691296897789</span>
+  <span style="color: #ccaaff;">32238195734329339946437501907836945765883352399886</span>
+  <span style="color: #ccaaff;">75506164965184775180738168837861091527357929701337</span>
+  <span style="color: #ccaaff;">62177842752192623401942399639168044983993173312731</span>
+  <span style="color: #ccaaff;">32924185707147349566916674687634660915035914677504</span>
+  <span style="color: #ccaaff;">99518671430235219628894890102423325116913619626622</span>
+  <span style="color: #ccaaff;">73267460800591547471830798392868535206946944540724</span>
+  <span style="color: #ccaaff;">76841822524674417161514036427982273348055556214818</span>
+  <span style="color: #ccaaff;">97142617910342598647204516893989422179826088076852</span>
+  <span style="color: #ccaaff;">87783646182799346313767754307809363333018982642090</span>
+  <span style="color: #ccaaff;">10848802521674670883215120185883543223812876952786</span>
+  <span style="color: #ccaaff;">71329612474782464538636993009049310363619763878039</span>
+  <span style="color: #ccaaff;">62184073572399794223406235393808339651327408011116</span>
+  <span style="color: #ccaaff;">66627891981488087797941876876144230030984490851411</span>
+  <span style="color: #ccaaff;">60661826293682836764744779239180335110989069790714</span>
+  <span style="color: #ccaaff;">85786944089552990653640447425576083659976645795096</span>
+  <span style="color: #ccaaff;">66024396409905389607120198219976047599490197230297</span>
+  <span style="color: #ccaaff;">64913982680032973156037120041377903785566085089252</span>
+  <span style="color: #ccaaff;">16730939319872750275468906903707539413042652315011</span>
+  <span style="color: #ccaaff;">94809377245048795150954100921645863754710598436791</span>
+  <span style="color: #ccaaff;">78639167021187492431995700641917969777599028300699</span>
+  <span style="color: #ccaaff;">15368713711936614952811305876380278410754449733078</span>
+  <span style="color: #ccaaff;">40789923115535562561142322423255033685442488917353</span>
+  <span style="color: #ccaaff;">44889911501440648020369068063960672322193204149535</span>
+  <span style="color: #ccaaff;">41503128880339536053299340368006977710650566631954</span>
+  <span style="color: #ccaaff;">81234880673210146739058568557934581403627822703280</span>
+  <span style="color: #ccaaff;">82616570773948327592232845941706525094512325230608</span>
+  <span style="color: #ccaaff;">22918802058777319719839450180888072429661980811197</span>
+  <span style="color: #ccaaff;">77158542502016545090413245809786882778948721859617</span>
+  <span style="color: #ccaaff;">72107838435069186155435662884062257473692284509516</span>
+  <span style="color: #ccaaff;">20849603980134001723930671666823555245252804609722</span>
+  <span style="color: #ccaaff;">53503534226472524250874054075591789781264330331690</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 5537376230</span>
 </pre>
 </div>
 
@@ -757,7 +757,7 @@ Work out the first ten digits of the sum of the following one-hundred 50-digit n
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -826,7 +826,7 @@ Work out the first ten digits of the sum of the following one-hundred 50-digit n
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orga1484bd"><span class="nav-text">001: Multiples of 3 and 5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge2f1c7a"><span class="nav-text">002: Even Fibonacci numbers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org58fab48"><span class="nav-text">013: Large sum</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb1dceed"><span class="nav-text">001: Multiples of 3 and 5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7f6963b"><span class="nav-text">002: Even Fibonacci numbers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2778232"><span class="nav-text">013: Large sum</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -239,9 +239,9 @@ Differences Between Electron and NW.js</a>
 本篇文章會先從 javascript 搭配 electron 開始，再進入到 clojurescript 的世界。
 </p>
 
-<div id="outline-container-org8f1ef53" class="outline-2">
-<h2 id="org8f1ef53">環境建立</h2>
-<div class="outline-text-2" id="text-org8f1ef53">
+<div id="outline-container-orgb12dbad" class="outline-2">
+<h2 id="orgb12dbad">環境建立</h2>
+<div class="outline-text-2" id="text-orgb12dbad">
 <p>
 首先當然你的系統需要安裝 <code>node.js</code> ，接著我們可以使用以下兩種方式其中一個，將 <i>electron</i> 安裝進系統或是本地專案內
 </p>
@@ -257,9 +257,9 @@ npm install electron-prebuilt --save-dev
 </div>
 </div>
 
-<div id="outline-container-orgfd267ad" class="outline-2">
-<h2 id="orgfd267ad">從 javascript 世界來學 electron</h2>
-<div class="outline-text-2" id="text-orgfd267ad">
+<div id="outline-container-org79e87d2" class="outline-2">
+<h2 id="org79e87d2">從 javascript 世界來學 electron</h2>
+<div class="outline-text-2" id="text-org79e87d2">
 <p>
 在學習 clojurescript 的過程中，由於會用到一些 javascript lib 或是功能，學習一些
 javascript 是不可避免的，因此讓我們從 javscript 的 electron 版本開始玩吧 :)
@@ -326,7 +326,7 @@ app.on<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'windo
 <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">initialization and is ready to create browser windows.</span>
 app.on<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'ready'</span>, <span style="color: #aaffaa;">function</span><span style="color: #81d4fa;">()</span> <span style="color: #81d4fa;">{</span>
   <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Create the browser window.</span>
-  mainWindow = <span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">BrowserWindow</span><span style="color: #aaccff;">(</span><span style="color: #aaeecc;">{</span>width: 800, height: 600<span style="color: #aaeecc;">}</span><span style="color: #aaccff;">)</span>;
+  mainWindow = <span style="color: #aaffaa;">new</span> <span style="color: #fff59d;">BrowserWindow</span><span style="color: #aaccff;">(</span><span style="color: #aaeecc;">{</span>width: <span style="color: #ccaaff;">800</span>, height: <span style="color: #ccaaff;">600</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">)</span>;
 
   <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">and load the index.html of the app.</span>
   mainWindow.loadUrl<span style="color: #aaccff;">(</span><span style="color: #aadddd;">'file://'</span> + __dirname + <span style="color: #aadddd;">'/index.html'</span><span style="color: #aaccff;">)</span>;
@@ -360,7 +360,7 @@ app.on<span style="color: #aadddd;">(</span><span style="color: #aadddd;">'ready
   &lt;<span style="color: #aaccff;">body</span>&gt;
     &lt;<span style="color: #aaccff;">h1</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Hello World!</span>&lt;/<span style="color: #aaccff;">h1</span>&gt;
     We are using io.js &lt;<span style="color: #aaccff;">script</span>&gt;document.write(process.version)&lt;/<span style="color: #aaccff;">script</span>&gt;
-    and Electron &lt;<span style="color: #aaccff;">script</span>&gt;document.write(process.versions['electron'])&lt;/<span style="color: #aaccff;">script</span>&gt;.
+    and Electron &lt;<span style="color: #aaccff;">script</span>&gt;document.write(process.versions[<span style="color: #aadddd;">'electron'</span>])&lt;/<span style="color: #aaccff;">script</span>&gt;.
   &lt;/<span style="color: #aaccff;">body</span>&gt;
 &lt;/<span style="color: #aaccff;">html</span>&gt;
 </pre>
@@ -387,9 +387,9 @@ coldnew@Rosia ~/your-app $ electron .
 </div>
 </div>
 
-<div id="outline-container-orgd6fc4bb" class="outline-2">
-<h2 id="orgd6fc4bb">建立你的 clojurescript 專案</h2>
-<div class="outline-text-2" id="text-orgd6fc4bb">
+<div id="outline-container-org3ace14a" class="outline-2">
+<h2 id="org3ace14a">建立你的 clojurescript 專案</h2>
+<div class="outline-text-2" id="text-org3ace14a">
 <p>
 雖然我們可以使用 <a href="https://github.com/ducky427/electron-template" target="_blank" rel="external">electron-template</a> 、 <a href="https://github.com/karad/lein_template_descjop" target="_blank" rel="external">lein_template_descjop</a> 等現成的 lein 樣板，
 但是這些樣板不是預設使用 grunt 或是就是使用 reagent，對於沒接觸過這些工具的人而
@@ -419,8 +419,8 @@ source-map 輸出到 <i>app</i> 資料夾方便出問題時的除錯
   <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
   <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
             <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
-  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #000000; background-color: #ffffff;">/</span>clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
-                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span><span style="color: #000000; background-color: #ffffff;">/</span>clojurescript <span style="color: #aadddd;">"1.7.28"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span>/clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span>/clojurescript <span style="color: #aadddd;">"1.7.28"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
 
   <span style="color: #ccaaff;">:plugins</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span>lein-cljsbuild <span style="color: #aadddd;">"1.0.6"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
 
@@ -453,7 +453,7 @@ coldnew@Rosia ~/cljs/electron_test $ mkdir -p app
   &lt;/<span style="color: #aaccff;">head</span>&gt;
   &lt;<span style="color: #aaccff;">body</span>&gt;
     &lt;<span style="color: #aaccff;">h1</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Hello Clojurescript with Electron!</span>&lt;/<span style="color: #aaccff;">h1</span>&gt;
-    Electron Version &lt;<span style="color: #aaccff;">script</span>&gt;document.write(process.versions['electron'])&lt;/<span style="color: #aaccff;">script</span>&gt;.
+    Electron Version &lt;<span style="color: #aaccff;">script</span>&gt;document.write(process.versions[<span style="color: #aadddd;">'electron'</span>])&lt;/<span style="color: #aaccff;">script</span>&gt;.
   &lt;/<span style="color: #aaccff;">body</span>&gt;
 &lt;/<span style="color: #aaccff;">html</span>&gt;
 </pre>
@@ -478,25 +478,25 @@ coldnew@Rosia ~/cljs/electron_test $ mkdir -p app
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">electron-test.core</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">app</span>            <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">js</span><span style="color: #000000; background-color: #ffffff;">/</span>require <span style="color: #aadddd;">"app"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
-<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">browser-window</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">js</span><span style="color: #000000; background-color: #ffffff;">/</span>require <span style="color: #aadddd;">"browser-window"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">app</span>            <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">js</span>/require <span style="color: #aadddd;">"app"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">browser-window</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">js</span>/require <span style="color: #aadddd;">"browser-window"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span><span style="color: #ff8888;">.start</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">js</span><span style="color: #000000; background-color: #ffffff;">/</span>require <span style="color: #aadddd;">"crash-reporter"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span>.start <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">js</span>/require <span style="color: #aadddd;">"crash-reporter"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">main-window</span> <span style="color: #81d4fa;">(</span>atom <span style="color: #ccaaff;">nil</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span><span style="color: #ff8888;">.on</span> app <span style="color: #aadddd;">"window-all-closed"</span>
+<span style="color: #aadddd;">(</span>.on app <span style="color: #aadddd;">"window-all-closed"</span>
      <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaccff;">[]</span>
-       <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #aaeecc;">(</span>= <span style="color: #fff59d;">js</span><span style="color: #000000; background-color: #ffffff;">/</span>process.platform <span style="color: #aadddd;">"darwin"</span><span style="color: #aaeecc;">)</span>
-         <span style="color: #aaeecc;">(</span><span style="color: #ff8888;">.quit</span> app<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+       <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #aaeecc;">(</span>= <span style="color: #fff59d;">js</span>/process.platform <span style="color: #aadddd;">"darwin"</span><span style="color: #aaeecc;">)</span>
+         <span style="color: #aaeecc;">(</span>.quit app<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
-<span style="color: #aadddd;">(</span><span style="color: #ff8888;">.on</span> app <span style="color: #aadddd;">"ready"</span>
+<span style="color: #aadddd;">(</span>.on app <span style="color: #aadddd;">"ready"</span>
      <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaccff;">[]</span>
        <span style="color: #aaccff;">(</span>reset! main-window <span style="color: #aaeecc;">(</span>browser-window.
-                            <span style="color: #ccaaff;">(</span>clj-&gt;js <span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:width</span> 800, <span style="color: #ccaaff;">:height</span> 600<span style="color: #fff59d;">}</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
-       <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.loadUrl</span> @main-window <span style="color: #aaeecc;">(</span>str <span style="color: #aadddd;">"file://"</span> <span style="color: #fff59d;">js</span><span style="color: #000000; background-color: #ffffff;">/</span>__dirname <span style="color: #aadddd;">"/index.html"</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+                            <span style="color: #ccaaff;">(</span>clj-&gt;js <span style="color: #fff59d;">{</span><span style="color: #ccaaff;">:width</span> <span style="color: #ccaaff;">800</span>, <span style="color: #ccaaff;">:height</span> <span style="color: #ccaaff;">600</span><span style="color: #fff59d;">}</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>.loadUrl @main-window <span style="color: #aaeecc;">(</span>str <span style="color: #aadddd;">"file://"</span> <span style="color: #fff59d;">js</span>/__dirname <span style="color: #aadddd;">"/index.html"</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
        <span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">(.openDevTools @main-window)</span>
-       <span style="color: #aaccff;">(</span><span style="color: #ff8888;">.on</span> @main-window <span style="color: #aadddd;">"closed"</span>
+       <span style="color: #aaccff;">(</span>.on @main-window <span style="color: #aadddd;">"closed"</span>
             #<span style="color: #aaeecc;">(</span>reset! main-window <span style="color: #ccaaff;">nil</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
        <span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
@@ -527,9 +527,9 @@ coldnew@Rosia ~/cljs/electron_test $ electron app
 </div>
 </div>
 
-<div id="outline-container-orgceea4c8" class="outline-2">
-<h2 id="orgceea4c8">打包並發佈你的專案</h2>
-<div class="outline-text-2" id="text-orgceea4c8">
+<div id="outline-container-orgaec5152" class="outline-2">
+<h2 id="orgaec5152">打包並發佈你的專案</h2>
+<div class="outline-text-2" id="text-orgaec5152">
 <p>
 如果想要發佈你的 electron 專案出去，<a href="https://www.npmjs.com/package/electron-packager" target="_blank" rel="external">electron-packager</a> 是個很方便的工具，首先我們
 先安裝他:
@@ -605,9 +605,9 @@ test1-linux-x64/ &lt;b&gt;
 </div>
 </div>
 
-<div id="outline-container-org4402fa6" class="outline-2">
-<h2 id="org4402fa6">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org4402fa6">
+<div id="outline-container-org42282c3" class="outline-2">
+<h2 id="org42282c3">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org42282c3">
 <p>
 <code>[1]</code> <a href="https://medium.com/developers-writing/building-a-desktop-application-with-electron-204203eeb658" target="_blank" rel="external">Building a desktop application with Electron</a>
 </p>
@@ -717,7 +717,7 @@ test1-linux-x64/ &lt;b&gt;
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -786,7 +786,7 @@ test1-linux-x64/ &lt;b&gt;
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8f1ef53"><span class="nav-text">環境建立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfd267ad"><span class="nav-text">從 javascript 世界來學 electron</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd6fc4bb"><span class="nav-text">建立你的 clojurescript 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgceea4c8"><span class="nav-text">打包並發佈你的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4402fa6"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb12dbad"><span class="nav-text">環境建立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org79e87d2"><span class="nav-text">從 javascript 世界來學 electron</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3ace14a"><span class="nav-text">建立你的 clojurescript 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaec5152"><span class="nav-text">打包並發佈你的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org42282c3"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

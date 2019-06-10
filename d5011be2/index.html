@@ -276,9 +276,9 @@
 配的資料進行調整字體大小。以下是我用的 elisp code:
 </p>
 
-<div id="outline-container-org55d8732" class="outline-2">
-<h2 id="org55d8732">定義和字體相關的變數</h2>
-<div class="outline-text-2" id="text-org55d8732">
+<div id="outline-container-org240d41b" class="outline-2">
+<h2 id="org240d41b">定義和字體相關的變數</h2>
+<div class="outline-text-2" id="text-org240d41b">
 <p>
 首先先定義自己想使用的中英文字體
 </p>
@@ -304,24 +304,24 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-font-size-pair</span> '<span style="color: #81d4fa;">(</span>15 . 18<span style="color: #81d4fa;">)</span>
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-font-size-pair</span> '<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">15</span> . <span style="color: #ccaaff;">18</span><span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"Default font size pair for (english . chinese)"</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defvar</span> <span style="color: #aaccff;">emacs-font-size-pair-list</span>
-  '<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span> 5 .  6<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>10 . 12<span style="color: #aaccff;">)</span>
-    <span style="color: #aaccff;">(</span>13 . 16<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>15 . 18<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>17 . 20<span style="color: #aaccff;">)</span>
-    <span style="color: #aaccff;">(</span>19 . 22<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>20 . 24<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>21 . 26<span style="color: #aaccff;">)</span>
-    <span style="color: #aaccff;">(</span>24 . 28<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>26 . 32<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>28 . 34<span style="color: #aaccff;">)</span>
-    <span style="color: #aaccff;">(</span>30 . 36<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>34 . 40<span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span>36 . 44<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  '<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span> <span style="color: #ccaaff;">5</span> .  <span style="color: #ccaaff;">6</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">10</span> . <span style="color: #ccaaff;">12</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">13</span> . <span style="color: #ccaaff;">16</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">15</span> . <span style="color: #ccaaff;">18</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">17</span> . <span style="color: #ccaaff;">20</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">19</span> . <span style="color: #ccaaff;">22</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">20</span> . <span style="color: #ccaaff;">24</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">21</span> . <span style="color: #ccaaff;">26</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">24</span> . <span style="color: #ccaaff;">28</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">26</span> . <span style="color: #ccaaff;">32</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">28</span> . <span style="color: #ccaaff;">34</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">30</span> . <span style="color: #ccaaff;">36</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">34</span> . <span style="color: #ccaaff;">40</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #ccaaff;">36</span> . <span style="color: #ccaaff;">44</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"This list is used to store matching (englis . chinese) font-size."</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb0a24da" class="outline-2">
-<h2 id="orgb0a24da">在圖形介面下調整字體設定</h2>
-<div class="outline-text-2" id="text-orgb0a24da">
+<div id="outline-container-orgf484680" class="outline-2">
+<h2 id="orgf484680">在圖形介面下調整字體設定</h2>
+<div class="outline-text-2" id="text-orgf484680">
 <p>
 這邊主要定義 <b>set-font</b> 這個函式，他會根據傳送給他的字體資訊，即時設定
 整個 emacs 的字體大小，這樣也不會有切換 buffer，但是字體確沒有跟著之前的
@@ -360,9 +360,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgcdb3a40" class="outline-2">
-<h2 id="orgcdb3a40">使用 C-= 或是 C&#x2013; 來調整字體大小</h2>
-<div class="outline-text-2" id="text-orgcdb3a40">
+<div id="outline-container-org6dddecd" class="outline-2">
+<h2 id="org6dddecd">使用 C-= 或是 C&#x2013; 來調整字體大小</h2>
+<div class="outline-text-2" id="text-org6dddecd">
 <p>
 能夠設定字體後，接著我們必須根據我們設定字體的規則，另外定義一個改變字
 體的函式，這個函式將根據 <b>emacs-font-size-pair-list</b> 去找尋前一個/後一
@@ -373,7 +373,7 @@
 <pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">emacs-step-font-size</span> <span style="color: #81d4fa;">(</span>step<span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"Increase/Decrease emacs's font size."</span>
   <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>scale-steps emacs-font-size-pair-list<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
-    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaeecc;">(</span>&lt; step 0<span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">setq</span> scale-steps <span style="color: #ccaaff;">(</span>reverse scale-steps<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaeecc;">(</span>&lt; step <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">setq</span> scale-steps <span style="color: #ccaaff;">(</span>reverse scale-steps<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
     <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">setq</span> emacs-font-size-pair
           <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">or</span> <span style="color: #ccaaff;">(</span>cadr <span style="color: #fff59d;">(</span>member emacs-font-size-pair scale-steps<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
               emacs-font-size-pair<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
@@ -391,11 +391,11 @@
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">increase-emacs-font-size</span> <span style="color: #81d4fa;">()</span>
   <span style="color: #97abc6; font-style: italic;">"Decrease emacs's font-size acording emacs-font-size-pair-list."</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">interactive</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>emacs-step-font-size 1<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">interactive</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>emacs-step-font-size <span style="color: #ccaaff;">1</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">decrease-emacs-font-size</span> <span style="color: #81d4fa;">()</span>
   <span style="color: #97abc6; font-style: italic;">"Increase emacs's font-size acording emacs-font-size-pair-list."</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">interactive</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>emacs-step-font-size -1<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">interactive</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>emacs-step-font-size <span style="color: #ccaaff;">-1</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -500,7 +500,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -569,7 +569,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org55d8732"><span class="nav-text">定義和字體相關的變數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb0a24da"><span class="nav-text">在圖形介面下調整字體設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcdb3a40"><span class="nav-text">使用 C-= 或是 C– 來調整字體大小</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org240d41b"><span class="nav-text">定義和字體相關的變數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf484680"><span class="nav-text">在圖形介面下調整字體設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6dddecd"><span class="nav-text">使用 C-= 或是 C– 來調整字體大小</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

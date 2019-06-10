@@ -228,9 +228,9 @@
 newlisp 的 FFI (Foreign Function Interface) 來建立 GTK 的視窗。
 </p>
 
-<div id="outline-container-org316757a" class="outline-2">
-<h2 id="org316757a">程式截圖</h2>
-<div class="outline-text-2" id="text-org316757a">
+<div id="outline-container-orgc8054cd" class="outline-2">
+<h2 id="orgc8054cd">程式截圖</h2>
+<div class="outline-text-2" id="text-orgc8054cd">
 <p>
 由於我們要用 C 語言與 newlisp 寫同樣的東西，先來看看最後結果會長怎樣。
 </p>
@@ -245,9 +245,9 @@ newlisp 的 FFI (Foreign Function Interface) 來建立 GTK 的視窗。
 </div>
 </div>
 
-<div id="outline-container-org164a011" class="outline-2">
-<h2 id="org164a011">C 語言版本</h2>
-<div class="outline-text-2" id="text-org164a011">
+<div id="outline-container-orgc42d14c" class="outline-2">
+<h2 id="orgc42d14c">C 語言版本</h2>
+<div class="outline-text-2" id="text-orgc42d14c">
 <p>
 這整個 newlisp 程式是依樣畫葫蘆從 C 語言版本轉換過去，我們先來看看 C 語言
 的版本。
@@ -257,7 +257,7 @@ newlisp 的 FFI (Foreign Function Interface) 來建立 GTK 的視窗。
 <pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/*</span>
 <span style="color: #9ac; font-style: italic;"> * Compile command:</span>
 <span style="color: #9ac; font-style: italic;"> *       gcc hello.c -o hello `pkg-config --libs --cflags gtk+-2.0`</span>
-<span style="color: #9ac; font-style: italic;"> </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;"> */</span>
 
 <span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">gtk/gtk.h</span><span style="color: #aadddd;">&gt;</span>
 
@@ -268,44 +268,44 @@ newlisp 的 FFI (Foreign Function Interface) 來建立 GTK 的視窗。
 
     gtk_init <span style="color: #81d4fa;">(</span>&amp;argc, &amp;argv<span style="color: #81d4fa;">)</span>;
 
-    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Create the main, top level, window </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Create the main, top level, window</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
     window = gtk_window_new <span style="color: #81d4fa;">(</span>GTK_WINDOW_TOPLEVEL<span style="color: #81d4fa;">)</span>;
 
-    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Give window title </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Give window title</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
     gtk_window_set_title <span style="color: #81d4fa;">(</span>GTK_WINDOW <span style="color: #aaccff;">(</span>window<span style="color: #aaccff;">)</span>, <span style="color: #aadddd;">"Gtk-demo"</span><span style="color: #81d4fa;">)</span>;
 
-    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Setup default window size </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
-    gtk_widget_set_size_request <span style="color: #81d4fa;">(</span>GTK_WINDOW <span style="color: #aaccff;">(</span>window<span style="color: #aaccff;">)</span>, 200,100<span style="color: #81d4fa;">)</span>;
+    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Setup default window size</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+    gtk_widget_set_size_request <span style="color: #81d4fa;">(</span>GTK_WINDOW <span style="color: #aaccff;">(</span>window<span style="color: #aaccff;">)</span>, <span style="color: #ccaaff;">200</span>,<span style="color: #ccaaff;">100</span><span style="color: #81d4fa;">)</span>;
 
     <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Connect the destroy signal of the window to gtk_main_quit</span>
 <span style="color: #9ac; font-style: italic;">     * When the window is about to be destroyd we get a notification</span>
 <span style="color: #9ac; font-style: italic;">     * and stop the main GTK+ loop.</span>
-<span style="color: #9ac; font-style: italic;">     </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #5f5f5f; font-style: italic;">     */</span>
     g_signal_connect <span style="color: #81d4fa;">(</span>window, <span style="color: #aadddd;">"destroy"</span>, G_CALLBACK <span style="color: #aaccff;">(</span>gtk_main_quit<span style="color: #aaccff;">)</span>, <span style="color: #ccaaff;">NULL</span><span style="color: #81d4fa;">)</span>;
 
-    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Create the "Hello World" button </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Create the "Hello World" button</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
     button = gtk_button_new_with_label <span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Hello World"</span><span style="color: #81d4fa;">)</span>;
 
-    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Insert button into the main window </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Insert button into the main window</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
     gtk_container_add <span style="color: #81d4fa;">(</span>GTK_CONTAINER <span style="color: #aaccff;">(</span>window<span style="color: #aaccff;">)</span>, button<span style="color: #81d4fa;">)</span>;
 
-    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Make sure that everything, window and button, are visible. </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+    <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Make sure that everything, window and button, are visible.</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
     gtk_widget_show_all <span style="color: #81d4fa;">(</span>window<span style="color: #81d4fa;">)</span>;
 
     <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Start the main loop, and let it reset there until the</span>
-<span style="color: #9ac; font-style: italic;">     * application is closed. </span><span style="color: #5f5f5f; font-style: italic;">*/</span>
+<span style="color: #9ac; font-style: italic;">     * application is closed.</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
     gtk_main <span style="color: #81d4fa;">()</span>;
 
-    <span style="color: #aaffaa;">return</span> 0;
+    <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">0</span>;
 <span style="color: #aadddd;">}</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org436b1e2" class="outline-2">
-<h2 id="org436b1e2">newlisp 版本</h2>
-<div class="outline-text-2" id="text-org436b1e2">
+<div id="outline-container-orgbf8df38" class="outline-2">
+<h2 id="orgbf8df38">newlisp 版本</h2>
+<div class="outline-text-2" id="text-orgbf8df38">
 <p>
 由於並沒有 newlisp 版本的 GTK wrapper，因此我們必須透過 lisp 的 FFI 功能
 (Foreign Function Interface，相當於 C 語言的 dlopen 功能)來呼叫 GTK 的 function。
@@ -337,24 +337,24 @@ hello world 一樣，直接使用這些 function 來產生我們需要的 gtk �
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">import</span> GTK     <span style="color: #aadddd;">"gtk_main"</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">callback to exit program</span>
-<span style="color: #aadddd;">(</span><span style="color: #aaccff;">define</span> <span style="color: #81d4fa;">(</span>_exit_<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>gtk_exit 0<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">exit</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaccff;">define</span> <span style="color: #81d4fa;">(</span>_exit_<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>gtk_exit <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">exit</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">initial gtk</span>
-<span style="color: #aadddd;">(</span>gtk_init 0 0<span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span>gtk_init <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Create the main, top level, window</span>
-<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set</span> 'WINDOW <span style="color: #81d4fa;">(</span>gtk_window_new 0<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set</span> 'WINDOW <span style="color: #81d4fa;">(</span>gtk_window_new <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Give window title</span>
 <span style="color: #aadddd;">(</span>gtk_window_set_title WINDOW <span style="color: #aadddd;">"Gtk-demo"</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Setup default window size</span>
-<span style="color: #aadddd;">(</span>gtk_widget_set_size_request WINDOW 200 100<span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span>gtk_widget_set_size_request WINDOW <span style="color: #ccaaff;">200</span> <span style="color: #ccaaff;">100</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Connect the destroy signal of the window to gtk_main_quit</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">When the window is about to be destroyd we get a notification</span>
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">and stop the main GTK+ loop.</span>
-<span style="color: #aadddd;">(</span>g_signal_connect_data WINDOW <span style="color: #aadddd;">"delete-event"</span> <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">callback</span> 0 '_exit_<span style="color: #81d4fa;">)</span> 0 0 0<span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span>g_signal_connect_data WINDOW <span style="color: #aadddd;">"delete-event"</span> <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">callback</span> <span style="color: #ccaaff;">0</span> '_exit_<span style="color: #81d4fa;">)</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">0</span><span style="color: #aadddd;">)</span>
 
 <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Create the "Hello World" button</span>
 <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set</span> 'button <span style="color: #81d4fa;">(</span>gtk_button_new_with_label <span style="color: #aadddd;">"Hello World"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
@@ -467,7 +467,7 @@ hello world 一樣，直接使用這些 function 來產生我們需要的 gtk �
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -536,7 +536,7 @@ hello world 一樣，直接使用這些 function 來產生我們需要的 gtk �
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org316757a"><span class="nav-text">程式截圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org164a011"><span class="nav-text">C 語言版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org436b1e2"><span class="nav-text">newlisp 版本</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc8054cd"><span class="nav-text">程式截圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc42d14c"><span class="nav-text">C 語言版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbf8df38"><span class="nav-text">newlisp 版本</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

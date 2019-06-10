@@ -245,26 +245,26 @@
 <pre class="src src-c++"><span style="color: #aaffaa;">template</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aaffaa;">typename</span> <span style="color: #fff59d;">T</span><span style="color: #aadddd;">&gt;</span>
 <span style="color: #fff59d;">void</span> <span style="color: #aaccff;">savePNGFile</span> <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">const</span> <span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">string</span> &amp;<span style="color: #aaccff;">file_name</span>, <span style="color: #aaffaa;">const</span> <span style="color: #ccaaff;">pcl</span>::<span style="color: #fff59d;">PointCloud</span><span style="color: #81d4fa;">&lt;</span><span style="color: #fff59d;">T</span><span style="color: #81d4fa;">&gt;</span> &amp;<span style="color: #aaccff;">cloud</span><span style="color: #aadddd;">)</span>
 <span style="color: #aadddd;">{</span>
-    <span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">vector</span><span style="color: #81d4fa;">&lt;</span><span style="color: #fff59d;">unsigned</span> <span style="color: #fff59d;">char</span><span style="color: #81d4fa;">&gt;</span> <span style="color: #aaccff;">char_data</span><span style="color: #81d4fa;">(</span>cloud.width * cloud.height * 3<span style="color: #81d4fa;">)</span>;
+    <span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">vector</span><span style="color: #81d4fa;">&lt;</span><span style="color: #fff59d;">unsigned</span> <span style="color: #fff59d;">char</span><span style="color: #81d4fa;">&gt;</span> <span style="color: #aaccff;">char_data</span><span style="color: #81d4fa;">(</span>cloud.width * cloud.height * <span style="color: #ccaaff;">3</span><span style="color: #81d4fa;">)</span>;
 
-    <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">size_t</span> <span style="color: #aaccff;">i</span> = 0; i &lt; cloud.points.size<span style="color: #aaccff;">()</span>; ++i<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
-        char_data<span style="color: #aaccff;">[</span>i*3 + 0<span style="color: #aaccff;">]</span> = cloud.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.r;
-        char_data<span style="color: #aaccff;">[</span>i*3 + 1<span style="color: #aaccff;">]</span> = cloud.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.g;
-        char_data<span style="color: #aaccff;">[</span>i*3 + 2<span style="color: #aaccff;">]</span> = cloud.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.b;
+    <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">size_t</span> <span style="color: #aaccff;">i</span> = <span style="color: #ccaaff;">0</span>; i &lt; cloud.points.size<span style="color: #aaccff;">()</span>; ++i<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+        char_data<span style="color: #aaccff;">[</span>i*<span style="color: #ccaaff;">3</span> + <span style="color: #ccaaff;">0</span><span style="color: #aaccff;">]</span> = cloud.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.r;
+        char_data<span style="color: #aaccff;">[</span>i*<span style="color: #ccaaff;">3</span> + <span style="color: #ccaaff;">1</span><span style="color: #aaccff;">]</span> = cloud.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.g;
+        char_data<span style="color: #aaccff;">[</span>i*<span style="color: #ccaaff;">3</span> + <span style="color: #ccaaff;">2</span><span style="color: #aaccff;">]</span> = cloud.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.b;
     <span style="color: #81d4fa;">}</span>
 
     <span style="color: #fff59d;">vtkSmartPointer</span><span style="color: #81d4fa;">&lt;</span>vtkImageImport<span style="color: #81d4fa;">&gt;</span> <span style="color: #aaccff;">importer</span> = <span style="color: #ccaaff;">vtkSmartPointer</span><span style="color: #81d4fa;">&lt;</span>vtkImageImport<span style="color: #81d4fa;">&gt;</span>::New<span style="color: #81d4fa;">()</span>;
-    importer-&gt;SetNumberOfScalarComponents<span style="color: #81d4fa;">(</span>3<span style="color: #81d4fa;">)</span>;
+    importer-&gt;SetNumberOfScalarComponents<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">3</span><span style="color: #81d4fa;">)</span>;
     importer-&gt;SetDataScalarTypeToUnsignedChar<span style="color: #81d4fa;">()</span>;
-    importer-&gt;SetWholeExtent <span style="color: #81d4fa;">(</span>0, cloud.width - 1, 0, cloud.height - 1, 0, 0<span style="color: #81d4fa;">)</span>;
+    importer-&gt;SetWholeExtent <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">0</span>, cloud.width - <span style="color: #ccaaff;">1</span>, <span style="color: #ccaaff;">0</span>, cloud.height - <span style="color: #ccaaff;">1</span>, <span style="color: #ccaaff;">0</span>, <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">)</span>;
     importer-&gt;SetDataExtentToWholeExtent<span style="color: #81d4fa;">()</span>;
 
-    <span style="color: #fff59d;">void</span>* <span style="color: #aaccff;">data</span> = <span style="color: #aaffaa;">const_cast</span><span style="color: #81d4fa;">&lt;</span><span style="color: #fff59d;">void</span>*<span style="color: #81d4fa;">&gt;</span> <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">reinterpret_cast</span><span style="color: #aaccff;">&lt;</span><span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">void</span>*<span style="color: #aaccff;">&gt;</span> <span style="color: #aaccff;">(</span>&amp;char_data<span style="color: #aaeecc;">[</span>0<span style="color: #aaeecc;">]</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>;
-    importer-&gt;SetImportVoidPointer<span style="color: #81d4fa;">(</span>data, 1<span style="color: #81d4fa;">)</span>;
+    <span style="color: #fff59d;">void</span>* <span style="color: #aaccff;">data</span> = <span style="color: #aaffaa;">const_cast</span><span style="color: #81d4fa;">&lt;</span><span style="color: #fff59d;">void</span>*<span style="color: #81d4fa;">&gt;</span> <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">reinterpret_cast</span><span style="color: #aaccff;">&lt;</span><span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">void</span>*<span style="color: #aaccff;">&gt;</span> <span style="color: #aaccff;">(</span>&amp;char_data<span style="color: #aaeecc;">[</span><span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">]</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>;
+    importer-&gt;SetImportVoidPointer<span style="color: #81d4fa;">(</span>data, <span style="color: #ccaaff;">1</span><span style="color: #81d4fa;">)</span>;
     importer-&gt;Update<span style="color: #81d4fa;">()</span>;
 
     <span style="color: #fff59d;">vtkSmartPointer</span><span style="color: #81d4fa;">&lt;</span>vtkImageFlip<span style="color: #81d4fa;">&gt;</span> <span style="color: #aaccff;">flipYFilter</span> = <span style="color: #ccaaff;">vtkSmartPointer</span><span style="color: #81d4fa;">&lt;</span>vtkImageFlip<span style="color: #81d4fa;">&gt;</span>::New<span style="color: #81d4fa;">()</span>;
-    flipYFilter-&gt;SetFilteredAxis<span style="color: #81d4fa;">(</span>1<span style="color: #81d4fa;">)</span>;
+    flipYFilter-&gt;SetFilteredAxis<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">1</span><span style="color: #81d4fa;">)</span>;
     flipYFilter-&gt;SetInputConnection<span style="color: #81d4fa;">(</span>importer-&gt;GetOutputPort<span style="color: #aaccff;">()</span><span style="color: #81d4fa;">)</span>;
     flipYFilter-&gt;Update<span style="color: #81d4fa;">()</span>;
 
@@ -292,22 +292,22 @@
 <span style="color: #aadddd;">{</span>
     <span style="color: #ccaaff;">pcl</span>::<span style="color: #fff59d;">PointCloud</span><span style="color: #81d4fa;">&lt;</span><span style="color: #fff59d;">T</span><span style="color: #81d4fa;">&gt;</span> <span style="color: #aaccff;">depth</span> = cloud;
 
-    <span style="color: #fff59d;">double</span> <span style="color: #aaccff;">max</span> = 0, <span style="color: #aaccff;">min</span> = 0;
+    <span style="color: #fff59d;">double</span> <span style="color: #aaccff;">max</span> = <span style="color: #ccaaff;">0</span>, <span style="color: #aaccff;">min</span> = <span style="color: #ccaaff;">0</span>;
 
-    <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = 0; i &lt; <span style="color: #aaccff;">(</span><span style="color: #fff59d;">int</span><span style="color: #aaccff;">)</span> depth.points.size<span style="color: #aaccff;">()</span>; i++<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+    <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = <span style="color: #ccaaff;">0</span>; i &lt; <span style="color: #aaccff;">(</span><span style="color: #fff59d;">int</span><span style="color: #aaccff;">)</span> depth.points.size<span style="color: #aaccff;">()</span>; i++<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
         <span style="color: #aaffaa;">if</span><span style="color: #aaccff;">(</span>depth.points<span style="color: #aaeecc;">[</span>i<span style="color: #aaeecc;">]</span>.z &gt; max<span style="color: #aaccff;">)</span> max = depth.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.z;
         <span style="color: #aaffaa;">if</span><span style="color: #aaccff;">(</span>depth.points<span style="color: #aaeecc;">[</span>i<span style="color: #aaeecc;">]</span>.z &lt; min<span style="color: #aaccff;">)</span> min = depth.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.z;
     <span style="color: #81d4fa;">}</span>
 
-    <span style="color: #fff59d;">float</span> <span style="color: #aaccff;">scale</span> = <span style="color: #81d4fa;">(</span>max - min<span style="color: #81d4fa;">)</span> / 256;
+    <span style="color: #fff59d;">float</span> <span style="color: #aaccff;">scale</span> = <span style="color: #81d4fa;">(</span>max - min<span style="color: #81d4fa;">)</span> / <span style="color: #ccaaff;">256</span>;
 
-    <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = 0; i &lt; <span style="color: #aaccff;">(</span><span style="color: #fff59d;">int</span><span style="color: #aaccff;">)</span> depth.points.size<span style="color: #aaccff;">()</span>; i++<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+    <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = <span style="color: #ccaaff;">0</span>; i &lt; <span style="color: #aaccff;">(</span><span style="color: #fff59d;">int</span><span style="color: #aaccff;">)</span> depth.points.size<span style="color: #aaccff;">()</span>; i++<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
         <span style="color: #fff59d;">unsigned</span> <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">t</span> = depth.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.z / scale;
 
         <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">make sure pixel value between 0 ~ 255</span>
-        t = <span style="color: #aaccff;">(</span>t &gt; 255<span style="color: #aaccff;">)</span> ? 255 : <span style="color: #aaccff;">(</span>t &lt; 0<span style="color: #aaccff;">)</span> ? 0 : t;
+        t = <span style="color: #aaccff;">(</span>t &gt; <span style="color: #ccaaff;">255</span><span style="color: #aaccff;">)</span> ? <span style="color: #ccaaff;">255</span> : <span style="color: #aaccff;">(</span>t &lt; <span style="color: #ccaaff;">0</span><span style="color: #aaccff;">)</span> ? <span style="color: #ccaaff;">0</span> : t;
 
-        depth.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.rgba = <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>t &lt;&lt; 16<span style="color: #aaeecc;">)</span> | <span style="color: #aaeecc;">(</span>t &lt;&lt; 8<span style="color: #aaeecc;">)</span> | t<span style="color: #aaccff;">)</span>;
+        depth.points<span style="color: #aaccff;">[</span>i<span style="color: #aaccff;">]</span>.rgba = <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>t &lt;&lt; <span style="color: #ccaaff;">16</span><span style="color: #aaeecc;">)</span> | <span style="color: #aaeecc;">(</span>t &lt;&lt; <span style="color: #ccaaff;">8</span><span style="color: #aaeecc;">)</span> | t<span style="color: #aaccff;">)</span>;
     <span style="color: #81d4fa;">}</span>
 
     savePNGFile<span style="color: #81d4fa;">(</span>file_name, depth<span style="color: #81d4fa;">)</span>;
@@ -356,7 +356,7 @@
     <span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">string</span> <span style="color: #aaccff;">depth_file</span><span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"room_depth.png"</span><span style="color: #81d4fa;">)</span>;
     saveDepthToPNG<span style="color: #81d4fa;">(</span>depth_file, *cloud<span style="color: #81d4fa;">)</span>;
 
-    <span style="color: #aaffaa;">return</span> 0;
+    <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">0</span>;
 <span style="color: #aadddd;">}</span>
 </pre>
 </div>
@@ -478,7 +478,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

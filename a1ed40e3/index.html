@@ -249,14 +249,14 @@ defadvice 功能，來 <code>修正</code> 一下這個問題吧，請在你的 
                                       <span style="color: #aaccff;">(</span>paragraph contents info<span style="color: #aaccff;">)</span> activate<span style="color: #81d4fa;">)</span>
   <span style="color: #97abc6; font-style: italic;">"Join consecutive Chinese lines into a single long line without</span>
 <span style="color: #97abc6; font-style: italic;">unwanted space when exporting org-mode to html."</span>
-  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let*</span> <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>origin-contents <span style="color: #ccaaff;">(</span>ad-get-arg 1<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let*</span> <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>origin-contents <span style="color: #ccaaff;">(</span>ad-get-arg <span style="color: #ccaaff;">1</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
          <span style="color: #aaeecc;">(</span>fix-regexp <span style="color: #aadddd;">"[[:multibyte:]]"</span><span style="color: #aaeecc;">)</span>
          <span style="color: #aaeecc;">(</span>fixed-contents
           <span style="color: #ccaaff;">(</span>replace-regexp-in-string
            <span style="color: #fff59d;">(</span>concat
-            <span style="color: #aadddd;">"</span><span style="color: #fff59d;">\\</span><span style="color: #ff8888;">(</span><span style="color: #aadddd;">"</span> fix-regexp <span style="color: #aadddd;">"</span><span style="color: #fff59d;">\\</span><span style="color: #ff8888;">)</span><span style="color: #aadddd;"> *\n *</span><span style="color: #fff59d;">\\</span><span style="color: #ff8888;">(</span><span style="color: #aadddd;">"</span> fix-regexp <span style="color: #aadddd;">"</span><span style="color: #fff59d;">\\</span><span style="color: #ff8888;">)</span><span style="color: #aadddd;">"</span><span style="color: #fff59d;">)</span> <span style="color: #aadddd;">"\\1\\2"</span> origin-contents<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+            <span style="color: #aadddd;">"</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">\</span><span style="color: #ff8888;">(</span><span style="color: #aadddd;">"</span> fix-regexp <span style="color: #aadddd;">"</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">\</span><span style="color: #ff8888;">)</span><span style="color: #aadddd;"> *</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #aadddd;"> *</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">\</span><span style="color: #ff8888;">(</span><span style="color: #aadddd;">"</span> fix-regexp <span style="color: #aadddd;">"</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">\</span><span style="color: #ff8888;">)</span><span style="color: #aadddd;">"</span><span style="color: #fff59d;">)</span> <span style="color: #aadddd;">"</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">\</span><span style="color: #aadddd;">1</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">\</span><span style="color: #aadddd;">2"</span> origin-contents<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
 
-    <span style="color: #aaccff;">(</span>ad-set-arg 1 fixed-contents<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+    <span style="color: #aaccff;">(</span>ad-set-arg <span style="color: #ccaaff;">1</span> fixed-contents<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
 </pre>
 </div>
 
@@ -356,7 +356,7 @@ defadvice 功能，來 <code>修正</code> 一下這個問題吧，請在你的 
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
