@@ -1,0 +1,1503 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="fpga,xilinx,zynqmp,ultra96,ultra96v1," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="Ultra96 開發紀錄: 開箱文 一文中筆者紀錄了如何購買 Ultra96 開發板，在這邊文章中我們則是來看看 Ultra96 rev1 的版本，到底有哪些硬體與週邊。    Ultra96 有分 v1 與 v2 兩個版本， 本文使用的是 Ultra96v1 的硬體 ，不過請注意 Ultra96v1 已經被宣告 EOL 了    但是就算被宣告 EOL (End-of-Life) 了，因為我">
+<meta name="keywords" content="fpga,xilinx,zynqmp,ultra96,ultra96v1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ultra96 開發紀錄: 硬體認識">
+<meta property="og:url" content="https://coldnew.github.io/f4865ec/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="Ultra96 開發紀錄: 開箱文 一文中筆者紀錄了如何購買 Ultra96 開發板，在這邊文章中我們則是來看看 Ultra96 rev1 的版本，到底有哪些硬體與週邊。    Ultra96 有分 v1 與 v2 兩個版本， 本文使用的是 Ultra96v1 的硬體 ，不過請注意 Ultra96v1 已經被宣告 EOL 了    但是就算被宣告 EOL (End-of-Life) 了，因為我">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/f3.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/bl.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/mpsoc.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/eg.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/ux1.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/t3.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/ux2.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/t4.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/msdp.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/sdcard.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/sd0.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/wi.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/wifi.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/wifimio.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/mdp.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/dpsch1.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/dpmio.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/uartx.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/uart1.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/uartmio.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/i2cs.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/i2cx.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/i2c_mio.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/uj.jpeg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/jtag.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/ledp.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/led.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/ledm.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/usb3.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/usb2.jpg">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/usbmiox.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/b_sw2.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/boot_jtag.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/b_sw2.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/boot_sd.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/b_sw2.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/boot_usb.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/trm1.png">
+<meta property="og:image" content="https://coldnew.github.io/f4865ec/eol.png">
+<meta property="og:updated_time" content="2019-07-13T15:11:10.362Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ultra96 開發紀錄: 硬體認識">
+<meta name="twitter:description" content="Ultra96 開發紀錄: 開箱文 一文中筆者紀錄了如何購買 Ultra96 開發板，在這邊文章中我們則是來看看 Ultra96 rev1 的版本，到底有哪些硬體與週邊。    Ultra96 有分 v1 與 v2 兩個版本， 本文使用的是 Ultra96v1 的硬體 ，不過請注意 Ultra96v1 已經被宣告 EOL 了    但是就算被宣告 EOL (End-of-Life) 了，因為我">
+<meta name="twitter:image" content="https://coldnew.github.io/f4865ec/f3.jpg">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Ultra96 開發紀錄: 硬體認識 | coldnew&#39;s blog </title>
+</head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/f4865ec/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Ultra96 開發紀錄: 硬體認識
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-07-13T23:11:10+08:00" content="2019-07-13">
+            2019-07-13
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultra96/" itemprop="url" rel="index">
+                  <span itemprop="name">Ultra96 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+<a href="https://coldnew.github.io/b728d8e8/">Ultra96 開發紀錄: 開箱文</a> 一文中筆者紀錄了如何購買 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="external">Ultra96</a> 開發板，在這邊文章中我們則是來看看 Ultra96 rev1 的版本，到底有哪些硬體與週邊。
+</p>
+
+<p>
+Ultra96 有分 v1 與 v2 兩個版本， <code>本文使用的是 Ultra96v1 的硬體</code> ，不過請注意 <a href="#org512e004">Ultra96v1 已經被宣告 EOL 了</a>
+</p>
+
+<p>
+但是就算被宣告 EOL (End-of-Life) 了，因為我也只有這塊板子，所以會以 <code>Ultra96v1</code> 為主來寫文章
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-orgcc59728" class="outline-2">
+<h2 id="orgcc59728">開發板概觀</h2>
+<div class="outline-text-2" id="text-orgcc59728">
+<p>
+首先先來看看這片開發板的外觀與有哪些週邊
+</p>
+
+
+<div class="figure">
+<p><img src="f3.jpg">
+</p>
+</div>
+
+<p>
+和其他的 FPGA 開發板相比，這片板子由於只有無線網路功能，因此如果要連網的話就需要走 Wi-Fi ，使用起來會相對麻煩。
+</p>
+
+<p>
+除此之外，由於沒有內建 <code>JTAG</code>  的功能，因此如果你目標是將這塊板子用於 FPGA 開發的話，你可能最好多買 專用的 <a href="https://www.avnet.com/shop/us/products/avnet-engineering-services-1/aes-acc-u96-jtag-3074457345635355958/" target="_blank" rel="external">JTAG 轉接板</a>。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga486355" class="outline-2">
+<h2 id="orga486355">方塊圖</h2>
+<div class="outline-text-2" id="text-orga486355">
+<p>
+大概知道外觀與 I/O 後，就來看看系統的方塊圖吧
+</p>
+
+
+<div class="figure">
+<p><img src="bl.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3bc9775" class="outline-2">
+<h2 id="org3bc9775">UltraZed-EG</h2>
+<div class="outline-text-2" id="text-org3bc9775">
+<p>
+在 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="external">Ultra96</a> 上核心的晶片為 <a href="https://www.xilinx.com/products/silicon-devices/soc/zynq-ultrascale-mpsoc.html" target="_blank" rel="external">Xilinx UltraScale+ MPSoC</a> 系列的 <code>Zynq UltraScale+ EG (XCZU3EG)</code> ，這一系列不同版本的晶片差異如下:
+</p>
+
+
+<div class="figure">
+<p><img src="mpsoc.jpg">
+</p>
+</div>
+
+<p>
+可以看到 <code>Zynq UltraScale+ EG (XCZU3EG)</code> 雖然缺少了 H.264/H.265 的硬體解碼器，但是也是具有 <code>Mali-400 MP2</code> GPU 的設備，也就是說我們手上這片要跑 Android 也是可行的。
+</p>
+
+
+<div class="figure">
+<p><img src="eg.png">
+</p>
+</div>
+
+<p>
+此外，因為 Zynq UltraScale+ EG 除了是 FPGA 外，同時內建了 <code>Cortex-A53</code> 以及 <code>Cortex-R5</code> 兩種用於不同工作的處理器，我們可以透過 <a href="https://github.com/OpenAMP/open-amp" target="_blank" rel="external">OpenAMP</a> 框架來達到讓 Cortex-A53 上的 Linux 和 Cortex-R5 上的 RTOS 進行通訊以及交換資料的效果，這樣除了 FPGA 可以用於處理即時性的工作外， Cortex-R5 也可以幫忙處理類似的工作。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb4ef7b3" class="outline-2">
+<h2 id="orgb4ef7b3">記憶體 (LPDDR4)</h2>
+<div class="outline-text-2" id="text-orgb4ef7b3">
+<p>
+<a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="external">Ultra96</a> 具有 <code>4GB</code> 大小的記憶體，根據  <a href="http://ultra96.org/sites/default/files/documentations/Ultra96-HW-User-Guide-rev-1-0-V0_9_preliminary.pdf" target="_blank" rel="external">Ultra96 Hardware User Guide</a> 上的資料來看，目前在 Ultra96 rev1 上用過以下兩種記憶體元件:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://www.wpgholdings.com/procurement/procurement_detail/zhtw/15466" target="_blank" rel="external">Micron MT53B512M32D2NP-062 WT:C</a></li>
+
+<li><a href="https://www.digikey.tw/product-detail/zh/micron-technology-inc/MT53D512M32D2DS-053-WT-D/MT53D512M32D2DS-053WT-D-ND/7597830" target="_blank" rel="external">Micron MT53D512M32D2DS-053 WT:D</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc11e34e" class="outline-2">
+<h2 id="orgc11e34e">低速擴充腳位</h2>
+<div class="outline-text-2" id="text-orgc11e34e">
+<p>
+低速擴充腳位 (Low Speed Expansion Connector) 大部分依照 <a href="https://www.96boards.org/compliance/" target="_blank" rel="external">96board 規範</a> ，將對應的 I/O 拉了出來，有些 I/O 則是你可以透過 FPGA 來進行控制。
+</p>
+
+<p>
+值得注意的是，這邊的插孔的寬度是 <code>2.0mm</code> ，和我們常用的 <code>2.54mm 杜邦線</code> 寬度不同，因此也可能你會需要買 <code>2.0mm 轉 2.54mm 的擴充板</code> 來進行接線，或是購買 <a href="https://www.96boards.org/products/mezzanine/" target="_blank" rel="external">Mezzanine</a> 來進行擴充 (要先確認相容性呦~)
+</p>
+
+<p>
+在表上的 <code>HD_GPIO (High-density I/O)</code> 位於可程式邏輯區 (Programmable Logic, PL) 上，我們可以透過 FPGA 對其進行操控，電壓可設定範圍為 <code>1.2V ~ 3.3V</code> (預設為 1.8V)
+</p>
+
+<p>
+而其他和處理器系統 (Processing System, PS) 相關的 I/O，預設則是被設定在 <code>1.8V</code> 上
+</p>
+
+<div class="row "><div class="col-md-6">
+
+<p>
+<b>低速擴充腳位位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="ux1.png">
+</p>
+</div>
+
+</div><div class="col-md-6">
+
+<p>
+<b>低速擴充腳位對應表</b>
+</p>
+
+
+<div class="figure">
+<p><img src="t3.png">
+</p>
+</div>
+
+</div> </div>
+</div>
+</div>
+
+<div id="outline-container-orgf5d7ea2" class="outline-2">
+<h2 id="orgf5d7ea2">高速擴充腳位</h2>
+<div class="outline-text-2" id="text-orgf5d7ea2">
+<p>
+高速擴充腳位 (High Speed Expansion Connector) 則是使用 <a href="https://www.digikey.com/product-detail/en/amphenol-icc-fci/61082-061409LF/609-5937-ND/1490647" target="_blank" rel="external">FCI 61082-061409LF</a> 這個 60pin x 0.8mm 的插槽，
+</p>
+
+<p>
+要注意的事情是，高速擴充腳位這邊除了 <code>I²C2</code> 、 <code>I²C3</code> 和 <code>SD</code> 這幾個界面外，其他都是用位於可程式邏輯區 (Programmable Logic, PL) 上的 <code>HP_GPIO (High Performance GPIO)</code> 替代，也就是說，需要自行透過 FPGA 去定義這些接腳的功能。
+</p>
+
+<p>
+<code>HP_GPIO</code> 電壓可設定範圍則是 <code>1.0V ~ 1.8V</code>
+</p>
+
+<div class="row "><div class="col-md-6">
+
+<p>
+<b>高速擴充腳位位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="ux2.png">
+</p>
+</div>
+
+</div><div class="col-md-6">
+
+<p>
+<b>高速擴充腳位對應表</b>
+</p>
+
+
+<div class="figure">
+<p><img src="t4.png">
+</p>
+</div>
+
+</div> </div>
+</div>
+</div>
+
+<div id="outline-container-orgb0156cf" class="outline-2">
+<h2 id="orgb0156cf">MicroSD 卡座</h2>
+<div class="outline-text-2" id="text-orgb0156cf">
+<p>
+MicroSD 的部份採用 <a href="https://www.mouser.com/datasheet/2/15/alps_SCHA4B0419-1155906.pdf" target="_blank" rel="external">SCHA4B0419</a> 這個卡座，並搭配 <a href="https://www.maximintegrated.com/en/products/interface/level-translators/MAX13035E.html" target="_blank" rel="external">MAX13035E</a> 來將輸入的 <code>3.3V</code> SD 卡訊號轉換成 <code>1.8V</code> 位準的訊號，這邊之所以要進行電壓的轉換主要是因為 Ultra96v1 的 <code>MIO</code> 皆是被設定在 <code>1.8V</code> 的狀態
+</p>
+
+
+<div class="row "><div class="col-md-6">
+
+<p>
+<b>位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="msdp.png">
+</p>
+</div>
+
+</div><div class="col-md-6">
+
+<p>
+<b>MicroSD 電路圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="sdcard.jpg">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+<b>MIO 對應表</b>
+</p>
+
+
+<div class="figure">
+<p><img src="sd0.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9e20631" class="outline-2">
+<h2 id="org9e20631">WiFi/Bluetooth</h2>
+<div class="outline-text-2" id="text-org9e20631">
+<p>
+WiFi/Bluetooth 的部份採用德州儀器 (TI) 的 <a href="http://www.ti.com/lit/ds/symlink/wl1801mod.pdf" target="_blank" rel="external">WL1831MODGBMOCR</a> 模組來使用，SoC 上的 <code>UART0</code> 連接到 Bluetooth 進行控制，而 WiFI 則是透過 SDIO 的界面和系統溝通
+</p>
+
+<div class="row "><div class="col-md-6">
+
+<p>
+<b>位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="wi.png">
+</p>
+</div>
+
+</div><div class="col-md-6">
+
+<p>
+<b>WiFi/Bluetooth 電路圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="wifi.jpg">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+<b>MIO 對應表</b>
+</p>
+
+
+<div class="figure">
+<p><img src="wifimio.png">
+</p>
+</div>
+
+<p>
+除了上面的 MIO 對應外，要控制好 Bluetooth 還需要一些位於可程式邏輯端 (Programmable Logic, PL) 的設定才行，根據 <i>Constraints</i>  的資訊，有以下這些設定和 Bluetooth 有關，因此在設定這塊板子的時候要注意一下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-tcl"><span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">----------------------------------------------------------------------------</span>
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Bluetooth</span>
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">----------------------------------------------------------------------------</span>
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Bank 26</span>
+set_property PACKAGE_PIN C8   <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>BT_AUD_CLK              <span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>;  <span style="color: #9ac; font-style: italic;"># "C8.BT_AUD_CLK"</span>
+set_property PACKAGE_PIN A8   <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>BT_AUD_FSYNC            <span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>;  <span style="color: #9ac; font-style: italic;"># "A8.BT_AUD_FSYNC"</span>
+set_property PACKAGE_PIN A9   <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>BT_AUD_IN               <span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>;  <span style="color: #9ac; font-style: italic;"># "A9.BT_AUD_IN"</span>
+set_property PACKAGE_PIN B9   <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>BT_AUD_OUT              <span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>;  <span style="color: #9ac; font-style: italic;"># "B9.BT_AUD_OUT"</span>
+set_property PACKAGE_PIN B5   <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>BT_HCI_CTS              <span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>;  <span style="color: #9ac; font-style: italic;"># "B5.BT_HCI_CTS"</span>
+set_property PACKAGE_PIN B7   <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>BT_HCI_RTS              <span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>;  <span style="color: #9ac; font-style: italic;"># "B7.BT_HCI_RTS"</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7712eb3" class="outline-2">
+<h2 id="org7712eb3">Mini DisplayPort</h2>
+<div class="outline-text-2" id="text-org7712eb3">
+<p>
+這塊板子可以透過 Mini DisplayPort 來進行畫面的輸出，我是使用 Apple 的 <a href="https://www.apple.com/shop/product/MB572Z/B/mini-displayport-to-vga-adapter" target="_blank" rel="external">Mini DisplayPort to VGA Adapter</a> 來將畫面轉換成 VGA 進行顯示
+</p>
+
+<div class="row "><div class="col-md-6">
+
+<p>
+<b>位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="mdp.png">
+</p>
+</div>
+
+
+</div><div class="col-md-6">
+
+<p>
+<b>電路圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="dpsch1.jpg">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+<b>MIO 對應表</b>
+</p>
+
+
+<div class="figure">
+<p><img src="dpmio.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org882641f" class="outline-2">
+<h2 id="org882641f">UART</h2>
+<div class="outline-text-2" id="text-org882641f">
+<p>
+板端有將 <code>UART1</code> 的訊號拉出來，我們可以透過 <code>TTL 轉 USB</code> 這種線材，或是透過 <a href="https://www.avnet.com/shop/us/products/avnet-engineering-services-1/aes-acc-u96-jtag-3074457345635355958/" target="_blank" rel="external">JTAG 轉接板</a> 來讀取 UART 的訊號。
+</p>
+
+<div class="row "><div class="col-md-6">
+
+<p>
+<b>位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="uartx.png">
+</p>
+</div>
+
+</div><div class="col-md-6">
+
+<p>
+<b>UART 電路圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="uart1.jpg">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+<b>MIO 對應表</b>
+</p>
+
+
+<div class="figure">
+<p><img src="uartmio.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga36e6ea" class="outline-2">
+<h2 id="orga36e6ea">I²C</h2>
+<div class="outline-text-2" id="text-orga36e6ea">
+<p>
+需要特別一提的是，板子上面的 <code>I²C</code> 界面，實際上是透過 <a href="http://www.ti.com/lit/ds/symlink/tca9544a.pdf" target="_blank" rel="external">TCA9544A</a> 來進行擴充，將一組 I²C 變成 8 個來使用
+</p>
+
+<div class="row "><div class="col-md-5">
+
+<p>
+<b>電路圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="i2cs.jpg">
+</p>
+</div>
+
+</div><div class="col-md-7">
+
+<p>
+<b>方塊圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="i2cx.jpg">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+<b>MIO 對應表</b>
+</p>
+
+
+<div class="figure">
+<p><img src="i2c_mio.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9f1b39c" class="outline-2">
+<h2 id="org9f1b39c">JTAG</h2>
+<div class="outline-text-2" id="text-org9f1b39c">
+<p>
+Ultra96 有一個特別的地方，就是沒有內建 JTAG 在開發板內，因此如果你想使用 JTAG 功能的話，最好買 <a href="https://www.avnet.com/shop/us/products/avnet-engineering-services-1/aes-acc-u96-jtag-3074457345635355958/" target="_blank" rel="external">專用的 JTAG 轉接板</a>。
+</p>
+
+<div class="row "><div class="col-md-5">
+
+<p>
+<b>接上 JTAG 後樣子</b>
+</p>
+
+
+<div class="figure">
+<p><img src="uj.jpeg">
+</p>
+</div>
+
+</div><div class="col-md-7">
+
+<p>
+<b>電路圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="jtag.jpg">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+當然，一旦接上了這個專用的 <a href="https://www.avnet.com/shop/us/products/avnet-engineering-services-1/aes-acc-u96-jtag-3074457345635355958/" target="_blank" rel="external">JTAG 轉接板</a> 後，原本好攜帶的特性就蕩然無存，因此如果你的需求是跑 <a href="https://github.com/Avnet/Ultra96-PYNQ" target="_blank" rel="external">PYNQ</a> 的話，這個 JTAG 應該也不是必要的。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2462e4f" class="outline-2">
+<h2 id="org2462e4f">User LEDs</h2>
+<div class="outline-text-2" id="text-org2462e4f">
+<p>
+板子上面共有 <code>4 個</code> 使用者可以透過處理器系統 (Processing System, PS) 去進行控制的 User LEDs ，和別的 FPGA 開發板不同， <code>這四個 LED 都不能透過寫 Verilog 程式來進行控制</code> 。
+</p>
+
+<div class="row "><div class="col-md-6">
+
+<p>
+<b>位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="ledp.png">
+</p>
+</div>
+
+</div><div class="col-md-6">
+
+<p>
+<b>User LED 電路圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="led.jpg">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+<b>MIO 對應表</b>
+</p>
+
+
+<div class="figure">
+<p><img src="ledm.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org47eedb5" class="outline-2">
+<h2 id="org47eedb5">USB</h2>
+<div class="outline-text-2" id="text-org47eedb5">
+<p>
+Ultra96 的 USB 部份就比較複雜了，其中有一組 USB 3.0 是直接接到高速擴充腳位 (High Speed Expansion Connector) 的，其他的則是透過 <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/00001855E.pdf" target="_blank" rel="external">USB5744</a> 這個 USB 3.0 Hub 來進行擴充
+</p>
+
+<div class="row "><div class="col-md-5">
+
+<p>
+<b>USB 位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="usb3.png">
+</p>
+</div>
+
+</div><div class="col-md-7">
+
+<p>
+<b>USB 方塊圖</b>
+</p>
+
+
+<div class="figure">
+<p><img src="usb2.jpg">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+<b>MIO 對應表</b>
+</p>
+
+
+<div class="figure">
+<p><img src="usbmiox.png">
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3618700" class="outline-2">
+<h2 id="org3618700">BOOT MODE</h2>
+<div class="outline-text-2" id="text-org3618700">
+<p>
+<a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="external">Ultra96</a> 支援 <code>三種</code> 開機模式，分別是 <code>JTAG</code> 、 <code>SD Card</code> 和 <code>USB</code> ，我們可以透過更改 <code>SW2</code> 的設定，來決定新的開機模式是怎樣。
+</p>
+</div>
+
+<div id="outline-container-orgc493bbe" class="outline-3">
+<h3 id="orgc493bbe">JTAG</h3>
+<div class="outline-text-3" id="text-orgc493bbe">
+<p>
+要使用 <code>JTAG</code> 模式的話，首先你需要購買 <a href="https://www.avnet.com/shop/us/products/avnet-engineering-services-1/aes-acc-u96-jtag-3074457345635355958/" target="_blank" rel="external">JTAG 轉接板</a> ，接下來，設定 <code>SW2</code> 為以下模式
+</p>
+
+<div class="row "><div class="col-md-5">
+
+<p>
+<b>SW2 位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="b_sw2.png">
+</p>
+</div>
+
+</div><div class="col-md-7">
+
+<p>
+<b>BOOT MODE : JTAG</b>
+</p>
+
+
+<div class="figure">
+<p><img src="boot_jtag.png">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+這樣子，我們就可以透過 JTAG 將 Vivado 上寫好的新的 Bitstream 下載到板子上。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgaccc68a" class="outline-3">
+<h3 id="orgaccc68a">SD Card</h3>
+<div class="outline-text-3" id="text-orgaccc68a">
+<p>
+如果我們要走 SD 卡開機的話，則是這樣去設定 <code>SW2</code> 的
+</p>
+
+<div class="row "><div class="col-md-5">
+
+<p>
+<b>SW2 位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="b_sw2.png">
+</p>
+</div>
+
+</div><div class="col-md-7">
+
+<p>
+<b>BOOT MODE : SD</b>
+</p>
+
+
+<div class="figure">
+<p><img src="boot_sd.png">
+</p>
+</div>
+
+</div> </div>
+
+
+<p>
+重開機前記得要把 SD 卡插入到 SD 卡插槽呦~
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgef1131f" class="outline-3">
+<h3 id="orgef1131f">USB</h3>
+<div class="outline-text-3" id="text-orgef1131f">
+<p>
+設定成 USB Mode 的話，會將 Ultra96 變成一個 USB Device ，接到電腦後透過電腦端的工具來對其進行操作
+</p>
+
+<div class="row "><div class="col-md-5">
+
+<p>
+<b>SW2 位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="b_sw2.png">
+</p>
+</div>
+
+</div><div class="col-md-7">
+
+<p>
+<b>BOOT MODE : USB</b>
+</p>
+
+
+<div class="figure">
+<p><img src="boot_usb.png">
+</p>
+</div>
+
+</div> </div>
+
+<p>
+這個功能我還沒用過，所以也不知道實際狀況。但是根據 <a href="https://www.xilinx.com/support/documentation/user_guides/ug1085-zynq-ultrascale-trm.pdf#nameddest=xBootAndConfiguration" target="_blank" rel="external">Zynq UltraScale+ Device Technical Reference Manual.pdf</a> 上面的資訊，是這樣講的
+</p>
+
+
+<div class="figure">
+<p><img src="trm1.png">
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org512e004" class="outline-2">
+<h2 id="org512e004">Ultra96v1 Ends of life</h2>
+<div class="outline-text-2" id="text-org512e004">
+<p>
+上面看了這麼多，事實上你去買的時候應該都是買到 Ultra96v2 的板子，因為 <a href="https://www.element14.com/community/docs/DOC-92226/l/eol-notification-eol19001pdf" target="_blank" rel="external">Ultra96v1 Ends of life</a> 啦 Orz&#x2026;
+</p>
+
+
+<div class="figure">
+<p><img src="eol.png">
+</p>
+</div>
+
+<p>
+其實我也覺得很悲劇，不過畢竟板子都買了，如果沒人贊助我的話我會維持用 <code>Ultra96v1</code> 來寫文章，畢竟寫這個只是殺時間賺不到錢錢的 :P
+</p>
+</div>
+</div>
+
+<div id="outline-container-org18607e3" class="outline-2">
+<h2 id="org18607e3">後記</h2>
+<div class="outline-text-2" id="text-org18607e3">
+<p>
+這篇文章從今年 1 月一直拖稿到 7 月，主要是因為今年剛好很忙，又這份電路圖沒啥顏色，實在沒有動力寫阿阿阿阿阿阿阿阿阿阿阿
+</p>
+
+<p>
+結果我寫完 Ultra96 rev2 也出來了，真的是殘念 www
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge65e2e8" class="outline-2">
+<h2 id="orge65e2e8">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orge65e2e8">
+<ul class="org-ul">
+<li><a href="https://coldnew.github.io/b728d8e8/">Ultra96 開發紀錄: 開箱文</a></li>
+
+<li><a href="https://coldnew.github.io/d1be86fb/">UltraZed-EG PCIe Carrier Card 開發紀錄: 硬體認識</a></li>
+
+<li><a href="https://finance.yahoo.com/news/avnet-introduces-ultra96-v2-development-150000155.html" target="_blank" rel="external">Avnet Introduces Ultra96-V2 Development Board</a></li>
+
+<li><a href="https://www.element14.com/community/groups/fpga-group/blog/2019/03/28/introducing-ultra96-v2" target="_blank" rel="external">Introducing Ultra96-V2</a></li>
+
+<li><a href="http://ultra96.org/sites/default/files/product_briefs/5354-pb-ultra96-v3b.pdf" target="_blank" rel="external">Ultra96 Product description.pdf</a></li>
+
+<li><a href="http://ultra96.org/sites/default/files/documentations/AES-ULTRA96-G_2018-03-19.pdf" target="_blank" rel="external">AES-ULTRA96-G schematic 180309.pdf</a></li>
+
+<li><a href="http://ultra96.org/sites/default/files/documentations/Ultra96-HW-User-Guide-rev-1-0-V0_9_preliminary.pdf" target="_blank" rel="external">Ultra96 Hardware User Guide v0.9 (preliminary).pdf</a></li>
+
+<li><a href="http://ultra96.org/sites/default/files/documentations/Ultra96-GSG-v1_0.pdf" target="_blank" rel="external">Ultra96 Getting Started Guide</a></li>
+
+<li><a href="http://www.pynq.io/board" target="_blank" rel="external">PYNQ: Python Productivity on Zynq</a></li>
+
+<li><a href="https://ultra96-pynq.readthedocs.io/en/latest/index.html" target="_blank" rel="external">Welcome to Ultra96-PYNQ's documentation!</a></li>
+
+<li><a href="http://fpga.blog.jp/archives/77123217.html" target="_blank" rel="external">Ultra96 用 Yocto Linuxのビルドの続き6（WLANの設定）</a></li>
+
+<li><a href="https://blog.hackster.io/microzed-chronicles-ultra96-and-pynq-da3b22cc982" target="_blank" rel="external">MicroZed Chronicles: Ultra96 and Pynq</a></li>
+
+<li><a href="https://www.tme.eu/en/details/mc30060v1-a99/dc5v-fans/sunon/mc30060v1-000u-a99/" target="_blank" rel="external">SUNON MC30060V1-000U-A99</a></li>
+
+<li><a href="https://www.hackster.io/andycap/ultra96-fan-control-21fb8b" target="_blank" rel="external">Ultra96 Fan Control</a></li>
+
+<li><a href="https://www.hackster.io/adam-taylor/accelerating-your-ultra96-developments-806a72" target="_blank" rel="external">Accelerating Your Ultra96 Developments!</a></li>
+
+<li><a href="https://www.hackster.io/xdf2018/xdf-2018-linux-application-development-on-ultra96-b8388d" target="_blank" rel="external">XDF 2018 Linux Application Development on Ultra96</a></li>
+
+<li><a href="https://github.com/jimheaton/Ultra96_ML_Embedded_Workshop" target="_blank" rel="external">https://github.com/jimheaton/Ultra96_ML_Embedded_Workshop</a></li>
+
+<li><a href="https://github.com/XDF2018/Linux-App-Development-on-Ultra96" target="_blank" rel="external">Linux-App-Development-on-Ultra96</a></li>
+
+<li><a href="https://github.com/inipro/ultra96_ug" target="_blank" rel="external">Ultra96 Training Kit User Guide</a></li>
+
+<li><a href="http://zedboard.org/support/documentation/24166" target="_blank" rel="external">Ultra96 v1 downloads</a></li>
+
+<li><a href="http://zedboard.org/product/ultra96" target="_blank" rel="external">http://zedboard.org/product/ultra96</a></li>
+
+<li><a href="http://zedboard.org/support/design/24166/156" target="_blank" rel="external">http://zedboard.org/support/design/24166/156</a></li>
+
+<li><a href="https://www.element14.com/community/roadTestReviews/2872/l/avnet-ultra96-dev-board-review" target="_blank" rel="external">Avnet Ultra96 Dev Board - Review</a></li>
+</ul>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fpga/" rel="tag">#fpga</a>
+          
+            <a href="/tags/xilinx/" rel="tag">#xilinx</a>
+          
+            <a href="/tags/zynqmp/" rel="tag">#zynqmp</a>
+          
+            <a href="/tags/ultra96/" rel="tag">#ultra96</a>
+          
+            <a href="/tags/ultra96v1/" rel="tag">#ultra96v1</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/6e005042/" rel="prev">Librem 5 Dev-Kit 開發紀錄: 為開發板加入腳座</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">94</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcc59728"><span class="nav-text">開發板概觀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga486355"><span class="nav-text">方塊圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3bc9775"><span class="nav-text">UltraZed-EG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb4ef7b3"><span class="nav-text">記憶體 (LPDDR4)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc11e34e"><span class="nav-text">低速擴充腳位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf5d7ea2"><span class="nav-text">高速擴充腳位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb0156cf"><span class="nav-text">MicroSD 卡座</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9e20631"><span class="nav-text">WiFi/Bluetooth</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7712eb3"><span class="nav-text">Mini DisplayPort</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org882641f"><span class="nav-text">UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga36e6ea"><span class="nav-text">I²C</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9f1b39c"><span class="nav-text">JTAG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2462e4f"><span class="nav-text">User LEDs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org47eedb5"><span class="nav-text">USB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3618700"><span class="nav-text">BOOT MODE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc493bbe"><span class="nav-text">JTAG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgaccc68a"><span class="nav-text">SD Card</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgef1131f"><span class="nav-text">USB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org512e004"><span class="nav-text">Ultra96v1 Ends of life</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org18607e3"><span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge65e2e8"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>
