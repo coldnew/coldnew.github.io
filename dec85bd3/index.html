@@ -1,6 +1,6 @@
 <!doctype html>
 <html class="theme-next use-motion theme-next-mist">
-  <head>
+  <head><meta name="generator" content="Hexo 3.9.0">
   
 
 <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
@@ -8,57 +8,58 @@
 <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/responsive.js"></script>
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
-  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
-
-
-
-  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls">
 
 
 
-  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B">
 
 
 
-
-
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG">
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
 
 
-  <meta name="keywords" content="fpga,xilinx,vivado,zybo,zynq," />
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
 
 
 
-  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+  <meta name="keywords" content="fpga,xilinx,vivado,zynq,zybo,">
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml">
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
 <meta name="description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。    (本文以 Vivado 2016.2 進行開發)">
-<meta name="keywords" content="fpga,xilinx,vivado,zybo,zynq">
+<meta name="keywords" content="fpga,xilinx,vivado,zynq,zybo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zybo board 開發記錄: Zynq 與 LED 閃爍控制">
 <meta property="og:url" content="https://coldnew.github.io/dec85bd3/index.html">
-<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:site_name" content="coldnew&amp;#39;s blog">
 <meta property="og:description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。    (本文以 Vivado 2016.2 進行開發)">
+<meta property="og:locale" content="zh-tw">
 <meta property="og:image" content="https://coldnew.github.io/dec85bd3/zybo_led.png">
 <meta property="og:image" content="https://coldnew.github.io/dec85bd3/zynq_axi_gpio_led.png">
 <meta property="og:image" content="https://coldnew.github.io/dec85bd3/zynq_hw_arch.png">
@@ -126,7 +127,7 @@
   <title> zybo board 開發記錄: Zynq 與 LED 閃爍控制 | coldnew&#39;s blog </title>
 </head>
 
-<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+<body itemscope="" itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
 
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
@@ -154,8 +155,8 @@
   <div class="container-fluid one-column page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
-      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/dec85bd3/" />
+    <header id="header" class="header" itemscope="" itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/dec85bd3/">
 <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
   <a href="/" class="brand" rel="start">
@@ -184,7 +185,7 @@
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br />
+            <i class="menu-item-icon icon-next-home"></i> <br>
             首頁
           </a>
         </li>
@@ -192,7 +193,7 @@
         
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
-            <i class="menu-item-icon icon-next-categories"></i> <br />
+            <i class="menu-item-icon icon-next-categories"></i> <br>
             分類
           </a>
         </li>
@@ -200,7 +201,7 @@
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br />
+            <i class="menu-item-icon icon-next-archives"></i> <br>
             歸檔
           </a>
         </li>
@@ -208,7 +209,7 @@
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br />
+            <i class="menu-item-icon icon-next-tags"></i> <br>
             標籤
           </a>
         </li>
@@ -232,7 +233,7 @@
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+  <article class="post post-type-normal " itemscope="" itemtype="https://schema.org/Article">
     <header class="post-header">
 
       
@@ -256,10 +257,10 @@
         </span>
 
         
-          <span class="post-category" >
+          <span class="post-category">
             &nbsp; | &nbsp; 分類於
             
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+              <span itemprop="about" itemscope="" itemtype="https://schema.org/Thing">
                 <a href="/categories/zybo-board/" itemprop="url" rel="index">
                   <span itemprop="name">zybo board 開發記錄</span>
                 </a>
@@ -1184,9 +1185,9 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
           
             <a href="/tags/vivado/" rel="tag">#vivado</a>
           
-            <a href="/tags/zybo/" rel="tag">#zybo</a>
-          
             <a href="/tags/zynq/" rel="tag">#zynq</a>
+          
+            <a href="/tags/zybo/" rel="tag">#zybo</a>
           
         </div>
       
@@ -1195,13 +1196,13 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/6c5717d7/" rel="prev">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a>
+              <a href="/d9dfdd56/" rel="prev">zybo board 開發記錄: 執行 Linux 作業系統</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/d9dfdd56/" rel="next">zybo board 開發記錄: 執行 Linux 作業系統</a>
+              <a href="/6c5717d7/" rel="next">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a>
             
           </div>
         </div>
@@ -1245,7 +1246,7 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目錄
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -1255,15 +1256,15 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
       
 
       <section class="site-overview">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
-          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image">
           <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
         </div>
         <p class="site-description motion-element" itemprop="description"></p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-count">130</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1315,7 +1316,7 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
         
           <div class="cc-license motion-element" itemprop="license">
             <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
             </a>
           </div>
         
@@ -1348,7 +1349,7 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
     <footer id="footer" class="container">
       <div class="footer">
         <div class="footer-inner"> 
-<div class="copyright" >
+<div class="copyright">
   
   Copyright  &copy; &nbsp;  2012 - 
   <span itemprop="copyrightYear">2019</span>
