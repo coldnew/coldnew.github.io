@@ -223,11 +223,11 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-在 <a href="http://coldnew.github.io/blog/2016/02/21_zephyr/">Zephyr RTOS 開發記錄: 基本環境建立</a> 一文中提到了我們如何安裝 <a href="https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/" target="_blank" rel="external">Zephyr SDK</a> 到 Linux 系統來進行開發，那如果我想要在 Mac OSX 上面開發要怎麼辦呢？
+在 <a href="http://coldnew.github.io/blog/2016/02/21_zephyr/">Zephyr RTOS 開發記錄: 基本環境建立</a> 一文中提到了我們如何安裝 <a href="https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/" target="_blank" rel="noopener">Zephyr SDK</a> 到 Linux 系統來進行開發，那如果我想要在 Mac OSX 上面開發要怎麼辦呢？
 </p>
 
 <p>
-由於 <a href="https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/" target="_blank" rel="external">Zephyr SDK</a> 目前僅提供 Linux 的版本，因此在 Mac OSX 中我們必須自己透過 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 去編譯我們自己的 SDK。
+由於 <a href="https://nexus.zephyrproject.org/content/repositories/releases/org/zephyrproject/zephyr-sdk/" target="_blank" rel="noopener">Zephyr SDK</a> 目前僅提供 Linux 的版本，因此在 Mac OSX 中我們必須自己透過 <a href="http://crosstool-ng.org/" target="_blank" rel="noopener">crosstool-ng</a> 去編譯我們自己的 SDK。
 </p>
 
 <a id="more"></a>
@@ -236,7 +236,7 @@
 <h2 id="org9110638">安裝依賴的相關套件</h2>
 <div class="outline-text-2" id="text-org9110638">
 <p>
-第一步要做的，當然就是安裝相關套件啦，這點我們直接透過 <a href="http://brew.sh/" target="_blank" rel="external">homebrew</a> 來安裝
+第一步要做的，當然就是安裝相關套件啦，這點我們直接透過 <a href="http://brew.sh/" target="_blank" rel="noopener">homebrew</a> 來安裝
 </p>
 
 <pre class="example">
@@ -253,7 +253,7 @@ coldnew@MacOSX ~ $ brew install grep --default-names
 </pre>
 
 <p>
-接著，安裝我們需要用的程式: <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a>
+接著，安裝我們需要用的程式: <a href="http://crosstool-ng.org/" target="_blank" rel="noopener">crosstool-ng</a>
 </p>
 
 <pre class="example">
@@ -266,7 +266,7 @@ coldnew@MacOSX ~ $ brew install crosstool-ng
 <h2 id="org10eb96e">建立編譯環境</h2>
 <div class="outline-text-2" id="text-org10eb96e">
 <p>
-安裝好 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 後，我們需要建立一個 <code>Case Sensitive</code> 的 HFS+ 硬碟來讓 MacOSX 可以順利編譯，以下為我建立這顆硬碟所用的命令 (佔 10G 的硬碟空間)
+安裝好 <a href="http://crosstool-ng.org/" target="_blank" rel="noopener">crosstool-ng</a> 後，我們需要建立一個 <code>Case Sensitive</code> 的 HFS+ 硬碟來讓 MacOSX 可以順利編譯，以下為我建立這顆硬碟所用的命令 (佔 10G 的硬碟空間)
 </p>
 
 <div class="org-src-container">
@@ -285,7 +285,7 @@ coldnew@MacOSX ~ $ open CrossToolNG.sparseimage
 </pre>
 
 <p>
-接著我們就切換到 <code>/Volumes/CrossToolNG</code> 來準備進行我們的編譯，順便建立一個 <code>src</code> 資料夾讓 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 存放他下載的原始碼
+接著我們就切換到 <code>/Volumes/CrossToolNG</code> 來準備進行我們的編譯，順便建立一個 <code>src</code> 資料夾讓 <a href="http://crosstool-ng.org/" target="_blank" rel="noopener">crosstool-ng</a> 存放他下載的原始碼
 </p>
 
 <pre class="example">
@@ -293,7 +293,7 @@ coldnew@MacOSX ~ $ cd /Volumes/CrossToolNG &amp;&amp; mkdir src
 </pre>
 
 <p>
-我們先複製 <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr</a> 裡面提供的設定檔到當前目錄
+我們先複製 <a href="https://www.zephyrproject.org/" target="_blank" rel="noopener">Zephyr</a> 裡面提供的設定檔到當前目錄
 </p>
 
 <pre class="example">
@@ -361,7 +361,7 @@ coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
 </pre>
 
 <p>
-最後，在你的 <code>~/.zephyrrc</code> 設定這些環境變數就可以去嘗試編譯你的 <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr kernel</a> 看看囉 ~
+最後，在你的 <code>~/.zephyrrc</code> 設定這些環境變數就可以去嘗試編譯你的 <a href="https://www.zephyrproject.org/" target="_blank" rel="noopener">Zephyr kernel</a> 看看囉 ~
 </p>
 
 <div class="org-src-container">
@@ -379,7 +379,7 @@ coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
 <h2 id="orge54cd0b">可能會遇到的錯誤</h2>
 <div class="outline-text-2" id="text-orge54cd0b">
 <p>
-在 Mac OSX 下編譯非 Apple 官方的東西常常會出現一堆奇怪的錯誤，有時是因為 XCode 的改動，有時是因為你透過 <a href="http://brew.sh/" target="_blank" rel="external">homebrew</a> 安裝了其他命令和 Mac OSX 內建的有衝突。
+在 Mac OSX 下編譯非 Apple 官方的東西常常會出現一堆奇怪的錯誤，有時是因為 XCode 的改動，有時是因為你透過 <a href="http://brew.sh/" target="_blank" rel="noopener">homebrew</a> 安裝了其他命令和 Mac OSX 內建的有衝突。
 </p>
 
 <p>
@@ -391,7 +391,7 @@ coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
 <h3 id="org42772ee">stat: cannot read file system information for '%Lp'</h3>
 <div class="outline-text-3" id="text-org42772ee">
 <p>
-如果你遇到了這個問題，哪很有可能是因為你的系統同時也裝了 <a href="http://www.gnu.org/software/coreutils/coreutils.html" target="_blank" rel="external">GNU coreutils</a> 導致 <a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 調用的命令是 GNU 的 <code>stat</code> 命令，而不是系統內建的 stat 命令。
+如果你遇到了這個問題，哪很有可能是因為你的系統同時也裝了 <a href="http://www.gnu.org/software/coreutils/coreutils.html" target="_blank" rel="noopener">GNU coreutils</a> 導致 <a href="http://crosstool-ng.org/" target="_blank" rel="noopener">crosstool-ng</a> 調用的命令是 GNU 的 <code>stat</code> 命令，而不是系統內建的 stat 命令。
 </p>
 
 <pre class="example">
@@ -416,7 +416,7 @@ coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
 </pre>
 
 <p>
-我們可以透過 <code>which</code> 命令去檢查是否真的用到  <a href="http://www.gnu.org/software/coreutils/coreutils.html" target="_blank" rel="external">GNU coreutils</a> 的 <code>stat</code> 命令
+我們可以透過 <code>which</code> 命令去檢查是否真的用到  <a href="http://www.gnu.org/software/coreutils/coreutils.html" target="_blank" rel="noopener">GNU coreutils</a> 的 <code>stat</code> 命令
 </p>
 
 <pre class="example">
@@ -433,7 +433,7 @@ coldnew@MacOSX ~ $ rm /usr/local/opt/coreutils/libexec/gnubin/stat
 </pre>
 
 <p>
-<a href="http://crosstool-ng.org/" target="_blank" rel="external">crosstool-ng</a> 要找的 <i>stat</i> 則是在 <code>/usr/bin</code> 下
+<a href="http://crosstool-ng.org/" target="_blank" rel="noopener">crosstool-ng</a> 要找的 <i>stat</i> 則是在 <code>/usr/bin</code> 下
 </p>
 
 <pre class="example">
@@ -447,7 +447,7 @@ coldnew@MacOSX ~ $ which stat
 <h3 id="org4a00432">ld: library not found for -lcrt0.o</h3>
 <div class="outline-text-3" id="text-org4a00432">
 <p>
-<a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr</a> 提供的 <code>.config</code> 有打開靜態連結 (static link) 相關的設定，於是你會遇到這樣的狀況，解法參考 <a href="https://github.com/crosstool-ng/crosstool-ng/issues/31" target="_blank" rel="external">issue #31</a> 移除 static link 相關設定。
+<a href="https://www.zephyrproject.org/" target="_blank" rel="noopener">Zephyr</a> 提供的 <code>.config</code> 有打開靜態連結 (static link) 相關的設定，於是你會遇到這樣的狀況，解法參考 <a href="https://github.com/crosstool-ng/crosstool-ng/issues/31" target="_blank" rel="noopener">issue #31</a> 移除 static link 相關設定。
 </p>
 
 <pre class="example">
@@ -489,11 +489,11 @@ coldnew@MacOSX ~ $ which stat
 <h2 id="org8db4043">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org8db4043">
 <p>
-<code>[1]</code> <a href="https://www.zephyrproject.org/" target="_blank" rel="external">Zephyr Project Website</a>
+<code>[1]</code> <a href="https://www.zephyrproject.org/" target="_blank" rel="noopener">Zephyr Project Website</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="http://linuxgizmos.com/zephyr-a-tiny-open-source-iot-rtos/" target="_blank" rel="external">Meet Linux's little brother: Zephyr, a tiny open-source IoT RTOS</a>
+<code>[2]</code> <a href="http://linuxgizmos.com/zephyr-a-tiny-open-source-iot-rtos/" target="_blank" rel="noopener">Meet Linux's little brother: Zephyr, a tiny open-source IoT RTOS</a>
 </p>
 </div>
 </div>

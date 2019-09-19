@@ -243,7 +243,7 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-<a href="http://store.digilentinc.com/" target="_blank" rel="external">Digilent</a> 針對 <a href="http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="external">Zybo board</a> 用於 Embedded Linux 的環境上，提供了一個預先定義好接腳的設定檔 (zybo_base_system)， <a href="https://reference.digilentinc.com/_media/zybo/zybo_base_system.zip" target="_blank" rel="external">早期的版本</a> 是直接將專案打包起來釋出，後期則採用 git 去進行維護，其專案位於 <a href="https://github.com/Digilent/ZYBO" target="_blank" rel="external">GitHub</a> 上。
+<a href="http://store.digilentinc.com/" target="_blank" rel="noopener">Digilent</a> 針對 <a href="http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Zybo board</a> 用於 Embedded Linux 的環境上，提供了一個預先定義好接腳的設定檔 (zybo_base_system)， <a href="https://reference.digilentinc.com/_media/zybo/zybo_base_system.zip" target="_blank" rel="noopener">早期的版本</a> 是直接將專案打包起來釋出，後期則採用 git 去進行維護，其專案位於 <a href="https://github.com/Digilent/ZYBO" target="_blank" rel="noopener">GitHub</a> 上。
 </p>
 
 <a id="more"></a>
@@ -252,18 +252,18 @@
 <script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
 
 <p>
-由於 <a href="http://store.digilentinc.com/" target="_blank" rel="external">Digilent</a> 提供的 git 版本的 <a href="http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="external">Zybo board</a> <a href="https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd" target="_blank" rel="external">設定檔</a> 會因為 Xilinx 的 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 開發工具的版本升級而變成版本不匹配的狀況，本文將紀錄如何對該設定檔進行升級並產生我們的專案。
+由於 <a href="http://store.digilentinc.com/" target="_blank" rel="noopener">Digilent</a> 提供的 git 版本的 <a href="http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Zybo board</a> <a href="https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd" target="_blank" rel="noopener">設定檔</a> 會因為 Xilinx 的 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 開發工具的版本升級而變成版本不匹配的狀況，本文將紀錄如何對該設定檔進行升級並產生我們的專案。
 </p>
 
 <p>
-在撰寫本文時，該設定檔 commit id 為 <a href="https://github.com/Digilent/ZYBO/commit/177c2c97c5cae29a05359479565c2f5256d8d629" target="_blank" rel="external">177c2c</a> ，使用的是 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2015.4 版本， 我們要將它升級到 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2016.1 去。
+在撰寫本文時，該設定檔 commit id 為 <a href="https://github.com/Digilent/ZYBO/commit/177c2c97c5cae29a05359479565c2f5256d8d629" target="_blank" rel="noopener">177c2c</a> ，使用的是 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 2015.4 版本， 我們要將它升級到 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 2016.1 去。
 </p>
 
 <div id="outline-container-org85b0cef" class="outline-2">
 <h2 id="org85b0cef">事前準備</h2>
 <div class="outline-text-2" id="text-org85b0cef">
 <p>
-在進行升級時，你需要安裝好 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2015.4 以及 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2016.1 才能按照本文的步驟進行。
+在進行升級時，你需要安裝好 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 2015.4 以及 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 2016.1 才能按照本文的步驟進行。
 </p>
 </div>
 </div>
@@ -272,7 +272,7 @@
 <h2 id="org0276944">下載設定檔並用 Vivado 2015.4 開啟</h2>
 <div class="outline-text-2" id="text-org0276944">
 <p>
-我們首先下載 <a href="http://store.digilentinc.com/" target="_blank" rel="external">Digilent</a> 提供的 <a href="https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd" target="_blank" rel="external">Zybo board 設定檔</a>
+我們首先下載 <a href="http://store.digilentinc.com/" target="_blank" rel="noopener">Digilent</a> 提供的 <a href="https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd" target="_blank" rel="noopener">Zybo board 設定檔</a>
 </p>
 
 <div class="org-src-container">
@@ -383,7 +383,7 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 <h2 id="org82db53a">產生 tcl 腳本</h2>
 <div class="outline-text-2" id="text-org82db53a">
 <p>
-好了，現在我們把原本用於 Vivado 2015.4 的 tcl 腳本所產生的專案升級到 Vivado 2016.1 了，實際上導致我們不能夠直接使用 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 2016.1 來產生專案的原因，在於 <code>src/bd/system.tcl</code> 這個檔案和 Vivado 的版本有依賴性，因此我們要重新產生新的 <code>system.tc</code> 去將它替換掉
+好了，現在我們把原本用於 Vivado 2015.4 的 tcl 腳本所產生的專案升級到 Vivado 2016.1 了，實際上導致我們不能夠直接使用 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 2016.1 來產生專案的原因，在於 <code>src/bd/system.tcl</code> 這個檔案和 Vivado 的版本有依賴性，因此我們要重新產生新的 <code>system.tc</code> 去將它替換掉
 </p>
 
 <p>
@@ -406,7 +406,7 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 <h2 id="org4380499">將預設語言設為 Verilog</h2>
 <div class="outline-text-2" id="text-org4380499">
 <p>
-<a href="http://store.digilentinc.com/" target="_blank" rel="external">Digilent</a> 針對 <a href="http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="external">Zybo board</a> 提供產生專案用的樣板，預設是採用 VHDL 作為這個專案用的硬體描述語言，如果你希望之後這樣建立的專案都是預設使用 Verilog 的話，你可以這樣修改 <code>create_project.tcl</code>
+<a href="http://store.digilentinc.com/" target="_blank" rel="noopener">Digilent</a> 針對 <a href="http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Zybo board</a> 提供產生專案用的樣板，預設是採用 VHDL 作為這個專案用的硬體描述語言，如果你希望之後這樣建立的專案都是預設使用 Verilog 的話，你可以這樣修改 <code>create_project.tcl</code>
 </p>
 
 <div class="org-src-container">
@@ -461,15 +461,15 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ /opt/Xilinx/Vivado/2016.1/bin/viv
 <h2 id="org6096551">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org6096551">
 <p>
-<code>[1]</code> <a href="https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd" target="_blank" rel="external">https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd</a>
+<code>[1]</code> <a href="https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd" target="_blank" rel="noopener">https://github.com/Digilent/ZYBO/tree/master/Projects/linux_bd</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="http://xillybus.com/tutorials/vivado-version-control-packaging" target="_blank" rel="external">Vivado: Packaging for version control, distribution and repeatability</a>
+<code>[2]</code> <a href="http://xillybus.com/tutorials/vivado-version-control-packaging" target="_blank" rel="noopener">Vivado: Packaging for version control, distribution and repeatability</a>
 </p>
 
 <p>
-<code>[3]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_1/ug835-vivado-tcl-commands.pdf" target="_blank" rel="external">Vivado Design Suite Tcl Command Reference Guide</a>
+<code>[3]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_1/ug835-vivado-tcl-commands.pdf" target="_blank" rel="noopener">Vivado Design Suite Tcl Command Reference Guide</a>
 </p>
 </div>
 </div>

@@ -245,11 +245,11 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-在 <a href="https://coldnew.github.io/6ea67721/">webOS OSE 研究筆記: 認識 webOS</a> 一文中我們稍微介紹了關於 LG 在今年 (2018) 的 3 月開源的  <a href="http://webosose.org" target="_blank" rel="external">webOS OSE</a> (webOS Open Source Edition), 這款類似 LG 用於 TV 上面的 <a href="http://webostv.developer.lge.com/" target="_blank" rel="external">webOS TV</a> 的系統。
+在 <a href="https://coldnew.github.io/6ea67721/">webOS OSE 研究筆記: 認識 webOS</a> 一文中我們稍微介紹了關於 LG 在今年 (2018) 的 3 月開源的  <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> (webOS Open Source Edition), 這款類似 LG 用於 TV 上面的 <a href="http://webostv.developer.lge.com/" target="_blank" rel="noopener">webOS TV</a> 的系統。
 </p>
 
 <p>
-本文將介紹如何使用 <a href="http://webosose.org" target="_blank" rel="external">webOS OSE</a> 提供的基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 的編譯系統，編譯並建立 Raspberry Pi 3 上的 webOS OSE 系統。
+本文將介紹如何使用 <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 提供的基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 的編譯系統，編譯並建立 Raspberry Pi 3 上的 webOS OSE 系統。
 </p>
 
 <a id="more"></a>
@@ -258,7 +258,7 @@
 <h2 id="org9c336fe">下載</h2>
 <div class="outline-text-2" id="text-org9c336fe">
 <p>
-要編譯 <a href="http://webosose.org" target="_blank" rel="external">webOS OSE</a> 之前，建議先看一下 <a href="http://webosose.org/discover/setting/requirements/" target="_blank" rel="external">WebOS OSE</a> 官方網站的介紹。
+要編譯 <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 之前，建議先看一下 <a href="http://webosose.org/discover/setting/requirements/" target="_blank" rel="noopener">WebOS OSE</a> 官方網站的介紹。
 </p>
 
 <p>
@@ -270,7 +270,7 @@ coldnew@gentoo ~ $ git clone https://github.com/webosose/build-webos.git
 </pre>
 
 <p>
-由於這個編譯環境是基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 所建立，因此請先確定你的系統有滿足  <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 編譯需要的一些基本依賴，如果不確定並且你的系統是 Ubuntu 系列的話，你可以透果以下腳本來確認環境是否有滿足編譯需求。
+由於這個編譯環境是基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 所建立，因此請先確定你的系統有滿足  <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 編譯需要的一些基本依賴，如果不確定並且你的系統是 Ubuntu 系列的話，你可以透果以下腳本來確認環境是否有滿足編譯需求。
 </p>
 
 <pre class="example">
@@ -398,7 +398,7 @@ sudo dd if=webos-image-devel-raspberrypi3-master-20181221030950.rpi-sdimg of=/de
 </p>
 
 <p>
-如果網路有通的話，可以透過 <code>ssh</code> 來登入你的 Raspberry Pi 3，和一般的 Linux 發行板不同 webOS OSE 採用的是 <a href="https://matt.ucc.asn.au/dropbear/dropbear.html" target="_blank" rel="external">Dropbear</a> 來替代傳統使用的 OpenSSH 來作為 ssh service。
+如果網路有通的話，可以透過 <code>ssh</code> 來登入你的 Raspberry Pi 3，和一般的 Linux 發行板不同 webOS OSE 採用的是 <a href="https://matt.ucc.asn.au/dropbear/dropbear.html" target="_blank" rel="noopener">Dropbear</a> 來替代傳統使用的 OpenSSH 來作為 ssh service。
 </p>
 
 <pre class="example">
@@ -417,7 +417,7 @@ root     18899  0.0  0.0   3384   556 ttyS0    S+   21:03   0:00 grep drop
 </p>
 
 <p>
-整個 webOS 系統 (包含分支的 <a href="http://www.webos-ports.org/wiki/Main_Page" target="_blank" rel="external">LuneOS</a>) 皆是透過 <a href="https://github.com/webosose/luna-service2" target="_blank" rel="external">luna-service</a> 來進行訊息的傳遞 (IPC) ，因此如果我們要擷圖的話，則這樣下命令
+整個 webOS 系統 (包含分支的 <a href="http://www.webos-ports.org/wiki/Main_Page" target="_blank" rel="noopener">LuneOS</a>) 皆是透過 <a href="https://github.com/webosose/luna-service2" target="_blank" rel="noopener">luna-service</a> 來進行訊息的傳遞 (IPC) ，因此如果我們要擷圖的話，則這樣下命令
 </p>
 
 <div class="org-src-container">
@@ -468,7 +468,7 @@ root@raspberrypi3:~# luna-send -n 1 -f luna://com.webos.surfacemanager/captureCo
 <h3 id="org3f857bf">Enact</h3>
 <div class="outline-text-3" id="text-org3f857bf">
 <p>
-webOS OSE 提供使用者使用 <a href="https://enactjs.com/" target="_blank" rel="external">Enact</a> 來作為 App 構件用的語言，這是基於 React 的 web framework。點擊這個 App 會進到 Enact 的首頁
+webOS OSE 提供使用者使用 <a href="https://enactjs.com/" target="_blank" rel="noopener">Enact</a> 來作為 App 構件用的語言，這是基於 React 的 web framework。點擊這個 App 會進到 Enact 的首頁
 </p>
 
 
@@ -535,16 +535,16 @@ web OSE 採用 Chromium 來作為瀏覽器的核心，看樣子他們也有自�
 <h2 id="org5cfbfcd">總結</h2>
 <div class="outline-text-2" id="text-org5cfbfcd">
 <p>
-根據實測的狀況來看，目前 LG 開源的  <a href="http://webosose.org" target="_blank" rel="external">webOS OSE</a> 已經非常偏向 <a href="http://webostv.developer.lge.com/" target="_blank" rel="external">webOS TV</a> 系統，和最早期設計用於手機/平板上 webOS 已經大相逕庭，如果你想要採用這個 Framework 在你的產品上，根據狀況考量可能可以這樣來做決策
+根據實測的狀況來看，目前 LG 開源的  <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 已經非常偏向 <a href="http://webostv.developer.lge.com/" target="_blank" rel="noopener">webOS TV</a> 系統，和最早期設計用於手機/平板上 webOS 已經大相逕庭，如果你想要採用這個 Framework 在你的產品上，根據狀況考量可能可以這樣來做決策
 </p>
 
 <ul class="org-ul">
-<li>用於按鍵控制的平台 (比如電視) : 選擇 <a href="http://webosose.org" target="_blank" rel="external">webOS OSE</a></li>
-<li>用於平板之類的環境 : 選擇 <a href="http://www.webos-ports.org/wiki/Main_Page" target="_blank" rel="external">LuneOS</a></li>
+<li>用於按鍵控制的平台 (比如電視) : 選擇 <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a></li>
+<li>用於平板之類的環境 : 選擇 <a href="http://www.webos-ports.org/wiki/Main_Page" target="_blank" rel="noopener">LuneOS</a></li>
 </ul>
 
 <p>
-這兩套的差別，主要在於  <a href="http://webosose.org" target="_blank" rel="external">webOS OSE</a> 是由 LG 主導的，而  <a href="http://www.webos-ports.org/wiki/Main_Page" target="_blank" rel="external">LuneOS</a> 則是由開源社群(?) 主導的，前者預設使用  <a href="https://enactjs.com/" target="_blank" rel="external">Enact</a>  來設計你的 App , 後者則是主打使用 Qt 來製作你的 App。
+這兩套的差別，主要在於  <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 是由 LG 主導的，而  <a href="http://www.webos-ports.org/wiki/Main_Page" target="_blank" rel="noopener">LuneOS</a> 則是由開源社群(?) 主導的，前者預設使用  <a href="https://enactjs.com/" target="_blank" rel="noopener">Enact</a>  來設計你的 App , 後者則是主打使用 Qt 來製作你的 App。
 </p>
 
 <p>
@@ -557,17 +557,17 @@ web OSE 採用 Chromium 來作為瀏覽器的核心，看樣子他們也有自�
 <h2 id="org889798d">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org889798d">
 <ul class="org-ul">
-<li><a href="http://forum.webosose.org/t/capturing-screenshots-on-webos/326/5" target="_blank" rel="external">Capturing screenshots on WebOS</a></li>
+<li><a href="http://forum.webosose.org/t/capturing-screenshots-on-webos/326/5" target="_blank" rel="noopener">Capturing screenshots on WebOS</a></li>
 
-<li><a href="https://www.cnx-software.com/2018/03/19/lg-releases-webos-open-source-edition-optimized-for-raspberry-pi-3/" target="_blank" rel="external">LG Releases webOS Open Source Edition Optimized for Raspberry Pi 3</a></li>
+<li><a href="https://www.cnx-software.com/2018/03/19/lg-releases-webos-open-source-edition-optimized-for-raspberry-pi-3/" target="_blank" rel="noopener">LG Releases webOS Open Source Edition Optimized for Raspberry Pi 3</a></li>
 
-<li><a href="https://www.trustedreviews.com/news/why-webos-failed-according-to-ex-palm-exec-2907024" target="_blank" rel="external">Why WebOS Failed, According to ex-Palm Exec</a></li>
+<li><a href="https://www.trustedreviews.com/news/why-webos-failed-according-to-ex-palm-exec-2907024" target="_blank" rel="noopener">Why WebOS Failed, According to ex-Palm Exec</a></li>
 
-<li><a href="http://webosose.org/discover/setting/building-webos-ose/" target="_blank" rel="external">Building webOS Open Source Edition</a></li>
+<li><a href="http://webosose.org/discover/setting/building-webos-ose/" target="_blank" rel="noopener">Building webOS Open Source Edition</a></li>
 
-<li><a href="https://www.techbang.com/posts/57420-lg-will-open-the-webos-operating-system-to-raspberry-pi-3" target="_blank" rel="external">LG 將 webOS 作業系統開源化，可安裝至 Raspberry Pi 3</a></li>
+<li><a href="https://www.techbang.com/posts/57420-lg-will-open-the-webos-operating-system-to-raspberry-pi-3" target="_blank" rel="noopener">LG 將 webOS 作業系統開源化，可安裝至 Raspberry Pi 3</a></li>
 
-<li><a href="https://pivotce.com/2018/03/22/a-quick-tour-of-webos-ose-on-the-raspberry-pi/" target="_blank" rel="external">A Quick Tour of webOS OSE on the Raspberry Pi</a></li>
+<li><a href="https://pivotce.com/2018/03/22/a-quick-tour-of-webos-ose-on-the-raspberry-pi/" target="_blank" rel="noopener">A Quick Tour of webOS OSE on the Raspberry Pi</a></li>
 </ul>
 </div>
 </div>

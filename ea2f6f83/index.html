@@ -248,7 +248,7 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-在 <a href="https://coldnew.github.io/68814ae4/">TinyFPGA BX 開發紀錄: 開箱文</a> 一文中我開箱了最近買的 <a href="https://tinyfpga.com/" target="_blank" rel="external">TinyFPGA BX</a> 這款迷你的 FPGA 開發板，在這篇文章中將來講講他的硬體的一些資訊，好讓我們對這塊板子有初步的認識。
+在 <a href="https://coldnew.github.io/68814ae4/">TinyFPGA BX 開發紀錄: 開箱文</a> 一文中我開箱了最近買的 <a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 這款迷你的 FPGA 開發板，在這篇文章中將來講講他的硬體的一些資訊，好讓我們對這塊板子有初步的認識。
 </p>
 
 <a id="more"></a>
@@ -257,7 +257,7 @@
 <h2 id="org6919bf3">下載電路圖</h2>
 <div class="outline-text-2" id="text-org6919bf3">
 <p>
-<a href="https://tinyfpga.com/" target="_blank" rel="external">TinyFPGA BX</a> 的電路圖和範例程式接在 <a href="https://github.com/tinyfpga/TinyFPGA-BX" target="_blank" rel="external">GitHub</a> 上，你可以這樣直接下載下來
+<a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 的電路圖和範例程式接在 <a href="https://github.com/tinyfpga/TinyFPGA-BX" target="_blank" rel="noopener">GitHub</a> 上，你可以這樣直接下載下來
 </p>
 
 <pre class="example">
@@ -266,7 +266,7 @@ git clone https://github.com/tinyfpga/TinyFPGA-BX.git
 </pre>
 
 <p>
-其中，電路圖位於 <code>board</code> 資料夾下，你可以直接打開 <a href="https://github.com/tinyfpga/TinyFPGA-BX/blob/master/board/TinyFPGA-BX-Schematic.pdf" target="_blank" rel="external">TinyFPGA-BX-Schematic.pdf</a> 或是透過 <a href="http://kicad-pcb.org/" target="_blank" rel="external">KiCAD</a> 這款開源的 PCB 設計軟體來查看這塊開發板的設計
+其中，電路圖位於 <code>board</code> 資料夾下，你可以直接打開 <a href="https://github.com/tinyfpga/TinyFPGA-BX/blob/master/board/TinyFPGA-BX-Schematic.pdf" target="_blank" rel="noopener">TinyFPGA-BX-Schematic.pdf</a> 或是透過 <a href="http://kicad-pcb.org/" target="_blank" rel="noopener">KiCAD</a> 這款開源的 PCB 設計軟體來查看這塊開發板的設計
 </p>
 
 
@@ -282,7 +282,7 @@ git clone https://github.com/tinyfpga/TinyFPGA-BX.git
 <h2 id="org0474711">Lattice ICE40LP8K</h2>
 <div class="outline-text-2" id="text-org0474711">
 <p>
-<a href="https://tinyfpga.com/" target="_blank" rel="external">TinyFPGA BX</a> 的核心採用 <a href="http://www.latticesemi.com/Products/FPGAandCPLD/iCE40.aspx" target="_blank" rel="external">Lattice</a> 的 <a href="http://www.latticesemi.com/~/media/LatticeSemi/Documents/DataSheets/iCE/iCE40LPHXFamilyDataSheet.pdf" target="_blank" rel="external">ICE40LP8K</a> ，具有 <code>7680 個邏輯閘(Logic Cell)</code> 可供使用。
+<a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 的核心採用 <a href="http://www.latticesemi.com/Products/FPGAandCPLD/iCE40.aspx" target="_blank" rel="noopener">Lattice</a> 的 <a href="http://www.latticesemi.com/~/media/LatticeSemi/Documents/DataSheets/iCE/iCE40LPHXFamilyDataSheet.pdf" target="_blank" rel="noopener">ICE40LP8K</a> ，具有 <code>7680 個邏輯閘(Logic Cell)</code> 可供使用。
 </p>
 
 
@@ -292,7 +292,7 @@ git clone https://github.com/tinyfpga/TinyFPGA-BX.git
 </div>
 
 <p>
-之所以選用 <a href="http://www.latticesemi.com/Products/FPGAandCPLD/iCE40.aspx" target="_blank" rel="external">Lattice</a> 的這個系列，推測是因為該系列 FPGA 有一套開源的，透過逆向工程的工具可以用來產生 bitstream，這套工具叫做 <a href="http://www.clifford.at/icestorm/" target="_blank" rel="external">IceStorm</a> 。也因此，我們可以不需要透過 <a href="http://www.latticesemi.com/Products/FPGAandCPLD/iCE40.aspx" target="_blank" rel="external">Lattice</a> 的 <a href="http://www.latticesemi.com/latticediamond" target="_blank" rel="external">Diamond</a> 工具來撰寫並燒錄我們的 FPGA，整個從 verilog 變成 bitstream 到燒錄進 FPGA 都可以透過開源工具來進行。
+之所以選用 <a href="http://www.latticesemi.com/Products/FPGAandCPLD/iCE40.aspx" target="_blank" rel="noopener">Lattice</a> 的這個系列，推測是因為該系列 FPGA 有一套開源的，透過逆向工程的工具可以用來產生 bitstream，這套工具叫做 <a href="http://www.clifford.at/icestorm/" target="_blank" rel="noopener">IceStorm</a> 。也因此，我們可以不需要透過 <a href="http://www.latticesemi.com/Products/FPGAandCPLD/iCE40.aspx" target="_blank" rel="noopener">Lattice</a> 的 <a href="http://www.latticesemi.com/latticediamond" target="_blank" rel="noopener">Diamond</a> 工具來撰寫並燒錄我們的 FPGA，整個從 verilog 變成 bitstream 到燒錄進 FPGA 都可以透過開源工具來進行。
 </p>
 
 
@@ -307,7 +307,7 @@ git clone https://github.com/tinyfpga/TinyFPGA-BX.git
 <h2 id="org31124f0">MEMS 震盪器</h2>
 <div class="outline-text-2" id="text-org31124f0">
 <p>
-<a href="https://tinyfpga.com/" target="_blank" rel="external">TinyFPGA BX</a> 採用了 <code>16MHz</code> 的 <a href="https://en.wikipedia.org/wiki/Microelectromechanical_system_oscillator" target="_blank" rel="external">MEMS Oscillators</a> (MEMS 震盪器)，其型號為 <a href="http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en587410" target="_blank" rel="external">DSC6001CI2A-016.0000T</a>
+<a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 採用了 <code>16MHz</code> 的 <a href="https://en.wikipedia.org/wiki/Microelectromechanical_system_oscillator" target="_blank" rel="noopener">MEMS Oscillators</a> (MEMS 震盪器)，其型號為 <a href="http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en587410" target="_blank" rel="noopener">DSC6001CI2A-016.0000T</a>
 </p>
 
 
@@ -338,7 +338,7 @@ git clone https://github.com/tinyfpga/TinyFPGA-BX.git
 <h2 id="org63172d1">MicroUSB</h2>
 <div class="outline-text-2" id="text-org63172d1">
 <p>
-<a href="https://tinyfpga.com/" target="_blank" rel="external">TinyFPGA BX</a> 是透過 MicroUSB 和電腦端的燒錄程式溝通的，和其他的 FPGA 開發板都需要透過別的晶片來幫忙進行燒路的狀況不同，<a href="https://tinyfpga.com/" target="_blank" rel="external">TinyFPGA BX</a> 使用了特殊的 <a href="https://github.com/tinyfpga/TinyFPGA-Bootloader" target="_blank" rel="external">Bootloader</a> 來實現虛擬的 USB 通訊，讓電腦端的程式可以將要燒錄的資訊寫入到板端的 Flash 上。
+<a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 是透過 MicroUSB 和電腦端的燒錄程式溝通的，和其他的 FPGA 開發板都需要透過別的晶片來幫忙進行燒路的狀況不同，<a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 使用了特殊的 <a href="https://github.com/tinyfpga/TinyFPGA-Bootloader" target="_blank" rel="noopener">Bootloader</a> 來實現虛擬的 USB 通訊，讓電腦端的程式可以將要燒錄的資訊寫入到板端的 Flash 上。
 </p>
 
 
@@ -353,7 +353,7 @@ git clone https://github.com/tinyfpga/TinyFPGA-BX.git
 <h2 id="orgf38e091">穩壓電路</h2>
 <div class="outline-text-2" id="text-orgf38e091">
 <p>
-在穩壓電路的部份，則是透過 <a href="http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en580292" target="_blank" rel="external">MIC5504-3.3YM5-TR</a> 搭配 <a href="http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en580022" target="_blank" rel="external">MIC5365-1.2YC5-TR</a> 來將 USB 端提供的 5V 電壓轉化成 <code>3.3V</code> 以及 <code>1.2V</code> 位準的電壓。
+在穩壓電路的部份，則是透過 <a href="http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en580292" target="_blank" rel="noopener">MIC5504-3.3YM5-TR</a> 搭配 <a href="http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en580022" target="_blank" rel="noopener">MIC5365-1.2YC5-TR</a> 來將 USB 端提供的 5V 電壓轉化成 <code>3.3V</code> 以及 <code>1.2V</code> 位準的電壓。
 </p>
 
 
@@ -368,7 +368,7 @@ git clone https://github.com/tinyfpga/TinyFPGA-BX.git
 <h2 id="orgca36464">SPI Flash</h2>
 <div class="outline-text-2" id="text-orgca36464">
 <p>
-<a href="https://tinyfpga.com/" target="_blank" rel="external">TinyFPGA BX</a> 搭載的 Flash 為 <a href="http://www.adestotech.com/wp-content/uploads/DS-AT25SF081_045.pdf" target="_blank" rel="external">AT25SF081-SSHD-B</a> ，此一 Flash 透過 <code>SPI</code> 協定進行溝通，具有 <code>8Mbit</code> 的空間可以提供使用者存放資料 (有一部份空間會被 <a href="https://github.com/tinyfpga/TinyFPGA-Bootloader" target="_blank" rel="external">TinyFPGA-Bootloader</a> 吃掉)
+<a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 搭載的 Flash 為 <a href="http://www.adestotech.com/wp-content/uploads/DS-AT25SF081_045.pdf" target="_blank" rel="noopener">AT25SF081-SSHD-B</a> ，此一 Flash 透過 <code>SPI</code> 協定進行溝通，具有 <code>8Mbit</code> 的空間可以提供使用者存放資料 (有一部份空間會被 <a href="https://github.com/tinyfpga/TinyFPGA-Bootloader" target="_blank" rel="noopener">TinyFPGA-Bootloader</a> 吃掉)
 </p>
 
 
@@ -399,7 +399,7 @@ git clone https://github.com/tinyfpga/TinyFPGA-BX.git
 <h2 id="org81e8210">Reference Card</h2>
 <div class="outline-text-2" id="text-org81e8210">
 <p>
-除了上面的基本硬體認識外，隨著 <a href="https://tinyfpga.com/" target="_blank" rel="external">TinyFPGA BX</a> 過來的還有一張 Reference Card, 可以讓我們快速查找每一隻腳的用途
+除了上面的基本硬體認識外，隨著 <a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 過來的還有一張 Reference Card, 可以讓我們快速查找每一隻腳的用途
 </p>
 
 <div class="row "><div class="col-md-6 ">
@@ -435,13 +435,13 @@ git clone https://github.com/tinyfpga/TinyFPGA-BX.git
 <h2 id="orgb3b445d">延伸閱讀</h2>
 <div class="outline-text-2" id="text-orgb3b445d">
 <ul class="org-ul">
-<li><a href="http://www.latticesemi.com/~/media/LatticeSemi/Documents/DataSheets/iCE/iCE40LPHXFamilyDataSheet.pdf" target="_blank" rel="external">iCE40 LP/HX Family Data Sheet</a></li>
+<li><a href="http://www.latticesemi.com/~/media/LatticeSemi/Documents/DataSheets/iCE/iCE40LPHXFamilyDataSheet.pdf" target="_blank" rel="noopener">iCE40 LP/HX Family Data Sheet</a></li>
 
-<li><a href="https://www.crowdsupply.com/tinyfpga/tinyfpga-bx/updates/manufacturing-continues%20" target="_blank" rel="external">TinyFPGA BX: Manufacturing Continues</a></li>
+<li><a href="https://www.crowdsupply.com/tinyfpga/tinyfpga-bx/updates/manufacturing-continues%20" target="_blank" rel="noopener">TinyFPGA BX: Manufacturing Continues</a></li>
 
-<li><a href="https://github.com/tinyfpga/TinyFPGA-Bootloader" target="_blank" rel="external">https://github.com/tinyfpga/TinyFPGA-Bootloader</a></li>
+<li><a href="https://github.com/tinyfpga/TinyFPGA-Bootloader" target="_blank" rel="noopener">https://github.com/tinyfpga/TinyFPGA-Bootloader</a></li>
 
-<li><a href="https://github.com/tinyfpga/TinyFPGA-BX" target="_blank" rel="external">https://github.com/tinyfpga/TinyFPGA-BX</a></li>
+<li><a href="https://github.com/tinyfpga/TinyFPGA-BX" target="_blank" rel="noopener">https://github.com/tinyfpga/TinyFPGA-BX</a></li>
 </ul>
 </div>
 </div>

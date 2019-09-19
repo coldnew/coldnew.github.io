@@ -227,7 +227,7 @@
 <a id="more"></a>
 
 <p>
-這邊以我下載的 <a href="https://www.raspberrypi.org/downloads/raspbian/" target="_blank" rel="external">Raspbian</a> 檔案為例，本文收集了三種方式，分別為透過 fdisk 計算 offset 後掛載、使用 kpartx 進行掛載、使用 losetup 進行掛載等。
+這邊以我下載的 <a href="https://www.raspberrypi.org/downloads/raspbian/" target="_blank" rel="noopener">Raspbian</a> 檔案為例，本文收集了三種方式，分別為透過 fdisk 計算 offset 後掛載、使用 kpartx 進行掛載、使用 losetup 進行掛載等。
 </p>
 
 <p>
@@ -247,7 +247,7 @@ coldnew@gentoo ~ $ file 2018-06-27-raspbian-stretch.img
 <h2 id="orgea6f38f">fdisk</h2>
 <div class="outline-text-2" id="text-orgea6f38f">
 <p>
-最基本的方式，就是透過 <a href="http://man7.org/linux/man-pages/man8/fdisk.8.html" target="_blank" rel="external">fdisk</a> 去查看這個映像檔(.img) 的內容，我們可以看到這個映像檔有兩個分割區以及其格式
+最基本的方式，就是透過 <a href="http://man7.org/linux/man-pages/man8/fdisk.8.html" target="_blank" rel="noopener">fdisk</a> 去查看這個映像檔(.img) 的內容，我們可以看到這個映像檔有兩個分割區以及其格式
 </p>
 
 <pre class="example">
@@ -287,7 +287,7 @@ coldnew@gentoo ~ $ sudo mount -o loop,offset=$((98304 * 512)) 2018-06-27-raspbia
 </p>
 
 <p>
-如果想要現成的腳本做這件事的話，可以試試看 <a href="https://github.com/AlexanderAmelkin/mountimg/blob/master/mountimg" target="_blank" rel="external">https://github.com/AlexanderAmelkin/mountimg/blob/master/mountimg</a> 這份腳本
+如果想要現成的腳本做這件事的話，可以試試看 <a href="https://github.com/AlexanderAmelkin/mountimg/blob/master/mountimg" target="_blank" rel="noopener">https://github.com/AlexanderAmelkin/mountimg/blob/master/mountimg</a> 這份腳本
 </p>
 </div>
 </div>
@@ -296,7 +296,7 @@ coldnew@gentoo ~ $ sudo mount -o loop,offset=$((98304 * 512)) 2018-06-27-raspbia
 <h2 id="orgdb59919">kpartx</h2>
 <div class="outline-text-2" id="text-orgdb59919">
 <p>
-對於 Gentoo 的使用者來說，要使用 <a href="https://www.linux.org/docs/man8/kpartx.html" target="_blank" rel="external">kpartx</a> 命令的話，需要先安裝 <code>multipath-tools</code> 這個工具
+對於 Gentoo 的使用者來說，要使用 <a href="https://www.linux.org/docs/man8/kpartx.html" target="_blank" rel="noopener">kpartx</a> 命令的話，需要先安裝 <code>multipath-tools</code> 這個工具
 </p>
 
 <pre class="example">
@@ -304,7 +304,7 @@ coldnew@gentoo ~ $ sudo emerge sys-fs/multipath-tools
 </pre>
 
 <p>
-接下來，就透過 <a href="https://www.linux.org/docs/man8/kpartx.html" target="_blank" rel="external">kpartx</a> 這工具來掛載 .img 檔案
+接下來，就透過 <a href="https://www.linux.org/docs/man8/kpartx.html" target="_blank" rel="noopener">kpartx</a> 這工具來掛載 .img 檔案
 </p>
 
 <pre class="example">
@@ -338,11 +338,11 @@ loop deleted : /dev/loop0
 <h2 id="org502fa08">losetup</h2>
 <div class="outline-text-2" id="text-org502fa08">
 <p>
-<a href="http://man7.org/linux/man-pages/man8/losetup.8.html" target="_blank" rel="external">losetup</a> 是位於 util-linux 的命令，正常的 Linux 發行板都會內建安裝，我們可以透過這個命令對 loop 設備進行管理。
+<a href="http://man7.org/linux/man-pages/man8/losetup.8.html" target="_blank" rel="noopener">losetup</a> 是位於 util-linux 的命令，正常的 Linux 發行板都會內建安裝，我們可以透過這個命令對 loop 設備進行管理。
 </p>
 
 <p>
-首先先透過 <a href="http://man7.org/linux/man-pages/man8/losetup.8.html" target="_blank" rel="external">losetup</a> 找出合適的 <code>/dev/loop*</code> 節點，並將映像檔弄上去:
+首先先透過 <a href="http://man7.org/linux/man-pages/man8/losetup.8.html" target="_blank" rel="noopener">losetup</a> 找出合適的 <code>/dev/loop*</code> 節點，並將映像檔弄上去:
 </p>
 
 <pre class="example">
@@ -385,11 +385,11 @@ coldnew@gentoo ~ $ sudo losetup -d /dev/loop0
 <h2 id="org39fb498">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org39fb498">
 <ul class="org-ul">
-<li><a href="https://askubuntu.com/questions/445979/how-to-mount-sd-card-image-created-with-dd" target="_blank" rel="external">How to mount sd-card image created with dd ?</a></li>
+<li><a href="https://askubuntu.com/questions/445979/how-to-mount-sd-card-image-created-with-dd" target="_blank" rel="noopener">How to mount sd-card image created with dd ?</a></li>
 
-<li><a href="https://stackoverflow.com/questions/42435226/mount-a-sd-card-image-change-files-on-a-partition-and-write-back" target="_blank" rel="external">mount a sd-card image - change files on a partition and write back</a></li>
+<li><a href="https://stackoverflow.com/questions/42435226/mount-a-sd-card-image-change-files-on-a-partition-and-write-back" target="_blank" rel="noopener">mount a sd-card image - change files on a partition and write back</a></li>
 
-<li><a href="https://github.com/AlexanderAmelkin/mountimg/" target="_blank" rel="external">https://github.com/AlexanderAmelkin/mountimg/</a></li>
+<li><a href="https://github.com/AlexanderAmelkin/mountimg/" target="_blank" rel="noopener">https://github.com/AlexanderAmelkin/mountimg/</a></li>
 </ul>
 </div>
 </div>

@@ -41,7 +41,7 @@
 
 
 
-  <meta name="keywords" content="fpga,xilinx,verilog,zynq,zybo,">
+  <meta name="keywords" content="fpga,verilog,xilinx,zynq,zybo,">
 
 
 
@@ -53,7 +53,7 @@
 
 
 <meta name="description" content="在進入到這種混搭 ARM/FPGA 的開發板的世界之前，很多人都是從純粹的 FPGA 開發板玩起，因此也讓我們看看如何僅透過可程式邏輯(Programmable Logic, PL) 來對 Zybo board 上面的 LED 進行閃爍控制。    (本文以 Vivado 2016.2 進行開發)">
-<meta name="keywords" content="fpga,xilinx,verilog,zynq,zybo">
+<meta name="keywords" content="fpga,verilog,xilinx,zynq,zybo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍">
 <meta property="og:url" content="https://coldnew.github.io/6c5717d7/index.html">
@@ -288,7 +288,7 @@
 </div>
 
 <p>
-根據 <a href="https://reference.digilentinc.com/_media/zybo/zybo_rm.pdf" target="_blank" rel="external">ZYBO FPGA Board Reference Manual</a> 上面的資訊，我們想要控制的這四個在板子上的 LED 都是位於可程式邏輯區(Programmable Logic, PL)可以碰觸到的地方，如果你想要透過 Zynq 去對這些 LED 進行控制，你就會需要透過  AXI GPIO 的幫助，就像這樣:
+根據 <a href="https://reference.digilentinc.com/_media/zybo/zybo_rm.pdf" target="_blank" rel="noopener">ZYBO FPGA Board Reference Manual</a> 上面的資訊，我們想要控制的這四個在板子上的 LED 都是位於可程式邏輯區(Programmable Logic, PL)可以碰觸到的地方，如果你想要透過 Zynq 去對這些 LED 進行控制，你就會需要透過  AXI GPIO 的幫助，就像這樣:
 </p>
 
 
@@ -465,7 +465,7 @@
 <h2 id="orgda59bc6">加入 Constraints</h2>
 <div class="outline-text-2" id="text-orgda59bc6">
 <p>
-我們撰寫好了 Verilog 模組 top.v，接下來就是要讓這模組的 I/O 和 Zybo board 的腳位對應到，我們先連結到 <a href="https://reference.digilentinc.com/zybo:zybo" target="_blank" rel="external">Zybo Resource Center</a> 去下載 <code>Master XDC</code> 檔案。
+我們撰寫好了 Verilog 模組 top.v，接下來就是要讓這模組的 I/O 和 Zybo board 的腳位對應到，我們先連結到 <a href="https://reference.digilentinc.com/zybo:zybo" target="_blank" rel="noopener">Zybo Resource Center</a> 去下載 <code>Master XDC</code> 檔案。
 </p>
 
 
@@ -656,7 +656,7 @@ Vivado 告訴我們找到了一台使用 <code>xc7z010</code> IC 的板子，就
 <h2 id="orgef9d963">取得程式碼</h2>
 <div class="outline-text-2" id="text-orgef9d963">
 <p>
-本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="external">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
+本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="noopener">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
 </p>
 
 <div data-theme="default" data-height="" data-width="400" data-github="coldnew/zybo-examples" class="github-card"></div>
@@ -669,19 +669,19 @@ Vivado 告訴我們找到了一台使用 <code>xc7z010</code> IC 的板子，就
 <h2 id="org1a615a4">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org1a615a4">
 <p>
-<code>[1]</code> <a href="http://johanngoetz.blogspot.tw/2014/04/first-steps-with-zybo-development-board.html" target="_blank" rel="external">FPGA Programming: First Steps with the ZYBO Development Board</a>
+<code>[1]</code> <a href="http://johanngoetz.blogspot.tw/2014/04/first-steps-with-zybo-development-board.html" target="_blank" rel="noopener">FPGA Programming: First Steps with the ZYBO Development Board</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="http://www.borisivanov.com/fpga/verilog_zybo1.pdf" target="_blank" rel="external">Simple Verilog example useing Vivado 2015 with zybo FPGA board v0.1</a>
+<code>[2]</code> <a href="http://www.borisivanov.com/fpga/verilog_zybo1.pdf" target="_blank" rel="noopener">Simple Verilog example useing Vivado 2015 with zybo FPGA board v0.1</a>
 </p>
 
 <p>
-<code>[3]</code> <a href="http://ece.gmu.edu/coursewebpages/ECE/ECE699_SW_HW/S15/viewgraphs/ECE699_lecture_3.pdf" target="_blank" rel="external">ECE 699: Lecture 3 General Purpose Input Output GPIO</a>
+<code>[3]</code> <a href="http://ece.gmu.edu/coursewebpages/ECE/ECE699_SW_HW/S15/viewgraphs/ECE699_lecture_3.pdf" target="_blank" rel="noopener">ECE 699: Lecture 3 General Purpose Input Output GPIO</a>
 </p>
 
 <p>
-<code>[4]</code> <a href="http://www.beyond-circuits.com/wordpress/tutorial/tutorial1/" target="_blank" rel="external">Tutorial 1: The Simplest FPGA in the World | Beyond Circuits</a>
+<code>[4]</code> <a href="http://www.beyond-circuits.com/wordpress/tutorial/tutorial1/" target="_blank" rel="noopener">Tutorial 1: The Simplest FPGA in the World | Beyond Circuits</a>
 </p>
 </div>
 </div>
@@ -696,9 +696,9 @@ Vivado 告訴我們找到了一台使用 <code>xc7z010</code> IC 的板子，就
           
             <a href="/tags/fpga/" rel="tag">#fpga</a>
           
-            <a href="/tags/xilinx/" rel="tag">#xilinx</a>
-          
             <a href="/tags/verilog/" rel="tag">#verilog</a>
+          
+            <a href="/tags/xilinx/" rel="tag">#xilinx</a>
           
             <a href="/tags/zynq/" rel="tag">#zynq</a>
           

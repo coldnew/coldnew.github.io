@@ -297,7 +297,7 @@
 <a id="more"></a>
 
 <p>
-本文主要參考自 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="external">Digilentinc</a> 的 <a href="https://reference.digilentinc.com/zybo/gsg" target="_blank" rel="external">Getting Start Guide</a> 並加入我自己試玩的一些心得。
+本文主要參考自 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Digilentinc</a> 的 <a href="https://reference.digilentinc.com/zybo/gsg" target="_blank" rel="noopener">Getting Start Guide</a> 並加入我自己試玩的一些心得。
 </p>
 
 <div id="outline-container-org7ef964f" class="outline-2">
@@ -314,7 +314,7 @@
 </div>
 
 <p>
-根據 <a href="https://reference.digilentinc.com/_media/zybo/zybo_rm.pdf" target="_blank" rel="external">ZYBO FPGA Board Reference Manual</a> 上面的資料，我們想要控制的這四個在板子上的 LED 都是位於可程式邏輯區(Programmable Logic, PL)可以碰觸到的地方，如果你想要透過 Zynq 去對這些 LED 進行控制，你就會需要透過  AXI GPIO 的幫助，就像這樣:
+根據 <a href="https://reference.digilentinc.com/_media/zybo/zybo_rm.pdf" target="_blank" rel="noopener">ZYBO FPGA Board Reference Manual</a> 上面的資料，我們想要控制的這四個在板子上的 LED 都是位於可程式邏輯區(Programmable Logic, PL)可以碰觸到的地方，如果你想要透過 Zynq 去對這些 LED 進行控制，你就會需要透過  AXI GPIO 的幫助，就像這樣:
 </p>
 
 
@@ -329,7 +329,7 @@
 <h2 id="org43857b9">認識 AXI 匯流排</h2>
 <div class="outline-text-2" id="text-org43857b9">
 <p>
-AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a href="http://www.zynqbook.com/" target="_blank" rel="external">The Zynq Book</a> p.28)
+AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a href="http://www.zynqbook.com/" target="_blank" rel="noopener">The Zynq Book</a> p.28)
 </p>
 
 
@@ -343,7 +343,7 @@ AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a h
 </p>
 
 <p>
-實際上，AXI 協議為 ARM 的協議規範，來自於 AMBA 匯流排架構，若你對整個協議的內容有興趣，可以到 ARM 的 <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.set.amba/index.html" target="_blank" rel="external">網站</a> 去下載規格書。
+實際上，AXI 協議為 ARM 的協議規範，來自於 AMBA 匯流排架構，若你對整個協議的內容有興趣，可以到 ARM 的 <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.set.amba/index.html" target="_blank" rel="noopener">網站</a> 去下載規格書。
 </p>
 </div>
 </div>
@@ -554,7 +554,7 @@ AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a h
 </p>
 
 <p>
-我們先連結到 <a href="https://reference.digilentinc.com/zybo:zybo" target="_blank" rel="external">Zybo Resource Center</a> 去下載 <code>Master XDC</code> 檔案。
+我們先連結到 <a href="https://reference.digilentinc.com/zybo:zybo" target="_blank" rel="noopener">Zybo Resource Center</a> 去下載 <code>Master XDC</code> 檔案。
 </p>
 
 
@@ -936,7 +936,7 @@ set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports
 <h3 id="orgf09cdeb">main.c</h3>
 <div class="outline-text-3" id="text-orgf09cdeb">
 <p>
-在 main.c 的開頭，我們載入了需要使用的幾個標頭檔，在 Xilinx SDK 中，已經包含了一些預設好的函式庫等功能，具體資訊請查閱 <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_3/oslib_rm.pdf" target="_blank" rel="external">Xilinx OS and Libraries Document Collection</a> (UG643) 手冊。
+在 main.c 的開頭，我們載入了需要使用的幾個標頭檔，在 Xilinx SDK 中，已經包含了一些預設好的函式庫等功能，具體資訊請查閱 <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_3/oslib_rm.pdf" target="_blank" rel="noopener">Xilinx OS and Libraries Document Collection</a> (UG643) 手冊。
 </p>
 
 <p>
@@ -1076,7 +1076,7 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
 </p>
 
 <p>
-確認你有啟用 <code>ps7_init</code> 這些設定，ps7_init 定義了一些初始化的程式，我們之所以能夠使用 <code>printf</code> 將資訊透過 UART 輸出，也是透過 ps7_init 的協助，具體請參考 <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_2/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="external">Zynq-7000 All Programmable SoC: Embedded Design Tutorial A Hands-On Guide to Effective Embedded System Design (UG1165)</a>, p.24 頁。
+確認你有啟用 <code>ps7_init</code> 這些設定，ps7_init 定義了一些初始化的程式，我們之所以能夠使用 <code>printf</code> 將資訊透過 UART 輸出，也是透過 ps7_init 的協助，具體請參考 <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_2/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="noopener">Zynq-7000 All Programmable SoC: Embedded Design Tutorial A Hands-On Guide to Effective Embedded System Design (UG1165)</a>, p.24 頁。
 </p>
 
 
@@ -1130,7 +1130,7 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
 <h2 id="org8c6e097">取得程式碼</h2>
 <div class="outline-text-2" id="text-org8c6e097">
 <p>
-本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="external">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
+本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="noopener">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
 </p>
 
 <div data-theme="default" data-height="" data-width="400" data-github="coldnew/zybo-examples" class="github-card"></div>
@@ -1142,31 +1142,31 @@ printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start
 <h2 id="org83a6c07">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org83a6c07">
 <p>
-<code>[1]</code> <a href="http://www.zynqbook.com/" target="_blank" rel="external">The Zynq Book</a>
+<code>[1]</code> <a href="http://www.zynqbook.com/" target="_blank" rel="noopener">The Zynq Book</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="http://sunsided.github.io/zybo-tutorial/" target="_blank" rel="external">ZYBO Quick-Start Tutorial</a>
+<code>[2]</code> <a href="http://sunsided.github.io/zybo-tutorial/" target="_blank" rel="noopener">ZYBO Quick-Start Tutorial</a>
 </p>
 
 <p>
-<code>[3]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_1/ug1043-embedded-system-tools.pdf" target="_blank" rel="external">XILINX - Embedded System Tools Reference Manual</a>
+<code>[3]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_1/ug1043-embedded-system-tools.pdf" target="_blank" rel="noopener">XILINX - Embedded System Tools Reference Manual</a>
 </p>
 
 <p>
-<code>[4]</code> <a href="http://www.xilinx.com/support/documentation/ip_documentation/axi_gpio/v2_0/pg144-axi-gpio.pdf" target="_blank" rel="external">AXI GPIO v2.0 LogiCORE IP Product Guide</a>
+<code>[4]</code> <a href="http://www.xilinx.com/support/documentation/ip_documentation/axi_gpio/v2_0/pg144-axi-gpio.pdf" target="_blank" rel="noopener">AXI GPIO v2.0 LogiCORE IP Product Guide</a>
 </p>
 
 <p>
-<code>[5]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_3/oslib_rm.pdf" target="_blank" rel="external">Xilinx OS and Libraries Document Collection (UG643)</a>
+<code>[5]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_3/oslib_rm.pdf" target="_blank" rel="noopener">Xilinx OS and Libraries Document Collection (UG643)</a>
 </p>
 
 <p>
-<code>[6]</code> <a href="http://www.dbrss.org/zybo/tutorial1.html" target="_blank" rel="external">ZYBO Zync-7000 Development Board Work - Getting the LEDs to flash</a>
+<code>[6]</code> <a href="http://www.dbrss.org/zybo/tutorial1.html" target="_blank" rel="noopener">ZYBO Zync-7000 Development Board Work - Getting the LEDs to flash</a>
 </p>
 
 <p>
-<code>[7]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_2/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="external">Zynq-7000 All Programmable SoC: Embedded Design Tutorial A Hands-On Guide to Effective Embedded System Design (UG1165)</a>
+<code>[7]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_2/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="noopener">Zynq-7000 All Programmable SoC: Embedded Design Tutorial A Hands-On Guide to Effective Embedded System Design (UG1165)</a>
 </p>
 </div>
 </div>

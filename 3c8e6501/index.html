@@ -223,11 +223,11 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-使用 <a href="http://www.wandboard.org/" target="_blank" rel="external">wandboard</a> 兩年多了，我才決定想要紀錄一下如何編譯 <a href="http://www.wandboard.org/" target="_blank" rel="external">wandboard</a> 的 Android 4.4.2
+使用 <a href="http://www.wandboard.org/" target="_blank" rel="noopener">wandboard</a> 兩年多了，我才決定想要紀錄一下如何編譯 <a href="http://www.wandboard.org/" target="_blank" rel="noopener">wandboard</a> 的 Android 4.4.2
 (kitkat) 。這塊板子使用了 Freescale i.MX6 作為 CPU，並且有 Solo (單核)、Dual
-(雙核)、Quad (四核) 幾個版本可以選擇，並支援 <a href="https://www.yoctoproject.org/" target="_blank" rel="external">Yocto</a> 、Android、FreeBSD 等系統，
+(雙核)、Quad (四核) 幾個版本可以選擇，並支援 <a href="https://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto</a> 、Android、FreeBSD 等系統，
 如果想學 Linux Driver、Android 移植等事情，這是一塊不錯的板子，畢竟 CPU 的
-datasheet 可以透過 <a href="https://www.freescale.com" target="_blank" rel="external">Freescale</a> 官方網站下載（相比之下，raspberry pi 提供的 cpu
+datasheet 可以透過 <a href="https://www.freescale.com" target="_blank" rel="noopener">Freescale</a> 官方網站下載（相比之下，raspberry pi 提供的 cpu
 資訊不足，不適合用來學習 Linux Kernel driver 移植)。
 </p>
 
@@ -236,7 +236,7 @@ datasheet 可以透過 <a href="https://www.freescale.com" target="_blank" rel="
 <p>
 講完優點，當然要講一下缺點。wandboard 早期提供了 Android 原始碼可以讓你透過
 <code>repo</code> 命令去直接編譯你的 Android 系統，但是自 2013 年底他們的 Android source
-mirror 就爛掉了，並且至今尚未修復，以後大概也不會修復了。<a href="http://www.wandboard.org/" target="_blank" rel="external">wandboard</a> 官方網站雖然
+mirror 就爛掉了，並且至今尚未修復，以後大概也不會修復了。<a href="http://www.wandboard.org/" target="_blank" rel="noopener">wandboard</a> 官方網站雖然
 提供了 Android 原始碼，但是裡面不包含 <code>.git</code> 訊息，因此你也很難從中了解
 wandboard 團隊到底改了什麼。
 </p>
@@ -324,12 +324,12 @@ coldnew@Rosia ~/aosp_imx-4.4.2_r1 $ repo sync -j9
 <h2 id="org29597fd">下載 Freescale patches</h2>
 <div class="outline-text-2" id="text-org29597fd">
 <p>
-<a href="https://www.freescale.com" target="_blank" rel="external">Freescale</a> 針對其旗下的 i.MX6 CPU 提供了建立 Android 系統所需要的 patch，我們可以
-到 <a href="https://www.freescale.com" target="_blank" rel="external">Freescale</a> 官方網站去下載 Android 4.4.2 所需要的 BSP (Board Support Packages)。
+<a href="https://www.freescale.com" target="_blank" rel="noopener">Freescale</a> 針對其旗下的 i.MX6 CPU 提供了建立 Android 系統所需要的 patch，我們可以
+到 <a href="https://www.freescale.com" target="_blank" rel="noopener">Freescale</a> 官方網站去下載 Android 4.4.2 所需要的 BSP (Board Support Packages)。
 </p>
 
 <p>
-請點選 <a href="https://tinyurl.com/zm6a8l2" target="_blank" rel="external">此處</a> 到 Freescale 註冊並下載此篇文章所需要的 <code>android_kk4.4.2_1.0.0-ga_core_source.tar.gz</code> 檔案。
+請點選 <a href="https://tinyurl.com/zm6a8l2" target="_blank" rel="noopener">此處</a> 到 Freescale 註冊並下載此篇文章所需要的 <code>android_kk4.4.2_1.0.0-ga_core_source.tar.gz</code> 檔案。
 </p>
 
 <p>
@@ -376,7 +376,7 @@ device_fsl_wandboard
 <p>
 在 wandboard 的 Android 程式碼中，他們強制修改了
 <code>device/fsl</code> 並加上 wandboard 設定，其實這是一個很討厭的作法，所以我將他切割出
-來並放置於 <a href="https://github.com/coldnew/android_device_fsl_wandboard" target="_blank" rel="external">GitHub</a> ，你可以使用 git 下載到 <code>device/fsl/wandboard</code>
+來並放置於 <a href="https://github.com/coldnew/android_device_fsl_wandboard" target="_blank" rel="noopener">GitHub</a> ，你可以使用 git 下載到 <code>device/fsl/wandboard</code>
 </p>
 
 <pre class="example">
@@ -402,7 +402,7 @@ u-boot
 </p>
 
 <p>
-在 <a href="https://github.com/wandboard-org" target="_blank" rel="external">GitHub</a> 上的 wandbord 的 uboot 是不含 Android 版本的， <del>你看 wandboard 多適合 Android 開發者啊</del> ，因此 u-boot 這邊我只好從 wandboard 提供的 Android 原始
+在 <a href="https://github.com/wandboard-org" target="_blank" rel="noopener">GitHub</a> 上的 wandbord 的 uboot 是不含 Android 版本的， <del>你看 wandboard 多適合 Android 開發者啊</del> ，因此 u-boot 這邊我只好從 wandboard 提供的 Android 原始
 碼裡面提取 (該死的 first commit)，請使用我傳到 GitHub 的版本，下載到  <code>bootable/bootloader/uboot-imx</code>
 </p>
 
@@ -418,9 +418,9 @@ git clone https://github.com/coldnew/u-boot-fslc.git -b wandboard_imx_3.0.35_kk4
 <h2 id="orge500cc8">進行一些小修正</h2>
 <div class="outline-text-2" id="text-orge500cc8">
 <p>
-由於 <a href="http://www.wandboard.org/" target="_blank" rel="external">wandboard</a> 使用的 wifi driver 和 Freescale 提供的開發版 (sabresd &#x2026;etc) 設
+由於 <a href="http://www.wandboard.org/" target="_blank" rel="noopener">wandboard</a> 使用的 wifi driver 和 Freescale 提供的開發版 (sabresd &#x2026;etc) 設
 定不太一樣，因此我們必須對 wifi 驅動進行修正，這樣才能避免編譯錯誤。造成這個問題
-的主因，是因為在 <a href="http://www.wandboard.org/" target="_blank" rel="external">wandboard</a> 的 <code>BoardConfig.mk</code> 中我們指定了 <code>BOARD_WLAN_DEVICE</code>
+的主因，是因為在 <a href="http://www.wandboard.org/" target="_blank" rel="noopener">wandboard</a> 的 <code>BoardConfig.mk</code> 中我們指定了 <code>BOARD_WLAN_DEVICE</code>
 的名稱，但是在 <code>hardware/</code> 下面卻無法有匹配的資訊，導致需要的 lib 沒有被編譯到。
 </p>
 
@@ -788,12 +788,12 @@ coldnew@Rosia ~ $ sudo dd if=out/target/product/wandboard/system.img of=/dev/sdc
 <div class="outline-text-2" id="text-orgfbfa85d">
 <p>
 我們從 AOSP 下載編譯出來的 Android 系統是不會包含 google-apps 的支援，正常要包含
-他的話必須通過 Google 的 <a href="http://source.android.com/compatibility/" target="_blank" rel="external">Compatibility Test Suite (CTS) 認證</a> ，因此我們只能使用
+他的話必須通過 Google 的 <a href="http://source.android.com/compatibility/" target="_blank" rel="noopener">Compatibility Test Suite (CTS) 認證</a> ，因此我們只能使用
 另外一種方式來安裝 google-apps 等套件。
 </p>
 
 <p>
-要安裝 Google Apps，首先先下載我們需要的檔案，你可以在 <a href="https://wiki.cyanogenmod.org/w/Google_Apps" target="_blank" rel="external">Cyanogenmod Wiki</a> 上面找到
+要安裝 Google Apps，首先先下載我們需要的檔案，你可以在 <a href="https://wiki.cyanogenmod.org/w/Google_Apps" target="_blank" rel="noopener">Cyanogenmod Wiki</a> 上面找到
 下載連結，以 Android 4.4.2 為例，對應到的就是 <code>CM11</code> ，因此我們可以選擇 <code>CM11</code>
 版本的 google-apps 來下載。
 </p>
@@ -867,11 +867,11 @@ On-Lap 1002 的多點觸碰功能。
 <h2 id="org08cfc09">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org08cfc09">
 <p>
-<code>[1]</code> <a href="https://tinyurl.com/z69pa8b" target="_blank" rel="external">i.MX6 Android kk4.4.2_1.0.0 BSP Documentation (REV KK4.4.2_1.0.0)</a>
+<code>[1]</code> <a href="https://tinyurl.com/z69pa8b" target="_blank" rel="noopener">i.MX6 Android kk4.4.2_1.0.0 BSP Documentation (REV KK4.4.2_1.0.0)</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="http://arosscohen.com/building-android-for-wandboard-on-os-x/" target="_blank" rel="external">building android for wandboard on os x</a>
+<code>[2]</code> <a href="http://arosscohen.com/building-android-for-wandboard-on-os-x/" target="_blank" rel="noopener">building android for wandboard on os x</a>
 </p>
 </div>
 </div>

@@ -226,7 +226,7 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-在前面的文章裡面，我說了 <a href="http://shop.geeksphone.com/en/phones/9-revolution.html" target="_blank" rel="external">Geeksphone Revolution</a> <code>並非開發者友好的手機</code> ，這是為什麼
+在前面的文章裡面，我說了 <a href="http://shop.geeksphone.com/en/phones/9-revolution.html" target="_blank" rel="noopener">Geeksphone Revolution</a> <code>並非開發者友好的手機</code> ，這是為什麼
 呢?在這邊文章讓我來一一吐槽吧，首先先讓我們看看官網上的其中一篇宣傳
 </p>
 
@@ -241,21 +241,21 @@
 文</a>當中展示過了，那問題出在哪？問題是出在 <b>you can seamlessly switch to
 Boot2Gecko by Mozilla, or any other community-supported flavor of an OS</b> 這句話
 啊&#x2026; 我們先說 Geeksphone Revolution 的 Firefox OS 支援好了，事實上這隻手機 <b>根
-本沒有</b> 被 Mozilla 所支援，這點可以從 <a href="https://github.com/mozilla-b2g/B2G/blob/master/config.sh#L118" target="_blank" rel="external">mozilla-b2g/B2G/config.sh</a> 這份檔案看到，
+本沒有</b> 被 Mozilla 所支援，這點可以從 <a href="https://github.com/mozilla-b2g/B2G/blob/master/config.sh#L118" target="_blank" rel="noopener">mozilla-b2g/B2G/config.sh</a> 這份檔案看到，
 B2G 支援的清單有 Geeksphone 其他的手機 (peaks, keon)，但是並沒有 revolution 這隻，
 到底為什麼呢?
 </p>
 
 <p>
-追根究柢的原因，是出在 <b>Intel</b> 身上， <a href="http://shop.geeksphone.com/en/phones/9-revolution.html" target="_blank" rel="external">Geeksphone Revolution</a> 使用 Intel 的 CPU
+追根究柢的原因，是出在 <b>Intel</b> 身上， <a href="http://shop.geeksphone.com/en/phones/9-revolution.html" target="_blank" rel="noopener">Geeksphone Revolution</a> 使用 Intel 的 CPU
 正是其最大的敗筆。疑 !? Intel 不是支援 Linux 最好的廠商之一嗎? 是的，但是很可惜
 這台手機用的 <b>Intel Atom Z2560</b> 所搭載的 GPU 是知名的 PowerVR，這廠牌除了並不
 開放源碼以外，也幾乎不提供任何文檔 (請記住，Intel 自己的 GPU driver 是開源的)，
-雖然社群 <a href="http://www.phoronix.com/scan.php?page=news_item&amp;px=OTEwMA" target="_blank" rel="external">曾經</a> 想要使用逆向工程來製作出 Opensource 的驅動，不過目前看起來 <a href="http://libv.livejournal.com/26972.html" target="_blank" rel="external">進展有限</a>。
+雖然社群 <a href="http://www.phoronix.com/scan.php?page=news_item&amp;px=OTEwMA" target="_blank" rel="noopener">曾經</a> 想要使用逆向工程來製作出 Opensource 的驅動，不過目前看起來 <a href="http://libv.livejournal.com/26972.html" target="_blank" rel="noopener">進展有限</a>。
 </p>
 
 <p>
-除了 PowerVR 以外，另外一個真正的元兇就是 <b>Intel</b> 了，我們來看看 <a href="http://shop.geeksphone.com/en/phones/9-revolution.html" target="_blank" rel="external">Geeksphone
+除了 PowerVR 以外，另外一個真正的元兇就是 <b>Intel</b> 了，我們來看看 <a href="http://shop.geeksphone.com/en/phones/9-revolution.html" target="_blank" rel="noopener">Geeksphone
 Revolution</a> 提供的 boot.img 長什麼樣子
 </p>
 
@@ -294,11 +294,11 @@ coldnew@Rosia ~/AOSP $ hexdump -C boot.img | head -n 10
 
 <p>
 有沒有注意到，正規的 Android boot.img 是從 <code>ANDROID!</code> 開始的，也就是說
-<a href="http://shop.geeksphone.com/en/phones/9-revolution.html" target="_blank" rel="external">Geeksphone Revolution</a> 使用的 boot.img 是 <code>特殊規格</code> 的，我們可以在 LWN.net 找到<a href="https://lwn.net/Articles/638627/" target="_blank" rel="external"> 相關
+<a href="http://shop.geeksphone.com/en/phones/9-revolution.html" target="_blank" rel="noopener">Geeksphone Revolution</a> 使用的 boot.img 是 <code>特殊規格</code> 的，我們可以在 LWN.net 找到<a href="https://lwn.net/Articles/638627/" target="_blank" rel="noopener"> 相關
 的描述</a> ，簡單的說 Intel 對於系統的安全性無微不至，即使是個 boot.img 也會經過安全
 的加密手續讓你的系統服服貼貼的，所以使用 Intel 的 x86 Android 是很安全的，不會有
 可惡的第三方開發者亂搞鬼。我的天啊&#x2026;..，而加密用的工具並不會公開給一般人，這一點我們
-可以在 <a href="https://software.intel.com/en-us/forums/topic/537387" target="_blank" rel="external">Intel Developer Zone</a> 看到，也因此，在 <a href="http://forum.geeksphone.com/index.php?topic=6280.0" target="_blank" rel="external">CM11 編譯教學</a> 裡面就看到了以下這段話
+可以在 <a href="https://software.intel.com/en-us/forums/topic/537387" target="_blank" rel="noopener">Intel Developer Zone</a> 看到，也因此，在 <a href="http://forum.geeksphone.com/index.php?topic=6280.0" target="_blank" rel="noopener">CM11 編譯教學</a> 裡面就看到了以下這段話
 </p>
 
 
@@ -325,8 +325,8 @@ boot.img 的組成。
 </div>
 
 <p>
-除了 Linux Kernel 以外，讓我們來看看 <a href="http://shop.geeksphone.com/en/phones/9-revolution.html" target="_blank" rel="external">Geeksphone Revolution</a> 所公開的 GPL 程式碼部
-分吧，在官方論壇的 <a href="http://forum.geeksphone.com/index.php?topic=6037.0" target="_blank" rel="external">這篇文章</a> 提到了他們 GPL 相關程式碼的下載點以及 <a href="https://github.com/gp-b2g" target="_blank" rel="external">GitHub</a> 位址，
+除了 Linux Kernel 以外，讓我們來看看 <a href="http://shop.geeksphone.com/en/phones/9-revolution.html" target="_blank" rel="noopener">Geeksphone Revolution</a> 所公開的 GPL 程式碼部
+分吧，在官方論壇的 <a href="http://forum.geeksphone.com/index.php?topic=6037.0" target="_blank" rel="noopener">這篇文章</a> 提到了他們 GPL 相關程式碼的下載點以及 <a href="https://github.com/gp-b2g" target="_blank" rel="noopener">GitHub</a> 位址，
 讓我們迫不及待的進入他們的 GitHub Repo 吧，首先映入眼簾的東西是這個:
 </p>
 
@@ -339,7 +339,7 @@ boot.img 的組成。
 <p>
 靠夭，貢獻者認證的綠色小點點好像有點少&#x2026;. 算了，沒關係，有提供程式碼就好了，因
 此我們來看看其中一個和 Firefox OS 相關的程式碼吧，基本上只要依照 git log 就可以很
-容易將這些程式和官方的 Firefox OS 整合，所以我點入了<a href="https://github.com/gp-b2g/gp-revolution-gecko" target="_blank" rel="external">gp-revolution-gecko</a> &#x2026;&#x2026;
+容易將這些程式和官方的 Firefox OS 整合，所以我點入了<a href="https://github.com/gp-b2g/gp-revolution-gecko" target="_blank" rel="noopener">gp-revolution-gecko</a> &#x2026;&#x2026;
 </p>
 
 

@@ -221,9 +221,9 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-<a href="http://tiswww.case.edu/php/chet/readline/rltop.html" target="_blank" rel="external">GNU Readline Library</a> 在 Linux 下是一個很常用的函式庫，在許多需要互動的指令程式上
+<a href="http://tiswww.case.edu/php/chet/readline/rltop.html" target="_blank" rel="noopener">GNU Readline Library</a> 在 Linux 下是一個很常用的函式庫，在許多需要互動的指令程式上
 很常見到其蹤影，最經典的莫過於 shell 了。我們在 shell 輸入資訊、使用上下鍵切換歷
-史紀錄、按 <code>TAB</code> 進行自動補全等功能，實際上都是使用到了 <a href="http://tiswww.case.edu/php/chet/readline/rltop.html" target="_blank" rel="external">readline</a> 函式庫，
+史紀錄、按 <code>TAB</code> 進行自動補全等功能，實際上都是使用到了 <a href="http://tiswww.case.edu/php/chet/readline/rltop.html" target="_blank" rel="noopener">readline</a> 函式庫，
 </p>
 
 <p>
@@ -232,8 +232,8 @@
 </p>
 
 <p>
-在本篇文章中，我選用了 <a href="https://github.com/jline/jline2/" target="_blank" rel="external">JLine 2.x</a> 來作為 readline 函式庫的替代。<a href="https://github.com/jline/jline2/" target="_blank" rel="external">JLine 2.x</a> 是一個
-開源並使用 <a href="http://www.opensource.org/licenses/BSD-3-Clause" target="_blank" rel="external">Modified BSD License</a> 授權的純 Java 實現的函式庫，他提供了許多與 GNU
+在本篇文章中，我選用了 <a href="https://github.com/jline/jline2/" target="_blank" rel="noopener">JLine 2.x</a> 來作為 readline 函式庫的替代。<a href="https://github.com/jline/jline2/" target="_blank" rel="noopener">JLine 2.x</a> 是一個
+開源並使用 <a href="http://www.opensource.org/licenses/BSD-3-Clause" target="_blank" rel="noopener">Modified BSD License</a> 授權的純 Java 實現的函式庫，他提供了許多與 GNU
 Readline 類似的功能，是用來實現互動式命令很方便的工具。
 </p>
 
@@ -253,11 +253,11 @@ coldnew@Rosia ~ $ lein new jline2
 
 <p>
 專案建立完成後，我們要稍微修改一下 <i>project.clj</i> ，在 <code>:dependencies</code> 欄位加上
-<a href="https://github.com/jline/jline2/" target="_blank" rel="external">jline2</a> 的依賴。
+<a href="https://github.com/jline/jline2/" target="_blank" rel="noopener">jline2</a> 的依賴。
 </p>
 
 <p>
-(你可以在 <a href="http://mvnrepository.com/artifact/jline/jline/2.13" target="_blank" rel="external">這裡</a> 找到最新的 JLine 版本資訊)
+(你可以在 <a href="http://mvnrepository.com/artifact/jline/jline/2.13" target="_blank" rel="noopener">這裡</a> 找到最新的 JLine 版本資訊)
 </p>
 
 <div class="org-src-container">
@@ -278,8 +278,8 @@ coldnew@Rosia ~ $ lein new jline2
 <div class="outline-text-2" id="text-orgc8200f7">
 <p>
 對於互動式命令的實現，第一個程式就會是怎樣將使用者的輸入顯示出來，對於這樣單純的
-程式，我們可以直接透過 JLine 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="external">ConsoleReader</a> 建立一個名為 <i>console</i> 的物件，並
-透過他的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%28java.lang.Character%29" target="_blank" rel="external">.readLine</a> 方法去取得目前輸入的資訊。
+程式，我們可以直接透過 JLine 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="noopener">ConsoleReader</a> 建立一個名為 <i>console</i> 的物件，並
+透過他的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%28java.lang.Character%29" target="_blank" rel="noopener">.readLine</a> 方法去取得目前輸入的資訊。
 </p>
 
 <div class="org-src-container">
@@ -316,11 +316,11 @@ You enter: hello jline2
 <div class="outline-text-2" id="text-orge1d7f76">
 <p>
 既然我們要打造互動式命令，通常都會將他卡在某個無窮迴圈中，直到遇到特定條件時跳脫
-出這個無窮迴圈，在 clojure 中有許多迴圈類的函式，比如 <a href="https://clojuredocs.org/clojure.core/while" target="_blank" rel="external">while</a> 、<a href="https://clojuredocs.org/clojure.core/for" target="_blank" rel="external">for</a> 、<a href="https://clojuredocs.org/clojure.core/loop" target="_blank" rel="external">loop</a> 等。
+出這個無窮迴圈，在 clojure 中有許多迴圈類的函式，比如 <a href="https://clojuredocs.org/clojure.core/while" target="_blank" rel="noopener">while</a> 、<a href="https://clojuredocs.org/clojure.core/for" target="_blank" rel="noopener">for</a> 、<a href="https://clojuredocs.org/clojure.core/loop" target="_blank" rel="noopener">loop</a> 等。
 </p>
 
 <p>
-這邊使用 <a href="https://clojuredocs.org/clojure.core/loop" target="_blank" rel="external">loop</a> 來實作我們的無窮迴圈，這個程式會一直執行，並且透過 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%28java.lang.Character%29" target="_blank" rel="external">.readLine</a> 方法
+這邊使用 <a href="https://clojuredocs.org/clojure.core/loop" target="_blank" rel="noopener">loop</a> 來實作我們的無窮迴圈，這個程式會一直執行，並且透過 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%28java.lang.Character%29" target="_blank" rel="noopener">.readLine</a> 方法
 去取得 console 目前輸入的資訊直到遇到使用者輸入 <i>quit</i> 後，因為不再呼叫 <i>recur</i>
 而讓迴圈結束。
 </p>
@@ -366,7 +366,7 @@ Exit application.
 <div class="outline-text-2" id="text-orgdcacd37">
 <p>
 在互動式命令中，輸入密碼的時候我們不是不顯示密碼，不然就是將密碼轉換成 <code>*</code> 進行
-顯示，那在 jline 下要怎樣作呢？實際上透過 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="external">ConsoleReader</a> 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%28java.lang.Character%29" target="_blank" rel="external">.readLine</a> 方法及可以
+顯示，那在 jline 下要怎樣作呢？實際上透過 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="noopener">ConsoleReader</a> 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%28java.lang.Character%29" target="_blank" rel="noopener">.readLine</a> 方法及可以
 設定要如何顯示使用者的輸入，比如說我們將輸入變成 <code>*</code> 這樣的符號:
 </p>
 
@@ -449,7 +449,7 @@ clear、echo。
 </p>
 
 <p>
-clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" target="_blank" rel="external">split</a> 函式可以很方便的將字串切割成序列 (sequence)。
+clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" target="_blank" rel="noopener">split</a> 函式可以很方便的將字串切割成序列 (sequence)。
 </p>
 
 <div class="org-src-container">
@@ -459,8 +459,8 @@ clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" 
 </div>
 
 <p>
-將輸入的資訊切割成序列 (sequence) 後，我們就可以使用 <a href="https://clojuredocs.org/clojure.core/first" target="_blank" rel="external">first</a> 去取得序列的第一個項
-目，也就是使用者實際輸入的命令，我們將其導入 <a href="https://clojuredocs.org/clojure.core/case" target="_blank" rel="external">case</a> 進行判斷，若有符合的資訊則根據
+將輸入的資訊切割成序列 (sequence) 後，我們就可以使用 <a href="https://clojuredocs.org/clojure.core/first" target="_blank" rel="noopener">first</a> 去取得序列的第一個項
+目，也就是使用者實際輸入的命令，我們將其導入 <a href="https://clojuredocs.org/clojure.core/case" target="_blank" rel="noopener">case</a> 進行判斷，若有符合的資訊則根據
 批配項目進行相對應的函式，反之則提示說沒有該命令存在。
 </p>
 
@@ -478,12 +478,12 @@ clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" 
 </div>
 
 <p>
-我們先從 clear 命令開始，clear 命令實際上是調用了 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="external">ConsoleReader</a> 的 [[<a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#clearScreen%28%29" target="_blank" rel="external">http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#clearScreen()</a>][clearScreen[[file:][]]]
+我們先從 clear 命令開始，clear 命令實際上是調用了 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="noopener">ConsoleReader</a> 的 [[<a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#clearScreen%28%29" target="_blank" rel="noopener">http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#clearScreen()</a>][clearScreen[[file:][]]]
 方法，將整個畫面清除乾淨。
 </p>
 
 <p>
-而 echo 命令則是透過 <a href="https://clojuredocs.org/clojure.core/second" target="_blank" rel="external">second</a> 方法去取得我們切割出來的命令序列 (sequence) 中的第二
+而 echo 命令則是透過 <a href="https://clojuredocs.org/clojure.core/second" target="_blank" rel="noopener">second</a> 方法去取得我們切割出來的命令序列 (sequence) 中的第二
 個項目，並將之印出來。
 </p>
 
@@ -499,7 +499,7 @@ ls 命令則是當中最為複雜的一個，我們首先透過 <code>System/get
 </div>
 
 <p>
-知道了當前目錄後，我們再將其透過 clojure.java.io 的<a href="https://clojuredocs.org/clojure.java.io/file" target="_blank" rel="external"> file</a> 將目錄內容轉換成
+知道了當前目錄後，我們再將其透過 clojure.java.io 的<a href="https://clojuredocs.org/clojure.java.io/file" target="_blank" rel="noopener"> file</a> 將目錄內容轉換成
 序列 (sequence)。
 </p>
 
@@ -510,7 +510,7 @@ ls 命令則是當中最為複雜的一個，我們首先透過 <code>System/get
 </div>
 
 <p>
-有了序列 (sequence) 以後，接下來就使用 <a href="https://clojuredocs.org/clojure.core/doseq" target="_blank" rel="external">doseq</a> 去遍歷這整個序列 (sequence) ，並將
+有了序列 (sequence) 以後，接下來就使用 <a href="https://clojuredocs.org/clojure.core/doseq" target="_blank" rel="noopener">doseq</a> 去遍歷這整個序列 (sequence) ，並將
 資訊印出來，這樣我們的 ls 命令就完成了。
 </p>
 
@@ -547,7 +547,7 @@ user&gt;
 <h2 id="org13f6eb5">取得範例程式碼</h2>
 <div class="outline-text-2" id="text-org13f6eb5">
 <p>
-本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
+本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
 
 <pre class="example">
@@ -573,19 +573,19 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/jline2
 <h2 id="orgd0509a9">延伸閱讀</h2>
 <div class="outline-text-2" id="text-orgd0509a9">
 <p>
-<code>[1]</code> <a href="http://www.cnblogs.com/hazir/p/instruction_to_readline.html" target="_blank" rel="external">GNU Readline 庫及編程簡介</a>
+<code>[1]</code> <a href="http://www.cnblogs.com/hazir/p/instruction_to_readline.html" target="_blank" rel="noopener">GNU Readline 庫及編程簡介</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="http://offbytwo.com/presentations/building-better-repl.pdf" target="_blank" rel="external">Building a better Clojure REPL</a>
+<code>[2]</code> <a href="http://offbytwo.com/presentations/building-better-repl.pdf" target="_blank" rel="noopener">Building a better Clojure REPL</a>
 </p>
 
 <p>
-<code>[3]</code> <a href="https://jeszysblog.wordpress.com/2012/04/14/readline-style-command-line-editing-with-jline/" target="_blank" rel="external">Readline style command line editing with JLine</a>
+<code>[3]</code> <a href="https://jeszysblog.wordpress.com/2012/04/14/readline-style-command-line-editing-with-jline/" target="_blank" rel="noopener">Readline style command line editing with JLine</a>
 </p>
 
 <p>
-<code>[4]</code> <a href="http://www.programcreek.com/java-api-examples/index.php?api=jline.console.ConsoleReader" target="_blank" rel="external">Java Code Examples for jline.console.ConsoleReader</a>
+<code>[4]</code> <a href="http://www.programcreek.com/java-api-examples/index.php?api=jline.console.ConsoleReader" target="_blank" rel="noopener">Java Code Examples for jline.console.ConsoleReader</a>
 </p>
 </div>
 </div>

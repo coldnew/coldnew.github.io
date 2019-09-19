@@ -239,20 +239,20 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-在使用 Xilinx 的開發環境 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado 2016.1</a> 有遇到一些問題，特別紀錄之。
+在使用 Xilinx 的開發環境 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado 2016.1</a> 有遇到一些問題，特別紀錄之。
 </p>
 
 <a id="more"></a>
 
 <p>
-(Xilinx 的開發環境 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 使用 Java 開發，而 Altera 的 <a href="http://dl.altera.com/?edition=lite" target="_blank" rel="external">Quartus</a> 使用 Qt 開發，以我遇到的狀況來說，後者在 Linux 上的體驗好多了。)
+(Xilinx 的開發環境 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 使用 Java 開發，而 Altera 的 <a href="http://dl.altera.com/?edition=lite" target="_blank" rel="noopener">Quartus</a> 使用 Qt 開發，以我遇到的狀況來說，後者在 Linux 上的體驗好多了。)
 </p>
 
 <div id="outline-container-org0fb6518" class="outline-2">
 <h2 id="org0fb6518">安裝 Vivado 在其他的 Linux 平台</h2>
 <div class="outline-text-2" id="text-org0fb6518">
 <p>
-<a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="external">Vivado</a> 安裝程式在非官方支援的 Linux 平台上可能會導致安裝出問題，以我的 Gentoo Linux 為例，我必須把解壓出的 <code>xsetup</code> 安裝腳本裡面的這部分修改掉，不然會在 64bit 並具有 32bit 函式庫的 Gentoo Linux 下安裝失敗。
+<a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 安裝程式在非官方支援的 Linux 平台上可能會導致安裝出問題，以我的 Gentoo Linux 為例，我必須把解壓出的 <code>xsetup</code> 安裝腳本裡面的這部分修改掉，不然會在 64bit 並具有 32bit 函式庫的 Gentoo Linux 下安裝失敗。
 </p>
 
 <div class="org-src-container">
@@ -276,7 +276,7 @@
 <h2 id="org586eeea">讓 Linux 辨識 USB UART</h2>
 <div class="outline-text-2" id="text-org586eeea">
 <p>
-如果你接上 USB 到 Zybo Board 的 USB UART 接腳，卻沒在你的 Linux 上面看到任何 <code>/dev/ttyUSB*</code> 被建立的話，那就是你少裝了一些 UDEV rule，這邊的說明可以在  <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_2/ug973-vivado-release-notes-install-license.pdf" target="_blank" rel="external">Vivado Design Suite User Guide</a> 找到，簡單的說&#x2026;.
+如果你接上 USB 到 Zybo Board 的 USB UART 接腳，卻沒在你的 Linux 上面看到任何 <code>/dev/ttyUSB*</code> 被建立的話，那就是你少裝了一些 UDEV rule，這邊的說明可以在  <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_2/ug973-vivado-release-notes-install-license.pdf" target="_blank" rel="noopener">Vivado Design Suite User Guide</a> 找到，簡單的說&#x2026;.
 </p>
 
 <p>
@@ -304,15 +304,15 @@
 </div>
 
 <p>
-這問題的元兇是 <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="external">Oracle JDK</a> 使用 <a href="https://zh.wikipedia.org/zh-tw/Swing_%28Java%29" target="_blank" rel="external">Java Swing</a> 時，在 Linux 上並未支援 HiDPI 解析度，導致出現的畫面太小，這 <a href="http://openjdk.java.net/jeps/263" target="_blank" rel="external">問題</a> 據說會修正在 JDK 9 上，目前我們只能用一些臨時解 (workround)來處理這狀況，或是將 Vivado 視窗移動到解析度沒那樣好的外接螢幕上也可以。
+這問題的元兇是 <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">Oracle JDK</a> 使用 <a href="https://zh.wikipedia.org/zh-tw/Swing_%28Java%29" target="_blank" rel="noopener">Java Swing</a> 時，在 Linux 上並未支援 HiDPI 解析度，導致出現的畫面太小，這 <a href="http://openjdk.java.net/jeps/263" target="_blank" rel="noopener">問題</a> 據說會修正在 JDK 9 上，目前我們只能用一些臨時解 (workround)來處理這狀況，或是將 Vivado 視窗移動到解析度沒那樣好的外接螢幕上也可以。
 </p>
 
 <p>
-針對 HiDPI 下，我採用的另外一種解決方案是使用 <a href="https://github.com/feklee/vncdesk" target="_blank" rel="external">vncdesk</a> 來協助我們透過 VNC 協定對特定的程式進行視窗的縮放功能，該程式會在背景啟動一個 VNC 伺服器，然後在根據我們的設定啟動我們需要的程式，接著呼叫 VNC Client 並進行畫面縮放來達到我們的要求。
+針對 HiDPI 下，我採用的另外一種解決方案是使用 <a href="https://github.com/feklee/vncdesk" target="_blank" rel="noopener">vncdesk</a> 來協助我們透過 VNC 協定對特定的程式進行視窗的縮放功能，該程式會在背景啟動一個 VNC 伺服器，然後在根據我們的設定啟動我們需要的程式，接著呼叫 VNC Client 並進行畫面縮放來達到我們的要求。
 </p>
 
 <p>
-在 Gentoo Linux 上，你可以透過我寫好的 <a href="https://github.com/coldnew/coldnew-overlay/blob/master/app-misc/vncdesk/vncdesk-1.4.0.ebuild" target="_blank" rel="external">ebuild</a> 來安裝 vncdesk
+在 Gentoo Linux 上，你可以透過我寫好的 <a href="https://github.com/coldnew/coldnew-overlay/blob/master/app-misc/vncdesk/vncdesk-1.4.0.ebuild" target="_blank" rel="noopener">ebuild</a> 來安裝 vncdesk
 </p>
 
 <pre class="example">
@@ -451,7 +451,7 @@ coldnew@gentoo ~ $ vncdesk 21
 <h2 id="orgde18c6d">延伸閱讀</h2>
 <div class="outline-text-2" id="text-orgde18c6d">
 <p>
-<code>[1]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_2/ug973-vivado-release-notes-install-license.pdf" target="_blank" rel="external">Vivado Design Suite User Guide</a>
+<code>[1]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_2/ug973-vivado-release-notes-install-license.pdf" target="_blank" rel="noopener">Vivado Design Suite User Guide</a>
 </p>
 </div>
 </div>

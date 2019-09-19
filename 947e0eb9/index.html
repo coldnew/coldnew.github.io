@@ -226,14 +226,14 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-最近因為和朋友在 Github 上弄了 <a href="https://github.com/clojure-tw" target="_blank" rel="external">clojure-tw</a> 群組，為了現代人通訊方便，便決定第一個
+最近因為和朋友在 Github 上弄了 <a href="https://github.com/clojure-tw" target="_blank" rel="noopener">clojure-tw</a> 群組，為了現代人通訊方便，便決定第一個
 程式就是 irc &lt;-&gt; gitter/slack 的橋接程式，用來溝通 freenode 上的 <code>#clojure.tw</code>
-與 <a href="https://gitter.im/clojure-tw/gossip" target="_blank" rel="external">clojure-tw/gossip</a> 這個 gitter 頻道與 slack 上的 <code>clojure-taiwan</code> 頻道。
+與 <a href="https://gitter.im/clojure-tw/gossip" target="_blank" rel="noopener">clojure-tw/gossip</a> 這個 gitter 頻道與 slack 上的 <code>clojure-taiwan</code> 頻道。
 </p>
 
 <p>
-但很不幸的是，由於 <a href="http://clojurians.net/" target="_blank" rel="external">clojurians</a> 這個 slack 群組因為 Admin 關閉了機器人支援，因此最
-後就只實作了 irc &lt;-&gt; gitter 的通道，完整程式碼我已經放到了 <a href="https://github.com/clojure-tw/irc-bridge" target="_blank" rel="external">clojure-tw/irc-bridge</a>
+但很不幸的是，由於 <a href="http://clojurians.net/" target="_blank" rel="noopener">clojurians</a> 這個 slack 群組因為 Admin 關閉了機器人支援，因此最
+後就只實作了 irc &lt;-&gt; gitter 的通道，完整程式碼我已經放到了 <a href="https://github.com/clojure-tw/irc-bridge" target="_blank" rel="noopener">clojure-tw/irc-bridge</a>
 ，這篇文章就來說說這個程式大致上是怎樣運行的。
 </p>
 
@@ -318,7 +318,7 @@ Hello, Clojure!
 <div class="outline-text-2" id="text-org7aaa0a6">
 <p>
 為了能夠將訊息發布到 gitter 上，我們必須取得你的 gitter 帳號的 token，這邊我使用
-的是 <a href="https://github.com/clojuretwbot" target="_blank" rel="external">clojuretwbot</a> 這個帳號去登入 <a href="https://developer.gitter.im/docs/welcome" target="_blank" rel="external">GITTER DEVELOPER</a> 網站，你會看到 gitter 提供了你這
+的是 <a href="https://github.com/clojuretwbot" target="_blank" rel="noopener">clojuretwbot</a> 這個帳號去登入 <a href="https://developer.gitter.im/docs/welcome" target="_blank" rel="noopener">GITTER DEVELOPER</a> 網站，你會看到 gitter 提供了你這
 個帳號可以使用的 token，我們將使用他來用於 Gitter API 上。
 </p>
 
@@ -344,7 +344,7 @@ Hello, Clojure!
 <div class="outline-text-2" id="text-org5b4aa7e">
 <p>
 除了 token 以外，因為我們要監聽/發布訊息到某個 gitter 頻道，因此要知道該頻道的 ROOM
-ID 才行，這邊可以參考 <a href="https://developer.gitter.im/docs/rooms-resource" target="_blank" rel="external">GITTER DEVELOPER ROOMS-RESOURCE</a> 這頁，我自己則是使用 <i>curl</i>
+ID 才行，這邊可以參考 <a href="https://developer.gitter.im/docs/rooms-resource" target="_blank" rel="noopener">GITTER DEVELOPER ROOMS-RESOURCE</a> 這頁，我自己則是使用 <i>curl</i>
 命令來取得需要使用的資訊
 </p>
 
@@ -368,7 +368,7 @@ coldnew@Rosia ~ $ curl -i -H "Accept: application/json" -H "Authorization: Beare
 
 <p>
 由於 JSON 格式一行實在難以讓人看清，因此你可以把資訊複製到
-<a href="http://jsonprettyprint.com/" target="_blank" rel="external">http://jsonprettyprint.com/</a> 去把資訊變成人眼好判讀的樣子，這是我得到的結果
+<a href="http://jsonprettyprint.com/" target="_blank" rel="noopener">http://jsonprettyprint.com/</a> 去把資訊變成人眼好判讀的樣子，這是我得到的結果
 </p>
 
 <div class="org-src-container">
@@ -419,7 +419,7 @@ coldnew@Rosia ~ $ curl -i -H "Accept: application/json" -H "Authorization: Beare
 </div>
 
 <p>
-接下來可以參照 <a href="https://developer.gitter.im/docs/messages-resource" target="_blank" rel="external">GITTER DEVELOPER MESSAGE-RESOURCE</a> 一節，使用 HTTP POST 命令將訊息
+接下來可以參照 <a href="https://developer.gitter.im/docs/messages-resource" target="_blank" rel="noopener">GITTER DEVELOPER MESSAGE-RESOURCE</a> 一節，使用 HTTP POST 命令將訊息
 傳送到 gitter room 裡面。
 </p>
 
@@ -432,9 +432,9 @@ coldnew@Rosia ~ $ curl -i -H "Accept: application/json" -H "Authorization: Beare
 </div>
 
 <p>
-當然我們不想在 Clojure 裡面還要通過系統命令呼叫 <i>curl</i> ，因此我們使用 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="external">clj-http</a>
+當然我們不想在 Clojure 裡面還要通過系統命令呼叫 <i>curl</i> ，因此我們使用 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="noopener">clj-http</a>
 這個優秀的函式庫幫我們處理 <i>HTTP POST</i> 請求，由於傳送給 gitter 時需要將 clojure
-的 <i>hash-map</i> 格式轉換成 json，這部份則是透過 <a href="https://github.com/clojure/data.json" target="_blank" rel="external">data.json</a> 這個函式庫來處理。
+的 <i>hash-map</i> 格式轉換成 json，這部份則是透過 <a href="https://github.com/clojure/data.json" target="_blank" rel="noopener">data.json</a> 這個函式庫來處理。
 </p>
 
 <div class="org-src-container">
@@ -477,7 +477,7 @@ GET</i> 了吧？
 </p>
 
 <p>
-為了解決這個問題，因此取得 gitter 上面的訊息應該要選用 <a href="https://developer.gitter.im/docs/streaming-api" target="_blank" rel="external">Streaming-API</a> 來打開一個與
+為了解決這個問題，因此取得 gitter 上面的訊息應該要選用 <a href="https://developer.gitter.im/docs/streaming-api" target="_blank" rel="noopener">Streaming-API</a> 來打開一個與
 gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給我們的 IRC 機器人。
 </p>
 
@@ -541,7 +541,7 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </div>
 
 <p>
-當然身為 clojurians，我們一定會對 JSON 充滿著不屑，因此使用 <a href="https://github.com/clojure/data.json" target="_blank" rel="external">data.json</a> 將 JSON 格
+當然身為 clojurians，我們一定會對 JSON 充滿著不屑，因此使用 <a href="https://github.com/clojure/data.json" target="_blank" rel="noopener">data.json</a> 將 JSON 格
 式轉換成 Clojure 自己的格式
 </p>
 
@@ -601,7 +601,7 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </div>
 
 <p>
-接下來要實作 irc 連線功能，這裡使用完全用 Clojure 實做的 <a href="https://github.com/Raynes/irclj" target="_blank" rel="external">Raynes/irclj</a> 函式庫來減
+接下來要實作 irc 連線功能，這裡使用完全用 Clojure 實做的 <a href="https://github.com/Raynes/irclj" target="_blank" rel="noopener">Raynes/irclj</a> 函式庫來減
 輕我們的負擔，由於連線會涉及到 socket 的開關，因此我們使用一個 <i>atom</i> 來紀錄我們 irc 連線的資訊。
 </p>
 
@@ -611,7 +611,7 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 </div>
 
 <p>
-於是我們就可以透過 <a href="https://github.com/Raynes/irclj" target="_blank" rel="external">irclj</a> 函式庫的功能來對 irc 進行連接，並進入到我們想使用的頻道
+於是我們就可以透過 <a href="https://github.com/Raynes/irclj" target="_blank" rel="noopener">irclj</a> 函式庫的功能來對 irc 進行連接，並進入到我們想使用的頻道
 去，注意到 irclj 的設計是使用異步模式，因此在處理 <code>privmsg</code> 這個 <i>callback</i> 時就會
 有點寫 javascript 的感覺。
 </p>
@@ -650,7 +650,7 @@ gitter server 的連線，當有新的訊息時將訊息印出來 or 傳送給�
 <h2 id="orga8cc315">傳送訊息到 irc 上</h2>
 <div class="outline-text-2" id="text-orga8cc315">
 <p>
-發送訊息其實就只是 <a href="https://github.com/Raynes/irclj" target="_blank" rel="external">irclj</a> 函式的使用而已
+發送訊息其實就只是 <a href="https://github.com/Raynes/irclj" target="_blank" rel="noopener">irclj</a> 函式的使用而已
 </p>
 
 <div class="org-src-container">
@@ -683,13 +683,13 @@ irc 呢？
 </p>
 
 <p>
-在 Clojure 中，使用 <a href="https://github.com/clojure/core.async" target="_blank" rel="external">core.async</a> 是一個非常好的選擇，我們可以在不同的線程中，將訊
+在 Clojure 中，使用 <a href="https://github.com/clojure/core.async" target="_blank" rel="noopener">core.async</a> 是一個非常好的選擇，我們可以在不同的線程中，將訊
 息丟給 core.async 中的 channel，而當 channel 中有東西的時候，則會提交給 gitter
 或是 irc，你可以想像 core.async 幫我們實現一個用來處理事件觸發的線程。
 </p>
 
 <p>
-如果你還是聽不懂，沒關係。這邊有一篇很不錯的 core.async 相關的解釋可以參考:  <a href="https://blog.oyanglul.us/javascript/clojure-core.async-essence-in-native-javascript.html" target="_blank" rel="external">Clojure 風格的 JavaScript 並發編程</a>
+如果你還是聽不懂，沒關係。這邊有一篇很不錯的 core.async 相關的解釋可以參考:  <a href="https://blog.oyanglul.us/javascript/clojure-core.async-essence-in-native-javascript.html" target="_blank" rel="noopener">Clojure 風格的 JavaScript 並發編程</a>
 </p>
 
 <p>
@@ -776,7 +776,7 @@ irc 呢？
 </p>
 
 <p>
-你可以參考以下圖片到 <a href="https://webchat.freenode.net" target="_blank" rel="external">https://webchat.freenode.net</a> 來進行網頁版的 irc 連線，這裡
+你可以參考以下圖片到 <a href="https://webchat.freenode.net" target="_blank" rel="noopener">https://webchat.freenode.net</a> 來進行網頁版的 irc 連線，這裡
 以 <code>#test-bot</code> 作為範例
 </p>
 
@@ -813,8 +813,8 @@ coldnew@Rosia ~/mybot $ lein run
 <h2 id="org266c9f9">取得範例程式碼</h2>
 <div class="outline-text-2" id="text-org266c9f9">
 <p>
-本篇文章是我寫完 <a href="https://github.com/clojure-tw/irc-bridge" target="_blank" rel="external">clojure-tw/irc-bridge</a> 後另外建立的簡單範例程式碼，因此一樣是存
-放在我自己的 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/mybot" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
+本篇文章是我寫完 <a href="https://github.com/clojure-tw/irc-bridge" target="_blank" rel="noopener">clojure-tw/irc-bridge</a> 後另外建立的簡單範例程式碼，因此一樣是存
+放在我自己的 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/mybot" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
 
 <pre class="example">
@@ -840,11 +840,11 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/mybot
 <h2 id="orgbfcc336">延伸閱讀</h2>
 <div class="outline-text-2" id="text-orgbfcc336">
 <p>
-<code>[1]</code> <a href="https://github.com/clojure-tw/irc-bridge" target="_blank" rel="external">https://github.com/clojure-tw/irc-bridge</a>
+<code>[1]</code> <a href="https://github.com/clojure-tw/irc-bridge" target="_blank" rel="noopener">https://github.com/clojure-tw/irc-bridge</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="https://blog.oyanglul.us/javascript/clojure-core.async-essence-in-native-javascript.html" target="_blank" rel="external">Clojure 風格的 JavaScript 並發編程</a>
+<code>[2]</code> <a href="https://blog.oyanglul.us/javascript/clojure-core.async-essence-in-native-javascript.html" target="_blank" rel="noopener">Clojure 風格的 JavaScript 並發編程</a>
 </p>
 </div>
 </div>

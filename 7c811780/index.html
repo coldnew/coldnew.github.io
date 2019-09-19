@@ -221,7 +221,7 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-最近鬧得沸沸揚揚的事情，大概就是 <a href="https://github.com/azer" target="_blank" rel="external">Azer Koçulu</a> 在 npm 上<a href="https://medium.com/@azerbike/i-ve-just-liberated-my-modules-9045c06be67c#.eww19oprb" target="_blank" rel="external">下架 left-pad</a>這件事，導致許許多多依賴他的 Node.js 專案 <a href="https://github.com/azer/left-pad/issues/4" target="_blank" rel="external">不能使用</a>。
+最近鬧得沸沸揚揚的事情，大概就是 <a href="https://github.com/azer" target="_blank" rel="noopener">Azer Koçulu</a> 在 npm 上<a href="https://medium.com/@azerbike/i-ve-just-liberated-my-modules-9045c06be67c#.eww19oprb" target="_blank" rel="noopener">下架 left-pad</a>這件事，導致許許多多依賴他的 Node.js 專案 <a href="https://github.com/azer/left-pad/issues/4" target="_blank" rel="noopener">不能使用</a>。
 </p>
 
 <p>
@@ -234,7 +234,7 @@
 <h2 id="orgd28c855">leftpad 做了哪些事?</h2>
 <div class="outline-text-2" id="text-orgd28c855">
 <p>
-在我們開始前，讓我們來看看 <a href="https://github.com/azer/left-pad" target="_blank" rel="external">left-pad</a> 這個函式庫到底多好用，為什麼一堆套件都依賴他。實際上 <a href="https://github.com/azer/left-pad" target="_blank" rel="external">left-pad</a> 只有短短的幾行，內容如下:
+在我們開始前，讓我們來看看 <a href="https://github.com/azer/left-pad" target="_blank" rel="noopener">left-pad</a> 這個函式庫到底多好用，為什麼一堆套件都依賴他。實際上 <a href="https://github.com/azer/left-pad" target="_blank" rel="noopener">left-pad</a> 只有短短的幾行，內容如下:
 </p>
 
 <div class="org-src-container">
@@ -280,7 +280,7 @@ leftpad<span style="color: #aadddd;">(</span><span style="color: #ccaaff;">1</sp
 <h2 id="orga473ba6">如何在 clojure 上實作</h2>
 <div class="outline-text-2" id="text-orga473ba6">
 <p>
-那我們在 clojure 下要怎樣實作 leftpad 這函式的功能呢？實際上我們使用 <a href="https://clojuredocs.org/clojure.core/format" target="_blank" rel="external">clojure.core/format</a> 搭配一些字串的替代就可以辦到 (註: 參考自 <a href="http://beginnersbook.com/2014/07/java-left-padding-a-string-with-spaces-and-zeros/" target="_blank" rel="external">java – Left padding a String with Spaces and Zeros</a> 一文)
+那我們在 clojure 下要怎樣實作 leftpad 這函式的功能呢？實際上我們使用 <a href="https://clojuredocs.org/clojure.core/format" target="_blank" rel="noopener">clojure.core/format</a> 搭配一些字串的替代就可以辦到 (註: 參考自 <a href="http://beginnersbook.com/2014/07/java-left-padding-a-string-with-spaces-and-zeros/" target="_blank" rel="noopener">java – Left padding a String with Spaces and Zeros</a> 一文)
 </p>
 
 <div class="org-src-container">
@@ -297,7 +297,7 @@ leftpad<span style="color: #aadddd;">(</span><span style="color: #ccaaff;">1</sp
 </div>
 
 <p>
-當然像這樣用字串查找替代的方式很容易打死自己，此外，<a href="https://clojuredocs.org/clojure.core/format" target="_blank" rel="external">clojure.core/format</a> 因為 <a href="http://dev.clojure.org/jira/browse/CLJS-324" target="_blank" rel="external">CLJS-324 ISSUE</a> 的關係，目前是無法在 clojurescript 上使用的，因此我們應該考慮看看 clojure/clojurescript 都可以共用的 <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="external">cl-format</a> 。
+當然像這樣用字串查找替代的方式很容易打死自己，此外，<a href="https://clojuredocs.org/clojure.core/format" target="_blank" rel="noopener">clojure.core/format</a> 因為 <a href="http://dev.clojure.org/jira/browse/CLJS-324" target="_blank" rel="noopener">CLJS-324 ISSUE</a> 的關係，目前是無法在 clojurescript 上使用的，因此我們應該考慮看看 clojure/clojurescript 都可以共用的 <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="noopener">cl-format</a> 。
 </p>
 </div>
 </div>
@@ -306,7 +306,7 @@ leftpad<span style="color: #aadddd;">(</span><span style="color: #ccaaff;">1</sp
 <h2 id="orge66a97e">如何在 clojurescript 上實作</h2>
 <div class="outline-text-2" id="text-orge66a97e">
 <p>
-<a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="external">cl-format</a> 是移植自 common lisp 的 <a href="http://www.cs.cmu.edu/afs/cs.cmu.edu/project/ai-repository/ai/html/cltl/clm/node200.html#SECTION002633000000000000000%29" target="_blank" rel="external">format</a> 函式，是一種非常強大的字串格式化方式。具體範例在 <a href="http://www.gigamonkeys.com/book/a-few-format-recipes.html" target="_blank" rel="external">Praticle Common Lisp</a> 一書內文有提到，我們在這邊只注重如何透過 <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="external">cl-format</a> 進行 padding:
+<a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="noopener">cl-format</a> 是移植自 common lisp 的 <a href="http://www.cs.cmu.edu/afs/cs.cmu.edu/project/ai-repository/ai/html/cltl/clm/node200.html#SECTION002633000000000000000%29" target="_blank" rel="noopener">format</a> 函式，是一種非常強大的字串格式化方式。具體範例在 <a href="http://www.gigamonkeys.com/book/a-few-format-recipes.html" target="_blank" rel="noopener">Praticle Common Lisp</a> 一書內文有提到，我們在這邊只注重如何透過 <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="noopener">cl-format</a> 進行 padding:
 </p>
 
 <div class="org-src-container">
@@ -322,7 +322,7 @@ leftpad<span style="color: #aadddd;">(</span><span style="color: #ccaaff;">1</sp
 </div>
 
 <p>
-了解了 <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="external">cl-format</a> 在 padding 功能上的使用，我們就可以透過它來製作 clojure/clojurescript 皆能使用的 <code>leftpad</code> 函式:
+了解了 <a href="https://clojuredocs.org/clojure.pprint/cl-format" target="_blank" rel="noopener">cl-format</a> 在 padding 功能上的使用，我們就可以透過它來製作 clojure/clojurescript 皆能使用的 <code>leftpad</code> 函式:
 </p>
 
 <div class="org-src-container">
@@ -344,11 +344,11 @@ leftpad<span style="color: #aadddd;">(</span><span style="color: #ccaaff;">1</sp
 <h2 id="org337b8ee">後記</h2>
 <div class="outline-text-2" id="text-org337b8ee">
 <p>
-本文只是我看到了 <a href="http://www.haneycodes.net/npm-left-pad-have-we-forgotten-how-to-program/" target="_blank" rel="external">NPM &amp; left-pad: Have We Forgotten How To Program?</a> 這篇文章後，來確認一下我到底會不會寫程式之用，文內實作的 clojure/clojurescript 版本你可以在 <a href="https://github.com/coldnew/left-pad.clj" target="_blank" rel="external">coldnew/left-pad.clj</a> 這個專案看到。
+本文只是我看到了 <a href="http://www.haneycodes.net/npm-left-pad-have-we-forgotten-how-to-program/" target="_blank" rel="noopener">NPM &amp; left-pad: Have We Forgotten How To Program?</a> 這篇文章後，來確認一下我到底會不會寫程式之用，文內實作的 clojure/clojurescript 版本你可以在 <a href="https://github.com/coldnew/left-pad.clj" target="_blank" rel="noopener">coldnew/left-pad.clj</a> 這個專案看到。
 </p>
 
 <p>
-如果你想看看 emacs-lisp 下要怎樣實作 leftpad 函式，則可以在 <a href="https://github.com/coldnew/left-pad.el" target="_blank" rel="external">coldnew/left-pad.el</a> 看到我實作的範例。
+如果你想看看 emacs-lisp 下要怎樣實作 leftpad 函式，則可以在 <a href="https://github.com/coldnew/left-pad.el" target="_blank" rel="noopener">coldnew/left-pad.el</a> 看到我實作的範例。
 </p>
 
 <p>
@@ -356,7 +356,7 @@ leftpad<span style="color: #aadddd;">(</span><span style="color: #ccaaff;">1</sp
 </p>
 
 <p>
-在 Clojure 的世界中，我們會把我們的專案放置到 <a href="http://clojars.org/" target="_blank" rel="external">Clojars</a> 去，而在 <a href="http://clojars.org/" target="_blank" rel="external">Clojars</a> 則是這樣規定 <a href="https://github.com/clojars/clojars-web/wiki/About#how-do-i-delete-a-jar" target="_blank" rel="external">How do I delete a jar?</a>
+在 Clojure 的世界中，我們會把我們的專案放置到 <a href="http://clojars.org/" target="_blank" rel="noopener">Clojars</a> 去，而在 <a href="http://clojars.org/" target="_blank" rel="noopener">Clojars</a> 則是這樣規定 <a href="https://github.com/clojars/clojars-web/wiki/About#how-do-i-delete-a-jar" target="_blank" rel="noopener">How do I delete a jar?</a>
 </p>
 
 <blockquote>
@@ -368,7 +368,7 @@ Deletion of entire projects or particular versions is discouraged as you will br
 <br>
 
 <p>
-<a href="http://clojars.org/" target="_blank" rel="external">Clojars</a> 的維護者是不太贊同開發者移除自己的套件的，我曾經要求 clojar 幫我移除一個以前誤上傳的套件 (請見 <a href="https://github.com/clojars/clojars-web/issues/391" target="_blank" rel="external">issue/391</a>)，也是花了好一段時間這個套件才真的被刪除，因此在 Clojure 世界中我們應該不太需要擔心有使用者下架套件這件事 :S。
+<a href="http://clojars.org/" target="_blank" rel="noopener">Clojars</a> 的維護者是不太贊同開發者移除自己的套件的，我曾經要求 clojar 幫我移除一個以前誤上傳的套件 (請見 <a href="https://github.com/clojars/clojars-web/issues/391" target="_blank" rel="noopener">issue/391</a>)，也是花了好一段時間這個套件才真的被刪除，因此在 Clojure 世界中我們應該不太需要擔心有使用者下架套件這件事 :S。
 </p>
 </div>
 </div>
@@ -377,11 +377,11 @@ Deletion of entire projects or particular versions is discouraged as you will br
 <h2 id="org71e03e1">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org71e03e1">
 <p>
-<code>[1]</code> <a href="http://www.haneycodes.net/npm-left-pad-have-we-forgotten-how-to-program/" target="_blank" rel="external">NPM &amp; left-pad: Have We Forgotten How To Program?</a>
+<code>[1]</code> <a href="http://www.haneycodes.net/npm-left-pad-have-we-forgotten-how-to-program/" target="_blank" rel="noopener">NPM &amp; left-pad: Have We Forgotten How To Program?</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="http://www.gigamonkeys.com/book/a-few-format-recipes.html" target="_blank" rel="external">Praticle Common Lisp - A Few FORMAT Recipes</a>
+<code>[2]</code> <a href="http://www.gigamonkeys.com/book/a-few-format-recipes.html" target="_blank" rel="noopener">Praticle Common Lisp - A Few FORMAT Recipes</a>
 </p>
 </div>
 </div>

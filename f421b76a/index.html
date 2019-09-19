@@ -221,7 +221,7 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-Clojure 的用戶多半都是透過 <a href="https://clojars.org/" target="_blank" rel="external">Clojars</a> 去下載需要用的函式庫，但有些時候你需要的函式庫可能作者還沒將該版本放到 <a href="https://clojars.org/" target="_blank" rel="external">Clojars</a> 上，這種時候該怎麼辦呢？
+Clojure 的用戶多半都是透過 <a href="https://clojars.org/" target="_blank" rel="noopener">Clojars</a> 去下載需要用的函式庫，但有些時候你需要的函式庫可能作者還沒將該版本放到 <a href="https://clojars.org/" target="_blank" rel="noopener">Clojars</a> 上，這種時候該怎麼辦呢？
 </p>
 
 <a id="more"></a>
@@ -233,18 +233,18 @@ Clojure 的用戶多半都是透過 <a href="https://clojars.org/" target="_blan
 <ol class="org-ol">
 <li>透過 <code>lein install</code> 安裝該函式庫到本地端</li>
 
-<li>使用本文的方法，透過 <a href="https://jitpack.io/" target="_blank" rel="external">Jitpack</a> 去下載你上傳到 GitHub 的修正版本</li>
+<li>使用本文的方法，透過 <a href="https://jitpack.io/" target="_blank" rel="noopener">Jitpack</a> 去下載你上傳到 GitHub 的修正版本</li>
 </ol>
 
 <div id="outline-container-org51030c7" class="outline-2">
 <h2 id="org51030c7">關於 Jitpack</h2>
 <div class="outline-text-2" id="text-org51030c7">
 <p>
-傳統 Java 開發都需要將你的函式庫發布到 <a href="https://maven.apache.org/" target="_blank" rel="external">Maven</a> 或是其他類似的 repoitory 去，是否想要像 <a href="https://golang.org/" target="_blank" rel="external">Go 語言</a> 那樣直接從 GitHub 抓取需要的套件呢？透過 <a href="https://jitpack.io/" target="_blank" rel="external">JitPack</a> 就可以做到這件事。
+傳統 Java 開發都需要將你的函式庫發布到 <a href="https://maven.apache.org/" target="_blank" rel="noopener">Maven</a> 或是其他類似的 repoitory 去，是否想要像 <a href="https://golang.org/" target="_blank" rel="noopener">Go 語言</a> 那樣直接從 GitHub 抓取需要的套件呢？透過 <a href="https://jitpack.io/" target="_blank" rel="noopener">JitPack</a> 就可以做到這件事。
 </p>
 
 <p>
-<a href="https://jitpack.io" target="_blank" rel="external">JitPack</a> 會幫你把指定目標的 GitHub 專案的特定 TAG 製作成 JAR 放到他們自己的套件庫，這樣你就可以針對特定 TAG 去直接下載 GitHub 的套件，而不需要等待作者發佈到 <a href="https://clojars.org/" target="_blank" rel="external">Clojars</a> 去。
+<a href="https://jitpack.io" target="_blank" rel="noopener">JitPack</a> 會幫你把指定目標的 GitHub 專案的特定 TAG 製作成 JAR 放到他們自己的套件庫，這樣你就可以針對特定 TAG 去直接下載 GitHub 的套件，而不需要等待作者發佈到 <a href="https://clojars.org/" target="_blank" rel="noopener">Clojars</a> 去。
 </p>
 
 <p>
@@ -257,7 +257,7 @@ Clojure 的用戶多半都是透過 <a href="https://clojars.org/" target="_blan
 <h2 id="orge4e5cb3">如何使用</h2>
 <div class="outline-text-2" id="text-orge4e5cb3">
 <p>
-這裡以我自己的 <a href="https://github.com/coldnew/ipify.clj" target="_blank" rel="external">ipify.clj</a> 函式庫為例，假設我們要抓取的是 tag <a href="https://github.com/coldnew/ipify.clj/releases/tag/v0.1.0" target="_blank" rel="external">v0.1.0</a> 的版本的話，則可以在你的 <code>project.clj</code> 加入這樣
+這裡以我自己的 <a href="https://github.com/coldnew/ipify.clj" target="_blank" rel="noopener">ipify.clj</a> 函式庫為例，假設我們要抓取的是 tag <a href="https://github.com/coldnew/ipify.clj/releases/tag/v0.1.0" target="_blank" rel="noopener">v0.1.0</a> 的版本的話，則可以在你的 <code>project.clj</code> 加入這樣
 </p>
 
 <div class="org-src-container">
@@ -287,7 +287,7 @@ If you are behind a proxy, try setting the 'http_proxy' environment variable.
 </pre>
 
 <p>
-第一次執行的時候可能會失敗，因為 <a href="https://jitpack.io" target="_blank" rel="external">Jitpack</a> 會需要抓取你的 repo 並將其編譯好放置到套件庫去，不過等會兒在重新測試就可以成功囉
+第一次執行的時候可能會失敗，因為 <a href="https://jitpack.io" target="_blank" rel="noopener">Jitpack</a> 會需要抓取你的 repo 並將其編譯好放置到套件庫去，不過等會兒在重新測試就可以成功囉
 </p>
 
 <pre class="example">
@@ -302,15 +302,15 @@ Retrieving com/github/coldnew/ipify.clj/v0.1.0/ipify.clj-v0.1.0.jar from jitpack
 <h2 id="org34a3042">後記</h2>
 <div class="outline-text-2" id="text-org34a3042">
 <p>
-其實還有一個 <a href="https://github.com/tobyhede/lein-git-deps" target="_blank" rel="external">lein-git-deps</a> 這個 <a href="https://leiningen.org/" target="_blank" rel="external">Leinigen</a> 套件可以直接透過 git 把程式碼拉到本地端來解決你的專案依賴，不過這套件已經有段時間沒維護了。
+其實還有一個 <a href="https://github.com/tobyhede/lein-git-deps" target="_blank" rel="noopener">lein-git-deps</a> 這個 <a href="https://leiningen.org/" target="_blank" rel="noopener">Leinigen</a> 套件可以直接透過 git 把程式碼拉到本地端來解決你的專案依賴，不過這套件已經有段時間沒維護了。
 </p>
 
 <p>
-大部分我自己使用的情況，都是透過 <code>lein install</code> 安裝到本地端來滿足依賴，<a href="https://jitpack.io" target="_blank" rel="external">Jitpack</a> 這個套件庫可以自動幫你處理好開源的套件倒是蠻不錯的。
+大部分我自己使用的情況，都是透過 <code>lein install</code> 安裝到本地端來滿足依賴，<a href="https://jitpack.io" target="_blank" rel="noopener">Jitpack</a> 這個套件庫可以自動幫你處理好開源的套件倒是蠻不錯的。
 </p>
 
 <p>
-如果是 <code>閉源</code> 的函式庫，則可以考慮付費給 <a href="https://jitpack.io" target="_blank" rel="external">Jitpack</a> 或是自己在自己的私有雲架設 Maven 倉庫。
+如果是 <code>閉源</code> 的函式庫，則可以考慮付費給 <a href="https://jitpack.io" target="_blank" rel="noopener">Jitpack</a> 或是自己在自己的私有雲架設 Maven 倉庫。
 </p>
 </div>
 </div>
@@ -319,11 +319,11 @@ Retrieving com/github/coldnew/ipify.clj/v0.1.0/ipify.clj-v0.1.0.jar from jitpack
 <h2 id="org45a376a">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org45a376a">
 <ul class="org-ul">
-<li><a href="https://lambdaisland.com/blog/17-05-2017-loading-clojure-libraries-directly-from-github" target="_blank" rel="external">Loading Clojure Libraries Directly From Github</a></li>
+<li><a href="https://lambdaisland.com/blog/17-05-2017-loading-clojure-libraries-directly-from-github" target="_blank" rel="noopener">Loading Clojure Libraries Directly From Github</a></li>
 
-<li><a href="https://github.com/GcsSloop/AndroidNote/blob/master/Course/ReleaseLibraryByJitPack.md" target="_blank" rel="external">优雅的发布 Android 开源库(论 JitPack 的优越性)</a></li>
+<li><a href="https://github.com/GcsSloop/AndroidNote/blob/master/Course/ReleaseLibraryByJitPack.md" target="_blank" rel="noopener">优雅的发布 Android 开源库(论 JitPack 的优越性)</a></li>
 
-<li><a href="http://www.jianshu.com/p/e443456bb506" target="_blank" rel="external">Android 寫自己的開源庫，發佈到 JitPack.io</a></li>
+<li><a href="http://www.jianshu.com/p/e443456bb506" target="_blank" rel="noopener">Android 寫自己的開源庫，發佈到 JitPack.io</a></li>
 </ul>
 </div>
 </div>

@@ -242,20 +242,20 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-在 <a href="https://coldnew.github.io/399f19c/">Android Things 學習筆記: 介紹</a> 一文我們介紹了 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> ，在我們正式開始開發我們的程式之前，我們先將手邊的 <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="external">Raspberry Pi 3 Model B</a> 裝上可以用 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 的映像檔案吧。
+在 <a href="https://coldnew.github.io/399f19c/">Android Things 學習筆記: 介紹</a> 一文我們介紹了 <a href="https://developer.android.com/things/index.html" target="_blank" rel="noopener">Android Things</a> ，在我們正式開始開發我們的程式之前，我們先將手邊的 <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="noopener">Raspberry Pi 3 Model B</a> 裝上可以用 <a href="https://developer.android.com/things/index.html" target="_blank" rel="noopener">Android Things</a> 的映像檔案吧。
 </p>
 
 <a id="more"></a>
 
 <p>
-<a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 的網頁有針對  <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="external">Raspberry Pi 3 Model B</a> 的 <a href="https://developer.android.com/things/hardware/raspberrypi.html" target="_blank" rel="external">Getting Started</a> 頁面，就讓我們從這一頁開始我們的 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 旅程吧。
+<a href="https://developer.android.com/things/index.html" target="_blank" rel="noopener">Android Things</a> 的網頁有針對  <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="noopener">Raspberry Pi 3 Model B</a> 的 <a href="https://developer.android.com/things/hardware/raspberrypi.html" target="_blank" rel="noopener">Getting Started</a> 頁面，就讓我們從這一頁開始我們的 <a href="https://developer.android.com/things/index.html" target="_blank" rel="noopener">Android Things</a> 旅程吧。
 </p>
 
 <div id="outline-container-org5000fbe" class="outline-2">
 <h2 id="org5000fbe">下載映像檔</h2>
 <div class="outline-text-2" id="text-org5000fbe">
 <p>
-首先到 <a href="https://developer.android.com/things/preview/download.html" target="_blank" rel="external">System Image Downloads</a> 去下載 <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="external">Raspberry Pi 3 Model B</a> 的映像檔案，接著將其解壓縮
+首先到 <a href="https://developer.android.com/things/preview/download.html" target="_blank" rel="noopener">System Image Downloads</a> 去下載 <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="noopener">Raspberry Pi 3 Model B</a> 的映像檔案，接著將其解壓縮
 </p>
 
 <pre class="example">
@@ -282,7 +282,7 @@ coldnew@gentoo ~ $ sudo dd if=iot_rpi3.img of=/dev/sdc bs=1M
 </pre>
 
 <p>
-在 Mac OSX 下，我則是透過 <a href="https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/" target="_blank" rel="external">ApplePi Baker</a> 這個圖形化的程式來進行燒錄
+在 Mac OSX 下，我則是透過 <a href="https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/" target="_blank" rel="noopener">ApplePi Baker</a> 這個圖形化的程式來進行燒錄
 </p>
 
 
@@ -297,7 +297,7 @@ coldnew@gentoo ~ $ sudo dd if=iot_rpi3.img of=/dev/sdc bs=1M
 <h2 id="org3d8b88c">啟動 RPI3</h2>
 <div class="outline-text-2" id="text-org3d8b88c">
 <p>
-將你燒好映像檔的 sdcard 插入到  <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="external">Raspberry Pi 3 Model B</a> 後，插入 USB 電源以及接上網路線，如果你有 HDMI 螢幕的話，可以考慮接上去 (不接也可以)
+將你燒好映像檔的 sdcard 插入到  <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="noopener">Raspberry Pi 3 Model B</a> 後，插入 USB 電源以及接上網路線，如果你有 HDMI 螢幕的話，可以考慮接上去 (不接也可以)
 </p>
 
 
@@ -322,7 +322,7 @@ coldnew@gentoo ~ $ sudo dd if=iot_rpi3.img of=/dev/sdc bs=1M
 <h2 id="orgfd5872f">連接 ADB</h2>
 <div class="outline-text-2" id="text-orgfd5872f">
 <p>
-啟動完 Raspberry Pi 3 後，我們可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="external">adb</a> 工具去進行連線，假設你的系統有支援 <a href="https://en.wikipedia.org/wiki/Zero-configuration_networking" target="_blank" rel="external">zeroconf</a> (在 Linux 下是 <a href="https://en.wikipedia.org/wiki/Avahi_(software)" target="_blank" rel="external">Avahi</a>, Windows 下是 <a href="https://support.apple.com/kb/DL999?locale=zh_TW" target="_blank" rel="external">Bonjour</a>) 的話，你可以透過 <code>Android.local</code> 在同一網域下接觸到你的 Raspberry Pi 3
+啟動完 Raspberry Pi 3 後，我們可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="noopener">adb</a> 工具去進行連線，假設你的系統有支援 <a href="https://en.wikipedia.org/wiki/Zero-configuration_networking" target="_blank" rel="noopener">zeroconf</a> (在 Linux 下是 <a href="https://en.wikipedia.org/wiki/Avahi_(software)" target="_blank" rel="noopener">Avahi</a>, Windows 下是 <a href="https://support.apple.com/kb/DL999?locale=zh_TW" target="_blank" rel="noopener">Bonjour</a>) 的話，你可以透過 <code>Android.local</code> 在同一網域下接觸到你的 Raspberry Pi 3
 </p>
 
 <pre class="example">
@@ -337,7 +337,7 @@ round-trip min/avg/max/stddev = 4.529/31.064/57.599/26.535 ms
 </pre>
 
 <p>
-於是我們就可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="external">adb</a> 工具去進行連線
+於是我們就可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="noopener">adb</a> 工具去進行連線
 </p>
 
 <pre class="example">
@@ -364,7 +364,7 @@ config  dev          gapps             init.rpi3.rc    lost+found           proc
 <h2 id="orgdb864fd">設定 Wi-Fi</h2>
 <div class="outline-text-2" id="text-orgdb864fd">
 <p>
-當你登入你的 Raspberry Pi 後，如果你想拔掉網路線並起用 Raspberry Pi 3 上面的 Wi-Fi 的話，你可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="external">adb</a> 去進行設定
+當你登入你的 Raspberry Pi 後，如果你想拔掉網路線並起用 Raspberry Pi 3 上面的 Wi-Fi 的話，你可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="noopener">adb</a> 去進行設定
 </p>
 
 <div class="org-src-container">
@@ -423,7 +423,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 <h2 id="orgf4bb6a3">透過 UART 登入</h2>
 <div class="outline-text-2" id="text-orgf4bb6a3">
 <p>
-如果你就是不想接上網路線來對 Raspberry Pi 3 進行設定，那我們也可以透過 <a href="https://www.adafruit.com/products/954" target="_blank" rel="external">TTL 轉 USB 線</a> 來接到 Raspberry Pi 上面的 UART 接腳，透過 UART 來進入 console。
+如果你就是不想接上網路線來對 Raspberry Pi 3 進行設定，那我們也可以透過 <a href="https://www.adafruit.com/products/954" target="_blank" rel="noopener">TTL 轉 USB 線</a> 來接到 Raspberry Pi 上面的 UART 接腳，透過 UART 來進入 console。
 </p>
 
 
@@ -433,7 +433,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 </div>
 
 <p>
-接上後，看你是要用 <a href="https://www.gnu.org/s/emacs/" target="_blank" rel="external">Emacs</a>、 <a href="https://www.decisivetactics.com/products/serial/" target="_blank" rel="external">Serial</a> (Mac OS)、<a href="http://www.putty.org/" target="_blank" rel="external">Putty</a> (Windows)、<a href="https://linux.die.net/man/1/gtkterm" target="_blank" rel="external">GtkTerm</a> (Linux) 來進行連線，記得以下東西不要設定錯誤就好:
+接上後，看你是要用 <a href="https://www.gnu.org/s/emacs/" target="_blank" rel="noopener">Emacs</a>、 <a href="https://www.decisivetactics.com/products/serial/" target="_blank" rel="noopener">Serial</a> (Mac OS)、<a href="http://www.putty.org/" target="_blank" rel="noopener">Putty</a> (Windows)、<a href="https://linux.die.net/man/1/gtkterm" target="_blank" rel="noopener">GtkTerm</a> (Linux) 來進行連線，記得以下東西不要設定錯誤就好:
 </p>
 
 <ul class="org-ul">
@@ -444,7 +444,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 </ul>
 
 <p>
-我自己是習慣透過 <a href="https://www.gnu.org/s/emacs/" target="_blank" rel="external">Emacs</a> 的 <code>M-x serial-term</code> 命令去進行連接
+我自己是習慣透過 <a href="https://www.gnu.org/s/emacs/" target="_blank" rel="noopener">Emacs</a> 的 <code>M-x serial-term</code> 命令去進行連接
 </p>
 
 
@@ -459,7 +459,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 <h2 id="orgd676b61">參考資料</h2>
 <div class="outline-text-2" id="text-orgd676b61">
 <ul class="org-ul">
-<li><a href="https://developer.android.com/things/hardware/raspberrypi.html" target="_blank" rel="external">Android Things: Raspberry Pi 3 Getting Started</a></li>
+<li><a href="https://developer.android.com/things/hardware/raspberrypi.html" target="_blank" rel="noopener">Android Things: Raspberry Pi 3 Getting Started</a></li>
 </ul>
 </div>
 </div>

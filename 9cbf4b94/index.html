@@ -238,15 +238,15 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-最近稍微有些時間可以玩玩手邊的 <a href="https://www.nxp.com/support/developer-resources/hardware-development-tools/sabre-development-system/sabre-board-for-smart-devices-based-on-the-i.mx-6solox-applications-processors:RD-IMX6SX-SABRE" target="_blank" rel="external">i.MX6 SabreSD SoloX</a> 開發板，這是一套採用 i.MX6 Cortex-A9 搭配 Cortex-M4 的 HMP (Heterogeneous multi-processing) 架構的板子。
+最近稍微有些時間可以玩玩手邊的 <a href="https://www.nxp.com/support/developer-resources/hardware-development-tools/sabre-development-system/sabre-board-for-smart-devices-based-on-the-i.mx-6solox-applications-processors:RD-IMX6SX-SABRE" target="_blank" rel="noopener">i.MX6 SabreSD SoloX</a> 開發板，這是一套採用 i.MX6 Cortex-A9 搭配 Cortex-M4 的 HMP (Heterogeneous multi-processing) 架構的板子。
 </p>
 
 <p>
-既然要玩玩看，那就從官方的 <a href="i.MX_Yocto_Project_User's_Guide.pdf">i.MX_Yocto_Project_User's_Guide.pdf</a> 開始吧，我們使用 <a href="https://github.com/Freescale" target="_blank" rel="external">Freescale 社群</a>所提供的開發環境來構件我們自己的 <a href="https://www.yoctoproject.org/" target="_blank" rel="external">Yocto</a> 系統。
+既然要玩玩看，那就從官方的 <a href="i.MX_Yocto_Project_User's_Guide.pdf">i.MX_Yocto_Project_User's_Guide.pdf</a> 開始吧，我們使用 <a href="https://github.com/Freescale" target="_blank" rel="noopener">Freescale 社群</a>所提供的開發環境來構件我們自己的 <a href="https://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto</a> 系統。
 </p>
 
 <p>
-注意到 <a href="https://github.com/Freescale" target="_blank" rel="external">Freescale 社群</a> 的 Yocto 環境和 Yocto 官方的不太一樣，因此一開始最好還是照著 <a href="i.MX_Yocto_Project_User's_Guide.pdf">i.MX_Yocto_Project_User's_Guide.pdf</a>   上的教學走。
+注意到 <a href="https://github.com/Freescale" target="_blank" rel="noopener">Freescale 社群</a> 的 Yocto 環境和 Yocto 官方的不太一樣，因此一開始最好還是照著 <a href="i.MX_Yocto_Project_User's_Guide.pdf">i.MX_Yocto_Project_User's_Guide.pdf</a>   上的教學走。
 </p>
 
 <a id="more"></a>
@@ -259,7 +259,7 @@
 </p>
 
 <p>
-(其他系統需要安裝軟體的資訊請參考: <a href="http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html" target="_blank" rel="external">Yocto Project Reference Manual</a>)
+(其他系統需要安裝軟體的資訊請參考: <a href="http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html" target="_blank" rel="noopener">Yocto Project Reference Manual</a>)
 </p>
 
 <div class="org-src-container">
@@ -283,7 +283,7 @@
 <h2 id="org89bf3de">安裝 repo</h2>
 <div class="outline-text-2" id="text-org89bf3de">
 <p>
-如果你系統上沒有編譯 Android 時需要用到的 <a href="https://source.android.com/setup/developing#repo" target="_blank" rel="external">repo</a> 工具，那在開始一切之前我們需要安裝一下，下面命令將其放到 <code>~/bin/repo</code> 去
+如果你系統上沒有編譯 Android 時需要用到的 <a href="https://source.android.com/setup/developing#repo" target="_blank" rel="noopener">repo</a> 工具，那在開始一切之前我們需要安裝一下，下面命令將其放到 <code>~/bin/repo</code> 去
 </p>
 
 <div class="org-src-container">
@@ -308,7 +308,7 @@ chmod a+x ~/bin/repo
 <h2 id="org6858b93">設定 Yocto 環境</h2>
 <div class="outline-text-2" id="text-org6858b93">
 <p>
-安裝好了 <a href="https://source.android.com/setup/developing#repo" target="_blank" rel="external">repo</a> 後，接下來我們要來建立我們的開發用資料夾了，我們建立一個名為 <code>fsl-release-bsp</code> 的資料夾，並切進去
+安裝好了 <a href="https://source.android.com/setup/developing#repo" target="_blank" rel="noopener">repo</a> 後，接下來我們要來建立我們的開發用資料夾了，我們建立一個名為 <code>fsl-release-bsp</code> 的資料夾，並切進去
 </p>
 
 <p>
@@ -323,7 +323,7 @@ repo sync -j9
 </div>
 
 <p>
-完成後，現在你的 <code>fsl-release-bsp</code> 是這樣的結構的，其中 <code>sources</code> 資料夾內就是一堆需要使用到的 <a href="http://layers.openembedded.org/layerindex/branch/master/layers/" target="_blank" rel="external">Yocto Layers</a>
+完成後，現在你的 <code>fsl-release-bsp</code> 是這樣的結構的，其中 <code>sources</code> 資料夾內就是一堆需要使用到的 <a href="http://layers.openembedded.org/layerindex/branch/master/layers/" target="_blank" rel="noopener">Yocto Layers</a>
 </p>
 
 <pre class="example">
@@ -371,7 +371,7 @@ MACHINE
 </p>
 
 <p>
-<code>MACHINE</code> 這個變數指定了要針對哪一種開發板進行編譯，比如這邊我使用的是 <a href="https://www.nxp.com/support/developer-resources/hardware-development-tools/sabre-development-system/sabre-board-for-smart-devices-based-on-the-i.mx-6solox-applications-processors:RD-IMX6SX-SABRE" target="_blank" rel="external">i.MX6 SabreSD SoloX</a> ，因此我的 <code>MACHINE</code> 要選擇 <code>imx6sxsabresd</code>
+<code>MACHINE</code> 這個變數指定了要針對哪一種開發板進行編譯，比如這邊我使用的是 <a href="https://www.nxp.com/support/developer-resources/hardware-development-tools/sabre-development-system/sabre-board-for-smart-devices-based-on-the-i.mx-6solox-applications-processors:RD-IMX6SX-SABRE" target="_blank" rel="noopener">i.MX6 SabreSD SoloX</a> ，因此我的 <code>MACHINE</code> 要選擇 <code>imx6sxsabresd</code>
 </p></li>
 
 <li><p>

@@ -229,19 +229,19 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-4917 微處理器是 <a href="https://en.wikipedia.org/wiki/University_of_New_South_Wales" target="_blank" rel="external">澳大利亞新南威爾斯大學</a> (UNSW) 教授 Richard Buckland 所開授課程
+4917 微處理器是 <a href="https://en.wikipedia.org/wiki/University_of_New_South_Wales" target="_blank" rel="noopener">澳大利亞新南威爾斯大學</a> (UNSW) 教授 Richard Buckland 所開授課程
 COMP1917 裡面所講述的一個專為該課程設計的虛擬微處理器，此微處理器並未在市面上販
 售。
 </p>
 
 <p>
 4917 是一個 4-bit，具有 4 個暫存器以及 16 個記憶體空間 (4bit * 16) 的微控器，屬
-於 <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture" target="_blank" rel="external">Von Newman 架構 </a>(程式和資料儲存在同一份記憶體), 和當今電腦、手機使用的 64-bit
+於 <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture" target="_blank" rel="noopener">Von Newman 架構 </a>(程式和資料儲存在同一份記憶體), 和當今電腦、手機使用的 64-bit
 CPU 相比相差甚遠，但是非常適合用來學習一個 CPU 的運作以及模擬器的撰寫。
 </p>
 
 <p>
-在這篇文章中，我們將使用 Clojure 1.7 的新功能 <a href="http://dev.clojure.org/display/design/Reader+Conditionals" target="_blank" rel="external">Reader Conditionals</a> 一次實現
+在這篇文章中，我們將使用 Clojure 1.7 的新功能 <a href="http://dev.clojure.org/display/design/Reader+Conditionals" target="_blank" rel="noopener">Reader Conditionals</a> 一次實現
 node.js (clojurescript) 以及 JVM (clojure) 的版本。
 </p>
 
@@ -609,7 +609,7 @@ coldnew@Rosia ~ $ lein new emulator-4917
 
 <div class="alert">
 <p>
-請注意到由於本篇文章將使用 Clojure 1.7 的新功能 <a href="http://dev.clojure.org/display/design/Reader+Conditionals" target="_blank" rel="external">Reader Conditionals</a> ，因此
+請注意到由於本篇文章將使用 Clojure 1.7 的新功能 <a href="http://dev.clojure.org/display/design/Reader+Conditionals" target="_blank" rel="noopener">Reader Conditionals</a> ，因此
 Clojure/Clojurescript 版本必須依照以上設定或選用更高版本，並且 <code>lein</code> 版本也必須
 升級到最新版 2.5.1.
 </p>
@@ -637,7 +637,7 @@ emulator_4917.core._main<span style="color: #aadddd;">(</span>process.argv<span 
 
 <p>
 另外，我們必須將 lein 產生出來的 <code>src/emulator_4917/core.clj</code> 改名為
-<code>src/emulator_4917/core.cljc</code> 這樣我們才能夠順利使用 <a href="http://dev.clojure.org/display/design/Reader+Conditionals" target="_blank" rel="external">Reader Conditionals</a> 這個功
+<code>src/emulator_4917/core.cljc</code> 這樣我們才能夠順利使用 <a href="http://dev.clojure.org/display/design/Reader+Conditionals" target="_blank" rel="noopener">Reader Conditionals</a> 這個功
 能。
 </p>
 </div>
@@ -673,7 +673,7 @@ emulator_4917.core._main<span style="color: #aadddd;">(</span>process.argv<span 
 
 <p>
 在上面的樣板中，被 <code>#?()﻿</code> 所包圍的東西會根據不同狀況被解析，這就是 Clojure 1.7
-的 <a href="http://dev.clojure.org/display/design/Reader+Conditionals%EF%BC%8C%E4%B8%80%E6%AC%A1%E5%AF%A6%E7%8F%BE" target="_blank" rel="external">Reader Conditionals</a> 功能，我們可以用以下範例來了解他的使用，下面的程式會根據
+的 <a href="http://dev.clojure.org/display/design/Reader+Conditionals%EF%BC%8C%E4%B8%80%E6%AC%A1%E5%AF%A6%E7%8F%BE" target="_blank" rel="noopener">Reader Conditionals</a> 功能，我們可以用以下範例來了解他的使用，下面的程式會根據
 目前是編譯給 Clojure 還是 Clojurescript 來選擇要執行的項目，如果你今天是用在
 Clojure (JVM)上，則其會顯示 <code>Hi, Clojure</code> ，反之若是執行在 Clojurescript
 (Node.js, browser) 上，則會顯示 <code>Hi, Clojurescript</code> 。
@@ -709,7 +709,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </p>
 
 <p>
-我們先談談在 Clojure 讀取檔案的作法，理論上我們可以使用 <a href="https://clojuredocs.org/clojure.core/slurp" target="_blank" rel="external">slurp</a> 去讀取檔案，但是由
+我們先談談在 Clojure 讀取檔案的作法，理論上我們可以使用 <a href="https://clojuredocs.org/clojure.core/slurp" target="_blank" rel="noopener">slurp</a> 去讀取檔案，但是由
 於 slurp 會將讀取到的內容根據編碼來轉換，因此不適合本文的應用，只好使用 Java 的
 方式來讀取二進制檔案囉，我們建立一個 <code>parse-binary-file</code> 函式來讀取檔案並且轉換
 成 byte-array。
@@ -727,8 +727,8 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 
 <p>
 而在 Clojurescript 中，因為我們是執行在 Node.js 環境上，可以使用 Node.js 的
-<a href="https://nodejs.org/api/fs.html#fs_fs_readfilesync_filename_options" target="_blank" rel="external">fs.readFileSync()</a> 方法來讀取二進制檔案，讀取完成後在用 google Closure library 裡面
-的 <a href="http://google.github.io/closure-library/api/source/closure/goog/crypt/crypt.js.src.html#l32" target="_blank" rel="external">goog.crypt.stringToByteArray</a> 將其轉換成 byte-array.
+<a href="https://nodejs.org/api/fs.html#fs_fs_readfilesync_filename_options" target="_blank" rel="noopener">fs.readFileSync()</a> 方法來讀取二進制檔案，讀取完成後在用 google Closure library 裡面
+的 <a href="http://google.github.io/closure-library/api/source/closure/goog/crypt/crypt.js.src.html#l32" target="_blank" rel="noopener">goog.crypt.stringToByteArray</a> 將其轉換成 byte-array.
 </p>
 
 <div class="org-src-container">
@@ -778,7 +778,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 
 <p>
-接著，我們使用 <a href="https://clojuredocs.org/clojure.core/map" target="_blank" rel="external">map</a> 將 <code>to-4bit-array</code> 套用在 <code>parse-binary-file</code> 得到的結果上
+接著，我們使用 <a href="https://clojuredocs.org/clojure.core/map" target="_blank" rel="noopener">map</a> 將 <code>to-4bit-array</code> 套用在 <code>parse-binary-file</code> 得到的結果上
 </p>
 
 <div class="org-src-container">
@@ -787,7 +787,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 
 <p>
-這樣得到的結果仍舊不是我們想要的，因為他變成了多維陣列，因此我們使用 <a href="https://clojuredocs.org/clojure.core/flatten" target="_blank" rel="external">flatten</a> 將
+這樣得到的結果仍舊不是我們想要的，因為他變成了多維陣列，因此我們使用 <a href="https://clojuredocs.org/clojure.core/flatten" target="_blank" rel="noopener">flatten</a> 將
 多維陣列變成一維的
 </p>
 
@@ -1051,7 +1051,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 <h3 id="orgb843240">指令 8 : 印出 &lt;﻿data﻿&gt;</h3>
 <div class="outline-text-3" id="text-orgb843240">
 <p>
-指令 8 就好玩一點點了，我們可以透過 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="external">nth</a> 命令，取得記憶體陣列(memory)的某個位置的
+指令 8 就好玩一點點了，我們可以透過 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="noopener">nth</a> 命令，取得記憶體陣列(memory)的某個位置的
 數值
 </p>
 
@@ -1092,7 +1092,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 <div class="outline-text-3" id="text-org2a73245">
 <p>
 指令 9 中，我們必須知道 &lt;﻿data﻿&gt; 得內容後，再根據其數值去找尋記憶體位址的內容，並
-將其存入 R0 中，而取得 &lt;﻿data﻿&gt; 內容的方式在指令 8 時說過了，使用 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="external">nth</a> 可以達成
+將其存入 R0 中，而取得 &lt;﻿data﻿&gt; 內容的方式在指令 8 時說過了，使用 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="noopener">nth</a> 可以達成
 </p>
 
 <div class="org-src-container">
@@ -1101,7 +1101,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 
 <p>
-因此取得 &lt;﻿data﻿&gt; 後，我們可以再使用 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="external">nth</a> 一次，來取得記憶體中第 &lt;﻿data﻿&gt; 個內容
+因此取得 &lt;﻿data﻿&gt; 後，我們可以再使用 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="noopener">nth</a> 一次，來取得記憶體中第 &lt;﻿data﻿&gt; 個內容
 </p>
 
 <div class="org-src-container">
@@ -1148,8 +1148,8 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 <h3 id="org41a47ee">指令 11 : 將 R0 內容存入 位址 &lt;﻿data﻿&gt; 內</h3>
 <div class="outline-text-3" id="text-org41a47ee">
 <p>
-現在我們知道了 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="external">nth</a> 可以用來取得陣列中某一位置的內容，那我們要怎樣更新陣列的內容
-呢?這時候就是 <a href="https://clojuredocs.org/clojure.core/assoc" target="_blank" rel="external">assoc</a> 出場的時候啦! <a href="https://clojuredocs.org/clojure.core/assoc" target="_blank" rel="external">assoc</a> 用在陣列的時候，可以根據你提供的位置以及
+現在我們知道了 <a href="https://clojuredocs.org/clojure.core/nth" target="_blank" rel="noopener">nth</a> 可以用來取得陣列中某一位置的內容，那我們要怎樣更新陣列的內容
+呢?這時候就是 <a href="https://clojuredocs.org/clojure.core/assoc" target="_blank" rel="noopener">assoc</a> 出場的時候啦! <a href="https://clojuredocs.org/clojure.core/assoc" target="_blank" rel="noopener">assoc</a> 用在陣列的時候，可以根據你提供的位置以及
 新的內容，產生出修改後的陣列
 </p>
 
@@ -1228,7 +1228,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 <p>
 指令 14 很單純，我們比對傳入的 r0 數值，若是 0 的話則將 PC (Program Counter) 調
 整為 &lt;﻿data﻿&gt;，反之則進行 <code>pc + 2</code> 的動作，而判斷數值是否為 0，在 clojure 可以使用
-<a href="https://clojuredocs.org/clojure.core/zero_q" target="_blank" rel="external">zero?</a> 進行判別
+<a href="https://clojuredocs.org/clojure.core/zero_q" target="_blank" rel="noopener">zero?</a> 進行判別
 </p>
 
 <div class="org-src-container">
@@ -1285,7 +1285,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 <div class="outline-text-2" id="text-org57cdee2">
 <p>
 當指令集完成後，是時候執行一個迴圈，不斷的執行記憶體內的命令直到結束，在這邊我們
-的迴圈直接使用 <a href="https://clojuredocs.org/clojure.core/recur" target="_blank" rel="external">recur</a> 來完成，<a href="https://clojuredocs.org/clojure.core/recur" target="_blank" rel="external">recur</a> 是 Clojure 迴圈的一個方式，基本上就是讓函數自己
+的迴圈直接使用 <a href="https://clojuredocs.org/clojure.core/recur" target="_blank" rel="noopener">recur</a> 來完成，<a href="https://clojuredocs.org/clojure.core/recur" target="_blank" rel="noopener">recur</a> 是 Clojure 迴圈的一個方式，基本上就是讓函數自己
 呼叫自己，直到結束，假如我們要實作倒數計時器，則可以這樣寫
 </p>
 
@@ -1308,7 +1308,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 上面的 countdown 命令，會自己呼叫自己直到輸入的參數為 0 為止，依照這個概念我們執
 行指令集的迴圈，可以寫成下面這樣，實際根據指令進行執行的部分則由 <code>execute</code> 函式
 完成。由於此 CPU 的指令 0 即代表 <code>終止程式</code> ，因此我們在此並未額外判斷要結
-束 <a href="https://clojuredocs.org/clojure.core/recur" target="_blank" rel="external">recur</a> 回圈的條件。
+束 <a href="https://clojuredocs.org/clojure.core/recur" target="_blank" rel="noopener">recur</a> 回圈的條件。
 </p>
 
 <div class="org-src-container">
@@ -1320,7 +1320,7 @@ coldnew@Rosia ~/emulator-4917 $ hexdump -C examples/bell.bin | head -n 1
 </div>
 
 <p>
-而在 <code>execute</code> 函式中，我們使用了 <a href="https://clojuredocs.org/clojure.core/try" target="_blank" rel="external">try &#x2026; catch</a> 來確保執行的狀態不會出錯，注意到
+而在 <code>execute</code> 函式中，我們使用了 <a href="https://clojuredocs.org/clojure.core/try" target="_blank" rel="noopener">try &#x2026; catch</a> 來確保執行的狀態不會出錯，注意到
 Node.js 在 <code>Exception</code> 的地方和 Clojure 不同，要使用 <code>js/Error</code> 來替代，假設進入
 到了 catch 的區塊，則回傳 0 給 curr 變數，讓他進入到 <code>default</code> 的命令，在這邊就
 是 <code>cmd0</code> ，也就是說一旦程式出錯，就強行終止程式。
@@ -1403,7 +1403,7 @@ Node.js 在 <code>Exception</code> 的地方和 Clojure 不同，要使用 <code
 <h2 id="orgb832297">取得完整程式碼與執行程式</h2>
 <div class="outline-text-2" id="text-orgb832297">
 <p>
-本篇文章的完整程式碼已經放置於 <a href="https://github.com/coldnew/emulator-4917" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
+本篇文章的完整程式碼已經放置於 <a href="https://github.com/coldnew/emulator-4917" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
 
 <pre class="example">
@@ -1516,23 +1516,23 @@ node target/emulator-4917.js examples/countdown.bin
 <h2 id="org9fc8f76">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org9fc8f76">
 <p>
-<code>[1]</code> <a href="https://www.youtube.com/watch?v=gTeDX4yAdyU&amp;index=3&amp;list=PL6B940F08B9773B9F&amp;hd=1" target="_blank" rel="external">Youtube - Lecture 3: Machine Code - Richard Buckland UNSW</a>
+<code>[1]</code> <a href="https://www.youtube.com/watch?v=gTeDX4yAdyU&amp;index=3&amp;list=PL6B940F08B9773B9F&amp;hd=1" target="_blank" rel="noopener">Youtube - Lecture 3: Machine Code - Richard Buckland UNSW</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="http://paarsgames.nl/2013/07/29/e-4917-emulator-in-clojure/" target="_blank" rel="external">e-4917 emulator in Clojure</a>
+<code>[2]</code> <a href="http://paarsgames.nl/2013/07/29/e-4917-emulator-in-clojure/" target="_blank" rel="noopener">e-4917 emulator in Clojure</a>
 </p>
 
 <p>
-<code>[3]</code> <a href="https://andrewharvey4.wordpress.com/2009/03/13/comp2121-wk01/" target="_blank" rel="external">Andrew Harvey's Blog - COMP2121 – Wk01</a>
+<code>[3]</code> <a href="https://andrewharvey4.wordpress.com/2009/03/13/comp2121-wk01/" target="_blank" rel="noopener">Andrew Harvey's Blog - COMP2121 – Wk01</a>
 </p>
 
 <p>
-<code>[4]</code> <a href="https://wiki.cse.unsw.edu.au/info/COMP1917" target="_blank" rel="external">https://wiki.cse.unsw.edu.au/info/COMP1917</a>
+<code>[4]</code> <a href="https://wiki.cse.unsw.edu.au/info/COMP1917" target="_blank" rel="noopener">https://wiki.cse.unsw.edu.au/info/COMP1917</a>
 </p>
 
 <p>
-<code>[5]</code> <a href="http://dev.clojure.org/display/design/Reader+Conditionals" target="_blank" rel="external">Clojure docs - Reader Conditionals</a>
+<code>[5]</code> <a href="http://dev.clojure.org/display/design/Reader+Conditionals" target="_blank" rel="noopener">Clojure docs - Reader Conditionals</a>
 </p>
 </div>
 </div>

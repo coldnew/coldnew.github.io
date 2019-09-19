@@ -247,7 +247,7 @@
 </p>
 
 <p>
-針對不同嵌入式環境的需求，Xlinux 針對他們自己的平台，提供了基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 製作的發行板製作工具，並命名為 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 。這篇文章將介紹如何使用基本的 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 功能，並建立一個可開機的映像檔 (Image) 讓 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 開機並進入到 Linux 系統。
+針對不同嵌入式環境的需求，Xlinux 針對他們自己的平台，提供了基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 製作的發行板製作工具，並命名為 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="noopener">PetaLinux</a> 。這篇文章將介紹如何使用基本的 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="noopener">PetaLinux</a> 功能，並建立一個可開機的映像檔 (Image) 讓 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="noopener">UltraZed-EG PCIe Carrier Card</a> 開機並進入到 Linux 系統。
 </p>
 
 <p>
@@ -260,27 +260,27 @@
 <h2 id="org1cd2c9f">PetaLinux 和 Yocto 的不同</h2>
 <div class="outline-text-2" id="text-org1cd2c9f">
 <p>
-一開始遇到 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 時會覺的奇怪，使用 <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 建立自己的 Linux 系統就好了，為什麼還需要 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 呢？實際上，Xilinux 在 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 加了不少工具，包含如何讓 PetaLinux 呼叫一些 Xilinux SDK 裡面的工具，讓你可以方便的產生出開機用的 <code>BOOT.bin</code> ，除此之外，最重要的應該就是 <code>device tree</code> 的產生了。
+一開始遇到 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="noopener">PetaLinux</a> 時會覺的奇怪，使用 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 建立自己的 Linux 系統就好了，為什麼還需要 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="noopener">PetaLinux</a> 呢？實際上，Xilinux 在 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="noopener">PetaLinux</a> 加了不少工具，包含如何讓 PetaLinux 呼叫一些 Xilinux SDK 裡面的工具，讓你可以方便的產生出開機用的 <code>BOOT.bin</code> ，除此之外，最重要的應該就是 <code>device tree</code> 的產生了。
 </p>
 
 <p>
-由於 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 這塊板子上的 SoC 是 FPGA 搭配 ARM Cortex-A53/R5 這樣的組合，有些我們需要加速處理的部份會需要透過 FPGA 來實做，而在 <a href="https://coldnew.github.io/7006a3f7/">UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-R5</a> 一文中，我們產生中斷(interrupt)時候需要的中斷編號 (<code>XPAR_FABRIC_AXI_GPIO_0_IP2INTC_IRPT_INTR</code>) 也是透過 Xilinx SDK 來幫我們產生的。
+由於 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="noopener">UltraZed-EG PCIe Carrier Card</a> 這塊板子上的 SoC 是 FPGA 搭配 ARM Cortex-A53/R5 這樣的組合，有些我們需要加速處理的部份會需要透過 FPGA 來實做，而在 <a href="https://coldnew.github.io/7006a3f7/">UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-R5</a> 一文中，我們產生中斷(interrupt)時候需要的中斷編號 (<code>XPAR_FABRIC_AXI_GPIO_0_IP2INTC_IRPT_INTR</code>) 也是透過 Xilinx SDK 來幫我們產生的。
 </p>
 
 <p>
-使用 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 來建立系統時候，PetaLinux 會根據你的硬體設置，自動幫你生成相對應的 <a href="https://en.wikipedia.org/wiki/Device_tree" target="_blank" rel="external">Device Tree</a> ，讓我們的開發可以變得比較輕鬆。如果是用純粹的 <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 的話，很多地方就要先確認好才可以整合進去了，會比較麻煩些。
+使用 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="noopener">PetaLinux</a> 來建立系統時候，PetaLinux 會根據你的硬體設置，自動幫你生成相對應的 <a href="https://en.wikipedia.org/wiki/Device_tree" target="_blank" rel="noopener">Device Tree</a> ，讓我們的開發可以變得比較輕鬆。如果是用純粹的 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 的話，很多地方就要先確認好才可以整合進去了，會比較麻煩些。
 </p>
 
 <p>
-當然，因為 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 畢竟是基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 設計的，因此在使用 <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 時學會的 recipes 撰寫等知識都還是可以套用到這邊。
+當然，因為 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="noopener">PetaLinux</a> 畢竟是基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 設計的，因此在使用 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 時學會的 recipes 撰寫等知識都還是可以套用到這邊。
 </p>
 
 <p>
-讓我們來看看怎樣用 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="external">PetaLinux</a> 來建立 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a> 的開機映像檔吧～
+讓我們來看看怎樣用 <a href="https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html" target="_blank" rel="noopener">PetaLinux</a> 來建立 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="noopener">UltraZed-EG PCIe Carrier Card</a> 的開機映像檔吧～
 </p>
 
 <p>
-在進行以下步驟前，建議先閱讀一下  <a href="https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1144-petalinux-tools-reference-guide.pdf" target="_blank" rel="external">UG1144 (v2018.2): PetaLinux Tools Documentation Reference Guide.pdf</a> 這份 PetaLinux 的官方文件。
+在進行以下步驟前，建議先閱讀一下  <a href="https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1144-petalinux-tools-reference-guide.pdf" target="_blank" rel="noopener">UG1144 (v2018.2): PetaLinux Tools Documentation Reference Guide.pdf</a> 這份 PetaLinux 的官方文件。
 </p>
 </div>
 </div>
@@ -289,7 +289,7 @@
 <h2 id="org6b13a65">下載 PetaLinux</h2>
 <div class="outline-text-2" id="text-org6b13a65">
 <p>
-首先第一步就是連到 <a href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools.html" target="_blank" rel="external">Xilinx 官網</a> 去下載 PetaLinux 啦，由於 PetaLinux 只能在 Linux 下面執行，因此你也需要準備一個 Linux 虛擬機才行呦~
+首先第一步就是連到 <a href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools.html" target="_blank" rel="noopener">Xilinx 官網</a> 去下載 PetaLinux 啦，由於 PetaLinux 只能在 Linux 下面執行，因此你也需要準備一個 Linux 虛擬機才行呦~
 </p>
 
 <p>
@@ -312,11 +312,11 @@
 <h2 id="orgfe1fbca">下載 sstate-cache (optional)</h2>
 <div class="outline-text-2" id="text-orgfe1fbca">
 <p>
-除了下載 <code>PetaLinux 2018.2 Installer</code> 外，有用過 <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a>  的人應該都知道，為了減少時間， <a href="http://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project</a> 會把已經編譯好的物件檔放到 <code>sstate-cacehe</code> 資料夾內，因此為了加速編譯的速度，我們也下載一下 Xilinx 提供的 <code>sstate-cache</code> 吧
+除了下載 <code>PetaLinux 2018.2 Installer</code> 外，有用過 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a>  的人應該都知道，為了減少時間， <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 會把已經編譯好的物件檔放到 <code>sstate-cacehe</code> 資料夾內，因此為了加速編譯的速度，我們也下載一下 Xilinx 提供的 <code>sstate-cache</code> 吧
 </p>
 
 <p>
-一樣到 <a href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools.html" target="_blank" rel="external">這裡</a> 去下載我們要的檔案
+一樣到 <a href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools.html" target="_blank" rel="noopener">這裡</a> 去下載我們要的檔案
 </p>
 
 
@@ -335,7 +335,7 @@
 <h2 id="org36e125c">下載 UltraZed-EG PCIeCC BSP</h2>
 <div class="outline-text-2" id="text-org36e125c">
 <p>
-接下來，我們要到 <a href="http://ultrazed.org/support/design/17956/141" target="_blank" rel="external">這裡</a> 去下載由 <a href="https://www.avnet.com" target="_blank" rel="external">AVNET</a> 公司所提供的預先製作好的 petalinux-bsp 包，這裡選擇 <code>UltraaZed-EG PCIe Carrier Card - PetaLinux 2018.2 Standard BSP</code>
+接下來，我們要到 <a href="http://ultrazed.org/support/design/17956/141" target="_blank" rel="noopener">這裡</a> 去下載由 <a href="https://www.avnet.com" target="_blank" rel="noopener">AVNET</a> 公司所提供的預先製作好的 petalinux-bsp 包，這裡選擇 <code>UltraaZed-EG PCIe Carrier Card - PetaLinux 2018.2 Standard BSP</code>
 </p>
 
 
@@ -358,7 +358,7 @@
 </p>
 
 <p>
-(記得要看一下 <a href="https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1144-petalinux-tools-reference-guide.pdf" target="_blank" rel="external">UG1144 (v2018.2): PetaLinux Tools Documentation Reference Guide.pdf</a> 確定你系統相關套件已經滿足了呦)
+(記得要看一下 <a href="https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1144-petalinux-tools-reference-guide.pdf" target="_blank" rel="noopener">UG1144 (v2018.2): PetaLinux Tools Documentation Reference Guide.pdf</a> 確定你系統相關套件已經滿足了呦)
 </p>
 
 <p>
@@ -708,7 +708,7 @@ image.ub
 <h2 id="org0053811">設定 SD 卡開機</h2>
 <div class="outline-text-2" id="text-org0053811">
 <p>
-為了透過 MicroSD 卡開機，我們需要對 <a href="http://zedboard.org/product/ultrazed-EG" target="_blank" rel="external">UltraZed-EG</a> 上的 <code>SW2</code> 要進行一些調整，變成下圖這樣。
+為了透過 MicroSD 卡開機，我們需要對 <a href="http://zedboard.org/product/ultrazed-EG" target="_blank" rel="noopener">UltraZed-EG</a> 上的 <code>SW2</code> 要進行一些調整，變成下圖這樣。
 </p>
 
 
@@ -727,7 +727,7 @@ image.ub
 <h2 id="org0dd2f56">結果</h2>
 <div class="outline-text-2" id="text-org0dd2f56">
 <p>
-按照本篇文章的設定，你的 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card</a>  顯示應該如以下影片:
+按照本篇文章的設定，你的 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="noopener">UltraZed-EG PCIe Carrier Card</a>  顯示應該如以下影片:
 </p>
 
 <video width="640" height="280" controls>
@@ -736,7 +736,7 @@ image.ub
 </video>
 
 <p>
-這是因為這份 <a href="https://www.avnet.com" target="_blank" rel="external">AVNET</a> 公司所提供的 BSP 預設會啟動一個名為 <code>blinky</code> 的 LED 閃爍燈程式，我們後續文章將講解如何自製自己的 rootfs。
+這是因為這份 <a href="https://www.avnet.com" target="_blank" rel="noopener">AVNET</a> 公司所提供的 BSP 預設會啟動一個名為 <code>blinky</code> 的 LED 閃爍燈程式，我們後續文章將講解如何自製自己的 rootfs。
 </p>
 
 <p>
@@ -808,7 +808,7 @@ log_check] Failed to set locale, defaulting to C
 </pre>
 
 <p>
-這個問題的來源是 <code>Python</code> ，因此我們需要參考  <a href="https://forums.xilinx.com/t5/Embedded-Linux/PetaLinux-build-fails-with-locale-errors-How-to-disable-locale/td-p/893242" target="_blank" rel="external">Re: PetaLinux build fails with locale errors. How to disable locale checks?</a> 一文進行修正，怎樣修正呢?
+這個問題的來源是 <code>Python</code> ，因此我們需要參考  <a href="https://forums.xilinx.com/t5/Embedded-Linux/PetaLinux-build-fails-with-locale-errors-How-to-disable-locale/td-p/893242" target="_blank" rel="noopener">Re: PetaLinux build fails with locale errors. How to disable locale checks?</a> 一文進行修正，怎樣修正呢?
 這一版本 PetaLinux 搭配的是 Python 3.5, 因此我們找出裡面的 <code>locale.py</code> 搭配以下的 patch 進行修改就好了
 </p>
 
@@ -884,11 +884,11 @@ cp <span style="color: #aadddd;">"${LOCALEPY}"</span> $<span style="color: #aadd
 <h2 id="orgddb37ce">延伸閱讀</h2>
 <div class="outline-text-2" id="text-orgddb37ce">
 <ul class="org-ul">
-<li><a href="https://www.avnet.com/wps/portal/us/resources/technical-articles/article/technologies/boards%20and%20modules/building-petalinux-for-the-ultrazed-and-pcie-carrier-card/" target="_blank" rel="external">Building PetaLinux for the UltraZed &amp; PCIe Carrier Card</a></li>
+<li><a href="https://www.avnet.com/wps/portal/us/resources/technical-articles/article/technologies/boards%20and%20modules/building-petalinux-for-the-ultrazed-and-pcie-carrier-card/" target="_blank" rel="noopener">Building PetaLinux for the UltraZed &amp; PCIe Carrier Card</a></li>
 
-<li><a href="http://ultrazed.org/support/design/17956/141" target="_blank" rel="external">UltraZed-EG PCIe Carrier Card - Design Files</a></li>
+<li><a href="http://ultrazed.org/support/design/17956/141" target="_blank" rel="noopener">UltraZed-EG PCIe Carrier Card - Design Files</a></li>
 
-<li><a href="https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1144-petalinux-tools-reference-guide.pdf" target="_blank" rel="external">UG1144 (v2018.2): PetaLinux Tools Documentation Reference Guide.pdf</a></li>
+<li><a href="https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1144-petalinux-tools-reference-guide.pdf" target="_blank" rel="noopener">UG1144 (v2018.2): PetaLinux Tools Documentation Reference Guide.pdf</a></li>
 </ul>
 </div>
 </div>

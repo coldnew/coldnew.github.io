@@ -227,9 +227,9 @@
 </p>
 
 <p>
-node.js 本身已經提供了 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組，該模組雖然功能不如 <a href="https://github.com/jline/jline2/" target="_blank" rel="external">JLine 2.x</a> 完整，但是實
+node.js 本身已經提供了 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="noopener">readline</a> 模組，該模組雖然功能不如 <a href="https://github.com/jline/jline2/" target="_blank" rel="noopener">JLine 2.x</a> 完整，但是實
 作一個簡單的互動式命令已經非常足夠，本文將講解如何在 clojurescript 下使用 node.js
-的 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組。
+的 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="noopener">readline</a> 模組。
 </p>
 
 <a id="more"></a>
@@ -257,7 +257,7 @@ clojurescript 的依賴，並且加入 cljsbuild 的一些設定。
 </p>
 
 <p>
-(你可以在 <a href="https://github.com/clojure/clojurescript" target="_blank" rel="external">這裡</a> 找到最新的 clojurescript 版本資訊)
+(你可以在 <a href="https://github.com/clojure/clojurescript" target="_blank" rel="noopener">這裡</a> 找到最新的 clojurescript 版本資訊)
 </p>
 
 <div class="org-src-container">
@@ -371,7 +371,7 @@ Hello World!
 <div class="outline-text-2" id="text-orgf20f5da">
 <p>
 對於互動式命令的實現，第一個程式就會是怎樣將使用者的輸入顯示出來。但是和使用
-<a href="https://github.com/jline/jline2/" target="_blank" rel="external">jline2</a> 時不一樣，node.js 下是以事件驅動為主，因此基本的顯示使用者輸入資訊的程式
+<a href="https://github.com/jline/jline2/" target="_blank" rel="noopener">jline2</a> 時不一樣，node.js 下是以事件驅動為主，因此基本的顯示使用者輸入資訊的程式
 變成這個樣子:
 </p>
 
@@ -406,8 +406,8 @@ Hello World!
 </p>
 
 <p>
-在程式的一開始，我們透過 <code>cljs.nodejs</code> 的功能載入 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組，並透過其
-<a href="https://nodejs.org/api/readline.html#readline_readline_createinterface_options" target="_blank" rel="external">.createInterface</a> 呼叫去設定我們的輸入與輸出訊號流，我們將這個 interface 命名為
+在程式的一開始，我們透過 <code>cljs.nodejs</code> 的功能載入 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="noopener">readline</a> 模組，並透過其
+<a href="https://nodejs.org/api/readline.html#readline_readline_createinterface_options" target="_blank" rel="noopener">.createInterface</a> 呼叫去設定我們的輸入與輸出訊號流，我們將這個 interface 命名為
 <code>rl</code> 。
 </p>
 
@@ -424,7 +424,7 @@ Hello World!
 <p>
 在這邊的程式有一個有趣的地方，就是我們使用了 <code>clj-&gt;js</code> 函式，該函式會將 clojure
 的型態轉換成相對應的 javascript 型態，你可以在 clojurescript 的 repl 裡面試試，在
-此例中，clojurescript 編譯器會將其轉換成使用 <code>#js</code> 這個 <a href="https://yobriefca.se/blog/2014/05/19/the-weird-and-wonderful-characters-of-clojure/" target="_blank" rel="external">dispach macro</a> 並搭配
+此例中，clojurescript 編譯器會將其轉換成使用 <code>#js</code> 這個 <a href="https://yobriefca.se/blog/2014/05/19/the-weird-and-wonderful-characters-of-clojure/" target="_blank" rel="noopener">dispach macro</a> 並搭配
 JSON 形式的物件。
 </p>
 
@@ -436,11 +436,11 @@ JSON 形式的物件。
 
 <p>
 有了 <code>rl</code> 這個 readline 模組的 Interface 後，我們就可以透過他的函式去進行相對應
-的事情，在這邊使用了 <a href="https://clojuredocs.org/clojure.core/doto" target="_blank" rel="external">doto</a> 將需要呼叫 rl 物件的部分都寫在一起。
+的事情，在這邊使用了 <a href="https://clojuredocs.org/clojure.core/doto" target="_blank" rel="noopener">doto</a> 將需要呼叫 rl 物件的部分都寫在一起。
 </p>
 
 <p>
-於是我們設定好 prompt 的內容，並顯示出 prompt 後，透過 <a href="https://nodejs.org/api/readline.html#readline_event_line" target="_blank" rel="external">line</a> 這個事件去處理接收到
+於是我們設定好 prompt 的內容，並顯示出 prompt 後，透過 <a href="https://nodejs.org/api/readline.html#readline_event_line" target="_blank" rel="noopener">line</a> 這個事件去處理接收到
 的訊息，由於 node.js 是屬於 ASYNC 設計，在這一行後面的程式都還是會被執行到，並不
 會卡在這個事件無法結束。
 </p>
@@ -505,7 +505,7 @@ Example 1 和 Example 0 大抵是相同的。
 </p>
 
 <p>
-為了讓程式執行狀況可以和 clojure 那篇文章一樣，我們另外添加了 <a href="https://nodejs.org/api/readline.html#readline_rl_close" target="_blank" rel="external">close</a> 的事件，當收
+為了讓程式執行狀況可以和 clojure 那篇文章一樣，我們另外添加了 <a href="https://nodejs.org/api/readline.html#readline_rl_close" target="_blank" rel="noopener">close</a> 的事件，當收
 到離開的訊息時提示使用者程式結束。
 </p>
 
@@ -583,7 +583,7 @@ Exit application.
 <div class="outline-text-2" id="text-org343229e">
 <p>
 在互動式命令中，輸入密碼的時候我們不是不顯示密碼，不然就是將密碼轉換成 <code>*</code> 進行
-顯示，那在 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 下要怎樣作呢？由於 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 並未提供此類的功能，因
+顯示，那在 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="noopener">readline</a> 模組 下要怎樣作呢？由於 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="noopener">readline</a> 模組 並未提供此類的功能，因
 此我們必須換個方式來實作。
 </p>
 
@@ -631,7 +631,7 @@ Exit application.
 </div>
 
 <p>
-在這個程式中，我們增加了監控 <a href="https://nodejs.org/api/process.html#process_process_stdin" target="_blank" rel="external">process.stdin</a> 的 data 事件，當接收的訊息屬於
+在這個程式中，我們增加了監控 <a href="https://nodejs.org/api/process.html#process_process_stdin" target="_blank" rel="noopener">process.stdin</a> 的 data 事件，當接收的訊息屬於
 [a-zA-Z0-9] 的範圍的時候，輸出 <code>\b*</code> 這樣的組合。
 </p>
 
@@ -688,7 +688,7 @@ Exit application.
 <h2 id="org63ecd3f">Example 3: 簡易的 shell</h2>
 <div class="outline-text-2" id="text-org63ecd3f">
 <p>
-經過前面的範例，想必各位對 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 的基本使用已經心裡有數了，那麼就讓我們
+經過前面的範例，想必各位對 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="noopener">readline</a> 模組 的基本使用已經心裡有數了，那麼就讓我們
 來個複雜一點的程式來作個結束吧。我們要實現一個簡單的 shell，這個 shell 只有 3 種
 指令：ls、clear、echo。
 </p>
@@ -745,7 +745,7 @@ Exit application.
 </p>
 
 <p>
-clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" target="_blank" rel="external">split</a> 函式可以很方便的將字串切割成序列 (sequence)。
+clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" target="_blank" rel="noopener">split</a> 函式可以很方便的將字串切割成序列 (sequence)。
 </p>
 
 <div class="org-src-container">
@@ -755,8 +755,8 @@ clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" 
 </div>
 
 <p>
-將輸入的資訊切割成序列 (sequence) 後，我們就可以使用 <a href="https://clojuredocs.org/clojure.core/first" target="_blank" rel="external">first</a> 去取得序列的第一個項
-目，也就是使用者實際輸入的命令，我們將其導入 <a href="https://clojuredocs.org/clojure.core/case" target="_blank" rel="external">case</a> 進行判斷，若有符合的資訊則根據
+將輸入的資訊切割成序列 (sequence) 後，我們就可以使用 <a href="https://clojuredocs.org/clojure.core/first" target="_blank" rel="noopener">first</a> 去取得序列的第一個項
+目，也就是使用者實際輸入的命令，我們將其導入 <a href="https://clojuredocs.org/clojure.core/case" target="_blank" rel="noopener">case</a> 進行判斷，若有符合的資訊則根據
 批配項目進行相對應的函式，反之則提示說沒有該命令存在。
 </p>
 
@@ -778,8 +778,8 @@ clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" 
 </div>
 
 <p>
-我們先從 clear 命令開始，由於 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="external">readline</a> 模組 似乎沒有提供直接將整個 console 清空的功能，因此我們使用
-<a href="http://www.termsys.demon.co.uk/vtansi.htm" target="_blank" rel="external">VT100 terminal</a> 控制指令來將螢幕清空並將游標移動到起始位置:
+我們先從 clear 命令開始，由於 <a href="https://nodejs.org/api/readline.html" target="_blank" rel="noopener">readline</a> 模組 似乎沒有提供直接將整個 console 清空的功能，因此我們使用
+<a href="http://www.termsys.demon.co.uk/vtansi.htm" target="_blank" rel="noopener">VT100 terminal</a> 控制指令來將螢幕清空並將游標移動到起始位置:
 </p>
 
 <ul class="org-ul">
@@ -789,12 +789,12 @@ clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" 
 </ul>
 
 <p>
-而 echo 命令則是透過 <a href="https://clojuredocs.org/clojure.core/second" target="_blank" rel="external">second</a> 方法去取得我們切割出來的命令序列 (sequence) 中的第二
+而 echo 命令則是透過 <a href="https://clojuredocs.org/clojure.core/second" target="_blank" rel="noopener">second</a> 方法去取得我們切割出來的命令序列 (sequence) 中的第二
 個項目，並將之印出來。
 </p>
 
 <p>
-ls 命令則是當中最為複雜的一個，我們首先透過 <a href="https://nodejs.org/api/process.html#process_process_cwd" target="_blank" rel="external">process.cwd()</a> 去取得當前目錄的位址:
+ls 命令則是當中最為複雜的一個，我們首先透過 <a href="https://nodejs.org/api/process.html#process_process_cwd" target="_blank" rel="noopener">process.cwd()</a> 去取得當前目錄的位址:
 </p>
 
 <div class="org-src-container">
@@ -804,7 +804,7 @@ ls 命令則是當中最為複雜的一個，我們首先透過 <a href="https:/
 </div>
 
 <p>
-知道了當前目錄後，我們再將其透過  的<a href="https://clojuredocs.org/clojure.java.io/file" target="_blank" rel="external"> file</a> 將目錄內容轉換成序列
+知道了當前目錄後，我們再將其透過  的<a href="https://clojuredocs.org/clojure.java.io/file" target="_blank" rel="noopener"> file</a> 將目錄內容轉換成序列
 (sequence)。
 </p>
 
@@ -815,7 +815,7 @@ ls 命令則是當中最為複雜的一個，我們首先透過 <a href="https:/
 </div>
 
 <p>
-有了序列 (sequence) 以後，接下來就使用 <a href="https://clojuredocs.org/clojure.core/doseq" target="_blank" rel="external">doseq</a> 去遍歷這整個序列 (sequence) ，並將
+有了序列 (sequence) 以後，接下來就使用 <a href="https://clojuredocs.org/clojure.core/doseq" target="_blank" rel="noopener">doseq</a> 去遍歷這整個序列 (sequence) ，並將
 資訊印出來，這樣我們的 ls 命令就完成了。
 </p>
 
@@ -874,7 +874,7 @@ user&gt;
 <h2 id="orgd7b33cf">取得範例程式碼</h2>
 <div class="outline-text-2" id="text-orgd7b33cf">
 <p>
-本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
+本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
 
 <pre class="example">
@@ -901,19 +901,19 @@ git clone https://github.com/coldnew/blog-tutorial-examples.git
 <h2 id="orge41814d">延伸閱讀</h2>
 <div class="outline-text-2" id="text-orge41814d">
 <p>
-<code>[1]</code> <a href="https://nodejs.org/api/readline.html#readline_readline" target="_blank" rel="external">Node.js v4.1.1 Documentation - Readline</a>
+<code>[1]</code> <a href="https://nodejs.org/api/readline.html#readline_readline" target="_blank" rel="noopener">Node.js v4.1.1 Documentation - Readline</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="http://itbilu.com/nodejs/core/41CUGeaP.html" target="_blank" rel="external">行讀取模塊 readline</a>
+<code>[2]</code> <a href="http://itbilu.com/nodejs/core/41CUGeaP.html" target="_blank" rel="noopener">行讀取模塊 readline</a>
 </p>
 
 <p>
-<code>[3]</code> <a href="http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/" target="_blank" rel="external">ClojureScript: JavaScript Interop</a>
+<code>[3]</code> <a href="http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/" target="_blank" rel="noopener">ClojureScript: JavaScript Interop</a>
 </p>
 
 <p>
-<code>[4]</code> <a href="https://yobriefca.se/blog/2014/05/19/the-weird-and-wonderful-characters-of-clojure/" target="_blank" rel="external">The Weird and Wonderful Characters of Clojure</a>
+<code>[4]</code> <a href="https://yobriefca.se/blog/2014/05/19/the-weird-and-wonderful-characters-of-clojure/" target="_blank" rel="noopener">The Weird and Wonderful Characters of Clojure</a>
 </p>
 </div>
 </div>

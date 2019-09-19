@@ -249,7 +249,7 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-在 <a href="http://coldnew.github.io/8e801cc4/">Android Things 學習筆記: Raspberry Pi 3 安裝 OS</a> 一文中我們搞定了 <a href="https://developer.android.com/things/index.html" target="_blank" rel="external">Android Things</a> 在 Raspberry Pi 3 上的安裝，終於可以開始來寫我們的程式了。
+在 <a href="http://coldnew.github.io/8e801cc4/">Android Things 學習筆記: Raspberry Pi 3 安裝 OS</a> 一文中我們搞定了 <a href="https://developer.android.com/things/index.html" target="_blank" rel="noopener">Android Things</a> 在 Raspberry Pi 3 上的安裝，終於可以開始來寫我們的程式了。
 </p>
 
 <p>
@@ -283,7 +283,7 @@
 <h2 id="org747a319">硬體線路</h2>
 <div class="outline-text-2" id="text-org747a319">
 <p>
-下面的硬體線路使用 <a href="http://fritzing.org/" target="_blank" rel="external">Fritzing</a> 軟體來繪製，我選用 <code>GPIO21</code> 來當作提供給 LED 的電源端，由於 Raspberry Pi 3 的 GPIO 輸出為 <code>3.3V DC</code> 的電壓，稍微再加個 <code>150 Ω</code> 的電阻來保護我們的 LED 以及 Raspberry Pi 3。
+下面的硬體線路使用 <a href="http://fritzing.org/" target="_blank" rel="noopener">Fritzing</a> 軟體來繪製，我選用 <code>GPIO21</code> 來當作提供給 LED 的電源端，由於 Raspberry Pi 3 的 GPIO 輸出為 <code>3.3V DC</code> 的電壓，稍微再加個 <code>150 Ω</code> 的電阻來保護我們的 LED 以及 Raspberry Pi 3。
 (<a href="rpi3_schematics.fzz">下載設計檔案</a>)
 </p>
 
@@ -322,7 +322,7 @@
 </div> </div>
 
 <p>
-Raspberry Pi 3 與 GPIO 編號的對應關係，可以參考 <a href="https://www.element14.com/community/docs/DOC-73950/l/raspberry-pi-3-model-b-gpio-40-pin-block-pinout" target="_blank" rel="external">Element14</a> 所提供的圖表，這邊我將我用到的用紅線框出
+Raspberry Pi 3 與 GPIO 編號的對應關係，可以參考 <a href="https://www.element14.com/community/docs/DOC-73950/l/raspberry-pi-3-model-b-gpio-40-pin-block-pinout" target="_blank" rel="noopener">Element14</a> 所提供的圖表，這邊我將我用到的用紅線框出
 </p>
 
 
@@ -337,11 +337,11 @@ Raspberry Pi 3 與 GPIO 編號的對應關係，可以參考 <a href="https://ww
 <h2 id="orgb993915">建立專案</h2>
 <div class="outline-text-2" id="text-orgb993915">
 <p>
-由於這是我們的第一個專案，就不透過 <a href="https://github.com/androidthings/new-project-template" target="_blank" rel="external">androidthings/new-project-template</a> 這個範例樣板來建立我們的專案，讓我們透過 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">Android Studio</a> 來一步一步開始吧。
+由於這是我們的第一個專案，就不透過 <a href="https://github.com/androidthings/new-project-template" target="_blank" rel="noopener">androidthings/new-project-template</a> 這個範例樣板來建立我們的專案，讓我們透過 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="noopener">Android Studio</a> 來一步一步開始吧。
 </p>
 
 <p>
-不過建立新專案之前，記得先透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="external">adb</a> 連上你的 Raspberry Pi 3
+不過建立新專案之前，記得先透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="noopener">adb</a> 連上你的 Raspberry Pi 3
 </p>
 
 <pre class="example">
@@ -349,7 +349,7 @@ coldnew@osx ~ $ adb connect Android.local
 </pre>
 
 <p>
-首先先打開 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">Android Studio</a>
+首先先打開 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="noopener">Android Studio</a>
 </p>
 
 
@@ -618,11 +618,11 @@ coldnew@osx ~ $ adb connect Android.local
 </div>
 
 <p>
-在這邊，我們透過了 <a href="https://developer.android.com/reference/java/lang/Runnable.html" target="_blank" rel="external">java.lang.Runnable</a> 去建立我們的執行緒，而在裡面則透過取得當前的 GPIO 數值將其反向，從而另 LED 閃爍。如果你想要閃爍快一點，可以修改前面宣告的 <code>INTERVAL_BETWEEN_BLINKS_MS</code> 變數。
+在這邊，我們透過了 <a href="https://developer.android.com/reference/java/lang/Runnable.html" target="_blank" rel="noopener">java.lang.Runnable</a> 去建立我們的執行緒，而在裡面則透過取得當前的 GPIO 數值將其反向，從而另 LED 閃爍。如果你想要閃爍快一點，可以修改前面宣告的 <code>INTERVAL_BETWEEN_BLINKS_MS</code> 變數。
 </p>
 
 <p>
-由於我們使用了 <a href="https://developer.android.com/reference/android/os/Handler.html" target="_blank" rel="external">android.os.Handler</a> ，記得要在 <code>onDestroy</code> 時候幹掉他
+由於我們使用了 <a href="https://developer.android.com/reference/android/os/Handler.html" target="_blank" rel="noopener">android.os.Handler</a> ，記得要在 <code>onDestroy</code> 時候幹掉他
 </p>
 
 <div class="org-src-container">
@@ -663,7 +663,7 @@ coldnew@osx ~ $ adb connect Android.local
 <h2 id="org07893b0">取得程式碼</h2>
 <div class="outline-text-2" id="text-org07893b0">
 <p>
-本文的範例已經放置於 <a href="https://github.com/coldnew/HelloThings" target="_blank" rel="external">GitHub</a> 上，你可以直接透過 git 去取得完整專案原始碼
+本文的範例已經放置於 <a href="https://github.com/coldnew/HelloThings" target="_blank" rel="noopener">GitHub</a> 上，你可以直接透過 git 去取得完整專案原始碼
 </p>
 
 <div class="github-card" data-github="coldnew/HelloThings" data-width="400" data-height="" data-theme="default"></div>
@@ -675,9 +675,9 @@ coldnew@osx ~ $ adb connect Android.local
 <h2 id="org3824840">參考資料</h2>
 <div class="outline-text-2" id="text-org3824840">
 <ul class="org-ul">
-<li><a href="http://www.survivingwithandroid.com/2016/03/arduino-led-control-android-app.html" target="_blank" rel="external">Arduino Led: Control RGB Led remotely using Arduino and Android app</a></li>
+<li><a href="http://www.survivingwithandroid.com/2016/03/arduino-led-control-android-app.html" target="_blank" rel="noopener">Arduino Led: Control RGB Led remotely using Arduino and Android app</a></li>
 
-<li><a href="https://androidthings.rocks/2017/01/08/your-first-blinking-led/" target="_blank" rel="external">Your first blinking LED with Android Things</a></li>
+<li><a href="https://androidthings.rocks/2017/01/08/your-first-blinking-led/" target="_blank" rel="noopener">Your first blinking LED with Android Things</a></li>
 </ul>
 </div>
 </div>

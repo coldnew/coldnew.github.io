@@ -291,7 +291,7 @@
 <h2 id="orgab41ade">了解開機流程</h2>
 <div class="outline-text-2" id="text-orgab41ade">
 <p>
-既然我們要讓 Zybo board 執行 Linux 系統，就要先來了解一下開機流程，才知道我們大概需要準備哪些東西。從  <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_1/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="external">Zynq-7000 All Programmable SoC: Embedded Design Tutorial - A Hands-On Guide to Effective Embedded System Design (UG1165)</a> 可以看到 Zynq-7000 執行 Linux 系統的開機流程圖。
+既然我們要讓 Zybo board 執行 Linux 系統，就要先來了解一下開機流程，才知道我們大概需要準備哪些東西。從  <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_1/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="noopener">Zynq-7000 All Programmable SoC: Embedded Design Tutorial - A Hands-On Guide to Effective Embedded System Design (UG1165)</a> 可以看到 Zynq-7000 執行 Linux 系統的開機流程圖。
 </p>
 
 
@@ -376,7 +376,7 @@ arm-xilinx-linux-gnueabi-gcc-4.9.2   arm-xilinx-linux-gnueabi-objcopy
 <h2 id="orged51af3">編譯 u-boot</h2>
 <div class="outline-text-2" id="text-orged51af3">
 <p>
-我們首先去 <a href="https://github.com/DigilentInc/u-boot-Digilent-Dev" target="_blank" rel="external">GitHub</a> 下載 DigilentInc 加入 zybo board 後的 u-boot 版本，要注意這邊要選擇 <code>master-next</code> 分支。
+我們首先去 <a href="https://github.com/DigilentInc/u-boot-Digilent-Dev" target="_blank" rel="noopener">GitHub</a> 下載 DigilentInc 加入 zybo board 後的 u-boot 版本，要注意這邊要選擇 <code>master-next</code> 分支。
 </p>
 
 <div class="org-src-container">
@@ -480,7 +480,7 @@ coldnew@gentoo ~/Linux-Digilent-Dev $ <span style="color: #aaccff;">ARCH</span>=
 <h2 id="org85f568c">編譯 BusyBox</h2>
 <div class="outline-text-2" id="text-org85f568c">
 <p>
-<a href="http://www.busybox.net/" target="_blank" rel="external">Busybox</a> 是一個非常有趣的程式，舉凡我們在 Linux 下最常用的命令如 ls、cd 等到 sed、vi 他都具有相對應的簡單實現，此外，這些命令實際上都只是一個軟連結 (symlink) 連結到名為 busybox 的執行檔，也就是說，如果我們將 busybox 進行靜態編譯 (static link)，則製作出來的系統整體大小大約為 2 MB (kernel) + 1.4 MB (busybox)，而這個系統卻又可以具有許多 UN*X 下的常用命令，也因此 busybox 很常用於空間有限的系統。
+<a href="http://www.busybox.net/" target="_blank" rel="noopener">Busybox</a> 是一個非常有趣的程式，舉凡我們在 Linux 下最常用的命令如 ls、cd 等到 sed、vi 他都具有相對應的簡單實現，此外，這些命令實際上都只是一個軟連結 (symlink) 連結到名為 busybox 的執行檔，也就是說，如果我們將 busybox 進行靜態編譯 (static link)，則製作出來的系統整體大小大約為 2 MB (kernel) + 1.4 MB (busybox)，而這個系統卻又可以具有許多 UN*X 下的常用命令，也因此 busybox 很常用於空間有限的系統。
 </p>
 
 <p>
@@ -632,7 +632,7 @@ Entry Point:  00000000
 <h2 id="org784f379">編譯位元流 (bitstream)</h2>
 <div class="outline-text-2" id="text-org784f379">
 <p>
-在 <a href="https://coldnew.github.io/zybo-board/linux_bd/">zybo board 開發記錄: 升級 Digilent 提供的設計檔</a> 一文中，我們提到了怎樣升級 <a href="http://store.digilentinc.com/" target="_blank" rel="external">Digilent</a> 提供的預先定義好接腳的設定檔 (zybo_base_system) ，這次的專案，我們就直接用這個設定檔案來進行 Linux 開機的動作。
+在 <a href="https://coldnew.github.io/zybo-board/linux_bd/">zybo board 開發記錄: 升級 Digilent 提供的設計檔</a> 一文中，我們提到了怎樣升級 <a href="http://store.digilentinc.com/" target="_blank" rel="noopener">Digilent</a> 提供的預先定義好接腳的設定檔 (zybo_base_system) ，這次的專案，我們就直接用這個設定檔案來進行 Linux 開機的動作。
 </p>
 
 <p>
@@ -864,7 +864,7 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 </div>
 
 <p>
-也就是說我們的 SD 卡有的東西，要像 <a href="http://www.zynqbook.com/" target="_blank" rel="external">The Zynq Book</a> p.439 這張圖那樣
+也就是說我們的 SD 卡有的東西，要像 <a href="http://www.zynqbook.com/" target="_blank" rel="noopener">The Zynq Book</a> p.439 這張圖那樣
 </p>
 
 
@@ -904,7 +904,7 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 <h2 id="org35acf6f">取得程式碼</h2>
 <div class="outline-text-2" id="text-org35acf6f">
 <p>
-本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="external">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
+本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="noopener">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
 </p>
 
 <div data-theme="default" data-height="" data-width="400" data-github="coldnew/zybo-examples" class="github-card"></div>
@@ -916,15 +916,15 @@ coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
 <h2 id="org765654b">延伸閱讀</h2>
 <div class="outline-text-2" id="text-org765654b">
 <p>
-<code>[1]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_1/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="external">Zynq-7000 All Programmable SoC: Embedded Design Tutorial - A Hands-On Guide to Effective Embedded System Design (UG1165)</a>
+<code>[1]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_1/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="noopener">Zynq-7000 All Programmable SoC: Embedded Design Tutorial - A Hands-On Guide to Effective Embedded System Design (UG1165)</a>
 </p>
 
 <p>
-<code>[2]</code> <a href="http://www.dbrss.org/zybo/tutorial4.html" target="_blank" rel="external">ZYBO Zync-7000 Development Board Work - Booting Linux on the ZYBO</a>
+<code>[2]</code> <a href="http://www.dbrss.org/zybo/tutorial4.html" target="_blank" rel="noopener">ZYBO Zync-7000 Development Board Work - Booting Linux on the ZYBO</a>
 </p>
 
 <p>
-<code>[3]</code> <a href="http://www.zynqbook.com/" target="_blank" rel="external">The Zynq Book</a>
+<code>[3]</code> <a href="http://www.zynqbook.com/" target="_blank" rel="noopener">The Zynq Book</a>
 </p>
 </div>
 </div>

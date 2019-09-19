@@ -228,11 +228,11 @@
       
         <span itemprop="articleBody"><div id="content">
 <p>
-最近開始在看理財相關的資訊，畢竟錢一直存著也只是存著，剛好看到了 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external">台灣銀行牌告匯率</a> 的訊息，就讓我們用 Clojure 來寫一個 parser 將這個 HTML 網頁轉換成 Clojure 常用的 <a href="https://github.com/edn-format/edn" target="_blank" rel="external">edn</a> 格式吧。
+最近開始在看理財相關的資訊，畢竟錢一直存著也只是存著，剛好看到了 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 的訊息，就讓我們用 Clojure 來寫一個 parser 將這個 HTML 網頁轉換成 Clojure 常用的 <a href="https://github.com/edn-format/edn" target="_blank" rel="noopener">edn</a> 格式吧。
 </p>
 
 <p>
-本文將簡述如何透過 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="external">clj-http</a> 取得 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external">台灣銀行牌告匯率</a> 資訊後，再使用 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 對取得網頁的資料進行處理，最後回傳 <a href="https://github.com/edn-format/edn" target="_blank" rel="external">edn</a> 格式好方便我們未來的 Clojure 程式可以對這些訊息進行處理。
+本文將簡述如何透過 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="noopener">clj-http</a> 取得 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 資訊後，再使用 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 對取得網頁的資料進行處理，最後回傳 <a href="https://github.com/edn-format/edn" target="_blank" rel="noopener">edn</a> 格式好方便我們未來的 Clojure 程式可以對這些訊息進行處理。
 </p>
 
 <a id="more"></a>
@@ -241,7 +241,7 @@
 <h2 id="orgc2644af">設定我們的目標</h2>
 <div class="outline-text-2" id="text-orgc2644af">
 <p>
-在開始寫程式前，先來確立我們的目標。我們希望取得 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external">台灣銀行牌告匯率</a> 的資訊，並將下圖裡面的資料轉換成 Clojure 的 <a href="https://github.com/edn-format/edn" target="_blank" rel="external">edn</a> 格式。
+在開始寫程式前，先來確立我們的目標。我們希望取得 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 的資訊，並將下圖裡面的資料轉換成 Clojure 的 <a href="https://github.com/edn-format/edn" target="_blank" rel="noopener">edn</a> 格式。
 </p>
 
 
@@ -282,7 +282,7 @@
 <h2 id="org67073df">建立我們的專案</h2>
 <div class="outline-text-2" id="text-org67073df">
 <p>
-首先我們先透過 <a href="http://leiningen.org/" target="_blank" rel="external">leinigen</a> 產生我們 Clojure 專案的基本樣板，這邊命名該專案為 <code>twbank-forex</code>
+首先我們先透過 <a href="http://leiningen.org/" target="_blank" rel="noopener">leinigen</a> 產生我們 Clojure 專案的基本樣板，這邊命名該專案為 <code>twbank-forex</code>
 </p>
 
 <pre class="example">
@@ -290,7 +290,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </pre>
 
 <p>
-專案建立完成後，我們要稍微修改一下 <i>project.clj</i> 添加 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 以及 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="external">clj-http</a> 這兩個函式庫。
+專案建立完成後，我們要稍微修改一下 <i>project.clj</i> 添加 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 以及 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="noopener">clj-http</a> 這兩個函式庫。
 </p>
 
 <div class="org-src-container">
@@ -323,7 +323,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-由於我們要分析的目標是 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external">台灣銀行牌告匯率</a> 這個網頁，因此先設立一個全域變數，其內容存放我們想要分析的網址
+由於我們要分析的目標是 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 這個網頁，因此先設立一個全域變數，其內容存放我們想要分析的網址
 </p>
 
 <div class="org-src-container">
@@ -342,7 +342,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 <h3 id="org62ba234">取得網頁內容</h3>
 <div class="outline-text-3" id="text-org62ba234">
 <p>
-我們的目的是下載 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external">台灣銀行牌告匯率</a> 網頁內容並進行解析，因此我們可以透過 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="external">clj-http</a> 來處理這件事
+我們的目的是下載 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 網頁內容並進行解析，因此我們可以透過 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="noopener">clj-http</a> 來處理這件事
 </p>
 
 <div class="org-src-container">
@@ -415,7 +415,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-也就是說，我們只要針對關鍵字 <code>牌價最新掛牌時間</code> 使用正規表達式來進行處理，就可以取得掛牌時間的資訊，針對此問題，我們可以透過 Clojure 的 <a href="https://clojuredocs.org/clojure.core/re-find" target="_blank" rel="external">re-find</a> 來對目標進行切割
+也就是說，我們只要針對關鍵字 <code>牌價最新掛牌時間</code> 使用正規表達式來進行處理，就可以取得掛牌時間的資訊，針對此問題，我們可以透過 Clojure 的 <a href="https://clojuredocs.org/clojure.core/re-find" target="_blank" rel="noopener">re-find</a> 來對目標進行切割
 </p>
 
 <div class="org-src-container">
@@ -435,7 +435,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-<a href="https://clojuredocs.org/clojure.core/re-find" target="_blank" rel="external">re-find</a> 會依照你設定的正規表達式，將目標分成不同群組，得到的結果如上。也因此我們可以知道我們的目標會出現在結果的 <code>index 2</code> (Clojure 陣列是從 0 開始計算)
+<a href="https://clojuredocs.org/clojure.core/re-find" target="_blank" rel="noopener">re-find</a> 會依照你設定的正規表達式，將目標分成不同群組，得到的結果如上。也因此我們可以知道我們的目標會出現在結果的 <code>index 2</code> (Clojure 陣列是從 0 開始計算)
 </p>
 
 <p>
@@ -454,11 +454,11 @@ coldnew@Rosia ~ $ lein new twbank-forex
 <h3 id="org00c0788">將網頁轉換成 hickory 格式</h3>
 <div class="outline-text-3" id="text-org00c0788">
 <p>
-在本程式中我們將透過 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 來讓我們解析 HTML 更為簡單，<a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 是一個可用於 Clojure/ClojureScript 的函式庫，可以簡化我們解析 HTML 文件的麻煩，唯一的缺點是，由於目前 <a href="https://nodejs.org/" target="_blank" rel="external">node.js</a> 缺少了 <i>DOM</i> 元件，因此使用 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="external">hickory</a> 寫出的 ClojureScript 是無法在 <a href="https://nodejs.org" target="_blank" rel="external">node.js</a> 上執行的。
+在本程式中我們將透過 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 來讓我們解析 HTML 更為簡單，<a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 是一個可用於 Clojure/ClojureScript 的函式庫，可以簡化我們解析 HTML 文件的麻煩，唯一的缺點是，由於目前 <a href="https://nodejs.org/" target="_blank" rel="noopener">node.js</a> 缺少了 <i>DOM</i> 元件，因此使用 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 寫出的 ClojureScript 是無法在 <a href="https://nodejs.org" target="_blank" rel="noopener">node.js</a> 上執行的。
 </p>
 
 <p>
-我們首先使用 <a href="http://davidsantiago.github.io/hickory/hickory.core.html#var-parse" target="_blank" rel="external">hickory/parse</a> 將 HTML 轉換成 DOM 結構
+我們首先使用 <a href="http://davidsantiago.github.io/hickory/hickory.core.html#var-parse" target="_blank" rel="noopener">hickory/parse</a> 將 HTML 轉換成 DOM 結構
 </p>
 
 <div class="org-src-container">
@@ -472,7 +472,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-接著再使用 <a href="http://davidsantiago.github.io/hickory/hickory.core.html#var-as-hickory" target="_blank" rel="external">hickory/as-hickory</a> 將剛剛獲得的 DOM 結構轉換成 <i>hickory</i> 的資料格式，其形式如下
+接著再使用 <a href="http://davidsantiago.github.io/hickory/hickory.core.html#var-as-hickory" target="_blank" rel="noopener">hickory/as-hickory</a> 將剛剛獲得的 DOM 結構轉換成 <i>hickory</i> 的資料格式，其形式如下
 </p>
 
 <div class="org-src-container">
@@ -542,7 +542,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-由於我們的目標是 <code>titleLeft</code> 以及 <code>decimal</code> 這兩種 class, 因此就直接使用 <a href="http://davidsantiago.github.io/hickory/hickory.select.html#var-select" target="_blank" rel="external">hickory.select/select</a> 來幫我們將目標資訊切割出來
+由於我們的目標是 <code>titleLeft</code> 以及 <code>decimal</code> 這兩種 class, 因此就直接使用 <a href="http://davidsantiago.github.io/hickory/hickory.select.html#var-select" target="_blank" rel="noopener">hickory.select/select</a> 來幫我們將目標資訊切割出來
 </p>
 
 <div class="org-src-container">
@@ -594,7 +594,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-實際上我們只對這份資料中的 <code>:content</code> 欄位有興趣，因此透過 <a href="https://clojuredocs.org/clojure.core/map" target="_blank" rel="external">map</a> 將我們要的東西切割出來
+實際上我們只對這份資料中的 <code>:content</code> 欄位有興趣，因此透過 <a href="https://clojuredocs.org/clojure.core/map" target="_blank" rel="noopener">map</a> 將我們要的東西切割出來
 </p>
 
 <div class="org-src-container">
@@ -627,7 +627,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-我們發現到得到的標題，比如 <code> 美金 (USD)</code> 前面都多了一個像是空格的東西無法顯示，那要怎樣濾掉呢? 實際上這個東西在 HTML 中是 <code>&amp;nbsp;</code> 這種特殊符號， <i>hickory</i> 則是將它轉成一個特殊字元，在這邊我使用 <a href="https://clojuredocs.org/clojure.core/replace" target="_blank" rel="external">replace</a> 直接將這個字元替代掉 <i>(註: 該字元網頁上看不到悠~)</i>
+我們發現到得到的標題，比如 <code> 美金 (USD)</code> 前面都多了一個像是空格的東西無法顯示，那要怎樣濾掉呢? 實際上這個東西在 HTML 中是 <code>&amp;nbsp;</code> 這種特殊符號， <i>hickory</i> 則是將它轉成一個特殊字元，在這邊我使用 <a href="https://clojuredocs.org/clojure.core/replace" target="_blank" rel="noopener">replace</a> 直接將這個字元替代掉 <i>(註: 該字元網頁上看不到悠~)</i>
 </p>
 
 <div class="org-src-container">
@@ -661,7 +661,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-仔細看這份資料，我們可以發現資料其實應該是 <code>5 個一組</code> ，因此我們可以再使用 <a href="https://clojuredocs.org/clojure.core/partition" target="_blank" rel="external">partition</a> 將這份資料弄成每五個一組
+仔細看這份資料，我們可以發現資料其實應該是 <code>5 個一組</code> ，因此我們可以再使用 <a href="https://clojuredocs.org/clojure.core/partition" target="_blank" rel="noopener">partition</a> 將這份資料弄成每五個一組
 </p>
 
 <div class="org-src-container">
@@ -730,7 +730,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-就讓我們一步一步來吧，首先先透過 <a href="https://clojuredocs.org/clojure.core/zipmap" target="_blank" rel="external">zipmap</a> 替陣列裡面的每一元素加上 <i>keyword</i>
+就讓我們一步一步來吧，首先先透過 <a href="https://clojuredocs.org/clojure.core/zipmap" target="_blank" rel="noopener">zipmap</a> 替陣列裡面的每一元素加上 <i>keyword</i>
 </p>
 
 <div class="org-src-container">
@@ -761,7 +761,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-接下來，我們要想把法把 <code>美金 (USD)</code> 變成 <code>:USD</code> ，這個一樣可以透過 <a href="https://clojuredocs.org/clojure.core/re-find" target="_blank" rel="external">re-find</a> 來解決
+接下來，我們要想把法把 <code>美金 (USD)</code> 變成 <code>:USD</code> ，這個一樣可以透過 <a href="https://clojuredocs.org/clojure.core/re-find" target="_blank" rel="noopener">re-find</a> 來解決
 </p>
 
 <div class="org-src-container">
@@ -772,7 +772,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-因此我們將前面寫的東西合併起來，將最後產生的資訊整合到 <a href="https://clojuredocs.org/clojure.core/hash-map" target="_blank" rel="external">hash-map</a> 中，就完成了
+因此我們將前面寫的東西合併起來，將最後產生的資訊整合到 <a href="https://clojuredocs.org/clojure.core/hash-map" target="_blank" rel="noopener">hash-map</a> 中，就完成了
 </p>
 
 <div class="org-src-container">
@@ -807,7 +807,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 
 <p>
-當你執行 <code>fetch</code> 這函式時，就會將 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external">台灣銀行牌告匯率</a> 轉變成這樣的資訊:
+當你執行 <code>fetch</code> 這函式時，就會將 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 轉變成這樣的資訊:
 </p>
 
 <div class="org-src-container">
@@ -837,7 +837,7 @@ coldnew@Rosia ~ $ lein new twbank-forex
 <h2 id="org36cb567">取得範例程式碼</h2>
 <div class="outline-text-2" id="text-org36cb567">
 <p>
-本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2016/twbank-forex" target="_blank" rel="external">GitHub</a> 上，你可以使用以下方式取得程式碼
+本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2016/twbank-forex" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
 
 <pre class="example">
