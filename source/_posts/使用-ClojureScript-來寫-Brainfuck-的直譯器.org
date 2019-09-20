@@ -1,7 +1,7 @@
 #+TITLE: 使用 ClojureScript 來寫 Brainfuck 的直譯器
 #+DATE: <2013-03-07 Thu 13:12>
 #+ABBRLINK: 6a7474d7
-#+UPDATED: <2013-03-07 Thu 13:12>
+#+UPDATED: <2019-09-20 Fri 13:38>
 #+OPTIONS: num:nil ^:nil
 #+LANGUAGE: zh-tw
 #+TAGS: clojurescript, clojure, nodejs
@@ -115,13 +115,13 @@ Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部�
   (ns cljs-brainfuck.core
     (:require [cljs.nodejs :as nodejs]
               [clojure.string :as str]))
-  
+
   (defn read-input [cell cells]
-    (let [sync-prompt (nodejs/require "sync-prompt")
-          p (.prompt sync-prompt)]
+    (let [syncprompt (nodejs/require "syncprompt")
+          p (syncprompt)]
       (reset! cells (assoc @cells @cell
                            (.charCodeAt (.trim (.toString p)) 0)))))
-  
+
   (defn bf-loop [direction pointer commands]
     (let [val (if (= direction :forward) 1 -1)]
       (loop [count 1]
@@ -131,7 +131,7 @@ Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部�
             \[ (recur (+ count val))
             \] (recur (- count val))
             (recur count))))))
-  
+
   (defn exec-command [cell cells commands pointer]
     (case (nth commands @pointer)
       \> (swap! cell inc)
@@ -143,7 +143,7 @@ Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部�
       \[ (if     (= (get @cells @cell) 0) (bf-loop :forward  pointer commands))
       \] (if-not (= (get @cells @cell) 0) (bf-loop :backward pointer commands))
       ()))
-  
+
   (defn interpret [commands]
     (let [cell  (atom 0)
           cells (atom (vec (repeat 30000 0)))]
@@ -151,7 +151,7 @@ Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部�
         (exec-command cell cells commands pointer)
         (swap! pointer inc)
         (if-not (= @pointer (count commands)) (recur pointer)))))
-  
+
   (defn -main [& args]
     (let [arg1 (nth args 0)
           fs (nodejs/require "fs")]
@@ -160,7 +160,7 @@ Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部�
                                     (if err (println err)
                                         (interpret (str/trim-newline data)))))
         (println "Error: Please specify filename."))))
-  
+
   (set! *main-cli-fn* -main)
 #+END_SRC
 
@@ -303,16 +303,16 @@ cells 則是整個 Brainfuck 程式的記憶體欄位，記憶體大小設定為
 
   試過了非常多的方式，包含 node.js 的 [[http://nodejs.org/api/readline.html][readline 模組]] ，使用在
   ClojureScript 裏面都還是會有問題，正當我要放棄這項功能時 (並且停
-  筆這篇文章時)，剛好看到 GitHub 上面有 [[https://github.com/shovon/sync-prompt][sync-prompt]] 模組，拿來試試
+  筆這篇文章時)，剛好看到 GitHub 上面有 [[https://github.com/cheddar-lang/syncprompt][syncprompt]] 模組，拿來試試
   也符合我的需求，於是整個程式完成了，這篇文章也就能發表出來了，可喜可賀。
 
-  因此我們的讀取使用者輸入方式就使用了 [[https://github.com/shovon/sync-prompt][sync-prompt]] 模組提供的方法，
+  因此我們的讀取使用者輸入方式就使用了 [[https://github.com/cheddar-lang/syncprompt][syncprompt]] 模組提供的方法，
   讀取完使用者的輸入後，只擷取第一個輸入的字元，並修改到對應位置的 cell。
 
   #+BEGIN_SRC clojure
     (defn read-input [cell cells]
-      (let [sync-prompt (nodejs/require "sync-prompt")
-            p (.prompt sync-prompt)]
+      (let [syncprompt (nodejs/require "syncprompt")
+            p (syncprompt)]
         (reset! cells (assoc @cells @cell
                              (.charCodeAt (.trim (.toString p)) 0)))))
   #+END_SRC
