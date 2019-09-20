@@ -260,7 +260,6 @@ iPhone 上面找到 Apple TV。
 
 <pre class="example">
 root@raspberrypi:/home/pi# apt-get install avahi-daemon
-
 </pre></li>
 
 <li><p>
@@ -275,8 +274,8 @@ Raspberry Pi 上面，因此要將 avahi-daemon 加入到開機腳本中，你�
 
 <pre class="example">
 root@raspberrypi:/home/pi# insserv avahi-daemon
-
 </pre>
+
 
 <p>
 或是 (用於舊版本的 Debian)
@@ -284,7 +283,6 @@ root@raspberrypi:/home/pi# insserv avahi-daemon
 
 <pre class="example">
 root@raspberrypi:/home/pi# update-rc.d avahi-daemon defaults
-
 </pre></li>
 
 <li><p>
@@ -296,8 +294,8 @@ root@raspberrypi:/home/pi# update-rc.d avahi-daemon defaults
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nxml"><span style="color: #aadddd;">&lt;?</span><span style="color: #aaffaa;">xml</span><span style="color: #aadddd;"> </span><span style="color: #97abc6; font-style: italic;">version="1.0" standalone='no'</span><span style="color: #aadddd;">?&gt;</span>
-<span style="color: #aadddd;">&lt;!</span><span style="color: #aadddd;">DOCTYPE service-group SYSTEM "avahi-service.dtd"&gt;</span>
+<pre class="src src-nxml">&lt;?<span style="color: #aaffaa;">xml</span> <span style="color: #97abc6; font-style: italic;">version="1.0" standalone='no'</span>?&gt;
+&lt;!DOCTYPE service-group SYSTEM "avahi-service.dtd"&gt;
 &lt;<span style="color: #aaccff;">service-group</span>&gt;
         &lt;<span style="color: #aaccff;">name</span> <span style="color: #aaccff;">replace-wildcards</span>=<span style="color: #aadddd;">"yes"</span>&gt;%h&lt;/<span style="color: #aaccff;">name</span>&gt;
         &lt;<span style="color: #aaccff;">service</span>&gt;
@@ -323,7 +321,6 @@ root@raspberrypi:/home/pi# update-rc.d avahi-daemon defaults
 
 <pre class="example">
 root@raspberrypi:/home/pi# /etc/init.d/avahi-daemon restart
-
 </pre></li>
 
 <li><p>

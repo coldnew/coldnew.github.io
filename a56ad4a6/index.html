@@ -245,9 +245,9 @@ git-wip 需要配合文字編輯器才能擁有他最強大的 <b>備份</b> 功
 篇文章說明 git-wip 的設計以及 vim、emacs 使用 git-wip 的方式。
 </p>
 
-<div id="outline-container-org1b55f6e" class="outline-2">
-<h2 id="org1b55f6e">安裝 git-wip</h2>
-<div class="outline-text-2" id="text-org1b55f6e">
+<div id="outline-container-org78ac84a" class="outline-2">
+<h2 id="org78ac84a">安裝 git-wip</h2>
+<div class="outline-text-2" id="text-org78ac84a">
 <ul class="org-ul">
 <li><p>
 Gentoo Linux
@@ -260,7 +260,6 @@ ebuild，將他下載到你本地的 overlay 後，用 emerge 安裝即可。
 
 <pre class="example">
 emerge dev-vcs/git-wip
-
 </pre></li>
 
 <li><p>
@@ -279,9 +278,9 @@ cp git-wip ~/bin
 </div>
 </div>
 
-<div id="outline-container-org956f39b" class="outline-2">
-<h2 id="org956f39b">在 vim 下使用 git-wip</h2>
-<div class="outline-text-2" id="text-org956f39b">
+<div id="outline-container-org8e298bb" class="outline-2">
+<h2 id="org8e298bb">在 vim 下使用 git-wip</h2>
+<div class="outline-text-2" id="text-org8e298bb">
 <p>
 想要在 vim 下使用 git-wip，你需要將以下幾行加入到你的 vim 設定檔
 </p>
@@ -299,14 +298,13 @@ augroup END
 
 <pre class="example">
 cp vim/plugin/git-wip ~/.vim/plugin/git-wip
-
 </pre>
 </div>
 </div>
 
-<div id="outline-container-orgd799ea0" class="outline-2">
-<h2 id="orgd799ea0">在 emacs 下使用 git-wip</h2>
-<div class="outline-text-2" id="text-orgd799ea0">
+<div id="outline-container-orga58611f" class="outline-2">
+<h2 id="orga58611f">在 emacs 下使用 git-wip</h2>
+<div class="outline-text-2" id="text-orga58611f">
 <p>
 在 emacs 下我推荐使用 magit 提供的 magit-wip 功能，當你安裝完 magit 後，在你的
 .emacs 添加
@@ -337,9 +335,9 @@ git config --global --add magit.extension wip-save
 </div>
 </div>
 
-<div id="outline-container-orge1431b5" class="outline-2">
-<h2 id="orge1431b5">git-wip 分支</h2>
-<div class="outline-text-2" id="text-orge1431b5">
+<div id="outline-container-org6da2e45" class="outline-2">
+<h2 id="org6da2e45">git-wip 分支</h2>
+<div class="outline-text-2" id="text-org6da2e45">
 <p>
 git-wip 的分支會有 wip/ 作為前綴, 舉例來說，如果你是在 feature branch 進行修改，
 則 git-wip 會幫你維護 wip/feature 分支。
@@ -386,9 +384,9 @@ git-wip 的分支會有 wip/ 作為前綴, 舉例來說，如果你是在 featur
 </div>
 </div>
 
-<div id="outline-container-org8bfd9e0" class="outline-2">
-<h2 id="org8bfd9e0">git-wip 命令</h2>
-<div class="outline-text-2" id="text-org8bfd9e0">
+<div id="outline-container-org5cd36f2" class="outline-2">
+<h2 id="org5cd36f2">git-wip 命令</h2>
+<div class="outline-text-2" id="text-org5cd36f2">
 <p>
 若你沒有將 git-wip 綁到你的文字編輯器，你可以使用 git-wip 提供的命令
 </p>
@@ -420,15 +418,14 @@ git wip log
 
 <pre class="example">
 git log --stat wip/$branch $(git merge-base wip/$branch $branch)
-
 </pre></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org483c263" class="outline-2">
-<h2 id="org483c263">使用 git-wip 回復檔案</h2>
-<div class="outline-text-2" id="text-org483c263">
+<div id="outline-container-orgeeb4eb0" class="outline-2">
+<h2 id="orgeeb4eb0">使用 git-wip 回復檔案</h2>
+<div class="outline-text-2" id="text-orgeeb4eb0">
 <p>
 若要進行回復，首先我們要先找尋我們感興趣的 commit。假設你最近修改的 branch 是 master,
 那你應該可以找到 wip/master 的參考(reference), 你也可以用以下命令列出 wip/master
@@ -437,8 +434,8 @@ git log --stat wip/$branch $(git merge-base wip/$branch $branch)
 
 <pre class="example">
 git reflog show wip/master
-
 </pre>
+
 
 <p>
 git-wip 作者推荐使用以下命令來直接看到每次的修改
@@ -446,8 +443,8 @@ git-wip 作者推荐使用以下命令來直接看到每次的修改
 
 <pre class="example">
 git log -g -p wip/master
-
 </pre>
+
 
 <p>
 一旦你選定好了某次的 commit, 你必須要取得這些檔案。注意到我們不是直接切換到
@@ -456,8 +453,8 @@ git log -g -p wip/master
 
 <pre class="example">
 git checkout &lt;commit sha1&gt; .
-
 </pre>
+
 
 <p>
 如果你只是要該分支的某個檔案，你只要修正 . 為檔案名稱就好。
@@ -469,14 +466,13 @@ git checkout &lt;commit sha1&gt; .
 
 <pre class="example">
 git diff --cached
-
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org66d0ab3" class="outline-2">
-<h2 id="org66d0ab3">參考連結</h2>
-<div class="outline-text-2" id="text-org66d0ab3">
+<div id="outline-container-org9aae61b" class="outline-2">
+<h2 id="org9aae61b">參考連結</h2>
+<div class="outline-text-2" id="text-org9aae61b">
 <p>
 <code>[1]</code> <a href="http://www.jukie.net/~bart/blog/save-everything-with-git-wip" target="_blank" rel="noopener">using WIP branches to save every edit</a>
 </p>
@@ -639,7 +635,7 @@ git diff --cached
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org1b55f6e"><span class="nav-text">安裝 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org956f39b"><span class="nav-text">在 vim 下使用 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd799ea0"><span class="nav-text">在 emacs 下使用 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge1431b5"><span class="nav-text">git-wip 分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8bfd9e0"><span class="nav-text">git-wip 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org483c263"><span class="nav-text">使用 git-wip 回復檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org66d0ab3"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org78ac84a"><span class="nav-text">安裝 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8e298bb"><span class="nav-text">在 vim 下使用 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga58611f"><span class="nav-text">在 emacs 下使用 git-wip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6da2e45"><span class="nav-text">git-wip 分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5cd36f2"><span class="nav-text">git-wip 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgeeb4eb0"><span class="nav-text">使用 git-wip 回復檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9aae61b"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
