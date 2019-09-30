@@ -188,6 +188,98 @@
           
           
             
+              <a class="post-title-link" href="/7006a3f7/" itemprop="url">
+                UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-R5
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2018-12-05T18:50:00+08:00" content="2018-12-05">
+            2018-12-05
+          </time>
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope="" itemtype="https://schema.org/Thing">
+                <a href="/categories/ultrazed-3eg-pciecc/" itemprop="url" rel="index">
+                  <span itemprop="name">UltraZed-EG PCIe Carrier Card 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 <a href="https://coldnew.github.io/501bf2ae/">UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-A53</a> 中我們題到了如何透過 Vivado 去建立我們的專案，讓 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="noopener">UltraZed-EG PCIe Carrier Card</a> 上的處理器系統 (Processing Syste, PS) 裡面的 Cortex-A53 可以透過 <code>AXI_GPIO</code> 去對可程式邏輯區 (Programmable Logic, PL) 端的 LEDs D12 ~ D19 進行輸出的控制。
+</p>
+
+<p>
+在這篇文章，我們要講的則是如何透過 <code>AXI_GPIO</code> 來處理 <code>輸入</code> 的控制，並讓 Cortex-R5 根據不同的輸入，在 <code>ps_uart1</code> 輸出不同的訊息，以及控制不同的 LED 亮暗。
+</p>
+
+<p>
+(本文以 <code>Vivado 2018.2</code> 進行開發)
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/7006a3f7/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div></article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope="" itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/501bf2ae/" itemprop="url">
                 UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-A53
               </a>
@@ -962,98 +1054,6 @@
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope="" itemtype="https://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/9cbf4b94/" itemprop="url">
-                i.MX6SoloX SabreSD 學習筆記: 使用 Yocto 製作開機卡
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          最後更新
-          <time itemprop="dateCreated" datetime="2018-02-26T13:11:00+08:00" content="2018-02-26">
-            2018-02-26
-          </time>
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分類於
-            
-              <span itemprop="about" itemscope="" itemtype="https://schema.org/Thing">
-                <a href="/categories/imx6sx-sabresd/" itemprop="url" rel="index">
-                  <span itemprop="name">i.MX6SoloX SabreSD 學習筆記</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <div id="content">
-<p>
-最近稍微有些時間可以玩玩手邊的 <a href="https://www.nxp.com/support/developer-resources/hardware-development-tools/sabre-development-system/sabre-board-for-smart-devices-based-on-the-i.mx-6solox-applications-processors:RD-IMX6SX-SABRE" target="_blank" rel="noopener">i.MX6 SabreSD SoloX</a> 開發板，這是一套採用 i.MX6 Cortex-A9 搭配 Cortex-M4 的 HMP (Heterogeneous multi-processing) 架構的板子。
-</p>
-
-<p>
-既然要玩玩看，那就從官方的 <a href="i.MX_Yocto_Project_User's_Guide.pdf">i.MX_Yocto_Project_User's_Guide.pdf</a> 開始吧，我們使用 <a href="https://github.com/Freescale" target="_blank" rel="noopener">Freescale 社群</a>所提供的開發環境來構件我們自己的 <a href="https://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto</a> 系統。
-</p>
-
-<p>
-注意到 <a href="https://github.com/Freescale" target="_blank" rel="noopener">Freescale 社群</a> 的 Yocto 環境和 Yocto 官方的不太一樣，因此一開始最好還是照著 <a href="i.MX_Yocto_Project_User's_Guide.pdf">i.MX_Yocto_Project_User's_Guide.pdf</a>   上的教學走。
-</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/9cbf4b94/#more" rel="contents">
-              閱讀全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div></article>
-
-
-    
   </section>
 
   
@@ -1090,7 +1090,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">131</span>
+              <span class="site-state-item-count">132</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1104,7 +1104,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">97</span>
+              <span class="site-state-item-count">98</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
