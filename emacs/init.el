@@ -33,6 +33,8 @@
 (package-install 'json-mode)
 (package-install 'markdown-mode)
 (package-install 'yasnippet)
+(package-install 'meson-mode)
+(package-install 'cmake-mode)
 
 ;; We want to color the parentheses
 (package-install 'rainbow-delimiters)
