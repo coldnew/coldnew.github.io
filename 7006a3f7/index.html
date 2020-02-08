@@ -289,9 +289,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-orgaaafa16" class="outline-2">
-<h2 id="orgaaafa16">開發目標</h2>
-<div class="outline-text-2" id="text-orgaaafa16">
+<div id="outline-container-orgdbc4149" class="outline-2">
+<h2 id="orgdbc4149">開發目標</h2>
+<div class="outline-text-2" id="text-orgdbc4149">
 <p>
 和 <a href="https://coldnew.github.io/501bf2ae/">UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-A53</a> 一文很像，只是這次我們把目標轉向 <code>Cortex-R5</code> ，以及將 GPIO 輸出的功能，改成 GPIO 輸入。
 </p>
@@ -308,9 +308,9 @@
 </div>
 </div>
 
-<div id="outline-container-org79abcce" class="outline-2">
-<h2 id="org79abcce">建立專案</h2>
-<div class="outline-text-2" id="text-org79abcce">
+<div id="outline-container-org56c3100" class="outline-2">
+<h2 id="org56c3100">建立專案</h2>
+<div class="outline-text-2" id="text-org56c3100">
 <p>
 首先讓我們打開 Vivado 吧~ 不過在進行這一步之前，請先確定你有依照 <a href="https://coldnew.github.io/2c97574c/">讓 Vivado 有 UltraZed-EG PCIe Carrier Card 的設定檔</a> 一文的說明，讓我們在建立專案的時候可以找到  <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="noopener">UltraZed-EG PCIe Carrier Card</a> 這塊板子。
 </p>
@@ -367,9 +367,9 @@
 </div>
 </div>
 
-<div id="outline-container-org7b576a0" class="outline-2">
-<h2 id="org7b576a0">建立 Block Design</h2>
-<div class="outline-text-2" id="text-org7b576a0">
+<div id="outline-container-org0bd1b47" class="outline-2">
+<h2 id="org0bd1b47">建立 Block Design</h2>
+<div class="outline-text-2" id="text-org0bd1b47">
 <p>
 和之前的文章一樣，我們的專案需要用到 Xilinx 一些預先定義好的 IP, 因此使用 Block Design 來建立我們的設計。
 </p>
@@ -535,9 +535,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgb5729eb" class="outline-2">
-<h2 id="orgb5729eb">產生 HDL Wrapper</h2>
-<div class="outline-text-2" id="text-orgb5729eb">
+<div id="outline-container-org4c6d1f8" class="outline-2">
+<h2 id="org4c6d1f8">產生 HDL Wrapper</h2>
+<div class="outline-text-2" id="text-org4c6d1f8">
 <p>
 接下來我們要將剛剛用 Block Design 建立的電路變成 verilog 程式碼，因此會需要進行產生 HDL Wrapper 這個步驟。
 </p>
@@ -569,9 +569,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgda28693" class="outline-2">
-<h2 id="orgda28693">產生位元流 (bitstream)</h2>
-<div class="outline-text-2" id="text-orgda28693">
+<div id="outline-container-orge782623" class="outline-2">
+<h2 id="orge782623">產生位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-orge782623">
 <p>
 前面的處理都好了後，接下來點選 <code>Program and Debug -&gt; Generate Bitstream</code> 去讓 Viavado 將這個專案產生出
 位元流 (bitstream) ，Zynq UltraScale+ 會在開機的時候根據 bitstream 的資訊對 FPGA 進行設定。
@@ -618,9 +618,9 @@
 </div>
 </div>
 
-<div id="outline-container-orga9d9edc" class="outline-2">
-<h2 id="orga9d9edc">建立 Xilinx SDK 專案</h2>
-<div class="outline-text-2" id="text-orga9d9edc">
+<div id="outline-container-org2458871" class="outline-2">
+<h2 id="org2458871">建立 Xilinx SDK 專案</h2>
+<div class="outline-text-2" id="text-org2458871">
 <p>
 啟動 Xilinx SDK 後，點選 <code>File -&gt; New -&gt; Application Project</code> 去建立新的專案
 </p>
@@ -652,9 +652,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgc7acc8b" class="outline-3">
-<h3 id="orgc7acc8b">打開 helloworld.c</h3>
-<div class="outline-text-3" id="text-orgc7acc8b">
+<div id="outline-container-org1ba87c8" class="outline-3">
+<h3 id="org1ba87c8">打開 helloworld.c</h3>
+<div class="outline-text-3" id="text-org1ba87c8">
 <p>
 點選左邊欄位的 <code>helloR5 -&gt; src -&gt; helloworld.c</code> 來編輯我們的主程式，你會看到以下的內容
 </p>
@@ -698,9 +698,9 @@
 </div>
 </div>
 
-<div id="outline-container-org6293c5e" class="outline-3">
-<h3 id="org6293c5e">設定輸出的 UART</h3>
-<div class="outline-text-3" id="text-org6293c5e">
+<div id="outline-container-orga955e87" class="outline-3">
+<h3 id="orga955e87">設定輸出的 UART</h3>
+<div class="outline-text-3" id="text-orga955e87">
 <p>
 在本文一開始，我們題到了我們這次希望透過 <code>ps_uart1</code> 輸出，也就是希望 Linux 端的 <code>/dev/ttyUSB0</code> 可以收到訊息，那這樣要怎樣做呢?
 </p>
@@ -742,17 +742,17 @@
 </div>
 </div>
 
-<div id="outline-container-org87b8dca" class="outline-2">
-<h2 id="org87b8dca">透過 SW 控制 LED (輪詢)</h2>
-<div class="outline-text-2" id="text-org87b8dca">
+<div id="outline-container-org6145822" class="outline-2">
+<h2 id="org6145822">透過 SW 控制 LED (輪詢)</h2>
+<div class="outline-text-2" id="text-org6145822">
 <p>
 由於如果連如何抓 SW2 ~ SW4 的輸入都不會的話，中斷控制大概也不用提了 (笑)。 因此讓我們先用最傳統的方式，透過輪詢 (polling) 的方式取得當前 SW2 ~ SW4 的狀態，並分別控制 LED D12 ~ D14
 </p>
 </div>
 
-<div id="outline-container-org215fea1" class="outline-3">
-<h3 id="org215fea1">簡單的 SW2 ~ SW4 資訊取得</h3>
-<div class="outline-text-3" id="text-org215fea1">
+<div id="outline-container-org3e79b22" class="outline-3">
+<h3 id="org3e79b22">簡單的 SW2 ~ SW4 資訊取得</h3>
+<div class="outline-text-3" id="text-org3e79b22">
 <p>
 讓我們編輯 <code>helloworld.c</code> 將其變成以下
 </p>
@@ -813,7 +813,7 @@
 </p>
 
 <p>
-你可以依照 <a href="#org1074a18">下載到開發板 (一次性)</a> 上面的下載方式，並得到以下結果 (按一下 SW2 ~ SW4 看看)
+你可以依照 <a href="#orgbcfbf81">下載到開發板 (一次性)</a> 上面的下載方式，並得到以下結果 (按一下 SW2 ~ SW4 看看)
 </p>
 
 
@@ -828,9 +828,9 @@
 </div>
 </div>
 
-<div id="outline-container-org7731fc6" class="outline-3">
-<h3 id="org7731fc6">加入 LED 的控制</h3>
-<div class="outline-text-3" id="text-org7731fc6">
+<div id="outline-container-org513a32b" class="outline-3">
+<h3 id="org513a32b">加入 LED 的控制</h3>
+<div class="outline-text-3" id="text-org513a32b">
 <p>
 在上面，我們做到了偵測 SW2 ~ SW4 不同按鍵按下的狀態，這次就根據我們的結果來控制對應的 LED D12 ~ D14 吧，我們在 <code>print("Hello Cortex-R5\n\r");</code> 後面加入我們對 LED 的初始化~
 </p>
@@ -923,9 +923,9 @@ XGpio_DiscreteWrite<span style="color: #aadddd;">(</span>&amp;led, LED_CHANNEL, 
 </div>
 </div>
 
-<div id="outline-container-orga683b3a" class="outline-3">
-<h3 id="orga683b3a">完整程式碼</h3>
-<div class="outline-text-3" id="text-orga683b3a">
+<div id="outline-container-org6b509e1" class="outline-3">
+<h3 id="org6b509e1">完整程式碼</h3>
+<div class="outline-text-3" id="text-org6b509e1">
 <p>
 到目前為止，透過輪詢(polling)來取得 SW2 ~ SW4 並分別控制 D12 ~ D14 的 LED 完整程式碼如下:
 </p>
@@ -998,17 +998,17 @@ XGpio_DiscreteWrite<span style="color: #aadddd;">(</span>&amp;led, LED_CHANNEL, 
 </div>
 </div>
 
-<div id="outline-container-orga13974c" class="outline-2">
-<h2 id="orga13974c">透過 SW 控制 LED (中斷)</h2>
-<div class="outline-text-2" id="text-orga13974c">
+<div id="outline-container-org041b2fd" class="outline-2">
+<h2 id="org041b2fd">透過 SW 控制 LED (中斷)</h2>
+<div class="outline-text-2" id="text-org041b2fd">
 <p>
 了解了如何透過輪詢(polling) 的方式來使用 GPIO 相關的函式庫後，這次來將剛剛的程式改寫成中斷 (interrupt) 的版本吧 !
 </p>
 </div>
 
-<div id="outline-container-orgc81fc82" class="outline-3">
-<h3 id="orgc81fc82">清理目前的程式</h3>
-<div class="outline-text-3" id="text-orgc81fc82">
+<div id="outline-container-orgffd5db0" class="outline-3">
+<h3 id="orgffd5db0">清理目前的程式</h3>
+<div class="outline-text-3" id="text-orgffd5db0">
 <p>
 我們先將剛剛的輪詢的程式清理成這樣，好方便後面程式的撰寫
 </p>
@@ -1059,9 +1059,9 @@ XGpio_DiscreteWrite<span style="color: #aadddd;">(</span>&amp;led, LED_CHANNEL, 
 </div>
 </div>
 
-<div id="outline-container-org012252d" class="outline-3">
-<h3 id="org012252d">加入中斷控制</h3>
-<div class="outline-text-3" id="text-org012252d">
+<div id="outline-container-org9438311" class="outline-3">
+<h3 id="org9438311">加入中斷控制</h3>
+<div class="outline-text-3" id="text-org9438311">
 <p>
 我們先在 <code>while (1);</code> 前面加入我們對中斷控制器初始化用的函式 <code>My_InterruptInitializer()</code>
 </p>
@@ -1205,9 +1205,9 @@ XGpio_DiscreteWrite<span style="color: #aadddd;">(</span>&amp;led, LED_CHANNEL, 
 </div>
 </div>
 
-<div id="outline-container-org9c5fe68" class="outline-3">
-<h3 id="org9c5fe68">完整程式碼</h3>
-<div class="outline-text-3" id="text-org9c5fe68">
+<div id="outline-container-org4ea5ed3" class="outline-3">
+<h3 id="org4ea5ed3">完整程式碼</h3>
+<div class="outline-text-3" id="text-org4ea5ed3">
 <p>
 完整的程式碼如下:
 </p>
@@ -1330,9 +1330,9 @@ XGpio_DiscreteWrite<span style="color: #aadddd;">(</span>&amp;led, LED_CHANNEL, 
 </div>
 </div>
 
-<div id="outline-container-org7a5bc39" class="outline-2">
-<h2 id="org7a5bc39">設定 JTAG 下載</h2>
-<div class="outline-text-2" id="text-org7a5bc39">
+<div id="outline-container-orga58314c" class="outline-2">
+<h2 id="orga58314c">設定 JTAG 下載</h2>
+<div class="outline-text-2" id="text-orga58314c">
 <p>
 為了透過 Micro USB 連接到 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="noopener">UltraZed-EG PCIe Carrier Card</a> 上的 JTAG 來進行下載，我們需要對 <a href="http://zedboard.org/product/ultrazed-EG" target="_blank" rel="noopener">UltraZed-EG</a> 上的 <code>SW2</code> 要進行一些調整，變成下圖這樣。
 </p>
@@ -1349,9 +1349,9 @@ XGpio_DiscreteWrite<span style="color: #aadddd;">(</span>&amp;led, LED_CHANNEL, 
 </div>
 </div>
 
-<div id="outline-container-org1074a18" class="outline-2">
-<h2 id="org1074a18">下載到開發板 (一次性)</h2>
-<div class="outline-text-2" id="text-org1074a18">
+<div id="outline-container-orgbcfbf81" class="outline-2">
+<h2 id="orgbcfbf81">下載到開發板 (一次性)</h2>
+<div class="outline-text-2" id="text-orgbcfbf81">
 <p>
 和 <a href="https://coldnew.github.io/501bf2ae/">UltraZed-EG PCIe Carrier Card 開發紀錄: Hello Cortex-A53</a>  一文不同的是，這次我們不再分別下載 <code>FPGA</code> 和我們的程式，這次採用一次性下載的方案
 </p>
@@ -1392,9 +1392,9 @@ XGpio_DiscreteWrite<span style="color: #aadddd;">(</span>&amp;led, LED_CHANNEL, 
 </div>
 </div>
 
-<div id="outline-container-org325cd8a" class="outline-2">
-<h2 id="org325cd8a">結果</h2>
-<div class="outline-text-2" id="text-org325cd8a">
+<div id="outline-container-org625ec59" class="outline-2">
+<h2 id="org625ec59">結果</h2>
+<div class="outline-text-2" id="text-org625ec59">
 <p>
 按照本篇文章的設定，你的 <a href="http://ultrazed.org/product/ultrazed-eg-pcie-carrier-card" target="_blank" rel="noopener">UltraZed-EG PCIe Carrier Card</a>  顯示應該如以下影片:
 </p>
@@ -1410,9 +1410,9 @@ XGpio_DiscreteWrite<span style="color: #aadddd;">(</span>&amp;led, LED_CHANNEL, 
 </div>
 </div>
 
-<div id="outline-container-org4157312" class="outline-2">
-<h2 id="org4157312">取得程式碼</h2>
-<div class="outline-text-2" id="text-org4157312">
+<div id="outline-container-orga223734" class="outline-2">
+<h2 id="orga223734">取得程式碼</h2>
+<div class="outline-text-2" id="text-orga223734">
 <p>
 本文的範例已經上傳到 <a href="https://github.com/coldnew-examples/ultrazed_pciecc_helloR5" target="_blank" rel="noopener">coldnew/ultrazed_pciecc_helloR5</a> ，你可以透過以下命令獲得
 </p>
@@ -1423,9 +1423,9 @@ git clone https://github.com/coldnew-examples/ultrazed_pciecc_helloR5.git
 </div>
 </div>
 
-<div id="outline-container-org26b5db1" class="outline-2">
-<h2 id="org26b5db1">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org26b5db1">
+<div id="outline-container-org73339cb" class="outline-2">
+<h2 id="org73339cb">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org73339cb">
 <ul class="org-ul">
 <li><a href="https://ece.gmu.edu/coursewebpages/ECE/ECE699_SW_HW/S15/viewgraphs/ECE699_lecture_4.pdf" target="_blank" rel="noopener">ECE699: Lecture 4 - Intrrrupts AXI GPIO and AXI Timer.pdf</a></li>
 
@@ -1606,7 +1606,7 @@ git clone https://github.com/coldnew-examples/ultrazed_pciecc_helloR5.git
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaaafa16"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org79abcce"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7b576a0"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb5729eb"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgda28693"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga9d9edc"><span class="nav-text">建立 Xilinx SDK 專案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc7acc8b"><span class="nav-text">打開 helloworld.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6293c5e"><span class="nav-text">設定輸出的 UART</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org87b8dca"><span class="nav-text">透過 SW 控制 LED (輪詢)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org215fea1"><span class="nav-text">簡單的 SW2 ~ SW4 資訊取得</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7731fc6"><span class="nav-text">加入 LED 的控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga683b3a"><span class="nav-text">完整程式碼</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga13974c"><span class="nav-text">透過 SW 控制 LED (中斷)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc81fc82"><span class="nav-text">清理目前的程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org012252d"><span class="nav-text">加入中斷控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9c5fe68"><span class="nav-text">完整程式碼</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7a5bc39"><span class="nav-text">設定 JTAG 下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1074a18"><span class="nav-text">下載到開發板 (一次性)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org325cd8a"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4157312"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org26b5db1"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdbc4149"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org56c3100"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0bd1b47"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4c6d1f8"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge782623"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2458871"><span class="nav-text">建立 Xilinx SDK 專案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org1ba87c8"><span class="nav-text">打開 helloworld.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga955e87"><span class="nav-text">設定輸出的 UART</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6145822"><span class="nav-text">透過 SW 控制 LED (輪詢)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org3e79b22"><span class="nav-text">簡單的 SW2 ~ SW4 資訊取得</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org513a32b"><span class="nav-text">加入 LED 的控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6b509e1"><span class="nav-text">完整程式碼</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org041b2fd"><span class="nav-text">透過 SW 控制 LED (中斷)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgffd5db0"><span class="nav-text">清理目前的程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9438311"><span class="nav-text">加入中斷控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4ea5ed3"><span class="nav-text">完整程式碼</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga58314c"><span class="nav-text">設定 JTAG 下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbcfbf81"><span class="nav-text">下載到開發板 (一次性)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org625ec59"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga223734"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org73339cb"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -1625,7 +1625,7 @@ git clone https://github.com/coldnew-examples/ultrazed_pciecc_helloR5.git
 <div class="copyright">
   
   Copyright  &copy; &nbsp;  2012 - 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
    &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
 </div>

@@ -248,9 +248,9 @@
 (Xilinx 的開發環境 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 使用 Java 開發，而 Altera 的 <a href="http://dl.altera.com/?edition=lite" target="_blank" rel="noopener">Quartus</a> 使用 Qt 開發，以我遇到的狀況來說，後者在 Linux 上的體驗好多了。)
 </p>
 
-<div id="outline-container-orgd6d1077" class="outline-2">
-<h2 id="orgd6d1077">安裝 Vivado 在其他的 Linux 平台</h2>
-<div class="outline-text-2" id="text-orgd6d1077">
+<div id="outline-container-orge391683" class="outline-2">
+<h2 id="orge391683">安裝 Vivado 在其他的 Linux 平台</h2>
+<div class="outline-text-2" id="text-orge391683">
 <p>
 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 安裝程式在非官方支援的 Linux 平台上可能會導致安裝出問題，以我的 Gentoo Linux 為例，我必須把解壓出的 <code>xsetup</code> 安裝腳本裡面的這部分修改掉，不然會在 64bit 並具有 32bit 函式庫的 Gentoo Linux 下安裝失敗。
 </p>
@@ -272,9 +272,9 @@
 </div>
 </div>
 
-<div id="outline-container-org99387c5" class="outline-2">
-<h2 id="org99387c5">讓 Linux 辨識 USB UART</h2>
-<div class="outline-text-2" id="text-org99387c5">
+<div id="outline-container-org999d130" class="outline-2">
+<h2 id="org999d130">讓 Linux 辨識 USB UART</h2>
+<div class="outline-text-2" id="text-org999d130">
 <p>
 如果你接上 USB 到 Zybo Board 的 USB UART 接腳，卻沒在你的 Linux 上面看到任何 <code>/dev/ttyUSB*</code> 被建立的話，那就是你少裝了一些 UDEV rule，這邊的說明可以在  <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_2/ug973-vivado-release-notes-install-license.pdf" target="_blank" rel="noopener">Vivado Design Suite User Guide</a> 找到，簡單的說&#x2026;.
 </p>
@@ -289,9 +289,9 @@
 </div>
 </div>
 
-<div id="outline-container-org982f30b" class="outline-2">
-<h2 id="org982f30b">HiDPI 環境下的 Vivado 問題</h2>
-<div class="outline-text-2" id="text-org982f30b">
+<div id="outline-container-orga0f106b" class="outline-2">
+<h2 id="orga0f106b">HiDPI 環境下的 Vivado 問題</h2>
+<div class="outline-text-2" id="text-orga0f106b">
 <p>
 我是在 Macbook Pro 2015 上直接安裝 Gentoo Linux 來執行 Vivado, 因此會遇到顯示出來的 Vivado 程式因為 DPI 設定的問題，導致畫面太小，像這樣
 </p>
@@ -303,7 +303,7 @@
 </div>
 
 <p>
-這問題的元兇是 <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">Oracle JDK</a> 使用 <a href="https://zh.wikipedia.org/zh-tw/Swing_%28Java%29" target="_blank" rel="noopener">Java Swing</a> 時，在 Linux 上並未支援 HiDPI 解析度，導致出現的畫面太小，這 <a href="http://openjdk.java.net/jeps/263" target="_blank" rel="noopener">問題</a> 據說會修正在 JDK 9 上，目前我們只能用一些臨時解 (workround)來處理這狀況，或是將 Vivado 視窗移動到解析度沒那樣好的外接螢幕上也可以。
+這問題的元兇是 <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">Oracle JDK</a> 使用 <a href="https://zh.wikipedia.org/zh-tw/Swing_%2528Java%2529" target="_blank" rel="noopener">Java Swing</a> 時，在 Linux 上並未支援 HiDPI 解析度，導致出現的畫面太小，這 <a href="http://openjdk.java.net/jeps/263" target="_blank" rel="noopener">問題</a> 據說會修正在 JDK 9 上，目前我們只能用一些臨時解 (workround)來處理這狀況，或是將 Vivado 視窗移動到解析度沒那樣好的外接螢幕上也可以。
 </p>
 
 <p>
@@ -429,9 +429,9 @@ coldnew@gentoo ~ $ vncdesk 21
 </div>
 </div>
 
-<div id="outline-container-org01de325" class="outline-2">
-<h2 id="org01de325">一定要設定 export SWT_GTK3=0</h2>
-<div class="outline-text-2" id="text-org01de325">
+<div id="outline-container-org87c8aa5" class="outline-2">
+<h2 id="org87c8aa5">一定要設定 export SWT_GTK3=0</h2>
+<div class="outline-text-2" id="text-org87c8aa5">
 <p>
 在上面我們說了要設定 <code>SWT_GTK3=0</code> ，如果不設定的話，很容易出現問題，以我遇到的狀況來講，我在 Xilinx SDK 想要建立 Zynq Boot Image，但是視窗卻不會給我彈出來
 </p>
@@ -446,9 +446,9 @@ coldnew@gentoo ~ $ vncdesk 21
 </div>
 </div>
 
-<div id="outline-container-orgb315b01" class="outline-2">
-<h2 id="orgb315b01">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgb315b01">
+<div id="outline-container-orgcc0aa22" class="outline-2">
+<h2 id="orgcc0aa22">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgcc0aa22">
 <p>
 <code>[1]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_2/ug973-vivado-release-notes-install-license.pdf" target="_blank" rel="noopener">Vivado Design Suite User Guide</a>
 </p>
@@ -617,7 +617,7 @@ coldnew@gentoo ~ $ vncdesk 21
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd6d1077"><span class="nav-text">安裝 Vivado 在其他的 Linux 平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org99387c5"><span class="nav-text">讓 Linux 辨識 USB UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org982f30b"><span class="nav-text">HiDPI 環境下的 Vivado 問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org01de325"><span class="nav-text">一定要設定 export SWT_GTK3=0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb315b01"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge391683"><span class="nav-text">安裝 Vivado 在其他的 Linux 平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org999d130"><span class="nav-text">讓 Linux 辨識 USB UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga0f106b"><span class="nav-text">HiDPI 環境下的 Vivado 問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org87c8aa5"><span class="nav-text">一定要設定 export SWT_GTK3=0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcc0aa22"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -636,7 +636,7 @@ coldnew@gentoo ~ $ vncdesk 21
 <div class="copyright">
   
   Copyright  &copy; &nbsp;  2012 - 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
    &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
 </div>

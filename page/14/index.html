@@ -285,7 +285,7 @@ eshell 或是 term 時，顯示行號反而變得怪怪的。
           
             
               <a class="post-title-link" href="/576cfa12/" itemprop="url">
-                修正 emacs 不能使用 gcin 或是 hime 的問題
+                修正 emacs 在X11下不能使用中文輸入法的問題
               </a>
             
           
@@ -295,8 +295,8 @@ eshell 或是 term 時，顯示行號反而變得怪怪的。
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2012-12-15T14:43:00+08:00" content="2012-12-15">
-            2012-12-15
+          <time itemprop="dateCreated" datetime="2020-02-08T09:53:00+08:00" content="2020-02-08">
+            2020-02-08
           </time>
         </span>
 
@@ -319,26 +319,22 @@ eshell 或是 term 時，顯示行號反而變得怪怪的。
             
             
 
-如果你用的 emacs 無法使用 gcin/hime 輸入法，試著在 /etc/X11/xorg.conf
-加入
+最近在新買的電腦上裝新的 Gentoo Linux, 結果又遇到了除了 Emacs 外其他程式都可以使用中文輸入法(ibus, fcitx, hime, gcin &#x2026;) 的問題，因此重新來紀錄一次。
 
 
 
-Section "Files"
-    FontPath        "built-ins"
-    FontPath        "/usr/share/fonts/TTF/"
-    FontPath        "/usr/share/fonts/100dpi/"
-    FontPath        "/usr/share/fonts/75dpi/"
-EndSection
+問題描述
+
+
+在 X11 下面，已經確定了有設定以下環境變數 (這邊以 ibus 舉例), 可以設定在 ~/.xprofile 或是 ~/.bashrc
 
 
 
-
-之後重新啟動 XServer 試試。
-
-
-
-            
+# -*- mode: sh -*-
+############################################################
+# Locales
+##################
+            ...
           </span>
           <div class="post-more-link text-center">
             <a class="btn" href="/576cfa12/#more" rel="contents">
@@ -476,7 +472,7 @@ EndSection
 <div class="copyright">
   
   Copyright  &copy; &nbsp;  2012 - 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
    &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
 </div>

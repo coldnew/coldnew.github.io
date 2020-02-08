@@ -315,9 +315,9 @@
 注意到這邊會刻意忽略掉 High Speed Mezzanine Card (HSMC) 接口，因為這個接口除非去買擴展板，不然對一般人而言不會有用到的機會。
 </p>
 
-<div id="outline-container-orgb50ff0f" class="outline-2">
-<h2 id="orgb50ff0f">基本硬體認識</h2>
-<div class="outline-text-2" id="text-orgb50ff0f">
+<div id="outline-container-orgdb73de4" class="outline-2">
+<h2 id="orgdb73de4">基本硬體認識</h2>
+<div class="outline-text-2" id="text-orgdb73de4">
 <p>
 拿到手的 <a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1" target="_blank" rel="noopener">DE2-115</a> 就像這個樣子，從正面來看:
 </p>
@@ -349,9 +349,9 @@
 </div>
 </div>
 
-<div id="outline-container-org30f7ad1" class="outline-2">
-<h2 id="org30f7ad1">方塊圖</h2>
-<div class="outline-text-2" id="text-org30f7ad1">
+<div id="outline-container-org14cedd2" class="outline-2">
+<h2 id="org14cedd2">方塊圖</h2>
+<div class="outline-text-2" id="text-org14cedd2">
 <p>
 上面的週邊資訊太複雜了，好在  <a href="https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;No=542&amp;FID=eeba7202febfb39155fdac7b09ceada7" target="_blank" rel="noopener">DE2-115 User Manual</a> 有提供方塊圖 (Block Diagram) 可以讓我們對這平台用的 IC 以及有的功能再進一步的了解
 </p>
@@ -364,9 +364,9 @@
 </div>
 </div>
 
-<div id="outline-container-org802eb58" class="outline-2">
-<h2 id="org802eb58">FGPA 核心</h2>
-<div class="outline-text-2" id="text-org802eb58">
+<div id="outline-container-org03e299b" class="outline-2">
+<h2 id="org03e299b">FGPA 核心</h2>
+<div class="outline-text-2" id="text-org03e299b">
 <p>
 <a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1" target="_blank" rel="noopener">DE2-115</a> 使用的 FPGA 核心是 <code>Cyclone IV EP4CE115F29</code> ，是屬於 <a href="https://www.altera.com/products/fpga/cyclone-series/cyclone-iv/overview.html" target="_blank" rel="noopener">Cyclone IV</a> 系列的，當然在一開始玩的時候只需要知道這個是哪個系列，可以裝下多少邏輯閘就夠了。
 </p>
@@ -398,9 +398,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgb825fff" class="outline-2">
-<h2 id="orgb825fff">JTAG</h2>
-<div class="outline-text-2" id="text-orgb825fff">
+<div id="outline-container-orgf2b8ef5" class="outline-2">
+<h2 id="orgf2b8ef5">JTAG</h2>
+<div class="outline-text-2" id="text-orgf2b8ef5">
 <p>
 JTAG 是 DE2-115 上用來下載程式到 FPGA 用的界面，根據設定的不同，我們可以將其分成 JTAG Mode 和 AS-mode，下面就來講解這兩種模式的不同。
 </p>
@@ -415,9 +415,9 @@ JTAG 是 DE2-115 上用來下載程式到 FPGA 用的界面，根據設定的不
 </ul>
 </div>
 
-<div id="outline-container-org7f93db7" class="outline-3">
-<h3 id="org7f93db7">JTAG mode</h3>
-<div class="outline-text-3" id="text-org7f93db7">
+<div id="outline-container-org008a74c" class="outline-3">
+<h3 id="org008a74c">JTAG mode</h3>
+<div class="outline-text-3" id="text-org008a74c">
 <p>
 JTAG mode 是一般下載用的方式，缺點是斷電後資料不會保存在板子上。如果你想要下載後重新上電可以執行上一次下載的程式的話，請使用 AS mode。
 </p>
@@ -441,9 +441,9 @@ JTAG mode 是一般下載用的方式，缺點是斷電後資料不會保存在�
 </div>
 </div>
 
-<div id="outline-container-orgbfdea0e" class="outline-3">
-<h3 id="orgbfdea0e">JTAG AS mode</h3>
-<div class="outline-text-3" id="text-orgbfdea0e">
+<div id="outline-container-org4951d0a" class="outline-3">
+<h3 id="org4951d0a">JTAG AS mode</h3>
+<div class="outline-text-3" id="text-org4951d0a">
 <p>
 當我們想要斷電再上電後，還可以執行上一次下載的程式的話，這時候就需要透過 AS Mode 來進行。
 </p>
@@ -472,9 +472,9 @@ AS Mode (Active Serial Programming) 會將位元流下載到 <a href="https://ww
 </div>
 </div>
 
-<div id="outline-container-org79b3a25" class="outline-3">
-<h3 id="org79b3a25">JTAG Chain</h3>
-<div class="outline-text-3" id="text-org79b3a25">
+<div id="outline-container-orgf0a8b8a" class="outline-3">
+<h3 id="orgf0a8b8a">JTAG Chain</h3>
+<div class="outline-text-3" id="text-orgf0a8b8a">
 <p>
 除了 JTAG mode 和 AS mode 外，如果我們想要透過 DE2-115 將資訊下載到別的 Altera FPGA 開發板的話，這時候就是使用 JTAG Chain 的時機。
 </p>
@@ -496,11 +496,11 @@ AS Mode (Active Serial Programming) 會將位元流下載到 <a href="https://ww
 </div>
 </div>
 
-<div id="outline-container-org651fe8b" class="outline-2">
-<h2 id="org651fe8b">按鈕</h2>
-<div class="outline-text-2" id="text-org651fe8b">
+<div id="outline-container-org7f61b66" class="outline-2">
+<h2 id="org7f61b66">按鈕</h2>
+<div class="outline-text-2" id="text-org7f61b66">
 <p>
-DE2-115 共有四個按鈕 (Push Button)，這些按鈕都接上了<a href="https://zh.wikipedia.org/wiki/%E6%96%BD%E5%AF%86%E7%89%B9%E8%A7%A6%E5%8F%91%E5%99%A8" target="_blank" rel="noopener">施密特觸發器(Schmitt trigger)</a>來對按鈕去除彈跳 <a href="http://while-true-loop.blogspot.tw/2009/04/de-bounce.html" target="_blank" rel="noopener">(debounce)</a>
+DE2-115 共有四個按鈕 (Push Button)，這些按鈕都接上了<a href="https://zh.wikipedia.org/wiki/%25E6%2596%25BD%25E5%25AF%2586%25E7%2589%25B9%25E8%25A7%25A6%25E5%258F%2591%25E5%2599%25A8" target="_blank" rel="noopener">施密特觸發器(Schmitt trigger)</a>來對按鈕去除彈跳 <a href="http://while-true-loop.blogspot.tw/2009/04/de-bounce.html" target="_blank" rel="noopener">(debounce)</a>
 </p>
 
 
@@ -525,9 +525,9 @@ DE2-115 共有四個按鈕 (Push Button)，這些按鈕都接上了<a href="http
 </div>
 </div>
 
-<div id="outline-container-org358dacf" class="outline-2">
-<h2 id="org358dacf">指撥開關</h2>
-<div class="outline-text-2" id="text-org358dacf">
+<div id="outline-container-orgb4c86a3" class="outline-2">
+<h2 id="orgb4c86a3">指撥開關</h2>
+<div class="outline-text-2" id="text-orgb4c86a3">
 <p>
 DE2-115 有 18 個指撥開關 (slide switches)，和按鈕不同的地方在於這些指撥開關並未接上施密特觸發器(Schmitt trigger) ，也因此不具有防彈跳的功能。
 </p>
@@ -554,9 +554,9 @@ DE2-115 有 18 個指撥開關 (slide switches)，和按鈕不同的地方在於
 </div>
 </div>
 
-<div id="outline-container-org19231b5" class="outline-2">
-<h2 id="org19231b5">LED</h2>
-<div class="outline-text-2" id="text-org19231b5">
+<div id="outline-container-orgfc2a04e" class="outline-2">
+<h2 id="orgfc2a04e">LED</h2>
+<div class="outline-text-2" id="text-orgfc2a04e">
 <p>
 DE2-115 上面共有 27 個 LED, 其中紅色 LED 佔了 18 個，綠色的則是有 9 個
 </p>
@@ -583,9 +583,9 @@ DE2-115 上面共有 27 個 LED, 其中紅色 LED 佔了 18 個，綠色的則�
 </div>
 </div>
 
-<div id="outline-container-org8d3a50f" class="outline-2">
-<h2 id="org8d3a50f">七段顯示器</h2>
-<div class="outline-text-2" id="text-org8d3a50f">
+<div id="outline-container-org677d1b6" class="outline-2">
+<h2 id="org677d1b6">七段顯示器</h2>
+<div class="outline-text-2" id="text-org677d1b6">
 <p>
 DE2-115 共有 8 個 <a href="https://en.wikipedia.org/wiki/Seven-segment_display" target="_blank" rel="noopener">七段顯示器 (7-segment)</a>，每一個七段顯示器和 Cyclone IV 的連接就像這個樣子:
 </p>
@@ -618,9 +618,9 @@ DE2-115 共有 8 個 <a href="https://en.wikipedia.org/wiki/Seven-segment_displa
 </div>
 </div>
 
-<div id="outline-container-orgb50bb54" class="outline-2">
-<h2 id="orgb50bb54">時脈源 (Clock Sources)</h2>
-<div class="outline-text-2" id="text-orgb50bb54">
+<div id="outline-container-orgfbbbe3b" class="outline-2">
+<h2 id="orgfbbbe3b">時脈源 (Clock Sources)</h2>
+<div class="outline-text-2" id="text-orgfbbbe3b">
 <p>
 DE2-115 上面掛載了一顆 <code>50MHz</code> 的有源石英振盪器，而這顆振盪器會經由 <a href="https://www.diodes.com/assets/Datasheets/PI49FCT3802.pdf" target="_blank" rel="noopener">PI49FCT3803 (單端時鐘緩衝器)</a> 將訊號變成 3 組 50MHz 輸入到 Cyclone IV 的三個輸入源來提供使用者使用。
 </p>
@@ -636,7 +636,7 @@ DE2-115 上面掛載了一顆 <code>50MHz</code> 的有源石英振盪器，而�
 </p>
 
 <p>
-另外要注意的是，這邊提到的時脈訊號會接到 FGPA 內的 <a href="https://zh.wikipedia.org/wiki/%E9%94%81%E7%9B%B8%E7%8E%AF" target="_blank" rel="noopener">鎖相迴路 (Phase-locked loops, PLL)</a> , 因此我們可以透過 Altera 的 IP-Core <a href="https://www.altera.com/en_US/pdfs/literature/ug/ug_altpll.pdf" target="_blank" rel="noopener">ALTPLL</a> 模組來對輸入時脈進行倍頻或是除頻等運作，產生我們需要的時脈。
+另外要注意的是，這邊提到的時脈訊號會接到 FGPA 內的 <a href="https://zh.wikipedia.org/wiki/%25E9%2594%2581%25E7%259B%25B8%25E7%258E%25AF" target="_blank" rel="noopener">鎖相迴路 (Phase-locked loops, PLL)</a> , 因此我們可以透過 Altera 的 IP-Core <a href="https://www.altera.com/en_US/pdfs/literature/ug/ug_altpll.pdf" target="_blank" rel="noopener">ALTPLL</a> 模組來對輸入時脈進行倍頻或是除頻等運作，產生我們需要的時脈。
 </p>
 
 
@@ -646,9 +646,9 @@ DE2-115 上面掛載了一顆 <code>50MHz</code> 的有源石英振盪器，而�
 </div>
 </div>
 </div>
-<div id="outline-container-org21569f8" class="outline-2">
-<h2 id="org21569f8">LCD</h2>
-<div class="outline-text-2" id="text-org21569f8">
+<div id="outline-container-orge6cd403" class="outline-2">
+<h2 id="orge6cd403">LCD</h2>
+<div class="outline-text-2" id="text-orge6cd403">
 <p>
 DE2-115 除了七段顯示器外，板子上也接上了 LCD 模組 <a href="https://www.sparkfun.com/datasheets/LCD/HD44780.pdf" target="_blank" rel="noopener">HD44780</a> ，我們可以透過 LCD 模組來進行一些文字訊息的顯示。
 </p>
@@ -670,9 +670,9 @@ DE2-115 除了七段顯示器外，板子上也接上了 LCD 模組 <a href="htt
 </div>
 </div>
 </div>
-<div id="outline-container-orgecf6d42" class="outline-2">
-<h2 id="orgecf6d42">GPIO</h2>
-<div class="outline-text-2" id="text-orgecf6d42">
+<div id="outline-container-org72124b7" class="outline-2">
+<h2 id="org72124b7">GPIO</h2>
+<div class="outline-text-2" id="text-org72124b7">
 <p>
 前面說到我們不會提到 HSMC (High Speed Mezzanine Card)，但是 GPIO 就必須特別題一下了。一般來說，大多數位訊號都可以透過 GPIO 來模擬達到，這種方式稱為 <a href="https://en.wikipedia.org/wiki/Bit_banging" target="_blank" rel="noopener">Bit baning</a> 。也因此，假設我們要自己實做 UART、I2C、SPI 等訊號輸入輸出，都可以透過這些 GPIO 接腳來達到。
 </p>
@@ -718,9 +718,9 @@ DE2-115 上的 GPIO 設計有保護電路，可以避免輸入的電壓過高 (�
 </div>
 </div>
 </div>
-<div id="outline-container-org7d04c9d" class="outline-2">
-<h2 id="org7d04c9d">VGA</h2>
-<div class="outline-text-2" id="text-org7d04c9d">
+<div id="outline-container-org45462ed" class="outline-2">
+<h2 id="org45462ed">VGA</h2>
+<div class="outline-text-2" id="text-org45462ed">
 <p>
 和 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Xilinx Zybo Board</a> 的作法不同，<a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1" target="_blank" rel="noopener">Altera DE2-115</a> 採用了 <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7123-EP.pdf" target="_blank" rel="noopener">ADV7123</a> 來將數位訊號轉換成 VGA 使用的類比訊號
 </p>
@@ -756,11 +756,11 @@ DE2-115 上的 GPIO 設計有保護電路，可以避免輸入的電壓過高 (�
 </div>
 </div>
 </div>
-<div id="outline-container-org639e874" class="outline-2">
-<h2 id="org639e874">Audio</h2>
-<div class="outline-text-2" id="text-org639e874">
+<div id="outline-container-org1710682" class="outline-2">
+<h2 id="org1710682">Audio</h2>
+<div class="outline-text-2" id="text-org1710682">
 <p>
-DE2-115 上面採用了 <a href="https://www.cirrus.com/products/wm8731/" target="_blank" rel="noopener">WM8731</a> 作為音頻的解決方案，這顆晶片可以支援麥克風輸入、類比音源轉換輸入/輸出 (line-in/out)，而 Cyclone IV 和這顆晶片的溝通界面則是 <a href="https://zh.wikipedia.org/wiki/I%C2%B2C" target="_blank" rel="noopener">I²C</a> 。
+DE2-115 上面採用了 <a href="https://www.cirrus.com/products/wm8731/" target="_blank" rel="noopener">WM8731</a> 作為音頻的解決方案，這顆晶片可以支援麥克風輸入、類比音源轉換輸入/輸出 (line-in/out)，而 Cyclone IV 和這顆晶片的溝通界面則是 <a href="https://zh.wikipedia.org/wiki/I%25C2%25B2C" target="_blank" rel="noopener">I²C</a> 。
 </p>
 
 
@@ -781,9 +781,9 @@ DE2-115 上面採用了 <a href="https://www.cirrus.com/products/wm8731/" target
 </div>
 </div>
 
-<div id="outline-container-org88d84b0" class="outline-2">
-<h2 id="org88d84b0">RS232</h2>
-<div class="outline-text-2" id="text-org88d84b0">
+<div id="outline-container-org294da95" class="outline-2">
+<h2 id="org294da95">RS232</h2>
+<div class="outline-text-2" id="text-org294da95">
 <p>
 在嵌入式系統開發的時候，<a href="https://zh.wikipedia.org/wiki/RS-232" target="_blank" rel="noopener">RS232</a> 串列埠是非常常用的接口，我們常常使用其作為最基本的除錯訊息輸出來源，而 DE2-115 已經幫我們把相關的電路處理好了。在這邊，DE2-115 使用 <a href="https://www.ineltro.ch/media/downloads/SAAItem/45/45377/a4536d49-dc82-4904-8a34-c4f51beb59e9.pdf" target="_blank" rel="noopener">ZT3232LEEY</a> 這顆電壓轉換電路，將 FPGA 輸出的電壓 (3.3V) 轉換成 RS232 標準的最低許可電壓 ±5V。
 </p>
@@ -806,9 +806,9 @@ DE2-115 上面採用了 <a href="https://www.cirrus.com/products/wm8731/" target
 </div>
 </div>
 
-<div id="outline-container-orgabfb573" class="outline-2">
-<h2 id="orgabfb573">PS2 串列埠</h2>
-<div class="outline-text-2" id="text-orgabfb573">
+<div id="outline-container-org7256e3d" class="outline-2">
+<h2 id="org7256e3d">PS2 串列埠</h2>
+<div class="outline-text-2" id="text-org7256e3d">
 <p>
 現在的人已經很難接觸到 <a href="https://en.wikipedia.org/wiki/PS/2_port" target="_blank" rel="noopener">PS/2 序列埠</a> 了，以前的滑鼠和鍵盤都是透過這接口和主機溝通的，現在都已經被 USB 取代。我手邊的這片 DE2-115 畢竟是早期的板子，還留有這樣的接口。
 </p>
@@ -827,9 +827,9 @@ DE2-115 上面採用了 <a href="https://www.cirrus.com/products/wm8731/" target
 </div>
 </div>
 
-<div id="outline-container-org6c9d5c9" class="outline-2">
-<h2 id="org6c9d5c9">Gigabit 乙太網路收發器</h2>
-<div class="outline-text-2" id="text-org6c9d5c9">
+<div id="outline-container-org37d6b8f" class="outline-2">
+<h2 id="org37d6b8f">Gigabit 乙太網路收發器</h2>
+<div class="outline-text-2" id="text-org37d6b8f">
 <p>
 DE2-115 內建兩個 Gigabit 乙太網路收發器，可以支援 10/100/1000M bps 的網路速度，並支援 GMII/MII/RGMII Mac 接口。
 </p>
@@ -873,15 +873,15 @@ DE2-115 內建兩個 Gigabit 乙太網路收發器，可以支援 10/100/1000M b
 </div>
 </div>
 
-<div id="outline-container-org05e411c" class="outline-2">
-<h2 id="org05e411c">TV Decoder</h2>
-<div class="outline-text-2" id="text-org05e411c">
+<div id="outline-container-org445e274" class="outline-2">
+<h2 id="org445e274">TV Decoder</h2>
+<div class="outline-text-2" id="text-org445e274">
 <p>
-DE2-115 採用 <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf" target="_blank" rel="noopener">Analog Device ADV7180</a> 作為影像串流解碼器，此顆晶片可以自動解碼 <a href="https://zh.wikipedia.org/wiki/NTSC%E5%88%B6%E5%BC%8F" target="_blank" rel="noopener">NTSC</a>、<a href="https://zh.wikipedia.org/zh-tw/PAL%E5%88%B6%E5%BC%8F" target="_blank" rel="noopener">PAL</a>、<a href="https://zh.wikipedia.org/wiki/SECAM%E5%88%B6%E5%BC%8F" target="_blank" rel="noopener">SECAM</a> 等影像規格成 <a href="https://en.wikipedia.org/wiki/ITU-R_BT.656" target="_blank" rel="noopener">8-bit ITU-R BT.656</a> 格式。
+DE2-115 採用 <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf" target="_blank" rel="noopener">Analog Device ADV7180</a> 作為影像串流解碼器，此顆晶片可以自動解碼 <a href="https://zh.wikipedia.org/wiki/NTSC%25E5%2588%25B6%25E5%25BC%258F" target="_blank" rel="noopener">NTSC</a>、<a href="https://zh.wikipedia.org/zh-tw/PAL%25E5%2588%25B6%25E5%25BC%258F" target="_blank" rel="noopener">PAL</a>、<a href="https://zh.wikipedia.org/wiki/SECAM%25E5%2588%25B6%25E5%25BC%258F" target="_blank" rel="noopener">SECAM</a> 等影像規格成 <a href="https://en.wikipedia.org/wiki/ITU-R_BT.656" target="_blank" rel="noopener">8-bit ITU-R BT.656</a> 格式。
 </p>
 
 <p>
-<a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf" target="_blank" rel="noopener">Analog Device ADV7180</a> 和 FPGA 採用 <a href="https://zh.wikipedia.org/wiki/I%C2%B2C" target="_blank" rel="noopener">I²C</a> 接口進行通訊。
+<a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf" target="_blank" rel="noopener">Analog Device ADV7180</a> 和 FPGA 採用 <a href="https://zh.wikipedia.org/wiki/I%25C2%25B2C" target="_blank" rel="noopener">I²C</a> 接口進行通訊。
 </p>
 
 
@@ -898,9 +898,9 @@ DE2-115 採用 <a href="http://www.analog.com/media/en/technical-documentation/d
 </div>
 </div>
 
-<div id="outline-container-org6cd7e18" class="outline-2">
-<h2 id="org6cd7e18">USB</h2>
-<div class="outline-text-2" id="text-org6cd7e18">
+<div id="outline-container-orgec43515" class="outline-2">
+<h2 id="orgec43515">USB</h2>
+<div class="outline-text-2" id="text-orgec43515">
 <p>
 DE2-115 採用了 <a href="http://www.cypress.com/file/122731/download" target="_blank" rel="noopener">Cypress EZ-OTG (CY7C67200)</a> 這款支援 <a href="https://zh.wikipedia.org/wiki/USB_On-The-Go" target="_blank" rel="noopener">USB On-The-Go</a> 功能的控制器，Host 和 Device 皆支援 USB 2.0 標準。
 </p>
@@ -919,9 +919,9 @@ DE2-115 採用了 <a href="http://www.cypress.com/file/122731/download" target="
 </div>
 </div>
 
-<div id="outline-container-org77c9bdd" class="outline-2">
-<h2 id="org77c9bdd">IR (紅外線)</h2>
-<div class="outline-text-2" id="text-org77c9bdd">
+<div id="outline-container-org4a4c486" class="outline-2">
+<h2 id="org4a4c486">IR (紅外線)</h2>
+<div class="outline-text-2" id="text-org4a4c486">
 <p>
 DE2-115 盒內附了一個紅外線遙控器，而板子上則有紅外線接收器 (<a href="https://www.mouser.tw/ProductDetail/Everlight/IRM-V538N7-TR1" target="_blank" rel="noopener">IRM-V538N7/TR1</a>)，我們可以透過這個組合，實現像是冷氣遙控器、電視遙控器等控制界面。
 </p>
@@ -948,9 +948,9 @@ DE2-115 提供的遙控器採用了 <a href="http://pdf.datasheet.live/3ca11ca1/
 </div>
 </div>
 
-<div id="outline-container-org130d9b2" class="outline-2">
-<h2 id="org130d9b2">SRAM</h2>
-<div class="outline-text-2" id="text-org130d9b2">
+<div id="outline-container-org108de32" class="outline-2">
+<h2 id="org108de32">SRAM</h2>
+<div class="outline-text-2" id="text-org108de32">
 <p>
 DE2-115 內建了 2MB 的 SRAM, 這些 SRAM 的資料寬度是 16bit, 在 3.3V 的情況下，最高頻率為 125M Hz
 </p>
@@ -969,9 +969,9 @@ DE2-115 內建了 2MB 的 SRAM, 這些 SRAM 的資料寬度是 16bit, 在 3.3V �
 </div>
 </div>
 
-<div id="outline-container-orgb74e9e6" class="outline-2">
-<h2 id="orgb74e9e6">SDRAM</h2>
-<div class="outline-text-2" id="text-orgb74e9e6">
+<div id="outline-container-orgfd26ad0" class="outline-2">
+<h2 id="orgfd26ad0">SDRAM</h2>
+<div class="outline-text-2" id="text-orgfd26ad0">
 <p>
 DE2-115 有 128 MB 的 SDRAM, 這個 SDRAM 實際上是由兩個 64MB 的 SDRAM 組成，每個 SDRAM 具有 16-bit 的資料寬度。
 而由 FPGA 拉出來的位址控制訊號則是共用。
@@ -991,9 +991,9 @@ DE2-115 有 128 MB 的 SDRAM, 這個 SDRAM 實際上是由兩個 64MB 的 SDRAM 
 </div>
 </div>
 
-<div id="outline-container-orgda030d9" class="outline-2">
-<h2 id="orgda030d9">FLASH</h2>
-<div class="outline-text-2" id="text-orgda030d9">
+<div id="outline-container-org7d8bb20" class="outline-2">
+<h2 id="org7d8bb20">FLASH</h2>
+<div class="outline-text-2" id="text-org7d8bb20">
 <p>
 DE2-115 具有 8MB FLASH, 這顆 FLASH 具有 8-bit 的資料寬度。基於 FLASH 的非揮發特性 (斷電後資料會保持)，我們常常使用這些 FLASH 存儲一些特定的資料。
 </p>
@@ -1012,12 +1012,12 @@ DE2-115 具有 8MB FLASH, 這顆 FLASH 具有 8-bit 的資料寬度。基於 FLA
 </div>
 </div>
 
-<div id="outline-container-orga7ade6e" class="outline-2">
-<h2 id="orga7ade6e">EEPROM</h2>
-<div class="outline-text-2" id="text-orga7ade6e">
+<div id="outline-container-orgc301da1" class="outline-2">
+<h2 id="orgc301da1">EEPROM</h2>
+<div class="outline-text-2" id="text-orgc301da1">
 <p>
-EEPROM 和 FLASH 一樣，也是斷電後資料可以保存的裝置。DE2-115 具有 32Kb 的 EEPROM, 由 <a href="https://zh.wikipedia.org/wiki/I%C2%B2C" target="_blank" rel="noopener">I²C</a> 接口對其進行控制。
-根據電路的接線方式，我們可以透過 <a href="https://zh.wikipedia.org/wiki/I%C2%B2C" target="_blank" rel="noopener">I²C</a> Bus 上的 <code>0xA0</code> 以及 <code>0xA1</code> 位址來讀寫 EEPROM 的資料。
+EEPROM 和 FLASH 一樣，也是斷電後資料可以保存的裝置。DE2-115 具有 32Kb 的 EEPROM, 由 <a href="https://zh.wikipedia.org/wiki/I%25C2%25B2C" target="_blank" rel="noopener">I²C</a> 接口對其進行控制。
+根據電路的接線方式，我們可以透過 <a href="https://zh.wikipedia.org/wiki/I%25C2%25B2C" target="_blank" rel="noopener">I²C</a> Bus 上的 <code>0xA0</code> 以及 <code>0xA1</code> 位址來讀寫 EEPROM 的資料。
 </p>
 
 
@@ -1034,9 +1034,9 @@ EEPROM 和 FLASH 一樣，也是斷電後資料可以保存的裝置。DE2-115 �
 </div>
 </div>
 
-<div id="outline-container-org36468b7" class="outline-2">
-<h2 id="org36468b7">SD Card</h2>
-<div class="outline-text-2" id="text-org36468b7">
+<div id="outline-container-org8313d5c" class="outline-2">
+<h2 id="org8313d5c">SD Card</h2>
+<div class="outline-text-2" id="text-org8313d5c">
 <p>
 當我們需要大量的儲存空間的時候，就會有使用到 SD 卡的需求。DE2-115 已經連接好 SD 卡插槽，使用者可以透過 SPI 模式或是 SD 卡的 4-bit 或 1-bit 模式來和 SD 卡進行通訊。
 </p>
@@ -1055,9 +1055,9 @@ EEPROM 和 FLASH 一樣，也是斷電後資料可以保存的裝置。DE2-115 �
 </div>
 </div>
 
-<div id="outline-container-org6ddbb86" class="outline-2">
-<h2 id="org6ddbb86">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org6ddbb86">
+<div id="outline-container-org9bae589" class="outline-2">
+<h2 id="org9bae589">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org9bae589">
 <ul class="org-ul">
 <li><a href="https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;No=542&amp;FID=eeba7202febfb39155fdac7b09ceada7" target="_blank" rel="noopener">DE2-115 User Manual</a></li>
 <li><a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=156&amp;No=686&amp;PartNo=1" target="_blank" rel="noopener">邏輯電路設計 DE2-115 實戰寶典</a></li>
@@ -1223,7 +1223,7 @@ EEPROM 和 FLASH 一樣，也是斷電後資料可以保存的裝置。DE2-115 �
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb50ff0f"><span class="nav-text">基本硬體認識</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org30f7ad1"><span class="nav-text">方塊圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org802eb58"><span class="nav-text">FGPA 核心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb825fff"><span class="nav-text">JTAG</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org7f93db7"><span class="nav-text">JTAG mode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgbfdea0e"><span class="nav-text">JTAG AS mode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org79b3a25"><span class="nav-text">JTAG Chain</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org651fe8b"><span class="nav-text">按鈕</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org358dacf"><span class="nav-text">指撥開關</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org19231b5"><span class="nav-text">LED</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8d3a50f"><span class="nav-text">七段顯示器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb50bb54"><span class="nav-text">時脈源 (Clock Sources)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org21569f8"><span class="nav-text">LCD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgecf6d42"><span class="nav-text">GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7d04c9d"><span class="nav-text">VGA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org639e874"><span class="nav-text">Audio</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org88d84b0"><span class="nav-text">RS232</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgabfb573"><span class="nav-text">PS2 串列埠</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6c9d5c9"><span class="nav-text">Gigabit 乙太網路收發器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org05e411c"><span class="nav-text">TV Decoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6cd7e18"><span class="nav-text">USB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org77c9bdd"><span class="nav-text">IR (紅外線)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org130d9b2"><span class="nav-text">SRAM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb74e9e6"><span class="nav-text">SDRAM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgda030d9"><span class="nav-text">FLASH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga7ade6e"><span class="nav-text">EEPROM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org36468b7"><span class="nav-text">SD Card</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6ddbb86"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdb73de4"><span class="nav-text">基本硬體認識</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org14cedd2"><span class="nav-text">方塊圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org03e299b"><span class="nav-text">FGPA 核心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf2b8ef5"><span class="nav-text">JTAG</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org008a74c"><span class="nav-text">JTAG mode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4951d0a"><span class="nav-text">JTAG AS mode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf0a8b8a"><span class="nav-text">JTAG Chain</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7f61b66"><span class="nav-text">按鈕</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb4c86a3"><span class="nav-text">指撥開關</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfc2a04e"><span class="nav-text">LED</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org677d1b6"><span class="nav-text">七段顯示器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfbbbe3b"><span class="nav-text">時脈源 (Clock Sources)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge6cd403"><span class="nav-text">LCD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org72124b7"><span class="nav-text">GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org45462ed"><span class="nav-text">VGA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1710682"><span class="nav-text">Audio</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org294da95"><span class="nav-text">RS232</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7256e3d"><span class="nav-text">PS2 串列埠</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org37d6b8f"><span class="nav-text">Gigabit 乙太網路收發器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org445e274"><span class="nav-text">TV Decoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgec43515"><span class="nav-text">USB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4a4c486"><span class="nav-text">IR (紅外線)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org108de32"><span class="nav-text">SRAM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfd26ad0"><span class="nav-text">SDRAM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7d8bb20"><span class="nav-text">FLASH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc301da1"><span class="nav-text">EEPROM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8313d5c"><span class="nav-text">SD Card</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9bae589"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -1242,7 +1242,7 @@ EEPROM 和 FLASH 一樣，也是斷電後資料可以保存的裝置。DE2-115 �
 <div class="copyright">
   
   Copyright  &copy; &nbsp;  2012 - 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
    &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
 </div>

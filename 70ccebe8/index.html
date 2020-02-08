@@ -232,9 +232,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-orge414da6" class="outline-2">
-<h2 id="orge414da6">安裝依賴的相關套件</h2>
-<div class="outline-text-2" id="text-orge414da6">
+<div id="outline-container-orgb15af32" class="outline-2">
+<h2 id="orgb15af32">安裝依賴的相關套件</h2>
+<div class="outline-text-2" id="text-orgb15af32">
 <p>
 第一步要做的，當然就是安裝相關套件啦，這點我們直接透過 <a href="http://brew.sh/" target="_blank" rel="noopener">homebrew</a> 來安裝
 </p>
@@ -262,9 +262,9 @@ coldnew@MacOSX ~ $ brew install crosstool-ng
 </div>
 </div>
 
-<div id="outline-container-org8ae3291" class="outline-2">
-<h2 id="org8ae3291">建立編譯環境</h2>
-<div class="outline-text-2" id="text-org8ae3291">
+<div id="outline-container-org2075ea2" class="outline-2">
+<h2 id="org2075ea2">建立編譯環境</h2>
+<div class="outline-text-2" id="text-org2075ea2">
 <p>
 安裝好 <a href="http://crosstool-ng.org/" target="_blank" rel="noopener">crosstool-ng</a> 後，我們需要建立一個 <code>Case Sensitive</code> 的 HFS+ 硬碟來讓 MacOSX 可以順利編譯，以下為我建立這顆硬碟所用的命令 (佔 10G 的硬碟空間)
 </p>
@@ -341,9 +341,9 @@ coldnew@MacOSX /Volumes/CrossToolNG $ ct-ng build
 </div>
 </div>
 
-<div id="outline-container-org1163275" class="outline-2">
-<h2 id="org1163275">設定編譯環境</h2>
-<div class="outline-text-2" id="text-org1163275">
+<div id="outline-container-org0258595" class="outline-2">
+<h2 id="org0258595">設定編譯環境</h2>
+<div class="outline-text-2" id="text-org0258595">
 <p>
 完成編譯我們要的工具鍊 (toolchain) 後，我們可以在 <code>/Volumes/CrossToolNG</code> 看到以下的資料夾，其中 <code>x-tools</code> 就是我們編譯出來的結果
 </p>
@@ -375,9 +375,9 @@ coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
 </div>
 </div>
 
-<div id="outline-container-org63773ca" class="outline-2">
-<h2 id="org63773ca">可能會遇到的錯誤</h2>
-<div class="outline-text-2" id="text-org63773ca">
+<div id="outline-container-orgab96596" class="outline-2">
+<h2 id="orgab96596">可能會遇到的錯誤</h2>
+<div class="outline-text-2" id="text-orgab96596">
 <p>
 在 Mac OSX 下編譯非 Apple 官方的東西常常會出現一堆奇怪的錯誤，有時是因為 XCode 的改動，有時是因為你透過 <a href="http://brew.sh/" target="_blank" rel="noopener">homebrew</a> 安裝了其他命令和 Mac OSX 內建的有衝突。
 </p>
@@ -387,9 +387,9 @@ coldnew@MacOSX /Volumes/CrossToolNG $ tree -L 1.
 </p>
 </div>
 
-<div id="outline-container-org963cb25" class="outline-3">
-<h3 id="org963cb25">stat: cannot read file system information for '%Lp'</h3>
-<div class="outline-text-3" id="text-org963cb25">
+<div id="outline-container-orgc5b9d14" class="outline-3">
+<h3 id="orgc5b9d14">stat: cannot read file system information for '%Lp'</h3>
+<div class="outline-text-3" id="text-orgc5b9d14">
 <p>
 如果你遇到了這個問題，哪很有可能是因為你的系統同時也裝了 <a href="http://www.gnu.org/software/coreutils/coreutils.html" target="_blank" rel="noopener">GNU coreutils</a> 導致 <a href="http://crosstool-ng.org/" target="_blank" rel="noopener">crosstool-ng</a> 調用的命令是 GNU 的 <code>stat</code> 命令，而不是系統內建的 stat 命令。
 </p>
@@ -443,9 +443,9 @@ coldnew@MacOSX ~ $ which stat
 </div>
 </div>
 
-<div id="outline-container-org53e2c8c" class="outline-3">
-<h3 id="org53e2c8c">ld: library not found for -lcrt0.o</h3>
-<div class="outline-text-3" id="text-org53e2c8c">
+<div id="outline-container-orgc4c0a69" class="outline-3">
+<h3 id="orgc4c0a69">ld: library not found for -lcrt0.o</h3>
+<div class="outline-text-3" id="text-orgc4c0a69">
 <p>
 <a href="https://www.zephyrproject.org/" target="_blank" rel="noopener">Zephyr</a> 提供的 <code>.config</code> 有打開靜態連結 (static link) 相關的設定，於是你會遇到這樣的狀況，解法參考 <a href="https://github.com/crosstool-ng/crosstool-ng/issues/31" target="_blank" rel="noopener">issue #31</a> 移除 static link 相關設定。
 </p>
@@ -485,9 +485,9 @@ coldnew@MacOSX ~ $ which stat
 </div>
 </div>
 
-<div id="outline-container-org36a33d8" class="outline-2">
-<h2 id="org36a33d8">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org36a33d8">
+<div id="outline-container-org9b2ec51" class="outline-2">
+<h2 id="org9b2ec51">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org9b2ec51">
 <p>
 <code>[1]</code> <a href="https://www.zephyrproject.org/" target="_blank" rel="noopener">Zephyr Project Website</a>
 </p>
@@ -656,7 +656,7 @@ coldnew@MacOSX ~ $ which stat
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orge414da6"><span class="nav-text">安裝依賴的相關套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8ae3291"><span class="nav-text">建立編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1163275"><span class="nav-text">設定編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org63773ca"><span class="nav-text">可能會遇到的錯誤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org963cb25"><span class="nav-text">stat: cannot read file system information for &#39;%Lp&#39;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org53e2c8c"><span class="nav-text">ld: library not found for -lcrt0.o</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org36a33d8"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb15af32"><span class="nav-text">安裝依賴的相關套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2075ea2"><span class="nav-text">建立編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0258595"><span class="nav-text">設定編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgab96596"><span class="nav-text">可能會遇到的錯誤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc5b9d14"><span class="nav-text">stat: cannot read file system information for &#39;%Lp&#39;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc4c0a69"><span class="nav-text">ld: library not found for -lcrt0.o</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9b2ec51"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -675,7 +675,7 @@ coldnew@MacOSX ~ $ which stat
 <div class="copyright">
   
   Copyright  &copy; &nbsp;  2012 - 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
    &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
 </div>

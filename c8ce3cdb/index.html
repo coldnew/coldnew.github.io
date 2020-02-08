@@ -237,9 +237,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-org8da7861" class="outline-2">
-<h2 id="org8da7861">設定我們的目標</h2>
-<div class="outline-text-2" id="text-org8da7861">
+<div id="outline-container-orgc95f7b7" class="outline-2">
+<h2 id="orgc95f7b7">設定我們的目標</h2>
+<div class="outline-text-2" id="text-orgc95f7b7">
 <p>
 在開始寫程式前，先來確立我們的目標。我們希望取得 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 的資訊，並將下圖裡面的資料轉換成 Clojure 的 <a href="https://github.com/edn-format/edn" target="_blank" rel="noopener">edn</a> 格式。
 </p>
@@ -278,9 +278,9 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgb186423" class="outline-2">
-<h2 id="orgb186423">建立我們的專案</h2>
-<div class="outline-text-2" id="text-orgb186423">
+<div id="outline-container-orgbaef541" class="outline-2">
+<h2 id="orgbaef541">建立我們的專案</h2>
+<div class="outline-text-2" id="text-orgbaef541">
 <p>
 首先我們先透過 <a href="http://leiningen.org/" target="_blank" rel="noopener">leinigen</a> 產生我們 Clojure 專案的基本樣板，這邊命名該專案為 <code>twbank-forex</code>
 </p>
@@ -306,9 +306,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-orge58e58c" class="outline-2">
-<h2 id="orge58e58c">開始我們的程式</h2>
-<div class="outline-text-2" id="text-orge58e58c">
+<div id="outline-container-org2ce5ef1" class="outline-2">
+<h2 id="org2ce5ef1">開始我們的程式</h2>
+<div class="outline-text-2" id="text-org2ce5ef1">
 <p>
 就讓我們來開始我們的專案吧，首先編輯 <code>src/twbank_forex/core.clj</code> 這個檔案，並添加一些我們需要的函式庫資訊:
 </p>
@@ -338,9 +338,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </p>
 </div>
 
-<div id="outline-container-org3582b98" class="outline-3">
-<h3 id="org3582b98">取得網頁內容</h3>
-<div class="outline-text-3" id="text-org3582b98">
+<div id="outline-container-org0d524ca" class="outline-3">
+<h3 id="org0d524ca">取得網頁內容</h3>
+<div class="outline-text-3" id="text-org0d524ca">
 <p>
 我們的目的是下載 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 網頁內容並進行解析，因此我們可以透過 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="noopener">clj-http</a> 來處理這件事
 </p>
@@ -391,9 +391,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-org393345f" class="outline-3">
-<h3 id="org393345f">取得最新掛牌時間</h3>
-<div class="outline-text-3" id="text-org393345f">
+<div id="outline-container-org5884c01" class="outline-3">
+<h3 id="org5884c01">取得最新掛牌時間</h3>
+<div class="outline-text-3" id="text-org5884c01">
 <p>
 取得網頁內容後，我們可以來查找這個網頁的掛牌時間，從網頁上來看就是這個
 </p>
@@ -450,9 +450,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-orgf660880" class="outline-3">
-<h3 id="orgf660880">將網頁轉換成 hickory 格式</h3>
-<div class="outline-text-3" id="text-orgf660880">
+<div id="outline-container-org55a5bc0" class="outline-3">
+<h3 id="org55a5bc0">將網頁轉換成 hickory 格式</h3>
+<div class="outline-text-3" id="text-org55a5bc0">
 <p>
 在本程式中我們將透過 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 來讓我們解析 HTML 更為簡單，<a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 是一個可用於 Clojure/ClojureScript 的函式庫，可以簡化我們解析 HTML 文件的麻煩，唯一的缺點是，由於目前 <a href="https://nodejs.org/" target="_blank" rel="noopener">node.js</a> 缺少了 <i>DOM</i> 元件，因此使用 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 寫出的 ClojureScript 是無法在 <a href="https://nodejs.org" target="_blank" rel="noopener">node.js</a> 上執行的。
 </p>
@@ -518,9 +518,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-org29b3385" class="outline-3">
-<h3 id="org29b3385">取得匯率轉換的資訊</h3>
-<div class="outline-text-3" id="text-org29b3385">
+<div id="outline-container-org328478d" class="outline-3">
+<h3 id="org328478d">取得匯率轉換的資訊</h3>
+<div class="outline-text-3" id="text-org328478d">
 <p>
 接下來就是這個程式的重頭戲了，以網頁來看，我們的目標就是這些匯率資訊
 </p>
@@ -707,9 +707,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-orgf0fd298" class="outline-3">
-<h3 id="orgf0fd298">根據匯率轉換的資訊製作資料</h3>
-<div class="outline-text-3" id="text-orgf0fd298">
+<div id="outline-container-orgf975222" class="outline-3">
+<h3 id="orgf975222">根據匯率轉換的資訊製作資料</h3>
+<div class="outline-text-3" id="text-orgf975222">
 <p>
 在前面我們取得了匯率轉換的資訊，但是我們要怎樣把這些資訊做成以下的形式呢?
 </p>
@@ -787,9 +787,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-org2648da8" class="outline-3">
-<h3 id="org2648da8">合併所有結果</h3>
-<div class="outline-text-3" id="text-org2648da8">
+<div id="outline-container-org1ed9252" class="outline-3">
+<h3 id="org1ed9252">合併所有結果</h3>
+<div class="outline-text-3" id="text-org1ed9252">
 <p>
 在上一步驟中，我們已經幾乎完成我們的程式，是時候將他進行整合成我們期望的結果
 </p>
@@ -833,9 +833,9 @@ coldnew@Rosia ~ $ lein new twbank-forex
 </div>
 </div>
 
-<div id="outline-container-orgbca4b40" class="outline-2">
-<h2 id="orgbca4b40">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-orgbca4b40">
+<div id="outline-container-orgbd26458" class="outline-2">
+<h2 id="orgbd26458">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-orgbd26458">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2016/twbank-forex" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -1029,7 +1029,7 @@ skip .....
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8da7861"><span class="nav-text">設定我們的目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb186423"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge58e58c"><span class="nav-text">開始我們的程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org3582b98"><span class="nav-text">取得網頁內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org393345f"><span class="nav-text">取得最新掛牌時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf660880"><span class="nav-text">將網頁轉換成 hickory 格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org29b3385"><span class="nav-text">取得匯率轉換的資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf0fd298"><span class="nav-text">根據匯率轉換的資訊製作資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2648da8"><span class="nav-text">合併所有結果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbca4b40"><span class="nav-text">取得範例程式碼</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc95f7b7"><span class="nav-text">設定我們的目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbaef541"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2ce5ef1"><span class="nav-text">開始我們的程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org0d524ca"><span class="nav-text">取得網頁內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5884c01"><span class="nav-text">取得最新掛牌時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org55a5bc0"><span class="nav-text">將網頁轉換成 hickory 格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org328478d"><span class="nav-text">取得匯率轉換的資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf975222"><span class="nav-text">根據匯率轉換的資訊製作資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1ed9252"><span class="nav-text">合併所有結果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbd26458"><span class="nav-text">取得範例程式碼</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -1048,7 +1048,7 @@ skip .....
 <div class="copyright">
   
   Copyright  &copy; &nbsp;  2012 - 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
    &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
 </div>
