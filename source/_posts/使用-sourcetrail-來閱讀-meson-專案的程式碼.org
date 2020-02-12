@@ -1,0 +1,172 @@
+#+TITLE: 使用sourcetrail 來閱讀meson專案的程式碼
+#+OPTIONS: num:nil ^:nil
+#+DATE: <2019-12-08 Sun 23:20>
+#+UPDATED: <2020-02-12 Wed 23:33>
+#+ABBRLINK: 728089c8
+#+LANGUAGE: zh-tw
+#+TAGS: weston, wayland, c/c++, sourcetrail, meson
+
+最近在啃 [[https://github.com/wayland-project/weston][weston]] 的程式碼，突然想到可以透過 [[https://github.com/CoatiSoftware/Sourcetrail][Sourcetrail]] 來協助閱讀程式碼，因此來試試看。
+
+#+HTML: <!-- more -->
+
+本文將講述如何透過 [[https://github.com/CoatiSoftware/Sourcetrail][Sourcetrail]] 來協助閱讀以 [[https://mesonbuild.com][meson]] 編譯系統為主的專案。其中 [[https://github.com/CoatiSoftware/Sourcetrail][Sourcetrail]] 的安裝方式請自行查找，不額外贅述。
+
+* 取得 weston
+
+本文以 [[https://github.com/wayland-project/weston][weston]] 為例，因此我們先來下載 [[https://github.com/wayland-project/weston][weston]] 的程式碼
+
+: git clone https://github.com/wayland-project/weston.git
+
+接下來進入到 =weston= 資料夾去
+
+#+begin_example
+  coldnew@gentoo ~ $ cd weston
+#+end_example
+
+本文撰寫時以 =7.0.0= 這個 tag 為主，因此請切過去，或使用當前的 branch
+
+#+begin_example
+  coldnew@gentoo ~ $ git checkout v7.0.0
+  Note: switching to '7.0.0'.
+
+  You are in 'detached HEAD' state. You can look around, make experimental
+  changes and commit them, and you can discard any commits you make in this
+  state without impacting any branches by switching back to a branch.
+
+  If you want to create a new branch to retain commits you create, you may
+  do so (now or later) by using -c with the switch command. Example:
+
+    git switch -c <new-branch-name>
+
+  Or undo this operation with:
+
+    git switch -
+
+  Turn off this advice by setting config variable advice.detachedHead to false
+
+  HEAD is now at 3180fa8a build: bump to version 7.0.0 for the official release
+#+end_example
+
+* 安裝編譯用的依賴
+
+由於我們要查看 weston 的程式碼，因此最好讓系統滿足編譯 weston 的依賴，這樣在查找的時候才不會有什麼東西找不到對應的標頭檔或是對應的程式碼檔案。
+
+由於筆者是 Gentoo Linux 的使用者，安裝依賴只要用以下命令就可以完成囉～
+
+#+begin_example
+  coldnew@gentoo ~ $ sudo emerge dev-libs/weston
+#+end_example
+
+其他 Linux 發行板的使用者則請參照該發行板的作法，或是參考 [[https://wayland.freedesktop.org/building.html][Building weston]] 一文來滿足系統依賴。
+* 編譯 weston
+
+安裝好編譯依賴後，由於我們需要透過 [[https://github.com/CoatiSoftware/Sourcetrail][Sourcetrail]] 來查看 weston 的程式碼，因此需要透過以下命令去讓 [[https://mesonbuild.com][meson]] 產生一些編譯前資訊
+
+#+begin_src text :exports none
+  coldnew@gentoo ~/weston $ meson build -Dsimple-dmabuf-drm=auto
+#+end_src
+
+#+begin_export html
+<pre><font color="lightgreen" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" onmousedown="return false;" onselectstart="return false;" ondragstart="return false"><b>coldnew@getnoo</b></font><font color="lightblue"style="width: 0; height: 0; display: inline-block; overflow: hidden;"><b> ~/weston $</b></font> meson build -Dsimple-dmabuf-drm=auto
+<b>The Meson build system</b>
+Version: 0.52.1
+Source dir: <b>/home/coldnew/weston</b>
+Build dir: <b>/home/coldnew/weston/build</b>
+Build type: <b>native build</b>
+Project name: <b>weston</b>
+Project version: <b>7.0.0</b>
+C compiler for the host machine: <b>cc</b> (gcc 9.2.0 &quot;cc (Gentoo 9.2.0-r3 p4) 9.2.0&quot;)
+C linker for the host machine: <b>GNU ld.bfd</b> 2.32
+Host machine cpu family: <b>x86_64</b>
+Host machine cpu: <b>x86_64</b>
+Found git repository at /data/Workspace/wayland/weston
+Compiler for C supports arguments -Wno-unused-parameter -Wunused-parameter: <font color="#4E9A06"><b>YES</b></font>
+Compiler for C supports arguments -Wno-shift-negative-value -Wshift-negative-value: <font color="#4E9A06"><b>YES</b></font>
+Compiler for C supports arguments -Wno-missing-field-initializers -Wmissing-field-initializers: <font color="#4E9A06"><b>YES</b></font>
+Compiler for C supports arguments -Wno-pedantic -Wpedantic: <font color="#4E9A06"><b>YES</b></font>
+Compiler for C supports arguments -fvisibility=hidden: <font color="#4E9A06"><b>YES</b></font>
+.... skip ....
+Configuring <b>weston-rdp.7</b> using configuration
+Configuring <b>config.h</b> using configuration
+<b>Message:</b> Documentation will not be built. Use -Ddoc to build it.
+Build targets in project: <b>170</b>
+Found ninja-1.9.0.git.kitware.dyndep-1.jobserver-1 at /usr/bin/ninja
+</pre>
+#+end_export
+
+另外，由於 =weston= 會在編譯的時候透過 =wayland-scanner= 來產生一些需要的 =header= 以及 =.c= 檔案，因此我們還是透過 [[https://ninja-build.org/manual.html][ninja]] 這套編譯系統來將我們的程式碼編譯一下吧~
+
+#+begin_src text :exports none
+  coldnew@gentoo ~/weston $ ninja -C build
+#+end_src
+
+#+begin_export html
+<pre><font color="lightgreen" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" onmousedown="return false;" onselectstart="return false;" ondragstart="return false"><b>coldnew@getnoo</b></font><font color="lightblue"style="width: 0; height: 0; display: inline-block; overflow: hidden;"><b> ~/weston $</b></font> ninja -C build
+ninja: Entering directory `build/&apos;
+[121/433] Compiling C object &apos;libweston/backend-rdp/13a5658@@rdp-backend@sha/rdp.c.o&apos;.
+<b>../libweston/backend-rdp/rdp.c:</b> In function ‘<b>rdp_peer_context_new</b>’:
+<b>../libweston/backend-rdp/rdp.c:748:2:</b> <font color="#75507B"><b>warning: </b></font>‘<b>nsc_context_set_pixel_format</b>’ is deprecated [<font color="#75507B"><b>-Wdeprecated-declarations</b></font>]
+  748 |  <font color="#75507B"><b>nsc_context_set_pixel_format</b></font>(context-&gt;nsc_context, DEFAULT_PIXEL_FORMAT);
+      |  <font color="#75507B"><b>^~~~~~~~~~~~~~~~~~~~~~~~~~~~</b></font>
+In file included from <b>/usr/include/winpr2/winpr/wtsapi.h:25</b>,
+                 from <b>/usr/include/freerdp2/freerdp/types.h:25</b>,
+                 from <b>/usr/include/freerdp2/freerdp/freerdp.h:43</b>,
+                 from <b>../libweston/backend-rdp/rdp.c:85</b>:
+<b>/usr/include/freerdp2/freerdp/codec/nsc.h:47:36:</b> <font color="#06989A"><b>note: </b></font>declared here
+   47 |  FREERDP_API WINPR_DEPRECATED(BOOL <font color="#06989A"><b>nsc_context_set_pixel_format</b></font>(NSC_CONTEXT* context,
+      |                                    <font color="#06989A"><b>^~~~~~~~~~~~~~~~~~~~~~~~~~~~</b></font>
+<b>/usr/include/winpr2/winpr/winpr.h:53:31:</b> <font color="#06989A"><b>note: </b></font>in definition of macro ‘<b>WINPR_DEPRECATED</b>’
+   53 | #define WINPR_DEPRECATED(obj) <font color="#06989A"><b>obj</b></font> __attribute__((deprecated))
+      |                               <font color="#06989A"><b>^~~</b></font>
+[433/433] Linking target desktop-shell/desktop-shell.so.</pre>
+#+end_export
+
+完成後，你應該會看到 =build/compile_commands.json= 這個檔案，這就是我們要讓 [[https://github.com/CoatiSoftware/Sourcetrail][Sourcetrail]] 載入的 [[https://clang.llvm.org/docs/JSONCompilationDatabase.html][JSON Compilation Database]]
+
+* Sourcetrail 建立專案
+
+啟動 [[https://github.com/CoatiSoftware/Sourcetrail][Sourcetrail]] 後，我們來建立新的專案
+
+[[file:使用-sourcetrail-來閱讀-meson-專案的程式碼/1.png]]
+
+好了後，填一下專案名稱與路徑，然後進行下一步
+
+[[file:使用-sourcetrail-來閱讀-meson-專案的程式碼/2.png]]
+
+由於我們要載入的是  [[https://clang.llvm.org/docs/JSONCompilationDatabase.html][compile_commands.json]] 這個檔案，因此選擇 =C/C++ from Compilation Database=
+
+[[file:使用-sourcetrail-來閱讀-meson-專案的程式碼/3.png]]
+
+選擇我們要載入的 =build/compile_commands.json= 檔案，由於 =config.h= 以及 =protocols資料夾= 是編譯時期產生的檔案，因此要告知 [[https://github.com/CoatiSoftware/Sourcetrail][Sourcetrail]] 載入這些傢伙。
+
+[[file:使用-sourcetrail-來閱讀-meson-專案的程式碼/4.png]]
+
+都好了後，建立我們的專案
+
+[[file:使用-sourcetrail-來閱讀-meson-專案的程式碼/5.png]]
+
+並讓 [[https://github.com/CoatiSoftware/Sourcetrail][Sourcetrail]] 進行索引
+
+[[file:使用-sourcetrail-來閱讀-meson-專案的程式碼/6.png]]
+
+* Sourcetrail 查看程式碼
+
+索引完成後，就可以透過 [[https://github.com/CoatiSoftware/Sourcetrail][Sourcetrail]] 來查找我們的程式碼囉~
+
+[[file:使用-sourcetrail-來閱讀-meson-專案的程式碼/7.png]]
+
+* 延伸閱讀
+
+- [[https://sarcasm.github.io/notes/dev/compilation-database.html][Sarcasm notebook: Compilation database]]
+
+- [[https://www.sourcetrail.com/documentation/][Sourcetrail documentation]]
+
+* 其他                                                             :noexport:
+
+Sourcetrail 會產生以下檔案:
+  #+begin_example
+  	weston.srctrlbm
+	weston.srctrldb
+	weston.srctrlprj
+  #+end_example
