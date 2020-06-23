@@ -82,8 +82,8 @@
 <meta property="og:image" content="https://coldnew.github.io/7004ff00/audio_di.png">
 <meta property="og:image" content="https://coldnew.github.io/7004ff00/pmod_dia.png">
 <meta property="og:image" content="https://coldnew.github.io/7004ff00/pmod_pin.png">
-<meta property="article:published_time" content="2016-06-23T16:52:00.000Z">
-<meta property="article:modified_time" content="2018-05-25T03:38:00.000Z">
+<meta property="article:published_time" content="2016-06-24T00:52:00.000Z">
+<meta property="article:modified_time" content="2018-05-25T11:38:00.000Z">
 <meta property="article:author" content="Yen-Chin, Lee">
 <meta property="article:tag" content="fpga">
 <meta property="article:tag" content="riscv">
@@ -228,7 +228,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2018-05-25T03:38:00+00:00" content="2018-05-25">
+          <time itemprop="dateCreated" datetime="2018-05-25T11:38:00+00:00" content="2018-05-25">
             2018-05-25
           </time>
         </span>
@@ -278,16 +278,16 @@
 讓我們來看看一些比較重要的地方吧!
 </p>
 
-<div id="outline-container-orgcc7e7cc" class="outline-2">
-<h2 id="orgcc7e7cc">基本硬體認識</h2>
-<div class="outline-text-2" id="text-orgcc7e7cc">
+<div id="outline-container-org53d2030" class="outline-2">
+<h2 id="org53d2030">基本硬體認識</h2>
+<div class="outline-text-2" id="text-org53d2030">
 <p>
 拿到手的 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Zybo Board</a> 會像下面這個樣子，我們有這些基本的輸入/輸出模組，以及未標示的部份(Pmod)，可以做延伸的功能
 </p>
 
 
 <div class="figure">
-<p><img src="zybo_a.png">
+<p><img src="zybo_a.png"  />
 </p>
 </div>
 
@@ -297,31 +297,31 @@
 </div>
 </div>
 
-<div id="outline-container-org347c91e" class="outline-2">
-<h2 id="org347c91e">方塊圖</h2>
-<div class="outline-text-2" id="text-org347c91e">
+<div id="outline-container-orgc6bd18c" class="outline-2">
+<h2 id="orgc6bd18c">方塊圖</h2>
+<div class="outline-text-2" id="text-orgc6bd18c">
 <p>
 除了基本的硬體外，我們也可以透過方塊圖來了解這片板子有哪些功能，下圖取自 <a href="http://www.farnell.com/datasheets/1904568.pdf" target="_blank" rel="noopener">Embedded Linux Hands-on Tutorial for the ZYBO</a>
 </p>
 
 
 <div class="figure">
-<p><img src="Screenshot_20180525_114441.png">
+<p><img src="Screenshot_20180525_114441.png"  />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgad4f1fd" class="outline-2">
-<h2 id="orgad4f1fd">電源輸入(5V)</h2>
-<div class="outline-text-2" id="text-orgad4f1fd">
+<div id="outline-container-org51d765a" class="outline-2">
+<h2 id="org51d765a">電源輸入(5V)</h2>
+<div class="outline-text-2" id="text-org51d765a">
 <p>
 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Zybo Board</a> 允許三種不同類型的電源輸入模式，分別是 USB、外接電源(J15)、外接電池。我們可以從 <a href="https://reference.digilentinc.com/_media/zybo/zybo_rm.pdf" target="_blank" rel="noopener">Reference Manual</a> 得到電源模組的大致資訊。
 </p>
 
 
 <div class="figure">
-<p><img src="power_cricuit_overview.png">
+<p><img src="power_cricuit_overview.png"  />
 </p>
 </div>
 
@@ -339,9 +339,9 @@
 </div>
 </div>
 
-<div id="outline-container-org034d7e3" class="outline-2">
-<h2 id="org034d7e3">Zynq SOC</h2>
-<div class="outline-text-2" id="text-org034d7e3">
+<div id="outline-container-org24925ae" class="outline-2">
+<h2 id="org24925ae">Zynq SOC</h2>
+<div class="outline-text-2" id="text-org24925ae">
 <p>
 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Zybo Board</a> 核心是 <a href="http://www.xilinx.com/" target="_blank" rel="noopener">Xilinx</a> Zynq-7000 系列的 <a href="http://www.xilinx.com/support/documentation/user_guides/ug585-Zynq-7000-TRM.pdf" target="_blank" rel="noopener">Z-7010</a> ARM/FPGA SoC 處理器，這是一種混和了 FPGA 以及 ARM Cortex-A9 處理器的 FPGA 核心。以往的 FPGA 開發板需要用到 CPU 的時候只能夠燒錄用 HDL 語言撰寫的軟核心到開發板上，這種混搭 FPGA/ARM 的開發板則是讓你可以針對通用需求使用 ARM CPU 進行程式的開發，特殊需求則透過 FPGA 進行處理/加速來運作，是一種蠻有趣的架構。
 </p>
@@ -352,7 +352,7 @@
 
 
 <div class="figure">
-<p><img src="zynq_block.png">
+<p><img src="zynq_block.png"  />
 </p>
 </div>
 
@@ -370,14 +370,14 @@
 
 
 <div class="figure">
-<p><img src="mio_pinout.png">
+<p><img src="mio_pinout.png"  />
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd5cb94e" class="outline-3">
-<h3 id="orgd5cb94e">系統啟動流程</h3>
-<div class="outline-text-3" id="text-orgd5cb94e">
+<div id="outline-container-org69979f0" class="outline-3">
+<h3 id="org69979f0">系統啟動流程</h3>
+<div class="outline-text-3" id="text-org69979f0">
 <p>
 由於 Zynq 7000 系列內建了 ARM CPU，也因此和傳統的 FPGA 開發板相比，系統啟動流程也會不同，整體開機流程可以分為三個階段:
 </p>
@@ -418,23 +418,23 @@
 </div>
 </div>
 
-<div id="outline-container-orgb84108f" class="outline-3">
-<h3 id="orgb84108f">更改開機模式</h3>
-<div class="outline-text-3" id="text-orgb84108f">
+<div id="outline-container-orgc8c94f6" class="outline-3">
+<h3 id="orgc8c94f6">更改開機模式</h3>
+<div class="outline-text-3" id="text-orgc8c94f6">
 <p>
 我們可以透過切換 <code>JP5</code> 的跳線(Jumper)來決定我們要透過哪種方式去載入第一級啟動開機程式 (First Stage Bootloader, FSBL)
 </p>
 
 
 <div class="figure">
-<p><img src="zybo_config_pins.png">
+<p><img src="zybo_config_pins.png"  />
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgc616197" class="outline-4">
-<h4 id="orgc616197">MicroSD 啟動</h4>
-<div class="outline-text-4" id="text-orgc616197">
+<div id="outline-container-org3f92ad0" class="outline-4">
+<h4 id="org3f92ad0">MicroSD 啟動</h4>
+<div class="outline-text-4" id="text-org3f92ad0">
 <p>
 當使用者將 MicroSD 插入到 <code>J4</code> 的 SD 卡槽，並設定好 <code>JP5</code> 的跳線的話，我們可以透過 MicroSD 來進行開機的動作。
 </p>
@@ -455,9 +455,9 @@
 </div>
 </div>
 
-<div id="outline-container-org5ae1cb4" class="outline-4">
-<h4 id="org5ae1cb4">QSPI 啟動</h4>
-<div class="outline-text-4" id="text-org5ae1cb4">
+<div id="outline-container-org4c12982" class="outline-4">
+<h4 id="org4c12982">QSPI 啟動</h4>
+<div class="outline-text-4" id="text-org4c12982">
 <p>
 在 Zybo board 上有一顆 128-Mbit Quad-SPI (QSPI) 的 NOR Flash，我們可以透過 Xilinx ISE 和 Vivado 等工具去將 Zynq Boot Image 下載到 QSPI Flash 上。
 </p>
@@ -474,9 +474,9 @@
 </div>
 </div>
 
-<div id="outline-container-orga93f8a7" class="outline-4">
-<h4 id="orga93f8a7">JTAG 啟動</h4>
-<div class="outline-text-4" id="text-orga93f8a7">
+<div id="outline-container-org749e6eb" class="outline-4">
+<h4 id="org749e6eb">JTAG 啟動</h4>
+<div class="outline-text-4" id="text-org749e6eb">
 <p>
 當你將 <code>JP5</code> 設定為 JTAG 啟動模式，Zynq 內的 Cortex-A9 處理器會等到電腦端的 Xilinx 工具載入了要執行的程式之後，再執行預執行的程式，或是啟用一步一步(step-by-step)的執行模式來方便我們除錯。
 </p>
@@ -493,9 +493,9 @@ Zybo Board 預設是開機啟動 Cascaded JTAG 模式，在這種模式下 處�
 </div>
 </div>
 
-<div id="outline-container-org675c34f" class="outline-2">
-<h2 id="org675c34f">SPI Flash</h2>
-<div class="outline-text-2" id="text-org675c34f">
+<div id="outline-container-org0abee26" class="outline-2">
+<h2 id="org0abee26">SPI Flash</h2>
+<div class="outline-text-2" id="text-org0abee26">
 <p>
 Zybo Board 內建了 4-bit SPI (QSPI) NOR Flash，硬件型號為 <a href="http://www.cypress.com/file/177966/download" target="_blank" rel="noopener">Spansion S25FL128S</a>。
 </p>
@@ -508,7 +508,7 @@ Zybo Board 內建了 4-bit SPI (QSPI) NOR Flash，硬件型號為 <a href="http:
 
 
 <div class="figure">
-<p><img src="spi_circuit.png">
+<p><img src="spi_circuit.png"  />
 </p>
 </div>
 
@@ -517,9 +517,9 @@ Zybo Board 內建了 4-bit SPI (QSPI) NOR Flash，硬件型號為 <a href="http:
 </p>
 </div>
 </div>
-<div id="outline-container-orgf5f6fe7" class="outline-2">
-<h2 id="orgf5f6fe7">DDR 記憶體</h2>
-<div class="outline-text-2" id="text-orgf5f6fe7">
+<div id="outline-container-org3e8de65" class="outline-2">
+<h2 id="org3e8de65">DDR 記憶體</h2>
+<div class="outline-text-2" id="text-org3e8de65">
 <p>
 Zybo Board 使用的是 <a href="https://www.micron.com/~/media/documents/products/data-sheet/dram/ddr3/2gb_ddr3_sdram.pdf" target="_blank" rel="noopener">Micron MT41J128M16JT-125</a> 或是 <a href="https://www.micron.com/~/media/documents/products/data-sheet/dram/ddr3/2gb_1_35v_ddr3l.pdf" target="_blank" rel="noopener">MT41K128M16JT-125</a> 這兩種 DDR3 記憶體元件，在 Zybo Board 上我們共有 512MB 的記憶體空間可以使用。
 </p>
@@ -530,16 +530,16 @@ Zybo Board 使用的是 <a href="https://www.micron.com/~/media/documents/produc
 </div>
 </div>
 
-<div id="outline-container-org2083d42" class="outline-2">
-<h2 id="org2083d42">USB UART</h2>
-<div class="outline-text-2" id="text-org2083d42">
+<div id="outline-container-orgafe700d" class="outline-2">
+<h2 id="orgafe700d">USB UART</h2>
+<div class="outline-text-2" id="text-orgafe700d">
 <p>
 Zybo Board 並未將 UART 序列埠拉出，取而代之的它採用了 <a href="http://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT2232H.pdf" target="_blank" rel="noopener">FTDI FT2232HQ</a> 這款 USB 轉 UART 的 IC 讓你的電腦可以和 Zybo Board 進行溝通。
 </p>
 
 
 <div class="figure">
-<p><img src="usb-uart-bridge.png">
+<p><img src="usb-uart-bridge.png"  />
 </p>
 </div>
 
@@ -553,16 +553,16 @@ Zybo Board 並未將 UART 序列埠拉出，取而代之的它採用了 <a href=
 </div>
 </div>
 
-<div id="outline-container-org29a5c73" class="outline-2">
-<h2 id="org29a5c73">MicroSD 插槽</h2>
-<div class="outline-text-2" id="text-org29a5c73">
+<div id="outline-container-orgbb1d1ec" class="outline-2">
+<h2 id="orgbb1d1ec">MicroSD 插槽</h2>
+<div class="outline-text-2" id="text-orgbb1d1ec">
 <p>
 在 Zybo Board 的背面，我們可以看到 Micro SD 插槽(J4)，根據 <a href="http://www.xilinx.com/support/documentation/user_guides/ug585-Zynq-7000-TRM.pdf" target="_blank" rel="noopener">Zynq-7000 All Programmable SoC Technical Reference Manual</a> ，Zynq 的 SDIO 控制器僅支援 1-bit 或是 4-bit 傳輸模式 (Host Modes)，不支援 SPI 模式。
 </p>
 
 
 <div class="figure">
-<p><img src="microsd_circuit.png">
+<p><img src="microsd_circuit.png"  />
 </p>
 </div>
 
@@ -572,15 +572,15 @@ Zybo Board 並未將 UART 序列埠拉出，取而代之的它採用了 <a href=
 
 
 <div class="figure">
-<p><img src="microsd_pinout.png">
+<p><img src="microsd_pinout.png"  />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org420c34b" class="outline-2">
-<h2 id="org420c34b">USB OTG</h2>
-<div class="outline-text-2" id="text-org420c34b">
+<div id="outline-container-orgab85020" class="outline-2">
+<h2 id="orgab85020">USB OTG</h2>
+<div class="outline-text-2" id="text-orgab85020">
 <p>
 Zybo Board 提供了一組 <a href="https://zh.wikipedia.org/wiki/USB_On-The-Go" target="_blank" rel="noopener">USB OTG</a> 支援，在這個界面中使用了 Microchip 的 <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/00001792E.pdf" target="_blank" rel="noopener">USB3320</a> 這顆 IC 來作為端口物理層 (Port Physical Layer, PHY)，要注意到的是，你不可以 <code>同時</code> 將 USB 主機 (HOST) 以及 USB 設備 (Device) 接到 USB OTG 端口上。
 </p>
@@ -591,7 +591,7 @@ Zybo Board 提供了一組 <a href="https://zh.wikipedia.org/wiki/USB_On-The-Go"
 
 
 <div class="figure">
-<p><img src="usb_otg_circuit.png">
+<p><img src="usb_otg_circuit.png"  />
 </p>
 </div>
 
@@ -606,16 +606,16 @@ Zybo Board 提供了一組 <a href="https://zh.wikipedia.org/wiki/USB_On-The-Go"
 </div>
 </div>
 
-<div id="outline-container-org93699db" class="outline-2">
-<h2 id="org93699db">Ethernet PHY</h2>
-<div class="outline-text-2" id="text-org93699db">
+<div id="outline-container-orgc930998" class="outline-2">
+<h2 id="orgc930998">Ethernet PHY</h2>
+<div class="outline-text-2" id="text-orgc930998">
 <p>
 Zybo Board 使用 <a href="http://download3.dvd-driver.cz/realtek/datasheets/pdf/rtl8211e%2528g%2529-vb%2528vl%2529-cg_datasheet_1.6.pdf" target="_blank" rel="noopener">Realtek RTL8211E-VL</a> PHY 來實現 10/100/1000 網路傳輸的功能。具體使用到的 MIO 以及 EMIO 接腳資訊如下:
 </p>
 
 
 <div class="figure">
-<p><img src="ethernet_phy_overview.png">
+<p><img src="ethernet_phy_overview.png"  />
 </p>
 </div>
 
@@ -625,7 +625,7 @@ Zybo Board 使用 <a href="http://download3.dvd-driver.cz/realtek/datasheets/pdf
 
 
 <div class="figure">
-<p><img src="ethernet_phy_status.png">
+<p><img src="ethernet_phy_status.png"  />
 </p>
 </div>
 
@@ -635,22 +635,22 @@ Zybo Board 使用 <a href="http://download3.dvd-driver.cz/realtek/datasheets/pdf
 
 
 <div class="figure">
-<p><img src="ethernet_macaddr.png">
+<p><img src="ethernet_macaddr.png"  />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge3bcea6" class="outline-2">
-<h2 id="orge3bcea6">HDMI Source/Sink</h2>
-<div class="outline-text-2" id="text-orge3bcea6">
+<div id="outline-container-org03732c2" class="outline-2">
+<h2 id="org03732c2">HDMI Source/Sink</h2>
+<div class="outline-text-2" id="text-org03732c2">
 <p>
 Zybo Board 的 HDMI 並未透過外部 IC 去驅動，因此我們必須透過可程式邏輯(Programmable Logic, PL) 去實現影片編碼 (Encoding)與解碼(Decoding)的功能。
 </p>
 
 
 <div class="figure">
-<p><img src="hdmi_circuit.png">
+<p><img src="hdmi_circuit.png"  />
 </p>
 </div>
 
@@ -660,7 +660,7 @@ Zybo Board 的 HDMI 並未透過外部 IC 去驅動，因此我們必須透過�
 
 
 <div class="figure">
-<p><img src="hdmi_roles.png">
+<p><img src="hdmi_roles.png"  />
 </p>
 </div>
 
@@ -670,31 +670,31 @@ Zybo Board 的 HDMI 並未透過外部 IC 去驅動，因此我們必須透過�
 </div>
 </div>
 
-<div id="outline-container-org0ef1d31" class="outline-2">
-<h2 id="org0ef1d31">VGA</h2>
-<div class="outline-text-2" id="text-org0ef1d31">
+<div id="outline-container-orgc402f11" class="outline-2">
+<h2 id="orgc402f11">VGA</h2>
+<div class="outline-text-2" id="text-orgc402f11">
 <p>
 Zybo Board 的 VGA 輸出也是沒有透過外部 IC 將數位訊號轉換為類比訊號，取而代之的，它採用了 <a href="https://en.wikipedia.org/wiki/Resistor_ladder#R.E2.80.932R_resistor_ladder_network_.28digital_to_analog_conversion.2C_or_DAC.29" target="_blank" rel="noopener">R–2R resistor ladder</a> 這種分壓的方式將數位訊號變成了 VGA 用的類比訊號。
 </p>
 
 
 <div class="figure">
-<p><img src="vga_circuit.png">
+<p><img src="vga_circuit.png"  />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org761f40e" class="outline-2">
-<h2 id="org761f40e">時脈源 (Clock Sources)</h2>
-<div class="outline-text-2" id="text-org761f40e">
+<div id="outline-container-org5be40b1" class="outline-2">
+<h2 id="org5be40b1">時脈源 (Clock Sources)</h2>
+<div class="outline-text-2" id="text-org5be40b1">
 <p>
 ZYBO board 提供了 50MHZ 的時脈到 Zynq 處理器的 <code>PS_CLK</code> 接腳，基本連接資訊如下:
 </p>
 
 
 <div class="figure">
-<p><img src="clock_source.png">
+<p><img src="clock_source.png"  />
 </p>
 </div>
 
@@ -704,31 +704,31 @@ ZYBO board 提供了 50MHZ 的時脈到 Zynq 處理器的 <code>PS_CLK</code> �
 </div>
 </div>
 
-<div id="outline-container-orgf621cae" class="outline-2">
-<h2 id="orgf621cae">基本輸入/輸出 (I/O)</h2>
-<div class="outline-text-2" id="text-orgf621cae">
+<div id="outline-container-org8ba5262" class="outline-2">
+<h2 id="org8ba5262">基本輸入/輸出 (I/O)</h2>
+<div class="outline-text-2" id="text-org8ba5262">
 <p>
 Zybo board 板上有一些預先定義好的 IO, 比如指撥開關 (Switch)、LED 燈、無段按鈕等。
 </p>
 
 
 <div class="figure">
-<p><img src="basic_io.png">
+<p><img src="basic_io.png"  />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgeef9e26" class="outline-2">
-<h2 id="orgeef9e26">聲音 (Audio)</h2>
-<div class="outline-text-2" id="text-orgeef9e26">
+<div id="outline-container-org68d4a59" class="outline-2">
+<h2 id="org68d4a59">聲音 (Audio)</h2>
+<div class="outline-text-2" id="text-org68d4a59">
 <p>
 Zybo Board 上有三組聲音相關的 IO，分別是耳機孔輸出(Headphone Out)、麥克風輸入(Microphone In)、音源轉錄功能(Line In)，這些 IO 會連接到 Ananlog Device 的 <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/SSM2603.pdf" target="_blank" rel="noopener">SSM2603</a> 音頻解碼器上。
 </p>
 
 
 <div class="figure">
-<p><img src="audio_an.png">
+<p><img src="audio_an.png"  />
 </p>
 </div>
 
@@ -738,15 +738,15 @@ Zybo Board 上有三組聲音相關的 IO，分別是耳機孔輸出(Headphone O
 
 
 <div class="figure">
-<p><img src="audio_di.png">
+<p><img src="audio_di.png"  />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org345ff9f" class="outline-2">
-<h2 id="org345ff9f">Pmod 接腳</h2>
-<div class="outline-text-2" id="text-org345ff9f">
+<div id="outline-container-orge203009" class="outline-2">
+<h2 id="orge203009">Pmod 接腳</h2>
+<div class="outline-text-2" id="text-orge203009">
 <p>
 在 Zybo Board 的周遭，共有 6 個 2x6 母排座，用來將多餘的 GPIO 拉出。每個 Pmod 提供了兩個 3.3 VCC 電源、兩個 GND 訊號以及 8 個 IO 可以用。
 在 Pmod 上的 VCC 以及 GND 最多可以提供到 1A 的電流(但要記得外接電源)。
@@ -754,7 +754,7 @@ Zybo Board 上有三組聲音相關的 IO，分別是耳機孔輸出(Headphone O
 
 
 <div class="figure">
-<p><img src="pmod_dia.png">
+<p><img src="pmod_dia.png"  />
 </p>
 </div>
 
@@ -765,15 +765,15 @@ Zybo Board 上有三組聲音相關的 IO，分別是耳機孔輸出(Headphone O
 
 
 <div class="figure">
-<p><img src="pmod_pin.png">
+<p><img src="pmod_pin.png"  />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org44ffc46" class="outline-2">
-<h2 id="org44ffc46">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org44ffc46">
+<div id="outline-container-orgef0b324" class="outline-2">
+<h2 id="orgef0b324">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgef0b324">
 <p>
 <code>[1]</code> <a href="https://reference.digilentinc.com/_media/zybo/zybo_rm.pdf" target="_blank" rel="noopener">ZYBO FPGA Board Reference Manual</a>
 </p>
@@ -957,7 +957,7 @@ Zybo Board 上有三組聲音相關的 IO，分別是耳機孔輸出(Headphone O
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcc7e7cc"><span class="nav-text">基本硬體認識</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org347c91e"><span class="nav-text">方塊圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgad4f1fd"><span class="nav-text">電源輸入(5V)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org034d7e3"><span class="nav-text">Zynq SOC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd5cb94e"><span class="nav-text">系統啟動流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb84108f"><span class="nav-text">更改開機模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgc616197"><span class="nav-text">MicroSD 啟動</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org5ae1cb4"><span class="nav-text">QSPI 啟動</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orga93f8a7"><span class="nav-text">JTAG 啟動</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org675c34f"><span class="nav-text">SPI Flash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf5f6fe7"><span class="nav-text">DDR 記憶體</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2083d42"><span class="nav-text">USB UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org29a5c73"><span class="nav-text">MicroSD 插槽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org420c34b"><span class="nav-text">USB OTG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org93699db"><span class="nav-text">Ethernet PHY</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge3bcea6"><span class="nav-text">HDMI Source&#x2F;Sink</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0ef1d31"><span class="nav-text">VGA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org761f40e"><span class="nav-text">時脈源 (Clock Sources)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf621cae"><span class="nav-text">基本輸入&#x2F;輸出 (I&#x2F;O)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgeef9e26"><span class="nav-text">聲音 (Audio)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org345ff9f"><span class="nav-text">Pmod 接腳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org44ffc46"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org53d2030"><span class="nav-text">基本硬體認識</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc6bd18c"><span class="nav-text">方塊圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org51d765a"><span class="nav-text">電源輸入(5V)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org24925ae"><span class="nav-text">Zynq SOC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org69979f0"><span class="nav-text">系統啟動流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc8c94f6"><span class="nav-text">更改開機模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org3f92ad0"><span class="nav-text">MicroSD 啟動</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org4c12982"><span class="nav-text">QSPI 啟動</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org749e6eb"><span class="nav-text">JTAG 啟動</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0abee26"><span class="nav-text">SPI Flash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3e8de65"><span class="nav-text">DDR 記憶體</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgafe700d"><span class="nav-text">USB UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbb1d1ec"><span class="nav-text">MicroSD 插槽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgab85020"><span class="nav-text">USB OTG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc930998"><span class="nav-text">Ethernet PHY</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org03732c2"><span class="nav-text">HDMI Source&#x2F;Sink</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc402f11"><span class="nav-text">VGA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5be40b1"><span class="nav-text">時脈源 (Clock Sources)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8ba5262"><span class="nav-text">基本輸入&#x2F;輸出 (I&#x2F;O)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org68d4a59"><span class="nav-text">聲音 (Audio)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge203009"><span class="nav-text">Pmod 接腳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgef0b324"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

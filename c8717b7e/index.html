@@ -59,8 +59,8 @@
 <meta property="og:site_name" content="coldnew&#39;s blog">
 <meta property="og:description" content="在現在的世界，如果要講到指令集架構(ISA)，腦海中第一個想到的不是 x86 就是 ARM 或 者 MIPS，然而如果想要自己製作一個 CPU 來玩，如果不透過現有的指令集的話，要從 CPU 打造到編譯器的撰寫、Linux 的移植又會花費大量的時間，有沒有一個現成且不需要商業授 權的指令集可以直接套用呢？有，那就是 RISC-V。    RISC-V （發音為: risk-five) 是由 U">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2015-09-14T15:28:00.000Z">
-<meta property="article:modified_time" content="2015-09-14T15:28:00.000Z">
+<meta property="article:published_time" content="2015-09-14T23:28:00.000Z">
+<meta property="article:modified_time" content="2015-09-14T23:28:00.000Z">
 <meta property="article:author" content="Yen-Chin, Lee">
 <meta property="article:tag" content="riscv">
 <meta name="twitter:card" content="summary">
@@ -200,8 +200,8 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2015-09-14T15:28:00+00:00" content="2015-09-14">
-            2015-09-14
+          <time itemprop="dateCreated" datetime="2015-09-14T23:28:00+00:00" content="2015-09-15">
+            2015-09-15
           </time>
         </span>
 
@@ -249,13 +249,13 @@ Rocket 的 CPU，並選用了和 ARM Cortex-A5 相同的製成，由官方 <a hr
 
 
 <colgroup>
-<col class="org-left">
+<col  class="org-left" />
 
-<col class="org-left">
+<col  class="org-left" />
 
-<col class="org-left">
+<col  class="org-left" />
 
-<col class="org-right">
+<col  class="org-right" />
 </colgroup>
 <thead>
 <tr>
@@ -321,9 +321,9 @@ Rocket 的 CPU，並選用了和 ARM Cortex-A5 相同的製成，由官方 <a hr
 聽起來很棒對不對，本文將簡單介紹如何初步認識 RISC-V 的軟體與環境。
 </p>
 
-<div id="outline-container-org6517775" class="outline-2">
-<h2 id="org6517775">環境建立與 toolchain 編譯</h2>
-<div class="outline-text-2" id="text-org6517775">
+<div id="outline-container-org25774b2" class="outline-2">
+<h2 id="org25774b2">環境建立與 toolchain 編譯</h2>
+<div class="outline-text-2" id="text-org25774b2">
 <p>
 為了可以執行 RISC-V 環境，我們首先要安裝 <code>riscv-tools</code> 套件，裡面包含了開發用的
 toolchain 以及模擬器等 repo，我們可以使用以下命令取得 riscv-tool 並編譯
@@ -374,9 +374,9 @@ riscv64-unknown-elf-gcc-ranlib     xspike
 </div>
 </div>
 
-<div id="outline-container-orgb9294b0" class="outline-2">
-<h2 id="orgb9294b0">使用 Spike 來模擬編譯出來的程式</h2>
-<div class="outline-text-2" id="text-orgb9294b0">
+<div id="outline-container-orgb53807e" class="outline-2">
+<h2 id="orgb53807e">使用 Spike 來模擬編譯出來的程式</h2>
+<div class="outline-text-2" id="text-orgb53807e">
 <p>
 當你的 toolchain 編譯/安裝完成後，就讓我們先從 Hello World 來開始玩吧，首先建立
 名為 <code>hello.c</code> 的檔案
@@ -424,9 +424,9 @@ Hello RISC-V
 </div>
 </div>
 
-<div id="outline-container-org8b58440" class="outline-2">
-<h2 id="org8b58440">使用 ANGEL 來測試 RSIC-V</h2>
-<div class="outline-text-2" id="text-org8b58440">
+<div id="outline-container-org6ea30e4" class="outline-2">
+<h2 id="org6ea30e4">使用 ANGEL 來測試 RSIC-V</h2>
+<div class="outline-text-2" id="text-org6ea30e4">
 <p>
 <a href="http://riscv.org/angel/index.html" target="_blank" rel="noopener">ANGEL</a> 是一款 RISC-V 基於 javascript 線上模擬器，類似 <a href="http://bellard.org/jslinux/" target="_blank" rel="noopener">jslinux</a> 那樣，只是模擬的平
 台為 RISC-V 架構而已，你可以點擊以下連結去測試<a href="http://riscv.org/angel/index.html" target="_blank" rel="noopener"> ANGEL</a>。
@@ -442,9 +442,9 @@ Hello RISC-V
 </div>
 </div>
 
-<div id="outline-container-orgb44e0a6" class="outline-2">
-<h2 id="orgb44e0a6">使用 Yocto 來編譯 RISC-V Linux 系統</h2>
-<div class="outline-text-2" id="text-orgb44e0a6">
+<div id="outline-container-orgd2864e6" class="outline-2">
+<h2 id="orgd2864e6">使用 Yocto 來編譯 RISC-V Linux 系統</h2>
+<div class="outline-text-2" id="text-orgd2864e6">
 <p>
 目前 RISC-V 雖然尚未被併入 Yocto 當中，但是 RISC-V 官方有提供 <a href="https://github.com/riscv/riscv-poky" target="_blank" rel="noopener">riscv-poky</a> 好方便
 我們測試 RISC-V 在 Linux 下的狀況，我們可以使用以下命令取得:
@@ -553,9 +553,9 @@ isa : RV64G
 </div>
 </div>
 
-<div id="outline-container-orgfb056f5" class="outline-2">
-<h2 id="orgfb056f5">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgfb056f5">
+<div id="outline-container-org0e342f1" class="outline-2">
+<h2 id="org0e342f1">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org0e342f1">
 <p>
 <code>[1]</code> <a href="http://riscv.org/tutorial-hpca2015/riscv-software-stack-tutorial-hpca2015.pdf" target="_blank" rel="noopener">RISC-V Software Tools Bootcamp</a>
 </p>
@@ -740,7 +740,7 @@ isa : RV64G
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org6517775"><span class="nav-text">環境建立與 toolchain 編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb9294b0"><span class="nav-text">使用 Spike 來模擬編譯出來的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8b58440"><span class="nav-text">使用 ANGEL 來測試 RSIC-V</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb44e0a6"><span class="nav-text">使用 Yocto 來編譯 RISC-V Linux 系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfb056f5"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org25774b2"><span class="nav-text">環境建立與 toolchain 編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb53807e"><span class="nav-text">使用 Spike 來模擬編譯出來的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6ea30e4"><span class="nav-text">使用 ANGEL 來測試 RSIC-V</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd2864e6"><span class="nav-text">使用 Yocto 來編譯 RISC-V Linux 系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0e342f1"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
