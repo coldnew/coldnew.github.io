@@ -3,6 +3,7 @@
 #+ABBRLINK: 16cb6a8e
 #+LANGUAGE: zh-tw
 #+DATE: <2020-06-21 Sun 19:06>
+#+UPDATE: <2020-09-02 Wed 22:28>
 #+TAGS: gentoo, linux, xilinx, vivado
 
 最近有點時間可以回去玩 Xilinx 的板子，於是想要把 [[https://www.xilinx.com/products/design-tools/vivado.html][Vivado]] 升級到 =2020.1= 的版本，結果彈出歡迎視窗就安裝不了了 orz
@@ -200,8 +201,50 @@ Makeself version 2.1.5
 
 剩下就是等待檔案下載安裝完成就 ok 囉～
 
+* 強制圖形化安裝的解法
+
+後來在 [[http://billauer.co.il/blog/2020/08/vivado-install-unsupported-linux/][Installing Vivado 2020.1 on Linux Mint 19]] 這篇文章看到另外的解決方案，可以讓安裝程式順利進入到圖形界面。
+
+他是怎做的呢? 實際上安裝程式會去抓你系統的 =/etc/os-release= 和 =/etc/lsb-release= 這兩樣資訊，這點可以從 =strace= 來查證
+
+#+begin_example
+  coldnew@getnoo ~/xilinx-installer $ strace -f ./xsetup
+
+  [pid 3743535] openat(AT_FDCWD, "/etc/lsb-release", O_RDONLY) = 3
+  [pid 3743644] openat(AT_FDCWD, "/etc/os-release", O_RDONLY <unfinished ...>
+#+end_example
+
+所以呀，我們就暫時把 =/etc/os-release= 替換成這樣
+
+#+begin_src bash
+  NAME="Ubuntu"
+  VERSION="16.04.6 LTS (Xenial Xerus)"
+  ID=ubuntu
+  ID_LIKE=debian
+  PRETTY_NAME="Ubuntu 16.04.6 LTS"
+  VERSION_ID="16.04"
+  HOME_URL="http://www.ubuntu.com/"
+  SUPPORT_URL="http://help.ubuntu.com/"
+  BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+  VERSION_CODENAME=xenial
+  UBUNTU_CODENAME=xenial
+#+end_src
+
+然後再把 =/etc/lsb-release= 換成這樣
+
+#+begin_src bash
+  DISTRIB_ID=Ubuntu
+  DISTRIB_RELEASE=16.04
+  DISTRIB_CODENAME=xenial
+  DISTRIB_DESCRIPTION="Ubuntu 16.04.6 LTS"
+#+end_src
+
+也就是偽裝成 =Ubuntu 16.04= 的樣子，這樣圖形版的安裝程式就可以跑啦 !!!!
+
 * 參考資料
 
 - [[https://sweetcafe.jp/?*20200605-142650][ビバ道2020.1インストール]]
 - [[https://wiki.archlinux.org/index.php/Xilinx_Vivado][ArchLinux Wiki - Xilinx Vivado]]
 - [[https://bbs.archlinux.org/viewtopic.php?id=256564][Xilinx Vivado Vitis 2020.1 Installation]]
+- [[http://billauer.co.il/blog/2020/08/vivado-install-unsupported-linux/][Installing Vivado 2020.1 on Linux Mint 19]]
+- https://forums.xilinx.com/t5/Installation-and-Licensing/Installation-of-Vivado-2020-1-under-Centos-7-8-fails/td-p/1115482
