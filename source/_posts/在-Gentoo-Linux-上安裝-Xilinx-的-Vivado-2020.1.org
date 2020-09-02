@@ -241,6 +241,25 @@ Makeself version 2.1.5
 
 也就是偽裝成 =Ubuntu 16.04= 的樣子，這樣圖形版的安裝程式就可以跑啦 !!!!
 
+* 安裝 USB driver (udev rules)
+
+因為我們有用 JTAG 進行開發，所以別安裝完成後，別忘記手動安裝需要用到的 udev rules。
+
+假設這邊將 Vivado 安裝到以下路徑
+
+#+begin_src bash
+  VIVADO_INSTALL_DIR=/opt/Xilinx/Vivado/2020.1
+#+end_src
+
+則進入到 =${VIVADO_INSTALL_DIR}/data/xicom/cable_drivers/lin64/install_script/install_drivers= 這邊，裡面有個 =install_drivers= 腳本可以執行，用 =root= 權限執行後就會把需要的 UDEV rules 安裝到系統去。
+
+#+begin_src sh
+  export VIVADO_INSTALL_DIR=/opt/Xilinx/Vivado/2020.1
+
+  cd ${VIVADO_INSTALL_DIR}/data/xicom/cable_drivers/lin64/install_script/install_drivers
+  sudo ./install_drivers
+#+end_src
+
 * 參考資料
 
 - [[https://sweetcafe.jp/?*20200605-142650][ビバ道2020.1インストール]]
@@ -248,3 +267,4 @@ Makeself version 2.1.5
 - [[https://bbs.archlinux.org/viewtopic.php?id=256564][Xilinx Vivado Vitis 2020.1 Installation]]
 - [[http://billauer.co.il/blog/2020/08/vivado-install-unsupported-linux/][Installing Vivado 2020.1 on Linux Mint 19]]
 - https://forums.xilinx.com/t5/Installation-and-Licensing/Installation-of-Vivado-2020-1-under-Centos-7-8-fails/td-p/1115482
+- [[https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug973-vivado-release-notes-install-license.pdf][Vivado Design Suite UserGuide - 2020.1]]
