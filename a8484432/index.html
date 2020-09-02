@@ -59,8 +59,8 @@
 <meta property="og:site_name" content="coldnew&#39;s blog">
 <meta property="og:description" content="GNU Readline Library 在 Linux 下是一個很常用的函式庫，在許多需要互動的指令程式上 很常見到其蹤影，最經典的莫過於 shell 了。我們在 shell 輸入資訊、使用上下鍵切換歷 史紀錄、按 TAB 進行自動補全等功能，實際上都是使用到了 readline 函式庫，    在 Clojure 中，若我們想要製作類似 GNU Readline 那樣的功能，我們可以透過">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2015-10-01T01:37:00.000Z">
-<meta property="article:modified_time" content="2015-10-01T01:37:00.000Z">
+<meta property="article:published_time" content="2015-09-30T17:37:00.000Z">
+<meta property="article:modified_time" content="2015-09-30T17:37:00.000Z">
 <meta property="article:author" content="Yen-Chin, Lee">
 <meta property="article:tag" content="clojure">
 <meta property="article:tag" content="java">
@@ -201,7 +201,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2015-10-01T01:37:00+00:00" content="2015-10-01">
+          <time itemprop="dateCreated" datetime="2015-10-01T01:37:00+08:00" content="2015-10-01">
             2015-10-01
           </time>
         </span>
@@ -240,9 +240,9 @@ Readline 類似的功能，是用來實現互動式命令很方便的工具。
 
 <a id="more"></a>
 
-<div id="outline-container-org7e94b19" class="outline-2">
-<h2 id="org7e94b19">建立我們的專案</h2>
-<div class="outline-text-2" id="text-org7e94b19">
+<div id="outline-container-org01a661d" class="outline-2">
+<h2 id="org01a661d">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org01a661d">
 <p>
 本篇文章還是依照以往的規則，使用預設的 <i>lein</i> 樣板，因此我們這樣建立名為
 <i>myapp</i> 的專案:
@@ -274,9 +274,9 @@ coldnew@Rosia ~ $ lein new jline2
 </div>
 </div>
 
-<div id="outline-container-org158089b" class="outline-2">
-<h2 id="org158089b">Example 0: 顯示使用者輸入</h2>
-<div class="outline-text-2" id="text-org158089b">
+<div id="outline-container-org91193ac" class="outline-2">
+<h2 id="org91193ac">Example 0: 顯示使用者輸入</h2>
+<div class="outline-text-2" id="text-org91193ac">
 <p>
 對於互動式命令的實現，第一個程式就會是怎樣將使用者的輸入顯示出來，對於這樣單純的
 程式，我們可以直接透過 JLine 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="noopener">ConsoleReader</a> 建立一個名為 <i>console</i> 的物件，並
@@ -312,9 +312,9 @@ You enter: hello jline2
 </div>
 </div>
 
-<div id="outline-container-orgbd4f4e4" class="outline-2">
-<h2 id="orgbd4f4e4">Example 1: 無窮迴圈讀取輸入</h2>
-<div class="outline-text-2" id="text-orgbd4f4e4">
+<div id="outline-container-org4973c38" class="outline-2">
+<h2 id="org4973c38">Example 1: 無窮迴圈讀取輸入</h2>
+<div class="outline-text-2" id="text-org4973c38">
 <p>
 既然我們要打造互動式命令，通常都會將他卡在某個無窮迴圈中，直到遇到特定條件時跳脫
 出這個無窮迴圈，在 clojure 中有許多迴圈類的函式，比如 <a href="https://clojuredocs.org/clojure.core/while" target="_blank" rel="noopener">while</a> 、<a href="https://clojuredocs.org/clojure.core/for" target="_blank" rel="noopener">for</a> 、<a href="https://clojuredocs.org/clojure.core/loop" target="_blank" rel="noopener">loop</a> 等。
@@ -362,9 +362,9 @@ Exit application.
 </div>
 </div>
 
-<div id="outline-container-orgbdb6dff" class="outline-2">
-<h2 id="orgbdb6dff">Example 2: 遮蔽使用者輸入</h2>
-<div class="outline-text-2" id="text-orgbdb6dff">
+<div id="outline-container-orgb222dc5" class="outline-2">
+<h2 id="orgb222dc5">Example 2: 遮蔽使用者輸入</h2>
+<div class="outline-text-2" id="text-orgb222dc5">
 <p>
 在互動式命令中，輸入密碼的時候我們不是不顯示密碼，不然就是將密碼轉換成 <code>*</code> 進行
 顯示，那在 jline 下要怎樣作呢？實際上透過 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="noopener">ConsoleReader</a> 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%2528java.lang.Character%2529" target="_blank" rel="noopener">.readLine</a> 方法及可以
@@ -405,9 +405,9 @@ Exit application.
 </div>
 </div>
 
-<div id="outline-container-org91fbf79" class="outline-2">
-<h2 id="org91fbf79">Example 3: 簡易的 shell</h2>
-<div class="outline-text-2" id="text-org91fbf79">
+<div id="outline-container-orgc00a912" class="outline-2">
+<h2 id="orgc00a912">Example 3: 簡易的 shell</h2>
+<div class="outline-text-2" id="text-orgc00a912">
 <p>
 經過前面的範例，想必各位對 jline 的基本使用已經心裡有數了，那麼就讓我們來個複雜
 一點的程式來作個結束吧。我們要實現一個簡單的 shell，這個 shell 只有 3 種指令：ls、
@@ -544,9 +544,9 @@ user&gt;
 </div>
 </div>
 
-<div id="outline-container-orgf125d09" class="outline-2">
-<h2 id="orgf125d09">取得範例程式碼</h2>
-<div class="outline-text-2" id="text-orgf125d09">
+<div id="outline-container-org0e24caf" class="outline-2">
+<h2 id="org0e24caf">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-org0e24caf">
 <p>
 本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
 </p>
@@ -570,9 +570,9 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/jline2
 </div>
 </div>
 
-<div id="outline-container-org4c5123a" class="outline-2">
-<h2 id="org4c5123a">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org4c5123a">
+<div id="outline-container-org86ed751" class="outline-2">
+<h2 id="org86ed751">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org86ed751">
 <p>
 <code>[1]</code> <a href="http://www.cnblogs.com/hazir/p/instruction_to_readline.html" target="_blank" rel="noopener">GNU Readline 庫及編程簡介</a>
 </p>
@@ -747,7 +747,7 @@ coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/jline2
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org7e94b19"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org158089b"><span class="nav-text">Example 0: 顯示使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbd4f4e4"><span class="nav-text">Example 1: 無窮迴圈讀取輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbdb6dff"><span class="nav-text">Example 2: 遮蔽使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org91fbf79"><span class="nav-text">Example 3: 簡易的 shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf125d09"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4c5123a"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org01a661d"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org91193ac"><span class="nav-text">Example 0: 顯示使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4973c38"><span class="nav-text">Example 1: 無窮迴圈讀取輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb222dc5"><span class="nav-text">Example 2: 遮蔽使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc00a912"><span class="nav-text">Example 3: 簡易的 shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0e24caf"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org86ed751"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -60,8 +60,8 @@
 <meta property="og:description" content="在 在 emacs 中使用 EasyPG 加密文章 一文中談到了如何在 emacs 裡面對於文章使用 GnuPG 進行加密。隨著 emacs 已經到了 emacs 25，有些早期的東西可能有些變化，讓我們來談談如何在 emacs 的 mini-buffer 直接輸入 GnuPG 要的密碼，而不需要彈出系統的圖形界面視窗。">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://coldnew.github.io/e7fdea95/gpg.png">
-<meta property="article:published_time" content="2018-02-09T16:15:00.000Z">
-<meta property="article:modified_time" content="2018-02-09T16:16:00.000Z">
+<meta property="article:published_time" content="2018-02-09T08:15:00.000Z">
+<meta property="article:modified_time" content="2018-02-09T08:16:00.000Z">
 <meta property="article:author" content="Yen-Chin, Lee">
 <meta property="article:tag" content="emacs">
 <meta name="twitter:card" content="summary">
@@ -202,8 +202,8 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2018-02-09T16:16:00+00:00" content="2018-02-10">
-            2018-02-10
+          <time itemprop="dateCreated" datetime="2018-02-09T16:16:00+08:00" content="2018-02-09">
+            2018-02-09
           </time>
         </span>
 
@@ -247,9 +247,9 @@ Available pinentry binary implementations:
 而本文的目的，就是在使用 emacs 的時候，採用的是 <code>pinentry-emacs</code> 而不是系統設定的版本。
 </p>
 
-<div id="outline-container-org5d06f98" class="outline-2">
-<h2 id="org5d06f98">設置 gpg-agent</h2>
-<div class="outline-text-2" id="text-org5d06f98">
+<div id="outline-container-org174aaf3" class="outline-2">
+<h2 id="org174aaf3">設置 gpg-agent</h2>
+<div class="outline-text-2" id="text-org174aaf3">
 <p>
 首先我們要先設定 <code>~/.gnupg/gpg-agent.conf</code> 這個檔案，並加入如下內容:
 </p>
@@ -282,9 +282,9 @@ coldnew@gentoo ~ $  kill -9 `pidof gpg-agent`
 </div>
 </div>
 
-<div id="outline-container-org2b2dd69" class="outline-2">
-<h2 id="org2b2dd69">設定 emacs</h2>
-<div class="outline-text-2" id="text-org2b2dd69">
+<div id="outline-container-org5eeaf97" class="outline-2">
+<h2 id="org5eeaf97">設定 emacs</h2>
+<div class="outline-text-2" id="text-org5eeaf97">
 <p>
 設定完 `gpg-agent` 後，接下來就是設定 emacs 啦，首先我們先安裝 <a href="https://elpa.gnu.org/packages/pinentry.html" target="_blank" rel="noopener">pinentry.el</a> ，這個套件可以在 <a href="https://elpa.gnu.org/" target="_blank" rel="noopener">elpa</a> (emacs 預設的套件倉庫) 裡面找到:
 </p>
@@ -317,9 +317,9 @@ M-x package-install RET pinentry RET
 </div>
 </div>
 
-<div id="outline-container-orgf2ab32c" class="outline-2">
-<h2 id="orgf2ab32c">結果</h2>
-<div class="outline-text-2" id="text-orgf2ab32c">
+<div id="outline-container-org0d1d4ca" class="outline-2">
+<h2 id="org0d1d4ca">結果</h2>
+<div class="outline-text-2" id="text-org0d1d4ca">
 <p>
 按照以上的設定，並確定有重起 <code>gpg-agent</code> 的話，在編輯 <code>*.gpg</code> 的檔案時，應該會看到密碼輸入欄是顯示在 mini-buffer 上的:
 </p>
@@ -332,9 +332,9 @@ M-x package-install RET pinentry RET
 </div>
 </div>
 
-<div id="outline-container-org94a65a6" class="outline-2">
-<h2 id="org94a65a6">參考資料</h2>
-<div class="outline-text-2" id="text-org94a65a6">
+<div id="outline-container-orgaedfb99" class="outline-2">
+<h2 id="orgaedfb99">參考資料</h2>
+<div class="outline-text-2" id="text-orgaedfb99">
 <ul class="org-ul">
 <li><a href="https://emacs.stackexchange.com/questions/32881/enabling-minibuffer-pinentry-with-emacs-25-and-gnupg-2-1-on-ubuntu-xenial/32882" target="_blank" rel="noopener">Enabling minibuffer pinentry with Emacs 25 and GnuPG 2.1 on Ubuntu Xenial</a></li>
 
@@ -499,7 +499,7 @@ M-x package-install RET pinentry RET
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org5d06f98"><span class="nav-text">設置 gpg-agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2b2dd69"><span class="nav-text">設定 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf2ab32c"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org94a65a6"><span class="nav-text">參考資料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org174aaf3"><span class="nav-text">設置 gpg-agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5eeaf97"><span class="nav-text">設定 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0d1d4ca"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaedfb99"><span class="nav-text">參考資料</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

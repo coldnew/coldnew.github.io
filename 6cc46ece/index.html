@@ -59,8 +59,8 @@
 <meta property="og:site_name" content="coldnew&#39;s blog">
 <meta property="og:description" content="在 RISC-V 初探 一文中我們講到了如何使用 riscv-poky 去產生你的 RISC-V 系統，那如 果我們不想要透過 Yocto 去建立我們的 RISC-V Linux 系統，這樣子要怎樣建立迷你的系 統呢? 答案就是 Busybox 。    Busybox 是一個非常有趣的程式，舉凡我們在 Linux 下最常用的命令如 ls、cd 等到 sed、 vi 他都具有相對應的簡單實現，">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2015-09-16T02:25:00.000Z">
-<meta property="article:modified_time" content="2015-09-16T02:25:00.000Z">
+<meta property="article:published_time" content="2015-09-15T18:25:00.000Z">
+<meta property="article:modified_time" content="2015-09-15T18:25:00.000Z">
 <meta property="article:author" content="Yen-Chin, Lee">
 <meta property="article:tag" content="riscv">
 <meta property="article:tag" content="linux">
@@ -201,7 +201,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2015-09-16T02:25:00+00:00" content="2015-09-16">
+          <time itemprop="dateCreated" datetime="2015-09-16T02:25:00+08:00" content="2015-09-16">
             2015-09-16
           </time>
         </span>
@@ -240,9 +240,9 @@ vi 他都具有相對應的簡單實現，此外，這些命令實際上都只�
 個迷你的 Linux 系統。
 </p>
 
-<div id="outline-container-org7cfbc60" class="outline-2">
-<h2 id="org7cfbc60">編譯 RISC-V Linux Toolchain</h2>
-<div class="outline-text-2" id="text-org7cfbc60">
+<div id="outline-container-orga324ff1" class="outline-2">
+<h2 id="orga324ff1">編譯 RISC-V Linux Toolchain</h2>
+<div class="outline-text-2" id="text-orga324ff1">
 <p>
 在 <a href="http://coldnew.github.io/blog/2015/a_brief_view_on_riscv.html">RISC-V 初探</a> 一文中我們說到了如何編譯 <code>riscv-tools</code> 套件去產生開發用的
 toolchain 與模擬器，在當時所產生的開發環境中其實不包含 RISC-V Linux 用的
@@ -308,9 +308,9 @@ riscv64-unknown-elf-ld          riscv64-unknown-linux-gnu-gcc-nm
 </div>
 </div>
 
-<div id="outline-container-org9b8a6de" class="outline-2">
-<h2 id="org9b8a6de">編譯 RISC-V Linux Kernel</h2>
-<div class="outline-text-2" id="text-org9b8a6de">
+<div id="outline-container-org1395308" class="outline-2">
+<h2 id="org1395308">編譯 RISC-V Linux Kernel</h2>
+<div class="outline-text-2" id="text-org1395308">
 <p>
 RISC-V 官方提供了基於 Linux 3.14 (LTS) 版本的移植，和 RISC-V 相關的移植位於
 <a href="https://github.com/riscv/riscv-linux" target="_blank" rel="noopener">riscv/riscv-linux</a> 裡面，由於 <a href="https://github.com/riscv/riscv-linux" target="_blank" rel="noopener">GitHub</a> 上面只包含的 RISC-V 的移植，因此我們還需要下
@@ -406,9 +406,9 @@ coldnew@Rosia ~/linux-3.14.41 $ spike bbl vmlinux
 </div>
 </div>
 
-<div id="outline-container-org381d6f7" class="outline-2">
-<h2 id="org381d6f7">使用 Hello, World 建立最簡易系統</h2>
-<div class="outline-text-2" id="text-org381d6f7">
+<div id="outline-container-org6d042e2" class="outline-2">
+<h2 id="org6d042e2">使用 Hello, World 建立最簡易系統</h2>
+<div class="outline-text-2" id="text-org6d042e2">
 <p>
 為了避免開機的時候會出現 <code>kernel panic</code> 的訊息，要稍微了解一下 Linux 的開機流程。
 當 kernel 載入完成後會去嘗試掛載 rootfs 並執行 <code>/sbin/init</code> 這一隻程式，這個程式
@@ -487,9 +487,9 @@ Hello, RISC-V
 </div>
 </div>
 
-<div id="outline-container-orge735a7a" class="outline-2">
-<h2 id="orge735a7a">使用 Busybox 來建立我們的迷你系統</h2>
-<div class="outline-text-2" id="text-orge735a7a">
+<div id="outline-container-org1fe1f93" class="outline-2">
+<h2 id="org1fe1f93">使用 Busybox 來建立我們的迷你系統</h2>
+<div class="outline-text-2" id="text-org1fe1f93">
 <p>
 理解了如何使用 Hello, World 建立最簡易的 rootfs 後，這次我們來使用 busybox 來建
 立我們的 rootfs，首先先從官網下載 busybox 程式碼
@@ -619,9 +619,9 @@ Please press Enter to activate this console.
 </div>
 </div>
 
-<div id="outline-container-orgc85ace5" class="outline-2">
-<h2 id="orgc85ace5">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orgc85ace5">
+<div id="outline-container-orgc658428" class="outline-2">
+<h2 id="orgc658428">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgc658428">
 <p>
 <code>[1]</code> <a href="https://balau82.wordpress.com/2010/03/27/busybox-for-arm-on-qemu/" target="_blank" rel="noopener">Busybox for ARM on QEMU</a>
 </p>
@@ -792,7 +792,7 @@ Please press Enter to activate this console.
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org7cfbc60"><span class="nav-text">編譯 RISC-V Linux Toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9b8a6de"><span class="nav-text">編譯 RISC-V Linux Kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org381d6f7"><span class="nav-text">使用 Hello, World 建立最簡易系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge735a7a"><span class="nav-text">使用 Busybox 來建立我們的迷你系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc85ace5"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orga324ff1"><span class="nav-text">編譯 RISC-V Linux Toolchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1395308"><span class="nav-text">編譯 RISC-V Linux Kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6d042e2"><span class="nav-text">使用 Hello, World 建立最簡易系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1fe1f93"><span class="nav-text">使用 Busybox 來建立我們的迷你系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc658428"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -59,8 +59,8 @@
 <meta property="og:site_name" content="coldnew&#39;s blog">
 <meta property="og:description" content="最近重新整理一下我用來編譯 Yocto Project 用的 Docker 環境，決定把它拉成獨立的腳本放出，你可以到 coldnew&#x2F;docker-yocto 找到 。    為什麼要用 Docker 建立環境來編譯呢?在我這幾年使用 Yocto 的經驗，就是它對於 Host Machine 的依賴性太強。 我自己習慣使用 Gentoo Linux 也因為套件比較新，常常遇到 舊版本的 Yo">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2018-02-22T10:23:00.000Z">
-<meta property="article:modified_time" content="2018-02-23T10:33:00.000Z">
+<meta property="article:published_time" content="2018-02-22T02:23:00.000Z">
+<meta property="article:modified_time" content="2018-02-23T02:33:00.000Z">
 <meta property="article:author" content="Yen-Chin, Lee">
 <meta property="article:tag" content="yocto">
 <meta property="article:tag" content="docker">
@@ -201,7 +201,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2018-02-23T10:33:00+00:00" content="2018-02-23">
+          <time itemprop="dateCreated" datetime="2018-02-23T10:33:00+08:00" content="2018-02-23">
             2018-02-23
           </time>
         </span>
@@ -240,9 +240,9 @@
 整個專案的說明以及用法請往下看:
 </p>
 
-<div id="outline-container-org9d3d0b2" class="outline-2">
-<h2 id="org9d3d0b2">專案說明</h2>
-<div class="outline-text-2" id="text-org9d3d0b2">
+<div id="outline-container-org35c5958" class="outline-2">
+<h2 id="org35c5958">專案說明</h2>
+<div class="outline-text-2" id="text-org35c5958">
 <p>
 <a href="https://github.com/coldnew/docker-yocto" target="_blank" rel="noopener">coldnew/docker-yocto</a> 裡面的檔案結構大致上如下:
 </p>
@@ -268,9 +268,9 @@
 </div>
 </div>
 
-<div id="outline-container-org5228452" class="outline-2">
-<h2 id="org5228452">安裝方式</h2>
-<div class="outline-text-2" id="text-org5228452">
+<div id="outline-container-org9aeb13d" class="outline-2">
+<h2 id="org9aeb13d">安裝方式</h2>
+<div class="outline-text-2" id="text-org9aeb13d">
 <p>
 要使用這套環境，首先需要下載 <code>yocto-build.sh</code> 到電腦的 <code>~/bin</code> 環境，這邊將其變成 <code>~/bin/yocto-build</code> 這樣的執行檔案
 </p>
@@ -297,9 +297,9 @@ chmod +x ~/bin/yocto-build
 </div>
 </div>
 
-<div id="outline-container-orgd359037" class="outline-2">
-<h2 id="orgd359037">使用方式</h2>
-<div class="outline-text-2" id="text-orgd359037">
+<div id="outline-container-orga39881d" class="outline-2">
+<h2 id="orga39881d">使用方式</h2>
+<div class="outline-text-2" id="text-orga39881d">
 <p>
 下面就讓我來介紹我這個 repo 的使用方式吧，當然，如果要更完整的說明可以使用以下命令獲得:
 </p>
@@ -310,9 +310,9 @@ chmod +x ~/bin/yocto-build
 </div>
 </div>
 
-<div id="outline-container-orgdb51ced" class="outline-3">
-<h3 id="orgdb51ced">建立 workdir</h3>
-<div class="outline-text-3" id="text-orgdb51ced">
+<div id="outline-container-orgc1be4e1" class="outline-3">
+<h3 id="orgc1be4e1">建立 workdir</h3>
+<div class="outline-text-3" id="text-orgc1be4e1">
 <p>
 第一次使用的時候，需要告知 <code>yocto-build</code> 你編譯 Yocto 用的資料夾，以我的範例為例則是 <code>/home/coldnew/poky</code> ，因此要這樣使用
 </p>
@@ -350,9 +350,9 @@ chmod +x ~/bin/yocto-build
 </div>
 </div>
 
-<div id="outline-container-org6c83d39" class="outline-3">
-<h3 id="org6c83d39">切新的 shell</h3>
-<div class="outline-text-3" id="text-org6c83d39">
+<div id="outline-container-org2cfa8cc" class="outline-3">
+<h3 id="org2cfa8cc">切新的 shell</h3>
+<div class="outline-text-3" id="text-org2cfa8cc">
 <p>
 如果要切新的 shell 進到這個 container，則使用
 </p>
@@ -368,9 +368,9 @@ chmod +x ~/bin/yocto-build
 </div>
 </div>
 
-<div id="outline-container-org6b50c86" class="outline-3">
-<h3 id="org6b50c86">移除 container</h3>
-<div class="outline-text-3" id="text-org6b50c86">
+<div id="outline-container-orgc8a723d" class="outline-3">
+<h3 id="orgc8a723d">移除 container</h3>
+<div class="outline-text-3" id="text-orgc8a723d">
 <p>
 如果你編譯完成了，不想要這個 container, 則可以透過以下命令去刪除它
 </p>
@@ -382,9 +382,9 @@ chmod +x ~/bin/yocto-build
 </div>
 </div>
 
-<div id="outline-container-org363f2c4" class="outline-3">
-<h3 id="org363f2c4">更新腳本</h3>
-<div class="outline-text-3" id="text-org363f2c4">
+<div id="outline-container-orgec81699" class="outline-3">
+<h3 id="orgec81699">更新腳本</h3>
+<div class="outline-text-3" id="text-orgec81699">
 <p>
 如果你需要更新 yocto-build.sh，使用以下命令即可達成
 </p>
@@ -396,9 +396,9 @@ chmod +x ~/bin/yocto-build
 </div>
 </div>
 
-<div id="outline-container-orgcd0760e" class="outline-3">
-<h3 id="orgcd0760e">更新 Docker Image</h3>
-<div class="outline-text-3" id="text-orgcd0760e">
+<div id="outline-container-org5050bac" class="outline-3">
+<h3 id="org5050bac">更新 Docker Image</h3>
+<div class="outline-text-3" id="text-org5050bac">
 <p>
 假設當前編譯 Yocto 用的 Docker Image 出現編譯不過的情況，則可以考慮更新 Docker Image
 </p>
@@ -411,9 +411,9 @@ chmod +x ~/bin/yocto-build
 </div>
 </div>
 
-<div id="outline-container-orgb64d4d5" class="outline-2">
-<h2 id="orgb64d4d5">後記</h2>
-<div class="outline-text-2" id="text-orgb64d4d5">
+<div id="outline-container-orgaa9035e" class="outline-2">
+<h2 id="orgaa9035e">後記</h2>
+<div class="outline-text-2" id="text-orgaa9035e">
 <p>
 這個腳本理論上是跨平台，甚至是可以在 Mac OSX 下使用，不過之前在 Mac OSX 測試時出現一些 Docker 相關的錯誤，所以目前還只能用於 Linux 端的系統。
 </p>
@@ -576,7 +576,7 @@ chmod +x ~/bin/yocto-build
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org9d3d0b2"><span class="nav-text">專案說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5228452"><span class="nav-text">安裝方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd359037"><span class="nav-text">使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgdb51ced"><span class="nav-text">建立 workdir</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6c83d39"><span class="nav-text">切新的 shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6b50c86"><span class="nav-text">移除 container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org363f2c4"><span class="nav-text">更新腳本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgcd0760e"><span class="nav-text">更新 Docker Image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb64d4d5"><span class="nav-text">後記</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org35c5958"><span class="nav-text">專案說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9aeb13d"><span class="nav-text">安裝方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga39881d"><span class="nav-text">使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc1be4e1"><span class="nav-text">建立 workdir</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2cfa8cc"><span class="nav-text">切新的 shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc8a723d"><span class="nav-text">移除 container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgec81699"><span class="nav-text">更新腳本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5050bac"><span class="nav-text">更新 Docker Image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaa9035e"><span class="nav-text">後記</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -60,8 +60,8 @@
 <meta property="og:description" content="在 使用 ClojureScript 來寫 node.js 程式 一文當中，我們提到了可以用 ClojureScript 來寫 node.js 的程式，可是如果要引用 node.js 的外部函式，比 如說 tty.js 時，要怎麼辦呢？    tty.js 是一個可以讓你在瀏覽器下使用終端機的一個很酷的 node.js 程式，雖 然他是獨立的程式，但是也可以當作函式庫引用。    本篇文章將描">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://coldnew.github.io/54a4baf/ttyjs.png">
-<meta property="article:published_time" content="2013-06-30T11:33:00.000Z">
-<meta property="article:modified_time" content="2013-06-30T11:33:00.000Z">
+<meta property="article:published_time" content="2013-06-30T03:33:00.000Z">
+<meta property="article:modified_time" content="2013-06-30T03:33:00.000Z">
 <meta property="article:author" content="Yen-Chin, Lee">
 <meta property="article:tag" content="clojurescript">
 <meta property="article:tag" content="nodejs">
@@ -203,7 +203,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2013-06-30T11:33:00+00:00" content="2013-06-30">
+          <time itemprop="dateCreated" datetime="2013-06-30T11:33:00+08:00" content="2013-06-30">
             2013-06-30
           </time>
         </span>
@@ -239,9 +239,9 @@ ClojureScript 來寫 node.js 的程式，可是如果要引用 node.js 的外部
 node.js 程式。
 </p>
 
-<div id="outline-container-org45b7950" class="outline-2">
-<h2 id="org45b7950">建立新的專案</h2>
-<div class="outline-text-2" id="text-org45b7950">
+<div id="outline-container-orged056f0" class="outline-2">
+<h2 id="orged056f0">建立新的專案</h2>
+<div class="outline-text-2" id="text-orged056f0">
 <p>
 我們首先先來建立一個新的開發環境，就叫他為 <code>cljs-tty</code> 好了
 </p>
@@ -252,9 +252,9 @@ lein new cljs-tty
 </div>
 </div>
 
-<div id="outline-container-orgc05fa86" class="outline-2">
-<h2 id="orgc05fa86">加入 cljsbuild 到你的專案</h2>
-<div class="outline-text-2" id="text-orgc05fa86">
+<div id="outline-container-org46e6af7" class="outline-2">
+<h2 id="org46e6af7">加入 cljsbuild 到你的專案</h2>
+<div class="outline-text-2" id="text-org46e6af7">
 <p>
 接下來，編輯 <code>project.clj</code> 將他變成下面這樣，注意到在這篇範例中，我
 們還是使用 src 作為 ClojureScript 程式的資料夾。
@@ -291,9 +291,9 @@ lein new cljs-tty
 </div>
 </div>
 
-<div id="outline-container-orgd721913" class="outline-2">
-<h2 id="orgd721913">使用 npm 來加入 node.js 套件</h2>
-<div class="outline-text-2" id="text-orgd721913">
+<div id="outline-container-org2bef730" class="outline-2">
+<h2 id="org2bef730">使用 npm 來加入 node.js 套件</h2>
+<div class="outline-text-2" id="text-org2bef730">
 <p>
 畢竟我們是要透過 ClojureScript 來呼叫 node.js 的函式庫，自然需要使用 npm
 來安裝需要的套件，因此你必須先在專案的頂層目錄加上 <b>package.json</b> ，
@@ -327,9 +327,9 @@ npm install
 </div>
 </div>
 
-<div id="outline-container-org5909fb0" class="outline-2">
-<h2 id="org5909fb0">改程式碼的時間到了</h2>
-<div class="outline-text-2" id="text-org5909fb0">
+<div id="outline-container-org96fe33b" class="outline-2">
+<h2 id="org96fe33b">改程式碼的時間到了</h2>
+<div class="outline-text-2" id="text-org96fe33b">
 <p>
 在我們的主程式 core.cljs 裏面，要添加下面的 ClojureScript 程式碼，你
 可以將他和左邊的 javascript 程式碼來對照看看 (tty.js 提供的範例程式)，
@@ -506,9 +506,9 @@ bar 訊息，相對應的，在 ClojureScript 裏面我們可以這樣寫
 </div>
 </div>
 
-<div id="outline-container-org052a612" class="outline-2">
-<h2 id="org052a612">編譯我們的程式</h2>
-<div class="outline-text-2" id="text-org052a612">
+<div id="outline-container-org007205d" class="outline-2">
+<h2 id="org007205d">編譯我們的程式</h2>
+<div class="outline-text-2" id="text-org007205d">
 <p>
 在 <a href="http://coldnew.github.io/blog/2013/06/29_82531.html">使用 ClojureScript 來寫 node.js 程式</a> 一文說過要怎樣編譯我們的
 ClojureScript 程式，你可以使用
@@ -534,9 +534,9 @@ lein cljsbuild auto
 </div>
 </div>
 
-<div id="outline-container-org80cc15f" class="outline-2">
-<h2 id="org80cc15f">執行程式看看結果</h2>
-<div class="outline-text-2" id="text-org80cc15f">
+<div id="outline-container-orgac916a6" class="outline-2">
+<h2 id="orgac916a6">執行程式看看結果</h2>
+<div class="outline-text-2" id="text-orgac916a6">
 <p>
 我們可以用以下命令來執行我們的程式
 </p>
@@ -560,9 +560,9 @@ node target/cljsbuild-main.js
 </div>
 </div>
 
-<div id="outline-container-org1aee1e4" class="outline-2">
-<h2 id="org1aee1e4">參考連結</h2>
-<div class="outline-text-2" id="text-org1aee1e4">
+<div id="outline-container-orgdeb1ba0" class="outline-2">
+<h2 id="orgdeb1ba0">參考連結</h2>
+<div class="outline-text-2" id="text-orgdeb1ba0">
 <p>
 <code>[1]</code> <a href="https://github.com/chjj/tty.js" target="_blank" rel="noopener">GitHub - tty.js</a>
 </p>
@@ -729,7 +729,7 @@ node target/cljsbuild-main.js
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org45b7950"><span class="nav-text">建立新的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc05fa86"><span class="nav-text">加入 cljsbuild 到你的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd721913"><span class="nav-text">使用 npm 來加入 node.js 套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5909fb0"><span class="nav-text">改程式碼的時間到了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org052a612"><span class="nav-text">編譯我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org80cc15f"><span class="nav-text">執行程式看看結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1aee1e4"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orged056f0"><span class="nav-text">建立新的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org46e6af7"><span class="nav-text">加入 cljsbuild 到你的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2bef730"><span class="nav-text">使用 npm 來加入 node.js 套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org96fe33b"><span class="nav-text">改程式碼的時間到了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org007205d"><span class="nav-text">編譯我們的程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgac916a6"><span class="nav-text">執行程式看看結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdeb1ba0"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
