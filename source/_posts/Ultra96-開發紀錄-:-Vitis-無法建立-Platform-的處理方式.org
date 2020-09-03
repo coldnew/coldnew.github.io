@@ -1,0 +1,47 @@
+#+TITLE: Ultra96 開發紀錄: Vitis 無法建立 Platform 的處理方式
+#+OPTIONS: num:nil ^:nil
+#+ABBRLINK: 4bc009ef
+#+LANGUAGE: zh-tw
+#+CATEGORIES: Ultra96 開發紀錄
+#+TAGS: fpga, xilinx, ultra96, ultra96v1, gentoo, vitis
+
+在使用 [[https://www.xilinx.com/products/design-tools/vitis.html][Vitis]] 的時候遇到了一個很詭異的問題， 來紀錄一下。
+
+(本文以 =Vitis 2020.1= 進行開發)
+
+#+HTML: <!-- more -->
+
+* 問題描述
+
+當我載入建立好 =XSA= 檔案後，要建立 Platform 時候，選擇作業系統 (Operation System) 與處理器 (Processor) 的欄位都是空的，到底怎回事?
+
+[[file:Ultra96-開發紀錄-:-Vitis-無法建立-Platform-的處理方式/2020-09-03_13-01-17_a1.png]]
+
+* 解決方案
+
+查找  [[https://forums.xilinx.com/t5/Vitis-Acceleration-SDAccel-SDSoC/Vitis-not-creating-platform-from-custom-XSA-File/td-p/1045260][Vitis not creating platform from custom XSA File]] 一文發現到有人說 [[https://www.xilinx.com/products/design-tools/vitis.html][Vitis]] 實際上依賴了 =x11-apps/xlsclients= 這個套件，因此在 Gentoo Linux 下我們就把這個套件先裝起來
+
+#+begin_src text :exports none
+  * x11-apps/xlsclients
+     Available versions:  1.1.4
+     Homepage:            https://www.x.org/wiki/ https://gitlab.freedesktop.org/xorg/app/xlsclients
+     Description:         X.Org xlsclients application
+#+end_src
+
+#+begin_export html
+<pre><font color="#D0D0D0">[</font><span style="background-color:#00FF00"><font color="#2E3436"><b>I</b></font></span><font color="#D0D0D0">]</font> <font color="#00FF5F"><b>x11-apps</b></font><font color="#D0D0D0">/</font><font color="#00FF5F"><b>xlsclients</b></font>
+     <font color="#00AF00">Available versions:</font>  <span style="background-color:#00FF00"><font color="#2E3436">1.1.4</font></span><font color="#00AFFF"><b>{tbz2}</b></font>
+     <font color="#00AF00">Installed versions:</font>  <font color="#0087FF"><b>1.1.4</b></font><font color="#00AFFF"><b>{tbz2}</b></font><font color="#D75F00">(12:22:32 PM 09/03/2020)</font>
+     <font color="#00AF00">Homepage:</font>            <font color="#D0D0D0">https://www.x.org/wiki/ https://gitlab.freedesktop.org/xorg/app/xlsclients</font>
+     <font color="#00AF00">Description:</font>         <font color="#D0D0D0">X.Org xlsclients application</font>
+</pre>
+#+end_export
+
+接下來重新啟動 Vitis 後，就可以順利來建立我們需要的 Platform 了，如下圖：
+
+[[file:Ultra96-開發紀錄-:-Vitis-無法建立-Platform-的處理方式/2020-09-03_13-01-41_a2.png]]
+
+* 延伸閱讀
+
+- [[https://forums.xilinx.com/t5/Vitis-Acceleration-SDAccel-SDSoC/Vitis-not-creating-platform-from-custom-XSA-File/td-p/1045260][Xilinx - Vitis not creating platform from custom XSA File]]
+- https://wiki.archlinux.org/index.php/Xilinx_Vivado
