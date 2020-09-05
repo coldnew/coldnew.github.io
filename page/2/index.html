@@ -1,23 +1,1279 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
 
-{% block title %} {{ config.title }} {% endblock %}
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
 
-{% block page_class %}
-  {% if is_home() %} page-home {% endif %}
-{% endblock %}
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-{% block content %}
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="coldnew,clojure,clojurescript,lisp,linux" />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="coldnew&#39;s blog">
+<meta property="og:url" content="https://coldnew.github.io/page/2/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/page/2/index.html" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
   <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/7c056878/" itemprop="url">
+                Ultra96 開發紀錄: 讓 Vivado 有 Ultra96 的設定檔 (2019 以後版本)
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-07-13T10:32:00+08:00" content="2019-07-13">
+            2019-07-13
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultra96/" itemprop="url" rel="index">
+                  <span itemprop="name">Ultra96 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 <a href="https://coldnew.github.io/b1903c9f/">Ultra96 開發紀錄: 讓 Vivado 有 Ultra96 的設定檔</a> 一文中提及了如何在 <code>Vivado 2018.2</code>  上加入 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="noopener">Ultra96</a> 的設定檔
+</p>
+
+<p>
+因為最近 <a href="https://www.xilinx.com/products/design-tools/vivado/vivado-whats-new.html" target="_blank" rel="noopener">Vivado 2019.1</a> 釋出，增加了一個直接從 Xilinx 下載板端設定檔的功能，因此再來更新一次這篇文章
+</p>
+
+<p>
+(本文以 <code>Vivado 2019.1</code> 進行開發)
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/7c056878/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/ea2f6f83/" itemprop="url">
+                TinyFPGA BX 開發紀錄: 硬體認識
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-06-01T18:03:55+08:00" content="2019-06-01">
+            2019-06-01
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/tinyfpga-bx/" itemprop="url" rel="index">
+                  <span itemprop="name">TinyFPGA BX 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 <a href="https://coldnew.github.io/68814ae4/">TinyFPGA BX 開發紀錄: 開箱文</a> 一文中我開箱了最近買的 <a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 這款迷你的 FPGA 開發板，在這篇文章中將來講講他的硬體的一些資訊，好讓我們對這塊板子有初步的認識。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/ea2f6f83/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/68814ae4/" itemprop="url">
+                TinyFPGA BX 開發紀錄: 開箱文
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-06-01T09:16:39+08:00" content="2019-06-01">
+            2019-06-01
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/tinyfpga-bx/" itemprop="url" rel="index">
+                  <span itemprop="name">TinyFPGA BX 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+最近和網路上的朋友討論要弄個讀書會之類的來好好學習 FPGA，討論後的結果我們決定從 <a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 來開始進行。
+</p>
+
+<p>
+也因此筆者就透過網路購買了 <a href="https://tinyfpga.com/" target="_blank" rel="noopener">TinyFPGA BX</a> 這款目前蠻紅的開源專案，來打算透過它從寫個簡易的 MCU 到製作自己的 SoC (前提是邏輯閘夠，這塊板子 <code>只有 7680 個邏輯閘</code> 可以使用)。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/68814ae4/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/b1903c9f/" itemprop="url">
+                Ultra96 開發紀錄: 讓 Vivado 有 Ultra96 的設定檔
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-07-13T10:29:21+08:00" content="2019-07-13">
+            2019-07-13
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultra96/" itemprop="url" rel="index">
+                  <span itemprop="name">Ultra96 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在透過 <a href="http://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 去建立新的專案的時候，開發板沒有 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="noopener">Ultra96</a> 的選項可以選，因此我們就必須自己去設定關於其開發板的資訊。
+</p>
+
+<p>
+幸好，<a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="noopener">Ultra96</a> 的開發商 <a href="https://www.avnet.com" target="_blank" rel="noopener">AVNET</a> 已經做好這塊開發板的設定檔，並放置到
+<a href="https://github.com/Avnet/bdf" target="_blank" rel="noopener">Avnet/bdf</a> 這個 repo 中，就讓我們來將它安裝到我們的 Vivado 吧！
+</p>
+
+<p>
+(本文以 <code>Vivado 2018.2</code> 進行開發)
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/b1903c9f/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/a75bc6c4/" itemprop="url">
+                Ultra96 開發紀錄: 快速開始
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-07-13T10:29:00+08:00" content="2019-07-13">
+            2019-07-13
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultra96/" itemprop="url" rel="index">
+                  <span itemprop="name">Ultra96 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 <a href="https://coldnew.github.io/b728d8e8/">Ultra96 開發紀錄: 開箱文</a> 一文中筆者紀錄了如何購買 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="noopener">Ultra96</a> 開發板，而裡面付的 SD Card 其實已經有預先燒錄好一個可以開機的映像檔 (Image)。
+</p>
+
+<p>
+就讓我們先插入 SD Card 並搭配 <a href="http://ultra96.org/sites/default/files/documentations/Ultra96-GSG-v1_0.pdf" target="_blank" rel="noopener">Ultra96 Getting Started Guide</a> 來看看這塊板子吧。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/a75bc6c4/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/d9eb5a84/" itemprop="url">
+                webOS OSE 研究筆記: webOS OSE 與 Qt5
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-04-17T13:08:02+08:00" content="2019-04-17">
+            2019-04-17
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/webOS-OSE-%E7%A0%94%E7%A9%B6%E7%AD%86%E8%A8%98/" itemprop="url" rel="index">
+                  <span itemprop="name">webOS OSE 研究筆記</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在測試 <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> (webOS Open Source Edition) 的時候，我注意到了 webOS OSE 的核心組件是採用 <code>Qt5</code> 製作的，搭配的版本是 <code>Qt 5.6.3</code> 。
+</p>
+
+<p>
+那又怎樣? 實際上 <code>Qt 5.6.3</code> 這個 LTS (Long Term Support) 的版本在今年 (2019) 的 3 月已經<a href="https://blog.qt.io/blog/2018/11/29/support-qt-5-6-lts-ends-march-2019/" target="_blank" rel="noopener">停止支援</a>了，因此必須要來說說這件事對我們這群玩家以及想將 webOS OSE 用在自己商品上的人的影響。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/d9eb5a84/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/ecf86c20/" itemprop="url">
+                webOS OSE 研究筆記: 安裝 SDK
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-04-15T23:50:35+08:00" content="2019-04-15">
+            2019-04-15
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/webOS-OSE-%E7%A0%94%E7%A9%B6%E7%AD%86%E8%A8%98/" itemprop="url" rel="index">
+                  <span itemprop="name">webOS OSE 研究筆記</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在建立完 <a href="https://coldnew.github.io/9df34338/">Raspberry Pi 3</a> 或是 <a href="https://coldnew.github.io/eb8ad016/">QEMU x86</a> 的 <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 系統後，我們就可以準備來開始寫我們的程式了。
+</p>
+
+<p>
+不過在這之前，先來裝個 SDK 來方便專案的管理與發佈 (deploy)。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/ecf86c20/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/eb8ad016/" itemprop="url">
+                webOS OSE 研究筆記: 建立 QEMUx86 模擬器
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-04-14T21:47:36+08:00" content="2019-04-14">
+            2019-04-14
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/webOS-OSE-%E7%A0%94%E7%A9%B6%E7%AD%86%E8%A8%98/" itemprop="url" rel="index">
+                  <span itemprop="name">webOS OSE 研究筆記</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 <a href="https://coldnew.github.io/9df34338/">webOS OSE 研究筆記: 編譯 webOS OSE 到 Raspberry Pi 3</a> 一文中我們題到了如何透過 <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 提供的基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 的編譯系統，建立開機卡片讓你的 Raspberry Pi 3 執行  <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 系統。
+</p>
+
+<p>
+而在這邊文章中，我們將改建立用於 webOS OSE 的模擬器環境，以便於手邊沒有 Raspberry Pi 3 可以用時候的開發。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/eb8ad016/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/b728d8e8/" itemprop="url">
+                Ultra96 開發紀錄: 開箱文
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-02-26T19:12:39+08:00" content="2019-02-26">
+            2019-02-26
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultra96/" itemprop="url" rel="index">
+                  <span itemprop="name">Ultra96 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 <a href="https://coldnew.github.io/categories/ultrazed-3eg-pciecc/">UltraZed-EG PCIe Carrier Card 開發紀錄</a> 系列文中，筆者曾經撰寫一些關於 <a href="https://www.xilinx.com/products/silicon-devices/soc/zynq-ultrascale-mpsoc.html" target="_blank" rel="noopener">Xilinx UltraScale+ MPSoC</a> 系列的 <code>Zynq UltraScale+ EG</code> 這顆同時具有 ARM Cortex-A53、ARM Cortex-R5 以及 Xilinx FPGA 的 SOC。
+</p>
+
+<p>
+不過由於當時系列文使用的開發板是向人借的，最近也還回去了。因此筆者自行入手了同樣為 <a href="https://www.avnet.com" target="_blank" rel="noopener">AVNET</a> 公司所出品的 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="noopener">Ultra96</a>。
+</p>
+
+<p>
+本文先做簡單的開箱動作以及提供一些相關的 FAQ，正式開發紀錄則會下篇後才開始。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/b728d8e8/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/1124805e/" itemprop="url">
+                Librem 5 Dev-Kit 開發紀錄: 硬體認識 - 核心板篇
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-07-06T11:35:06+08:00" content="2019-07-06">
+            2019-07-06
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/librem-5-dev-kit/" itemprop="url" rel="index">
+                  <span itemprop="name">Librem 5 Dev-Kit 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 <a href="https://coldnew.github.io/4c50d1c9/">Librem 5 Dev-Kit 開發紀錄: 開箱文</a> 一文中，我們開箱了 <a href="https://puri.sm/products/librem-5/" target="_blank" rel="noopener">Librem 5</a>  手機的開發板。
+</p>
+
+<p>
+由於這一塊開發板其實也可以區分為核心板以及擴充板，因此筆者在這次的硬體介紹部份將會切成兩篇文章，好方便後續開發時的查看。
+</p>
+
+<p>
+在這篇文章中，我們將看看 <a href="https://puri.sm/products/librem-5/" target="_blank" rel="noopener">Librem 5</a> 所使用的核心板，也就是 <a href="https://emcraft.com/" target="_blank" rel="noopener">EmCraft</a> 所販售的 <a href="https://emcraft.com/products/868" target="_blank" rel="noopener">NXP i.MX 8M System-On-Module</a>。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/1124805e/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/">&amp;laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/">&amp;raquo;</a>
+  </nav>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+ </div>
+
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+
+</body>
+</html>

@@ -1,34 +1,1209 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="emacs," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="emacs 預計在 emacs 25 加入 dynamic modules 的功能，透過這個功能我們可以使用 C&#x2F;C++ 等語言將你的 emacs-lisp 函式變成改寫成如同 builtin 的模組，來提升 emacs-lisp 執行速度或是讓 emacs-lisp 可以與外部函式庫互動。    在本篇文章中，我將稍微講解自己測試 dynamic modules 的心得。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="淺談 emacs25 的 dynamic modules 功能">
+<meta property="og:url" content="https://coldnew.github.io/2d16cc25/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="emacs 預計在 emacs 25 加入 dynamic modules 的功能，透過這個功能我們可以使用 C&#x2F;C++ 等語言將你的 emacs-lisp 函式變成改寫成如同 builtin 的模組，來提升 emacs-lisp 執行速度或是讓 emacs-lisp 可以與外部函式庫互動。    在本篇文章中，我將稍微講解自己測試 dynamic modules 的心得。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2016-01-03T02:42:00.000Z">
+<meta property="article:modified_time" content="2016-01-03T02:42:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="emacs">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 淺談 emacs25 的 dynamic modules 功能 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/2d16cc25/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              淺談 emacs25 的 dynamic modules 功能
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2016-01-03T10:42:00+08:00" content="2016-01-03">
+            2016-01-03
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+emacs 預計在 emacs 25 加入 <code>dynamic modules</code> 的功能，透過這個功能我們可以使用
+C/C++ 等語言將你的 emacs-lisp 函式變成改寫成如同 builtin 的模組，來提升
+emacs-lisp 執行速度或是讓 emacs-lisp 可以與外部函式庫互動。
+</p>
+
+<p>
+在本篇文章中，我將稍微講解自己測試 dynamic modules 的心得。
+</p>
+
+<a id="more"></a>
+
+<div class="alert">
+<p>
+dynamic modules 功能處於測試階段，由於此功能可能在未來有進行不同的更動，因此預設
+編譯時這選項 (<code>--with-modules</code>) 是關閉的。
+</p>
+
+</div>
+
+<div id="outline-container-org4c49b18" class="outline-2">
+<h2 id="org4c49b18">編譯 emacs</h2>
+<div class="outline-text-2" id="text-org4c49b18">
+<p>
+目前 <code>dynamic modules</code> 功能已經併入到 master branch, 因此只要下載 master branch 即可測試。
+</p>
+
+<p>
+當然，你的系統必須滿足編譯 emacs 的條件，具體需要安裝的函式庫就不在本文贅述。
+</p>
+
+<p>
+我們首先透過 git 去下載目前最新的版本的 emacs 原始碼並進行編譯，編譯 emacs 時記得打開 <code>--with-modules</code> 這個選項，這樣才能使用 dynamic modules 功能。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git clone http://git.sv.gnu.org/r/emacs.git
+<span style="color: #ccaaff;">cd</span> emacs
+./autogen.sh
+./configure --with-modules --prefix=$<span style="color: #aadddd;">{</span><span style="color: #aaccff;">INSTALL_PATH</span><span style="color: #aadddd;">}</span> <span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">ex: --prefix=/usr</span>
+make &amp;&amp; make install
+</pre>
+</div>
+
+<p>
+編譯好支援 dynamic modules 功能的 emacs 後，讓我們來撰寫第一個最簡單的模組吧，不
+過為了方便學習，先從 emacs-lisp 版本來寫起。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org67d1d67" class="outline-2">
+<h2 id="org67d1d67">Hello World (elisp 版本)</h2>
+<div class="outline-text-2" id="text-org67d1d67">
+<p>
+在 emacs-lisp 中，除了使用 <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Functions.html" target="_blank" rel="noopener">defun</a> 以外，我們也可以使用 <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Functions.html" target="_blank" rel="noopener">fset</a> 搭配匿名函式來完成我
+們要使用的 function。
+</p>
+
+<p>
+我們建立一個名為 <code>hello-elisp.el</code> 的模組，這個模組中我們宣告一個名為 <code>hello</code> 的
+函式，當執行他的時候就回傳 <code>Hello Emacs</code> 這個字串。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">A simple function define with `</span><span style="color: #ccaaff; font-style: italic;">fset</span><span style="color: #9ac; font-style: italic;">' following code work the same as</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">(defun hello () "Hello Emacs")</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span>
+
+<span style="color: #aadddd;">(</span>fset 'hello '<span style="color: #81d4fa;">(</span>lambda <span style="color: #aaccff;">()</span> <span style="color: #97abc6; font-style: italic;">"Hello Emacs"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">we need to provide this feature to make emacs can use following method to</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">load it</span>
+<span style="color: #5f5f5f; font-style: italic;">;;  </span><span style="color: #9ac; font-style: italic;">(require 'hello-elisp)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">provide</span> '<span style="color: #ccaaff;">hello-elisp</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">hello-elisp.el ends here</span>
+</pre>
+</div>
+
+<p>
+在這個檔案的最後加上 <code>provide</code> 可以讓 emacs 透過 <code>require</code> 的功能來找到他，假設
+你這份 <code>hello-elisp.el</code> 存放在 <code>~/test</code> 資料夾下，則我們可以在 emacs 中這樣讀取他
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Add ~/test to load-path let emacs can find it</span>
+<span style="color: #aadddd;">(</span>add-to-list 'load-path <span style="color: #aadddd;">"~/test"</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">load the hello-elisp module</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">you can also use (load "~/test/hello-elisp.el") but not recommand</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">hello-elisp</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">call our hello function and a string should return</span>
+<span style="color: #aadddd;">(</span>hello<span style="color: #aadddd;">)</span>   <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; Hello Emacs</span>
+</pre>
+</div>
+
+<p>
+當我們執行到 <code>(hello)</code> 時，就會看到這個函式回傳 <code>Hello Emacs</code> 字串出來，於是 emacs-lisp 版本的 hello 函式就完成了 !
+</p>
+
+<p>
+現在讓我們將他變成 C 語言版本的模組。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org038b13a" class="outline-2">
+<h2 id="org038b13a">Hello World (c 版本)</h2>
+<div class="outline-text-2" id="text-org038b13a">
+<p>
+我們要怎樣建立我們的 C 語言版本的模組呢? 其實在你的 emacs 原始碼 <code>modules</code> 資料
+夾下有 <code>modhelp.py</code> 這個檔案，他會幫忙產生出可以使用的模組樣板，不過本文為了講解
+方便就直接用手刻吧 ~
+</p>
+</div>
+
+<div id="outline-container-orge1c0db6" class="outline-3">
+<h3 id="orge1c0db6">Makefile</h3>
+<div class="outline-text-3" id="text-orge1c0db6">
+<p>
+我們首先先弄 <code>Makefile</code> 來紀錄編譯這個模組的方法，在這邊 <code>EMACS_ROOT</code> 指的是 emacs 原始碼的資料夾， <code>EMACS</code> 則是有打開 <code>--with-modules</code> 選項後編譯出來的 emacs 執行檔。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-makefile"><span style="color: #aaccff;">EMACS_ROOT</span> ?=  ../..
+<span style="color: #aaccff;">EMACS</span> ?= emacs
+
+<span style="color: #aaccff;">CC</span>      = gcc
+<span style="color: #aaccff;">LD</span>      = gcc
+<span style="color: #aaccff;">CPPFLAGS</span> = -I$<span style="color: #aadddd;">(</span><span style="color: #aaccff;">EMACS_ROOT</span><span style="color: #aadddd;">)</span>/src
+<span style="color: #aaccff;">CFLAGS</span> = -std=gnu99 -ggdb3 -O2 -Wall -fPIC $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">CPPFLAGS</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aaccff;">.PHONY</span> : clean test
+
+<span style="color: #aaccff;">all</span>: test
+
+<span style="color: #aaccff;">hello-core.so</span>: hello-core.o
+  $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">LD</span><span style="color: #aadddd;">)</span> -L . -shared $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">LDFLAGS</span><span style="color: #aadddd;">)</span> -o <span style="color: #aaccff;">$</span><span style="color: #ccaaff;">@</span> $<span style="color: #ccaaff;">^</span>
+
+<span style="color: #aaccff;">hello-core.o</span>: hello-core.c
+  $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">CC</span><span style="color: #aadddd;">)</span> $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">CFLAGS</span><span style="color: #aadddd;">)</span> -c -o <span style="color: #aaccff;">$</span><span style="color: #ccaaff;">@</span> $<span style="color: #ccaaff;">^</span>
+
+<span style="color: #aaccff;">clean</span>:
+  -rm -f hello-core.o hello-core.so
+
+<span style="color: #aaccff;">test</span>: hello-core.so
+  $<span style="color: #aadddd;">(</span><span style="color: #aaccff;">EMACS</span><span style="color: #aadddd;">)</span> -Q -batch -L . -l test/test.el -f ert-run-tests-batch-and-exit
+</pre>
+</div>
+
+<p>
+為了確認我們編譯出來的 .so 模組是否有正確執行，我們另外弄一個 <code>test.el</code> 來執行 <a href="https://www.gnu.org/software/emacs/manual/html_mono/ert.html" target="_blank" rel="noopener">ert</a> 測試，因此先來完成這個測試程式。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf0b1403" class="outline-3">
+<h3 id="orgf0b1403">test.el</h3>
+<div class="outline-text-3" id="text-orgf0b1403">
+<p>
+在 test.el 中我們載入了 <a href="https://www.gnu.org/software/emacs/manual/html_mono/ert.html" target="_blank" rel="noopener">ert</a> 模組以及我們即將要編譯出來的 <code>hello-core.so</code> 模組，注意到載入 dynamic module 模組的方式和載入一般 .el 的函式庫是一樣的。
+</p>
+
+<p>
+於是我們就可以寫個簡單的測試來確認等等要寫的 C 語言版本的 <code>hello-c</code> 函式是否會真的回傳 "Hello Emacs" 字串回來。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #5f5f5f; font-style: italic;">;;; </span><span style="color: #9ac; font-style: italic;">test.el --- hello test</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">ert</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">hello-core</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ert-deftest</span> <span style="color: #aaccff;">test-hello</span> <span style="color: #81d4fa;">()</span>
+  <span style="color: #97abc6; font-style: italic;">"hello-c should return </span><span style="color: #ccaaff; font-style: italic;">\</span><span style="color: #ff8888; font-style: italic;">"</span><span style="color: #97abc6; font-style: italic;">Hello Emacs</span><span style="color: #ccaaff; font-style: italic;">\</span><span style="color: #ff8888; font-style: italic;">"</span><span style="color: #97abc6; font-style: italic;"> string."</span>
+  <span style="color: #81d4fa;">(</span>should <span style="color: #aaccff;">(</span>string= <span style="color: #aadddd;">"Hello Emacs"</span> <span style="color: #aaeecc;">(</span>hello-c<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;;; </span><span style="color: #9ac; font-style: italic;">test.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6a9f3b6" class="outline-3">
+<h3 id="org6a9f3b6">hello-core.c</h3>
+<div class="outline-text-3" id="text-org6a9f3b6">
+<p>
+接下來就到了我們的重頭戲， <code>hello-core.c</code> 這個模組上，我們首先添加可能會需要的標頭檔
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdio.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdlib.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">string.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">assert.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">emacs-module.h</span><span style="color: #aadddd;">&gt;</span>       <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">in emacs source code</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+</pre>
+</div>
+
+<p>
+接下來我們要定義一個特別的變數，這和寫 gcc plugin 是一樣的，就是要告訴 emacs 說這個 .so 檔是 <code>GPL 相容</code> 的，如果你不添加這個符號進去，那你的 emacs 就不會載入你寫的這個模組。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">`plugin_is_GPL_compatible' indicates that its code is released under the GPL</span>
+<span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">or compatible license; Emacs will refuse to load modules that don't export</span>
+<span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">such a symbol.</span>
+<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">plugin_is_GPL_compatible</span>;
+</pre>
+</div>
+
+<p>
+為了可以載入模組，我們需要一個進入點來讓 emacs 知道這個模組的相關資訊，並透過 <code>fset</code> 宣告了名為 <code>hello-c</code> 的函式，其原型會透過後面定義的 <code>Fcall_hello</code> 函式來實現，而在這個進入點中我們也提供了這個模組的名稱，這樣我們就可以在 emacs-lisp 中透過 <code>require</code> 來組入這個模組。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Module init function.</span><span style="color: #5f5f5f; font-style: italic;">  */</span>
+<span style="color: #fff59d;">int</span>
+<span style="color: #aaccff;">emacs_module_init</span><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">emacs_runtime</span> *<span style="color: #aaccff;">ert</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+        <span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span> = ert-&gt;get_environment<span style="color: #81d4fa;">(</span>ert<span style="color: #81d4fa;">)</span>;
+
+        <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Bind NAME to FUN.</span>
+        <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">(fset 'hello-c '(lambda () "Hello Emacs"))</span>
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfset</span> = env-&gt;intern<span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"fset"</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qsym</span> = env-&gt;intern<span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"hello-c"</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfn</span> = env-&gt;make_function<span style="color: #81d4fa;">(</span>env, <span style="color: #ccaaff;">0</span>, <span style="color: #ccaaff;">0</span>, Fcall_hello, <span style="color: #aadddd;">"return hello string"</span>, <span style="color: #ccaaff;">NULL</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">fset_args</span><span style="color: #81d4fa;">[]</span> = <span style="color: #81d4fa;">{</span> Qsym, Qfn <span style="color: #81d4fa;">}</span>;
+
+        env-&gt;funcall<span style="color: #81d4fa;">(</span>env, Qfset, <span style="color: #ccaaff;">2</span>, fset_args<span style="color: #81d4fa;">)</span>;
+
+        <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Provide FEATURE to Emacs.</span>
+        <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">(provide 'hello-core)</span>
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfeat</span> = env-&gt;intern<span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"hello-core"</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qprovide</span> = env-&gt;intern<span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"provide"</span><span style="color: #81d4fa;">)</span>;
+        <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">provide_args</span><span style="color: #81d4fa;">[]</span> = <span style="color: #81d4fa;">{</span> Qfeat <span style="color: #81d4fa;">}</span>;
+
+        env-&gt;funcall<span style="color: #81d4fa;">(</span>env, Qprovide, <span style="color: #ccaaff;">1</span>, provide_args<span style="color: #81d4fa;">)</span>;
+
+        <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">0</span>;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+
+<p>
+最後就是實現我們的 <code>hello</code> 函式的方法，我們透過 <code>Fcall_hello</code> 作為中間層來和 <code>hello</code> 函式溝通，並回傳 emacs-lisp 的字串類型回去給 emacs-vm。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *
+<span style="color: #aaccff;">hello</span><span style="color: #aadddd;">()</span>
+<span style="color: #aadddd;">{</span>
+        <span style="color: #aaffaa;">return</span> <span style="color: #aadddd;">"Hello Emacs"</span>;
+<span style="color: #aadddd;">}</span>
+
+<span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">emacs_value</span>
+<span style="color: #aaccff;">Fcall_hello</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span>, <span style="color: #fff59d;">ptrdiff_t</span> <span style="color: #aaccff;">nargs</span>, <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">args</span><span style="color: #81d4fa;">[]</span>, <span style="color: #fff59d;">void</span> *<span style="color: #aaccff;">data</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+        <span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">str</span> = hello<span style="color: #81d4fa;">()</span>;
+        <span style="color: #aaffaa;">return</span> env-&gt;make_string<span style="color: #81d4fa;">(</span>env, str, strlen<span style="color: #aaccff;">(</span>str<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5e160d8" class="outline-3">
+<h3 id="org5e160d8">驗證你寫的模組</h3>
+<div class="outline-text-3" id="text-org5e160d8">
+<p>
+都完成後，你就可以使用 <code>make test</code> 去執行測試，一切正常的話就會像這個樣子。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">Running <span style="color: #ccaaff;">1</span> tests <span style="color: #aadddd;">(</span>2016-01-03 13:10:24+0800<span style="color: #aadddd;">)</span>
+   passed  1/1  test-hello
+</pre>
+</div>
+
+<p>
+當然，你也可以啟動你的 emacs 並且將這個 .so 加入到你的 <code>load-path</code> 中，並執行他
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span>add-to-list 'load-path <span style="color: #aadddd;">"~/emacs-hello"</span><span style="color: #aadddd;">)</span> <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">path contains hello-core.so</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">you can use (load "~/emacs-hello/hello-core.so") directly, but we use</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">require here.</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">require</span> '<span style="color: #ccaaff;">hello-core</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span>hello-c<span style="color: #aadddd;">)</span>               <span style="color: #5f5f5f; font-style: italic;">; </span><span style="color: #9ac; font-style: italic;">=&gt; "Hello Emacs"</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8950cdd" class="outline-2">
+<h2 id="org8950cdd">參考 mod-test.c 進行更多的簡化</h2>
+<div class="outline-text-2" id="text-org8950cdd">
+<p>
+在上面的 C 語言版本中，我們每次定義一個函式都要這樣一大串其實還蠻累人的
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Bind NAME to FUN.</span>
+<span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">(fset 'hello-c '(lambda () "Hello Emacs"))</span>
+<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfset</span> = env-&gt;intern<span style="color: #aadddd;">(</span>env, <span style="color: #aadddd;">"fset"</span><span style="color: #aadddd;">)</span>;
+<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qsym</span> = env-&gt;intern<span style="color: #aadddd;">(</span>env, <span style="color: #aadddd;">"hello-c"</span><span style="color: #aadddd;">)</span>;
+<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfn</span> = env-&gt;make_function<span style="color: #aadddd;">(</span>env, <span style="color: #ccaaff;">0</span>, <span style="color: #ccaaff;">0</span>, Fcall_hello, <span style="color: #aadddd;">"return hello string"</span>, <span style="color: #ccaaff;">NULL</span><span style="color: #aadddd;">)</span>;
+<span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">fset_args</span><span style="color: #aadddd;">[]</span> = <span style="color: #aadddd;">{</span> Qsym, Qfn <span style="color: #aadddd;">}</span>;
+</pre>
+</div>
+
+<p>
+這邊可以參考 emacs 程式碼中的 <a href="https://github.com/jwiegley/emacs/blob/54617ada51e49af04f0c3f609e724aafcaf0df16/modules/mod-test/mod-test.c" target="_blank" rel="noopener">src/modules/mod-test/mod-test.c</a> ，先加入這樣的實現
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Provide FEATURE to Emacs.</span>
+<span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">void</span>
+<span style="color: #aaccff;">provide</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span>, <span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">feature</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfeat</span> = env-&gt;intern <span style="color: #81d4fa;">(</span>env, feature<span style="color: #81d4fa;">)</span>;
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qprovide</span> = env-&gt;intern <span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"provide"</span><span style="color: #81d4fa;">)</span>;
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">args</span><span style="color: #81d4fa;">[]</span> = <span style="color: #81d4fa;">{</span> Qfeat <span style="color: #81d4fa;">}</span>;
+
+    env-&gt;funcall <span style="color: #81d4fa;">(</span>env, Qprovide, <span style="color: #ccaaff;">1</span>, args<span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
+
+<span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">Bind NAME to FUN.</span>
+<span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">void</span>
+<span style="color: #aaccff;">bind_function</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span>, <span style="color: #aaffaa;">const</span> <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">name</span>, <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Sfun</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qfset</span> = env-&gt;intern <span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"fset"</span><span style="color: #81d4fa;">)</span>;
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">Qsym</span> = env-&gt;intern <span style="color: #81d4fa;">(</span>env, name<span style="color: #81d4fa;">)</span>;
+    <span style="color: #fff59d;">emacs_value</span> <span style="color: #aaccff;">args</span><span style="color: #81d4fa;">[]</span> = <span style="color: #81d4fa;">{</span> Qsym, Sfun <span style="color: #81d4fa;">}</span>;
+
+    env-&gt;funcall <span style="color: #81d4fa;">(</span>env, Qfset, <span style="color: #ccaaff;">2</span>, args<span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+
+<p>
+這樣在我們實作 <code>emacs_module_int</code> 的時候，就可以透過 C 語言的巨集簡化函式的宣告
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #fff59d;">int</span>
+<span style="color: #aaccff;">emacs_module_init</span><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">struct</span> <span style="color: #fff59d;">emacs_runtime</span> *<span style="color: #aaccff;">ert</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+    <span style="color: #fff59d;">emacs_env</span> *<span style="color: #aaccff;">env</span> = ert-&gt;get_environment<span style="color: #81d4fa;">(</span>ert<span style="color: #81d4fa;">)</span>;
+
+<span style="color: #ff8888;">#define</span> <span style="color: #aaccff;">DEFUN</span><span style="color: #81d4fa;">(</span><span style="color: #aaccff;">lsym</span>, <span style="color: #aaccff;">csym</span>, <span style="color: #aaccff;">amin</span>, <span style="color: #aaccff;">amax</span>, <span style="color: #aaccff;">doc</span>, <span style="color: #aaccff;">data</span><span style="color: #81d4fa;">)</span>                        \
+    bind_function <span style="color: #81d4fa;">(</span>env, lsym,                                           \
+                   env-&gt;make_function <span style="color: #aaccff;">(</span>env, amin, amax, csym, doc, data<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+
+    DEFUN <span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"fib-c"</span>, Fcall_fib_c, <span style="color: #ccaaff;">1</span>, <span style="color: #ccaaff;">1</span>, <span style="color: #aadddd;">"Calculate Fibonacci number with recursive function call."</span>, <span style="color: #ccaaff;">NULL</span><span style="color: #81d4fa;">)</span>;
+    DEFUN <span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"fib-loop-c"</span>, Fcall_fib_loop_c, <span style="color: #ccaaff;">1</span>, <span style="color: #ccaaff;">1</span>, <span style="color: #aadddd;">"Calculate Fibonacci number with loop."</span>, <span style="color: #ccaaff;">NULL</span><span style="color: #81d4fa;">)</span>;
+
+<span style="color: #ff8888;">#undef</span> DEFUN
+
+    provide<span style="color: #81d4fa;">(</span>env, <span style="color: #aadddd;">"fib-core"</span><span style="color: #81d4fa;">)</span>;
+    <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">0</span>;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4352118" class="outline-2">
+<h2 id="org4352118">使用 C/C++ 寫模組一定比較快?</h2>
+<div class="outline-text-2" id="text-org4352118">
+<p>
+既然 emacs 終於增加了 dynamic modules 功能，那是不是把大多數的 emacs-lisp 改寫成 c/c++ 模組會比較好？實際上是不一定，我們先看看我用 C 寫的 fibonacci 效能和 emacs-lisp 的比較狀況
+</p>
+
+<div class="row show-grid"><div class="col-md-6">
+<p>
+<b>emacs-lisp</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">fib-elisp</span> <span style="color: #81d4fa;">(</span>n<span style="color: #81d4fa;">)</span>
+  <span style="color: #97abc6; font-style: italic;">"Fibonacci in recursive function call."</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaccff;">(</span>= <span style="color: #ccaaff;">0</span> n<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">0</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaeecc;">(</span>= <span style="color: #ccaaff;">1</span> n<span style="color: #aaeecc;">)</span> <span style="color: #ccaaff;">1</span>
+      <span style="color: #aaeecc;">(</span>+ <span style="color: #ccaaff;">(</span>fib-elisp <span style="color: #fff59d;">(</span>- n <span style="color: #ccaaff;">1</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+         <span style="color: #ccaaff;">(</span>fib-elisp <span style="color: #fff59d;">(</span>- n <span style="color: #ccaaff;">2</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+<p>
+Elapsed time: <code>211.466410s</code>
+</p>
+
+</div><div class="col-md-6 ">
+<p>
+<b>c</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">fib</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">n</span><span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
+        <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">0</span> == n<span style="color: #81d4fa;">)</span> <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">0</span>;
+        <span style="color: #aaffaa;">if</span> <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">1</span> == n<span style="color: #81d4fa;">)</span> <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">1</span>;
+
+        <span style="color: #aaffaa;">return</span> fib<span style="color: #81d4fa;">(</span>n - <span style="color: #ccaaff;">1</span><span style="color: #81d4fa;">)</span> + fib <span style="color: #81d4fa;">(</span>n - <span style="color: #ccaaff;">2</span><span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+<p>
+Elapsed time: <code>1.389031s</code>
+</p>
+</div> </div>
+
+<p>
+以遞迴的版本來看，用 C 語言寫的 Fibonacci 數列運算數度是大幅勝過 emacs-lisp，那如果是使用迴圈的版本呢？我們再來比較一次看看
+</p>
+
+<div class="row show-grid"><div class="col-md-6">
+<p>
+<b>emacs-lisp</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">fib-loop-elisp</span> <span style="color: #81d4fa;">(</span>n<span style="color: #81d4fa;">)</span>
+  <span style="color: #97abc6; font-style: italic;">"Calculate Fibonacci number with loop."</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>a <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span>
+        <span style="color: #aaeecc;">(</span>b <span style="color: #ccaaff;">1</span><span style="color: #aaeecc;">)</span>
+        <span style="color: #aaeecc;">(</span>tmp <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">dotimes</span> <span style="color: #aaeecc;">(</span>i n <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">setq</span> tmp a<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">setq</span> a b<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">setq</span> b <span style="color: #ccaaff;">(</span>+ tmp b<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    a<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+<p>
+Elapsed time: <code>0.002195s</code>
+</p>
+
+</div><div class="col-md-6 ">
+<p>
+<b>c</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #aaffaa;">static</span> <span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">fib_loop</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">intmax_t</span> <span style="color: #aaccff;">n</span><span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
+        <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">a</span> = <span style="color: #ccaaff;">0</span>, <span style="color: #aaccff;">b</span> = <span style="color: #ccaaff;">1</span>;
+        <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = <span style="color: #ccaaff;">0</span>; i &lt; n; i++<span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+                <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">tmp</span> = a;
+                a = b;
+                b = tmp + b;
+        <span style="color: #81d4fa;">}</span>
+
+        <span style="color: #aaffaa;">return</span> a;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+<p>
+Elapsed time: <code>0.000072s</code>
+</p>
+</div> </div>
+
+<p>
+好像還是用 C 寫的效能比較好？我們來看看一個反例，用 C++ 寫的模仿 <a href="https://github.com/magnars/s.el" target="_blank" rel="noopener">s.el</a> 的功能
+</p>
+<div class="row show-grid"><div class="col-md-6">
+<p>
+<b>emacs-lisp</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">s-trim-left</span> <span style="color: #81d4fa;">(</span>s<span style="color: #81d4fa;">)</span>
+  <span style="color: #97abc6; font-style: italic;">"Remove whitespace at the beginning of S."</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaccff;">(</span>string-match <span style="color: #aadddd;">"</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">\</span><span style="color: #aadddd;">`[ </span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">t</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">r</span><span style="color: #aadddd;">]+"</span> s<span style="color: #aaccff;">)</span>
+      <span style="color: #aaccff;">(</span>replace-match <span style="color: #aadddd;">""</span> t t s<span style="color: #aaccff;">)</span>
+    s<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+<p>
+Elapsed time: <code>0.000780s</code>
+</p>
+
+</div><div class="col-md-6 ">
+<p>
+<b>c++</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">string</span> <span style="color: #aaccff;">ltrim</span><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">const</span> <span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">string</span> &amp;<span style="color: #aaccff;">s</span><span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
+    <span style="color: #aaffaa;">static</span> <span style="color: #aaffaa;">const</span> <span style="color: #ccaaff;">std</span>::<span style="color: #fff59d;">regex</span> <span style="color: #aaccff;">lws</span><span style="color: #81d4fa;">{</span><span style="color: #aadddd;">"^[ </span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">t</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">r</span><span style="color: #aadddd;">]+"</span>,
+        <span style="color: #ccaaff;">std</span>::<span style="color: #ccaaff;">regex_constants</span>::extended<span style="color: #81d4fa;">}</span>;
+    <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">std</span>::regex_replace<span style="color: #81d4fa;">(</span>s, lws, <span style="color: #aadddd;">""</span><span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+<p>
+Elapsed time: <code>0.044819s</code>
+</p>
+</div> </div>
+<p>
+在這個版本中，為了方便對照因此都是使用 <code>regex</code> 來處理字串，但是 C++ 的版本結果就比 emacs-lisp 慢了許多。
+雖然我們可以知道效能瓶頸應該是出在 <code>std::regex</code> 身上，但這也同時說明了不是什麼東西都用 C/C++ 重寫一定可以獲得最佳效能。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga2c734d" class="outline-2">
+<h2 id="orga2c734d">總結</h2>
+<div class="outline-text-2" id="text-orga2c734d">
+<p>
+<code>dynamic module</code> 終於可以在 emacs 中使用，這個消息對我而言其實是蠻開心的，畢竟這代表了我可以透過自己寫的模組去實現更多的用途，而不一定要強制修改 emacs 核心程式碼。
+</p>
+
+<p>
+目前我測試用的程式碼已經放到 <a href="https://github.com/coldnew/emacs-module-test" target="_blank" rel="noopener">GitHub</a> 上，有興趣也歡迎來玩玩看，看能不能替 emacs 增加更多有趣的功能。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org52875f5" class="outline-2">
+<h2 id="org52875f5">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org52875f5">
+<p>
+<code>[1]</code> <a href="http://syohex.hatenablog.com/entry/2015/12/16/185458" target="_blank" rel="noopener">ejectで學ぶ Dynamic module 機能</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="http://qiita.com/syohex/items/5e06a34f1426fd2f28d8#_reference-c55c6773db283acc422d" target="_blank" rel="noopener">Emacsから Cの関數をつかう -&gt; はやい</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="http://qiita.com/syohex/items/fa71f1c61107b5e30c43" target="_blank" rel="noopener">Emacsに mrubyを組み込んでみた</a>
+</p>
+
+<p>
+<code>[4]</code> <a href="https://lists.gnu.org/archive/html/emacs-devel/2015-02/msg00960.html" target="_blank" rel="noopener">https://lists.gnu.org/archive/html/emacs-devel/2015-02/msg00960.html</a>
+</p>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/emacs/" rel="tag">#emacs</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2c9c3b0f/" rel="prev">使用 codox 與 CircleCI 建立 Clojure 專案的文檔</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/6a7aa5c1/" rel="next">在 emacs 下使用 mu4e 收發郵件</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org4c49b18"><span class="nav-text">編譯 emacs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org67d1d67"><span class="nav-text">Hello World (elisp 版本)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org038b13a"><span class="nav-text">Hello World (c 版本)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orge1c0db6"><span class="nav-text">Makefile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf0b1403"><span class="nav-text">test.el</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org6a9f3b6"><span class="nav-text">hello-core.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5e160d8"><span class="nav-text">驗證你寫的模組</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8950cdd"><span class="nav-text">參考 mod-test.c 進行更多的簡化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4352118"><span class="nav-text">使用 C&#x2F;C++ 寫模組一定比較快?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga2c734d"><span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org52875f5"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

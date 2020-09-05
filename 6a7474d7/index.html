@@ -1,34 +1,1396 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="clojure,clojurescript,nodejs," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="Brainfuck 是一個只具有 8 個指令的神奇語言，其程式碼如其名，以各程式 語言都會實作的 Hello World! 為例，其程式碼長的像這樣:    ++++++++++[&gt;+++++++&gt;++++++++++&gt;+++&gt;+&lt;&lt;&lt;&lt;-]&gt;++.&gt;+.+++++++..+++.&gt;++.&lt;&lt;++++++++++++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 ClojureScript 來寫 Brainfuck 的直譯器">
+<meta property="og:url" content="https://coldnew.github.io/6a7474d7/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="Brainfuck 是一個只具有 8 個指令的神奇語言，其程式碼如其名，以各程式 語言都會實作的 Hello World! 為例，其程式碼長的像這樣:    ++++++++++[&gt;+++++++&gt;++++++++++&gt;+++&gt;+&lt;&lt;&lt;&lt;-]&gt;++.&gt;+.+++++++..+++.&gt;++.&lt;&lt;++++++++++++">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/6a7474d7/brainfuck_visual.png">
+<meta property="article:published_time" content="2013-03-07T05:12:00.000Z">
+<meta property="article:modified_time" content="2019-09-20T05:38:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="clojure">
+<meta property="article:tag" content="clojurescript">
+<meta property="article:tag" content="nodejs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/6a7474d7/brainfuck_visual.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 使用 ClojureScript 來寫 Brainfuck 的直譯器 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/6a7474d7/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              使用 ClojureScript 來寫 Brainfuck 的直譯器
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-09-20T13:38:00+08:00" content="2019-09-20">
+            2019-09-20
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+<a href="https://zh.wikipedia.org/wiki/Brainfuck" target="_blank" rel="noopener">Brainfuck</a> 是一個只具有 8 個指令的神奇語言，其程式碼如其名，以各程式
+語言都會實作的 <b>Hello World!</b> 為例，其程式碼長的像這樣:
+</p>
+
+<pre class="example">
+++++++++++[&gt;+++++++&gt;++++++++++&gt;+++&gt;+&lt;&lt;&lt;&lt;-]&gt;++.&gt;+.+++++++..+++.&gt;++.&lt;&lt;+++++++++++++++.&gt;.+++.------.--------.&gt;+.&gt;.
+</pre>
+
+
+<p>
+有沒有開始覺得頭腦很 X 呢？這就是 Brainfuck 語言，由於 fuck 在英文為不雅字，
+有些人會用 Brainf**k 或是 bf 來替代。
+</p>
+
+<p>
+Brainfuck 起始於 1993 年，由 Urban MÜller 所設計，最初設計的目標為能
+夠做出一個極為簡單，並且符合 <a href="http://en.wikipedia.org/wiki/Turing_completeness" target="_blank" rel="noopener">Turing complete</a> 的程式語言，由於這個語
+言設計非常為精巧，且僅有 8 個命令，很常被用於 Compiler 的教材，幾乎所有程
+式語言都具有 Brainfuck 的直譯器實現，甚至還有團隊在比賽誰設計的
+Brainfuck 直譯器能夠以最短的速度執行完 Brainfuck 程式。
+</p>
+
+<div id="outline-container-org2d9caf2" class="outline-2">
+<h2 id="org2d9caf2">Brainfuck 語言指令與含義</h2>
+<div class="outline-text-2" id="text-org2d9caf2">
+<p>
+Brainfuck 共包含有八種指令，其中兩個是 I/O 動作，其他的部份則是對記
+憶體區塊的讀取/修改，以 C 語言的觀點來看，BrainFuck 就等於是指標
+的運作，下表列出了其指令與含義。
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">指令</th>
+<th scope="col" class="org-left">對應的 C 語言</th>
+<th scope="col" class="org-left">含義</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&gt;</td>
+<td class="org-left">++ptr;</td>
+<td class="org-left">指標加一</td>
+</tr>
+
+<tr>
+<td class="org-left">&lt;</td>
+<td class="org-left">- -ptr;</td>
+<td class="org-left">指標減一</td>
+</tr>
+
+<tr>
+<td class="org-left">+</td>
+<td class="org-left">++(*ptr);</td>
+<td class="org-left">指標指向的位元組其值加一</td>
+</tr>
+
+<tr>
+<td class="org-left">-</td>
+<td class="org-left">- -(*ptr);</td>
+<td class="org-left">指標指向的位元組其值減一</td>
+</tr>
+
+<tr>
+<td class="org-left">.</td>
+<td class="org-left">putchar(*ptr);</td>
+<td class="org-left">輸出指標指向的位元組內容 (ASCII 碼)</td>
+</tr>
+
+<tr>
+<td class="org-left">,</td>
+<td class="org-left">*ptr = getchar();</td>
+<td class="org-left">輸入內容到指標指向的位元組 (ASCII 碼)</td>
+</tr>
+
+<tr>
+<td class="org-left">[</td>
+<td class="org-left">while (*ptr) {</td>
+<td class="org-left">如果指標指向的位元組其值為零，向後跳轉到對應的 ] 指令的次一指令處</td>
+</tr>
+
+<tr>
+<td class="org-left">]</td>
+<td class="org-left">}</td>
+<td class="org-left">如果指標指向的位元組其值不為零，向前跳轉到對應的 ] 指令的次一指令處</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+以上面的 Brainfuck vs. C 的對應表來看，我們可以將左邊的 Brainfuck 語言轉
+換成右邊的 C 語言。
+</p>
+
+<div class="row show-grid"><div class="col-md-6 ">
+<p>
+<b>Brainfuck</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">+++++
+<span style="color: #aadddd;">[</span>
+ -
+<span style="color: #aadddd;">]</span>
+</pre>
+</div>
+</div><div class="col-md-6 ">
+
+<p>
+<b>C</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c">*p += <span style="color: #ccaaff;">5</span>;
+<span style="color: #aaffaa;">while</span><span style="color: #aadddd;">(</span><span style="color: #ccaaff;">0</span> != *p<span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
+        *p--;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+</div> </div>
+
+<p>
+若還是無法理解，沒關係，在 <a href="https://github.com/fatiherikli/brainfuck-visualizer/" target="_blank" rel="noopener">GitHub</a> 上面有一個 <a href="http://fatiherikli.github.io/brainfuck-visualizer/" target="_blank" rel="noopener">Brainfuck Visualizer</a>，
+你可以透過他來了解 Brainfuck 的每一個動作。
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="brainfuck_visual.png"  />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org45f5748" class="outline-2">
+<h2 id="org45f5748">使用 ClojureScript 來實作 Brainfuck 直譯器</h2>
+<div class="outline-text-2" id="text-org45f5748">
+<p>
+那要怎樣開始呢？首先要先釐清一個觀念: <b>Clojure 裏面的數據結構是不可變的
+(immutable)</b> ，也就是說，傳送給函式的參數，並不會被該函式修改，或是
+你用 def 宣告的變數，你並不能直接修改其內容。這樣的設計最大的好處，就
+是在多線程的環境下，不會因為有變數被修改，而必須鎖住該線程的狀況。
+</p>
+
+<p>
+既然如此，在進行 <b>並發 (concurrency, 或稱做 共時同做)</b> 的情況下，對
+於可變狀態 (mutable states) 要怎樣管理呢？在大多數的程式語言裡，會使
+用鎖 (lock) 的方式來保護正在被修改的資料，Clojure 則是提供了以下四種
+模型來處理這種狀況:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">名稱</th>
+<th scope="col" class="org-left">協做 / 獨立</th>
+<th scope="col" class="org-left">同步 / 異步</th>
+<th scope="col" class="org-left">說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Ref</td>
+<td class="org-left">協做</td>
+<td class="org-left">同步</td>
+<td class="org-left">為不可變的對象創照一個可變的引用。</td>
+</tr>
+
+<tr>
+<td class="org-left">Atomic</td>
+<td class="org-left">獨立</td>
+<td class="org-left">同步</td>
+<td class="org-left">Atom 是比 Ref 更輕量級的機制。多個 ref 的更新操作必須在事務被協調的執行，</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">而 Atom 允許非協調的單一值更新操作。</td>
+</tr>
+
+<tr>
+<td class="org-left">Agent</td>
+<td class="org-left">獨立</td>
+<td class="org-left">異步</td>
+<td class="org-left">更新操作將在另外一個線程 (thread) 被執行</td>
+</tr>
+
+<tr>
+<td class="org-left">Vars</td>
+<td class="org-left">協做</td>
+<td class="org-left">同步</td>
+<td class="org-left">Vars 是透過 def 或是 defn 加上 ^:dynamic 進行修飾，可以使用 binding 在本地線程中來修改他。</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+由於 Clojure 的並發管理機制並非一言兩語可以解釋的，若您對 Clojure 的並發機
+制有興趣，可以看看 Clojure 的作者 Rich Hickey 在 Youtube 上的演講
+<a href="http://www.youtube.com/watch?v%3DdGVqrGmwOAw" target="_blank" rel="noopener">Clojure Concurrency - Rich Hickey </a>。
+</p>
+
+<p>
+在 ClojureScript 中，以上提到的四個類型我們只有 <b>Atomic</b> 這種模型可
+以使用，或許你會問，在單線程的 javascript 中使用 <b>Immutability</b> 的機制
+是否有意義，在 javascript 中，程式是以異步(aync) 的方式來進行，若你的
+變數是不可變的情況，你不需要擔心你的變數會因為什麼情況而被動到。
+</p>
+
+<p>
+另外一個儘可能使用 Clojure 提供的數據類型的理由，則是若數據類型保持一
+致，則某天若需要讓你的程式跑在 JVM 上 (或是其他 Clojure 可以執行的環境)，
+你基本上是不需要修改你的程式的，這個部份，我們會在後面提到如何將本文
+的程式修改為 Clojure 可以使用的版本。
+</p>
+
+<p>
+[註]: 傳統的 Lisp 允許使用者改變數據結構，Clojure 這樣的設計則讓其更
+偏向了<a href="https://en.wikipedia.org/wiki/Functional_programming" target="_blank" rel="noopener">函數式程式語言 (Functional Programming)</a>。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0546bb6" class="outline-2">
+<h2 id="org0546bb6">概覽整個程式碼</h2>
+<div class="outline-text-2" id="text-org0546bb6">
+<p>
+本篇文章完整的程式碼如下，我們將在後面進行說明:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-brainfuck.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span>cljs.nodejs <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span>clojure.string <span style="color: #ccaaff;">:as</span> str<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">read-input</span> <span style="color: #81d4fa;">[</span>cell cells<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>syncprompt <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span>/require <span style="color: #aadddd;">"syncprompt"</span><span style="color: #aaeecc;">)</span>
+        p <span style="color: #aaeecc;">(</span>syncprompt<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell
+                         <span style="color: #ccaaff;">(</span>.charCodeAt <span style="color: #fff59d;">(</span>.trim <span style="color: #ff8888;">(</span>.toString p<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span> <span style="color: #ccaaff;">0</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">bf-loop</span> <span style="color: #81d4fa;">[</span>direction pointer commands<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>val <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">(</span>= direction <span style="color: #ccaaff;">:forward</span><span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">1</span> <span style="color: #ccaaff;">-1</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[</span>count <span style="color: #ccaaff;">1</span><span style="color: #aaeecc;">]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #ccaaff;">(</span>= count <span style="color: #ccaaff;">0</span><span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span>reset! pointer <span style="color: #fff59d;">(</span>+ @pointer val<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #fff59d;">(</span>nth commands @pointer<span style="color: #fff59d;">)</span>
+          \[ <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> <span style="color: #ff8888;">(</span>+ count val<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          \] <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> <span style="color: #ff8888;">(</span>- count val<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> count<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">exec-command</span> <span style="color: #81d4fa;">[</span>cell cells commands pointer<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #aaccff;">(</span>nth commands @pointer<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\&gt;</span> <span style="color: #aaccff;">(</span>swap! cell inc<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\&lt;</span> <span style="color: #aaccff;">(</span>swap! cell dec<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\+</span> <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell <span style="color: #ccaaff;">(</span>inc <span style="color: #fff59d;">(</span>get @cells @cell<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\-</span> <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell <span style="color: #ccaaff;">(</span>dec <span style="color: #fff59d;">(</span>get @cells @cell<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\.</span> <span style="color: #aaccff;">(</span>print <span style="color: #aaeecc;">(</span>char <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    \, <span style="color: #aaccff;">(</span>read-input cell cells<span style="color: #aaccff;">)</span>
+    \[ <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span>     <span style="color: #aaeecc;">(</span>= <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span>bf-loop <span style="color: #ccaaff;">:forward</span>  pointer commands<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    \] <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if-not</span> <span style="color: #aaeecc;">(</span>= <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span>bf-loop <span style="color: #ccaaff;">:backward</span> pointer commands<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">()</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">interpret</span> <span style="color: #81d4fa;">[</span>commands<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>cell  <span style="color: #aaeecc;">(</span>atom <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span>
+        cells <span style="color: #aaeecc;">(</span>atom <span style="color: #ccaaff;">(</span>vec <span style="color: #fff59d;">(</span>repeat <span style="color: #ccaaff;">30000</span> <span style="color: #ccaaff;">0</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[</span>pointer <span style="color: #ccaaff;">(</span>atom <span style="color: #ccaaff;">0</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">]</span>
+      <span style="color: #aaeecc;">(</span>exec-command cell cells commands pointer<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>swap! pointer inc<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if-not</span> <span style="color: #ccaaff;">(</span>= @pointer <span style="color: #fff59d;">(</span>count commands<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">recur</span> pointer<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span>
+        fs <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span>/require <span style="color: #aadddd;">"fs"</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> arg1
+      <span style="color: #aaeecc;">(</span>.readFile fs arg1 <span style="color: #aadddd;">"utf8"</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #fff59d;">[</span>err data<span style="color: #fff59d;">]</span>
+                                  <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">if</span> err <span style="color: #ff8888;">(</span>println err<span style="color: #ff8888;">)</span>
+                                      <span style="color: #ff8888;">(</span>interpret <span style="color: #795548;">(</span><span style="color: #fff59d;">str</span>/trim-newline data<span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"Error: Please specify filename."</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main<span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9828762" class="outline-2">
+<h2 id="org9828762">透過 node.js 對檔案進行讀取</h2>
+<div class="outline-text-2" id="text-org9828762">
+<p>
+我們希望寫出來的 Brainfuck 直譯器可以自由的讀取 Brainfuck 程式檔案來運
+作，因此整個程式就設計成使用 node.js 的方案，
+在 node.js 中，可以使用 <b>fs</b> 這個函式庫來對檔案進行操作，其 javascript
+讀取檔案的格式如下:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js2">fs = require<span style="color: #aadddd;">(</span>'fs'<span style="color: #aadddd;">)</span>;
+fs.readFile<span style="color: #aadddd;">(</span>file, <span style="color: #81d4fa;">[</span>encoding<span style="color: #81d4fa;">]</span>, <span style="color: #81d4fa;">[</span>callback<span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>;
+</pre>
+</div>
+
+<p>
+因此在 ClojureScript 中，我們要讀取傳送給程式的檔案的話，可以這樣子
+來讀取並顯示檔案的內容
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-brainfuck.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span>cljs.nodejs <span style="color: #ccaaff;">:as</span> nodejs<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">fs</span> <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">nodejs</span>/require <span style="color: #aadddd;">"fs"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> arg1
+      <span style="color: #aaeecc;">(</span>.readFile fs arg1 <span style="color: #aadddd;">"utf8"</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #fff59d;">[</span>err data<span style="color: #fff59d;">]</span> <span style="color: #fff59d;">(</span>println <span style="color: #ff8888;">(</span><span style="color: #aaffaa;">or</span> err data<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"Error: Please specify filename."</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main<span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org28ac10f" class="outline-2">
+<h2 id="org28ac10f">動手寫 Brainfuck 直譯器</h2>
+<div class="outline-text-2" id="text-org28ac10f">
+<p>
+我們先從程式的進入點開始著手，首先，當我們讀取完 Brainfuck 的程式碼後，
+要將資料傳送給我們的直譯器 (interpreter)，這邊的呼叫就像下面這個樣子。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>interpret <span style="color: #aadddd;">"+++++++[&gt;+++++&lt;&lt;&lt;&lt;]---.--"</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+因此我們的 interpret 雛型就出來了
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">interpret</span> <span style="color: #81d4fa;">[</span>commands<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>cell  <span style="color: #aaeecc;">(</span>atom <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span>
+        cells <span style="color: #aaeecc;">(</span>atom <span style="color: #ccaaff;">(</span>vec <span style="color: #fff59d;">(</span>repeat <span style="color: #ccaaff;">30000</span> <span style="color: #ccaaff;">0</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">other stuffs</span>
+    <span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+在我們的 interpret 雛型裏面，cell 代表的是目前指標指向的單元，而
+cells 則是整個 Brainfuck 程式的記憶體欄位，記憶體大小設定為 30000，
+即共有 30000 個 cell 的陣列。(這個數值會影響到程式的初始化時間，數
+值愈大則程式則需使用更多時間和作業系統要記憶體資源)。
+</p>
+
+<p>
+接著，我們要一個一個執行 Brainfuck 的命令，所以會需要一個迴圈，每執行
+一次，就執行負責解析 Brainfuck 命令的 <b>exec-command</b> 函式，當指標指
+向的位置為命令的尾巴時，才結束迴圈。此部份可以這樣寫 (寫在 interpret
+裡面)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #81d4fa;">[</span>pointer <span style="color: #aaccff;">(</span>atom <span style="color: #ccaaff;">0</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>exec-command cell cells commands pointer<span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span>swap! pointer inc<span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if-not</span> <span style="color: #aaccff;">(</span>= @pointer <span style="color: #aaeecc;">(</span>count commands<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">recur</span> pointer<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+在上面的程式碼部份，exec-command 的部份還沒有被撰寫，這個函式用來根
+據 Brainfuck 程式的指令執行相對應的命令，由於每個指令都是一個字元，我們
+可以直接使用 case 來擷取指令並執行相對應的程式，整個 exec-command 的
+程式如下。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">exec-command</span> <span style="color: #81d4fa;">[</span>cell cells commands pointer<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #aaccff;">(</span>nth commands @pointer<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\&gt;</span> <span style="color: #aaccff;">(</span>swap! cell inc<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\&lt;</span> <span style="color: #aaccff;">(</span>swap! cell dec<span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\+</span> <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell <span style="color: #ccaaff;">(</span>inc <span style="color: #fff59d;">(</span>get @cells @cell<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\-</span> <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell <span style="color: #ccaaff;">(</span>dec <span style="color: #fff59d;">(</span>get @cells @cell<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aadddd;">\.</span> <span style="color: #aaccff;">(</span>print <span style="color: #aaeecc;">(</span>char <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    \, <span style="color: #aaccff;">(</span>read-input cell cells<span style="color: #aaccff;">)</span>
+    \[ <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span>     <span style="color: #aaeecc;">(</span>= <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span>bf-loop <span style="color: #ccaaff;">:forward</span>  pointer commands<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    \] <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if-not</span> <span style="color: #aaeecc;">(</span>= <span style="color: #ccaaff;">(</span>get @cells @cell<span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span> <span style="color: #aaeecc;">(</span>bf-loop <span style="color: #ccaaff;">:backward</span> pointer commands<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">()</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+由於 Brainfuck 指令基本上是兩兩成對的，我們可以分開來看他的功能
+</p>
+
+<ul class="org-ul">
+<li><p>
+指標的加減
+</p>
+
+<p>
+前面說到了 cell 代表當前指標指向的單元，由於 cell 是 <b>Atomic</b> 類型
+的數據，我們要修改其值的話可以使用 swap! 或是 reset! 來進行修改。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">\&gt;</span> <span style="color: #aadddd;">(</span>swap! cell inc<span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">\&lt;</span> <span style="color: #aadddd;">(</span>swap! cell dec<span style="color: #aadddd;">)</span>
+</pre>
+</div></li>
+
+<li><p>
+對指標指向的位元其值加減
+</p>
+
+<p>
+我們設定 cells 代表 Brainfuck 程式的記憶體，而 cells 實際上內容為 vector
+，若我們要取得 cells 的某個部份的值，則使用 get 就可以取得
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>get @cells @cell<span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+那要怎樣將修改 cells 裏面的數值呢？對於 Atomic 數據類型可以使
+用 <b>reset!</b> 來設定其值，假如我們宣告一個叫作 c1 的 vector，其陣列
+大小為 3，則我們可以用 reset! 來修改他的數據。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">c1</span> <span style="color: #81d4fa;">(</span>atom <span style="color: #aaccff;">(</span>vector <span style="color: #aaeecc;">(</span>repeat <span style="color: #ccaaff;">3</span> <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>   <span style="color: #9ac; font-style: italic;">; =&gt; [0 0 0]</span>
+<span style="color: #aadddd;">(</span>reset! c1 <span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">1</span> <span style="color: #ccaaff;">2</span> <span style="color: #ccaaff;">3</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>                     <span style="color: #9ac; font-style: italic;">; =&gt; [1 2 3]</span>
+</pre>
+</div>
+
+<p>
+因此，最後這整部份的程式就像下面這樣
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">\+</span> <span style="color: #aadddd;">(</span>reset! cells <span style="color: #81d4fa;">(</span>assoc @cells @cell <span style="color: #aaccff;">(</span>inc <span style="color: #aaeecc;">(</span>get @cells @cell<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">\-</span> <span style="color: #aadddd;">(</span>reset! cells <span style="color: #81d4fa;">(</span>assoc @cells @cell <span style="color: #aaccff;">(</span>dec <span style="color: #aaeecc;">(</span>get @cells @cell<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div></li>
+
+<li><p>
+輸出/入指標指向的單元內容
+</p>
+
+<p>
+這兩個是屬於 I/O 部份的命令，取得指標指向的單元內容的方法已在前面描
+述過了，因此不再額外解釋。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">\.</span> <span style="color: #aadddd;">(</span>print <span style="color: #81d4fa;">(</span>char <span style="color: #aaccff;">(</span>get @cells @cell<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+\, <span style="color: #aadddd;">(</span>read-input cell cells<span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+至於讀取使用者輸入的部份，個人認為是這整個程式裏面最麻煩的地方。怎麼
+說呢？node.js 設計成異步運作 (async) 的程式，你要他停下來等使用者
+輸入是很困難的 (和原本的設計目的不相符和) 。
+</p>
+
+<p>
+試過了非常多的方式，包含 node.js 的 <a href="http://nodejs.org/api/readline.html" target="_blank" rel="noopener">readline 模組</a> ，使用在
+ClojureScript 裏面都還是會有問題，正當我要放棄這項功能時 (並且停
+筆這篇文章時)，剛好看到 GitHub 上面有 <a href="https://github.com/cheddar-lang/syncprompt" target="_blank" rel="noopener">syncprompt</a> 模組，拿來試試
+也符合我的需求，於是整個程式完成了，這篇文章也就能發表出來了，可喜可賀。
+</p>
+
+<p>
+因此我們的讀取使用者輸入方式就使用了 <a href="https://github.com/cheddar-lang/syncprompt" target="_blank" rel="noopener">syncprompt</a> 模組提供的方法，
+讀取完使用者的輸入後，只擷取第一個輸入的字元，並修改到對應位置的 cell。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">read-input</span> <span style="color: #81d4fa;">[</span>cell cells<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>syncprompt <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">nodejs</span>/require <span style="color: #aadddd;">"syncprompt"</span><span style="color: #aaeecc;">)</span>
+        p <span style="color: #aaeecc;">(</span>syncprompt<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span>reset! cells <span style="color: #aaeecc;">(</span>assoc @cells @cell
+                         <span style="color: #ccaaff;">(</span>.charCodeAt <span style="color: #fff59d;">(</span>.trim <span style="color: #ff8888;">(</span>.toString p<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span> <span style="color: #ccaaff;">0</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div></li>
+
+<li><p>
+迴圈的控制
+</p>
+
+<p>
+Brainfuck 的迴圈流程很簡單，當遇到 <b>[</b> ，如果此時指標指向的位元其
+值不為零，則開始這整個迴圈的運作，當執行到 <b>]</b> 時，如果指標指向的
+位元其值不為零，則回到 <b>[</b> 繼續運作整個迴圈，也就是說，迴圈的運作會
+直到 pointer 指向的位置其值變成 0 後才會結束。
+</p>
+
+<p>
+根據這個規則，我們再定義一個名為 <b>bf-loop</b> 的函式，根據第一個參數來決
+定是要遞增或是遞減 pointer 值。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">\[ <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">if</span>     <span style="color: #81d4fa;">(</span>= <span style="color: #aaccff;">(</span>get @cells @cell<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>bf-loop <span style="color: #ccaaff;">:forward</span>  pointer commands<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+\] <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">if-not</span> <span style="color: #81d4fa;">(</span>= <span style="color: #aaccff;">(</span>get @cells @cell<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">(</span>bf-loop <span style="color: #ccaaff;">:backward</span> pointer commands<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+在 bf-loop 函式的一開始，會根據 direction 的參數來決定對 pointer 的
+運作是 +1 (:forward) 或是 -1。接著是迴圈的執行部份，count 代表目前
+迴圈的維度，當 count 為零時結束這個迴圈的運作。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">bf-loop</span> <span style="color: #81d4fa;">[</span>direction pointer commands<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>val <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">(</span>= direction <span style="color: #ccaaff;">:forward</span><span style="color: #ccaaff;">)</span> <span style="color: #ccaaff;">1</span> <span style="color: #ccaaff;">-1</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[</span>count <span style="color: #ccaaff;">1</span><span style="color: #aaeecc;">]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #ccaaff;">(</span>= count <span style="color: #ccaaff;">0</span><span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span>reset! pointer <span style="color: #fff59d;">(</span>+ @pointer val<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #fff59d;">(</span>nth commands @pointer<span style="color: #fff59d;">)</span>
+          \[ <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> <span style="color: #ff8888;">(</span>+ count val<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          \] <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> <span style="color: #ff8888;">(</span>- count val<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span> count<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5150292" class="outline-2">
+<h2 id="org5150292">取得程式碼</h2>
+<div class="outline-text-2" id="text-org5150292">
+<p>
+本篇文章的完整程式碼已經放置於 <a href="https://github.com/coldnew/cljs-brainfuck" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
+</p>
+
+<pre class="example">
+git clone https://github.com/coldnew/cljs-brainfuck.git
+</pre>
+
+
+<ul class="org-ul">
+<li><p>
+取得其他的 node.js 模組
+</p>
+
+<pre class="example">
+npm install
+</pre></li>
+
+<li><p>
+編譯程式
+</p>
+
+<pre class="example">
+lein cljebuild once
+</pre></li>
+
+<li><p>
+執行程式
+</p>
+
+<pre class="example">
+node target/brainfuck.js examples/hello_world.bf
+</pre></li>
+
+<li><p>
+範例程式
+</p>
+
+<p>
+在 examples 資料夾共放了以下幾種 Brainfuck 的範例程式
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">檔案名稱</th>
+<th scope="col" class="org-left">功能說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">hello_world.bf</td>
+<td class="org-left">顯示 Hello World!</td>
+</tr>
+
+<tr>
+<td class="org-left">rot13.bf</td>
+<td class="org-left">使用 <a href="http://zh.wikipedia.org/zh-tw/ROT13" target="_blank" rel="noopener">ROT13</a> 演算法，將當前的字元轉換成其他字元</td>
+</tr>
+
+<tr>
+<td class="org-left">squares.bf</td>
+<td class="org-left">顯示 0 ~ 100 的平方</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfc7515a" class="outline-2">
+<h2 id="orgfc7515a">將本篇文章的程式移植到 Clojure 上</h2>
+<div class="outline-text-2" id="text-orgfc7515a">
+<p>
+要將本篇文章的程式移植到 Clojure 上，你只需要修改幾個部份
+</p>
+
+<ul class="org-ul">
+<li><p>
+namespace
+</p>
+
+<p>
+在 Clojure 裏面，我們不會載入到 cljs.nodejs 套件，因此要將他移除。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-brainfuck.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span>clojure.string <span style="color: #ccaaff;">:as</span> str<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div></li>
+
+<li><p>
+read-input
+</p>
+
+<p>
+我們的程式是使用 node.js 的模組來讀取使用者輸入，這邊要修改為使用
+Clojure 的方式來讀取使用者的輸入。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">read-input</span> <span style="color: #81d4fa;">[</span>cell cells<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>reset! cells <span style="color: #aaccff;">(</span>assoc @cells @cell <span style="color: #aaeecc;">(</span>char <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">.</span> <span style="color: #fff59d;">System</span>/in read<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div></li>
+
+<li><p>
+main
+</p>
+
+<p>
+我們實際上讀取檔案的地方，是位於我們的 main 程式，因此這邊也要修改成
+Clojure 的方式來讀取檔案。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> arg1
+      <span style="color: #aaeecc;">(</span>interpret <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">str</span>/trim-newline <span style="color: #fff59d;">(</span>slurp arg1<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"Error: Please specify filename."</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgda90619" class="outline-2">
+<h2 id="orgda90619">參考連結</h2>
+<div class="outline-text-2" id="text-orgda90619">
+<p>
+<code>[1]</code> <a href="http://blog.linux.org.tw/~jserv/archives/002119.html" target="_blank" rel="noopener">Jserv's blog: 打造 Brainfuck 的 JIT compiler</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="https://zh.wikipedia.org/wiki/Brainfuck" target="_blank" rel="noopener">Brainfuck - 維基百科</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="http://fatiherikli.github.io/brainfuck-visualizer/" target="_blank" rel="noopener">Brainfuck Visualizer</a>
+</p>
+
+<p>
+<code>[4]</code> <a href="http://www.youtube.com/watch?v=dGVqrGmwOAw" target="_blank" rel="noopener">Clojure Concurrency - Rich Hickey </a>
+</p>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/clojure/" rel="tag">#clojure</a>
+          
+            <a href="/tags/clojurescript/" rel="tag">#clojurescript</a>
+          
+            <a href="/tags/nodejs/" rel="tag">#nodejs</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/9ea06bcf/" rel="prev">用 Clojure 寫 javafx 的 Hello World</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/4dc6829/" rel="next">關閉 ext4 的 journal 功能</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2d9caf2"><span class="nav-text">Brainfuck 語言指令與含義</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org45f5748"><span class="nav-text">使用 ClojureScript 來實作 Brainfuck 直譯器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0546bb6"><span class="nav-text">概覽整個程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9828762"><span class="nav-text">透過 node.js 對檔案進行讀取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org28ac10f"><span class="nav-text">動手寫 Brainfuck 直譯器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5150292"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfc7515a"><span class="nav-text">將本篇文章的程式移植到 Clojure 上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgda90619"><span class="nav-text">參考連結</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

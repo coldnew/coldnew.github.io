@@ -1,34 +1,1320 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="clojure," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="最近開始在看理財相關的資訊，畢竟錢一直存著也只是存著，剛好看到了 台灣銀行牌告匯率 的訊息，就讓我們用 Clojure 來寫一個 parser 將這個 HTML 網頁轉換成 Clojure 常用的 edn 格式吧。    本文將簡述如何透過 clj-http 取得 台灣銀行牌告匯率 資訊後，再使用 hickory 對取得網頁的資料進行處理，最後回傳 edn 格式好方便我們未來的 Clojure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Clojure 擷取台灣銀行牌告匯率">
+<meta property="og:url" content="https://coldnew.github.io/c8ce3cdb/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="最近開始在看理財相關的資訊，畢竟錢一直存著也只是存著，剛好看到了 台灣銀行牌告匯率 的訊息，就讓我們用 Clojure 來寫一個 parser 將這個 HTML 網頁轉換成 Clojure 常用的 edn 格式吧。    本文將簡述如何透過 clj-http 取得 台灣銀行牌告匯率 資訊後，再使用 hickory 對取得網頁的資料進行處理，最後回傳 edn 格式好方便我們未來的 Clojure">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/c8ce3cdb/twbank.png">
+<meta property="og:image" content="https://coldnew.github.io/c8ce3cdb/twbank-date.png">
+<meta property="og:image" content="https://coldnew.github.io/c8ce3cdb/twbank-date1.png">
+<meta property="og:image" content="https://coldnew.github.io/c8ce3cdb/hickory.png">
+<meta property="og:image" content="https://coldnew.github.io/c8ce3cdb/twbank-data.png">
+<meta property="og:image" content="https://coldnew.github.io/c8ce3cdb/twbank-data1.png">
+<meta property="article:published_time" content="2016-02-26T05:49:00.000Z">
+<meta property="article:modified_time" content="2016-02-26T05:49:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="clojure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/c8ce3cdb/twbank.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 使用 Clojure 擷取台灣銀行牌告匯率 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/c8ce3cdb/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              使用 Clojure 擷取台灣銀行牌告匯率
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2016-02-26T13:49:00+08:00" content="2016-02-26">
+            2016-02-26
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+最近開始在看理財相關的資訊，畢竟錢一直存著也只是存著，剛好看到了 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 的訊息，就讓我們用 Clojure 來寫一個 parser 將這個 HTML 網頁轉換成 Clojure 常用的 <a href="https://github.com/edn-format/edn" target="_blank" rel="noopener">edn</a> 格式吧。
+</p>
+
+<p>
+本文將簡述如何透過 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="noopener">clj-http</a> 取得 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 資訊後，再使用 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 對取得網頁的資料進行處理，最後回傳 <a href="https://github.com/edn-format/edn" target="_blank" rel="noopener">edn</a> 格式好方便我們未來的 Clojure 程式可以對這些訊息進行處理。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-orgcea2ceb" class="outline-2">
+<h2 id="orgcea2ceb">設定我們的目標</h2>
+<div class="outline-text-2" id="text-orgcea2ceb">
+<p>
+在開始寫程式前，先來確立我們的目標。我們希望取得 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 的資訊，並將下圖裡面的資料轉換成 Clojure 的 <a href="https://github.com/edn-format/edn" target="_blank" rel="noopener">edn</a> 格式。
+</p>
+
+
+<div class="figure">
+<p><img src="twbank.png"  />
+</p>
+</div>
+
+<p>
+因此最後我們希望可以得到這樣的結果:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">{</span><span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm"</span>,
+ <span style="color: #ccaaff;">:date</span> <span style="color: #aadddd;">"2016/02/25 16:00"</span>,
+ <span style="color: #ccaaff;">:count</span> <span style="color: #ccaaff;">19</span>,
+ <span style="color: #ccaaff;">:results</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:USD</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"&#32654;&#37329; (USD)"</span>,
+                 <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #aadddd;">"32.92500"</span>,
+                 <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #aadddd;">"33.46700"</span>,
+                 <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #aadddd;">"33.22500"</span>,
+                 <span style="color: #ccaaff;">:spot-buying</span> <span style="color: #aadddd;">"33.32500"</span><span style="color: #aaccff;">}</span>,
+           <span style="color: #ccaaff;">:EUR</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"&#27472;&#20803; (EUR)"</span>,
+                 <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #aadddd;">"35.99000"</span>,
+                 <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #aadddd;">"37.13000"</span>,
+                 <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #aadddd;">"36.47000"</span>,
+                 <span style="color: #ccaaff;">:spot-buying</span> <span style="color: #aadddd;">"36.87000"</span><span style="color: #aaccff;">}</span>,
+           <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip ...</span>
+           <span style="color: #ccaaff;">:PHP</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"&#33778;&#22283;&#27604;&#32034; (PHP)"</span>,
+                 <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #aadddd;">"0.64980"</span>,
+                 <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #aadddd;">"0.78250"</span>,
+                 <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #aadddd;">"-"</span>,
+                 <span style="color: #ccaaff;">:spot-buying</span> <span style="color: #aadddd;">"-"</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">}</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org30d7ea0" class="outline-2">
+<h2 id="org30d7ea0">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org30d7ea0">
+<p>
+首先我們先透過 <a href="http://leiningen.org/" target="_blank" rel="noopener">leinigen</a> 產生我們 Clojure 專案的基本樣板，這邊命名該專案為 <code>twbank-forex</code>
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ lein new twbank-forex
+</pre>
+
+<p>
+專案建立完成後，我們要稍微修改一下 <i>project.clj</i> 添加 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 以及 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="noopener">clj-http</a> 這兩個函式庫。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">twbank-forex</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
+
+  <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip ...</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span>/clojure <span style="color: #aadddd;">"1.8.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span>hickory <span style="color: #aadddd;">"0.6.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span>clj-http <span style="color: #aadddd;">"2.1.0"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #ccaaff;">:main</span> twbank-forex.core<span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb82d171" class="outline-2">
+<h2 id="orgb82d171">開始我們的程式</h2>
+<div class="outline-text-2" id="text-orgb82d171">
+<p>
+就讓我們來開始我們的專案吧，首先編輯 <code>src/twbank_forex/core.clj</code> 這個檔案，並添加一些我們需要的函式庫資訊:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">twbank-forex.core</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:require</span> <span style="color: #aaccff;">[</span>clj-http.client <span style="color: #ccaaff;">:as</span> http<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span>hickory.core    <span style="color: #ccaaff;">:as</span> hickory<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span>hickory.select  <span style="color: #ccaaff;">:as</span> s<span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">[</span>clojure.string  <span style="color: #ccaaff;">:as</span> str<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+由於我們要分析的目標是 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 這個網頁，因此先設立一個全域變數，其內容存放我們想要分析的網址
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">The webpage we want to parse</span>
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> ^<span style="color: #ccaaff;">:private</span>
+  <span style="color: #aaccff;">twbank-url</span> <span style="color: #aadddd;">"http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm"</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+接著，讓我們一步一步來實作
+</p>
+</div>
+
+<div id="outline-container-org2cec085" class="outline-3">
+<h3 id="org2cec085">取得網頁內容</h3>
+<div class="outline-text-3" id="text-org2cec085">
+<p>
+我們的目的是下載 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 網頁內容並進行解析，因此我們可以透過 <a href="https://github.com/dakrone/clj-http" target="_blank" rel="noopener">clj-http</a> 來處理這件事
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">http</span>/get twbank-url<span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+如果你的網路連得上我們的目標網址的話，你會得到如下的回應
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">{</span><span style="color: #ccaaff;">:status</span> <span style="color: #ccaaff;">200</span>,
+ <span style="color: #ccaaff;">:headers</span> <span style="color: #81d4fa;">{</span><span style="color: #aadddd;">"Server"</span> <span style="color: #aadddd;">"Microsoft-IIS/8.5"</span>,
+           <span style="color: #aadddd;">"Content-Type"</span> <span style="color: #aadddd;">"text/html"</span>,
+           <span style="color: #aadddd;">"Content-Length"</span> <span style="color: #aadddd;">"3664"</span>,
+           <span style="color: #aadddd;">"Connection"</span> <span style="color: #aadddd;">"close"</span>,
+           <span style="color: #aadddd;">"Accept-Ranges"</span> <span style="color: #aadddd;">"bytes"</span>,
+           <span style="color: #aadddd;">"ETag"</span> <span style="color: #aadddd;">"W/</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">809337e3b70d11:0</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">"</span>,
+           <span style="color: #aadddd;">"Date"</span> <span style="color: #aadddd;">"Fri, 26 Feb 2016 02:23:39 GMT"</span>,
+           <span style="color: #aadddd;">"Vary"</span> <span style="color: #aadddd;">"Accept-Encoding"</span>,
+           <span style="color: #aadddd;">"Last-Modified"</span> <span style="color: #aadddd;">"Fri, 26 Feb 2016 02:14:59 GMT"</span>,
+           <span style="color: #aadddd;">"X-Powered-By"</span> <span style="color: #aadddd;">"ASP.NET"</span><span style="color: #81d4fa;">}</span>,
+ <span style="color: #ccaaff;">:body</span> <span style="color: #aadddd;">"&#65279;</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">r</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">n</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">r</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">n</span><span style="color: #aadddd;">&lt;!DOCTYPE html PUBLIC </span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">-//W3C//DTD XHTML 1.0 Transitional//EN</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;"> </span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">&gt;</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">r</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">n</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">r</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">n</span><span style="color: #aadddd;">&lt;html xmlns=</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">http://www.w3.org/1999/xhtml</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">&gt;</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">r</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">n</span><span style="color: #aadddd;">&lt;head&gt;&lt;link href=</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">../../App_Themes/Builtin/Default.css</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;"> type=</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">text/css</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;"> rel=</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">stylesheet</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;"> /&gt;&lt;meta http-equiv=</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">Content-Type</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;"> content=</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">text/html;charset=utf-8</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;"> /&gt;&lt;title&gt;</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">r</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">n</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">t</span><span style="color: #aadddd;"> &#33274;&#28771;&#37504;&#34892;&#29260;&#21578;&#21295;&#29575;</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">r</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">n</span><span style="color: #aadddd;">&lt;/title&gt;</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">r</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">n</span><span style="color: #aadddd;"> "</span>, <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip ....</span>
+ <span style="color: #ccaaff;">:request-time</span> <span style="color: #ccaaff;">227</span>,
+ <span style="color: #ccaaff;">:trace-redirects</span> <span style="color: #81d4fa;">[</span><span style="color: #aadddd;">"http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm"</span><span style="color: #81d4fa;">]</span>,
+ <span style="color: #ccaaff;">:orig-content-encoding</span> <span style="color: #aadddd;">"gzip"</span>,
+ <span style="color: #ccaaff;">:cookies</span> <span style="color: #81d4fa;">{</span><span style="color: #aadddd;">"BankOfTaiwanCookie"</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:discard</span> <span style="color: #ccaaff;">false</span>,
+                                 <span style="color: #ccaaff;">:expires</span> #inst <span style="color: #aadddd;">"2016-02-26T05:23:42.000-00:00"</span>,
+                                 <span style="color: #ccaaff;">:path</span> <span style="color: #aadddd;">"/"</span>,
+                                 <span style="color: #ccaaff;">:secure</span> <span style="color: #ccaaff;">false</span>,
+                                 <span style="color: #ccaaff;">:value</span> <span style="color: #aadddd;">"352626880.20480.0000"</span>,
+                                 <span style="color: #ccaaff;">:version</span> <span style="color: #ccaaff;">0</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">}</span>
+</pre>
+</div>
+
+<p>
+由上面的回應來看，我們可以發現網頁的 <i>內容</i> 是存放在 <code>:body</code> 裡面，而在本例中我們只需要取得網頁內容即可，因此可以這樣建立取得網頁內容的函式
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">fetch-html</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:body</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">http</span>/get twbank-url<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org135650b" class="outline-3">
+<h3 id="org135650b">取得最新掛牌時間</h3>
+<div class="outline-text-3" id="text-org135650b">
+<p>
+取得網頁內容後，我們可以來查找這個網頁的掛牌時間，從網頁上來看就是這個
+</p>
+
+
+<div class="figure">
+<p><img src="twbank-date.png"  />
+</p>
+</div>
+
+<p>
+因此使用瀏覽器查看原始碼時，你可以找到這樣的訊息
+</p>
+
+
+<div class="figure">
+<p><img src="twbank-date1.png"  />
+</p>
+</div>
+
+<p>
+也就是說，我們只要針對關鍵字 <code>牌價最新掛牌時間</code> 使用正規表達式來進行處理，就可以取得掛牌時間的資訊，針對此問題，我們可以透過 Clojure 的 <a href="https://clojuredocs.org/clojure.core/re-find" target="_blank" rel="noopener">re-find</a> 來對目標進行切割
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>re-find #<span style="color: #aadddd;">"</span><span style="color: #ff8888;">(</span><span style="color: #aadddd;">.*&#29260;&#20729;&#26368;&#26032;&#25499;&#29260;&#26178;&#38291;&#65306;&amp;nbsp;</span><span style="color: #ff8888;">)(</span><span style="color: #aadddd;">[</span><span style="color: #aadddd; font-weight: bold;">\d\/</span><span style="color: #aadddd;">]+</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">[</span><span style="color: #aadddd; font-weight: bold;">\d</span><span style="color: #aadddd;">:]+</span><span style="color: #ff8888;">)(</span><span style="color: #aadddd;">.*</span><span style="color: #ff8888;">)</span><span style="color: #aadddd;">"</span>
+         <span style="color: #aadddd;">"&lt;td style=</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">width:326px;text-align:left;vertical-align:top;color:#0000FF;font-size:11pt;font-weight:bold;</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #aadddd;">      &lt;img style=</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">vertical-align:middle;width:20px;</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;"> src=</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;">../../Images/Monitor.gif</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;"> alt=</span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;"> </span><span style="color: #ccaaff; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">"</span><span style="color: #aadddd;"> /&gt;&amp;nbsp;</span>
+
+<span style="color: #aadddd;">      &#29260;&#20729;&#26368;&#26032;&#25499;&#29260;&#26178;&#38291;&#65306;&amp;nbsp;2016/02/26 10:28</span>
+<span style="color: #aadddd;">    &lt;/td&gt;"</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">["      &#29260;&#20729;&#26368;&#26032;&#25499;&#29260;&#26178;&#38291;&#65306;&amp;nbsp;2016/02/26 10:28"</span>
+<span style="color: #5f5f5f; font-style: italic;">;;  </span><span style="color: #9ac; font-style: italic;">"      &#29260;&#20729;&#26368;&#26032;&#25499;&#29260;&#26178;&#38291;&#65306;&amp;nbsp;"</span>
+<span style="color: #5f5f5f; font-style: italic;">;;  </span><span style="color: #9ac; font-style: italic;">"2016/02/26 10:28"</span>
+<span style="color: #5f5f5f; font-style: italic;">;;  </span><span style="color: #9ac; font-style: italic;">""]</span>
+</pre>
+</div>
+
+<p>
+<a href="https://clojuredocs.org/clojure.core/re-find" target="_blank" rel="noopener">re-find</a> 會依照你設定的正規表達式，將目標分成不同群組，得到的結果如上。也因此我們可以知道我們的目標會出現在結果的 <code>index 2</code> (Clojure 陣列是從 0 開始計算)
+</p>
+
+<p>
+最後，將這函式整理一下即可獲得
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">parse-date</span> <span style="color: #81d4fa;">[</span>html<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>nth <span style="color: #aaccff;">(</span>re-find #<span style="color: #aadddd;">"</span><span style="color: #ff8888;">(</span><span style="color: #aadddd;">.*&#29260;&#20729;&#26368;&#26032;&#25499;&#29260;&#26178;&#38291;&#65306;&amp;nbsp;</span><span style="color: #ff8888;">)(</span><span style="color: #aadddd;">[</span><span style="color: #aadddd; font-weight: bold;">\d\/</span><span style="color: #aadddd;">]+</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">[</span><span style="color: #aadddd; font-weight: bold;">\d</span><span style="color: #aadddd;">:]+</span><span style="color: #ff8888;">)(</span><span style="color: #aadddd;">.*</span><span style="color: #ff8888;">)</span><span style="color: #aadddd;">"</span> html<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">2</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd2ac673" class="outline-3">
+<h3 id="orgd2ac673">將網頁轉換成 hickory 格式</h3>
+<div class="outline-text-3" id="text-orgd2ac673">
+<p>
+在本程式中我們將透過 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 來讓我們解析 HTML 更為簡單，<a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 是一個可用於 Clojure/ClojureScript 的函式庫，可以簡化我們解析 HTML 文件的麻煩，唯一的缺點是，由於目前 <a href="https://nodejs.org/" target="_blank" rel="noopener">node.js</a> 缺少了 <i>DOM</i> 元件，因此使用 <a href="https://github.com/davidsantiago/hickory" target="_blank" rel="noopener">hickory</a> 寫出的 ClojureScript 是無法在 <a href="https://nodejs.org" target="_blank" rel="noopener">node.js</a> 上執行的。
+</p>
+
+<p>
+我們首先使用 <a href="http://davidsantiago.github.io/hickory/hickory.core.html#var-parse" target="_blank" rel="noopener">hickory/parse</a> 將 HTML 轉換成 DOM 結構
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">hickory</span>/parse <span style="color: #aadddd;">"&lt;b&gt;TEST&lt;/b&gt;"</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">#object[org.jsoup.nodes.Document</span>
+<span style="color: #5f5f5f; font-style: italic;">;;         </span><span style="color: #9ac; font-style: italic;">"0x13e4a71e"</span>
+<span style="color: #5f5f5f; font-style: italic;">;;         </span><span style="color: #9ac; font-style: italic;">"&lt;html&gt;\n &lt;head&gt;&lt;/head&gt;\n &lt;body&gt;\n  &lt;b&gt;TEST&lt;/b&gt;\n &lt;/body&gt;\n&lt;/html&gt;"]</span>
+</pre>
+</div>
+
+<p>
+接著再使用 <a href="http://davidsantiago.github.io/hickory/hickory.core.html#var-as-hickory" target="_blank" rel="noopener">hickory/as-hickory</a> 將剛剛獲得的 DOM 結構轉換成 <i>hickory</i> 的資料格式，其形式如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">hickory</span>/as-hickory <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">hickory</span>/parse <span style="color: #aadddd;">"&lt;b&gt;TEST&lt;/b&gt;"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt;</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">{:type :document,</span>
+<span style="color: #5f5f5f; font-style: italic;">;;  </span><span style="color: #9ac; font-style: italic;">:content [{:type :element,</span>
+<span style="color: #5f5f5f; font-style: italic;">;;             </span><span style="color: #9ac; font-style: italic;">:attrs nil,</span>
+<span style="color: #5f5f5f; font-style: italic;">;;             </span><span style="color: #9ac; font-style: italic;">:tag :html,</span>
+<span style="color: #5f5f5f; font-style: italic;">;;             </span><span style="color: #9ac; font-style: italic;">:content [{:type :element, :attrs nil, :tag :head, :content nil}</span>
+<span style="color: #5f5f5f; font-style: italic;">;;                       </span><span style="color: #9ac; font-style: italic;">{:type :element,</span>
+<span style="color: #5f5f5f; font-style: italic;">;;                        </span><span style="color: #9ac; font-style: italic;">:attrs nil,</span>
+<span style="color: #5f5f5f; font-style: italic;">;;                        </span><span style="color: #9ac; font-style: italic;">:tag :body,</span>
+<span style="color: #5f5f5f; font-style: italic;">;;                        </span><span style="color: #9ac; font-style: italic;">:content [{:type :element,</span>
+<span style="color: #5f5f5f; font-style: italic;">;;                                   </span><span style="color: #9ac; font-style: italic;">:attrs nil,</span>
+<span style="color: #5f5f5f; font-style: italic;">;;                                   </span><span style="color: #9ac; font-style: italic;">:tag :b,</span>
+<span style="color: #5f5f5f; font-style: italic;">;;                                   </span><span style="color: #9ac; font-style: italic;">:content ["TEST"]}]}]}]}</span>
+</pre>
+</div>
+
+<p>
+將上面資訊整理一下，最後我們的函式即為
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">html-&gt;hickory</span> <span style="color: #81d4fa;">[</span>html<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> html
+       <span style="color: #fff59d;">hickory</span>/parse
+       <span style="color: #fff59d;">hickory</span>/as-hickory<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+如果將這函式作用於前面所獲得的 HTML 內容，可以看到我們取得了以下的資訊
+</p>
+
+
+<div class="figure">
+<p><img src="hickory.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org076d75d" class="outline-3">
+<h3 id="org076d75d">取得匯率轉換的資訊</h3>
+<div class="outline-text-3" id="text-org076d75d">
+<p>
+接下來就是這個程式的重頭戲了，以網頁來看，我們的目標就是這些匯率資訊
+</p>
+
+
+<div class="figure">
+<p><img src="twbank-data.png"  />
+</p>
+</div>
+
+<p>
+為了方便尋找，我們先針對 <code>美金 (USD)</code> 的部分查找我們透過前面函式將 HTML 轉換成 Hickory 格式後的結果
+</p>
+
+
+<div class="figure">
+<p><img src="twbank-data1.png"  />
+</p>
+</div>
+
+<p>
+由於我們的目標是 <code>titleLeft</code> 以及 <code>decimal</code> 這兩種 class, 因此就直接使用 <a href="http://davidsantiago.github.io/hickory/hickory.select.html#var-select" target="_blank" rel="noopener">hickory.select/select</a> 來幫我們將目標資訊切割出來
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">[</span>data <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaeecc;">(</span>fetch-html<span style="color: #aaeecc;">)</span> html-&gt;hickory<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #fff59d;">s</span>/select <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span>/child
+             <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span>/or <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span>/class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #ccaaff;">)</span>
+                   <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span>/class <span style="color: #aadddd;">"decimal"</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+            data<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+透過這種方式，我們得到以下的陣列資訊
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">[</span><span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>,
+  <span style="color: #ccaaff;">:attrs</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"titleLeft"</span><span style="color: #aaccff;">}</span>,
+  <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:td</span>,
+  <span style="color: #ccaaff;">:content</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>,
+             <span style="color: #ccaaff;">:attrs</span> <span style="color: #ccaaff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"paddingLeft16"</span>,
+                     <span style="color: #ccaaff;">:src</span> <span style="color: #aadddd;">"/Images/Flags/America.gif"</span>,
+                     <span style="color: #ccaaff;">:title</span> <span style="color: #aadddd;">""</span>,
+                     <span style="color: #ccaaff;">:alt</span> <span style="color: #aadddd;">""</span><span style="color: #ccaaff;">}</span>,
+             <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:img</span>,
+             <span style="color: #ccaaff;">:content</span> <span style="color: #ccaaff;">nil</span><span style="color: #aaeecc;">}</span>
+            <span style="color: #aadddd;">"&#160;&#32654;&#37329; (USD)"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
+ <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>, <span style="color: #ccaaff;">:attrs</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"decimal"</span><span style="color: #aaccff;">}</span>, <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:td</span>, <span style="color: #ccaaff;">:content</span> <span style="color: #aaccff;">[</span><span style="color: #aadddd;">"32.89000"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
+ <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>, <span style="color: #ccaaff;">:attrs</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"decimal"</span><span style="color: #aaccff;">}</span>, <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:td</span>, <span style="color: #ccaaff;">:content</span> <span style="color: #aaccff;">[</span><span style="color: #aadddd;">"33.43200"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
+ <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>, <span style="color: #ccaaff;">:attrs</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"decimal"</span><span style="color: #aaccff;">}</span>, <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:td</span>, <span style="color: #ccaaff;">:content</span> <span style="color: #aaccff;">[</span><span style="color: #aadddd;">"33.19000"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
+ <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>, <span style="color: #ccaaff;">:attrs</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"decimal"</span><span style="color: #aaccff;">}</span>, <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:td</span>, <span style="color: #ccaaff;">:content</span> <span style="color: #aaccff;">[</span><span style="color: #aadddd;">"33.29000"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
+ <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip ...</span>
+ <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>,
+  <span style="color: #ccaaff;">:attrs</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"titleLeft"</span><span style="color: #aaccff;">}</span>,
+  <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:td</span>,
+  <span style="color: #ccaaff;">:content</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>,
+             <span style="color: #ccaaff;">:attrs</span> <span style="color: #ccaaff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"paddingLeft16"</span>,
+                     <span style="color: #ccaaff;">:src</span> <span style="color: #aadddd;">"/Images/Flags/HongKong.gif"</span>,
+                     <span style="color: #ccaaff;">:title</span> <span style="color: #aadddd;">""</span>,
+                     <span style="color: #ccaaff;">:alt</span> <span style="color: #aadddd;">""</span><span style="color: #ccaaff;">}</span>,
+             <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:img</span>,
+             <span style="color: #ccaaff;">:content</span> <span style="color: #ccaaff;">nil</span><span style="color: #aaeecc;">}</span>
+            <span style="color: #aadddd;">"&#160;&#28207;&#24163; (HKD)"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
+ <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>, <span style="color: #ccaaff;">:attrs</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"decimal"</span><span style="color: #aaccff;">}</span>, <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:td</span>, <span style="color: #ccaaff;">:content</span> <span style="color: #aaccff;">[</span><span style="color: #aadddd;">"4.12500"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
+ <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>, <span style="color: #ccaaff;">:attrs</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"decimal"</span><span style="color: #aaccff;">}</span>, <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:td</span>, <span style="color: #ccaaff;">:content</span> <span style="color: #aaccff;">[</span><span style="color: #aadddd;">"4.32400"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
+ <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>, <span style="color: #ccaaff;">:attrs</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"decimal"</span><span style="color: #aaccff;">}</span>, <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:td</span>, <span style="color: #ccaaff;">:content</span> <span style="color: #aaccff;">[</span><span style="color: #aadddd;">"4.24900"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
+ <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:type</span> <span style="color: #ccaaff;">:element</span>, <span style="color: #ccaaff;">:attrs</span> <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:class</span> <span style="color: #aadddd;">"decimal"</span><span style="color: #aaccff;">}</span>, <span style="color: #ccaaff;">:tag</span> <span style="color: #ccaaff;">:td</span>, <span style="color: #ccaaff;">:content</span> <span style="color: #aaccff;">[</span><span style="color: #aadddd;">"4.30900"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+</pre>
+</div>
+
+<p>
+實際上我們只對這份資料中的 <code>:content</code> 欄位有興趣，因此透過 <a href="https://clojuredocs.org/clojure.core/map" target="_blank" rel="noopener">map</a> 將我們要的東西切割出來
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">[</span>data <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaeecc;">(</span>fetch-html<span style="color: #aaeecc;">)</span> html-&gt;hickory<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span>/select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span>/child
+                  <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span>/or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span>/class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
+                        <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span>/class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+                 data<span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaccff;">%</span> <span style="color: #ccaaff;">:content</span> last<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>   <span style="color: #9ac; font-style: italic;">; &lt;= add this</span>
+</pre>
+</div>
+
+<p>
+這樣的話我們就會得到以下的陣列，裡面的東西都是我們要的資訊
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aadddd;">"&#160;&#32654;&#37329; (USD)"</span>
+ <span style="color: #aadddd;">"32.89000"</span>
+ <span style="color: #aadddd;">"33.43200"</span>
+ <span style="color: #aadddd;">"33.19000"</span>
+ <span style="color: #aadddd;">"33.29000"</span>
+ <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip ...</span>
+ <span style="color: #aadddd;">"&#160;&#20154;&#27665;&#24163; (CNY)"</span>
+ <span style="color: #aadddd;">"4.98500"</span>
+ <span style="color: #aadddd;">"5.14900"</span>
+ <span style="color: #aadddd;">"5.05900"</span>
+ <span style="color: #aadddd;">"5.10900"</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+我們發現到得到的標題，比如 <code> 美金 (USD)</code> 前面都多了一個像是空格的東西無法顯示，那要怎樣濾掉呢? 實際上這個東西在 HTML 中是 <code>&amp;nbsp;</code> 這種特殊符號， <i>hickory</i> 則是將它轉成一個特殊字元，在這邊我使用 <a href="https://clojuredocs.org/clojure.core/replace" target="_blank" rel="noopener">replace</a> 直接將這個字元替代掉 <i>(註: 該字元網頁上看不到悠~)</i>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">[</span>data <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaeecc;">(</span>fetch-html<span style="color: #aaeecc;">)</span> html-&gt;hickory<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span>  <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span>/select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span>/child
+                   <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span>/or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span>/class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
+                         <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span>/class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+                  data<span style="color: #aaccff;">)</span>
+        <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaccff;">%</span> <span style="color: #ccaaff;">:content</span> last<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+        <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #fff59d;">str</span>/replace <span style="color: #aaccff;">%</span> #<span style="color: #aadddd;">"&#160;"</span> <span style="color: #aadddd;">""</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; &lt;= add this</span>
+</pre>
+</div>
+
+<p>
+因此我們可以獲得
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aadddd;">"&#32654;&#37329; (USD)"</span>
+ <span style="color: #aadddd;">"32.89000"</span>
+ <span style="color: #aadddd;">"33.43200"</span>
+ <span style="color: #aadddd;">"33.19000"</span>
+ <span style="color: #aadddd;">"33.29000"</span>
+ <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip</span>
+ <span style="color: #aadddd;">"&#20154;&#27665;&#24163; (CNY)"</span>
+ <span style="color: #aadddd;">"4.98500"</span>
+ <span style="color: #aadddd;">"5.14900"</span>
+ <span style="color: #aadddd;">"5.05900"</span>
+ <span style="color: #aadddd;">"5.10900"</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+仔細看這份資料，我們可以發現資料其實應該是 <code>5 個一組</code> ，因此我們可以再使用 <a href="https://clojuredocs.org/clojure.core/partition" target="_blank" rel="noopener">partition</a> 將這份資料弄成每五個一組
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #81d4fa;">[</span>data <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaeecc;">(</span>fetch-html<span style="color: #aaeecc;">)</span> html-&gt;hickory<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span>  <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span>/select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span>/child
+                   <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span>/or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span>/class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
+                         <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span>/class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+                  data<span style="color: #aaccff;">)</span>
+        <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaccff;">%</span> <span style="color: #ccaaff;">:content</span> last<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+        <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #fff59d;">str</span>/replace <span style="color: #aaccff;">%</span> #<span style="color: #aadddd;">"&#160;"</span> <span style="color: #aadddd;">""</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+        <span style="color: #aaccff;">(</span>partition <span style="color: #ccaaff;">5</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>                 <span style="color: #9ac; font-style: italic;">; &lt;= add this</span>
+</pre>
+</div>
+
+<p>
+這樣子得到的資訊如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"&#32654;&#37329; (USD)"</span> <span style="color: #aadddd;">"32.89000"</span> <span style="color: #aadddd;">"33.43200"</span> <span style="color: #aadddd;">"33.19000"</span> <span style="color: #aadddd;">"33.29000"</span><span style="color: #81d4fa;">)</span>
+ <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip ...</span>
+ <span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"&#36234;&#21335;&#30462; (VND)"</span> <span style="color: #aadddd;">"0.00128"</span> <span style="color: #aadddd;">"0.00160"</span> <span style="color: #aadddd;">"-"</span> <span style="color: #aadddd;">"-"</span><span style="color: #81d4fa;">)</span>
+ <span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"&#39340;&#20358;&#24163; (MYR)"</span> <span style="color: #aadddd;">"6.70500"</span> <span style="color: #aadddd;">"8.43100"</span> <span style="color: #aadddd;">"-"</span> <span style="color: #aadddd;">"-"</span><span style="color: #81d4fa;">)</span>
+ <span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"&#20154;&#27665;&#24163; (CNY)"</span> <span style="color: #aadddd;">"4.98500"</span> <span style="color: #aadddd;">"5.14900"</span> <span style="color: #aadddd;">"5.05900"</span> <span style="color: #aadddd;">"5.10900"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+將這邊的函式整理一下，得到以下的函式
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">parse-data</span> <span style="color: #81d4fa;">[</span>data<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">s</span>/select <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">s</span>/child
+                  <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">s</span>/or <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span>/class <span style="color: #aadddd;">"titleLeft"</span><span style="color: #fff59d;">)</span>
+                        <span style="color: #fff59d;">(</span><span style="color: #fff59d;">s</span>/class <span style="color: #aadddd;">"decimal"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+                 data<span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaccff;">%</span> <span style="color: #ccaaff;">:content</span> last<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span><span style="color: #fff59d;">str</span>/replace <span style="color: #aaccff;">%</span> #<span style="color: #aadddd;">"&#160;"</span> <span style="color: #aadddd;">""</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>partition <span style="color: #ccaaff;">5</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3a26b70" class="outline-3">
+<h3 id="org3a26b70">根據匯率轉換的資訊製作資料</h3>
+<div class="outline-text-3" id="text-org3a26b70">
+<p>
+在前面我們取得了匯率轉換的資訊，但是我們要怎樣把這些資訊做成以下的形式呢?
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">{</span><span style="color: #ccaaff;">:USD</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"&#32654;&#37329; (USD)"</span>,
+       <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #aadddd;">"32.92500"</span>,
+       <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #aadddd;">"33.46700"</span>,
+       <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #aadddd;">"33.22500"</span>,
+       <span style="color: #ccaaff;">:spot-buying</span> <span style="color: #aadddd;">"33.32500"</span><span style="color: #81d4fa;">}</span>,
+ <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip ...</span>
+ <span style="color: #ccaaff;">:PHP</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"&#33778;&#22283;&#27604;&#32034; (PHP)"</span>,
+       <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #aadddd;">"0.64980"</span>,
+       <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #aadddd;">"0.78250"</span>,
+       <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #aadddd;">"-"</span>,
+       <span style="color: #ccaaff;">:spot-buying</span> <span style="color: #aadddd;">"-"</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">}</span>
+</pre>
+</div>
+
+<p>
+就讓我們一步一步來吧，首先先透過 <a href="https://clojuredocs.org/clojure.core/zipmap" target="_blank" rel="noopener">zipmap</a> 替陣列裡面的每一元素加上 <i>keyword</i>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>map #<span style="color: #81d4fa;">(</span>zipmap <span style="color: #aaccff;">[</span><span style="color: #ccaaff;">:name</span> <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #ccaaff;">:spot-buying</span><span style="color: #aaccff;">]</span> <span style="color: #aaccff;">%</span><span style="color: #81d4fa;">)</span>
+     '<span style="color: #81d4fa;">(</span><span style="color: #aaccff;">(</span><span style="color: #aadddd;">"&#32654;&#37329; (USD)"</span> <span style="color: #aadddd;">"32.89000"</span> <span style="color: #aadddd;">"33.43200"</span> <span style="color: #aadddd;">"33.19000"</span> <span style="color: #aadddd;">"33.29000"</span><span style="color: #aaccff;">)</span>
+       <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip ...</span>
+       <span style="color: #aaccff;">(</span><span style="color: #aadddd;">"&#20154;&#27665;&#24163; (CNY)"</span> <span style="color: #aadddd;">"4.98500"</span> <span style="color: #aadddd;">"5.14900"</span> <span style="color: #aadddd;">"5.05900"</span> <span style="color: #aadddd;">"5.10900"</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+這樣子我們的資料就弄出一部份囉 ~
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"&#32654;&#37329; (USD)"</span>,
+  <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #aadddd;">"32.89000"</span>,
+  <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #aadddd;">"33.43200"</span>,
+  <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #aadddd;">"33.19000"</span>,
+  <span style="color: #ccaaff;">:spot-buying</span> <span style="color: #aadddd;">"33.29000"</span><span style="color: #81d4fa;">}</span>
+ <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip ...</span>
+ <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"&#20154;&#27665;&#24163; (CNY)"</span>,
+  <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #aadddd;">"4.98500"</span>,
+  <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #aadddd;">"5.14900"</span>,
+  <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #aadddd;">"5.05900"</span>,
+  <span style="color: #ccaaff;">:spot-buying</span> <span style="color: #aadddd;">"5.10900"</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+接下來，我們要想把法把 <code>美金 (USD)</code> 變成 <code>:USD</code> ，這個一樣可以透過 <a href="https://clojuredocs.org/clojure.core/re-find" target="_blank" rel="noopener">re-find</a> 來解決
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #81d4fa;">(</span>re-find #<span style="color: #aadddd;">"</span><span style="color: #ff8888;">(</span><span style="color: #aadddd;">.*</span><span style="color: #aadddd; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">(</span><span style="color: #ff8888;">)(</span><span style="color: #aadddd;">.*</span><span style="color: #ff8888;">)(</span><span style="color: #aadddd; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">)</span><span style="color: #ff8888;">)</span><span style="color: #aadddd;">"</span> <span style="color: #aadddd;">"&#32654;&#37329; (USD)"</span><span style="color: #81d4fa;">)</span>
+    <span style="color: #81d4fa;">(</span>nth <span style="color: #ccaaff;">2</span><span style="color: #81d4fa;">)</span>
+    keyword<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; :USD</span>
+</pre>
+</div>
+
+<p>
+因此我們將前面寫的東西合併起來，將最後產生的資訊整合到 <a href="https://clojuredocs.org/clojure.core/hash-map" target="_blank" rel="noopener">hash-map</a> 中，就完成了
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">build-data</span> <span style="color: #81d4fa;">[</span>data<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> data
+       <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span>zipmap <span style="color: #ccaaff;">[</span><span style="color: #ccaaff;">:name</span> <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #ccaaff;">:spot-buying</span><span style="color: #ccaaff;">]</span> <span style="color: #aaccff;">%</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>map #<span style="color: #aaeecc;">(</span>hash-map <span style="color: #ccaaff;">(</span>keyword
+                        <span style="color: #fff59d;">(</span>nth <span style="color: #ff8888;">(</span>re-find #<span style="color: #aadddd;">"</span><span style="color: #ff8888;">(</span><span style="color: #aadddd;">.*</span><span style="color: #aadddd; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">(</span><span style="color: #ff8888;">)(</span><span style="color: #aadddd;">.*</span><span style="color: #ff8888;">)(</span><span style="color: #aadddd; font-weight: bold;">\</span><span style="color: #ff8888; font-weight: bold;">)</span><span style="color: #ff8888;">)</span><span style="color: #aadddd;">"</span> <span style="color: #795548;">(</span><span style="color: #ccaaff;">:name</span> <span style="color: #aaccff;">%</span><span style="color: #795548;">)</span><span style="color: #ff8888;">)</span> <span style="color: #ccaaff;">2</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span> <span style="color: #aaccff;">%</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>into <span style="color: #aaeecc;">{}</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org615a5ae" class="outline-3">
+<h3 id="org615a5ae">合併所有結果</h3>
+<div class="outline-text-3" id="text-org615a5ae">
+<p>
+在上一步驟中，我們已經幾乎完成我們的程式，是時候將他進行整合成我們期望的結果
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">fetch</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>html <span style="color: #aaeecc;">(</span>fetch-html<span style="color: #aaeecc;">)</span>
+        ctx  <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> html html-&gt;hickory<span style="color: #aaeecc;">)</span>
+        data <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> ctx parse-data build-data<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:url</span> twbank-url
+     <span style="color: #ccaaff;">:date</span> <span style="color: #aaeecc;">(</span>parse-date html<span style="color: #aaeecc;">)</span>
+     <span style="color: #ccaaff;">:count</span> <span style="color: #aaeecc;">(</span>count data<span style="color: #aaeecc;">)</span>
+     <span style="color: #ccaaff;">:results</span> data<span style="color: #aaccff;">}</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+當你執行 <code>fetch</code> 這函式時，就會將 <a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="noopener">台灣銀行牌告匯率</a> 轉變成這樣的資訊:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">{</span><span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm"</span>,
+ <span style="color: #ccaaff;">:date</span> <span style="color: #aadddd;">"2016/02/26 13:25"</span>,
+ <span style="color: #ccaaff;">:count</span> <span style="color: #ccaaff;">19</span>,
+ <span style="color: #ccaaff;">:results</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:CHF</span>
+           <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"&#29790;&#22763;&#27861;&#37070; (CHF)"</span>,
+            <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #aadddd;">"32.91000"</span>,
+            <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #aadddd;">"34.02000"</span>,
+            <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #aadddd;">"33.51000"</span>,
+            <span style="color: #ccaaff;">:spot-buying</span> <span style="color: #aadddd;">"33.80000"</span><span style="color: #aaccff;">}</span>,
+           <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">skip..</span>
+           <span style="color: #ccaaff;">:ZAR</span>
+           <span style="color: #aaccff;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"&#21335;&#38750;&#24163; (ZAR)"</span>,
+            <span style="color: #ccaaff;">:cash-selling</span> <span style="color: #aadddd;">"-"</span>,
+            <span style="color: #ccaaff;">:cash-buying</span> <span style="color: #aadddd;">"-"</span>,
+            <span style="color: #ccaaff;">:spot-selling</span> <span style="color: #aadddd;">"2.09000"</span>,
+            <span style="color: #ccaaff;">:spot-buying</span> <span style="color: #aadddd;">"2.19000"</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org02885bf" class="outline-2">
+<h2 id="org02885bf">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-org02885bf">
+<p>
+本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2016/twbank-forex" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
+</p>
+
+<pre class="example">
+git clone https://github.com/coldnew/blog-tutorial-examples.git
+</pre>
+
+
+<p>
+並切換到 <code>2016/twbank-forex</code> 資料夾去
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@Rosia ~ $ cd blog-tutorial-examples/2016/twbank-forex
+</pre>
+</div>
+
+<p>
+你可以透過 <code>lein run</code> 來測試本文取得的資訊  ~ Have Fun~~
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/twbank-forex $ lein run
+{:url "http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm",
+ :date "2016/02/26 13:25",
+ :count 19,
+ :results
+ {:CHF
+  {:name "瑞士法郎 (CHF)",
+   :cash-selling "32.91000",
+   :cash-buying "34.02000",
+   :spot-selling "33.51000",
+   :spot-buying "33.80000"},
+skip .....
+</pre>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/clojure/" rel="tag">#clojure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/7f7c0c84/" rel="prev">Zephyr RTOS 開發記錄: 基本環境建立</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2c9c3b0f/" rel="next">使用 codox 與 CircleCI 建立 Clojure 專案的文檔</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcea2ceb"><span class="nav-text">設定我們的目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org30d7ea0"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb82d171"><span class="nav-text">開始我們的程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org2cec085"><span class="nav-text">取得網頁內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org135650b"><span class="nav-text">取得最新掛牌時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd2ac673"><span class="nav-text">將網頁轉換成 hickory 格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org076d75d"><span class="nav-text">取得匯率轉換的資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org3a26b70"><span class="nav-text">根據匯率轉換的資訊製作資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org615a5ae"><span class="nav-text">合併所有結果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org02885bf"><span class="nav-text">取得範例程式碼</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

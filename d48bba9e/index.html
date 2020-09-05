@@ -1,34 +1,1144 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="orange pi," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="最近突然又想自己架設個簡單的 AirPlay 播放器，好透過 wifi 遠端播放我的 iPhone 或是 MacBook 上面的音樂。    剛好手邊的單板電腦都已經有各自的用途，於是便來找一片新的板子，最後鎖定了 Orange Pi Zero 這片開發板 (我選的是記憶體為 256 MB 的版本)。    會選這片的原因，主要是包含運費後他最便宜(大約 NT 362 元)，剩下要自己準備的則">
+<meta property="og:type" content="article">
+<meta property="og:title" content="將 Orange Pi Zero 改造成 AirPlay 音頻播放器">
+<meta property="og:url" content="https://coldnew.github.io/d48bba9e/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="最近突然又想自己架設個簡單的 AirPlay 播放器，好透過 wifi 遠端播放我的 iPhone 或是 MacBook 上面的音樂。    剛好手邊的單板電腦都已經有各自的用途，於是便來找一片新的板子，最後鎖定了 Orange Pi Zero 這片開發板 (我選的是記憶體為 256 MB 的版本)。    會選這片的原因，主要是包含運費後他最便宜(大約 NT 362 元)，剩下要自己準備的則">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/d48bba9e/a4.png">
+<meta property="og:image" content="https://coldnew.github.io/d48bba9e/a6.jpg">
+<meta property="og:image" content="https://coldnew.github.io/d48bba9e/a5.jpg">
+<meta property="og:image" content="https://coldnew.github.io/d48bba9e/a1.png">
+<meta property="og:image" content="https://coldnew.github.io/d48bba9e/a2.png">
+<meta property="og:image" content="https://coldnew.github.io/d48bba9e/a3.png">
+<meta property="article:published_time" content="2017-04-23T12:27:00.000Z">
+<meta property="article:modified_time" content="2017-04-23T12:27:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="orange pi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/d48bba9e/a4.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 將 Orange Pi Zero 改造成 AirPlay 音頻播放器 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/d48bba9e/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              將 Orange Pi Zero 改造成 AirPlay 音頻播放器
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2017-04-23T20:27:00+08:00" content="2017-04-23">
+            2017-04-23
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+最近突然又想自己架設個簡單的 AirPlay 播放器，好透過 wifi 遠端播放我的 iPhone 或是 MacBook 上面的音樂。
+</p>
+
+<p>
+剛好手邊的單板電腦都已經有各自的用途，於是便來找一片新的板子，最後鎖定了 <a href="http://www.orangepi.org/orangepizero/" target="_blank" rel="noopener">Orange Pi Zero</a> 這片開發板 (我選的是記憶體為 256 MB 的版本)。
+</p>
+
+<p>
+會選這片的原因，主要是包含運費後他最便宜(大約 NT 362 元)，剩下要自己準備的則是: USB 電源、USB 手機充電線、8GB MicroSD 卡。
+</p>
+
+<a id="more"></a>
+
+<p>
+這邊就來紀錄一下我怎樣進行設定的。
+</p>
+
+<div id="outline-container-org3e69573" class="outline-2">
+<h2 id="org3e69573">下載 Image</h2>
+<div class="outline-text-2" id="text-org3e69573">
+<p>
+首先連線到 <a href="http://www.orangepi.org/downloadresources/" target="_blank" rel="noopener">http://www.orangepi.org/downloadresources/</a> ，取得你要用的 Image。由於我只是要用於文字介面，因此選擇 <code>Debian Server</code> 。
+</p>
+
+
+<div class="figure">
+<p><img src="a4.png"  />
+</p>
+</div>
+
+<p>
+下載好 Image 並解壓縮後，可以直接透過 <code>dd</code> 命令將其燒錄到 SD 卡 (假設 SD 卡設備為: /dev/sdc )
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ sudo dd if=debian_server_For_OrangePizero_v0_9_2.img of=/dev/sdc bs=1m
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5f70fe8" class="outline-2">
+<h2 id="org5f70fe8">連接 UART</h2>
+<div class="outline-text-2" id="text-org5f70fe8">
+<p>
+將 SD 卡插上後，我會先透過 USB 轉 TTL 的轉接線來登入終端介面
+</p>
+
+<p>
+從 <a href="http://linux-sunxi.org/Xunlong_Orange_Pi_Zero" target="_blank" rel="noopener">Xunlong Orange Pi Zero</a> 上面可以看到 Orange Pi Zero 的腳位是這樣定義的:
+</p>
+
+
+<div class="figure">
+<p><img src="a6.jpg"  />
+</p>
+</div>
+
+<p>
+因此我們接線的時候，要把 USB 轉 TTL 線上面的 TX 接到 Orange Pi Zero 的 RX, TTL 線上面的 RX 接到 Orange Pi Zero 的 TX:
+</p>
+
+
+<div class="figure">
+<p><img src="a5.jpg"  />
+</p>
+</div>
+
+<p>
+如果接上去後，開機沒任何訊息的話，可以試著把 TX 和 RX 線對調，看看是不是接錯了。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org97a34c4" class="outline-2">
+<h2 id="org97a34c4">預設帳號密碼</h2>
+<div class="outline-text-2" id="text-org97a34c4">
+<p>
+<a href="http://www.orangepi.org/orangepizero/" target="_blank" rel="noopener">Orange Pi Zero</a> 預設的帳號密碼是這樣的:
+</p>
+
+<ul class="org-ul">
+<li>帳號: root</li>
+<li>密碼: orangepi</li>
+</ul>
+
+<p>
+不要輸入錯誤進可以進去啦
+</p>
+
+<pre class="example">
+Debian GNU/Linux 8 OrangePizero ttyS0
+
+OrangePizero login: root
+Password:
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org83ad119" class="outline-2">
+<h2 id="org83ad119">擴充檔案系統大小</h2>
+<div class="outline-text-2" id="text-org83ad119">
+<p>
+進入到系統的第一步，當然就是擴充 SD 卡的空間了
+</p>
+
+<pre class="example">
+root@OrangePizero:~# fs_resize
+
+Disk /dev/mmcblk0: 7.4 GiB, 7969177600 bytes, 15564800 sectors
+/dev/mmcblk0p1       40960  172031  131072   64M  b W95 FAT32
+/dev/mmcblk0p2      172032 2113536 1941505  948M 83 Linux
+
+Max block: 15563776
+Part end: 2113536
+Part start: 172032
+
+WARNING: Do you want to resize "/dev/mmcblk0p2" (y/N)?  y
+PARTITION RESIZED.
+*********************************************
+Rootfs Extended. Please REBOOT to take effect
+*********************************************
+</pre>
+
+<p>
+好了後，我們就可以來進行網路設定，你也可以先接上網路線，然後更新套件。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3d787fe" class="outline-2">
+<h2 id="org3d787fe">設定 wifi</h2>
+<div class="outline-text-2" id="text-org3d787fe">
+<p>
+我自己對於 wifi 的設定，一直都是習慣使用 <a href="https://zh.wikipedia.org/zh-tw/NetworkManager" target="_blank" rel="noopener">NetworkManager</a> 來進行的。因此在這邊先啟動 NetworkManager:
+</p>
+
+<pre class="example">
+root@OrangePizero:~# systemctl start NetworkManager
+root@OrangePizero:~# systemctl enable NetworkManager
+</pre>
+
+<p>
+另外，由於 <a href="http://www.orangepi.org/orangepizero/" target="_blank" rel="noopener">Orange Pi Zero</a> 有兩個 wifi 設備，一個是 p2p0，另外一個是 wlan1
+</p>
+
+<pre class="example">
+root@OrangePizero:~# nmcli dev
+DEVICE   TYPE      STATE      CONNECTION
+eth0     ethernet  connected  eth0
+p2p0     wifi      unmanaged  --
+gre0     gre       unmanaged  --
+lo       loopback  unmanaged  --
+wlan1    wifi      unmanaged  --
+ip6tnl0  unknown   unmanaged  --
+sit0     unknown   unmanaged  --
+tunl0    unknown   unmanaged  --
+</pre>
+
+<p>
+由於 NetworkManager 預設會先去抓 p2p0 (按照字母排列)，因此我會設定成讓 NetworkManager 忽略 p2p0 這個設備，避免設定 wifi 變得麻煩。
+</p>
+
+<p>
+編輯  <code>/etc/NetworkManager/NetworkManager.conf</code> ，加入以下資訊:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-conf">[<span style="color: #fff59d;">main</span>]
+<span style="color: #aaccff;">plugins</span>=ifupdown,keyfile
+
+[<span style="color: #fff59d;">ifupdown</span>]
+<span style="color: #aaccff;">managed</span>=true
+[<span style="color: #fff59d;">keyfile</span>]
+<span style="color: #aaccff;">unmanaged-devices</span>=interface-name:p2p0
+</pre>
+</div>
+
+<p>
+好了後，重新啟動 NetworkManager
+</p>
+
+<pre class="example">
+root@OrangePizero:~# systemctl restart NetworkManager
+</pre>
+
+<p>
+這樣我們就可以列出我們可以連線的無線網路:
+</p>
+
+<pre class="example">
+root@OrangePizero:~# nmcli dev wifi list
+*  SSID        MODE   CHAN  RATE       SIGNAL  BARS  SECURITY
+   Edgar       Infra  10    54 Mbit/s  100     ▂▄▆█  WPA1 WPA2
+   AUSTIN&amp;FAY  Infra  6     54 Mbit/s  45      ▂▄__  WPA1 WPA2
+   75226490    Infra  1     54 Mbit/s  35      ▂▄__  WPA2
+   2.4aaaaaaa  Infra  4     54 Mbit/s  34      ▂▄__  WPA1 WPA2
+   RT-N16      Infra  6     54 Mbit/s  29      ▂___  WPA2
+   a89565282   Infra  1     54 Mbit/s  25      ▂___  WPA1 WPA2
+   dlink       Infra  11    54 Mbit/s  20      ▂___  WPA1 WPA2
+   mat         Infra  3     54 Mbit/s  22      ▂___  WPA1
+</pre>
+
+<p>
+假設我們要連接的 ESSID 為 Edgar，則接下來使用以下命令進行連接 
+</p>
+
+<pre class="example">
+root@OrangePizero:~# nmtui-connect Edgar
+</pre>
+
+<p>
+你會看到出現一個輸入密碼的視窗，輸入進去後應該就可以正常連上網路了
+</p>
+
+
+<div class="figure">
+<p><img src="a1.png"  />
+</p>
+</div>
+
+<p>
+如果你想要一個指令就完成這個動作，你可以使用下面的命令 (替換 &lt;essid&gt; 和 &lt;password&gt;)
+</p>
+
+<pre class="example">
+root@OrangePizero:~# nmcli dev wifi connect &lt;essid&gt; password &lt;password&gt;
+</pre>
+
+<p>
+這樣我們就完成無線網路的連接。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6b61e55" class="outline-2">
+<h2 id="org6b61e55">設定 avahi-daemon</h2>
+<div class="outline-text-2" id="text-org6b61e55">
+<p>
+為了讓 Apple 設備可以透過 <a href="https://en.wikipedia.org/wiki/Zero-configuration_networking" target="_blank" rel="noopener">Zeroconf</a> 協定找到同一網域下的設備，我們必須啟用 <a href="https://en.wikipedia.org/wiki/Avahi_(software)" target="_blank" rel="noopener">Avahi</a>。
+</p>
+
+<p>
+這邊啟用 avahi 並將其加入開機啟動項目去。
+</p>
+
+<pre class="example">
+root@OrangePizero:~# systemctl start avahi-daemon
+root@OrangePizero:~# systemctl enable avahi-daemon
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org04f4639" class="outline-2">
+<h2 id="org04f4639">編譯並安裝 shairport-sync</h2>
+<div class="outline-text-2" id="text-org04f4639">
+<p>
+首先，我們要安裝一些軟體來幫助我們編譯並安裝 Shairport。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">root@OrangePizero:~# apt-get install build-essential git autoconf libtool <span style="color: #aadddd;">\</span>
+    libdaemon-dev libasound2-dev libpopt-dev libconfig-dev <span style="color: #aadddd;">\</span>
+    avahi-daemon libavahi-client-dev <span style="color: #aadddd;">\</span>
+    libssl-dev
+</pre>
+</div>
+
+<p>
+該裝的軟體都裝完以後，我們就可以下載最新的 shairport-sync 程式碼並安裝到系統內。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git clone https://github.com/mikebrady/shairport-sync.git
+<span style="color: #ccaaff;">cd</span> shairport-sync &amp;&amp; autoreconf -i -f
+</pre>
+</div>
+
+<p>
+接下來就是依照 <a href="https://github.com/mikebrady/shairport-sync" target="_blank" rel="noopener">shairport-sync</a> 的 README 進行設置，我是設定了這些參數
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">./configure <span style="color: #aadddd;">\</span>
+    --with-alsa --with-stdout --with-pipe --with-avahi <span style="color: #aadddd;">\</span>
+    --with-ssl=openssl --with-metadata --with-systemd
+</pre>
+</div>
+
+<p>
+接下來將整個程式安裝到系統中
+</p>
+
+<pre class="example">
+root@OrangePizero:~/shairport-sync# make install
+</pre>
+
+<p>
+因為在前面的參數我是設定為給 <i>systemd</i> 的使用者使用，因此需要增加使用者與群組
+</p>
+
+<pre class="example">
+root@OrangePizero:~# groupadd -r shairport-sync
+root@OrangePizero:~# useradd -r -M -g shairport-sync -s /usr/bin/nologin -G audio shairport-sync
+</pre>
+
+<p>
+接著加入到 <i>systemd</i> 開機設定中，並啟用 shairport-sync 服務
+</p>
+
+<pre class="example">
+root@OrangePizero:~# systemctl enable shairport-sync
+root@OrangePizero:~# systemctl start shairport-sync
+</pre>
+
+<p>
+完成後，來設定輸出設備，這邊我採用的是 USB DAC。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc02cc7f" class="outline-2">
+<h2 id="orgc02cc7f">設定 USB DAC</h2>
+<div class="outline-text-2" id="text-orgc02cc7f">
+<p>
+我自己播放音樂的時候，都是透過 USB DAC 來進行播放的 (這樣音質較好)，因此要多進行一些步驟，讓 <a href="http://www.orangepi.org/orangepizero/" target="_blank" rel="noopener">Orange Pi Zero</a> 可以透過 USB 音效卡輸出。
+</p>
+</div>
+
+<div id="outline-container-org8dd537a" class="outline-3">
+<h3 id="org8dd537a">載入需要的驅動</h3>
+<div class="outline-text-3" id="text-org8dd537a">
+<p>
+正常來講，我們只要載入了 <code>snd_usb_audio</code> 這個驅動，就可以讓 ALSA 識別 USB 音效卡。
+</p>
+
+<p>
+不過&#x2026;&#x2026;
+</p>
+
+<pre class="example">
+root@OrangePizero:/lib/modules# modprobe snd_usb_audio
+modprobe: ERROR: ../libkmod/libkmod.c:557 kmod_search_moddep() could not open moddep file '/lib/modules/3.4.39/modules.dep.bin'
+</pre>
+
+<p>
+好吧，有東西從缺，改用 <code>insmod</code> 的方式來載入。我們在 <code>/etc/rc.local</code> 加上這些東西
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">insmod /lib/modules/3.4.39_zero/snd-usbmidi-lib.ko
+insmod /lib/modules/3.4.39_zero/snd-hwdep.ko
+insmod /lib/modules/3.4.39_zero/snd-usb-audio.ko
+</pre>
+</div>
+
+<p>
+這樣重開機後，你可以透過 <code>lsmod</code> 確認需要用到的驅動是否有真的被載入:
+</p>
+
+<pre class="example">
+root@OrangePizero:~# lsmod
+Module                  Size  Used by
+snd_usb_audio          79205  2
+snd_hwdep               5337  1 snd_usb_audio
+snd_usbmidi_lib        17391  1 snd_usb_audio
+xradio_wlan           230792  0
+</pre>
+
+<p>
+如果上面列出的模組有缺的話，可以透過以下命令檢查是否 <code>/etc/rc.local</code> 有哪個地方出錯
+</p>
+
+<pre class="example">
+root@OrangePizero:~# systemctl status rc-local
+● rc-local.service - /etc/rc.local Compatibility
+   Loaded: loaded (/lib/systemd/system/rc-local.service; static)
+   Active: active (exited) since Thu 1970-01-01 00:38:08 UTC; 47 years 3 months ago
+
+Jan 01 00:38:07 OrangePizero systemd[1]: Starting /etc/rc.local Compatibility...
+Jan 01 00:38:08 OrangePizero systemd[1]: Started /etc/rc.local Compatibility.
+</pre>
+
+<p>
+確認該被載入的驅動有正常載入後，我們來指定 ALSA 預設得輸出設備。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1331c59" class="outline-3">
+<h3 id="org1331c59">指定 ALSA 輸出設備</h3>
+<div class="outline-text-3" id="text-org1331c59">
+<p>
+那我們要怎樣讓 ALSA 知道我們指定的 USB DAC 的輸出位置呢?
+</p>
+
+<p>
+首先先列出可以使用的音效卡資訊:
+</p>
+
+<pre class="example">
+root@OrangePizero:~# cat /proc/asound/cards
+0 [audiocodec     ]: audiocodec - audiocodec
+                     audiocodec
+1 [sndhdmi        ]: sndhdmi - sndhdmi
+                     sndhdmi
+2 [Set            ]: USB-Audio - C-Media USB Headphone Set
+                     C-Media USB Headphone Set at usb-sunxi-ohci-1, full speed
+</pre>
+
+<p>
+找到編號是 <code>2</code> 後，我們就可以編輯 <code>/etc/asound.conf</code> 指定預設的 alsa 設備：
+</p>
+
+<pre class="example">
+defaults.pcm.card 2
+defaults.ctl.card 2
+</pre>
+
+<p>
+這樣子播放的時候，ALSA 就會選用 <code>USB-Audio - C-Media USB Headphone Set</code> 這個設備進行播放。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0ef2634" class="outline-2">
+<h2 id="org0ef2634">在 macOS 下透過 AirPlay 播放</h2>
+<div class="outline-text-2" id="text-org0ef2634">
+<p>
+所有設定完成後，只要你的 macOS 和你的 AirPlay 設備在同一個網域，你就可以這樣找到他:
+</p>
+
+
+<div class="figure">
+<p><img src="a2.png"  width="40%" />
+</p>
+</div>
+
+<p>
+或是透過 iTunes 選擇設備:
+</p>
+
+
+<div class="figure">
+<p><img src="a3.png"  width="40%" />
+</p>
+</div>
+
+<p>
+試試看，播放聲音的時候，聲音是不是透過連接在 Orange Pi 上面的 USB DAC 送出來的 :)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org71a5332" class="outline-2">
+<h2 id="org71a5332">參考資料</h2>
+<div class="outline-text-2" id="text-org71a5332">
+<ul class="org-ul">
+<li><a href="http://linux-sunxi.org/Xunlong_Orange_Pi_Zero" target="_blank" rel="noopener">Xunlong Orange Pi Zero - linux-sunxi.org</a></li>
+
+<li><a href="https://wiki.archlinux.org/index.php/NetworkManager#nmcli" target="_blank" rel="noopener">NetworkManager - ArchWiki</a></li>
+
+<li><a href="http://coldnew.github.io/blog/2015/11-12_shairport-sync/">使用 shairport-sync 在 Raspberry Pi 上上建立 AirPlay 音樂播放器</a></li>
+
+<li><a href="http://piboards.com/2017/02/13/orange-pi-as-time-machine-server/" target="_blank" rel="noopener">Orange Pi as Time Machine Server | Pi Boards</a></li>
+
+<li><a href="https://www.linuxbabe.com/linux-server/how-to-enable-etcrc-local-with-systemd" target="_blank" rel="noopener">How to Enable /etc/rc.local with Systemd</a></li>
+</ul>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/orange-pi/" rel="tag">#orange pi</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/7a59e714/" rel="prev">灣區日報閱讀筆記: 2017/05/01 第 902 期</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/aacb8a72/" rel="next">Clasp: Common Lisp using LLVM and C++ for Molecular Metaprogramming 筆記</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org3e69573"><span class="nav-text">下載 Image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5f70fe8"><span class="nav-text">連接 UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org97a34c4"><span class="nav-text">預設帳號密碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org83ad119"><span class="nav-text">擴充檔案系統大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3d787fe"><span class="nav-text">設定 wifi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6b61e55"><span class="nav-text">設定 avahi-daemon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org04f4639"><span class="nav-text">編譯並安裝 shairport-sync</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc02cc7f"><span class="nav-text">設定 USB DAC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org8dd537a"><span class="nav-text">載入需要的驅動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1331c59"><span class="nav-text">指定 ALSA 輸出設備</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0ef2634"><span class="nav-text">在 macOS 下透過 AirPlay 播放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org71a5332"><span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

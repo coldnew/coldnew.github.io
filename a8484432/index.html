@@ -1,34 +1,1038 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="clojure,java," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="GNU Readline Library 在 Linux 下是一個很常用的函式庫，在許多需要互動的指令程式上 很常見到其蹤影，最經典的莫過於 shell 了。我們在 shell 輸入資訊、使用上下鍵切換歷 史紀錄、按 TAB 進行自動補全等功能，實際上都是使用到了 readline 函式庫，    在 Clojure 中，若我們想要製作類似 GNU Readline 那樣的功能，我們可以透過">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 clojure 下使用 JLine 2.x 實現互動式命令">
+<meta property="og:url" content="https://coldnew.github.io/a8484432/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="GNU Readline Library 在 Linux 下是一個很常用的函式庫，在許多需要互動的指令程式上 很常見到其蹤影，最經典的莫過於 shell 了。我們在 shell 輸入資訊、使用上下鍵切換歷 史紀錄、按 TAB 進行自動補全等功能，實際上都是使用到了 readline 函式庫，    在 Clojure 中，若我們想要製作類似 GNU Readline 那樣的功能，我們可以透過">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2015-09-30T17:37:00.000Z">
+<meta property="article:modified_time" content="2015-09-30T17:37:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="clojure">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 在 clojure 下使用 JLine 2.x 實現互動式命令 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/a8484432/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              在 clojure 下使用 JLine 2.x 實現互動式命令
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2015-10-01T01:37:00+08:00" content="2015-10-01">
+            2015-10-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+<a href="http://tiswww.case.edu/php/chet/readline/rltop.html" target="_blank" rel="noopener">GNU Readline Library</a> 在 Linux 下是一個很常用的函式庫，在許多需要互動的指令程式上
+很常見到其蹤影，最經典的莫過於 shell 了。我們在 shell 輸入資訊、使用上下鍵切換歷
+史紀錄、按 <code>TAB</code> 進行自動補全等功能，實際上都是使用到了 <a href="http://tiswww.case.edu/php/chet/readline/rltop.html" target="_blank" rel="noopener">readline</a> 函式庫，
+</p>
+
+<p>
+在 Clojure 中，若我們想要製作類似 GNU Readline 那樣的功能，我們可以透過 JNA/JNI
+等方式來讀取 readline 函式庫，或者是找其他實現。
+</p>
+
+<p>
+在本篇文章中，我選用了 <a href="https://github.com/jline/jline2/" target="_blank" rel="noopener">JLine 2.x</a> 來作為 readline 函式庫的替代。<a href="https://github.com/jline/jline2/" target="_blank" rel="noopener">JLine 2.x</a> 是一個
+開源並使用 <a href="http://www.opensource.org/licenses/BSD-3-Clause" target="_blank" rel="noopener">Modified BSD License</a> 授權的純 Java 實現的函式庫，他提供了許多與 GNU
+Readline 類似的功能，是用來實現互動式命令很方便的工具。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-org3efb0fe" class="outline-2">
+<h2 id="org3efb0fe">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org3efb0fe">
+<p>
+本篇文章還是依照以往的規則，使用預設的 <i>lein</i> 樣板，因此我們這樣建立名為
+<i>myapp</i> 的專案:
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ lein new jline2
+</pre>
+
+<p>
+專案建立完成後，我們要稍微修改一下 <i>project.clj</i> ，在 <code>:dependencies</code> 欄位加上
+<a href="https://github.com/jline/jline2/" target="_blank" rel="noopener">jline2</a> 的依賴。
+</p>
+
+<p>
+(你可以在 <a href="http://mvnrepository.com/artifact/jline/jline/2.13" target="_blank" rel="noopener">這裡</a> 找到最新的 JLine 版本資訊)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">jline2</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
+  <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"</span><span style="color: #ff3333; font-weight: bold;">FIXME</span><span style="color: #aadddd;">: write description"</span>
+  <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
+  <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
+            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span>/clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">jline</span>/jline <span style="color: #aadddd;">"2.13"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgabf75bb" class="outline-2">
+<h2 id="orgabf75bb">Example 0: 顯示使用者輸入</h2>
+<div class="outline-text-2" id="text-orgabf75bb">
+<p>
+對於互動式命令的實現，第一個程式就會是怎樣將使用者的輸入顯示出來，對於這樣單純的
+程式，我們可以直接透過 JLine 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="noopener">ConsoleReader</a> 建立一個名為 <i>console</i> 的物件，並
+透過他的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%2528java.lang.Character%2529" target="_blank" rel="noopener">.readLine</a> 方法去取得目前輸入的資訊。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example0</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span>jline.console ConsoleReader<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:gen-class</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>console <span style="color: #aaeecc;">(</span>ConsoleReader.<span style="color: #aaeecc;">)</span>
+        line <span style="color: #aaeecc;">(</span>.readLine console <span style="color: #aadddd;">"user&gt; "</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aaeecc;">(</span>str <span style="color: #aadddd;">"You enter: "</span> line<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+使用 <code>lein run -m jline2.example0</code> 執行後你就會看到如下的互動式程式，試著輸入一
+些東西看看。
+</p>
+
+<p>
+(可以使用 <code>Ctrl-c</code> 結束程式)
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/jline2 $ lein run -m jline2.example0
+user&gt; hello jline2
+You enter: hello jline2
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org9d72c98" class="outline-2">
+<h2 id="org9d72c98">Example 1: 無窮迴圈讀取輸入</h2>
+<div class="outline-text-2" id="text-org9d72c98">
+<p>
+既然我們要打造互動式命令，通常都會將他卡在某個無窮迴圈中，直到遇到特定條件時跳脫
+出這個無窮迴圈，在 clojure 中有許多迴圈類的函式，比如 <a href="https://clojuredocs.org/clojure.core/while" target="_blank" rel="noopener">while</a> 、<a href="https://clojuredocs.org/clojure.core/for" target="_blank" rel="noopener">for</a> 、<a href="https://clojuredocs.org/clojure.core/loop" target="_blank" rel="noopener">loop</a> 等。
+</p>
+
+<p>
+這邊使用 <a href="https://clojuredocs.org/clojure.core/loop" target="_blank" rel="noopener">loop</a> 來實作我們的無窮迴圈，這個程式會一直執行，並且透過 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%2528java.lang.Character%2529" target="_blank" rel="noopener">.readLine</a> 方法
+去取得 console 目前輸入的資訊直到遇到使用者輸入 <i>quit</i> 後，因為不再呼叫 <i>recur</i>
+而讓迴圈結束。
+</p>
+
+<p>
+當然，你也可以使用我們在 readline 下常用的 <code>Ctrl-c</code> 離開這個迴圈。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example1</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span>jline.console ConsoleReader<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:gen-class</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>console <span style="color: #aaeecc;">(</span>ConsoleReader.<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #ccaaff;">[</span>line <span style="color: #fff59d;">(</span>.readLine console <span style="color: #aadddd;">"user&gt; "</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">]</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #fff59d;">(</span>= line <span style="color: #aadddd;">"quit"</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span>println <span style="color: #ff8888;">(</span>str <span style="color: #aadddd;">"You enter: "</span> line<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"Exit application."</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+我們使用 <code>lein run</code> 進行測試就會發現直到當輸入 <i>quit</i> 時程式才結束。
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/jline2 $ lein run -m jline2.example1
+user&gt; test
+You enter: test
+user&gt; hi
+You enter: hi
+user&gt; quit
+Exit application.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org6bf721a" class="outline-2">
+<h2 id="org6bf721a">Example 2: 遮蔽使用者輸入</h2>
+<div class="outline-text-2" id="text-org6bf721a">
+<p>
+在互動式命令中，輸入密碼的時候我們不是不顯示密碼，不然就是將密碼轉換成 <code>*</code> 進行
+顯示，那在 jline 下要怎樣作呢？實際上透過 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="noopener">ConsoleReader</a> 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#readLine%2528java.lang.Character%2529" target="_blank" rel="noopener">.readLine</a> 方法及可以
+設定要如何顯示使用者的輸入，比如說我們將輸入變成 <code>*</code> 這樣的符號:
+</p>
+
+<p>
+(在 clojure 中， <code>char</code> 型態的字元前面會加入反斜線 <code>\</code> 來表示)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example2</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span>jline.console ConsoleReader<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:gen-class</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>console <span style="color: #aaeecc;">(</span>ConsoleReader.<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #ccaaff;">[</span>line <span style="color: #fff59d;">(</span>.readLine console <span style="color: #aadddd;">"user&gt; "</span> <span style="color: #aadddd;">\*</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">]</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #fff59d;">(</span>= line <span style="color: #aadddd;">"quit"</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span>println <span style="color: #ff8888;">(</span>str <span style="color: #aadddd;">"You enter: "</span> line<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"Exit application."</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+讓我們趕快來測試程式看看是不是所有輸入的資訊都被轉換成 <code>*</code> 了?
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/jline2 $ lein run -m jline2.example2
+user&gt; ********
+You enter: asdadasd
+user&gt; ****
+Exit application.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org8f8da45" class="outline-2">
+<h2 id="org8f8da45">Example 3: 簡易的 shell</h2>
+<div class="outline-text-2" id="text-org8f8da45">
+<p>
+經過前面的範例，想必各位對 jline 的基本使用已經心裡有數了，那麼就讓我們來個複雜
+一點的程式來作個結束吧。我們要實現一個簡單的 shell，這個 shell 只有 3 種指令：ls、
+clear、echo。
+</p>
+
+<p>
+在講解前，先讓我們看看整體程式是長怎樣的:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">jline2.example3</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span>jline.console ConsoleReader<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:gen-class</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>console <span style="color: #aaeecc;">(</span>ConsoleReader.<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">loop</span> <span style="color: #aaeecc;">[]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #ccaaff;">[</span>line <span style="color: #fff59d;">(</span>.readLine console <span style="color: #aadddd;">"user&gt; "</span><span style="color: #fff59d;">)</span>
+            line-seq <span style="color: #fff59d;">(</span><span style="color: #fff59d;">clojure.string</span>/split line #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">]</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">when-not</span> <span style="color: #fff59d;">(</span>= line <span style="color: #aadddd;">"quit"</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #ff8888;">(</span>first line-seq<span style="color: #ff8888;">)</span>
+            <span style="color: #aadddd;">"ls"</span>    <span style="color: #ff8888;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #795548;">[</span>f <span style="color: #827717;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">System</span>/getProperty <span style="color: #aadddd;">"user.dir"</span><span style="color: #aadddd;">)</span>
+                                  <span style="color: #fff59d;">clojure.java.io</span>/file
+                                  .list<span style="color: #827717;">)</span><span style="color: #795548;">]</span>
+                      <span style="color: #795548;">(</span>println <span style="color: #827717;">(</span>str f<span style="color: #827717;">)</span><span style="color: #795548;">)</span><span style="color: #ff8888;">)</span>
+            <span style="color: #aadddd;">"clear"</span> <span style="color: #ff8888;">(</span>.clearScreen console<span style="color: #ff8888;">)</span>
+            <span style="color: #aadddd;">"echo"</span>  <span style="color: #ff8888;">(</span>println <span style="color: #795548;">(</span>str <span style="color: #827717;">(</span>second line-seq<span style="color: #827717;">)</span><span style="color: #795548;">)</span><span style="color: #ff8888;">)</span>
+            <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
+            <span style="color: #ff8888;">(</span>println <span style="color: #795548;">(</span>str <span style="color: #aadddd;">"No such command!! You enter: "</span> line<span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+          <span style="color: #fff59d;">(</span><span style="color: #aaffaa;">recur</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"Exit application."</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+在這個範例之前，我們都是直接去對 <code>line</code> 變數進行比較，但是在 shell 裡面，一行程
+式可以被解析為一道命令與許多參數，因此我們要先將 <code>line</code> 裡面的訊息切成許多序列
+(sequence)，序列的第一個即為 <code>命令</code> ，剩下的則是參數。
+</p>
+
+<p>
+clojure.string 提供了 <a href="https://clojuredocs.org/clojure.string/split" target="_blank" rel="noopener">split</a> 函式可以很方便的將字串切割成序列 (sequence)。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">clojure.string</span>/split <span style="color: #aadddd;">"echo test"</span> #<span style="color: #aadddd;">"</span><span style="color: #aadddd; font-weight: bold;">\s</span><span style="color: #aadddd;">+"</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; ["echo" "test"]</span>
+</pre>
+</div>
+
+<p>
+將輸入的資訊切割成序列 (sequence) 後，我們就可以使用 <a href="https://clojuredocs.org/clojure.core/first" target="_blank" rel="noopener">first</a> 去取得序列的第一個項
+目，也就是使用者實際輸入的命令，我們將其導入 <a href="https://clojuredocs.org/clojure.core/case" target="_blank" rel="noopener">case</a> 進行判斷，若有符合的資訊則根據
+批配項目進行相對應的函式，反之則提示說沒有該命令存在。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">case</span> <span style="color: #81d4fa;">(</span>first line-seq<span style="color: #81d4fa;">)</span>
+  <span style="color: #aadddd;">"ls"</span>    <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #aaccff;">[</span>f <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #ccaaff;">(</span><span style="color: #fff59d;">System</span>/getProperty <span style="color: #aadddd;">"user.dir"</span><span style="color: #ccaaff;">)</span>
+                        <span style="color: #fff59d;">clojure.java.io</span>/file
+                        .list<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+            <span style="color: #aaccff;">(</span>println <span style="color: #aaeecc;">(</span>str f<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #aadddd;">"clear"</span> <span style="color: #81d4fa;">(</span>.clearScreen console<span style="color: #81d4fa;">)</span>
+  <span style="color: #aadddd;">"echo"</span>  <span style="color: #81d4fa;">(</span>println <span style="color: #aaccff;">(</span>str <span style="color: #aaeecc;">(</span>second line-seq<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+  <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">default</span>
+  <span style="color: #81d4fa;">(</span>println <span style="color: #aaccff;">(</span>str <span style="color: #aadddd;">"No such command!! You enter: "</span> line<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+我們先從 clear 命令開始，clear 命令實際上是調用了 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html" target="_blank" rel="noopener">ConsoleReader</a> 的 <a href="http://jline.github.io/jline2/apidocs/reference/jline/console/ConsoleReader.html#clearScreen%2528%2529" target="_blank" rel="noopener">clearScreen[[file:][</a>]
+方法，將整個畫面清除乾淨。
+</p>
+
+<p>
+而 echo 命令則是透過 <a href="https://clojuredocs.org/clojure.core/second" target="_blank" rel="noopener">second</a> 方法去取得我們切割出來的命令序列 (sequence) 中的第二
+個項目，並將之印出來。
+</p>
+
+<p>
+ls 命令則是當中最為複雜的一個，我們首先透過 <code>System/getProperty</code> 去取得當前目錄
+的位址:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #fff59d;">System</span>/getProperty <span style="color: #aadddd;">"user.dir"</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; "/Data/jline2"</span>
+</pre>
+</div>
+
+<p>
+知道了當前目錄後，我們再將其透過 clojure.java.io 的<a href="https://clojuredocs.org/clojure.java.io/file" target="_blank" rel="noopener"> file</a> 將目錄內容轉換成
+序列 (sequence)。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>vec <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaccff;">(</span><span style="color: #fff59d;">System</span>/getProperty <span style="color: #aadddd;">"user.dir"</span><span style="color: #aaccff;">)</span> <span style="color: #fff59d;">clojure.java.io</span>/file .list<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; [".gitignore" "doc" "LICENSE" "project.clj" "README.md" "resources" "src" "test"]</span>
+</pre>
+</div>
+
+<p>
+有了序列 (sequence) 以後，接下來就使用 <a href="https://clojuredocs.org/clojure.core/doseq" target="_blank" rel="noopener">doseq</a> 去遍歷這整個序列 (sequence) ，並將
+資訊印出來，這樣我們的 ls 命令就完成了。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #81d4fa;">[</span>f <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">-&gt;</span> <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">System</span>/getProperty <span style="color: #aadddd;">"user.dir"</span><span style="color: #aaeecc;">)</span>
+              <span style="color: #fff59d;">clojure.java.io</span>/file
+              .list<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>println <span style="color: #aaccff;">(</span>str f<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; .gitignore</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; doc</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; LICENSE</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; project.clj</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; README.md</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; resources</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; src</span>
+<span style="color: #5f5f5f; font-style: italic;">;;</span><span style="color: #9ac; font-style: italic;">=&gt; test</span>
+</pre>
+</div>
+
+<p>
+於是一個簡單的 shell 就這樣寫完了，我們一樣使用 <code>lein</code> 執行並測試這隻程式。
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/jline2 $ lein run -m jline2.example3
+user&gt; echo hi
+hi
+user&gt;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf1d79ee" class="outline-2">
+<h2 id="orgf1d79ee">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-orgf1d79ee">
+<p>
+本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/lein_with_java" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
+</p>
+
+<pre class="example">
+git clone https://github.com/coldnew/blog-tutorial-examples.git
+</pre>
+
+
+<p>
+並切換到 <code>2015/jline2</code> 資料夾去
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/jline2
+</pre>
+
+<p>
+程式的執行方式則和本篇文章相同 ~ Have Fun~~
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga498df8" class="outline-2">
+<h2 id="orga498df8">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orga498df8">
+<p>
+<code>[1]</code> <a href="http://www.cnblogs.com/hazir/p/instruction_to_readline.html" target="_blank" rel="noopener">GNU Readline 庫及編程簡介</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="http://offbytwo.com/presentations/building-better-repl.pdf" target="_blank" rel="noopener">Building a better Clojure REPL</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="https://jeszysblog.wordpress.com/2012/04/14/readline-style-command-line-editing-with-jline/" target="_blank" rel="noopener">Readline style command line editing with JLine</a>
+</p>
+
+<p>
+<code>[4]</code> <a href="http://www.programcreek.com/java-api-examples/index.php?api=jline.console.ConsoleReader" target="_blank" rel="noopener">Java Code Examples for jline.console.ConsoleReader</a>
+</p>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/clojure/" rel="tag">#clojure</a>
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/1b4f10a2/" rel="prev">在 clojurescript 下使用 readline 實現互動式命令 - Node.js 篇</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/5c119546/" rel="next">使用 clojure 和 JavaFX WebView 來打造桌面程式</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org3efb0fe"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgabf75bb"><span class="nav-text">Example 0: 顯示使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9d72c98"><span class="nav-text">Example 1: 無窮迴圈讀取輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6bf721a"><span class="nav-text">Example 2: 遮蔽使用者輸入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8f8da45"><span class="nav-text">Example 3: 簡易的 shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf1d79ee"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga498df8"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

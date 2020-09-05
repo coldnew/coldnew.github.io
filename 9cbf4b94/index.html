@@ -1,34 +1,1070 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="yocto,imx6,imx6solox," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="最近稍微有些時間可以玩玩手邊的 i.MX6 SabreSD SoloX 開發板，這是一套採用 i.MX6 Cortex-A9 搭配 Cortex-M4 的 HMP (Heterogeneous multi-processing) 架構的板子。    既然要玩玩看，那就從官方的 i.MX_Yocto_Project_User&#39;s_Guide.pdf 開始吧，我們使用 Freescale 社群所提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="i.MX6SoloX SabreSD 學習筆記: 使用 Yocto 製作開機卡">
+<meta property="og:url" content="https://coldnew.github.io/9cbf4b94/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="最近稍微有些時間可以玩玩手邊的 i.MX6 SabreSD SoloX 開發板，這是一套採用 i.MX6 Cortex-A9 搭配 Cortex-M4 的 HMP (Heterogeneous multi-processing) 架構的板子。    既然要玩玩看，那就從官方的 i.MX_Yocto_Project_User&#39;s_Guide.pdf 開始吧，我們使用 Freescale 社群所提">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/9cbf4b94/sabresd.png">
+<meta property="article:published_time" content="2018-02-23T02:33:00.000Z">
+<meta property="article:modified_time" content="2018-02-26T05:11:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="yocto">
+<meta property="article:tag" content="imx6">
+<meta property="article:tag" content="imx6solox">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/9cbf4b94/sabresd.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> i.MX6SoloX SabreSD 學習筆記: 使用 Yocto 製作開機卡 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/9cbf4b94/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              i.MX6SoloX SabreSD 學習筆記: 使用 Yocto 製作開機卡
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2018-02-26T13:11:00+08:00" content="2018-02-26">
+            2018-02-26
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/imx6sx-sabresd/" itemprop="url" rel="index">
+                  <span itemprop="name">i.MX6SoloX SabreSD 學習筆記</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+最近稍微有些時間可以玩玩手邊的 <a href="https://www.nxp.com/support/developer-resources/hardware-development-tools/sabre-development-system/sabre-board-for-smart-devices-based-on-the-i.mx-6solox-applications-processors:RD-IMX6SX-SABRE" target="_blank" rel="noopener">i.MX6 SabreSD SoloX</a> 開發板，這是一套採用 i.MX6 Cortex-A9 搭配 Cortex-M4 的 HMP (Heterogeneous multi-processing) 架構的板子。
+</p>
+
+<p>
+既然要玩玩看，那就從官方的 <a href="i.MX_Yocto_Project_User's_Guide.pdf">i.MX_Yocto_Project_User's_Guide.pdf</a> 開始吧，我們使用 <a href="https://github.com/Freescale" target="_blank" rel="noopener">Freescale 社群</a>所提供的開發環境來構件我們自己的 <a href="https://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto</a> 系統。
+</p>
+
+<p>
+注意到 <a href="https://github.com/Freescale" target="_blank" rel="noopener">Freescale 社群</a> 的 Yocto 環境和 Yocto 官方的不太一樣，因此一開始最好還是照著 <a href="i.MX_Yocto_Project_User's_Guide.pdf">i.MX_Yocto_Project_User's_Guide.pdf</a>   上的教學走。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-org3c22120" class="outline-2">
+<h2 id="org3c22120">電腦端的準備</h2>
+<div class="outline-text-2" id="text-org3c22120">
+<p>
+推薦編譯用的環境為 <code>Ubuntu 14.04</code> ，假設你的電腦剛好是 <code>Ubuntu 14.04</code> 則需要安裝以下東西:
+</p>
+
+<p>
+(其他系統需要安裝軟體的資訊請參考: <a href="http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html" target="_blank" rel="noopener">Yocto Project Reference Manual</a>)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo apt-get install -y <span style="color: #aadddd;">\</span>
+     gawk wget git-core diffstat unzip <span style="color: #aadddd;">\</span>
+     texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev <span style="color: #aadddd;">\</span>
+     xterm sed cvs subversion coreutils texi2html <span style="color: #aadddd;">\</span>
+     docbook-utils python-pysqlite2 help2man make gcc g++ <span style="color: #aadddd;">\</span>
+     desktop-file-utils libgl1-mesa-dev libglu1-mesa-dev mercurial <span style="color: #aadddd;">\</span>
+     autoconf automake groff curl lzop asciidoc u-boot-tools
+</pre>
+</div>
+
+<p>
+我自己編譯用的主機為 Gentoo Linux, 因此我另外做一個 docker image 來避免編譯出錯用，詳細資訊請參考 <a href="https://coldnew.github.io/135d6bd2/">我用來編譯 Yocto 的 Docker 環境</a> 一文。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4c17a20" class="outline-2">
+<h2 id="org4c17a20">安裝 repo</h2>
+<div class="outline-text-2" id="text-org4c17a20">
+<p>
+如果你系統上沒有編譯 Android 時需要用到的 <a href="https://source.android.com/setup/developing#repo" target="_blank" rel="noopener">repo</a> 工具，那在開始一切之前我們需要安裝一下，下面命令將其放到 <code>~/bin/repo</code> 去
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">mkdir ~/bin
+curl http://commondatastorage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo
+chmod a+x ~/bin/repo
+</pre>
+</div>
+
+<p>
+接著在你的 <code>~/.bashrc</code> 加上以下這一行，讓系統可以認到 <code>~/bin/repo</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">export</span> <span style="color: #aaccff;">PATH</span>=~/bin:$<span style="color: #aaccff;">PATH</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org38d7f1f" class="outline-2">
+<h2 id="org38d7f1f">設定 Yocto 環境</h2>
+<div class="outline-text-2" id="text-org38d7f1f">
+<p>
+安裝好了 <a href="https://source.android.com/setup/developing#repo" target="_blank" rel="noopener">repo</a> 後，接下來我們要來建立我們的開發用資料夾了，我們建立一個名為 <code>fsl-release-bsp</code> 的資料夾，並切進去
+</p>
+
+<p>
+切進資料夾後，呼叫 repo 命令幫我們抓相關的 Yocto 程式碼下來
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">mkdir fsl-release-bsp &amp;&amp; <span style="color: #ccaaff;">cd</span> $<span style="color: #aaccff;">_</span>
+repo init -u git://git.freescale.com/imx/fsl-arm-yocto-bsp.git -b imx-morty
+repo sync -j9
+</pre>
+</div>
+
+<p>
+完成後，現在你的 <code>fsl-release-bsp</code> 是這樣的結構的，其中 <code>sources</code> 資料夾內就是一堆需要使用到的 <a href="http://layers.openembedded.org/layerindex/branch/master/layers/" target="_blank" rel="noopener">Yocto Layers</a>
+</p>
+
+<pre class="example">
+.
+├── fsl-setup-release.sh -&gt; sources/meta-fsl-bsp-release/imx/tools/fsl-setup-release.sh
+├── README -&gt; sources/base/README
+├── README-IMXBSP -&gt; sources/meta-fsl-bsp-release/imx/README
+├── setup-environment -&gt; sources/base/setup-environment
+└── sources
+
+1 directory, 4 files
+</pre>
+
+<p>
+現在，讓我們透過 <code>fsl-setup-release.sh</code> 這腳本建立我們實際上用來編譯用的資料夾吧 !
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8fc9256" class="outline-2">
+<h2 id="org8fc9256">建立編譯環境</h2>
+<div class="outline-text-2" id="text-org8fc9256">
+<p>
+在建立編譯環境之前，我們有幾個基本的環境變數要設定:
+</p>
+
+<ul class="org-ul">
+<li><p>
+DISTRO
+</p>
+
+<p>
+<code>DISTRO</code> 這個環境變數掌管了要編譯目標的類型，比如使用 X11 視窗、Wayland 視窗環境&#x2026; 等，Freescale 共提供以下幾種:
+</p>
+
+<ul class="org-ul">
+<li>fsl-imx-x11: X11 圖形環境</li>
+<li>fsl-imx-wayland: Wayland 圖形環境</li>
+<li>fsl-imx-xwayland: XWayland 圖形環境，注意到此時 X11 的程式無法支援 EGL</li>
+<li>fsl-imx-fb: 使用 Framebuffer 作為界面，大多用於純文字或是不支援 X11, Wayland 的狀況</li>
+</ul></li>
+
+<li><p>
+MACHINE
+</p>
+
+<p>
+<code>MACHINE</code> 這個變數指定了要針對哪一種開發板進行編譯，比如這邊我使用的是 <a href="https://www.nxp.com/support/developer-resources/hardware-development-tools/sabre-development-system/sabre-board-for-smart-devices-based-on-the-i.mx-6solox-applications-processors:RD-IMX6SX-SABRE" target="_blank" rel="noopener">i.MX6 SabreSD SoloX</a> ，因此我的 <code>MACHINE</code> 要選擇 <code>imx6sxsabresd</code>
+</p></li>
+
+<li><p>
+EULA
+</p>
+
+<p>
+<code>EULA</code> 是告訴 Freescale 的編譯環境說你已經看過 NXP 的授權條款，如果你沒設定的話它就會要你看一長串的合約然後逼你輸入 yes
+</p></li>
+</ul>
+
+
+<p>
+了解了以上幾個環境變數後，我們就可以透過 <code>fsl-setup-release.sh</code> 來建立我們的編譯環境，建立的方式是這樣的:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #aaccff;">DISTRO</span>=fsl-imx-x11 <span style="color: #aaccff;">MACHINE</span>=imx6sxsabresd <span style="color: #aaccff;">EULA</span>=<span style="color: #ccaaff;">1</span> source fsl-setup-release.sh -b &lt;build dir&gt;
+</pre>
+</div>
+
+<p>
+因此假如我們要編譯的資料夾名為 <code>build</code> ，則使用以下命令建立資料夾並進入編譯環境
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #aaccff;">DISTRO</span>=fsl-imx-x11 <span style="color: #aaccff;">MACHINE</span>=imx6sxsabresd <span style="color: #aaccff;">EULA</span>=<span style="color: #ccaaff;">1</span> source fsl-setup-release.sh -b build
+</pre>
+</div>
+
+<p>
+一旦資料夾建立了以後，之後我們就可以使用以下命令直接切進編譯還進去
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/fsl-release-bsp $ source setup-environmet build
+</pre>
+</div>
+
+<p>
+切進去後的資料夾結構其實都和 Yocto 是一樣的，這邊就不多加介紹。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb9c0a0e" class="outline-2">
+<h2 id="orgb9c0a0e">選擇要編譯的 image</h2>
+<div class="outline-text-2" id="text-orgb9c0a0e">
+<p>
+現在，我們的終端機已經在 <code>build</code> 資料夾並準備編譯我們的 image 了，NXP 的環境預設提供了這些 image 可以編譯:
+</p>
+
+<ul class="org-ul">
+<li><p>
+core-image-minimal
+</p>
+
+<p>
+Yocto 原生的 image, 提供最簡單的 busybox 環境讓你測試是否能夠開機正常
+</p>
+
+<p>
+core-image-minimal.bb 可以在 poky 目錄找到。
+</p></li>
+
+<li><p>
+core-image-base
+</p>
+
+<p>
+終端機環境下的 image, 並提供硬體相關的支援。
+</p>
+
+<p>
+core-image-base.bb 可以在 poky 目錄找到。
+</p></li>
+
+<li><p>
+core-image-sato
+</p>
+
+<p>
+一套採用 X11 視窗並透過 GTK 製作的行動環境，老實說很丑但是堪用。
+</p>
+
+<p>
+core-image-sato.bb 可以在 poky 目錄找到。
+</p></li>
+
+<li><p>
+fsl-image-machine-test
+</p>
+
+<p>
+沒有圖形界面的終端環境下的 image
+</p>
+
+<p>
+fsl-image-machine-test.bb 可以在 meta-freescale-distro 目錄找到。
+</p></li>
+
+<li><p>
+fsl-image-validation-imx
+</p>
+
+<p>
+具有圖形界面的 i.MX image，但是不會有任何 Qt5 的函式庫。
+</p>
+
+<p>
+fsl-image-validation-imx.bb 可以在 meta-fsl-bsp-release 目錄找到。
+</p></li>
+
+<li><p>
+fsl-image-qt5-validation-imx
+</p>
+
+<p>
+具有圖形界面的 i.MX image，並包含 Qt5 的函式庫。注意到這個只支援具有 <code>GPU</code> 的 i.MX SoC, 因此 <code>i.MX6UltraLite</code>, <code>i.MX6 UltraLiteLite</code>, <code>i.MX7 Dual</code> 相關的開發板都不能用呦~
+</p>
+
+<p>
+fsl-image-qt5-validation-imx.bb 可以在 meta-fsl-bsp-release 目錄找到。
+</p></li>
+</ul>
+
+
+<p>
+上面就是大致上能用的 image 的介紹，不過一般我都是先用 <code>core-image-minimal</code> 確認可以開機後，再來進行修改。
+</p>
+
+<p>
+讓我們開始編譯吧! 敲下以下命令後去休息一下等待編譯好吧~
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/fsl-release-bsp/build $ bitbake core-image-minimal
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org27e193a" class="outline-2">
+<h2 id="org27e193a">製作 SD 卡</h2>
+<div class="outline-text-2" id="text-org27e193a">
+<p>
+編譯完成後，當前目錄會變成這樣的架構:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">.</span> &lt;b&gt;
+&#9500;&#9472;&#9472; bitbake.lock
+&#9500;&#9472;&#9472; cache &lt;b&gt;
+&#9500;&#9472;&#9472; conf &lt;b&gt;
+&#9500;&#9472;&#9472; sstate-cache &lt;b&gt;
+&#9492;&#9472;&#9472; tmp &lt;b&gt;
+
+<span style="color: #ccaaff;">4</span> directories, <span style="color: #ccaaff;">1</span> file
+</pre>
+</div>
+
+<p>
+其中編譯完成的 image 在 <code>tmp/deploy/images/imx6sxsabresd/</code> 資料夾下，我們可以看到有這些檔案
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">core-image-minimal-imx6sxsabresd-20180223010741.rootfs.ext4      README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt      zImage--4.9.11-r0-imx6sx-sdb-emmc-20180222145816.dtb      zImage-imx6sx-sdb.dtb
+core-image-minimal-imx6sxsabresd-20180223010741.rootfs.manifest  u-boot.imx                                              zImage--4.9.11-r0-imx6sx-sdb-lcdif1-20180222145816.dtb    zImage-imx6sx-sdb-emmc.dtb
+core-image-minimal-imx6sxsabresd-20180223010741.rootfs.sdcard    u-boot-imx6sxsabresd.imx                                zImage--4.9.11-r0-imx6sx-sdb-ldo-20180222145816.dtb       zImage-imx6sx-sdb-lcdif1.dtb
+core-image-minimal-imx6sxsabresd-20180223010741.rootfs.tar.bz2   u-boot-imx6sxsabresd.imx-sd                             zImage--4.9.11-r0-imx6sx-sdb-m4-20180222145816.dtb        zImage-imx6sx-sdb-ldo.dtb
+core-image-minimal-imx6sxsabresd.ext4                            u-boot.imx-sd                                           zImage--4.9.11-r0-imx6sx-sdb-mqs-20180222145816.dtb       zImage-imx6sx-sdb-m4.dtb
+core-image-minimal-imx6sxsabresd.manifest                        u-boot-sd-2017.03-r0.imx                                zImage--4.9.11-r0-imx6sx-sdb-reva-20180222145816.dtb      zImage-imx6sx-sdb-mqs.dtb
+core-image-minimal-imx6sxsabresd.sdcard                          zImage                                                  zImage--4.9.11-r0-imx6sx-sdb-reva-ldo-20180222145816.dtb  zImage-imx6sx-sdb-reva.dtb
+core-image-minimal-imx6sxsabresd.tar.bz2                         zImage--4.9.11-r0-imx6sxsabresd-20180222145816.bin      zImage--4.9.11-r0-imx6sx-sdb-sai-20180222145816.dtb       zImage-imx6sx-sdb-reva-ldo.dtb
+modules--4.9.11-r0-imx6sxsabresd-20180222145816.tgz              zImage--4.9.11-r0-imx6sx-sdb-20180222145816.dtb         zImage-imx6sxsabresd.bin                                  zImage-imx6sx-sdb-sai.dtb
+modules-imx6sxsabresd.tgz                                        zImage--4.9.11-r0-imx6sx-sdb-btwifi-20180222145816.dtb  zImage-imx6sx-sdb-btwifi.dtb
+</pre>
+</div>
+
+<p>
+要怎樣製作 SD 卡呢? i.MX 的環境很好心的幫我們做了 <code>core-image-minimal-imx6sxsabresd.sdcard</code> 這樣的檔案了，我們只要用 <code>dd</code> 將這個檔案抹到我們的 SD 卡就好囉 ~ (這邊假設 SD 卡是 <code>/dev/sdd*</code>)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo dd <span style="color: #aaccff;">if</span>=core-image-minimal-imx6sxsabresd.sdcard <span style="color: #aaccff;">of</span>=/dev/sdd <span style="color: #aaccff;">bs</span>=<span style="color: #ccaaff;">1M</span>
+</pre>
+</div>
+
+<p>
+等待完成後，我們就可以拿來測試開機囉~
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd35de90" class="outline-2">
+<h2 id="orgd35de90">測試開機</h2>
+<div class="outline-text-2" id="text-orgd35de90">
+<p>
+開機用 SD 卡製作好了一後，接下來讓我們來測試開機看看。
+</p>
+
+
+<div class="figure">
+<p><img src="sabresd.png"  />
+</p>
+</div>
+
+<p>
+按照上面的方式插入 SD 卡，開機並在電腦端連上 <code>/dev/ttyUSB0</code> (假設電腦端沒有別的 USB RS232 設備的話，接上這張開發板會多出 <code>/dev/ttyUSB0</code> 和 <code>/dev/ttyUSB1</code> 兩個設備)
+</p>
+
+<p>
+我們就可以看到以下訊息，並成功登入系統 (預設帳號: <code>root</code>, 無密碼)
+</p>
+
+<pre class="example">
+U-Boot 2017.03-nxp/imx_v2017.03_4.9.11_1.0.0_ga+ga2fea67 (Feb 22 2018 - 22:58:30 +0800)
+
+CPU:   Freescale i.MX6SX rev1.2 996 MHz (running at 792 MHz)
+CPU:   Extended Commercial temperature grade (-20C to 105C) at 30C
+Reset cause: POR
+Model: Freescale i.MX6 SoloX SDB RevB Board
+Board: MX6SX SABRE SDB
+DRAM:  1 GiB
+PMIC: PFUZE100! DEV_ID=0x11 REV_ID=0x21
+MMC:   FSL_SDHC: 0, FSL_SDHC: 1, FSL_SDHC: 2
+*** Warning - bad CRC, using default environment
+
+Display: Hannstar-XGA (1024x768)
+Video: 1024x768x18
+In:    serial
+Out:   serial
+Err:   serial
+switch to partitions #0, OK
+mmc2 is current device
+
+# skip ....
+
+imx6sxsabresd login: root
+root
+root@imx6sxsabresd:~# uname -a
+uname -a
+Linux imx6sxsabresd 4.9.11-1.0.0+gc27010d #1 SMP PREEMPT Thu Feb 22 21:53:43 CST 2018 armv7l GNU/Linux
+</pre>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/yocto/" rel="tag">#yocto</a>
+          
+            <a href="/tags/imx6/" rel="tag">#imx6</a>
+          
+            <a href="/tags/imx6solox/" rel="tag">#imx6solox</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/7a67f04e/" rel="prev">DE2-115 開發紀錄: 硬體認識</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/135d6bd2/" rel="next">我用來編譯 Yocto 的 Docker 環境</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org3c22120"><span class="nav-text">電腦端的準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4c17a20"><span class="nav-text">安裝 repo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org38d7f1f"><span class="nav-text">設定 Yocto 環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8fc9256"><span class="nav-text">建立編譯環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb9c0a0e"><span class="nav-text">選擇要編譯的 image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org27e193a"><span class="nav-text">製作 SD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd35de90"><span class="nav-text">測試開機</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

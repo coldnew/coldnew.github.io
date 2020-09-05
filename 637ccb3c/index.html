@@ -1,34 +1,934 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="raspberry pi," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="由於 shairport 原作者已經不打算維護該專案，因此請參考我的另外一篇文章: 使用 shairport-sync 在 Raspberry Pi 上上建立 AirPlay 音樂播放器      有沒有想過在家不接線就可以隨便控制喇叭播放自己的手機 or 筆電的音樂或影 片呢?這個構想實際上目前已經有產品在市面上流通，那就是 Apple TV 或是 chromecast ，但是對於我們這種">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Shairport 讓你的 Raspberry Pi 變成 AirPlay 音樂播放器">
+<meta property="og:url" content="https://coldnew.github.io/637ccb3c/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="由於 shairport 原作者已經不打算維護該專案，因此請參考我的另外一篇文章: 使用 shairport-sync 在 Raspberry Pi 上上建立 AirPlay 音樂播放器      有沒有想過在家不接線就可以隨便控制喇叭播放自己的手機 or 筆電的音樂或影 片呢?這個構想實際上目前已經有產品在市面上流通，那就是 Apple TV 或是 chromecast ，但是對於我們這種">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/637ccb3c/itunes_airpi.png">
+<meta property="og:image" content="https://coldnew.github.io/637ccb3c/audioswitcher.png">
+<meta property="og:image" content="https://coldnew.github.io/637ccb3c/audioswitcher_switch.png">
+<meta property="article:published_time" content="2014-03-02T07:14:00.000Z">
+<meta property="article:modified_time" content="2014-03-02T07:14:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="raspberry pi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/637ccb3c/itunes_airpi.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 使用 Shairport 讓你的 Raspberry Pi 變成 AirPlay 音樂播放器 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/637ccb3c/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              使用 Shairport 讓你的 Raspberry Pi 變成 AirPlay 音樂播放器
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2014-03-02T15:14:00+08:00" content="2014-03-02">
+            2014-03-02
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<div class="alert">
+<p>
+由於 <a href="https://github.com/abrasive/shairport" target="_blank" rel="noopener">shairport</a> 原作者已經不打算維護該專案，因此請參考我的另外一篇文章: <a href="http://coldnew.github.io/blog/2015/11-12_shairport-sync">使用 shairport-sync 在 Raspberry Pi 上上建立 AirPlay 音樂播放器</a>
+</p>
+
+</div>
+
+<p>
+有沒有想過在家不接線就可以隨便控制喇叭播放自己的手機 or 筆電的音樂或影
+片呢?這個構想實際上目前已經有產品在市面上流通，那就是 <a href="http://www.apple.com/tw/appletv/" target="_blank" rel="noopener">Apple TV</a> 或是
+<a href="https://www.google.com/intl/zh-TW/chrome/devices/chromecast/" target="_blank" rel="noopener">chromecast</a> ，但是對於我們這種在外地租屋的人而言，遠端播放影片好像不怎
+麼吸引人，遠端播放音樂比較有用。
+</p>
+
+<p>
+為什麼這麼說呢？如果我購買了一台好一點的 DAC 設備和喇叭，結果只能用特定的
+器材才能透過他播放好聽的音樂，不是很浪費嘛？有沒有方法可以讓我把音樂直
+接透過網路傳送給我的音響設備呢? 有，這就是 <a href="https://github.com/abrasive/shairport" target="_blank" rel="noopener">Shairport</a> 。
+</p>
+
+<p>
+Shairport 其實是模擬 AirPort Express 的程式，目前已經可以在 Windows、
+Linux、Max OSX 上面執行，將你的電腦變成 AirPlay 接收器，不過現在 Raspberry
+Pi 這麼流行，擺著不用也浪費，就讓我們把 Raspberry Pi 變成能夠接收音樂的
+AirPi 吧，這樣只要你的設備具有可以透過 AirPlay 播放音樂的功能，便可以透
+過這台 AirPi 來播放聲音，不過有點要注意，你連線的網路必須和 Raspberry
+Pi 在同一個網域才行。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-org584540e" class="outline-2">
+<h2 id="org584540e">編譯並安裝 shairport</h2>
+<div class="outline-text-2" id="text-org584540e">
+<p>
+首先，我們要安裝一些軟體來幫助我們編譯並安裝 Shairport。
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">sudo apt-get install git libao-dev libssl-dev libcrypt-openssl-rsa-perl <span style="color: #aadddd;">\</span>
+    libio-socket-inet6-perl libwww-perl avahi-utils libmodule-build-perl
+</pre>
+</div>
+
+<p>
+接著，要安裝 perl-net-sdp
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git clone https://github.com/njh/perl-net-sdp.git perl-net-sdp
+<span style="color: #ccaaff;">cd</span> perl-net-sdp
+perl Build.PL
+sudo ./Build
+sudo ./Build install
+</pre>
+</div>
+
+<p>
+該裝的軟體都裝完以後，我們就可以下載最新的 shairport 程式碼並安裝到系統
+內。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git clone https://github.com/hendrikw82/shairport.git
+<span style="color: #ccaaff;">cd</span> shairport
+./configure --prefix=/usr
+make
+sudo make install
+</pre>
+</div>
+
+<p>
+完成後我們就可以先來測試了，在這邊我將我的 AirPlay 設備命名為 AirPi。
+</p>
+<pre class="example">
+pi@AirPi ~/shairport $ shairport -a 'AirPi'
+</pre>
+
+<p>
+完成後如果你的 MacBook 和 Raspberry Pi 在同一個網域的話，你可以在 iTunes
+看到他，選擇 AirPi 並播放音樂就可以聽到從 Raspberry Pi 播放出來的音樂囉。
+</p>
+
+
+<div class="figure">
+<p><img src="itunes_airpi.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9c28dd3" class="outline-2">
+<h2 id="org9c28dd3">安裝 AudioSwitcher 讓你的 MacBook 透過 AirPlay 輸出聲音</h2>
+<div class="outline-text-2" id="text-org9c28dd3">
+<p>
+在 MacBook 下，如果我們希望能夠將所有的聲音都透過 AirPlay 輸出，可以透過
+<a href="https://itunes.apple.com/us/app/audioswitcher/id561712678?mt=12" target="_blank" rel="noopener">AudioSwitcher</a> 來幫忙進行聲音輸出的切換，這個好用的程式可以在 <a href="https://itunes.apple.com/us/app/audioswitcher/id561712678?mt=12#" target="_blank" rel="noopener">App Store</a> 下
+找到。
+</p>
+
+
+<div class="figure">
+<p><img src="audioswitcher.png"  />
+</p>
+</div>
+
+<p>
+安裝完成後並執行，你就可以方便切換輸出聲音的設備了。
+</p>
+
+
+<div class="figure">
+<p><img src="audioswitcher_switch.png"  />
+</p>
+</div>
+
+<p>
+現在，當你設定為使用 AirPi 作為輸出設備的時候，你播放的音樂都會透過
+Raspberry Pi 傳送到音響中。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4340493" class="outline-2">
+<h2 id="org4340493">讓 Shairport 開機後自動啟動</h2>
+<div class="outline-text-2" id="text-org4340493">
+<p>
+如果我們今天想要在 Raspberry Pi 重新開機後，馬上啟動 shairport 功能，那要
+怎麼做呢?
+</p>
+
+<p>
+事實上，在我們編譯 shairpot 的目錄下，有一個 <code>scripts</code> 的資料夾，結構
+如下
+</p>
+
+<pre class="example">
+pi@AirPi ~/shairport $ tree  -N -L 2 scripts/
+scripts/
+├── debian
+│   ├── default
+│   ├── init.d
+│   └── logrotate.d
+├── PKGBUILD
+└── shairport.service
+
+4 directories, 2 files
+</pre>
+
+<p>
+如果你和我一樣，也是 Rasbian 的使用者，你需要將 debian 資料夾下的所有檔案，
+複製到 <code>/etc</code> 目錄下，命令如下
+</p>
+
+<pre class="example">
+pi@AirPi ~/shairport $ sudo cp -rf scripts/debian/* /etc/
+</pre>
+
+<p>
+接下來，我們必須修改 <code>/etc/default/shairport</code> 這個檔案，指定使用者以及
+其他想使用的設定，在這邊我將 sharport 的使用者修改為 <code>pi</code> 這個使用者
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">User and group under whihc shairport should be run</span>
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">user should have permission to output sound</span>
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Check the audio output documentation for details.</span>
+<span style="color: #aaccff;">USER</span>=pi
+<span style="color: #5f5f5f; font-style: italic;">#</span><span style="color: #9ac; font-style: italic;">GROUP=nogroup</span>
+</pre>
+</div>
+
+<p>
+修改完成後，就可以以 daemon 的形式去啟動 sharport 了
+</p>
+
+<pre class="example">
+pi@AirPi ~/shairport $ sudo /etc/init.d/sharport start
+[ ok ] Starting Shairport Airtunes emulator: shairport.
+</pre>
+
+<p>
+接著，再把 shairport 加入開機啟動項目就大功告成了 !!
+</p>
+
+<pre class="example">
+pi@AirPi ~/shairport $ sudo update-rc.d shairport defaults
+update-rc.d: using dependency based boot sequencing
+insserv: warning: script 'mathkernel' missing LSB tags and overrides
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org90b6064" class="outline-2">
+<h2 id="org90b6064">將 USB DAC 設定為預設的播放介面</h2>
+<div class="outline-text-2" id="text-org90b6064">
+<p>
+Raspberry Pi 內建的耳機孔輸出音質和筆電差不多，如果想要能夠更開心的聽音
+樂，買一台 DAC 讓輸出的音質變更好是必要的，但是如果你用的是 USB DAC，插
+上去後並不會變成 Raspberry Pi 預設的聲卡，因此我們要自己動手來將他變成預
+設的聲音設備。
+</p>
+
+<p>
+首先編輯 <code>/etc/modprobe.d/alsa-base.conf</code> 。
+</p>
+<pre class="example">
+root@AirPi:/home/pi# vi /etc/modprobe.d/alsa-base.conf
+</pre>
+
+<p>
+將裡面關於 <code>snd-usb-audio</code> 的設定，改成如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Keep snd-usb-audio from beeing loaded as first soundcard</span>
+options snd-usb-audio <span style="color: #aaccff;">index</span>=<span style="color: #ccaaff;">0</span>
+</pre>
+</div>
+
+<p>
+修改後，重新啟動 Raspberry Pi 來套用你的修改
+</p>
+<pre class="example">
+root@AirPi:/home/pi# reboot
+</pre>
+
+<p>
+接著在使用 <code>aplay -l</code> 你就會看到 USB DAC 變成預設的聲音輸出了
+</p>
+<pre class="example">
+root@AirPi:/home/pi# aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: DAC [USB Audio DAC], device 0: USB Audio [USB Audio]
+  Subdevices: 0/1
+  Subdevice #0: subdevice #0
+card 1: ALSA [bcm2835 ALSA], device 0: bcm2835 ALSA [bcm2835 ALSA]
+  Subdevices: 8/8
+  Subdevice #0: subdevice #0
+  Subdevice #1: subdevice #1
+  Subdevice #2: subdevice #2
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5f35b66" class="outline-2">
+<h2 id="org5f35b66">參考連結</h2>
+<div class="outline-text-2" id="text-org5f35b66">
+<p>
+<code>[1]</code> <a href="http://lifehacker.com/5978594/turn-a-raspberry-pi-into-an-airplay-receiver-for-streaming-music-in-your-living-room" target="_blank" rel="noopener">Turn a Raspberry Pi Into an AirPlay Receiver for Streaming Music in Your Living Room</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="http://raspberrypihq.com/how-to-turn-your-raspberry-pi-into-a-airplay-receiver-to-stream-music-from-your-iphone/" target="_blank" rel="noopener">How-To: Turn your Raspberry Pi into a AirPlay receiver to stream music from your iPhone</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="http://www.raywenderlich.com/44918/raspberry-pi-airplay-tutorial" target="_blank" rel="noopener">Raspberry Pi Airplay Tutorial</a>
+</p>
+
+<p>
+<code>[4]</code> <a href="https://github.com/abrasive/shairport" target="_blank" rel="noopener">shairport - GitHub</a>
+</p>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/raspberry-pi/" rel="tag">#raspberry pi</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/53ea73fa/" rel="prev">使用 Leiningen 作為 Java 構建工具</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/268537da/" rel="next">讓你的 Android init 可以掛載 UBIFS 檔案系統</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org584540e"><span class="nav-text">編譯並安裝 shairport</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9c28dd3"><span class="nav-text">安裝 AudioSwitcher 讓你的 MacBook 透過 AirPlay 輸出聲音</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4340493"><span class="nav-text">讓 Shairport 開機後自動啟動</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org90b6064"><span class="nav-text">將 USB DAC 設定為預設的播放介面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5f35b66"><span class="nav-text">參考連結</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

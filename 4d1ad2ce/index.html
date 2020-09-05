@@ -1,34 +1,1040 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="fpga,altera,de2-115,verilog," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 DE2-115 開發紀錄: 硬體認識 一文中，我們發現了 DE2-115 上面有一堆 LED 燈可以使用，就讓我們來建立最簡單的專案，並透過撰寫程式來控制這些 LED 燈吧 !    本文將採用業界比較常用的 Verilog 進行示範，在參照這篇文章之前，需要自行安裝好 Intel® Quartus® Lite Edition 或是進階版本。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DE2-115 開發紀錄: 透過可程式邏輯控制 LED 閃爍">
+<meta property="og:url" content="https://coldnew.github.io/4d1ad2ce/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 DE2-115 開發紀錄: 硬體認識 一文中，我們發現了 DE2-115 上面有一堆 LED 燈可以使用，就讓我們來建立最簡單的專案，並透過撰寫程式來控制這些 LED 燈吧 !    本文將採用業界比較常用的 Verilog 進行示範，在參照這篇文章之前，需要自行安裝好 Intel® Quartus® Lite Edition 或是進階版本。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180528_234040.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180528_230817.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180528_231023.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_160320.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180528_231107.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_160426.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180528_232033.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180529_214319.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_160858.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_161229.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_161443.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180524_224245.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_164807.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_164700.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_165046.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180604_094921.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_164807.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_213950.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_214019.png">
+<meta property="og:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180603_214455.png">
+<meta property="article:published_time" content="2018-05-28T15:31:00.000Z">
+<meta property="article:modified_time" content="2018-06-04T08:08:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="fpga">
+<meta property="article:tag" content="altera">
+<meta property="article:tag" content="de2-115">
+<meta property="article:tag" content="verilog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/4d1ad2ce/Screenshot_20180528_234040.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> DE2-115 開發紀錄: 透過可程式邏輯控制 LED 閃爍 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/4d1ad2ce/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              DE2-115 開發紀錄: 透過可程式邏輯控制 LED 閃爍
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2018-06-04T16:08:00+08:00" content="2018-06-04">
+            2018-06-04
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/de2-115/" itemprop="url" rel="index">
+                  <span itemprop="name">DE2-115 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+在 <a href="https://coldnew.github.io/7a67f04e/">DE2-115 開發紀錄: 硬體認識</a> 一文中，我們發現了 DE2-115 上面有一堆 LED 燈可以使用，就讓我們來建立最簡單的專案，並透過撰寫程式來控制這些 LED 燈吧 !
+</p>
+
+<p>
+本文將採用業界比較常用的 Verilog 進行示範，在參照這篇文章之前，需要自行安裝好 <a href="https://www.altera.com/downloads/download-center.html" target="_blank" rel="noopener">Intel® Quartus® Lite Edition</a> 或是進階版本。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-org3e9a7ac" class="outline-2">
+<h2 id="org3e9a7ac">開發目標</h2>
+<div class="outline-text-2" id="text-org3e9a7ac">
+<p>
+我們要透過純粹的可程式邏輯(Programmable Logic, PL) 去控制 LED，也就是說，我們只寫硬體描述語言 Verilog 來控制 DE2-115 上面的 LED，讓他依照我們設定的頻率進行閃爍/亮滅。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180528_234040.png"  />
+</p>
+</div>
+
+<p>
+在這邊，我們選用 DE2-115 上面的 LEDG0 ~ LEDG3，也就是挑選出四個綠色的 LED 來進行我們這個 LED 閃爍燈專案，具體對應的 FPGA 腳位請參照上圖。
+</p>
+
+<p>
+另外，從上面的電路可以看出，當我們從 FPGA 輸出高位準的訊號出來的時候，此時 LED 為亮，反之，若設定該腳位為低位準(邏輯 0)的話，則 LED 為暗。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgef0934b" class="outline-2">
+<h2 id="orgef0934b">建立我們的專案</h2>
+<div class="outline-text-2" id="text-orgef0934b">
+<p>
+我們首先透過 <code>File -&gt; New Project Wizard</code> 建立一個新的專案
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180528_230817.png"  />
+</p>
+</div>
+
+<p>
+點選 <code>Next &gt;</code>
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180528_231023.png"  width="60%" />
+</p>
+</div>
+
+<p>
+在這邊，我設定專案位置存放到 <code>/home/coldnew/blink</code> 去，專案名稱為 <code>blink</code> ，而程式的進入點則是 <code>blink</code> 這個模組名稱。 設定完成後，點選 <code>Next &gt;</code>
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_160320.png"  width="80%" />
+</p>
+</div>
+
+<p>
+由於此時我們沒有樣板，因此選擇 <code>Empty project</code> , 點選 <code>Next &gt;</code>
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180528_231107.png"  width="60%" />
+</p>
+</div>
+
+<p>
+由於我們還沒有開始撰寫程式，無法加入寫好的檔案，這邊直接選 <code>Next &gt;</code>
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_160426.png"  />
+</p>
+</div>
+
+<p>
+選擇 DE2-115 的 FPGA 型號與類別，在 <a href="https://coldnew.github.io/7a67f04e/">DE2-115 開發紀錄: 硬體認識</a> 有提到採用的是 <code>Cyclone IV</code> 的 <code>EP4CE115F29C7</code> 晶片，選擇好後選擇 <code>Next &gt;</code>
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180528_232033.png"  />
+</p>
+</div>
+
+<p>
+接下來，在 EDA Tool Settings 這邊選擇採用 <code>ModelSim-Altera</code> 來驗證 <code>Verilog HDL</code> 檔案，我們會在之後的文章做簡單的模擬驗證。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180529_214319.png"  />
+</p>
+</div>
+
+<p>
+都好了後，可以看一下建立新的專案的一些資訊，按下 Finish 完成專案的建立
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_160858.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8e4b9b6" class="outline-2">
+<h2 id="org8e4b9b6">撰寫程式</h2>
+<div class="outline-text-2" id="text-org8e4b9b6">
+<p>
+建好專案後，你會發現如果對 <code>Project Navigator</code> 裡面的 <code>blink</code> 點兩下，會彈出 <code>Can't find design entity "blink</code> 的視窗，這是因為我們還沒建立我們的程式碼檔案 <code>blink.v</code> , 這邊就來建立它。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_161229.png"  />
+</p>
+</div>
+
+<p>
+首先點選 <code>File -&gt; New</code> ，會看到如下的視窗，在這邊我們要使用 <code>Verilog</code> 進行開發，因此選擇 <code>Verilog HDL File</code> 來建立我們的檔案
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_161443.png"  width="60%" />
+</p>
+</div>
+
+<p>
+接下來，在這個檔案加入類似 <a href="https://coldnew.github.io/6c5717d7/">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a> 一文的程式碼，並將此檔案除存為 <code>blink.v</code> (注意到這個模組名稱和前面提到的 <code>進入點(top-level design entity)</code> 要相同)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-verilog"><span style="color: #ff8888;">`timescale</span> <span style="color: #ccaaff;">1ns</span> / <span style="color: #ccaaff;">1ps</span>
+
+<span style="color: #aaffaa;">module</span> <span style="color: #aaccff;">blink</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">output</span> <span style="color: #fff59d;">reg</span> <span style="color: #81d4fa;">[</span><span style="color: #ccaaff;">3</span>:<span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">]</span> <span style="color: #aaccff;">led</span>,
+             <span style="color: #fff59d;">input</span> <span style="color: #aaccff;">clk</span><span style="color: #aadddd;">)</span>;
+
+   <span style="color: #fff59d;">reg</span> <span style="color: #aadddd;">[</span><span style="color: #ccaaff;">26</span>:<span style="color: #ccaaff;">0</span><span style="color: #aadddd;">]</span>      <span style="color: #aaccff;">counter</span>;
+
+   <span style="color: #aaffaa;">always</span> <span style="color: #fff59d;">@</span><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">posedge</span> clk<span style="color: #aadddd;">)</span> <span style="color: #fff59d;">begin</span>
+      <span style="color: #aaffaa;">if</span> <span style="color: #aadddd;">(</span>counter == <span style="color: #ccaaff;">27</span>'d50000000<span style="color: #aadddd;">)</span> <span style="color: #fff59d;">begin</span>
+         led &lt;= led + <span style="color: #ccaaff;">1</span>;
+         counter &lt;= <span style="color: #ccaaff;">0</span>;
+      <span style="color: #fff59d;">end</span>
+      <span style="color: #aaffaa;">else</span> <span style="color: #fff59d;">begin</span>
+         counter &lt;= counter +<span style="color: #ccaaff;">1</span>;
+      <span style="color: #fff59d;">end</span>
+   <span style="color: #fff59d;">end</span>
+
+<span style="color: #aaffaa;">endmodule</span>
+</pre>
+</div>
+
+<p>
+這個程式做了什麼呢? 在 <a href="https://coldnew.github.io/7a67f04e/">DE2-115 開發紀錄: 硬體認識</a> 一文中，我們知道了進到 DE2-115 的時脈為 <code>50M Hz</code>, 如下圖:
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_224245.png"  />
+</p>
+</div>
+
+<p>
+由於 50M Hz 的速度太快，我們需要簡易的除頻器讓輸入的時脈可以慢一點點，這樣我們的 LED 才不會因為
+<a href="https://zh.wikipedia.org/zh-tw/%25E8%25A6%2596%25E8%25A6%25BA%25E6%259A%25AB%25E7%2595%2599" target="_blank" rel="noopener">視覺暫留效應</a>看起來就像是恆亮的狀態。
+</p>
+
+<p>
+在這邊的程式，我們透過一組暫存器來存放當前計數的狀態，每計數 50 百萬次後，就讓 LED 暫存器的數值增加，反之則是讓計數器的內容增加。
+</p>
+
+<p>
+也就是說，由於我們的時脈輸入將會設定為 50 MHz，因此讓計數器計數 50 百萬次後調整 LED 暫存器的資訊，相當於 每 1 秒 修改一次 LED 暫存器的內容
+</p>
+</div>
+</div>
+
+<div id="outline-container-org30236f5" class="outline-2">
+<h2 id="org30236f5">腳位設定</h2>
+<div class="outline-text-2" id="text-org30236f5">
+<p>
+由於我們建立這個專案的時候還是空專案，並未指定對應的 FPGA 腳位，因此就現在來設定吧。
+</p>
+
+<p>
+在設定腳位之前，需要執行 <code>Processing -&gt; Start Compilation</code> 讓 Quartus 編譯與分析我們的程式。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_164807.png"  />
+</p>
+</div>
+
+<p>
+編譯都順利的話，Quartus 會提出我們程式的報告
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_164700.png"  />
+</p>
+</div>
+
+<p>
+現在，讓我們來指定腳位的對應吧~ 點選 <code>Assignments -&gt; Pin Planner</code> 進入到腳位設定視窗
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_165046.png"  />
+</p>
+</div>
+
+<p>
+進入到 Pin Planner 後，照著我們一開始的規劃，將相對應的腳位填上
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180604_094921.png"  />
+</p>
+</div>
+
+<p>
+這樣這個專案就差不多告成囉，不過由於我們剛設定好腳位對應，所以還需要 <code>再編譯一次</code>
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_164807.png"  />
+</p>
+</div>
+
+<p>
+這次編譯好了以後，就可以下載到 DE2-115 試試看
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3f715eb" class="outline-2">
+<h2 id="org3f715eb">下載到 DE2-115</h2>
+<div class="outline-text-2" id="text-org3f715eb">
+<p>
+要下載到 DE2-115 的話，選擇 <code>Tools -&gt; Programmer</code> 召喚下載用的程式
+</p>
+
+<p>
+<img src="Screenshot_20180603_213950.png"  />
+假設在 Programmer 頁面下，並未看到 <code>USB Blaster</code> 這樣的下載器資訊的話，你可能需要點選一下 <code>Hardware Setup</code> 去指定下載器
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_214019.png"  />
+</p>
+</div>
+
+<p>
+如果有看到下載器的話，就點選 <code>Start</code> 就會開始下載囉~ 下載完成就會看到 <code>Progress</code> 這個欄位顯示 <code>100% (Successful)</code> 了
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180603_214455.png"  />
+</p>
+</div>
+
+
+<p>
+好了我們已經下載完成，去看看我們的板子的顯示狀況吧 !
+</p>
+</div>
+</div>
+
+<div id="outline-container-org55c0d43" class="outline-2">
+<h2 id="org55c0d43">結果</h2>
+<div class="outline-text-2" id="text-org55c0d43">
+<p>
+按照本篇文章的設定，你的 DE2-115 顯示應該如以下影片:
+</p>
+
+<video width="640" height="480" controls>
+  <source src="video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+</div>
+</div>
+
+<div id="outline-container-org7ab9748" class="outline-2">
+<h2 id="org7ab9748">取得程式碼</h2>
+<div class="outline-text-2" id="text-org7ab9748">
+<p>
+本篇的程式碼已經上傳到 <a href="https://github.com/coldnew-examples/DE2-115-Led-Blink" target="_blank" rel="noopener">github</a>, 你可以透過以下命令下載並透過 Quartus 打開專案
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">git clone https://github.com/coldnew-examples/DE2-115-Led-Blink.git
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org56c2042" class="outline-2">
+<h2 id="org56c2042">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org56c2042">
+<ul class="org-ul">
+<li><a href="https://coldnew.github.io/6c5717d7/">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a></li>
+
+<li><a href="http://dclab.ee.ntu.edu.tw/static/Document/Exp1/Exp1_2.pdf" target="_blank" rel="noopener">My first FPGA for Altera DE2-115</a></li>
+</ul>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fpga/" rel="tag">#fpga</a>
+          
+            <a href="/tags/altera/" rel="tag">#altera</a>
+          
+            <a href="/tags/de2-115/" rel="tag">#de2-115</a>
+          
+            <a href="/tags/verilog/" rel="tag">#verilog</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/d70f742b/" rel="prev">DE2-115 開發紀錄: 使用樣板建立專案</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/7a67f04e/" rel="next">DE2-115 開發紀錄: 硬體認識</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org3e9a7ac"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgef0934b"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8e4b9b6"><span class="nav-text">撰寫程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org30236f5"><span class="nav-text">腳位設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3f715eb"><span class="nav-text">下載到 DE2-115</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org55c0d43"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7ab9748"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org56c2042"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

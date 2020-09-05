@@ -1,23 +1,1249 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
 
-{% block title %} {{ config.title }} {% endblock %}
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
 
-{% block page_class %}
-  {% if is_home() %} page-home {% endif %}
-{% endblock %}
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-{% block content %}
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="coldnew,clojure,clojurescript,lisp,linux" />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="coldnew&#39;s blog">
+<meta property="og:url" content="https://coldnew.github.io/page/10/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/page/10/index.html" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
   <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/59b43040/" itemprop="url">
+                使用 OpenShift 的 SSH 來架設跳板
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2015-03-11T00:00:00+08:00" content="2015-03-11">
+            2015-03-11
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+<a href="https://www.openshift.com/" target="_blank" rel="noopener">OpenShift</a> 是由 <a href="http://www.redhat.com" target="_blank" rel="noopener">RedHat</a> 所提供的 PaaS 平台服務，除了提供無限流量以外，亦支援使用
+SSH 登入，本文將簡單解釋如何在 Mac OSX 以及 Linux 下，將 OpenShift 作為跳板並利
+用 SSH 作為 Socks5 的代理伺服器，去下載那些不好下載的檔案 or&#x2026;中國網友的說法:翻
+牆。
+</p>
+
+<p>
+如果你是 Windows 的用戶，請參閱:  <a href="http://blog.allenchou.cc/openshift-ssh-proxy/" target="_blank" rel="noopener">利用 OpenShift 的 SSH 架設跳板</a> 一文。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/59b43040/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/53ea73fa/" itemprop="url">
+                使用 Leiningen 作為 Java 構建工具
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2015-03-09T20:59:00+08:00" content="2015-03-09">
+            2015-03-09
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 Java 專案中，我們有很多自動化編譯工具可以用，比如 <a href="http://www.gradle.org/" target="_blank" rel="noopener">gradle</a> 、<a href="http://www.scala-sbt.org/" target="_blank" rel="noopener">sbt</a> 、<a href="https://maven.apache.org" target="_blank" rel="noopener">maven</a> ，而對
+於常寫 Clojure 又記憶力不好的人而言，是否能夠把 Java 用的編譯工具改成只用
+Clojure 的 <a href="http://leiningen.org/" target="_blank" rel="noopener">Leiningen</a> 呢?
+</p>
+
+<p>
+本文將介紹如何使用 <a href="http://leiningen.org/" target="_blank" rel="noopener">Leiningen</a> 來作為你的 Java 專案的構建系統。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/53ea73fa/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/637ccb3c/" itemprop="url">
+                使用 Shairport 讓你的 Raspberry Pi 變成 AirPlay 音樂播放器
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2014-03-02T15:14:00+08:00" content="2014-03-02">
+            2014-03-02
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<div class="alert">
+<p>
+由於 <a href="https://github.com/abrasive/shairport" target="_blank" rel="noopener">shairport</a> 原作者已經不打算維護該專案，因此請參考我的另外一篇文章: <a href="http://coldnew.github.io/blog/2015/11-12_shairport-sync">使用 shairport-sync 在 Raspberry Pi 上上建立 AirPlay 音樂播放器</a>
+</p>
+
+</div>
+
+<p>
+有沒有想過在家不接線就可以隨便控制喇叭播放自己的手機 or 筆電的音樂或影
+片呢?這個構想實際上目前已經有產品在市面上流通，那就是 <a href="http://www.apple.com/tw/appletv/" target="_blank" rel="noopener">Apple TV</a> 或是
+<a href="https://www.google.com/intl/zh-TW/chrome/devices/chromecast/" target="_blank" rel="noopener">chromecast</a> ，但是對於我們這種在外地租屋的人而言，遠端播放影片好像不怎
+麼吸引人，遠端播放音樂比較有用。
+</p>
+
+<p>
+為什麼這麼說呢？如果我購買了一台好一點的 DAC 設備和喇叭，結果只能用特定的
+器材才能透過他播放好聽的音樂，不是很浪費嘛？有沒有方法可以讓我把音樂直
+接透過網路傳送給我的音響設備呢? 有，這就是 <a href="https://github.com/abrasive/shairport" target="_blank" rel="noopener">Shairport</a> 。
+</p>
+
+<p>
+Shairport 其實是模擬 AirPort Express 的程式，目前已經可以在 Windows、
+Linux、Max OSX 上面執行，將你的電腦變成 AirPlay 接收器，不過現在 Raspberry
+Pi 這麼流行，擺著不用也浪費，就讓我們把 Raspberry Pi 變成能夠接收音樂的
+AirPi 吧，這樣只要你的設備具有可以透過 AirPlay 播放音樂的功能，便可以透
+過這台 AirPi 來播放聲音，不過有點要注意，你連線的網路必須和 Raspberry
+Pi 在同一個網域才行。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/637ccb3c/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/268537da/" itemprop="url">
+                讓你的 Android init 可以掛載 UBIFS 檔案系統
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2014-01-11T10:08:00+08:00" content="2014-01-11">
+            2014-01-11
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+在 Android 的 init.rc 中，可以看到掛載檔案系統使用的 mount 命令，而
+這命令和我們一般在 Linux 下使用的 mount 命令不同，是個提供給 init 運作的描
+述句，你可以在 system/core/init/builtins.c 找到他的實現。
+
+
+
+在大多數的 Android 設備中，常常可以看到掛載 yaffs2 的描述，卻很少看到
+ubifs 的掛載描述
+
+
+
+mount yaffs2 mtd@system /system
+
+
+
+
+為什麼理應效能比較好的 ubifs 卻未被 Android 系統廣泛使用？個人推測有以下原
+因
+
+
+
+1. Android
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/268537da/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/7604eab2/" itemprop="url">
+                如何升級/降級 HTC One X 的 HBOOT
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2013-12-29T17:55:00+08:00" content="2013-12-29">
+            2013-12-29
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+
+警告
+
+
+
+刷機有變磚的風險，請自行負責刷機失敗的責任。
+
+
+
+
+
+在前面的文章中，曾經提到了如何自己動手建立 CM9 或是 CM10.2 的 image 給
+HTC One X 手機使用，但是並未提及最關鍵的步驟: 如何升級/降級 HBOOT 。
+
+
+
+為何或說升級/降級 HBOOT 是非常關鍵的步驟呢？事實上，HTC 提供的 firmware 裡
+面，用於 Android 4.0 (ICS) 和 Android 4.2 or 4.3 (JellyBean) 的 HBOOT 是
+不相容的，因此若你想要使用 ICS 的版本，你就必須使用舊一點的 HBOOT，反之，
+若你要使用 Jelly
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/7604eab2/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/ba12fc46/" itemprop="url">
+                編譯 CyanogenMod 10.2 (JellyBean) 並安裝到 HTC One X 手機
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2013-12-29T00:06:00+08:00" content="2013-12-29">
+            2013-12-29
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+CyanogenMod 是目前最為風行的 Android 第三方改版，原本由 Steve Kondik 創
+辦開發，並加入了許多 xda 社群的改版，該團隊也在最近成立了公司 CyanogenMod Inc.
+
+
+
+本篇文章以 CyanogenMod 10.2 (簡稱 CM10.2) 為主，並使用 HTC One X
+(Endeavoru) 作為編譯的目標機型。
+
+
+
+若您有興趣的是如何編譯 CM9 到你的 HTC OneX，請參考拙作: 編譯 CyanogenMod 9
+(ICS) 並安裝到 HTC One X 手機
+
+
+
+建立你的開發環境
+
+
+要能夠編譯 CyanogenMod, 首先
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/ba12fc46/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/13dc8483/" itemprop="url">
+                如何訂閱 Linux Kernel mailing-list
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2013-12-19T20:17:00+08:00" content="2013-12-19">
+            2013-12-19
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+身為 Linux Kernel 開發者，趕流行是很重要的，在 mailing-list 上面可以看到
+很多 Linux Kernel 新的改進、修正資訊，但是 Linux Kernel mailing-list 的
+訂閱方式並未像 GNU 專案的 mailing-list 那樣直覺，對於初學者可能會覺得摸
+不著邊。
+
+
+
+本文將實例介紹 Linux Kernel mailing-list 的訂閱方式，除了 Linux Kernel
+以外，本文的作法亦可以套用在 Majordomo lists at VGER.KERNEL.ORG 上面
+所列的和 Linux Kernel 相關的 maili
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/13dc8483/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/a1ed40e3/" itemprop="url">
+                去除 org-mode 輸出 HTML 時產生多餘的空格
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2013-12-17T21:27:00+08:00" content="2013-12-17">
+            2013-12-17
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+使用 org-mode 產生 HTML 網頁的時候，偶而會看到中文字中間會夾雜著一個空
+白符號，其狀況如下圖，這到底是怎麼一回事?
+
+
+
+
+
+
+
+
+
+會出現這個問題，是因為在 org-mode 中啟用了 auto-fill-mode，會自動將一
+行控制在 80 的文字以內，而換行符號則會在 org-mode 轉換成 HTML 的過程中，
+被置換為空白符號。這個空格在英文中並不是問題，但是在非英語系的語言中，
+可能就會產生令人討厭的感覺。
+
+
+
+由於目前這個問題尚未被 org-mode 官方修正，因此讓我們透過 emacs 的
+defadvice 功能，來 修正 一下這個問題吧，請在你的 .
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/a1ed40e3/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/3aac9391/" itemprop="url">
+                使用 raspberry.local 連到你的 Raspberry Pi
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2013-12-15T18:32:00+08:00" content="2013-12-15">
+            2013-12-15
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+在測試 Google Coder 的時候，我發現到他預先建立好的 SD Card 映像檔可以
+直接使用瀏覽器透過 http://coder.local 連線進去，這到底是怎麼辦到的？
+
+
+
+經過了一些資料的收集，原來這就是 Zeroconf 。大約在 2008 年
+前後，Gentoo Linux 突然增加了 zeroconf 與 avahi 的 USE flag，當時一直
+無法理解這兩個 flag 的用途，現今終於豁然開朗。
+
+
+
+Avahi 是開源的 Zeroconf 協定的實現，Zeroconf 全名為 Zero configuration
+networking，是一種用於自動生成可用
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/3aac9391/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/68fbe311/" itemprop="url">
+                為你的 Raspberry Pi 裝上 Watchdog
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2013-12-13T22:28:00+08:00" content="2013-12-13">
+            2013-12-13
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+你是否遇過 Raspberry Pi 異常死掉呢? 我遇過，而且非常多次
+
+
+
+會造成 Raspberry Pi 當掉的原因有很多，比如電源供電不足、電源線阻抗
+太大，造成提供的電壓不夠、有零件故障、瑕疵品&#x2026;&#x2026;等，當然也有可能是
+Raspberry Pi 在台灣水土不服所導致，有興趣的話使用
+Raspberry Pi freeze 這樣的關鍵字去收尋，就可找到非常多的討論串。
+
+
+
+那既然手邊的 Raspberry Pi 會當掉，那要怎辦呢？總不能一旦他掛掉，就手動
+重新啟動吧? 這時候就是 watchdog 出馬的時候啦 ~
+
+
+
+Watchdog，中文譯為 
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/68fbe311/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/9/">&amp;laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/11/">&amp;raquo;</a>
+  </nav>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+ </div>
+
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+
+</body>
+</html>

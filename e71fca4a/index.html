@@ -1,34 +1,1118 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="clojure," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="Project Euler 是一個很不錯的程式練習網站，和 LeetCode 相比起來，Project Euler 的 題目比較偏向數學，也就是只要你數學不錯，用紙筆也是可以進行解題。對於工程師來說， 數學的磨練是不可以停止的，因此我重新紀錄我解 Project Euler 題目的經過。    在這邊我使用 Clojure 來進行解題，你可以在 這裡 找到完整程式碼，大部分的程式都盡 可能用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Project Euler 練習">
+<meta property="og:url" content="https://coldnew.github.io/e71fca4a/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="Project Euler 是一個很不錯的程式練習網站，和 LeetCode 相比起來，Project Euler 的 題目比較偏向數學，也就是只要你數學不錯，用紙筆也是可以進行解題。對於工程師來說， 數學的磨練是不可以停止的，因此我重新紀錄我解 Project Euler 題目的經過。    在這邊我使用 Clojure 來進行解題，你可以在 這裡 找到完整程式碼，大部分的程式都盡 可能用">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2015-10-15T07:55:00.000Z">
+<meta property="article:modified_time" content="2015-10-15T07:55:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="clojure">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Project Euler 練習 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/e71fca4a/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Project Euler 練習
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2015-10-15T15:55:00+08:00" content="2015-10-15">
+            2015-10-15
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/pratice/" itemprop="url" rel="index">
+                  <span itemprop="name">程式練習</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+<a href="https://projecteuler.net/" target="_blank" rel="noopener">Project Euler</a> 是一個很不錯的程式練習網站，和 <a href="https://leetcode.com/" target="_blank" rel="noopener">LeetCode</a> 相比起來，Project Euler 的
+題目比較偏向數學，也就是只要你數學不錯，用紙筆也是可以進行解題。對於工程師來說，
+數學的磨練是不可以停止的，因此我重新紀錄我解 Project Euler 題目的經過。
+</p>
+
+<p>
+在這邊我使用 Clojure 來進行解題，你可以在 <a href="https://github.com/coldnew/project-euler-clojure" target="_blank" rel="noopener">這裡</a> 找到完整程式碼，大部分的程式都盡
+可能用 <code>函數式</code> 的方式來解決。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-org8783fc9" class="outline-2">
+<h2 id="org8783fc9">001: Multiples of 3 and 5</h2>
+<div class="outline-text-2" id="text-org8783fc9">
+<p>
+If we list all the natural numbers below 10 that are multiples of 3 or 5, we get
+3, 5, 6 and 9. The sum of these multiples is 23.
+</p>
+
+<p>
+Find the sum of all the multiples of 3 or 5 below 1000.
+</p>
+
+<br><br> <div class="text-center">
+<p class="btn btn-default" onclick="blog.cmds.toggle_visible('p001')">
+點我顯示/隱藏內容
+</p>
+</div><br><br>
+
+<div id="p001" style="display:none">
+
+<blockquote>
+<p>
+233168
+</p>
+</blockquote>
+<br>
+
+<p>
+題目要求的是找出 0 ~ 1000 中所有 3 或是 5 的倍數的總和，因此我們需要一個函式去判
+斷輸入數值是否為 3 或 5 的倍數。
+</p>
+
+<p>
+接下來產生 1 ~ 1000 的序列 (sequence)，並透過 map reduce 的方式即可取得相加結果。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">is-multiples-of-3-or-5?</span>
+  <span style="color: #81d4fa;">[</span>x<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">or</span> <span style="color: #aaeecc;">(</span>zero? <span style="color: #ccaaff;">(</span>mod x <span style="color: #ccaaff;">3</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+          <span style="color: #aaeecc;">(</span>zero? <span style="color: #ccaaff;">(</span>mod x <span style="color: #ccaaff;">5</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    x <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span>reduce + <span style="color: #81d4fa;">(</span>map is-multiples-of-3-or-5? <span style="color: #aaccff;">(</span>range <span style="color: #ccaaff;">1</span> <span style="color: #ccaaff;">1000</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 233168</span>
+</pre>
+</div>
+
+<p>
+另外一種解法則是，我們找出所有 3 的倍數進行相加並加上所有 5 的倍數，由於這個過程
+中會多加上一組 (3 * 5) 的倍數，因此把剛剛的結果減掉 15 的倍數們即是答案了。
+</p>
+
+<p>
+也就是如下公式這樣的計算:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #aaffaa;">\begin</span>{<span style="color: #aaccff;">equation*</span>}
+sum(n) = <span style="color: #aaffaa;">\sum</span>_{i=1}^{\left [ \frac{n}{3} \right ]}3i + <span style="color: #aaffaa;">\sum</span>_{i=1}^{\left [ \frac{n}{5} \right ]}5i - <span style="color: #aaffaa;">\sum</span>_{i=1}^{\left [ \frac{n}{15} \right ]}15i
+<span style="color: #aaffaa;">\end</span>{<span style="color: #aaccff;">equation*</span>}
+</pre>
+</div>
+
+<p>
+所以我們就可以用這種方式獲得答案
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>-
+ <span style="color: #81d4fa;">(</span>+ <span style="color: #aaccff;">(</span>reduce + <span style="color: #aaeecc;">(</span>range <span style="color: #ccaaff;">3</span> <span style="color: #ccaaff;">1000</span> <span style="color: #ccaaff;">3</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>reduce + <span style="color: #aaeecc;">(</span>range <span style="color: #ccaaff;">5</span> <span style="color: #ccaaff;">1000</span> <span style="color: #ccaaff;">5</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span>
+ <span style="color: #81d4fa;">(</span>reduce + <span style="color: #aaccff;">(</span>range <span style="color: #ccaaff;">15</span> <span style="color: #ccaaff;">1000</span> <span style="color: #ccaaff;">15</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">=&gt; 233168</span>
+</pre>
+</div>
+
+</div><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+</div>
+
+<div id="outline-container-org0fc083c" class="outline-2">
+<h2 id="org0fc083c">002: Even Fibonacci numbers</h2>
+<div class="outline-text-2" id="text-org0fc083c">
+<p>
+Each new term in the Fibonacci sequence is generated by adding the previous two
+terms. By starting with 1 and 2, the first 10 terms will be:
+</p>
+
+<p>
+1, 2, 3, 5, 8, 13, 21, 34, 55, 89, &#x2026;
+</p>
+
+<p>
+By considering the terms in the Fibonacci sequence whose values do not exceed
+four million, find the sum of the even-valued terms.
+</p>
+
+
+<br><br> <div class="text-center">
+<p class="btn btn-default" onclick="blog.cmds.toggle_visible('p002')">
+點我顯示/隱藏內容
+</p>
+</div><br><br>
+
+<div id="p002" style="display:none">
+
+<blockquote>
+<p>
+4613732
+</p>
+</blockquote>
+<br>
+
+<p>
+題目要求我們計算 Fibonacci 數列數值小於 4,000,000 裡面的偶數總和，因此我們需要有
+一個方式去計算 Fibonacci 數列，這裡使用一個 fib-1 去產生 lazy sequence:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">fib-1</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">-&gt;&gt;</span> <span style="color: #aaccff;">[</span><span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">1</span><span style="color: #aaccff;">]</span>
+       <span style="color: #aaccff;">(</span>iterate <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #ccaaff;">[</span><span style="color: #fff59d;">[</span>a b<span style="color: #fff59d;">]</span><span style="color: #ccaaff;">]</span> <span style="color: #ccaaff;">[</span>b <span style="color: #fff59d;">(</span>+ a b<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">]</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+       <span style="color: #aaccff;">(</span>map first<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span>take <span style="color: #ccaaff;">10</span> fib-1<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; (0 1 1 2 3 5 8 13 21 34)</span>
+</pre>
+</div>
+
+<p>
+既然有了 lazy sequence, 接著我們就可以使用 MapReduce 的方式去查找這整個序列
+(sequence) 裡面為偶數並小於 4,000,000 的數值，然後相加。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>reduce + <span style="color: #81d4fa;">(</span>map <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">fn</span> <span style="color: #aaeecc;">[</span>x<span style="color: #aaeecc;">]</span>
+                 <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">and</span> <span style="color: #fff59d;">(</span>&gt; <span style="color: #ccaaff;">4000000</span> x<span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>even? x<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+                   x <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+               <span style="color: #aaccff;">(</span>take <span style="color: #ccaaff;">1000000</span> fib-1<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 4613732</span>
+</pre>
+</div>
+
+<p>
+另外一種更強大的 Fibonacci 數列的寫法則是參照 <a href="http://squirrel.pl/blog/2010/07/26/corecursion-in-clojure/" target="_blank" rel="noopener">Corecursion in Clojure</a> 一文的作法，
+使用 <a href="https://clojuredocs.org/clojure.core/lazy-cat" target="_blank" rel="noopener">lazy-cat</a> 去產生 lazy sequence
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">fib-2</span>
+  <span style="color: #81d4fa;">(</span>lazy-cat <span style="color: #aaccff;">[</span><span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">1</span><span style="color: #aaccff;">]</span> <span style="color: #aaccff;">(</span>map + fib-2 <span style="color: #aaeecc;">(</span>rest fib-2<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span>take <span style="color: #ccaaff;">10</span> fib-2<span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; (0 1 1 2 3 5 8 13 21 34)</span>
+</pre>
+</div>
+
+<p>
+接著換個方式，使用 <a href="https://clojuredocs.org/clojure.core/reduce" target="_blank" rel="noopener">reduce</a> 搭配 <a href="https://clojuredocs.org/clojure.core/filter" target="_blank" rel="noopener">filter</a> 以及 <a href="https://clojuredocs.org/clojure.core/take-while" target="_blank" rel="noopener">take-while</a> 去取得題目要求的結果:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>reduce +
+        <span style="color: #81d4fa;">(</span>filter even?
+                <span style="color: #aaccff;">(</span>take-while #<span style="color: #aaeecc;">(</span>&lt; <span style="color: #aaccff;">%</span> <span style="color: #ccaaff;">4000000</span><span style="color: #aaeecc;">)</span> fib-2<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 4613732</span>
+</pre>
+</div>
+
+</div><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+</div>
+
+<div id="outline-container-org8592493" class="outline-2">
+<h2 id="org8592493">013: Large sum</h2>
+<div class="outline-text-2" id="text-org8592493">
+<p>
+Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.
+</p>
+
+<pre class="example">
+37107287533902102798797998220837590246510135740250
+46376937677490009712648124896970078050417018260538
+74324986199524741059474233309513058123726617309629
+91942213363574161572522430563301811072406154908250
+23067588207539346171171980310421047513778063246676
+89261670696623633820136378418383684178734361726757
+28112879812849979408065481931592621691275889832738
+44274228917432520321923589422876796487670272189318
+47451445736001306439091167216856844588711603153276
+70386486105843025439939619828917593665686757934951
+62176457141856560629502157223196586755079324193331
+64906352462741904929101432445813822663347944758178
+92575867718337217661963751590579239728245598838407
+58203565325359399008402633568948830189458628227828
+80181199384826282014278194139940567587151170094390
+35398664372827112653829987240784473053190104293586
+86515506006295864861532075273371959191420517255829
+71693888707715466499115593487603532921714970056938
+54370070576826684624621495650076471787294438377604
+53282654108756828443191190634694037855217779295145
+36123272525000296071075082563815656710885258350721
+45876576172410976447339110607218265236877223636045
+17423706905851860660448207621209813287860733969412
+81142660418086830619328460811191061556940512689692
+51934325451728388641918047049293215058642563049483
+62467221648435076201727918039944693004732956340691
+15732444386908125794514089057706229429197107928209
+55037687525678773091862540744969844508330393682126
+18336384825330154686196124348767681297534375946515
+80386287592878490201521685554828717201219257766954
+78182833757993103614740356856449095527097864797581
+16726320100436897842553539920931837441497806860984
+48403098129077791799088218795327364475675590848030
+87086987551392711854517078544161852424320693150332
+59959406895756536782107074926966537676326235447210
+69793950679652694742597709739166693763042633987085
+41052684708299085211399427365734116182760315001271
+65378607361501080857009149939512557028198746004375
+35829035317434717326932123578154982629742552737307
+94953759765105305946966067683156574377167401875275
+88902802571733229619176668713819931811048770190271
+25267680276078003013678680992525463401061632866526
+36270218540497705585629946580636237993140746255962
+24074486908231174977792365466257246923322810917141
+91430288197103288597806669760892938638285025333403
+34413065578016127815921815005561868836468420090470
+23053081172816430487623791969842487255036638784583
+11487696932154902810424020138335124462181441773470
+63783299490636259666498587618221225225512486764533
+67720186971698544312419572409913959008952310058822
+95548255300263520781532296796249481641953868218774
+76085327132285723110424803456124867697064507995236
+37774242535411291684276865538926205024910326572967
+23701913275725675285653248258265463092207058596522
+29798860272258331913126375147341994889534765745501
+18495701454879288984856827726077713721403798879715
+38298203783031473527721580348144513491373226651381
+34829543829199918180278916522431027392251122869539
+40957953066405232632538044100059654939159879593635
+29746152185502371307642255121183693803580388584903
+41698116222072977186158236678424689157993532961922
+62467957194401269043877107275048102390895523597457
+23189706772547915061505504953922979530901129967519
+86188088225875314529584099251203829009407770775672
+11306739708304724483816533873502340845647058077308
+82959174767140363198008187129011875491310547126581
+97623331044818386269515456334926366572897563400500
+42846280183517070527831839425882145521227251250327
+55121603546981200581762165212827652751691296897789
+32238195734329339946437501907836945765883352399886
+75506164965184775180738168837861091527357929701337
+62177842752192623401942399639168044983993173312731
+32924185707147349566916674687634660915035914677504
+99518671430235219628894890102423325116913619626622
+73267460800591547471830798392868535206946944540724
+76841822524674417161514036427982273348055556214818
+97142617910342598647204516893989422179826088076852
+87783646182799346313767754307809363333018982642090
+10848802521674670883215120185883543223812876952786
+71329612474782464538636993009049310363619763878039
+62184073572399794223406235393808339651327408011116
+66627891981488087797941876876144230030984490851411
+60661826293682836764744779239180335110989069790714
+85786944089552990653640447425576083659976645795096
+66024396409905389607120198219976047599490197230297
+64913982680032973156037120041377903785566085089252
+16730939319872750275468906903707539413042652315011
+94809377245048795150954100921645863754710598436791
+78639167021187492431995700641917969777599028300699
+15368713711936614952811305876380278410754449733078
+40789923115535562561142322423255033685442488917353
+44889911501440648020369068063960672322193204149535
+41503128880339536053299340368006977710650566631954
+81234880673210146739058568557934581403627822703280
+82616570773948327592232845941706525094512325230608
+22918802058777319719839450180888072429661980811197
+77158542502016545090413245809786882778948721859617
+72107838435069186155435662884062257473692284509516
+20849603980134001723930671666823555245252804609722
+53503534226472524250874054075591789781264330331690
+
+</pre>
+
+<br><br> <div class="text-center">
+<p class="btn btn-default" onclick="blog.cmds.toggle_visible('p013')">
+點我顯示/隱藏內容
+</p>
+</div><br><br>
+
+<div id="p013" style="display:none">
+
+<blockquote>
+<p>
+5537376230
+</p>
+</blockquote>
+<br>
+
+<p>
+這一題其實就是在這一大串數字前面加上 <code>+</code> 然後補上括號以後，這些數字就相加完畢了，
+我們只要傷腦筋要怎要取得前面 10 個數字，這裡使用偷懶的方式: 將數值轉換成字串，取
+得字串的前 10 個字元，這樣這一題就解決了！
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">first-10-digits</span>
+  <span style="color: #81d4fa;">[</span>x<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>subs <span style="color: #aaccff;">(</span>str x<span style="color: #aaccff;">)</span> <span style="color: #ccaaff;">0</span> <span style="color: #ccaaff;">10</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span>first-10-digits <span style="color: #ccaaff;">123456789012345</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 1234567890</span>
+</pre>
+</div>
+
+<p>
+因此就可以這樣計算:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span>first-10-digits
+ <span style="color: #81d4fa;">(</span>+
+  <span style="color: #ccaaff;">37107287533902102798797998220837590246510135740250</span>
+  <span style="color: #ccaaff;">46376937677490009712648124896970078050417018260538</span>
+  <span style="color: #ccaaff;">74324986199524741059474233309513058123726617309629</span>
+  <span style="color: #ccaaff;">91942213363574161572522430563301811072406154908250</span>
+  <span style="color: #ccaaff;">23067588207539346171171980310421047513778063246676</span>
+  <span style="color: #ccaaff;">89261670696623633820136378418383684178734361726757</span>
+  <span style="color: #ccaaff;">28112879812849979408065481931592621691275889832738</span>
+  <span style="color: #ccaaff;">44274228917432520321923589422876796487670272189318</span>
+  <span style="color: #ccaaff;">47451445736001306439091167216856844588711603153276</span>
+  <span style="color: #ccaaff;">70386486105843025439939619828917593665686757934951</span>
+  <span style="color: #ccaaff;">62176457141856560629502157223196586755079324193331</span>
+  <span style="color: #ccaaff;">64906352462741904929101432445813822663347944758178</span>
+  <span style="color: #ccaaff;">92575867718337217661963751590579239728245598838407</span>
+  <span style="color: #ccaaff;">58203565325359399008402633568948830189458628227828</span>
+  <span style="color: #ccaaff;">80181199384826282014278194139940567587151170094390</span>
+  <span style="color: #ccaaff;">35398664372827112653829987240784473053190104293586</span>
+  <span style="color: #ccaaff;">86515506006295864861532075273371959191420517255829</span>
+  <span style="color: #ccaaff;">71693888707715466499115593487603532921714970056938</span>
+  <span style="color: #ccaaff;">54370070576826684624621495650076471787294438377604</span>
+  <span style="color: #ccaaff;">53282654108756828443191190634694037855217779295145</span>
+  <span style="color: #ccaaff;">36123272525000296071075082563815656710885258350721</span>
+  <span style="color: #ccaaff;">45876576172410976447339110607218265236877223636045</span>
+  <span style="color: #ccaaff;">17423706905851860660448207621209813287860733969412</span>
+  <span style="color: #ccaaff;">81142660418086830619328460811191061556940512689692</span>
+  <span style="color: #ccaaff;">51934325451728388641918047049293215058642563049483</span>
+  <span style="color: #ccaaff;">62467221648435076201727918039944693004732956340691</span>
+  <span style="color: #ccaaff;">15732444386908125794514089057706229429197107928209</span>
+  <span style="color: #ccaaff;">55037687525678773091862540744969844508330393682126</span>
+  <span style="color: #ccaaff;">18336384825330154686196124348767681297534375946515</span>
+  <span style="color: #ccaaff;">80386287592878490201521685554828717201219257766954</span>
+  <span style="color: #ccaaff;">78182833757993103614740356856449095527097864797581</span>
+  <span style="color: #ccaaff;">16726320100436897842553539920931837441497806860984</span>
+  <span style="color: #ccaaff;">48403098129077791799088218795327364475675590848030</span>
+  <span style="color: #ccaaff;">87086987551392711854517078544161852424320693150332</span>
+  <span style="color: #ccaaff;">59959406895756536782107074926966537676326235447210</span>
+  <span style="color: #ccaaff;">69793950679652694742597709739166693763042633987085</span>
+  <span style="color: #ccaaff;">41052684708299085211399427365734116182760315001271</span>
+  <span style="color: #ccaaff;">65378607361501080857009149939512557028198746004375</span>
+  <span style="color: #ccaaff;">35829035317434717326932123578154982629742552737307</span>
+  <span style="color: #ccaaff;">94953759765105305946966067683156574377167401875275</span>
+  <span style="color: #ccaaff;">88902802571733229619176668713819931811048770190271</span>
+  <span style="color: #ccaaff;">25267680276078003013678680992525463401061632866526</span>
+  <span style="color: #ccaaff;">36270218540497705585629946580636237993140746255962</span>
+  <span style="color: #ccaaff;">24074486908231174977792365466257246923322810917141</span>
+  <span style="color: #ccaaff;">91430288197103288597806669760892938638285025333403</span>
+  <span style="color: #ccaaff;">34413065578016127815921815005561868836468420090470</span>
+  <span style="color: #ccaaff;">23053081172816430487623791969842487255036638784583</span>
+  <span style="color: #ccaaff;">11487696932154902810424020138335124462181441773470</span>
+  <span style="color: #ccaaff;">63783299490636259666498587618221225225512486764533</span>
+  <span style="color: #ccaaff;">67720186971698544312419572409913959008952310058822</span>
+  <span style="color: #ccaaff;">95548255300263520781532296796249481641953868218774</span>
+  <span style="color: #ccaaff;">76085327132285723110424803456124867697064507995236</span>
+  <span style="color: #ccaaff;">37774242535411291684276865538926205024910326572967</span>
+  <span style="color: #ccaaff;">23701913275725675285653248258265463092207058596522</span>
+  <span style="color: #ccaaff;">29798860272258331913126375147341994889534765745501</span>
+  <span style="color: #ccaaff;">18495701454879288984856827726077713721403798879715</span>
+  <span style="color: #ccaaff;">38298203783031473527721580348144513491373226651381</span>
+  <span style="color: #ccaaff;">34829543829199918180278916522431027392251122869539</span>
+  <span style="color: #ccaaff;">40957953066405232632538044100059654939159879593635</span>
+  <span style="color: #ccaaff;">29746152185502371307642255121183693803580388584903</span>
+  <span style="color: #ccaaff;">41698116222072977186158236678424689157993532961922</span>
+  <span style="color: #ccaaff;">62467957194401269043877107275048102390895523597457</span>
+  <span style="color: #ccaaff;">23189706772547915061505504953922979530901129967519</span>
+  <span style="color: #ccaaff;">86188088225875314529584099251203829009407770775672</span>
+  <span style="color: #ccaaff;">11306739708304724483816533873502340845647058077308</span>
+  <span style="color: #ccaaff;">82959174767140363198008187129011875491310547126581</span>
+  <span style="color: #ccaaff;">97623331044818386269515456334926366572897563400500</span>
+  <span style="color: #ccaaff;">42846280183517070527831839425882145521227251250327</span>
+  <span style="color: #ccaaff;">55121603546981200581762165212827652751691296897789</span>
+  <span style="color: #ccaaff;">32238195734329339946437501907836945765883352399886</span>
+  <span style="color: #ccaaff;">75506164965184775180738168837861091527357929701337</span>
+  <span style="color: #ccaaff;">62177842752192623401942399639168044983993173312731</span>
+  <span style="color: #ccaaff;">32924185707147349566916674687634660915035914677504</span>
+  <span style="color: #ccaaff;">99518671430235219628894890102423325116913619626622</span>
+  <span style="color: #ccaaff;">73267460800591547471830798392868535206946944540724</span>
+  <span style="color: #ccaaff;">76841822524674417161514036427982273348055556214818</span>
+  <span style="color: #ccaaff;">97142617910342598647204516893989422179826088076852</span>
+  <span style="color: #ccaaff;">87783646182799346313767754307809363333018982642090</span>
+  <span style="color: #ccaaff;">10848802521674670883215120185883543223812876952786</span>
+  <span style="color: #ccaaff;">71329612474782464538636993009049310363619763878039</span>
+  <span style="color: #ccaaff;">62184073572399794223406235393808339651327408011116</span>
+  <span style="color: #ccaaff;">66627891981488087797941876876144230030984490851411</span>
+  <span style="color: #ccaaff;">60661826293682836764744779239180335110989069790714</span>
+  <span style="color: #ccaaff;">85786944089552990653640447425576083659976645795096</span>
+  <span style="color: #ccaaff;">66024396409905389607120198219976047599490197230297</span>
+  <span style="color: #ccaaff;">64913982680032973156037120041377903785566085089252</span>
+  <span style="color: #ccaaff;">16730939319872750275468906903707539413042652315011</span>
+  <span style="color: #ccaaff;">94809377245048795150954100921645863754710598436791</span>
+  <span style="color: #ccaaff;">78639167021187492431995700641917969777599028300699</span>
+  <span style="color: #ccaaff;">15368713711936614952811305876380278410754449733078</span>
+  <span style="color: #ccaaff;">40789923115535562561142322423255033685442488917353</span>
+  <span style="color: #ccaaff;">44889911501440648020369068063960672322193204149535</span>
+  <span style="color: #ccaaff;">41503128880339536053299340368006977710650566631954</span>
+  <span style="color: #ccaaff;">81234880673210146739058568557934581403627822703280</span>
+  <span style="color: #ccaaff;">82616570773948327592232845941706525094512325230608</span>
+  <span style="color: #ccaaff;">22918802058777319719839450180888072429661980811197</span>
+  <span style="color: #ccaaff;">77158542502016545090413245809786882778948721859617</span>
+  <span style="color: #ccaaff;">72107838435069186155435662884062257473692284509516</span>
+  <span style="color: #ccaaff;">20849603980134001723930671666823555245252804609722</span>
+  <span style="color: #ccaaff;">53503534226472524250874054075591789781264330331690</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span> <span style="color: #9ac; font-style: italic;">; =&gt; 5537376230</span>
+</pre>
+</div>
+
+</div><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/clojure/" rel="tag">#clojure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/a3e0d91a/" rel="prev">4Clojure 練習</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2f69a97/" rel="next">在 clojure 中使用 OpenCV 3.x</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org8783fc9"><span class="nav-text">001: Multiples of 3 and 5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0fc083c"><span class="nav-text">002: Even Fibonacci numbers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8592493"><span class="nav-text">013: Large sum</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

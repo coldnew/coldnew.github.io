@@ -1,34 +1,1016 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="xilinx,gentoo,linux,vivado," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="最近有點時間可以回去玩 Xilinx 的板子，於是想要把 Vivado 升級到 2020.1 的版本，結果彈出歡迎視窗就安裝不了了 orz    來紀錄一下非圖形化的安裝方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Gentoo Linux 安裝 Vivado 2020.1">
+<meta property="og:url" content="https://coldnew.github.io/16cb6a8e/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="最近有點時間可以回去玩 Xilinx 的板子，於是想要把 Vivado 升級到 2020.1 的版本，結果彈出歡迎視窗就安裝不了了 orz    來紀錄一下非圖形化的安裝方式。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/16cb6a8e/2020-06-21_19-12-57_a.png">
+<meta property="article:published_time" content="2020-06-21T11:06:00.000Z">
+<meta property="article:modified_time" content="2020-09-02T16:51:28.598Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="xilinx">
+<meta property="article:tag" content="gentoo">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="vivado">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/16cb6a8e/2020-06-21_19-12-57_a.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 在 Gentoo Linux 安裝 Vivado 2020.1 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/16cb6a8e/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              在 Gentoo Linux 安裝 Vivado 2020.1
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2020-09-03T00:51:28+08:00" content="2020-09-03">
+            2020-09-03
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+最近有點時間可以回去玩 Xilinx 的板子，於是想要把 <a href="https://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 升級到 <code>2020.1</code> 的版本，結果彈出歡迎視窗就安裝不了了 orz
+</p>
+
+<p>
+來紀錄一下非圖形化的安裝方式。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-org02e0a53" class="outline-2">
+<h2 id="org02e0a53">問題紀錄</h2>
+<div class="outline-text-2" id="text-org02e0a53">
+<p>
+到 <a href="https://www.xilinx.com/support/download.html" target="_blank" rel="noopener">Xilinx - Downloads</a> 下載 <code>Vivado 2020.1</code> 的 <a href="https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_Unified_2020.1_0602_1208_Lin64.bin" target="_blank" rel="noopener">Xilinx Unified Installer 2020.1: Linux Self Extracting Web Installer</a> 後，會得到以下檔案
+</p>
+
+<pre class="example">
+Xilinx_Unified_2020.1_0602_1208_Lin64.bin
+</pre>
+
+<p>
+我們將其使用 <code>chmod</code> 獲得執行權限並執行它
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ chmod +x  Xilinx_Unified_2020.1_0602_1208_Lin64.bin
+coldnew@gentoo ~ $ ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin
+</pre>
+
+<p>
+然後因為我使用的是 Gentoo Linux, 不被支援是可以預期的狀態，此時安裝程式跳出了這個視窗
+</p>
+
+
+<div class="figure">
+<p><img src="2020-06-21_19-12-57_a.png"  />
+</p>
+</div>
+
+<p>
+然後接下來點選 <code>OK</code> 後， console 就秀出以下錯誤，並且再也沒有新的安裝視窗出來了!!
+</p>
+
+<pre class="example">
+coldnew@getnoo ~ $ ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin
+Verifying archive integrity... All good.
+Uncompressing Xilinx Installer.......................................................................
+Exception in thread "SPLASH_LOAD_MESSAGE" java.lang.IllegalStateException: no splash screen available
+        at java.desktop/java.awt.SplashScreen.checkVisible(Unknown Source)
+        at java.desktop/java.awt.SplashScreen.getBounds(Unknown Source)
+        at java.desktop/java.awt.SplashScreen.getSize(Unknown Source)
+        at com.xilinx.installer.gui.H.run(Unknown Source)
+Exception in thread "main" java.lang.IllegalStateException: no splash screen available
+        at java.desktop/java.awt.SplashScreen.checkVisible(Unknown Source)
+        at java.desktop/java.awt.SplashScreen.close(Unknown Source)
+        at com.xilinx.installer.gui.G.b(Unknown Source)
+        at com.xilinx.installer.gui.InstallerGUI.G(Unknown Source)
+        at com.xilinx.installer.gui.InstallerGUI.e(Unknown Source)
+        at com.xilinx.installer.api.InstallerLauncher.main(Unknown Source)
+</pre>
+
+<p>
+好吧，誰叫你要用不被支援的 Linux Distro 呢，只好來使用指令方式安裝了
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge9b6692" class="outline-2">
+<h2 id="orge9b6692">解壓縮到資料夾</h2>
+<div class="outline-text-2" id="text-orge9b6692">
+<p>
+從安裝程式的 help 可以看到我們可以先將安裝程式解壓縮到某個資料夾內
+</p>
+
+<pre class="example">
+coldnew@getnoo ~ $ ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin -h
+Makeself version 2.1.5
+ 1) Getting help or info about ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin :
+  ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin --help   Print this message
+  ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin --info   Print embedded info : title, default target directory, embedded script ...
+  ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin --lsm    Print embedded lsm entry (or no LSM)
+  ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin --list   Print the list of files in the archive
+  ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin --check  Checks integrity of the archive
+
+ 2) Running ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin :
+  ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin [options] [--] [additional arguments to embedded script]
+  with following options (in that order)
+  --confirm             Ask before running embedded script
+  --noexec              Do not run embedded script
+  --keep                Do not erase target directory after running
+                        the embedded script
+  --nox11               Do not spawn an xterm
+  --nochown             Do not give the extracted files to the current user
+  --target NewDirectory Extract in NewDirectory
+  --tar arg1 [arg2 ...] Access the contents of the archive through the tar command
+  --                    Following arguments will be passed to the embedded script
+</pre>
+
+<p>
+因此我可以用以下方式將其解壓縮到 <code>xilinx-installer</code> 這個資料夾去
+</p>
+
+<pre class="example">
+coldnew@getnoo ~ $ ./Xilinx_Unified_2020.1_0602_1208_Lin64.bin --target xilinx-installer --noexec
+Creating directory installer
+Verifying archive integrity... All good.
+Uncompressing Xilinx Installer........................
+</pre>
+
+<p>
+進入到 <code>xilinx-installer</code> 資料夾，可以看到 <code>xsetup</code> 這個檔案，即是原本安裝程式解壓縮後會執行的檔案
+</p>
+
+<pre class="example">
+coldnew@getnoo ~/xilinx-installer $ ls
+bin  data  lib  tps  xsetup
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org637028b" class="outline-2">
+<h2 id="org637028b">手動安裝</h2>
+<div class="outline-text-2" id="text-org637028b">
+<p>
+下一步就是照原本 Vivado 安裝程式的流程，先進行使用者帳號驗證、選擇安裝程式、平台這樣一步一步的往下走
+</p>
+
+<p>
+我們首先先進行帳號驗證，這是為了讓我們可以登入 Xilinx 網站順利下載缺失的安裝檔用
+</p>
+
+<pre class="example">
+coldnew@getnoo ~/xilinx-installer $ ./xsetup -b AuthTokenGen
+Running in batch mode...
+Copyright (c) 1986-2020 Xilinx, Inc.  All rights reserved.
+
+INFO : Internet connection validated, can connect to internet.
+INFO : In order to generate the authentication token please provide your Xilinx account User ID and password.
+User ID: your-user-id@gmail.com
+Password:
+
+INFO : Generating authentication token...
+INFO : Saved authentication token file successfully, valid until 06/28/2020 07:25 下午
+</pre>
+
+<p>
+完成帳號驗證後，接下來就是產生設定檔，紀錄我們要安裝哪些東西，在這裡我選擇 <code>Vitis</code> 這樣它就會順便幫我安裝 Vivado 到系統
+</p>
+
+<pre class="example">
+coldnew@getnoo ~/xilinx-installer $ ./xsetup -b ConfigGen
+Running in batch mode...
+Copyright (c) 1986-2020 Xilinx, Inc.  All rights reserved.
+
+INFO : Log file location - /home/coldnew/.Xilinx/xinstall/xinstall_1592738839383.log
+Select a Product from the list:
+1. Vitis
+2. Vivado
+3. On-Premises Install for Cloud Deployments
+4. BootGen
+5. Lab Edition
+6. Hardware Server
+7. Documentation Navigator (Standalone)
+
+Please choose: 1
+
+INFO : Config file available at /home/coldnew/.Xilinx/install_config.txt. Please use -c &lt;filename&gt; to point to this install configuration.
+</pre>
+
+<p>
+注意到上面產生了一個設定檔案在 <code>$&#123;HOME&#125;/.Xilinx/install_config.txt</code> ，這邊設定檔請根據你自己的電腦位置修改，我們需要這個設定檔來完成下一步的安裝，如果你有需要的話也可以修改一下設定檔，移除不需要安裝的東西，設定檔的內容大致如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #5f5f5f; font-style: italic;">#### </span><span style="color: #9ac; font-style: italic;">Vitis Unified Software Platform Install Configuration ####</span>
+<span style="color: #aaccff;">Edition</span>=Vitis Unified Software Platform
+
+<span style="color: #aaccff;">Product</span>=Vitis
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Path where Xilinx software will be installed.</span>
+<span style="color: #aaccff;">Destination</span>=/tools/Xilinx
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Choose the Products/Devices the you would like to install.</span>
+<span style="color: #aaccff;">Modules</span>=Zynq UltraScale+ MPSoC:1,DocNav:1,Virtex UltraScale+ HBM:1,Virtex UltraScale+ <span style="color: #ccaaff;">58G:1,Virtex</span> UltraScale+ <span style="color: #ccaaff;">58G</span> ES:0,Kintex-7:1,Virtex UltraScale+:1,Zynq-7000:1,Kintex UltraScale+:1,Model Composer:0,Spartan-7:1,Install devices for Alveo and Xilinx edge acceleration platforms:1,Kintex UltraScale:1,Virtex UltraScale:1,Engineering Sample Devices for Custom Platforms:0,Zynq UltraScale+ RFSoC:1,Versal AI Core Series ES1:0,System Generator for DSP:0,Versal Prime Series ES1:0,Artix-7:1,Virtex-7:1,Virtex UltraScale+ HBM ES:0,Zynq UltraScale+ RFSoC ES:0
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Choose the post install scripts you'd like to run as part of the finalization step. Please note that some of these scripts may require user interaction during runtime.</span>
+<span style="color: #aaccff;">InstallOptions</span>=
+
+<span style="color: #5f5f5f; font-style: italic;">## </span><span style="color: #9ac; font-style: italic;">Shortcuts and File associations ##</span>
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Choose whether Start menu/Application menu shortcuts will be created or not.</span>
+<span style="color: #aaccff;">CreateProgramGroupShortcuts</span>=<span style="color: #ccaaff;">1</span>
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Choose the name of the Start menu/Application menu shortcut. This setting will be ignored if you choose NOT to create shortcuts.</span>
+<span style="color: #aaccff;">ProgramGroupFolder</span>=Xilinx Design Tools
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Choose whether shortcuts will be created for All users or just the Current user. Shortcuts can be created for all users only if you run the installer as administrator.</span>
+<span style="color: #aaccff;">CreateShortcutsForAllUsers</span>=<span style="color: #ccaaff;">0</span>
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Choose whether shortcuts will be created on the desktop or not.</span>
+<span style="color: #aaccff;">CreateDesktopShortcuts</span>=<span style="color: #ccaaff;">1</span>
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Choose whether file associations will be created or not.</span>
+<span style="color: #aaccff;">CreateFileAssociation</span>=<span style="color: #ccaaff;">1</span>
+
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Choose whether disk usage will be optimized (reduced) after installation</span>
+<span style="color: #aaccff;">EnableDiskUsageOptimization</span>=<span style="color: #ccaaff;">1</span>
+</pre>
+</div>
+
+<p>
+接下來就是讓它進行安裝囉，這邊我將我的檔案裝到 <code>/opt/Xilinx</code> 去
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/xilinx-installer $ ./xsetup --batch Install --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --location /opt/Xilinx --config "${HOME}/.Xilinx/install_config.txt"
+Running in batch mode...
+Copyright (c) 1986-2020 Xilinx, Inc.  All rights reserved.
+
+INFO : Log file location - /home/coldnew/.Xilinx/xinstall/xinstall_1592861224080.log
+INFO : Internet connection validated, can connect to internet.
+INFO : Authenticated user coldnew.tw@gmail.com successfully.
+INFO : Installing Edition: Vitis Unified Software Platform
+INFO : Installation directory is /opt/Xilinx/
+
+Downloading files (23.70 GB / 30.20 GB) 3 h and 49 m(s) left at 592 KB/sec. /
+Downloading files (30.20 GB / 30.20 GB) &lt;1 minute left at 540 KB/sec. (Done)
+It took 3 h and 36 m(s) to download files.
+Installing files, 99% completed. (Done)
+It took 32 minutes to install files.
+
+INFO : Log file is copied to : /opt/Xilinx/.xinstall/Vitis_2020.1/xinstall.log
+INFO : Installation completed successfully.For the platforms: please visit xilinx.com and review the "Getting Started Guide" UG1301
+</pre>
+
+<p>
+剩下就是等待檔案下載安裝完成就 ok 囉～
+</p>
+</div>
+</div>
+
+<div id="outline-container-org81728ff" class="outline-2">
+<h2 id="org81728ff">強制圖形化安裝的解法</h2>
+<div class="outline-text-2" id="text-org81728ff">
+<p>
+後來在 <a href="http://billauer.co.il/blog/2020/08/vivado-install-unsupported-linux/" target="_blank" rel="noopener">Installing Vivado 2020.1 on Linux Mint 19</a> 這篇文章看到另外的解決方案，可以讓安裝程式順利進入到圖形界面。
+</p>
+
+<p>
+他是怎做的呢? 實際上安裝程式會去抓你系統的 <code>/etc/os-release</code> 和 <code>/etc/lsb-release</code> 這兩樣資訊，這點可以從 <code>strace</code> 來查證
+</p>
+
+<pre class="example">
+coldnew@getnoo ~/xilinx-installer $ strace -f ./xsetup
+
+[pid 3743535] openat(AT_FDCWD, "/etc/lsb-release", O_RDONLY) = 3
+[pid 3743644] openat(AT_FDCWD, "/etc/os-release", O_RDONLY &lt;unfinished ...&gt;
+</pre>
+
+<p>
+所以呀，我們就暫時把 <code>/etc/os-release</code> 替換成這樣
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #aaccff;">NAME</span>=<span style="color: #aadddd;">"Ubuntu"</span>
+<span style="color: #aaccff;">VERSION</span>=<span style="color: #aadddd;">"16.04.6 LTS (Xenial Xerus)"</span>
+<span style="color: #aaccff;">ID</span>=ubuntu
+<span style="color: #aaccff;">ID_LIKE</span>=debian
+<span style="color: #aaccff;">PRETTY_NAME</span>=<span style="color: #aadddd;">"Ubuntu 16.04.6 LTS"</span>
+<span style="color: #aaccff;">VERSION_ID</span>=<span style="color: #aadddd;">"16.04"</span>
+<span style="color: #aaccff;">HOME_URL</span>=<span style="color: #aadddd;">"http://www.ubuntu.com/"</span>
+<span style="color: #aaccff;">SUPPORT_URL</span>=<span style="color: #aadddd;">"http://help.ubuntu.com/"</span>
+<span style="color: #aaccff;">BUG_REPORT_URL</span>=<span style="color: #aadddd;">"http://bugs.launchpad.net/ubuntu/"</span>
+<span style="color: #aaccff;">VERSION_CODENAME</span>=xenial
+<span style="color: #aaccff;">UBUNTU_CODENAME</span>=xenial
+</pre>
+</div>
+
+<p>
+然後再把 <code>/etc/lsb-release</code> 換成這樣
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #aaccff;">DISTRIB_ID</span>=Ubuntu
+<span style="color: #aaccff;">DISTRIB_RELEASE</span>=<span style="color: #ccaaff;">16.04</span>
+<span style="color: #aaccff;">DISTRIB_CODENAME</span>=xenial
+<span style="color: #aaccff;">DISTRIB_DESCRIPTION</span>=<span style="color: #aadddd;">"Ubuntu 16.04.6 LTS"</span>
+</pre>
+</div>
+
+<p>
+也就是偽裝成 <code>Ubuntu 16.04</code> 的樣子，這樣圖形版的安裝程式就可以跑啦 !!!!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org32d0582" class="outline-2">
+<h2 id="org32d0582">安裝 USB driver (udev rules)</h2>
+<div class="outline-text-2" id="text-org32d0582">
+<p>
+因為我們有用 JTAG 進行開發，所以安裝完成後，別忘記手動安裝需要用到的 udev rules。
+</p>
+
+<p>
+假設這邊將 Vivado 安裝到以下路徑
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #aaccff;">VIVADO_INSTALL_DIR</span>=/opt/Xilinx/Vivado/2020.1
+</pre>
+</div>
+
+<p>
+則進入到 <code>$&#123;VIVADO_INSTALL_DIR&#125;/data/xicom/cable_drivers/lin64/install_script/install_drivers</code> 這邊，裡面有個 <code>install_drivers</code> 腳本可以執行，用 <code>root</code> 權限執行後就會把需要的 UDEV rules 安裝到系統去。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ccaaff;">export</span> <span style="color: #aaccff;">VIVADO_INSTALL_DIR</span>=/opt/Xilinx/Vivado/2020.1
+
+<span style="color: #ccaaff;">cd</span> $<span style="color: #aadddd;">{</span><span style="color: #aaccff;">VIVADO_INSTALL_DIR</span><span style="color: #aadddd;">}</span>/data/xicom/cable_drivers/lin64/install_script/install_drivers
+sudo ./install_drivers
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf1d3567" class="outline-2">
+<h2 id="orgf1d3567">參考資料</h2>
+<div class="outline-text-2" id="text-orgf1d3567">
+<ul class="org-ul">
+<li><a href="https://sweetcafe.jp/?*20200605-142650" target="_blank" rel="noopener">ビバ道2020.1インストール</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Xilinx_Vivado" target="_blank" rel="noopener">ArchLinux Wiki - Xilinx Vivado</a></li>
+<li><a href="https://bbs.archlinux.org/viewtopic.php?id=256564" target="_blank" rel="noopener">Xilinx Vivado Vitis 2020.1 Installation</a></li>
+<li><a href="http://billauer.co.il/blog/2020/08/vivado-install-unsupported-linux/" target="_blank" rel="noopener">Installing Vivado 2020.1 on Linux Mint 19</a></li>
+<li><a href="https://forums.xilinx.com/t5/Installation-and-Licensing/Installation-of-Vivado-2020-1-under-Centos-7-8-fails/td-p/1115482" target="_blank" rel="noopener">https://forums.xilinx.com/t5/Installation-and-Licensing/Installation-of-Vivado-2020-1-under-Centos-7-8-fails/td-p/1115482</a></li>
+<li><a href="https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug973-vivado-release-notes-install-license.pdf" target="_blank" rel="noopener">Vivado Design Suite UserGuide - 2020.1</a></li>
+</ul>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/xilinx/" rel="tag">#xilinx</a>
+          
+            <a href="/tags/gentoo/" rel="tag">#gentoo</a>
+          
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+            <a href="/tags/vivado/" rel="tag">#vivado</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/4bc009ef/" rel="prev">Ultra96 開發紀錄: Vitis 無法建立 Platform 的處理方式</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/728089c8/" rel="next">使用sourcetrail 來閱讀meson專案的程式碼</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org02e0a53"><span class="nav-text">問題紀錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge9b6692"><span class="nav-text">解壓縮到資料夾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org637028b"><span class="nav-text">手動安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org81728ff"><span class="nav-text">強制圖形化安裝的解法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org32d0582"><span class="nav-text">安裝 USB driver (udev rules)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf1d3567"><span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

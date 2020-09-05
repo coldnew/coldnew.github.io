@@ -1,34 +1,767 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="emacs," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="eshell 是 emacs 下一個非常特殊的終端機 (terminal) 模擬軟體，和一般的 xterm、konsole、gnome terminal 相比，eshell 完全使用 emacs-lisp 實現，因 此可以非常完整的和 emacs 結合。    若任何軟體都要舉出其缺點的話，eshell 我覺得有以下兩個缺點:     不能夠使用 ncurse 的軟體    像是 htop 等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="替你的 eshell prompt 上色">
+<meta property="og:url" content="https://coldnew.github.io/32c1fa12/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="eshell 是 emacs 下一個非常特殊的終端機 (terminal) 模擬軟體，和一般的 xterm、konsole、gnome terminal 相比，eshell 完全使用 emacs-lisp 實現，因 此可以非常完整的和 emacs 結合。    若任何軟體都要舉出其缺點的話，eshell 我覺得有以下兩個缺點:     不能夠使用 ncurse 的軟體    像是 htop 等">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/32c1fa12/eshell-color-prompt.png">
+<meta property="article:published_time" content="2013-11-13T14:18:00.000Z">
+<meta property="article:modified_time" content="2013-11-13T14:18:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="emacs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/32c1fa12/eshell-color-prompt.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 替你的 eshell prompt 上色 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/32c1fa12/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              替你的 eshell prompt 上色
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2013-11-13T22:18:00+08:00" content="2013-11-13">
+            2013-11-13
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+eshell 是 emacs 下一個非常特殊的終端機 (terminal) 模擬軟體，和一般的
+xterm、konsole、gnome terminal 相比，eshell 完全使用 emacs-lisp 實現，因
+此可以非常完整的和 emacs 結合。
+</p>
+
+<p>
+若任何軟體都要舉出其缺點的話，eshell 我覺得有以下兩個缺點:
+</p>
+
+<ul class="org-ul">
+<li><p>
+不能夠使用 ncurse 的軟體
+</p>
+
+<p>
+像是 htop 等使用到 ncurse 的軟體，很可惜無法在 eshell 中使用。
+</p></li>
+
+<li><p>
+預設的 terminal prompt 太醜
+</p>
+
+<p>
+身為 Gentoo Linux 的使用者，對於 shell prompt 的外觀是非常講究的，預設的 eshell
+prompt 沒有色彩，這點讓我難以接受。
+</p></li>
+</ul>
+
+
+<p>
+為了讓 eshell 更貼近我的日常使用，我使用 emacs-lisp 修改 eshell 的 prompt
+樣式，並讓他增加色彩，結果如下圖:
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="eshell-color-prompt.png"  />
+</p>
+</div>
+</div>
+
+<p>
+要讓你的 eshell 長得像我這樣，你必須使用以下兩組 emacs-lisp 設定
+</p>
+
+<div id="outline-container-org606ff8a" class="outline-2">
+<h2 id="org606ff8a">將 eshell 的 prompt 設定成和 bash 一樣</h2>
+<div class="outline-text-2" id="text-org606ff8a">
+<p>
+下面這一組 emacs-lisp 可以讓你的 eshell prompt 設定的和 bash 相同，變成 <code>user@hostname directory $</code> 的形式。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">setq</span> eshell-prompt-function
+      '<span style="color: #81d4fa;">(</span>lambda <span style="color: #aaccff;">()</span>
+         <span style="color: #aaccff;">(</span>concat
+          user-login-name <span style="color: #aadddd;">"@"</span> system-name <span style="color: #aadddd;">" "</span>
+          <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">(</span>search <span style="color: #fff59d;">(</span>directory-file-name <span style="color: #ff8888;">(</span>expand-file-name <span style="color: #795548;">(</span>getenv <span style="color: #aadddd;">"HOME"</span><span style="color: #795548;">)</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>eshell/pwd<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+              <span style="color: #ccaaff;">(</span>replace-regexp-in-string <span style="color: #fff59d;">(</span>expand-file-name <span style="color: #ff8888;">(</span>getenv <span style="color: #aadddd;">"HOME"</span><span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span> <span style="color: #aadddd;">"~"</span> <span style="color: #fff59d;">(</span>eshell/pwd<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+            <span style="color: #ccaaff;">(</span>eshell/pwd<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+          <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">if</span> <span style="color: #ccaaff;">(</span>= <span style="color: #fff59d;">(</span>user-uid<span style="color: #fff59d;">)</span> <span style="color: #ccaaff;">0</span><span style="color: #ccaaff;">)</span> <span style="color: #aadddd;">" # "</span> <span style="color: #aadddd;">" $ "</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfd58c10" class="outline-2">
+<h2 id="orgfd58c10">替 eshell 的 prompt 上色</h2>
+<div class="outline-text-2" id="text-orgfd58c10">
+<p>
+設定好 eshell 的 prompt 後，接著就是透過 emacs-lisp 的正規表達式以及 overlay
+功能，尋找符合的格式進行上色。透過這兩個步驟，你也可以擁有好看的 eshell prompt。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defun</span> <span style="color: #aaccff;">colorfy-eshell-prompt</span> <span style="color: #81d4fa;">()</span>
+  <span style="color: #97abc6; font-style: italic;">"Colorfy eshell prompt according to `</span><span style="color: #ccaaff; font-style: italic;">user@hostname</span><span style="color: #97abc6; font-style: italic;">' regexp."</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let*</span> <span style="color: #aaccff;">(</span><span style="color: #aaeecc;">(</span>mpoint<span style="color: #aaeecc;">)</span>
+         <span style="color: #aaeecc;">(</span>user-string-regexp <span style="color: #ccaaff;">(</span>concat <span style="color: #aadddd;">"^"</span> user-login-name <span style="color: #aadddd;">"@"</span> system-name<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">save-excursion</span>
+      <span style="color: #aaeecc;">(</span>goto-char <span style="color: #ccaaff;">(</span>point-min<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">while</span> <span style="color: #ccaaff;">(</span>re-search-forward <span style="color: #fff59d;">(</span>concat user-string-regexp <span style="color: #aadddd;">".*[$#]"</span><span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>point-max<span style="color: #fff59d;">)</span> t<span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">setq</span> mpoint <span style="color: #fff59d;">(</span>point<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span>overlay-put <span style="color: #fff59d;">(</span>make-overlay <span style="color: #ff8888;">(</span>point-at-bol<span style="color: #ff8888;">)</span> mpoint<span style="color: #fff59d;">)</span> 'face '<span style="color: #fff59d;">(</span><span style="color: #ccaaff;">:foreground</span> <span style="color: #aadddd;">"dodger blue"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>goto-char <span style="color: #ccaaff;">(</span>point-min<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #aaffaa;">while</span> <span style="color: #ccaaff;">(</span>re-search-forward user-string-regexp <span style="color: #fff59d;">(</span>point-max<span style="color: #fff59d;">)</span> t<span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span><span style="color: #aaffaa;">setq</span> mpoint <span style="color: #fff59d;">(</span>point<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+        <span style="color: #ccaaff;">(</span>overlay-put <span style="color: #fff59d;">(</span>make-overlay <span style="color: #ff8888;">(</span>point-at-bol<span style="color: #ff8888;">)</span> mpoint<span style="color: #fff59d;">)</span> 'face '<span style="color: #fff59d;">(</span><span style="color: #ccaaff;">:foreground</span> <span style="color: #aadddd;">"green3"</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+        <span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Make eshell prompt more colorful</span>
+<span style="color: #aadddd;">(</span>add-hook 'eshell-output-filter-functions 'colorfy-eshell-prompt<span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/emacs/" rel="tag">#emacs</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/d5011be2/" rel="prev">解決 org-mode 表格內中英文對齊的問題</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/c57d2c00/" rel="next">編譯 CyanogenMod 9 (ICS) 並安裝到 HTC One X 手機</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org606ff8a"><span class="nav-text">將 eshell 的 prompt 設定成和 bash 一樣</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfd58c10"><span class="nav-text">替 eshell 的 prompt 上色</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

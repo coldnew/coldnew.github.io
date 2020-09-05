@@ -1,34 +1,1386 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="fpga,xilinx,linux,zybo,zynq," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 zybo board 開發記錄: Zynq 與 LED 閃爍控制 一文中我們談到了如何透過 C 語言撰寫獨立的程式，讓它控制 Zynq 的處理器系統 (Processing System, PS) 去閃爍 LED 的亮暗。既然 Zynq 的處理器系統 (Processing System, PS) 使用的是 ARM Cortex-A9 的處理器，那當然也可以讓我們跑 Linux 在 Zyb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zybo board 開發記錄: 執行 Linux 作業系統">
+<meta property="og:url" content="https://coldnew.github.io/d9dfdd56/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 zybo board 開發記錄: Zynq 與 LED 閃爍控制 一文中我們談到了如何透過 C 語言撰寫獨立的程式，讓它控制 Zynq 的處理器系統 (Processing System, PS) 去閃爍 LED 的亮暗。既然 Zynq 的處理器系統 (Processing System, PS) 使用的是 ARM Cortex-A9 的處理器，那當然也可以讓我們跑 Linux 在 Zyb">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/zybo_config_pins.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/bootp.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/format.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/oprj.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/linux_bd.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/ge.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/e1.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/e2.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/e3.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/ax1.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/ax2.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/ax3.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/ax4.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/ax5.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/ax6.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/f2.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/sdboot.png">
+<meta property="og:image" content="https://coldnew.github.io/d9dfdd56/s1.png">
+<meta property="article:published_time" content="2016-07-17T11:45:00.000Z">
+<meta property="article:modified_time" content="2016-07-17T11:45:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="fpga">
+<meta property="article:tag" content="xilinx">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="zybo">
+<meta property="article:tag" content="zynq">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/d9dfdd56/zybo_config_pins.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> zybo board 開發記錄: 執行 Linux 作業系統 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/d9dfdd56/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              zybo board 開發記錄: 執行 Linux 作業系統
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2016-07-17T19:45:00+08:00" content="2016-07-17">
+            2016-07-17
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/zybo-board/" itemprop="url" rel="index">
+                  <span itemprop="name">zybo board 開發記錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+在 <a href="http://coldnew.github.io/zybo-board/zynq_led_flash/">zybo board 開發記錄: Zynq 與 LED 閃爍控制</a> 一文中我們談到了如何透過 C 語言撰寫獨立的程式，讓它控制 Zynq 的處理器系統 (Processing System, PS) 去閃爍 LED 的亮暗。既然 Zynq 的處理器系統 (Processing System, PS) 使用的是 ARM Cortex-A9 的處理器，那當然也可以讓我們跑 Linux 在 Zybo Board 上。
+</p>
+
+<p>
+(本文以 <code>Vivado 2016.2</code> 進行開發)
+</p>
+
+<a id="more"></a>
+
+<p>
+本文將簡述如何自行編譯 u-boot 以及 Linux Kernel，並搭配 Busybox 製作簡單的 RootFS 執行於 Zybo Board 上。
+</p>
+
+<div id="outline-container-org374904e" class="outline-2">
+<h2 id="org374904e">開發目標</h2>
+<div class="outline-text-2" id="text-org374904e">
+<p>
+在這次的開發中，我們要編譯 u-boot、Linux，並使用 Busybox 製作簡單的 Rootfs 後，透過製作 SD 卡來讓 Zybo Board 透過 SD 卡開機。
+</p>
+
+<p>
+要注意到的是，由於我們要透過 SD 卡開機進入到 Linux 系統，因此我們要透過 <code>JP5</code> 去更改開機模式。
+</p>
+
+
+<div class="figure">
+<p><img src="zybo_config_pins.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf37964e" class="outline-2">
+<h2 id="orgf37964e">了解開機流程</h2>
+<div class="outline-text-2" id="text-orgf37964e">
+<p>
+既然我們要讓 Zybo board 執行 Linux 系統，就要先來了解一下開機流程，才知道我們大概需要準備哪些東西。從  <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_1/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="noopener">Zynq-7000 All Programmable SoC: Embedded Design Tutorial - A Hands-On Guide to Effective Embedded System Design (UG1165)</a> 可以看到 Zynq-7000 執行 Linux 系統的開機流程圖。
+</p>
+
+
+<div class="figure">
+<p><img src="bootp.png"  />
+</p>
+</div>
+
+<p>
+也就是說，當開始提供電源給 Zynq 處理器系統 (Processing System, PS) 並完成重置(reset) 後，Zynq 內建的 Boot ROM 會去載入 <code>第一階段開機程式 (First Stage Boot Loader, FSBL)</code> ，接著載入 <code>位元流 (bitstream)</code> 去初始化整個 <code>可程式邏輯(Programmable Logic, PL)</code> 。 完成後，接下來就是透過 U-Boot 去載入 Linux Kernel、Device Tree 以及 Root File System。
+</p>
+
+<p>
+了解了這個，我們就知道我們大概要準備哪些東西了。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7e24398" class="outline-2">
+<h2 id="org7e24398">設定好環境</h2>
+<div class="outline-text-2" id="text-org7e24398">
+<p>
+在安裝玩 Vivado 與 Xilinx SDK 後，實際上包含 Zynq 在用的 ARM toolchain 亦同時被安裝到系統中，我們只要使用 <code>source</code> 命令即可讓當前的環境知道 xilinx-arm toolchain 的路徑。這邊以 Viavdo 2016.2 作為範例。
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ source /opt/Xilinx/Vivado/2016.2/settings64.sh
+</pre>
+
+<p>
+這樣就可以獲得 arm-xilinx-* toolchain 的命令，實際上有哪些呢? 輸入個 arm-xilinx- 按下 TAB 看看
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ arm-xilinx-
+arm-xilinx-eabi-addr2line            arm-xilinx-eabi-gcc-4.9.2            arm-xilinx-eabi-objcopy
+arm-xilinx-linux-gnueabi-ar          arm-xilinx-linux-gnueabi-gcc-ar      arm-xilinx-linux-gnueabi-objdump
+arm-xilinx-eabi-ar                   arm-xilinx-eabi-gcc-ar               arm-xilinx-eabi-objdump
+arm-xilinx-linux-gnueabi-as          arm-xilinx-linux-gnueabi-gcc-nm      arm-xilinx-linux-gnueabi-ranlib
+arm-xilinx-eabi-as                   arm-xilinx-eabi-gcc-nm               arm-xilinx-eabi-ranlib
+arm-xilinx-linux-gnueabi-c++         arm-xilinx-linux-gnueabi-gcc-ranlib  arm-xilinx-linux-gnueabi-readelf
+arm-xilinx-eabi-c++                  arm-xilinx-eabi-gcc-ranlib           arm-xilinx-eabi-readelf
+arm-xilinx-linux-gnueabi-c++filt     arm-xilinx-linux-gnueabi-gcov        arm-xilinx-linux-gnueabi-size
+arm-xilinx-eabi-c++filt              arm-xilinx-eabi-gcov                 arm-xilinx-eabi-size
+arm-xilinx-linux-gnueabi-cpp         arm-xilinx-linux-gnueabi-gdb         arm-xilinx-linux-gnueabi-sprite
+arm-xilinx-eabi-cpp                  arm-xilinx-eabi-gdb                  arm-xilinx-eabi-sprite
+arm-xilinx-linux-gnueabi-elfedit     arm-xilinx-linux-gnueabi-gprof       arm-xilinx-linux-gnueabi-strings
+arm-xilinx-eabi-elfedit              arm-xilinx-eabi-gprof                arm-xilinx-eabi-strings
+arm-xilinx-linux-gnueabi-g++         arm-xilinx-linux-gnueabi-ld          arm-xilinx-linux-gnueabi-strip
+arm-xilinx-eabi-g++                  arm-xilinx-eabi-ld                   arm-xilinx-eabi-strip
+arm-xilinx-linux-gnueabi-gcc         arm-xilinx-linux-gnueabi-nm
+arm-xilinx-eabi-gcc                  arm-xilinx-eabi-nm                   arm-xilinx-linux-gnueabi-addr2line
+arm-xilinx-linux-gnueabi-gcc-4.9.2   arm-xilinx-linux-gnueabi-objcopy
+</pre>
+
+<p>
+如果你系統上已經有其他的 ARM toolchain 的話，可以考慮跳過這一步驟，接下來要格式化 Micro SD 卡。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org79f82ad" class="outline-2">
+<h2 id="org79f82ad">格式化 MicroSD 卡</h2>
+<div class="outline-text-2" id="text-org79f82ad">
+<p>
+在這次的開發中，我們要設定 MicroSD 卡片成兩個分區，第一個是 <code>fat32</code> 格式，第二個則使用 <code>ext4</code> 格式，若不會使用 <code>fdisk</code> 命令的話，可以透過 <code>gparted</code> 來進行格式化，以下是我格式化卡片的範例 (8GB 卡片)。
+</p>
+
+
+<div class="figure">
+<p><img src="format.png"  />
+</p>
+</div>
+
+<p>
+(實際上在本文的範例中，只會用到第一個分區，第二個分區是為了往後文章要開機到大一點的 rootfs 準備的。)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcb2ce7d" class="outline-2">
+<h2 id="orgcb2ce7d">編譯 u-boot</h2>
+<div class="outline-text-2" id="text-orgcb2ce7d">
+<p>
+我們首先去 <a href="https://github.com/DigilentInc/u-boot-Digilent-Dev" target="_blank" rel="noopener">GitHub</a> 下載 DigilentInc 加入 zybo board 後的 u-boot 版本，要注意這邊要選擇 <code>master-next</code> 分支。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git clone https://github.com/DigilentInc/u-boot-Digilent-Dev.git -b master-next
+</pre>
+</div>
+
+<p>
+完成後進入到該資料夾
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ cd u-boot-Digilent-Dev
+</pre>
+
+<p>
+編譯 u-boot，記得指派編譯目標為 <code>zynq_zybo_config</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/u-boot-Digilent-Dev $ <span style="color: #aaccff;">CROSS_COMPILE</span>=arm-xilinx-linux-gnueabi- make zynq_zybo_config
+coldnew@gentoo ~/u-boot-Digilent-Dev $ <span style="color: #aaccff;">CROSS_COMPILE</span>=arm-xilinx-linux-gnueabi- make
+</pre>
+</div>
+
+<p>
+編譯完成後，注意一下 <code>u-boot</code> 這個檔案，他就是我們等等要用到的 u-boot 執行檔，不過由於 Xilinx Tool 要找有 .elf 副檔名的檔案，因此我們把它複製成 <code>u-boot.elf</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/u-boot-Digilent-Dev $ cp u-boot u-boot.elf
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1d240a0" class="outline-2">
+<h2 id="org1d240a0">編譯 Linux kernel</h2>
+<div class="outline-text-2" id="text-org1d240a0">
+<p>
+編譯好 u-boot 後，接下來就是編譯 Linux Kernel 了，我們一樣選擇 DigilentInc 加入 zybo board 後的 Linux Kernel 版本，記得要選 <code>master-next</code> 分支。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git clone https://github.com/DigilentInc/Linux-Digilent-Dev.git -b master-next
+</pre>
+</div>
+
+<p>
+接著，當然就是編譯了，不過在這之前請先確定你有裝 <code>u-boot-tools</code> 這套件，我們需要裡面的 mkimage 指令，Gentoo Linux 可以直接用以下命令來安裝。
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ sudo emerge dev-embedded/u-boot-tools
+</pre>
+
+<p>
+完成後進入 Linux Kernel 資料夾
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ cd Linux-Digilent-Dev
+</pre>
+
+<p>
+編譯我們需要的 <code>uImage</code> 文件，記得要指定 config 為 <code>xilinx_zynq_defconfig</code> 以及設定 <code>UIMAGE_LOADADDR</code> 為 <code>0x8000</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/Linux-Digilent-Dev $ <span style="color: #aaccff;">ARCH</span>=arm <span style="color: #aaccff;">CROSS_COMPILE</span>=arm-xilinx-linux-gnueabi- make xilinx_zynq_defconfig
+coldnew@gentoo ~/Linux-Digilent-Dev $ <span style="color: #aaccff;">ARCH</span>=arm <span style="color: #aaccff;">CROSS_COMPILE</span>=arm-xilinx-linux-gnueabi- make
+coldnew@gentoo ~/Linux-Digilent-Dev $ <span style="color: #aaccff;">ARCH</span>=arm <span style="color: #aaccff;">CROSS_COMPILE</span>=arm-xilinx-linux-gnueabi- make <span style="color: #aaccff;">UIMAGE_LOADADDR</span>=<span style="color: #ccaaff;">0x8000</span> uImage
+coldnew@gentoo ~/Linux-Digilent-Dev $ <span style="color: #aaccff;">ARCH</span>=arm <span style="color: #aaccff;">CROSS_COMPILE</span>=arm-xilinx-linux-gnueabi- make zynq-zybo.dtb
+</pre>
+</div>
+
+<p>
+編譯完後，我們會需要 <code>arch/arm/boot/uImage</code> 以及 <code>arch/arm/boot/dts/zynq-zybo.dtb</code> 這兩個檔案，後者就是 device tree 編譯出來的資料檔。
+</p>
+
+<p>
+由於放入到 SD 卡上的 device tree 檔案名稱為 <code>devicetree.dtb</code> ，因此這邊將 <code>zynq-zybo.dtb</code> 改一下名。
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/Linux-Digilent-Dev $ cp arch/arm/boot/dts/zynq-zybo.dtb devicetree.dtb
+</pre>
+</div>
+
+<p>
+如果你想手動修改 Device Tree 並再重新編譯的話，也可以這樣去產生我們要的 <code>devicetree.dtb</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/Linux-Digilent-Dev $ ./scripts/dtc/dtc -I dts -O dtb -o devicetree.dtb arch/arm/boot/dts/zynq-zybo.dts
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga8eef73" class="outline-2">
+<h2 id="orga8eef73">編譯 BusyBox</h2>
+<div class="outline-text-2" id="text-orga8eef73">
+<p>
+<a href="http://www.busybox.net/" target="_blank" rel="noopener">Busybox</a> 是一個非常有趣的程式，舉凡我們在 Linux 下最常用的命令如 ls、cd 等到 sed、vi 他都具有相對應的簡單實現，此外，這些命令實際上都只是一個軟連結 (symlink) 連結到名為 busybox 的執行檔，也就是說，如果我們將 busybox 進行靜態編譯 (static link)，則製作出來的系統整體大小大約為 2 MB (kernel) + 1.4 MB (busybox)，而這個系統卻又可以具有許多 UN*X 下的常用命令，也因此 busybox 很常用於空間有限的系統。
+</p>
+
+<p>
+我們在這個開發過程中，由於只是驗證執行 Linux 系統的功能，因此選用 Busybox 來作為我們的 rootfs。
+</p>
+
+<p>
+首先先下載 Busybox 的原始碼，這裡選用 <code>1_25_stable</code> 這個穩定分支
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git clone git://git.busybox.net/busybox -b <span style="color: #ccaaff;">1_25_stable</span>
+</pre>
+</div>
+
+<p>
+進行我們自己的設定
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/busybox $ <span style="color: #aaccff;">ARCH</span>=arm <span style="color: #aaccff;">CROSS_COMPILE</span>=arm-xilinx-linux-gnueabi- make menuconfig
+</pre>
+</div>
+
+<p>
+在進行設定時有以下幾點要確實注意，我們要將 busybox 編譯為靜態連結，並且增加 <code>init</code> 功能，主要設定如下:
+</p>
+<pre class="example">
+Busybox Settings  ---&gt;
+        Build Options  ---&gt;
+               [*] Build BusyBox as a static binary (no shared libs)
+
+Init Utilities  ---&gt;
+        [*] init
+
+Login/Password Management Utilities  ---&gt;
+        [*] getty
+
+Shells  ---&gt;
+        [*] ash
+</pre>
+
+<p>
+設定完成後開始進行編譯
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/busybox $ <span style="color: #aaccff;">ARCH</span>=arm <span style="color: #aaccff;">CROSS_COMPILE</span>=arm-xilinx-linux-gnueabi- make
+</pre>
+</div>
+
+<p>
+編譯完成後透過 <code>make install</code> 命令，會將編譯出來的 busybox 與軟連結(symlink)產生在 <code>_install</code> 資料夾內
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@Rosia ~/busybox $ <span style="color: #aaccff;">ARCH</span>=arm <span style="color: #aaccff;">CROSS_COMPILE</span>=arm-xilinx-linux-gnueabi- make install
+</pre>
+</div>
+
+<p>
+建立一些缺少的資料夾 (/dev、/sys &#x2026;etc)
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/busybox $ cd _install &amp;&amp; mkdir -p proc sys dev etc/init.d root
+</pre>
+</div>
+
+<p>
+建立 <code>etc/init.d/rcS</code> 作為啟動腳本，並添加以下內容
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/busybox/_install $ vim etc/init.d/rcS
+
+<span style="color: #5f5f5f; font-style: italic;">#</span><span style="color: #9ac; font-style: italic;">!/bin/sh</span>
+mount -t proc none /proc
+mount -t sysfs none /sys
+/sbin/mdev -s
+</pre>
+</div>
+
+<p>
+將 <code>etc/init.d/rcS</code> 加入可執行權限
+</p>
+<pre class="example">
+coldnew@gentoo ~/busybox/_install $ chmod +x etc/init.d/rcS
+</pre>
+
+<p>
+建立 <code>etc/inittab</code> ，這會讓我們可以透過 UART 登入 zybo board
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/busybox/_install $ vim etc/inittab
+
+<span style="color: #5f5f5f; font-style: italic;">#</span><span style="color: #9ac; font-style: italic;">!/bin/sh</span>
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Init script</span>
+::sysinit:/etc/init.d/rcS
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">Start shell on the serial ports</span>
+::respawn:/sbin/getty -L ttyPS0 <span style="color: #ccaaff;">115200</span> vt100
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">What to do when restarting the init process</span>
+::restart:/sbin/init
+<span style="color: #5f5f5f; font-style: italic;"># </span><span style="color: #9ac; font-style: italic;">What to do before rebooting</span>
+::shutdown:/bin/umount -a -r
+</pre>
+</div>
+
+<p>
+設定預設的 <code>/etc/passwd</code> 檔案，我們要讓 root 用戶登入時不用輸入密碼
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/busybox/_install $ vim etc/passwd
+
+root::0:0:root:/root:/bin/sh
+</pre>
+</div>
+
+<p>
+建立 <code>/init</code> 並軟連結到 <code>/sbin/init</code> ，避免 Linux Kernel 開機時找不到 rootfs 的 init。
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~/busybox/_install $ ln -s /sbin/init init
+</pre>
+</div>
+
+<p>
+接下來，由於這次我們只是要開機到 ramdisk 上的 rootfs, 因此將 busybox 做出的 rootfs 打包成 cpio 格式。
+</p>
+<pre class="example">
+coldnew@gentoo ~/busybox/_install $ find . | sudo cpio -H newc -o | gzip -9 &gt; ../uramdisk.cpio.gz
+</pre>
+
+<p>
+再透過 <code>mkimage</code> 將這個 <code>uramdisk.cpio.gz</code> 檔案轉成 uboot 用的 <code>uramdisk.image.gz</code>
+</p>
+<pre class="example">
+coldnew@gentoo ~/busybox/_install $  mkimage -A arm -T ramdisk -C gzip -d ../uramdisk.cpio.gz ../uramdisk.image.gz
+Image Name:
+Created:      Sun Jul 17 19:02:08 2016
+Image Type:   ARM Linux RAMDisk Image (gzip compressed)
+Data Size:    1042106 Bytes = 1017.68 kB = 0.99 MB
+Load Address: 00000000
+Entry Point:  00000000
+</pre>
+
+<p>
+在這邊的這個 <code>uramdisk.image.gz</code> 就是我們開機會進入到的 rootfs，也是我們等等要放到 SD 卡第一個磁區的檔案。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1e5b9a4" class="outline-2">
+<h2 id="org1e5b9a4">編譯位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-org1e5b9a4">
+<p>
+在 <a href="https://coldnew.github.io/zybo-board/linux_bd/">zybo board 開發記錄: 升級 Digilent 提供的設計檔</a> 一文中，我們提到了怎樣升級 <a href="http://store.digilentinc.com/" target="_blank" rel="noopener">Digilent</a> 提供的預先定義好接腳的設定檔 (zybo_base_system) ，這次的專案，我們就直接用這個設定檔案來進行 Linux 開機的動作。
+</p>
+
+<p>
+首先你必須根據該篇文章，將你的 Zybo board 設定檔案升級到你用的 Vivado 版本，完成後我們重新建立一個乾淨的專案。
+</p>
+
+<p>
+先來把先前生成的舊專案清掉:
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ sh cleanup.sh
+</pre>
+
+<p>
+接下來用 Vivado 2016.2 重新生出新的專案 ~
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ /opt/Xilinx/Vivado/2016.2/bin/vivado -mode batch -source create_project.tcl
+</pre>
+
+<p>
+完成後，會看到 <code>ZYBO/Projects/linux_bd/proj</code> 目錄變成這樣:
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/ZYBO/Projects/linux_bd/proj $ tree -L 1
+. &lt;b&gt;
+├── cleanup.cmd
+├── cleanup.sh
+├── create_project.tcl
+├── ip_upgrade.log &lt;g&gt;
+├── linux_bd.cache &lt;b&gt;
+├── linux_bd.hw &lt;b&gt;
+├── linux_bd.ip_user_files &lt;b&gt;
+├── linux_bd.sim &lt;b&gt;
+├── linux_bd.srcs &lt;b&gt;
+├── linux_bd.xpr
+├── vivado.jou
+└── vivado.log &lt;g&gt;
+
+5 directories, 7 files
+</pre>
+
+<p>
+我們使用 Vivado 打開 <code>linux_bd.xpr</code> 這個專案。
+</p>
+
+
+<div class="figure">
+<p><img src="oprj.png"  />
+</p>
+</div>
+
+<p>
+如果你有興趣看他生出來的 Block Design 是怎樣的，也可以切到 Block Design 那頁看看
+</p>
+
+
+<div class="figure">
+<p><img src="linux_bd.png"  />
+</p>
+</div>
+
+<p>
+我們直接點選 <code>Program and Debug -&gt; Generate Bitstream</code> 產生我們要的位元流 (bitstream)
+</p>
+
+
+<div class="figure">
+<p><img src="ge.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org45c5480" class="outline-2">
+<h2 id="org45c5480">建立 FSBL</h2>
+<div class="outline-text-2" id="text-org45c5480">
+<p>
+到此，我們除了 <code>第一階段開機程式 (First Stage Boot Loader, FSBL)</code> 外，其他的程式都已經編譯出執行檔了，讓我們來處理 FSBL 吧。
+</p>
+
+<p>
+首先點選 <code>File -&gt; Export -&gt; Export hardware</code>
+</p>
+
+
+<div class="figure">
+<p><img src="e1.png"  />
+</p>
+</div>
+
+
+<p>
+記得要勾選 <code>Include bitstream</code>
+</p>
+
+
+<div class="figure">
+<p><img src="e2.png"  />
+</p>
+</div>
+
+
+<p>
+完成後，執行 Xilinx SDK
+</p>
+
+
+<div class="figure">
+<p><img src="e3.png"  />
+</p>
+</div>
+
+<p>
+透過 <code>File -&gt; New -&gt; Application Project</code> 去建立我們的新專案
+</p>
+
+
+<div class="figure">
+<p><img src="ax1.png"  />
+</p>
+</div>
+
+<p>
+設定這個專案為 <code>standalone</code> 的專案
+</p>
+
+
+<div class="figure">
+<p><img src="ax2.png"  />
+</p>
+</div>
+
+<p>
+選擇樣板為 <code>Zynq FSBL</code>
+</p>
+
+
+<div class="figure">
+<p><img src="ax3.png"  />
+</p>
+</div>
+
+<p>
+選擇我們剛剛建立的 <code>FSBL</code> 專案，按下右鍵選擇 <code>Build Project</code> 進行編譯
+</p>
+
+
+<div class="figure">
+<p><img src="ax4.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2eaa889" class="outline-2">
+<h2 id="org2eaa889">建立 BOOT.bin</h2>
+<div class="outline-text-2" id="text-org2eaa889">
+<p>
+編譯完 FSBL 後，選擇 <code>Xilinx Tools -&gt; Create Boot Image</code> 去建立我們的 BOOT.bin
+</p>
+
+
+<div class="figure">
+<p><img src="ax5.png"  />
+</p>
+</div>
+
+<p>
+在 <code>Boot image partitions</code> 那邊，加入我們的 bitstream 以及 u-boot 檔案，記得要按照順序加入。
+</p>
+
+<p>
+完成後，點選 <code>Create Image</code> 就會產生我們要的 <code>BOOT.bin</code> 到指定路徑。
+</p>
+
+
+<div class="figure">
+<p><img src="ax6.png"  />
+</p>
+</div>
+
+<p>
+在這個步驟中，如果你是指令控的話，我們也可以在產生 FSBL.elf 後，建立一個名為 <code>boot.bif</code> 的檔案，其內容如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">//</span><span style="color: #9ac; font-style: italic;">arch = zynq; split = false; format = BIN</span>
+<span style="color: #ccaaff;">the_ROM_image</span>:
+<span style="color: #aadddd;">{</span>
+    <span style="color: #81d4fa;">[</span>bootloader<span style="color: #81d4fa;">]</span>/path/to/fsbl-build/fsbl.elf
+    /path/to/linux_bd/linux_bd.sdk/linux_bd_wrapper.bit
+    /path/to/u-boot/u-boot.elf
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+
+<p>
+接下來透過 <code>bootgen</code> 這個命令去產生 <code>BOOT.bin</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~ $ bootgen -image boot.bif -w on -o i BOOT.bin
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org892d7b7" class="outline-2">
+<h2 id="org892d7b7">將檔案複製到 Micro SD 卡</h2>
+<div class="outline-text-2" id="text-org892d7b7">
+<p>
+好了，我們已經完成了所有準備動作，是時候將檔案放到 Micro SD 卡並看看結果了，在本文中我們會將以下幾個檔案放到 <code>第一個分割區 (fat32)</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo /tmp/sdc1 $ tree -L <span style="color: #ccaaff;">1</span>
+<span style="color: #ccaaff;">.</span>
+&#9500;&#9472;&#9472; BOOT.bin
+&#9500;&#9472;&#9472; devicetree.dtb
+&#9500;&#9472;&#9472; uImage
+&#9492;&#9472;&#9472; uramdisk.image.gz
+
+<span style="color: #ccaaff;">0</span> directories, <span style="color: #ccaaff;">4</span> files
+</pre>
+</div>
+
+<p>
+也就是說我們的 SD 卡有的東西，要像 <a href="http://www.zynqbook.com/" target="_blank" rel="noopener">The Zynq Book</a> p.439 這張圖那樣
+</p>
+
+
+<div class="figure">
+<p><img src="f2.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org89dc19a" class="outline-2">
+<h2 id="org89dc19a">測試開機與結果</h2>
+<div class="outline-text-2" id="text-org89dc19a">
+<p>
+是時候來測試結果了，要注意到你的 Zybo Board 的 <code>JP5</code> 要設定成下面這樣，這樣給電時，Zynq 才會讀取 SD 卡上面的 u-boot 並將位元流 (bitstream) 燒錄到 FPGA 中。
+</p>
+
+
+<div class="figure">
+<p><img src="sdboot.png"  />
+</p>
+</div>
+
+<p>
+插入剛剛建立好的 SD 卡，並提供電源後，我們可以使用可以接收 UART 相關的程式，如 gtkterm、teraterm、screen、emacs 等，啟動它並開啟 <code>/dev/ttyUSB1</code> 後，設定 baudrate 為 <code>115200</code> ，就可以看到開機到 rootfs 的狀態。
+</p>
+
+
+<div class="figure">
+<p><img src="s1.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7758470" class="outline-2">
+<h2 id="org7758470">取得程式碼</h2>
+<div class="outline-text-2" id="text-org7758470">
+<p>
+本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="noopener">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
+</p>
+
+<div data-theme="default" data-height="" data-width="400" data-github="coldnew/zybo-examples" class="github-card"></div>
+<script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+</div>
+</div>
+
+<div id="outline-container-org385999d" class="outline-2">
+<h2 id="org385999d">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org385999d">
+<p>
+<code>[1]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_1/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="noopener">Zynq-7000 All Programmable SoC: Embedded Design Tutorial - A Hands-On Guide to Effective Embedded System Design (UG1165)</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="http://www.dbrss.org/zybo/tutorial4.html" target="_blank" rel="noopener">ZYBO Zync-7000 Development Board Work - Booting Linux on the ZYBO</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="http://www.zynqbook.com/" target="_blank" rel="noopener">The Zynq Book</a>
+</p>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fpga/" rel="tag">#fpga</a>
+          
+            <a href="/tags/xilinx/" rel="tag">#xilinx</a>
+          
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+            <a href="/tags/zybo/" rel="tag">#zybo</a>
+          
+            <a href="/tags/zynq/" rel="tag">#zynq</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/c3e8558e/" rel="prev">zybo board 開發記錄: 使用 Yocto 建立系統</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/dec85bd3/" rel="next">zybo board 開發記錄: Zynq 與 LED 閃爍控制</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org374904e"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf37964e"><span class="nav-text">了解開機流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7e24398"><span class="nav-text">設定好環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org79f82ad"><span class="nav-text">格式化 MicroSD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcb2ce7d"><span class="nav-text">編譯 u-boot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1d240a0"><span class="nav-text">編譯 Linux kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga8eef73"><span class="nav-text">編譯 BusyBox</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1e5b9a4"><span class="nav-text">編譯位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org45c5480"><span class="nav-text">建立 FSBL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2eaa889"><span class="nav-text">建立 BOOT.bin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org892d7b7"><span class="nav-text">將檔案複製到 Micro SD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org89dc19a"><span class="nav-text">測試開機與結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7758470"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org385999d"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

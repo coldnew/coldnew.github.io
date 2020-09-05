@@ -1,34 +1,1020 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="webos,raspberry pi," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 webOS OSE 研究筆記: 認識 webOS 一文中我們稍微介紹了關於 LG 在今年 (2018) 的 3 月開源的  webOS OSE (webOS Open Source Edition), 這款類似 LG 用於 TV 上面的 webOS TV 的系統。    本文將介紹如何使用 webOS OSE 提供的基於 Yocto Project 的編譯系統，編譯並建立 Raspberr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webOS OSE 研究筆記: 編譯 webOS OSE 到 Raspberry Pi 3">
+<meta property="og:url" content="https://coldnew.github.io/9df34338/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 webOS OSE 研究筆記: 認識 webOS 一文中我們稍微介紹了關於 LG 在今年 (2018) 的 3 月開源的  webOS OSE (webOS Open Source Edition), 這款類似 LG 用於 TV 上面的 webOS TV 的系統。    本文將介紹如何使用 webOS OSE 提供的基於 Yocto Project 的編譯系統，編譯並建立 Raspberr">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/9df34338/screenshot-1.jpg">
+<meta property="og:image" content="https://coldnew.github.io/9df34338/screenshot-2.jpg">
+<meta property="og:image" content="https://coldnew.github.io/9df34338/screenshot-3.jpg">
+<meta property="og:image" content="https://coldnew.github.io/9df34338/screenshot-5.jpg">
+<meta property="og:image" content="https://coldnew.github.io/9df34338/screenshot-9.jpg">
+<meta property="og:image" content="https://coldnew.github.io/9df34338/screenshot-6.jpg">
+<meta property="og:image" content="https://coldnew.github.io/9df34338/screenshot-7.jpg">
+<meta property="og:image" content="https://coldnew.github.io/9df34338/screenshot-8.jpg">
+<meta property="article:published_time" content="2018-12-22T04:45:00.000Z">
+<meta property="article:modified_time" content="2019-04-14T07:41:48.350Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="webos">
+<meta property="article:tag" content="raspberry pi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/9df34338/screenshot-1.jpg">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> webOS OSE 研究筆記: 編譯 webOS OSE 到 Raspberry Pi 3 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/9df34338/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              webOS OSE 研究筆記: 編譯 webOS OSE 到 Raspberry Pi 3
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-04-14T15:41:48+08:00" content="2019-04-14">
+            2019-04-14
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/webOS-OSE-%E7%A0%94%E7%A9%B6%E7%AD%86%E8%A8%98/" itemprop="url" rel="index">
+                  <span itemprop="name">webOS OSE 研究筆記</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+在 <a href="https://coldnew.github.io/6ea67721/">webOS OSE 研究筆記: 認識 webOS</a> 一文中我們稍微介紹了關於 LG 在今年 (2018) 的 3 月開源的  <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> (webOS Open Source Edition), 這款類似 LG 用於 TV 上面的 <a href="http://webostv.developer.lge.com/" target="_blank" rel="noopener">webOS TV</a> 的系統。
+</p>
+
+<p>
+本文將介紹如何使用 <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 提供的基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 的編譯系統，編譯並建立 Raspberry Pi 3 上的 webOS OSE 系統。
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-orgafa6b4f" class="outline-2">
+<h2 id="orgafa6b4f">下載</h2>
+<div class="outline-text-2" id="text-orgafa6b4f">
+<p>
+要編譯 <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 之前，建議先看一下 <a href="http://webosose.org/discover/setting/requirements/" target="_blank" rel="noopener">WebOS OSE</a> 官方網站的介紹。
+</p>
+
+<p>
+首先，我們先透過 git 取得基本的編譯環境
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ git clone https://github.com/webosose/build-webos.git
+</pre>
+
+<p>
+由於這個編譯環境是基於 <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 所建立，因此請先確定你的系統有滿足  <a href="http://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 編譯需要的一些基本依賴，如果不確定並且你的系統是 Ubuntu 系列的話，你可以透果以下腳本來確認環境是否有滿足編譯需求。
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/build-webos $ sudo ./scripts/prerequisites.sh
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgfc384b9" class="outline-2">
+<h2 id="orgfc384b9">設定</h2>
+<div class="outline-text-2" id="text-orgfc384b9">
+<p>
+第一次進入到這個編譯環境，我們需要透過 webOS OSE 提供的 <code>mcf</code> 腳本來指定目標機器。由於目前只提供 <code>Raspberry Pi 3</code> 這個執行目標，因此這樣下命令讓我們編譯環境設定成編譯給 Raspberry Pi 3 使用
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/build-webos $ ./mcf raspberrypi3
+</pre>
+
+<p>
+設定完成後，接下來就是進行編譯的工作了
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6c5b6b2" class="outline-2">
+<h2 id="org6c5b6b2">編譯</h2>
+<div class="outline-text-2" id="text-org6c5b6b2">
+<p>
+首先我們先透過 <code>source</code> 命令設定好當前 shell 的環境
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/build-webos $ source oe-init-build-env
+</pre>
+
+<p>
+完成後，接下來就是選擇編譯目標，如果只是一般驗證用，可以選擇 <code>webos-image</code>
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/build-webos $ bitbake webos-image
+</pre>
+
+<p>
+如果是想要進行開發的話，推薦選擇 <code>webos-image-devel</code> 會比較好
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/build-webos $ bitbake webos-image-devel
+</pre>
+
+<p>
+接下來可以去睡一覺，因為編譯過程中會編譯到 Chromium，這會編譯非常久喔 ~
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0c566b5" class="outline-2">
+<h2 id="org0c566b5">燒錄到 SD 卡</h2>
+<div class="outline-text-2" id="text-org0c566b5">
+<p>
+編譯完成後，我們可以在 <code>BUILD/deploy/images/raspberrypi3</code> 下面找到名為 <code>*.rpi-sdimg</code> 的檔案，這是做好給 Raspberry Pi3 開機用的 SD 卡
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/build-webos $ ls BUILD/deploy/images/raspberrypi3/*.rpi-sdimg
+BUILD/deploy/images/raspberrypi3/webos-image-devel-raspberrypi3-master-20181221030950.rpi-sdimg
+BUILD/deploy/images/raspberrypi3/webos-image-devel-raspberrypi3.rootfs.rpi-sdimg
+BUILD/deploy/images/raspberrypi3/webos-image-raspberrypi3-master-20181221040749.rpi-sdimg
+BUILD/deploy/images/raspberrypi3/webos-image-raspberrypi3.rootfs.rpi-sdimg
+</pre>
+
+<p>
+我們先進入到 <code>BUILD/deploy/images/raspberrypi3</code> 資料夾去
+</p>
+
+<pre class="example">
+coldnew@gentoo ~/build-webos $ cd BUILD/deploy/images/raspberrypi3/
+</pre>
+
+<p>
+將你的 SD 卡裝到電腦上，這邊假設建立了 <code>/dev/sdd*</code> 這樣的 device node, 則我們可以透過 <code>dd</code> 命令這樣將 image 燒錄到 SD 卡上
+</p>
+
+<pre class="example">
+sudo dd if=webos-image-devel-raspberrypi3-master-20181221030950.rpi-sdimg of=/dev/sdd bs=1M
+</pre>
+
+<p>
+完成後，就可以將卡片插入到你的 Raspberry Pi 3 開機並等啟動完成 (可以接上 TTL 轉 UART 線看 console 上的訊息)
+</p>
+
+<p>
+開機完成會看到下面這樣的畫面
+</p>
+
+
+<div class="figure">
+<p><img src="screenshot-1.jpg"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org781f62b" class="outline-2">
+<h2 id="org781f62b">基本的使用</h2>
+<div class="outline-text-2" id="text-org781f62b">
+<p>
+由於桌面上沒有任何東西，也無法進入到 App Launcher 去，因此需要將鍵盤和滑鼠接到你的 Raspberry Pi 3 上
+</p>
+
+<p>
+接上鍵盤後，點擊 <code>Super</code> 按鈕 (或是 Windows 按鈕，就是有微軟符號的那個) 會啟動 App Launcher, 有少數幾個 App 可以使用
+</p>
+
+
+<div class="figure">
+<p><img src="screenshot-2.jpg"  />
+</p>
+</div>
+
+<p>
+注意到 webOS OSE 目前似乎不支援觸控功能，因此操作都需要依賴滑鼠或是鍵盤 (就像 webOS TV 那樣用遙控器控制)
+</p>
+
+<p>
+如果網路有通的話，可以透過 <code>ssh</code> 來登入你的 Raspberry Pi 3，和一般的 Linux 發行板不同 webOS OSE 採用的是 <a href="https://matt.ucc.asn.au/dropbear/dropbear.html" target="_blank" rel="noopener">Dropbear</a> 來替代傳統使用的 OpenSSH 來作為 ssh service。
+</p>
+
+<pre class="example">
+root@raspberrypi3:~# ps aux | grep drop
+root       800  0.0  0.0   3800   668 ?        Ss   20:30   0:00 /usr/sbin/dropbear -B -F -d /var/lib/dropbear/dropbear_dss_host_key -r /var/lib/dropbear/dropbear_rsa_host_key
+root     18899  0.0  0.0   3384   556 ttyS0    S+   21:03   0:00 grep drop
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org3267ea0" class="outline-2">
+<h2 id="org3267ea0">如何擷圖</h2>
+<div class="outline-text-2" id="text-org3267ea0">
+<p>
+雖然我們還沒要講 webOS OSE 的架構，不過這邊就先來簡單說說如何透過指令進行擷圖 (screenshot) 吧
+</p>
+
+<p>
+整個 webOS 系統 (包含分支的 <a href="http://www.webos-ports.org/wiki/Main_Page" target="_blank" rel="noopener">LuneOS</a>) 皆是透過 <a href="https://github.com/webosose/luna-service2" target="_blank" rel="noopener">luna-service</a> 來進行訊息的傳遞 (IPC) ，因此如果我們要擷圖的話，則這樣下命令
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">luna-send -n <span style="color: #ccaaff;">1</span> -f luna://com.webos.surfacemanager/captureCompositorOutput <span style="color: #aadddd;">'{"output":"/home/root/screenshot.jpg","format":"JPG"}'</span>
+</pre>
+</div>
+
+<p>
+下完後就會在 <code>/home/root</code> 下面看到 <code>screenshot.jpg</code> 產生，此外該命令也會以 JSON 格式回傳執行結果
+</p>
+
+<pre class="example">
+root@raspberrypi3:~# luna-send -n 1 -f luna://com.webos.surfacemanager/captureCompositorOutput '{"output":"/home/root/screenshot.jpg","format":"JPG"}'
+{
+    "output": "/home/root/screenshot.jpg",
+    "format": "JPG",
+    "resolution": "1920x1080",
+    "returnValue": true
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgc8a4781" class="outline-2">
+<h2 id="orgc8a4781">其他擷圖</h2>
+<div class="outline-text-2" id="text-orgc8a4781">
+<p>
+這邊提供一些 screenshot 作為參考。
+</p>
+</div>
+
+<div id="outline-container-orgffd03a5" class="outline-3">
+<h3 id="orgffd03a5">webOS OSE</h3>
+<div class="outline-text-3" id="text-orgffd03a5">
+<p>
+會進入到 webOS 的網頁
+</p>
+
+
+<div class="figure">
+<p><img src="screenshot-3.jpg"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1e6694a" class="outline-3">
+<h3 id="org1e6694a">Enact</h3>
+<div class="outline-text-3" id="text-org1e6694a">
+<p>
+webOS OSE 提供使用者使用 <a href="https://enactjs.com/" target="_blank" rel="noopener">Enact</a> 來作為 App 構件用的語言，這是基於 React 的 web framework。點擊這個 App 會進到 Enact 的首頁
+</p>
+
+
+<div class="figure">
+<p><img src="screenshot-5.jpg"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb0c5b0f" class="outline-3">
+<h3 id="orgb0c5b0f">Web Browser</h3>
+<div class="outline-text-3" id="text-orgb0c5b0f">
+<p>
+web OSE 採用 Chromium 來作為瀏覽器的核心，看樣子他們也有自己做一套 UI
+</p>
+
+
+<div class="figure">
+<p><img src="screenshot-9.jpg"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9f2d060" class="outline-3">
+<h3 id="org9f2d060">Youtube</h3>
+<div class="outline-text-3" id="text-org9f2d060">
+<p>
+預設最完整的就是 Youtube 的程式了， <b>記得為了防止非洲豬瘟入侵台灣， 不可以攜帶任何肉品入關呦!</b>
+</p>
+
+
+<div class="figure">
+<p><img src="screenshot-6.jpg"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgec0c719" class="outline-3">
+<h3 id="orgec0c719">System Setting</h3>
+<div class="outline-text-3" id="text-orgec0c719">
+<p>
+系統設定就比較陽春點，只能查看一些訊息和設定網路連線。
+</p>
+
+
+<div class="figure">
+<p><img src="screenshot-7.jpg"  />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="screenshot-8.jpg"  />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4ccd46a" class="outline-2">
+<h2 id="org4ccd46a">總結</h2>
+<div class="outline-text-2" id="text-org4ccd46a">
+<p>
+根據實測的狀況來看，目前 LG 開源的  <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 已經非常偏向 <a href="http://webostv.developer.lge.com/" target="_blank" rel="noopener">webOS TV</a> 系統，和最早期設計用於手機/平板上 webOS 已經大相逕庭，如果你想要採用這個 Framework 在你的產品上，根據狀況考量可能可以這樣來做決策
+</p>
+
+<ul class="org-ul">
+<li>用於按鍵控制的平台 (比如電視) : 選擇 <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a></li>
+<li>用於平板之類的環境 : 選擇 <a href="http://www.webos-ports.org/wiki/Main_Page" target="_blank" rel="noopener">LuneOS</a></li>
+</ul>
+
+<p>
+這兩套的差別，主要在於  <a href="http://webosose.org" target="_blank" rel="noopener">webOS OSE</a> 是由 LG 主導的，而  <a href="http://www.webos-ports.org/wiki/Main_Page" target="_blank" rel="noopener">LuneOS</a> 則是由開源社群(?) 主導的，前者預設使用  <a href="https://enactjs.com/" target="_blank" rel="noopener">Enact</a>  來設計你的 App , 後者則是主打使用 Qt 來製作你的 App。
+</p>
+
+<p>
+不過根據系統的依賴來看，我們也是可以透過撰寫 Qt 程式來執行於 webOS OSE 上的，這邊就後面再說囉 ~
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf304e0c" class="outline-2">
+<h2 id="orgf304e0c">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgf304e0c">
+<ul class="org-ul">
+<li><a href="http://forum.webosose.org/t/capturing-screenshots-on-webos/326/5" target="_blank" rel="noopener">Capturing screenshots on WebOS</a></li>
+
+<li><a href="https://www.cnx-software.com/2018/03/19/lg-releases-webos-open-source-edition-optimized-for-raspberry-pi-3/" target="_blank" rel="noopener">LG Releases webOS Open Source Edition Optimized for Raspberry Pi 3</a></li>
+
+<li><a href="https://www.trustedreviews.com/news/why-webos-failed-according-to-ex-palm-exec-2907024" target="_blank" rel="noopener">Why WebOS Failed, According to ex-Palm Exec</a></li>
+
+<li><a href="http://webosose.org/discover/setting/building-webos-ose/" target="_blank" rel="noopener">Building webOS Open Source Edition</a></li>
+
+<li><a href="https://www.techbang.com/posts/57420-lg-will-open-the-webos-operating-system-to-raspberry-pi-3" target="_blank" rel="noopener">LG 將 webOS 作業系統開源化，可安裝至 Raspberry Pi 3</a></li>
+
+<li><a href="https://pivotce.com/2018/03/22/a-quick-tour-of-webos-ose-on-the-raspberry-pi/" target="_blank" rel="noopener">A Quick Tour of webOS OSE on the Raspberry Pi</a></li>
+</ul>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webos/" rel="tag">#webos</a>
+          
+            <a href="/tags/raspberry-pi/" rel="tag">#raspberry pi</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/4c50d1c9/" rel="prev">Librem 5 Dev-Kit 開發紀錄: 開箱文</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/6ea67721/" rel="next">webOS OSE 研究筆記: 認識 webOS</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgafa6b4f"><span class="nav-text">下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfc384b9"><span class="nav-text">設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6c5b6b2"><span class="nav-text">編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0c566b5"><span class="nav-text">燒錄到 SD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org781f62b"><span class="nav-text">基本的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3267ea0"><span class="nav-text">如何擷圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc8a4781"><span class="nav-text">其他擷圖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgffd03a5"><span class="nav-text">webOS OSE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1e6694a"><span class="nav-text">Enact</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb0c5b0f"><span class="nav-text">Web Browser</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9f2d060"><span class="nav-text">Youtube</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgec0c719"><span class="nav-text">System Setting</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4ccd46a"><span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf304e0c"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

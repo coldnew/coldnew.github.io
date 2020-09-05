@@ -1,23 +1,1188 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
 
-{% block title %} {{ config.title }} {% endblock %}
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
 
-{% block page_class %}
-  {% if is_home() %} page-home {% endif %}
-{% endblock %}
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-{% block content %}
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="coldnew,clojure,clojurescript,lisp,linux" />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="coldnew&#39;s blog">
+<meta property="og:url" content="https://coldnew.github.io/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/index.html" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
   <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/b969f0df/" itemprop="url">
+                Ultra96 開發紀錄: Hello Cortex-A53
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2020-09-06T00:36:21+08:00" content="2020-09-06">
+            2020-09-06
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultra96/" itemprop="url" rel="index">
+                  <span itemprop="name">Ultra96 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 <a href="https://coldnew.github.io/f4865ec/">Ultra96 開發紀錄: 硬體認識</a> 一文中我們了解了 <a href="http://ultra96.org/product/ultra96" target="_blank" rel="noopener">Ultra96v1</a> 這塊開發板的一些資訊後，就讓我們來開始第一個專案吧。
+</p>
+
+<p>
+由於 Ultra96 拉出來的低速擴充腳位(Low Speed Expansion Connector)基本上是以 <code>2.0mm</code> 的寬度為主，不透過擴充板之類的會讓我們不好使用，因此這邊文章將採用傳統的方式，透過 Uart1 來將我們的測試訊息輸出。
+</p>
+
+<p>
+(本文以 <code>Vivado 2020.1</code> 進行開發，請注意文中開發板以 <code>Ultra96v1</code> 為主，但可套用到 <code>Ultra96v2</code> 上。)
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/b969f0df/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/4bc009ef/" itemprop="url">
+                Ultra96 開發紀錄: Vitis 無法建立 Platform 的處理方式
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2020-09-04T21:53:26+08:00" content="2020-09-04">
+            2020-09-04
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultra96/" itemprop="url" rel="index">
+                  <span itemprop="name">Ultra96 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 Gentoo Linux 下使用 <a href="https://www.xilinx.com/products/design-tools/vitis.html" target="_blank" rel="noopener">Vitis</a> 的時候遇到了一個很詭異的問題， 來紀錄一下。
+</p>
+
+<p>
+(本文以 <code>Vitis 2020.1</code> 進行開發)
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/4bc009ef/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/16cb6a8e/" itemprop="url">
+                在 Gentoo Linux 安裝 Vivado 2020.1
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2020-09-03T00:51:28+08:00" content="2020-09-03">
+            2020-09-03
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+最近有點時間可以回去玩 Xilinx 的板子，於是想要把 <a href="https://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 升級到 <code>2020.1</code> 的版本，結果彈出歡迎視窗就安裝不了了 orz
+</p>
+
+<p>
+來紀錄一下非圖形化的安裝方式。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/16cb6a8e/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/728089c8/" itemprop="url">
+                使用sourcetrail 來閱讀meson專案的程式碼
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2020-02-12T23:33:00+08:00" content="2020-02-12">
+            2020-02-12
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+最近在啃 <a href="https://github.com/wayland-project/weston" target="_blank" rel="noopener">weston</a> 的程式碼，突然想到可以透過 <a href="https://github.com/CoatiSoftware/Sourcetrail" target="_blank" rel="noopener">Sourcetrail</a> 來協助閱讀程式碼，因此來試試看。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/728089c8/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/3dbd10f2/" itemprop="url">
+                bootlin 的課程資源
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-09-30T11:24:20+08:00" content="2019-09-30">
+            2019-09-30
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+最近在 GitHub 上剛好看到 <a href="https://bootlin.com/" target="_blank" rel="noopener">bootlin</a> 這間專做 Embedded Linux 相關研發與顧問的公司所開源的 <a href="https://github.com/bootlin/training-materials/" target="_blank" rel="noopener">教育訓練教材</a> ，由於原始檔是用 latex 等工具撰寫，因此本文主要在講怎樣將其轉換成 PDF 檔案。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/3dbd10f2/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/35b9d15a/" itemprop="url">
+                使用 nix-emacs-ci 和 travis-ci 來測試 emacs-lisp 專案
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-09-21T12:50:06+08:00" content="2019-09-21">
+            2019-09-21
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+最近剛好在 <a href="https://www.reddit.com" target="_blank" rel="noopener">reddit</a> 看到了這篇: <a href="https://www.reddit.com/r/emacs/comments/d4g4di/a_new_set_of_installable_emacs_versions_for_your/" target="_blank" rel="noopener">A new set of installable Emacs versions for your CI builds</a>，於是就來順手試用一下。
+</p>
+
+<p>
+<a href="https://github.com/purcell/nix-emacs-ci" target="_blank" rel="noopener">nix-emacs-ci</a> 是由 emacs 社群知名的開發者 <a href="https://github.com/purcell/" target="_blank" rel="noopener">purcell</a> 所建立的專案，主要目標是用來替代 <a href="https://github.com/rejeep/evm" target="_blank" rel="noopener">evm</a> 以及讓開發者在 <a href="https://travis-ci.org/" target="_blank" rel="noopener">travis-ci</a> 可以方便根據不同版本的 emacs 進行測試而設計。
+</p>
+
+<p>
+本文將順便說明如何透過 <a href="https://github.com/purcell/nix-emacs-ci" target="_blank" rel="noopener">nix-emacs-ci</a> 來讓你的 emacs 套件可以在 <a href="https://travis-ci.org/" target="_blank" rel="noopener">travis-ci</a> 進行不同版本 Emacs 的測試。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/35b9d15a/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/fa15781c/" itemprop="url">
+                淺談 Gentoo Linux 的 epatch 機制
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2020-02-12T22:57:00+08:00" content="2020-02-12">
+            2020-02-12
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+今天剛好看到 <a href="https://www.cnx-software.com/2019/09/16/linux-5-3-release-main-changes-arm-mips-risc-v-architectures/" target="_blank" rel="noopener">Linux 5.3.0 Release</a> 的資訊，因此就順手將我的 Gentoo Linux 給升級。
+</p>
+
+<p>
+不過在進行重編譯所有 kernel module 的動作，也就是以下指令的時候出錯
+</p>
+
+<pre class="example">
+gentoo # emerge @module-rebuild
+</pre>
+
+<p>
+因此讓我們來紀錄一下如何在 Gentoo Linux 下針對特定套件打入自己需要的 patch
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/fa15781c/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/f4865ec/" itemprop="url">
+                Ultra96 開發紀錄: 硬體認識
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2020-09-03T23:25:41+08:00" content="2020-09-03">
+            2020-09-03
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultra96/" itemprop="url" rel="index">
+                  <span itemprop="name">Ultra96 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+<a href="https://coldnew.github.io/b728d8e8/">Ultra96 開發紀錄: 開箱文</a> 一文中筆者紀錄了如何購買 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="noopener">Ultra96</a> 開發板，在這邊文章中我們則是來看看 Ultra96 rev1 的版本，到底有哪些硬體與週邊。
+</p>
+
+<p>
+Ultra96 有分 v1 與 v2 兩個版本， <code>本文使用的是 Ultra96v1 的硬體</code> ，不過請注意 <a href="#orgabe3ff2">Ultra96v1 已經被宣告 EOL 了</a>
+</p>
+
+<p>
+但是就算被宣告 EOL (End-of-Life) 了，因為我也只有這塊板子，所以會以 <code>Ultra96v1</code> 為主來寫文章
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/f4865ec/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/6e005042/" itemprop="url">
+                Librem 5 Dev-Kit 開發紀錄: 為開發板加入腳座
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-07-06T11:42:52+08:00" content="2019-07-06">
+            2019-07-06
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/librem-5-dev-kit/" itemprop="url" rel="index">
+                  <span itemprop="name">Librem 5 Dev-Kit 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+在 <a href="https://coldnew.github.io/4c50d1c9/">Librem 5 Dev-Kit 開發紀錄: 開箱文</a> 一文中我介紹了 <a href="https://puri.sm/products/librem-5/" target="_blank" rel="noopener">Librem 5</a> 手機的開發板，不過由於開發板背後的電池座的關系，在使用的時候會導致整個開發板重心不穩，不好使用。
+</p>
+
+<p>
+本文將紀錄我如何幫這塊開發板加入腳座讓其在使用者按壓螢幕時可以保持平衡。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/6e005042/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/eb3d9dd7/" itemprop="url">
+                用漱口水處理 Macbook Pro Retian 2015 的螢幕鍍膜脫落
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2019-06-15T17:11:57+08:00" content="2019-06-15">
+            2019-06-15
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+我的 Macbook Pro Retian 2015 因為沒貼上保護貼，也因此遇到了 Retina 螢幕鍍膜剝落的問題，雖然蘋果曾經提供了 <a href="https://www.macuknow.com/node/73531" target="_blank" rel="noopener">免費維修計畫</a>，但由於這台是唯一的工作機，因此也沒辦法長時間等待機器回來。
+</p>
+
+<p>
+最近剛好在推特看到 <a href="https://twitter.com/pana_junk_pc/status/1139151887960137730?s=12" target="_blank" rel="noopener">這篇文章</a> ，原作者使用漱口水將鍍膜完全移除，獲得了光滑的螢幕，因此也讓我想試試看是否有效。
+</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/eb3d9dd7/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/">&amp;raquo;</a>
+  </nav>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+ </div>
+
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+
+</body>
+</html>

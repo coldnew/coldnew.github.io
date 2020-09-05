@@ -1,34 +1,918 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="android,android things,iot,raspberry pi 3," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 Android Things 學習筆記: 介紹 一文我們介紹了 Android Things ，在我們正式開始開發我們的程式之前，我們先將手邊的 Raspberry Pi 3 Model B 裝上可以用 Android Things 的映像檔案吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Things 學習筆記: Raspberry Pi 3 安裝 OS">
+<meta property="og:url" content="https://coldnew.github.io/8e801cc4/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 Android Things 學習筆記: 介紹 一文我們介紹了 Android Things ，在我們正式開始開發我們的程式之前，我們先將手邊的 Raspberry Pi 3 Model B 裝上可以用 Android Things 的映像檔案吧。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/8e801cc4/applepi-baker.png">
+<meta property="og:image" content="https://coldnew.github.io/8e801cc4/raspberrypi-connections.png">
+<meta property="og:image" content="https://coldnew.github.io/8e801cc4/screenshot.png">
+<meta property="og:image" content="https://coldnew.github.io/8e801cc4/raspberrypi-console.png">
+<meta property="og:image" content="https://coldnew.github.io/8e801cc4/serial.png">
+<meta property="article:published_time" content="2017-05-10T03:42:00.000Z">
+<meta property="article:modified_time" content="2018-05-18T07:21:33.340Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="android">
+<meta property="article:tag" content="android things">
+<meta property="article:tag" content="iot">
+<meta property="article:tag" content="raspberry pi 3">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/8e801cc4/applepi-baker.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Android Things 學習筆記: Raspberry Pi 3 安裝 OS | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/8e801cc4/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Android Things 學習筆記: Raspberry Pi 3 安裝 OS
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2018-05-18T15:21:33+08:00" content="2018-05-18">
+            2018-05-18
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/android-things-rpi3/" itemprop="url" rel="index">
+                  <span itemprop="name">Android Things 學習筆記 (Raspberry Pi 3)</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+在 <a href="https://coldnew.github.io/399f19c/">Android Things 學習筆記: 介紹</a> 一文我們介紹了 <a href="https://developer.android.com/things/index.html" target="_blank" rel="noopener">Android Things</a> ，在我們正式開始開發我們的程式之前，我們先將手邊的 <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="noopener">Raspberry Pi 3 Model B</a> 裝上可以用 <a href="https://developer.android.com/things/index.html" target="_blank" rel="noopener">Android Things</a> 的映像檔案吧。
+</p>
+
+<a id="more"></a>
+
+<p>
+<a href="https://developer.android.com/things/index.html" target="_blank" rel="noopener">Android Things</a> 的網頁有針對  <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="noopener">Raspberry Pi 3 Model B</a> 的 <a href="https://developer.android.com/things/hardware/raspberrypi.html" target="_blank" rel="noopener">Getting Started</a> 頁面，就讓我們從這一頁開始我們的 <a href="https://developer.android.com/things/index.html" target="_blank" rel="noopener">Android Things</a> 旅程吧。
+</p>
+
+<div id="outline-container-orgd61bd2b" class="outline-2">
+<h2 id="orgd61bd2b">下載映像檔</h2>
+<div class="outline-text-2" id="text-orgd61bd2b">
+<p>
+首先到 <a href="https://developer.android.com/things/preview/download.html" target="_blank" rel="noopener">System Image Downloads</a> 去下載 <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="noopener">Raspberry Pi 3 Model B</a> 的映像檔案，接著將其解壓縮
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ unzip androidthings_rpi3_devpreview_3.zip
+</pre>
+
+
+<p>
+解壓縮後會得到 <code>iot_rpi3.img</code> 這個映像檔。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga6bd8b4" class="outline-2">
+<h2 id="orga6bd8b4">燒錄到 sdcard</h2>
+<div class="outline-text-2" id="text-orga6bd8b4">
+<p>
+如果你是在 Linux 下，可以直接透過 <code>dd</code> 命令將他寫到你的 sdcard
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ sudo dd if=iot_rpi3.img of=/dev/sdc bs=1M
+</pre>
+
+
+<p>
+在 Mac OSX 下，我則是透過 <a href="https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/" target="_blank" rel="noopener">ApplePi Baker</a> 這個圖形化的程式來進行燒錄
+</p>
+
+
+<div class="figure">
+<p><img src="applepi-baker.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge2742c9" class="outline-2">
+<h2 id="orge2742c9">啟動 RPI3</h2>
+<div class="outline-text-2" id="text-orge2742c9">
+<p>
+將你燒好映像檔的 sdcard 插入到  <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/" target="_blank" rel="noopener">Raspberry Pi 3 Model B</a> 後，插入 USB 電源以及接上網路線，如果你有 HDMI 螢幕的話，可以考慮接上去 (不接也可以)
+</p>
+
+
+<div class="figure">
+<p><img src="raspberrypi-connections.png"  />
+</p>
+</div>
+
+<p>
+如果你有接上 HDMI 的話，開機完成後會看到這樣的畫面，上面會顯示你的 Raspberry Pi 3 的 IP 位址
+</p>
+
+
+<div class="figure">
+<p><img src="screenshot.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgddde52e" class="outline-2">
+<h2 id="orgddde52e">連接 ADB</h2>
+<div class="outline-text-2" id="text-orgddde52e">
+<p>
+啟動完 Raspberry Pi 3 後，我們可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="noopener">adb</a> 工具去進行連線，假設你的系統有支援 <a href="https://en.wikipedia.org/wiki/Zero-configuration_networking" target="_blank" rel="noopener">zeroconf</a> (在 Linux 下是 <a href="https://en.wikipedia.org/wiki/Avahi_(software)" target="_blank" rel="noopener">Avahi</a>, Windows 下是 <a href="https://support.apple.com/kb/DL999?locale=zh_TW" target="_blank" rel="noopener">Bonjour</a>) 的話，你可以透過 <code>Android.local</code> 在同一網域下接觸到你的 Raspberry Pi 3
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ ping Android.local
+PING android.local (192.168.20.102): 56 data bytes
+64 bytes from 192.168.20.102: icmp_seq=0 ttl=64 time=57.599 ms
+64 bytes from 192.168.20.102: icmp_seq=1 ttl=64 time=4.529 ms
+^C
+--- android.local ping statistics ---
+2 packets transmitted, 2 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 4.529/31.064/57.599/26.535 ms
+</pre>
+
+<p>
+於是我們就可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="noopener">adb</a> 工具去進行連線
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ adb connect Android.local
+</pre>
+
+
+<p>
+你也可以登入進你的 Raspberry Pi 3 去看看裡面有啥東西
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ adb shell
+rpi3:/ $ ls
+acct    d            etc               init            init.usb.configfs.rc mnt         property_contexts seapp_contexts   storage    ueventd.rpi3.rc
+cache   data         file_contexts.bin init.environ.rc init.usb.rc          oem         root              selinux_version  sys        vendor
+charger default.prop fstab.rpi3        init.rc         init.zygote32.rc     postinstall sbin              sepolicy         system
+config  dev          gapps             init.rpi3.rc    lost+found           proc        sdcard            service_contexts ueventd.rc
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgbb8dd50" class="outline-2">
+<h2 id="orgbb8dd50">設定 Wi-Fi</h2>
+<div class="outline-text-2" id="text-orgbb8dd50">
+<p>
+當你登入你的 Raspberry Pi 後，如果你想拔掉網路線並起用 Raspberry Pi 3 上面的 Wi-Fi 的話，你可以透過 <a href="https://developer.android.com/tools/help/adb.html" target="_blank" rel="noopener">adb</a> 去進行設定
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~ $ adb shell am startservice <span style="color: #aadddd;">\</span>
+       -n com.google.wifisetup/.WifiSetupService <span style="color: #aadddd;">\</span>
+       -a WifiSetupService.Connect <span style="color: #aadddd;">\</span>
+       -e ssid &lt;Network_SSID&gt; <span style="color: #aadddd;">\</span>
+       -e passphrase &lt;Network_Passcode&gt;
+</pre>
+</div>
+
+<p>
+(如果無線網路沒密碼的話，可以移除 passphrase 一行)
+</p>
+
+<p>
+設定好後，可以透過 <code>logcat</code> 去進行驗證
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~ $ adb logcat -d | grep Wifi
+...
+V WifiWatcher: Network state changed to CONNECTED
+V WifiWatcher: SSID changed: ...
+I WifiConfigurator: Successfully connected to ...
+</pre>
+</div>
+
+<p>
+也可以透過 <code>ping</code> 命令確認你的 Raspberry Pi 3 可以順利透過無線上網
+</p>
+
+<pre class="example">
+coldnew@gentoo ~ $ adb shell ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=57 time=6.67 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=57 time=55.5 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=57 time=23.0 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=57 time=245 ms
+</pre>
+
+<p>
+如果要移除所有的無線網路設定，則可以透過以下命令進行
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@gentoo ~ $ adb shell am startservice <span style="color: #aadddd;">\</span>
+       -n com.google.wifisetup/.WifiSetupService <span style="color: #aadddd;">\</span>
+       -a WifiSetupService.Reset
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org901d04c" class="outline-2">
+<h2 id="org901d04c">透過 UART 登入</h2>
+<div class="outline-text-2" id="text-org901d04c">
+<p>
+如果你就是不想接上網路線來對 Raspberry Pi 3 進行設定，那我們也可以透過 <a href="https://www.adafruit.com/products/954" target="_blank" rel="noopener">TTL 轉 USB 線</a> 來接到 Raspberry Pi 上面的 UART 接腳，透過 UART 來進入 console。
+</p>
+
+
+<div class="figure">
+<p><img src="raspberrypi-console.png"  />
+</p>
+</div>
+
+<p>
+接上後，看你是要用 <a href="https://www.gnu.org/s/emacs/" target="_blank" rel="noopener">Emacs</a>、 <a href="https://www.decisivetactics.com/products/serial/" target="_blank" rel="noopener">Serial</a> (Mac OS)、<a href="http://www.putty.org/" target="_blank" rel="noopener">Putty</a> (Windows)、<a href="https://linux.die.net/man/1/gtkterm" target="_blank" rel="noopener">GtkTerm</a> (Linux) 來進行連線，記得以下東西不要設定錯誤就好:
+</p>
+
+<ul class="org-ul">
+<li>Baud Rate: 115200</li>
+<li>Data Bits: 8</li>
+<li>Parity: None</li>
+<li>Stop Bits: 1</li>
+</ul>
+
+<p>
+我自己是習慣透過 <a href="https://www.gnu.org/s/emacs/" target="_blank" rel="noopener">Emacs</a> 的 <code>M-x serial-term</code> 命令去進行連接
+</p>
+
+
+<div class="figure">
+<p><img src="serial.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga5c1616" class="outline-2">
+<h2 id="orga5c1616">參考資料</h2>
+<div class="outline-text-2" id="text-orga5c1616">
+<ul class="org-ul">
+<li><a href="https://developer.android.com/things/hardware/raspberrypi.html" target="_blank" rel="noopener">Android Things: Raspberry Pi 3 Getting Started</a></li>
+</ul>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag">#android</a>
+          
+            <a href="/tags/android-things/" rel="tag">#android things</a>
+          
+            <a href="/tags/iot/" rel="tag">#iot</a>
+          
+            <a href="/tags/raspberry-pi-3/" rel="tag">#raspberry pi 3</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/468144f4/" rel="prev">Android Things 學習筆記: GPIO 的輸出控制</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/399f19c/" rel="next">Android Things 學習筆記: 介紹</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd61bd2b"><span class="nav-text">下載映像檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga6bd8b4"><span class="nav-text">燒錄到 sdcard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge2742c9"><span class="nav-text">啟動 RPI3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgddde52e"><span class="nav-text">連接 ADB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbb8dd50"><span class="nav-text">設定 Wi-Fi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org901d04c"><span class="nav-text">透過 UART 登入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga5c1616"><span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

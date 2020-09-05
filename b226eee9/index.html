@@ -1,34 +1,924 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="clojurescript,nodejs," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="ClojureScript 是相當於 Clojure 在 javascript 上的實現，由 Clojure 團隊所設 計出來的 Lisp 方言，他的語法基本上都和 Clojure 相同，也就是說，你 只要學一個 Clojure 語言，你就很可能可以辦到 Web Server 用 Clojure， Web Frontend 使用 ClojureScript 來開發的情況。    Clojure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 ClojureScript 來寫 node.js 程式">
+<meta property="og:url" content="https://coldnew.github.io/b226eee9/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="ClojureScript 是相當於 Clojure 在 javascript 上的實現，由 Clojure 團隊所設 計出來的 Lisp 方言，他的語法基本上都和 Clojure 相同，也就是說，你 只要學一個 Clojure 語言，你就很可能可以辦到 Web Server 用 Clojure， Web Frontend 使用 ClojureScript 來開發的情況。    Clojure">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2013-06-29T14:54:00.000Z">
+<meta property="article:modified_time" content="2013-06-29T14:54:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="clojurescript">
+<meta property="article:tag" content="nodejs">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 使用 ClojureScript 來寫 node.js 程式 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/b226eee9/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              使用 ClojureScript 來寫 node.js 程式
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2013-06-29T22:54:00+08:00" content="2013-06-29">
+            2013-06-29
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+<a href="https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure" target="_blank" rel="noopener">ClojureScript</a> 是相當於 Clojure 在 javascript 上的實現，由 Clojure 團隊所設
+計出來的 Lisp 方言，他的語法基本上都和 Clojure 相同，也就是說，你
+只要學一個 Clojure 語言，你就很可能可以辦到 Web Server 用 Clojure，
+Web Frontend 使用 ClojureScript 來開發的情況。
+</p>
+
+<p>
+ClojureScript 的編譯器使用 Clojure 來撰寫，並使用 <a href="https://developers.google.com/closure/compiler/?hl=zh-TW" target="_blank" rel="noopener">Google Closure
+Compiler</a> 來將編譯出來的 javascript 程式進行最佳化，對於喜歡 Lisp 又想體
+驗 node.js 的開發者，這是一個非常有吸引力的語言。想了解 ClojureScript
+更多，你可以參考 <a href="http://www.infoq.com/cn/news/2011/08/clojurescript" target="_blank" rel="noopener">ClojureScript 通過 Javascript 將 Clojure 引入到瀏覽
+器端</a> 一文。
+</p>
+
+<p>
+為什麼我要使用 ClojureScript 來開發 node.js 的程式呢？用 javascript 不
+好嗎？對於這樣的問題，我只能用以下兩點來回答
+</p>
+
+<ol class="org-ol">
+<li>我討厭 javascript</li>
+
+<li>我討厭 javascript</li>
+</ol>
+
+<p>
+為什麼我討厭 javascript，我倒想問問為什麼有人會喜歡 javascript?其他
+語法不說，單純就語言的結尾來看，我們假設這個程式被嵌套了非常多層，那
+Lisp 和 javascript 的結尾會變成下面這樣。
+</p>
+
+<pre class="example">
+Lisp 語言的結尾
+
+) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+
+javascript 的結尾
+
+}); }); }); }); }); }); }); }); }); }); });
+</pre>
+
+<p>
+好了，你喜歡上面的還是下面的？ 一目了然&#x2026;..，而且從這個例子來看，我
+更無法理解為什麼一堆人抱怨 Lisp 有一堆的括號，而卻能怡然自得的使用
+javascript。(結尾要大括號又要括號又要分號，這是什麼神祕的語言阿)
+</p>
+
+<p>
+當然，我不喜歡 javascript 還有許多原因，但追根究底，或許是因為
+javascript 不是用 S 表達式吧，node.js 還是很棒的東西的。
+</p>
+
+<div id="outline-container-org32cfd92" class="outline-2">
+<h2 id="org32cfd92">建立開發環境</h2>
+<div class="outline-text-2" id="text-org32cfd92">
+<p>
+無論是使用 Clojure 開發還是 ClojureScript 開發， <a href="https://github.com/technomancy/leiningen" target="_blank" rel="noopener">Leiningen</a> 都是幫忙
+建立開發環境的好幫手，安裝完  <a href="https://github.com/technomancy/leiningen" target="_blank" rel="noopener">Leiningen</a> 後，你需要在
+<b>~/.lein/profiles.clj</b> 加上名為 <a href="https://github.com/emezeske/lein-cljsbuild" target="_blank" rel="noopener">lein-cljsbuild</a> 的 lein 擴展
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">{</span><span style="color: #ccaaff;">:user</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:plugins</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">[</span>lein-cljsbuild <span style="color: #aadddd;">"0.3.2"</span><span style="color: #aaeecc;">]</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">}</span>
+</pre>
+</div>
+
+<p>
+此外，你的系統也必須安裝 node.js，Gentoo Linux 的使用者可以使用以下命
+令來安裝
+</p>
+
+<pre class="example">
+emerge net-libs/nodejs
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd136b2f" class="outline-2">
+<h2 id="orgd136b2f">建立新的 ClojureScript 專案</h2>
+<div class="outline-text-2" id="text-orgd136b2f">
+<p>
+我們首先建立一個開發環境，就叫他為 <code>cljs-hello</code> 好了
+</p>
+
+<pre class="example">
+lein new cljs-hello
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org02325d7" class="outline-2">
+<h2 id="org02325d7">加入 cljsbuild 到你的專案</h2>
+<div class="outline-text-2" id="text-org02325d7">
+<p>
+接下來，你必須編輯 <code>project.clj</code> 檔案，將他變成像下面這樣
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">cljs-hello</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
+  <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"ClojureScript hello World for node.js"</span>
+  <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
+  <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
+            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
+  <span style="color: #ccaaff;">:cljsbuild</span> <span style="color: #81d4fa;">{</span>
+              <span style="color: #ccaaff;">:builds</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">{</span>
+                        <span style="color: #ccaaff;">:source-paths</span> <span style="color: #ccaaff;">[</span><span style="color: #aadddd;">"src"</span><span style="color: #ccaaff;">]</span>
+                        <span style="color: #ccaaff;">:compiler</span> <span style="color: #ccaaff;">{</span>
+                                   <span style="color: #ccaaff;">:target</span> <span style="color: #ccaaff;">:nodejs</span>
+                                   <span style="color: #ccaaff;">:optimizations</span> <span style="color: #ccaaff;">:advanced</span>
+                                   <span style="color: #ccaaff;">:pretty-print</span> <span style="color: #ccaaff;">false</span><span style="color: #ccaaff;">}</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span>/clojure <span style="color: #aadddd;">"1.5.1"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+在這個設定中，我們只需要關注和 cljsbuild 有關的地方，也就是下面這一
+段
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #ccaaff;">:cljsbuild</span> <span style="color: #aadddd;">{</span>
+            <span style="color: #ccaaff;">:builds</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">{</span>
+                      <span style="color: #ccaaff;">:source-paths</span> <span style="color: #aaeecc;">[</span><span style="color: #aadddd;">"src"</span><span style="color: #aaeecc;">]</span>
+                      <span style="color: #ccaaff;">:compiler</span> <span style="color: #aaeecc;">{</span>
+                                 <span style="color: #ccaaff;">:target</span> <span style="color: #ccaaff;">:nodejs</span>
+                                 <span style="color: #ccaaff;">:optimizations</span> <span style="color: #ccaaff;">:advanced</span>
+                                 <span style="color: #ccaaff;">:pretty-print</span> <span style="color: #ccaaff;">false</span><span style="color: #aaeecc;">}</span><span style="color: #aaccff;">}</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">}</span>
+</pre>
+</div>
+
+<p>
+在 <code>:source-paths</code> 裏面指派了 cljs 程式碼的路徑，由於我們這邊不會放置
+任何 Clojure 的程式碼，因此維持 src 這個名稱。
+</p>
+
+<p>
+若是 Clojure + ClojureScript 的專案，通常都用 <b>src-cljs</b> 來代表
+clojurescript 的程式碼目錄。
+</p>
+
+<p>
+在 <code>:compiler</code> 裏面的設置中，可以看到我們設定了
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #ccaaff;">:target</span> <span style="color: #ccaaff;">:nodejs</span>
+</pre>
+</div>
+
+<p>
+這是因為我們希望編譯出來的檔案可以給 node.js 使用，所以加上了這個設
+置。
+</p>
+
+<p>
+剩下的兩行則是 <a href="https://developers.google.com/closure/compiler/?hl=zh-TW" target="_blank" rel="noopener">Google Closure Compiler</a> 的設置，我們設定最佳化的方法
+為 <b>advanced</b> 並且輸出的檔案移除掉不需要的空格，來最簡化編譯出來的 javascript。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3e88e23" class="outline-2">
+<h2 id="org3e88e23">來寫個 ClojureScript 版的 Hello World</h2>
+<div class="outline-text-2" id="text-org3e88e23">
+<p>
+來到了寫程式的時間，我們切換到 <code>src</code> 目錄，將 core.clj 砍掉，並建立
+一個名為 core.cljs 的檔案，內容如下
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">cljs-hello.core</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span>println <span style="color: #aadddd;">"Hello, World!"</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">set!</span> <span style="color: #aaccff;">*main-cli-fn*</span> -main<span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+裏面的內容基本上都和 Clojure 程式是相同的，唯一要注意的是下面這一行
+</p>
+
+<pre class="example">
+(set! *main-cli-fn* -main)
+</pre>
+
+
+<p>
+在 <a href="https://github.com/clojure/clojurescript/wiki/Quick-Start" target="_blank" rel="noopener">Running ClojureScript on Node.js</a> 裏面說到了你必須設定一個進入點
+(enter point) 讓 node.js 知道主程式在哪，因此這個設定目的就是告訴
+node.js 知道說我們主要執行的函式就是 <code>-main</code> 函式。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4186d1d" class="outline-2">
+<h2 id="org4186d1d">編譯你的程式碼</h2>
+<div class="outline-text-2" id="text-org4186d1d">
+<p>
+要編譯很簡單，輸入
+</p>
+
+<pre class="example">
+lein cljsbuild once
+</pre>
+
+
+<p>
+接下來你就會看到多了 <code>target/cljsbuild-main.js</code> 這個檔案，這個就是編
+譯出來的 javascript 程式。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org066da0e" class="outline-2">
+<h2 id="org066da0e">執行程式</h2>
+<div class="outline-text-2" id="text-org066da0e">
+<p>
+因為 ClojureScript 編譯出來的檔案是 javascript 檔案，所以執行程式的方式
+就和使用 node.js 一樣
+</p>
+
+<pre class="example">
+node  target/cljsbuild-main.js
+</pre>
+
+
+<p>
+接著就會看到 <b>Hello, World!</b> 顯示在你的終端機上了
+</p>
+</div>
+</div>
+
+<div id="outline-container-org362f054" class="outline-2">
+<h2 id="org362f054">參考連結</h2>
+<div class="outline-text-2" id="text-org362f054">
+<p>
+<code>[1]</code> <a href="https://github.com/clojure/clojurescript/" target="_blank" rel="noopener">ClojureScript GitHub</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="http://www.infoq.com/cn/news/2011/08/clojurescript" target="_blank" rel="noopener">ClojureScript 通過 Javascript 將 Clojure 引入到瀏覽器端</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="https://developers.google.com/closure/compiler/?hl=zh-TW" target="_blank" rel="noopener">Google Closure Compiler</a>
+</p>
+
+<p>
+<code>[4]</code> <a href="https://github.com/emezeske/lein-cljsbuild" target="_blank" rel="noopener">lein-cljsbuild GitHub</a>
+</p>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/clojurescript/" rel="tag">#clojurescript</a>
+          
+            <a href="/tags/nodejs/" rel="tag">#nodejs</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/54a4baf/" rel="prev">讓 Clojurescript 使用 node.js 的外部函式庫，以 tty.js 為例</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/74f8fde5/" rel="next">在 emacs 下使用 json.el 來讀取 JSON 資料</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org32cfd92"><span class="nav-text">建立開發環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd136b2f"><span class="nav-text">建立新的 ClojureScript 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org02325d7"><span class="nav-text">加入 cljsbuild 到你的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3e88e23"><span class="nav-text">來寫個 ClojureScript 版的 Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4186d1d"><span class="nav-text">編譯你的程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org066da0e"><span class="nav-text">執行程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org362f054"><span class="nav-text">參考連結</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

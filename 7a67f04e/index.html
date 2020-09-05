@@ -1,34 +1,1516 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="fpga,altera,de2-115," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="手邊有一台早期獲得的 Altera DE2-115 開發平台 ，一直放著積灰塵也不是辦法，再加上最近想多玩玩 FGPA，所以就來重新玩一次吧 :)    和 Xilinx Zybo Board 不同，Altera DE2-115 開發平台 是只有 FPGA 的開發板，並未包含 ARM Cortex-A9 來作為輔助用的 CPU，對於只想學 FPGA 的人而言，這算是不錯的平台，想要 CPU 的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DE2-115 開發紀錄: 硬體認識">
+<meta property="og:url" content="https://coldnew.github.io/7a67f04e/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="手邊有一台早期獲得的 Altera DE2-115 開發平台 ，一直放著積灰塵也不是辦法，再加上最近想多玩玩 FGPA，所以就來重新玩一次吧 :)    和 Xilinx Zybo Board 不同，Altera DE2-115 開發平台 是只有 FPGA 的開發板，並未包含 ARM Cortex-A9 來作為輔助用的 CPU，對於只想學 FPGA 的人而言，這算是不錯的平台，想要 CPU 的">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_144839.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_145013.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_152307.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_153653.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_215436.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_215741.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_214634.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_170619.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_174808.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_170916.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_172531.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_171021.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_171538.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_172709.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_223953.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_172858.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_224245.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_224553.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_230222.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_230304.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_232246.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_232307.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_232706.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_231124.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_234205.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_234426.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_234841.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_235721.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180524_235740.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180525_000107.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180525_000121.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/ps2.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_181700.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/eth.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_210108.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/ux.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/uui.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_205349.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_205911.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_204931.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_205257.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_183040.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_182048.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_183324.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_202103.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_183612.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_202717.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_183800.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_203443.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_183954.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_203809.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_202029.png">
+<meta property="og:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180527_203954.png">
+<meta property="article:published_time" content="2018-05-27T13:14:00.000Z">
+<meta property="article:modified_time" content="2018-05-28T07:09:16.630Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="fpga">
+<meta property="article:tag" content="altera">
+<meta property="article:tag" content="de2-115">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/7a67f04e/Screenshot_20180523_144839.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> DE2-115 開發紀錄: 硬體認識 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/7a67f04e/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              DE2-115 開發紀錄: 硬體認識
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2018-05-28T15:09:16+08:00" content="2018-05-28">
+            2018-05-28
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/de2-115/" itemprop="url" rel="index">
+                  <span itemprop="name">DE2-115 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+手邊有一台早期獲得的 <a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1" target="_blank" rel="noopener">Altera DE2-115 開發平台</a> ，一直放著積灰塵也不是辦法，再加上最近想多玩玩 FGPA，所以就來重新玩一次吧 :)
+</p>
+
+<p>
+和 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Xilinx Zybo Board</a> 不同，<a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1" target="_blank" rel="noopener">Altera DE2-115 開發平台</a> 是只有 FPGA 的開發板，並未包含 ARM Cortex-A9 來作為輔助用的 CPU，對於只想學 FPGA 的人而言，這算是不錯的平台，想要 CPU 的話，就自己寫個 CPU 上去或是用 NIOS-II 軟核 CPU 就好了。
+</p>
+
+<p>
+總之，就讓我們來玩玩這一片早期的 FPGA 開發板吧 (想當年這一片可是要台幣 3W 的呢!)
+</p>
+
+<p>
+不過在我們開始這一切之前，我們需要稍微了解一下這片開發板以及他的週邊等資訊。
+</p>
+
+<a id="more"></a>
+
+<p>
+要了解 <a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1" target="_blank" rel="noopener">Altera DE2-115 開發平台</a> 的相關資訊，我們首先先到他的開發商 <a href="https://www.terasic.com.tw" target="_blank" rel="noopener">友晶科技</a> 網站去下載 <a href="https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;No=542&amp;FID=eeba7202febfb39155fdac7b09ceada7" target="_blank" rel="noopener">DE2-115 User Manual</a> ，這本手冊會帶領我們了解這平台相關的週邊。
+</p>
+
+<p>
+注意到這邊會刻意忽略掉 High Speed Mezzanine Card (HSMC) 接口，因為這個接口除非去買擴展板，不然對一般人而言不會有用到的機會。
+</p>
+
+<div id="outline-container-orgc6a651d" class="outline-2">
+<h2 id="orgc6a651d">基本硬體認識</h2>
+<div class="outline-text-2" id="text-orgc6a651d">
+<p>
+拿到手的 <a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1" target="_blank" rel="noopener">DE2-115</a> 就像這個樣子，從正面來看:
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_144839.png"  />
+</p>
+</div>
+
+
+<p>
+哇，這片板子週邊有夠多的，難怪不便宜，不過細節我們待會在說吧，先來看看背面還有什麼?
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_145013.png"  width="80%" />
+</p>
+</div>
+
+<p>
+背後偷偷藏了一顆 EEPROM，未來我們有資料要存放的時候就需要他了！
+</p>
+
+<p>
+了解了基本板子週邊後，接下來要來一個一個的研究吧~
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd690c9b" class="outline-2">
+<h2 id="orgd690c9b">方塊圖</h2>
+<div class="outline-text-2" id="text-orgd690c9b">
+<p>
+上面的週邊資訊太複雜了，好在  <a href="https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;No=542&amp;FID=eeba7202febfb39155fdac7b09ceada7" target="_blank" rel="noopener">DE2-115 User Manual</a> 有提供方塊圖 (Block Diagram) 可以讓我們對這平台用的 IC 以及有的功能再進一步的了解
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_152307.png"  width="80%" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org35d0399" class="outline-2">
+<h2 id="org35d0399">FGPA 核心</h2>
+<div class="outline-text-2" id="text-org35d0399">
+<p>
+<a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1" target="_blank" rel="noopener">DE2-115</a> 使用的 FPGA 核心是 <code>Cyclone IV EP4CE115F29</code> ，是屬於 <a href="https://www.altera.com/products/fpga/cyclone-series/cyclone-iv/overview.html" target="_blank" rel="noopener">Cyclone IV</a> 系列的，當然在一開始玩的時候只需要知道這個是哪個系列，可以裝下多少邏輯閘就夠了。
+</p>
+
+<p>
+因此，就讓我們列一下這顆 FPGA 到底有多少能耐:
+</p>
+
+<ul class="org-ul">
+<li>114,480 LEs (邏輯單元)</li>
+<li>432 M9K 記憶體模塊</li>
+<li>3,888 K bits 嵌入式存儲器</li>
+<li>4 PLLs (鎖相迴路)</li>
+</ul>
+
+<p>
+嗯&#x2026; 看不懂，就只好引用一下 <a href="https://www.mouser.tw/new/altera/altera-cycloneiv/" target="_blank" rel="noopener">Mouser</a> 上的圖啦 ~
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_153653.png"  />
+</p>
+</div>
+
+<p>
+這邊跳過部份資訊，如果想搞懂關於這顆 FPGA 的描述，包含 LE 是啥啦之類的，推薦看一下 <a href="http://www.cnblogs.com/logic3/p/5466866.html" target="_blank" rel="noopener">FPGA 芯片内部硬件介绍</a> 的說明。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0e97412" class="outline-2">
+<h2 id="org0e97412">JTAG</h2>
+<div class="outline-text-2" id="text-org0e97412">
+<p>
+JTAG 是 DE2-115 上用來下載程式到 FPGA 用的界面，根據設定的不同，我們可以將其分成 JTAG Mode 和 AS-mode，下面就來講解這兩種模式的不同。
+</p>
+
+<p>
+簡單的說:
+</p>
+
+<ul class="org-ul">
+<li>JTAG mode: 一般下載用，斷電後資料消失。</li>
+<li>AS mode: 下載後，即使斷電資料也會保存。</li>
+</ul>
+</div>
+
+<div id="outline-container-org02b64c4" class="outline-3">
+<h3 id="org02b64c4">JTAG mode</h3>
+<div class="outline-text-3" id="text-org02b64c4">
+<p>
+JTAG mode 是一般下載用的方式，缺點是斷電後資料不會保存在板子上。如果你想要下載後重新上電可以執行上一次下載的程式的話，請使用 AS mode。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_215436.png"  />
+</p>
+</div>
+
+<p>
+使用 JTAG Mode 的時候，請注意以下步驟:
+</p>
+
+<ol class="org-ol">
+<li>接上電源</li>
+<li>設定 SW19 在 <code>RUN</code> 的位置</li>
+<li>接上 USB type B 線到 USB Blaster 的位置</li>
+<li>透過 QUartus II 選擇適合的位元流 (.sof) 檔案進行下載</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4323ee6" class="outline-3">
+<h3 id="org4323ee6">JTAG AS mode</h3>
+<div class="outline-text-3" id="text-org4323ee6">
+<p>
+當我們想要斷電再上電後，還可以執行上一次下載的程式的話，這時候就需要透過 AS Mode 來進行。
+</p>
+
+<p>
+AS Mode (Active Serial Programming) 會將位元流下載到 <a href="https://www.altera.com/en_US/pdfs/literature/hb/cfg/cyc_c51014.pdf" target="_blank" rel="noopener">EPCS64</a> 這顆串口 IC，該晶片除了可以透過串口 (Serial) 下載外，同時也是一個儲存裝置，可以存放共 64MB 大小的資料。當電源啟動的時候，DE2-115 會從 <a href="https://www.altera.com/en_US/pdfs/literature/hb/cfg/cyc_c51014.pdf" target="_blank" rel="noopener">EPCS64</a> 拉取資料，完成 FPGA 的設定，這也是為何 AS Mode 可以在斷電的情況下保持資料的原因。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_215741.png"  />
+</p>
+</div>
+
+<p>
+使用 AS Mode 的時候，請注意以下步驟:
+</p>
+
+<ol class="org-ol">
+<li>接上電源</li>
+<li>接上 USB type B 線到 USB Blaster 的位置</li>
+<li>設定 SW19 在 <code>PROG</code> 的位置</li>
+<li>透過 QUartus II 選擇適合的位元流 (.pof) 檔案下載到 EPCS64</li>
+<li>下載完成後，將 SW19 切換回 <code>RUN</code> 的位置，這樣會讓 DE2-115 在開機的時候抓取 EPCS64 上的資訊。</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org43bb72a" class="outline-3">
+<h3 id="org43bb72a">JTAG Chain</h3>
+<div class="outline-text-3" id="text-org43bb72a">
+<p>
+除了 JTAG mode 和 AS mode 外，如果我們想要透過 DE2-115 將資訊下載到別的 Altera FPGA 開發板的話，這時候就是使用 JTAG Chain 的時機。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_214634.png"  />
+</p>
+</div>
+
+<p>
+參照上圖，當我們要使用 JTAG Chain 的時候，需要將 JP3 的 pin2 和 pin3 短路，讓 JTAG 訊號可以透過 HSMC 接口出去。
+</p>
+
+<p>
+如果 JP3 的 pin1 和 pin2 短路 (預設) ，此時形成一個封閉的迴路，這時候 JTAG 在下載的時候只會偵測到 DE2-115 上的 FPGA 晶片。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge0b7446" class="outline-2">
+<h2 id="orge0b7446">按鈕</h2>
+<div class="outline-text-2" id="text-orge0b7446">
+<p>
+DE2-115 共有四個按鈕 (Push Button)，這些按鈕都接上了<a href="https://zh.wikipedia.org/wiki/%25E6%2596%25BD%25E5%25AF%2586%25E7%2589%25B9%25E8%25A7%25A6%25E5%258F%2591%25E5%2599%25A8" target="_blank" rel="noopener">施密特觸發器(Schmitt trigger)</a>來對按鈕去除彈跳 <a href="http://while-true-loop.blogspot.tw/2009/04/de-bounce.html" target="_blank" rel="noopener">(debounce)</a>
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_170619.png"  />
+</p>
+</div>
+
+<p>
+也因為已經在電路上做了<a href="http://while-true-loop.blogspot.tw/2009/04/de-bounce.html" target="_blank" rel="noopener">防彈跳功能 (debounce)</a>，因此在使用這些按鈕的時候我們就不需要透過軟體去濾掉按下按鈕後產生的那些雜訊。
+</p>
+
+<p>
+我們可以透過以下的表格，找出 FPGA 對應按鈕的腳位:
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_174808.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd98cdb7" class="outline-2">
+<h2 id="orgd98cdb7">指撥開關</h2>
+<div class="outline-text-2" id="text-orgd98cdb7">
+<p>
+DE2-115 有 18 個指撥開關 (slide switches)，和按鈕不同的地方在於這些指撥開關並未接上施密特觸發器(Schmitt trigger) ，也因此不具有防彈跳的功能。
+</p>
+
+<p>
+當指撥開關並未往上撥的時候，其為低電位，也就是邏輯 0。當往上撥的時候，則會變成高電位，也就是邏輯 1。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_170916.png"  width="60%" />
+</p>
+</div>
+
+<p>
+當如果需要使用指撥開關的時候，我們可能會需要下面這張表來進行 I/O mapping:
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_172531.png"  width="60%" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfc6ebb9" class="outline-2">
+<h2 id="orgfc6ebb9">LED</h2>
+<div class="outline-text-2" id="text-orgfc6ebb9">
+<p>
+DE2-115 上面共有 27 個 LED, 其中紅色 LED 佔了 18 個，綠色的則是有 9 個
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_171021.png"  width="80%" />
+</p>
+</div>
+
+<p>
+當輸出腳為高電位的時候，會觸發 LED 亮，低電位則是讓 LED 暗。
+</p>
+
+<p>
+下面則是 LED 與 I/O 的對應表:
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_171538.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge49b62d" class="outline-2">
+<h2 id="orge49b62d">七段顯示器</h2>
+<div class="outline-text-2" id="text-orge49b62d">
+<p>
+DE2-115 共有 8 個 <a href="https://en.wikipedia.org/wiki/Seven-segment_display" target="_blank" rel="noopener">七段顯示器 (7-segment)</a>，每一個七段顯示器和 Cyclone IV 的連接就像這個樣子:
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_172709.png"  width="60%" />
+</p>
+</div>
+
+<p>
+這塊板子上的七段顯示器是採用 <code>共陽極 (Common Anode)</code> 的形式接上的 (<a href="http://www.cypress.com/file/132516/download" target="_blank" rel="noopener">圖片來源)</a> ，也因此當我們指定接腳為低電位 (邏輯 0) 的時候，可以將該位置點亮，指定為高電位則是關掉顯示。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_223953.png"  width="60%" />
+</p>
+</div>
+
+<p>
+具體的 I/O mapping 如下表：
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180523_172858.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3b63ab3" class="outline-2">
+<h2 id="org3b63ab3">時脈源 (Clock Sources)</h2>
+<div class="outline-text-2" id="text-org3b63ab3">
+<p>
+DE2-115 上面掛載了一顆 <code>50MHz</code> 的有源石英振盪器，而這顆振盪器會經由 <a href="https://www.diodes.com/assets/Datasheets/PI49FCT3802.pdf" target="_blank" rel="noopener">PI49FCT3803 (單端時鐘緩衝器)</a> 將訊號變成 3 組 50MHz 輸入到 Cyclone IV 的三個輸入源來提供使用者使用。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_224245.png"  />
+</p>
+</div>
+
+<p>
+當然，如果想要輸入外部的時脈或是將當前的時脈輸出，則可以使用 SMA 連接器來進行輸入/輸出。
+</p>
+
+<p>
+另外要注意的是，這邊提到的時脈訊號會接到 FGPA 內的 <a href="https://zh.wikipedia.org/wiki/%25E9%2594%2581%25E7%259B%25B8%25E7%258E%25AF" target="_blank" rel="noopener">鎖相迴路 (Phase-locked loops, PLL)</a> , 因此我們可以透過 Altera 的 IP-Core <a href="https://www.altera.com/en_US/pdfs/literature/ug/ug_altpll.pdf" target="_blank" rel="noopener">ALTPLL</a> 模組來對輸入時脈進行倍頻或是除頻等運作，產生我們需要的時脈。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_224553.png"  />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdc9bdba" class="outline-2">
+<h2 id="orgdc9bdba">LCD</h2>
+<div class="outline-text-2" id="text-orgdc9bdba">
+<p>
+DE2-115 除了七段顯示器外，板子上也接上了 LCD 模組 <a href="https://www.sparkfun.com/datasheets/LCD/HD44780.pdf" target="_blank" rel="noopener">HD44780</a> ，我們可以透過 LCD 模組來進行一些文字訊息的顯示。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_230222.png"  width="60%" />
+</p>
+</div>
+
+<p>
+當然，要控制這個 LCD 模組，知道接腳在哪也是必要的:
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_230304.png"  />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org3a77687" class="outline-2">
+<h2 id="org3a77687">GPIO</h2>
+<div class="outline-text-2" id="text-org3a77687">
+<p>
+前面說到我們不會提到 HSMC (High Speed Mezzanine Card)，但是 GPIO 就必須特別題一下了。一般來說，大多數位訊號都可以透過 GPIO 來模擬達到，這種方式稱為 <a href="https://en.wikipedia.org/wiki/Bit_banging" target="_blank" rel="noopener">Bit baning</a> 。也因此，假設我們要自己實做 UART、I2C、SPI 等訊號輸入輸出，都可以透過這些 GPIO 接腳來達到。
+</p>
+
+<p>
+當然對初學者而言，GPIO 大概就是拿來點亮 LED 用的 :P
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_232246.png"  />
+</p>
+</div>
+
+<p>
+DE2-115 上的 GPIO 設計有保護電路，可以避免輸入的電壓過高 (當然還是不可以太超過~)
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_232307.png"  />
+</p>
+</div>
+
+<p>
+那如何控制這些 GPIO 的電壓階度呢？我們可以透過調整 JP6 的短路座 (Jumper) 來將其設定成 3.3V (預設), 2.5V, 1.8V, 1.5V 的電壓位準。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_232706.png"  />
+</p>
+</div>
+
+<p>
+當然這些位準要怎樣調整，就需要看這些 GPIO 的使用方式囉 ~
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_231124.png"  />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org9a5dff9" class="outline-2">
+<h2 id="org9a5dff9">VGA</h2>
+<div class="outline-text-2" id="text-org9a5dff9">
+<p>
+和 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Xilinx Zybo Board</a> 的作法不同，<a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=171&amp;No=542&amp;PartNo=1" target="_blank" rel="noopener">Altera DE2-115</a> 採用了 <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7123-EP.pdf" target="_blank" rel="noopener">ADV7123</a> 來將數位訊號轉換成 VGA 使用的類比訊號
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_234205.png"  width="80%" />
+</p>
+</div>
+
+<p>
+當然如果想要控制 VGA 輸出的話，需要知道時序的控制，讓其符合規格，但老實說這邊有點難一次講完，具體請參考: <a href="http://www.cnblogs.com/oomusou/archive/2008/08/11/de2_vga_timing_table.html" target="_blank" rel="noopener">(筆記) D-Sub VGA timing table (SOC) (DE2) (DE2-70)</a>
+</p>
+
+<p>
+而  <a href="https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;No=542&amp;FID=eeba7202febfb39155fdac7b09ceada7" target="_blank" rel="noopener">DE2-115 User Manual</a> 也提供了我們參考用的時序資訊 (Timing Specification)
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_234426.png"  />
+</p>
+</div>
+
+<p>
+當然，要控制 <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7123-EP.pdf" target="_blank" rel="noopener">ADV7123</a> 的話，我們也必須要知道 FGPA 拉出來的接腳才行
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_234841.png"  />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org6e217d0" class="outline-2">
+<h2 id="org6e217d0">Audio</h2>
+<div class="outline-text-2" id="text-org6e217d0">
+<p>
+DE2-115 上面採用了 <a href="https://www.cirrus.com/products/wm8731/" target="_blank" rel="noopener">WM8731</a> 作為音頻的解決方案，這顆晶片可以支援麥克風輸入、類比音源轉換輸入/輸出 (line-in/out)，而 Cyclone IV 和這顆晶片的溝通界面則是 <a href="https://zh.wikipedia.org/wiki/I%25C2%25B2C" target="_blank" rel="noopener">I²C</a> 。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_235721.png"  width="60%" />
+</p>
+</div>
+
+<p>
+相關接腳如下:
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180524_235740.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5bc5c3f" class="outline-2">
+<h2 id="org5bc5c3f">RS232</h2>
+<div class="outline-text-2" id="text-org5bc5c3f">
+<p>
+在嵌入式系統開發的時候，<a href="https://zh.wikipedia.org/wiki/RS-232" target="_blank" rel="noopener">RS232</a> 串列埠是非常常用的接口，我們常常使用其作為最基本的除錯訊息輸出來源，而 DE2-115 已經幫我們把相關的電路處理好了。在這邊，DE2-115 使用 <a href="https://www.ineltro.ch/media/downloads/SAAItem/45/45377/a4536d49-dc82-4904-8a34-c4f51beb59e9.pdf" target="_blank" rel="noopener">ZT3232LEEY</a> 這顆電壓轉換電路，將 FPGA 輸出的電壓 (3.3V) 轉換成 RS232 標準的最低許可電壓 ±5V。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180525_000107.png"  />
+</p>
+</div>
+
+<p>
+假設我們要透過 Verilog 撰寫 UART 模組，我們可以採用以下接腳:
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180525_000121.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga5748b8" class="outline-2">
+<h2 id="orga5748b8">PS2 串列埠</h2>
+<div class="outline-text-2" id="text-orga5748b8">
+<p>
+現在的人已經很難接觸到 <a href="https://en.wikipedia.org/wiki/PS/2_port" target="_blank" rel="noopener">PS/2 序列埠</a> 了，以前的滑鼠和鍵盤都是透過這接口和主機溝通的，現在都已經被 USB 取代。我手邊的這片 DE2-115 畢竟是早期的板子，還留有這樣的接口。
+</p>
+
+
+<div class="figure">
+<p><img src="ps2.png"  />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_181700.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdd88876" class="outline-2">
+<h2 id="orgdd88876">Gigabit 乙太網路收發器</h2>
+<div class="outline-text-2" id="text-orgdd88876">
+<p>
+DE2-115 內建兩個 Gigabit 乙太網路收發器，可以支援 10/100/1000M bps 的網路速度，並支援 GMII/MII/RGMII Mac 接口。
+</p>
+
+<p>
+預設的網路設定如下:
+</p>
+
+
+<div class="figure">
+<p><img src="eth.png"  />
+</p>
+</div>
+
+<p>
+和 FPGA 的接線方式則是如下圖:
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_210108.png"  />
+</p>
+</div>
+
+
+<p>
+我們可以透過調整 JP1 和 JP2 的接法，設定網路設備的工作模式:
+</p>
+
+
+<div class="figure">
+<p><img src="ux.png"  />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="uui.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org784bd2c" class="outline-2">
+<h2 id="org784bd2c">TV Decoder</h2>
+<div class="outline-text-2" id="text-org784bd2c">
+<p>
+DE2-115 採用 <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf" target="_blank" rel="noopener">Analog Device ADV7180</a> 作為影像串流解碼器，此顆晶片可以自動解碼 <a href="https://zh.wikipedia.org/wiki/NTSC%25E5%2588%25B6%25E5%25BC%258F" target="_blank" rel="noopener">NTSC</a>、<a href="https://zh.wikipedia.org/zh-tw/PAL%25E5%2588%25B6%25E5%25BC%258F" target="_blank" rel="noopener">PAL</a>、<a href="https://zh.wikipedia.org/wiki/SECAM%25E5%2588%25B6%25E5%25BC%258F" target="_blank" rel="noopener">SECAM</a> 等影像規格成 <a href="https://en.wikipedia.org/wiki/ITU-R_BT.656" target="_blank" rel="noopener">8-bit ITU-R BT.656</a> 格式。
+</p>
+
+<p>
+<a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADV7181.pdf" target="_blank" rel="noopener">Analog Device ADV7180</a> 和 FPGA 採用 <a href="https://zh.wikipedia.org/wiki/I%25C2%25B2C" target="_blank" rel="noopener">I²C</a> 接口進行通訊。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_205349.png"  />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_205911.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9eab79a" class="outline-2">
+<h2 id="org9eab79a">USB</h2>
+<div class="outline-text-2" id="text-org9eab79a">
+<p>
+DE2-115 採用了 <a href="http://www.cypress.com/file/122731/download" target="_blank" rel="noopener">Cypress EZ-OTG (CY7C67200)</a> 這款支援 <a href="https://zh.wikipedia.org/wiki/USB_On-The-Go" target="_blank" rel="noopener">USB On-The-Go</a> 功能的控制器，Host 和 Device 皆支援 USB 2.0 標準。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_204931.png"  />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_205257.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf58d97c" class="outline-2">
+<h2 id="orgf58d97c">IR (紅外線)</h2>
+<div class="outline-text-2" id="text-orgf58d97c">
+<p>
+DE2-115 盒內附了一個紅外線遙控器，而板子上則有紅外線接收器 (<a href="https://www.mouser.tw/ProductDetail/Everlight/IRM-V538N7-TR1" target="_blank" rel="noopener">IRM-V538N7/TR1</a>)，我們可以透過這個組合，實現像是冷氣遙控器、電視遙控器等控制界面。
+</p>
+
+<p>
+要注意的是，這個紅外線接收模組只相容 <code>38KHz 載波頻率</code> ，最大的資料傳輸率是 <code>4kbps</code> , 也就是說，不是你隨便拿一個家用的遙控器都可以和 DE2-115 上面的紅外線接收器溝通的。
+</p>
+
+<p>
+DE2-115 提供的遙控器採用了 <a href="http://pdf.datasheet.live/3ca11ca1/necel.com/UPD6121G-001.pdf" target="_blank" rel="noopener">uPD6121G</a> 則有符合這個規格，因此記得不要把它搞丟呦^^
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_183040.png"  width="60%" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_182048.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org51ea271" class="outline-2">
+<h2 id="org51ea271">SRAM</h2>
+<div class="outline-text-2" id="text-org51ea271">
+<p>
+DE2-115 內建了 2MB 的 SRAM, 這些 SRAM 的資料寬度是 16bit, 在 3.3V 的情況下，最高頻率為 125M Hz
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_183324.png"  width="60%" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_202103.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga6c423e" class="outline-2">
+<h2 id="orga6c423e">SDRAM</h2>
+<div class="outline-text-2" id="text-orga6c423e">
+<p>
+DE2-115 有 128 MB 的 SDRAM, 這個 SDRAM 實際上是由兩個 64MB 的 SDRAM 組成，每個 SDRAM 具有 16-bit 的資料寬度。
+而由 FPGA 拉出來的位址控制訊號則是共用。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_183612.png"  width="60%" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_202717.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7620d8c" class="outline-2">
+<h2 id="org7620d8c">FLASH</h2>
+<div class="outline-text-2" id="text-org7620d8c">
+<p>
+DE2-115 具有 8MB FLASH, 這顆 FLASH 具有 8-bit 的資料寬度。基於 FLASH 的非揮發特性 (斷電後資料會保持)，我們常常使用這些 FLASH 存儲一些特定的資料。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_183800.png"  width="60%" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_203443.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7ab6776" class="outline-2">
+<h2 id="org7ab6776">EEPROM</h2>
+<div class="outline-text-2" id="text-org7ab6776">
+<p>
+EEPROM 和 FLASH 一樣，也是斷電後資料可以保存的裝置。DE2-115 具有 32Kb 的 EEPROM, 由 <a href="https://zh.wikipedia.org/wiki/I%25C2%25B2C" target="_blank" rel="noopener">I²C</a> 接口對其進行控制。
+根據電路的接線方式，我們可以透過 <a href="https://zh.wikipedia.org/wiki/I%25C2%25B2C" target="_blank" rel="noopener">I²C</a> Bus 上的 <code>0xA0</code> 以及 <code>0xA1</code> 位址來讀寫 EEPROM 的資料。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_183954.png"  />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_203809.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org291ca28" class="outline-2">
+<h2 id="org291ca28">SD Card</h2>
+<div class="outline-text-2" id="text-org291ca28">
+<p>
+當我們需要大量的儲存空間的時候，就會有使用到 SD 卡的需求。DE2-115 已經連接好 SD 卡插槽，使用者可以透過 SPI 模式或是 SD 卡的 4-bit 或 1-bit 模式來和 SD 卡進行通訊。
+</p>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_202029.png"  width="60%" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="Screenshot_20180527_203954.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga615117" class="outline-2">
+<h2 id="orga615117">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orga615117">
+<ul class="org-ul">
+<li><a href="https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=Taiwan&amp;No=542&amp;FID=eeba7202febfb39155fdac7b09ceada7" target="_blank" rel="noopener">DE2-115 User Manual</a></li>
+<li><a href="https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=Taiwan&amp;CategoryNo=156&amp;No=686&amp;PartNo=1" target="_blank" rel="noopener">邏輯電路設計 DE2-115 實戰寶典</a></li>
+</ul>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fpga/" rel="tag">#fpga</a>
+          
+            <a href="/tags/altera/" rel="tag">#altera</a>
+          
+            <a href="/tags/de2-115/" rel="tag">#de2-115</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/4d1ad2ce/" rel="prev">DE2-115 開發紀錄: 透過可程式邏輯控制 LED 閃爍</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/9cbf4b94/" rel="next">i.MX6SoloX SabreSD 學習筆記: 使用 Yocto 製作開機卡</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc6a651d"><span class="nav-text">基本硬體認識</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd690c9b"><span class="nav-text">方塊圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org35d0399"><span class="nav-text">FGPA 核心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0e97412"><span class="nav-text">JTAG</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org02b64c4"><span class="nav-text">JTAG mode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4323ee6"><span class="nav-text">JTAG AS mode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org43bb72a"><span class="nav-text">JTAG Chain</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge0b7446"><span class="nav-text">按鈕</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd98cdb7"><span class="nav-text">指撥開關</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfc6ebb9"><span class="nav-text">LED</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge49b62d"><span class="nav-text">七段顯示器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3b63ab3"><span class="nav-text">時脈源 (Clock Sources)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdc9bdba"><span class="nav-text">LCD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3a77687"><span class="nav-text">GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9a5dff9"><span class="nav-text">VGA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6e217d0"><span class="nav-text">Audio</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5bc5c3f"><span class="nav-text">RS232</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga5748b8"><span class="nav-text">PS2 串列埠</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdd88876"><span class="nav-text">Gigabit 乙太網路收發器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org784bd2c"><span class="nav-text">TV Decoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9eab79a"><span class="nav-text">USB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf58d97c"><span class="nav-text">IR (紅外線)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org51ea271"><span class="nav-text">SRAM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga6c423e"><span class="nav-text">SDRAM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7620d8c"><span class="nav-text">FLASH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7ab6776"><span class="nav-text">EEPROM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org291ca28"><span class="nav-text">SD Card</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga615117"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

@@ -1,34 +1,1628 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="fpga,xilinx,vivado,zybo,zynq," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。    (本文以 Vivado 2016.2 進行開發)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zybo board 開發記錄: Zynq 與 LED 閃爍控制">
+<meta property="og:url" content="https://coldnew.github.io/dec85bd3/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。    (本文以 Vivado 2016.2 進行開發)">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/zybo_led.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/zynq_axi_gpio_led.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/zynq_hw_arch.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/create_prj0.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cprj1.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/new_prj.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/new_prj2.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cprj2.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb1.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb2.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb3.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb4.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb5.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb6.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb7.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb8-1.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb8.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb9.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb10.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb11.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/cb12.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/dl_constraints.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/as1.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/add_constraints1.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/add_constraints2.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/w1.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/w2.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/w3.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/w4.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/w5.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/w6.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/w7.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/w8.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/w9.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/x1.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/x2.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/x3.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/x4.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/doc.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/doc2.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/x5.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/x6.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/qspi.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/d1.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/d2.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/d3.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/d4.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/d5.png">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/result.gif">
+<meta property="og:image" content="https://coldnew.github.io/dec85bd3/s.png">
+<meta property="article:published_time" content="2016-07-05T15:41:00.000Z">
+<meta property="article:modified_time" content="2016-07-05T15:41:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="fpga">
+<meta property="article:tag" content="xilinx">
+<meta property="article:tag" content="vivado">
+<meta property="article:tag" content="zybo">
+<meta property="article:tag" content="zynq">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/dec85bd3/zybo_led.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> zybo board 開發記錄: Zynq 與 LED 閃爍控制 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/dec85bd3/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              zybo board 開發記錄: Zynq 與 LED 閃爍控制
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2016-07-05T23:41:00+08:00" content="2016-07-05">
+            2016-07-05
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/zybo-board/" itemprop="url" rel="index">
+                  <span itemprop="name">zybo board 開發記錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+在 <a href="http://coldnew.github.io/zybo-board/pl_led/">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a> 一文中我們說到了怎樣純粹使用 可程式邏輯 (Programmable Logic, PL) 去控制 Zybo board 上面的四個 LED 燈 (LD0 ~ LD3)，接下來就讓我們透過 Zynq 上的 ARM 處理器來作到同樣的一件事情吧。
+</p>
+
+<p>
+(本文以 <code>Vivado 2016.2</code> 進行開發)
+</p>
+
+<a id="more"></a>
+
+<p>
+本文主要參考自 <a href="https://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Digilentinc</a> 的 <a href="https://reference.digilentinc.com/zybo/gsg" target="_blank" rel="noopener">Getting Start Guide</a> 並加入我自己試玩的一些心得。
+</p>
+
+<div id="outline-container-org072fe33" class="outline-2">
+<h2 id="org072fe33">開發目標</h2>
+<div class="outline-text-2" id="text-org072fe33">
+<p>
+我們要透過 Zynq 上的 ARM 處理器，也就是 處理系統 (Processing System, PS)去控制 LED，具體目標與電路資訊如下:
+</p>
+
+
+<div class="figure">
+<p><img src="zybo_led.png"  />
+</p>
+</div>
+
+<p>
+根據 <a href="https://reference.digilentinc.com/_media/zybo/zybo_rm.pdf" target="_blank" rel="noopener">ZYBO FPGA Board Reference Manual</a> 上面的資料，我們想要控制的這四個在板子上的 LED 都是位於可程式邏輯區(Programmable Logic, PL)可以碰觸到的地方，如果你想要透過 Zynq 去對這些 LED 進行控制，你就會需要透過  AXI GPIO 的幫助，就像這樣:
+</p>
+
+
+<div class="figure">
+<p><img src="zynq_axi_gpio_led.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2f1acc3" class="outline-2">
+<h2 id="org2f1acc3">認識 AXI 匯流排</h2>
+<div class="outline-text-2" id="text-org2f1acc3">
+<p>
+AXI 匯流排是作什麼用的？我們就從 Zynq 的架構來看 (參照 <a href="http://www.zynqbook.com/" target="_blank" rel="noopener">The Zynq Book</a> p.28)
+</p>
+
+
+<div class="figure">
+<p><img src="zynq_hw_arch.png"  />
+</p>
+</div>
+
+<p>
+由上圖可以看到 AXI 匯流排橫跨了處理器系統 (Processing System, PS) 與可程式邏輯 (Programmable Logc, PL) 兩區，並連接到週邊。
+</p>
+
+<p>
+實際上，AXI 協議為 ARM 的協議規範，來自於 AMBA 匯流排架構，若你對整個協議的內容有興趣，可以到 ARM 的 <a href="http://infocenter.arm.com/help/index.jsp?topic%3D/com.arm.doc.set.amba/index.html" target="_blank" rel="noopener">網站</a> 去下載規格書。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6ebdba7" class="outline-2">
+<h2 id="org6ebdba7">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org6ebdba7">
+<p>
+我們首先當然是建立我們的專案了，在進行這一步前，請先確定你有按照 <a href="https://coldnew.github.io/zybo-board/vivado_zybo_setting_file/">讓 Vivado 有 Zybo Board 的設定檔</a> 一文所說，將 Zybo board 的設計導入。
+</p>
+
+<p>
+啟動了 Vivado 後，點選 <code>Create New Project</code> 。
+</p>
+
+
+<div class="figure">
+<p><img src="create_prj0.png"  />
+</p>
+</div>
+
+<p>
+接下來指定好你的專案名稱與路徑
+</p>
+
+
+<div class="figure">
+<p><img src="cprj1.png"  />
+</p>
+</div>
+
+
+<p>
+選擇 <code>RTL Project</code>
+</p>
+
+
+<div class="figure">
+<p><img src="new_prj.png"  />
+</p>
+</div>
+
+
+<p>
+在開發板選項中，選擇 <code>Zybo Board</code>
+</p>
+
+
+<div class="figure">
+<p><img src="new_prj2.png"  />
+</p>
+</div>
+
+<p>
+完成專案建立
+</p>
+
+
+<div class="figure">
+<p><img src="cprj2.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0034926" class="outline-2">
+<h2 id="org0034926">建立 Block Design</h2>
+<div class="outline-text-2" id="text-org0034926">
+<p>
+當我們的設計需要用到 Zynq 的處理器系統(Processing System, PS)時候，就需要透過 Block Design 來建立我們的電路設計，首先點選 <code>IP Integrator -&gt; Create Block Design</code> 。
+</p>
+
+
+<div class="figure">
+<p><img src="cb1.png"  />
+</p>
+</div>
+
+<p>
+接著點選 <code>OK</code> 建立我們的 block design
+</p>
+
+
+<div class="figure">
+<p><img src="cb2.png"  />
+</p>
+</div>
+
+<p>
+點選 <code>Add IP</code> 按鈕去增加我們需要的 IP 核
+</p>
+
+
+<div class="figure">
+<p><img src="cb3.png"  />
+</p>
+</div>
+
+<p>
+我們首先尋找 <code>Zynq</code> 並將 <code>ZYNQ7 Processing System</code> 加入到我們的 Block Design，並點選 <code>Run Block Automation</code> 對 Zynq 處理器進行一些設定
+</p>
+
+
+<div class="figure">
+<p><img src="cb4.png"  />
+</p>
+</div>
+
+<p>
+進入到 <code>Run Block Automation</code> 的設定頁面後，確認 <code>processing_system7_0</code> 有被勾選到，並且 <code>Cross Trigger In</code> 以及 <code>Cross Trigger Out</code> 都是 <code>Disable</code> 的狀態，點選 Ok 結束設定。
+</p>
+
+
+<div class="figure">
+<p><img src="cb5.png"  />
+</p>
+</div>
+
+
+<p>
+上面的設定好了後，就會看到 ZYNQ7 Processing System 的 DDR 以及 FIXED_IO 都有接線出來
+</p>
+
+
+<div class="figure">
+<p><img src="cb6.png"  />
+</p>
+</div>
+
+<p>
+點選 <code>Add IP</code> 按鈕去增加我們需要的 IP 核，這次我們要增加 <code>AXI_GPIO</code> ，用來對可程式邏輯(Programmable Logic, PL)區域的 LED 進行控制，完成後點選上方的 <code>Run Connection Automation</code> 按鈕
+</p>
+
+
+<div class="figure">
+<p><img src="cb7.png"  />
+</p>
+</div>
+
+<p>
+在 <code>Run Conenction Automation</code> 視窗內，我們選擇 <code>Custom</code> (其實也可以在這邊直接選擇 <code>leds 4bits</code>)
+</p>
+
+
+<div class="figure">
+<p><img src="cb8-1.png"  />
+</p>
+</div>
+
+<p>
+接下來勾選 <code>S_AXI</code> ，並點選 Ok 進行確認。
+</p>
+
+
+<div class="figure">
+<p><img src="cb8.png"  />
+</p>
+</div>
+
+<p>
+好了後會像這樣，我們接下來對 <code>axi_gpio_0</code> 這個區塊點兩下，進行手動設定
+</p>
+
+
+<div class="figure">
+<p><img src="cb9.png"  />
+</p>
+</div>
+
+<p>
+在 <code>IP Configuration</code> 頁面，設定 GPIO 為輸出腳，並設寬度為 <code>4</code> ，這邊我將輸出預設值設定為 0xF, 也就是預設這四個 LED 用的輸出腳都是 High 的電壓。完成後點選 OK, 結束 AXI_GPIO 的設定。
+</p>
+
+
+<div class="figure">
+<p><img src="cb10.png"  />
+</p>
+</div>
+
+
+<p>
+接下來點選 <code>Validate Design</code> 按鈕，我們要確認我們的 Block Design 沒問題才能夠繼續往下走。
+</p>
+
+
+<div class="figure">
+<p><img src="cb11.png"  />
+</p>
+</div>
+
+<p>
+正常來講不會有啥問題才對，我們結束 Block Design 的工作
+</p>
+
+
+<div class="figure">
+<p><img src="cb12.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4e64994" class="outline-2">
+<h2 id="org4e64994">加入 Constraints</h2>
+<div class="outline-text-2" id="text-org4e64994">
+<p>
+在 <a href="http://coldnew.github.io/zybo-board/pl_led/">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a> 一文有提到如何取得 Constraints 檔案，不過為了讓這篇文章完整，我們再講一次。
+</p>
+
+<p>
+我們先連結到 <a href="https://reference.digilentinc.com/zybo:zybo" target="_blank" rel="noopener">Zybo Resource Center</a> 去下載 <code>Master XDC</code> 檔案。
+</p>
+
+
+<div class="figure">
+<p><img src="dl_constraints.png"  />
+</p>
+</div>
+
+<p>
+你也可以直接透過 wget 命令下載並解壓出 <code>ZYBO_Master.xdc</code> 這個檔案，它就是本節要加入的 Constraints 檔
+</p>
+
+<pre class="example">
+coldnew@gentoo /tmp $ wget https://reference.digilentinc.com/_media/zybo/zybo_master_xdc.zip
+coldnew@gentoo /tmp $ unzip zybo_master_xdc.zip
+Archive:  zybo_master_xdc.zip
+  inflating: ZYBO_Master.xdc
+</pre>
+
+<p>
+接下來一樣選擇 <code>Project Manager -&gt; Add sources</code> 來增加檔案
+</p>
+
+
+<div class="figure">
+<p><img src="as1.png"  />
+</p>
+</div>
+
+<p>
+這次我們要增加的是 Constraints 檔，因此選擇 <code>Add or create constraints</code>
+</p>
+
+
+<div class="figure">
+<p><img src="add_constraints1.png"  />
+</p>
+</div>
+
+<p>
+透過 <code>Add Files</code> 添加剛剛下載的 ZYBO_Master.xdc 檔案
+</p>
+
+
+<div class="figure">
+<p><img src="add_constraints2.png"  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc04af92" class="outline-3">
+<h3 id="orgc04af92">ZYBO_Master.xdc</h3>
+<div class="outline-text-3" id="text-orgc04af92">
+<p>
+在 ZYBO_Master.xdc 裡面，預設所有對應接腳都是被註解掉的，這邊我們反註解我們需要的 led 接腳，要記得一下這邊的 I/O 名稱，我們等等要和產生出來的 HDL Wrapper 進行對應的工作。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">LEDs</span>
+<span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_L23P_T3_35</span>
+set_property PACKAGE_PIN M14 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">0</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">0</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+
+<span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_L23N_T3_35</span>
+set_property PACKAGE_PIN M15 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">1</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">1</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+
+<span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_0_35</span>
+set_property PACKAGE_PIN G14 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">2</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">2</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+
+<span style="color: #5f5f5f; font-style: italic;">##</span><span style="color: #9ac; font-style: italic;">IO_L3N_T0_DQS_AD1N_35</span>
+set_property PACKAGE_PIN D18 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">3</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+set_property IOSTANDARD LVCMOS33 <span style="color: #aadddd;">[</span>get_ports <span style="color: #81d4fa;">{</span>led<span style="color: #aaccff;">[</span><span style="color: #ccaaff;">3</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">]</span>
+</pre>
+</div>
+
+<p>
+這樣我們就可以準備將 Block Design 和硬體接腳對應在一起了。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeb35148" class="outline-2">
+<h2 id="orgeb35148">產生 HDL Wrapper</h2>
+<div class="outline-text-2" id="text-orgeb35148">
+<p>
+接下來我們要透過 Block Design 產生我們的 HDL wrapper，對你的 Block Design 檔案點選右鍵，選擇 <code>Create HDL Wrapper</code> 。它會根據你專案設定的語言 (VHDL 或是 Verilog) 來產生相對的 HDL 程式碼。
+</p>
+
+
+<div class="figure">
+<p><img src="w1.png"  />
+</p>
+</div>
+
+<p>
+產生出來的東西我們可能需要改些東西，為了避免麻煩這邊我選第一個選項。
+</p>
+
+
+<div class="figure">
+<p><img src="w2.png"  />
+</p>
+</div>
+
+<p>
+好了後，假設你的 Block Design 檔案叫做 design_1.bd，那就會產生 design_1_wrapper.v 或是 design_1_wrapper.vhdl 這樣的檔案
+</p>
+
+
+<div class="figure">
+<p><img src="w3.png"  />
+</p>
+</div>
+
+<p>
+我們接著要修改這個 HDL Wrapper，這是為什麼呢? 回去看一下前面做好的 Block Design 以及 Constraints 的資訊，我們可以看到 Block Design 設定好的 AXI_GPIO 其輸出腳叫做 <code>gpio_rtl</code> ，而在 Constraints 中，我們目標的 LED 輸出腳名稱是 <code>led</code> ，因此我們要調整一下這個 HDL Wrapper 讓 <code>gpio_rtl</code> 和 <code>led</code> 可以對應在一起。
+</p>
+
+
+<div class="figure">
+<p><img src="w4.png"  />
+</p>
+</div>
+
+<p>
+由於在本範例中，design_1_wrapper.v 也就是 toplevel 的模組，因此在這邊將對外的 <code>gpio_rtl_tri_o</code> 接腳改為 <code>led</code> 讓它接出即可。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #aaaaaa; background-color: #202020;">diff --git a/led_flash_zynq.srcs/sources_1/imports/hdl/design_1_wrapper.v b/led_flash_zynq.srcs/sources_1/imports/hdl/design_1_wrapper.v</span>
+<span style="color: #aaaaaa; background-color: #202020;">index 7b1b0bd..c57caa0 100644</span>
+<span style="color: #aaaaaa; background-color: #202020;">--- </span><span style="color: #aaaaaa; background-color: #202020;">a/led_flash_zynq.srcs/sources_1/imports/hdl/design_1_wrapper.v</span>
+<span style="color: #aaaaaa; background-color: #202020;">+++ </span><span style="color: #aaaaaa; background-color: #202020;">b/led_flash_zynq.srcs/sources_1/imports/hdl/design_1_wrapper.v</span>
+<span style="color: #aaaaaa; background-color: #202020;">@@ -31,7 +31,7 @@</span><span style="color: #aaaaaa; background-color: #202020;"> module design_1_wrapper</span>
+     FIXED_IO_ps_clk,
+     FIXED_IO_ps_porb,
+     FIXED_IO_ps_srstb,
+<span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">    </span><span style="color: #ff3333; font-weight: bold;">gpio_rtl_tri_o</span><span style="color: #ff3333; font-weight: bold;">);</span>
+<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">    </span><span style="color: #aaffaa; font-weight: bold;">led</span><span style="color: #aaffaa; font-weight: bold;">);</span>
+   inout [14:0]DDR_addr;
+   inout [2:0]DDR_ba;
+   inout DDR_cas_n;
+<span style="color: #aaaaaa; background-color: #202020;">@@ -53,7 +53,7 @@</span><span style="color: #aaaaaa; background-color: #202020;"> module design_1_wrapper</span>
+   inout FIXED_IO_ps_clk;
+   inout FIXED_IO_ps_porb;
+   inout FIXED_IO_ps_srstb;
+<span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">  output [3:0]</span><span style="color: #ff3333; font-weight: bold;">gpio_rtl_tri_o</span><span style="color: #ff3333; font-weight: bold;">;</span>
+<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">  output [3:0]</span><span style="color: #aaffaa; font-weight: bold;">led</span><span style="color: #aaffaa; font-weight: bold;">;</span>
+
+   wire [14:0]DDR_addr;
+   wire [2:0]DDR_ba;
+<span style="color: #aaaaaa; background-color: #202020;">@@ -76,7 +76,7 @@</span><span style="color: #aaaaaa; background-color: #202020;"> module design_1_wrapper</span>
+   wire FIXED_IO_ps_clk;
+   wire FIXED_IO_ps_porb;
+   wire FIXED_IO_ps_srstb;
+<span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">  wire [3:0]</span><span style="color: #ff3333; font-weight: bold;">gpio_rtl_tri_o</span><span style="color: #ff3333; font-weight: bold;">;</span>
+<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">  wire [3:0]</span><span style="color: #aaffaa; font-weight: bold;">led</span><span style="color: #aaffaa; font-weight: bold;">;</span>
+
+   design_1 design_1_i
+        (.DDR_addr(DDR_addr),
+<span style="color: #aaaaaa; background-color: #202020;">@@ -100,5 +100,5 @@</span><span style="color: #aaaaaa; background-color: #202020;"> module design_1_wrapper</span>
+         .FIXED_IO_ps_clk(FIXED_IO_ps_clk),
+         .FIXED_IO_ps_porb(FIXED_IO_ps_porb),
+         .FIXED_IO_ps_srstb(FIXED_IO_ps_srstb),
+<span style="color: #ff3333; font-weight: bold;">-</span><span style="color: #ff3333; font-weight: bold;">        .gpio_rtl_tri_o(</span><span style="color: #ff3333; font-weight: bold;">gpio_rtl_tri_o</span><span style="color: #ff3333; font-weight: bold;">));</span>
+<span style="color: #aaffaa; font-weight: bold;">+</span><span style="color: #aaffaa; font-weight: bold;">        .gpio_rtl_tri_o(</span><span style="color: #aaffaa; font-weight: bold;">led</span><span style="color: #aaffaa; font-weight: bold;">));</span>
+ endmodule
+</pre>
+</div>
+
+<p>
+改好後，點選上方的 <code>Run Implementation</code> 來確認我們這樣的修改是否能編譯/驗證成功。
+</p>
+
+
+<div class="figure">
+<p><img src="w5.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcf72381" class="outline-2">
+<h2 id="orgcf72381">產生位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-orgcf72381">
+<p>
+前面的處理都好了後，接下來點選 <code>Program and Debug -&gt; Generate Bitstream</code> 去讓 Vivado 將這個專案產生出位元流 (bitstream)，ZYNQ 會根據 bitstream 的資訊對 FPGA 進行設定。
+</p>
+
+
+<div class="figure">
+<p><img src="w6.png"  />
+</p>
+</div>
+
+<p>
+當 bitstream 產生完成後，由於我們這次的實作，是要透過寫 C 語言程式來控制 Zynq 進行 LED 的亮暗，因此要先將剛剛產生的硬體資訊輸出給 Xilinx SDK 去。
+</p>
+
+<p>
+點選 <code>File -&gt; Export -&gt; Export Hardware</code>
+</p>
+
+
+<div class="figure">
+<p><img src="w7.png"  />
+</p>
+</div>
+
+<p>
+確定你有勾選 <code>Include bitstream</code> ，點選 Ok
+</p>
+
+
+<div class="figure">
+<p><img src="w8.png"  />
+</p>
+</div>
+
+<p>
+完成後，啟動 Xilinx SDK
+</p>
+
+
+<div class="figure">
+<p><img src="w9.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org104f885" class="outline-2">
+<h2 id="org104f885">Xilinx SDK</h2>
+<div class="outline-text-2" id="text-org104f885">
+<p>
+我們啟動 Xilinx SDK 後，可以先看到一些像是位址映射 (Address Map) 的資訊
+</p>
+
+
+<div class="figure">
+<p><img src="x1.png"  />
+</p>
+</div>
+
+<p>
+選擇 <code>File -&gt; New -&gt; Application Project</code> 去建立新的專案
+</p>
+
+
+<div class="figure">
+<p><img src="x2.png"  />
+</p>
+</div>
+
+<p>
+這邊我命名這個專案叫做 LED，並且為獨立的程式
+</p>
+
+
+<div class="figure">
+<p><img src="x3.png"  />
+</p>
+</div>
+
+<p>
+選擇 <code>Empty Application</code> ，我們要自己來寫我們的程式。
+</p>
+
+
+<div class="figure">
+<p><img src="x4.png"  />
+</p>
+</div>
+
+
+<p>
+當專案建立完成後，會自動打開 <code>LED_bsp</code> 裡面的 <code>system.mss</code> ，裡面會顯示我們所用的週邊範例程式碼以及使用手冊的連結，我們可以點選這些連結來了解這些週邊要怎樣使用。
+</p>
+
+
+<div class="figure">
+<p><img src="doc.png"  />
+</p>
+</div>
+
+<p>
+如果你連結點選不開的話，可以到你安裝 SDK 的路徑下去尋找，比如說我裝的是 Vivado 2016.2，則手冊的路徑在
+</p>
+
+<pre class="example">
+/opt/Xilinx/SDK/2016.2/data/embeddedsw/XilinxProcessorIPLib/drivers
+</pre>
+
+
+<p>
+這裡給個結果的範例，比如我想要查詢 xgpio 的資料，則可以看到如下的 HTML 檔案
+</p>
+
+
+<div class="figure">
+<p><img src="doc2.png"  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgde02812" class="outline-3">
+<h3 id="orgde02812">建立 main.c</h3>
+<div class="outline-text-3" id="text-orgde02812">
+<p>
+由於我們建立的是空白專案，必須自己添加自己的主程式，因此我們對 LED 專案的 src 按下右鍵，選擇建立新的檔案
+</p>
+
+
+<div class="figure">
+<p><img src="x5.png"  />
+</p>
+</div>
+
+<p>
+這邊將它命名為 <code>main.c</code> ，也就是我們唯一的主程式，點選 <code>Finish</code> 完成檔案建立。
+</p>
+
+
+<div class="figure">
+<p><img src="x6.png"  />
+</p>
+</div>
+
+<p>
+在 main.c 加入以下程式碼，具體功能待會在說明。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">"xparameters.h"</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">"xgpio.h"</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdio.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdlib.h</span><span style="color: #aadddd;">&gt;</span>
+
+<span style="color: #fff59d;">void</span> <span style="color: #aaccff;">simple_delay</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">simple_delay</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+        <span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = <span style="color: #ccaaff;">0</span>;
+        <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span>i = <span style="color: #ccaaff;">0</span>; i &lt; simple_delay; i++<span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
+
+<span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">argv</span><span style="color: #81d4fa;">[]</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+        <span style="color: #fff59d;">XGpio</span> <span style="color: #aaccff;">led_gpio</span>;              <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">LED Instance</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Initialize LED GPIO settings</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        XGpio_Initialize<span style="color: #81d4fa;">(</span>&amp;led_gpio, XPAR_AXI_GPIO_0_DEVICE_ID<span style="color: #81d4fa;">)</span>;
+        XGpio_SetDataDirection<span style="color: #81d4fa;">(</span>&amp;led_gpio, <span style="color: #ccaaff;">1</span>, <span style="color: #ccaaff;">0</span><span style="color: #81d4fa;">)</span>;
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Output something via UART1, 115200 baudrate</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        printf<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"Start to blink led_gpio !!!</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">r</span><span style="color: #aadddd;">"</span><span style="color: #81d4fa;">)</span>;
+
+        <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">led_value</span> = <span style="color: #ccaaff;">0x03</span>;   <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">default led_gpio value</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        <span style="color: #aaffaa;">while</span><span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">1</span><span style="color: #81d4fa;">)</span> <span style="color: #81d4fa;">{</span>
+                printf<span style="color: #aaccff;">(</span><span style="color: #aadddd;">"led_gpio value set to 0x%X</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">r</span><span style="color: #aadddd;">"</span>, led_value<span style="color: #aaccff;">)</span>;
+
+                <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set GPIO Channel 1 value.</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+                XGpio_DiscreteWrite<span style="color: #aaccff;">(</span>&amp;led_gpio, <span style="color: #ccaaff;">1</span> , led_value<span style="color: #aaccff;">)</span>;
+
+                <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">sleep and change led_gpio value</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+                simple_delay<span style="color: #aaccff;">(</span><span style="color: #ccaaff;">10000000</span><span style="color: #aaccff;">)</span>;
+                led_value = ~led_value;
+        <span style="color: #81d4fa;">}</span>
+
+        <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">0</span>;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2fe9df6" class="outline-3">
+<h3 id="org2fe9df6">main.c</h3>
+<div class="outline-text-3" id="text-org2fe9df6">
+<p>
+在 main.c 的開頭，我們載入了需要使用的幾個標頭檔，在 Xilinx SDK 中，已經包含了一些預設好的函式庫等功能，具體資訊請查閱 <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_3/oslib_rm.pdf" target="_blank" rel="noopener">Xilinx OS and Libraries Document Collection</a> (UG643) 手冊。
+</p>
+
+<p>
+<code>xparameters.h</code> 這個標頭檔則是 Xilinx SDK 自己產生的，裡面會包含一些關於你使用的 IP Core 的資訊，比如標準輸出的基底位址 (base address) 或是其他和你這份硬體相關的設定。而 <code>xgpio.h</code> 則提供了一些高階的抽象函式，讓你開發 GPIO 相關的功能可以更加輕鬆。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">"xparameters.h"</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">"xgpio.h"</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdio.h</span><span style="color: #aadddd;">&gt;</span>
+<span style="color: #ff8888;">#include</span> <span style="color: #aadddd;">&lt;</span><span style="color: #aadddd;">stdlib.h</span><span style="color: #aadddd;">&gt;</span>
+</pre>
+</div>
+
+<p>
+我們用一個非常簡單的延遲 (delay) 函式讓 CPU 很忙碌的計算，來達到延遲程式的效果。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #fff59d;">void</span> <span style="color: #aaccff;">simple_delay</span> <span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">simple_delay</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+        <span style="color: #aaffaa;">volatile</span> <span style="color: #fff59d;">int</span> <span style="color: #aaccff;">i</span> = <span style="color: #ccaaff;">0</span>;
+        <span style="color: #aaffaa;">for</span> <span style="color: #81d4fa;">(</span>i = <span style="color: #ccaaff;">0</span>; i &lt; simple_delay; i++<span style="color: #81d4fa;">)</span>;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+
+<p>
+接下來是我們的主程式，我們將它拆開來看，後面見到的程式碼都會塞到主程式中。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">main</span><span style="color: #aadddd;">(</span><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">argc</span>, <span style="color: #fff59d;">char</span> *<span style="color: #aaccff;">argv</span><span style="color: #81d4fa;">[]</span><span style="color: #aadddd;">)</span>
+<span style="color: #aadddd;">{</span>
+        <span style="color: #5f5f5f; font-style: italic;">// </span><span style="color: #9ac; font-style: italic;">code</span>
+        <span style="color: #aaffaa;">return</span> <span style="color: #ccaaff;">0</span>;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+
+<p>
+是時候進入到 GPIO 的功能設定，注意到 <code>XPAR_AXI_GPIO_0_DEVICE_ID</code> 這個，你可以把它對應回我們的 Block Design 的 <code>axi_gpio_0</code> ，這個巨集(Macro)即是 Xilinx SDK 產生，定義在 <code>xparameter.h</code> 裡面。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #fff59d;">XGpio</span> <span style="color: #aaccff;">led_gpio</span>;              <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">LED Instance</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+
+<span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Initialize LED GPIO settings</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+XGpio_Initialize<span style="color: #aadddd;">(</span>&amp;led_gpio, XPAR_AXI_GPIO_0_DEVICE_ID<span style="color: #aadddd;">)</span>;
+XGpio_SetDataDirection<span style="color: #aadddd;">(</span>&amp;led_gpio, <span style="color: #ccaaff;">1</span>, <span style="color: #ccaaff;">0</span><span style="color: #aadddd;">)</span>;
+</pre>
+</div>
+
+<p>
+我們透過 printf 去顯示一些簡單得除錯訊息，這邊的訊息會透過 UART 輸出，你可以透過電腦端的軟體來收到(ex: gtkterm、teraterm)，我自己是透過 emacs 的 <code>serial-term</code> 命令來收訊息，baud rate 則是設定為 <code>115200</code> 、連接目標則是 <code>/dev/ttyUSB1</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Output something via UART1, 115200 baudrate</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+printf<span style="color: #aadddd;">(</span><span style="color: #aadddd;">"Start to blink led !!!</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">r</span><span style="color: #aadddd;">"</span><span style="color: #aadddd;">)</span>;
+</pre>
+</div>
+
+<p>
+最後，使用一個無窮迴圈去控制 LED 數值的變化，並透過 <code>XGpio_DiscreteWrite</code> 去對 GPIO 的通道 1 (參考前面 Block Design) 進行資料寫入的工程，再調整下一次到迴圈時要的 LED 數值，一直重複這些動作。
+</p>
+
+<p>
+就這樣，我們的程式完成了。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #fff59d;">int</span> <span style="color: #aaccff;">led_value</span> = <span style="color: #ccaaff;">0x03</span>;   <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">default led value</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+<span style="color: #aaffaa;">while</span><span style="color: #aadddd;">(</span><span style="color: #ccaaff;">1</span><span style="color: #aadddd;">)</span> <span style="color: #aadddd;">{</span>
+        printf<span style="color: #81d4fa;">(</span><span style="color: #aadddd;">"led value set to 0x%X</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #ccaaff;">\</span><span style="color: #ff8888;">n</span><span style="color: #aadddd;">"</span>, led_value<span style="color: #81d4fa;">)</span>;
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">Set GPIO Channel 1 value.</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        XGpio_DiscreteWrite<span style="color: #81d4fa;">(</span>&amp;led_gpio, <span style="color: #ccaaff;">1</span>, led_value<span style="color: #81d4fa;">)</span>;
+
+        <span style="color: #5f5f5f; font-style: italic;">/* </span><span style="color: #9ac; font-style: italic;">sleep and change led value</span><span style="color: #5f5f5f; font-style: italic;"> */</span>
+        simple_delay<span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">10000000</span><span style="color: #81d4fa;">)</span>;
+        led_value = ~led_value;
+<span style="color: #aadddd;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbd06509" class="outline-2">
+<h2 id="orgbd06509">下載到 Zybo board</h2>
+<div class="outline-text-2" id="text-orgbd06509">
+<p>
+確定此時你有將 Zybo board 接到電腦，並且你 <code>JP5</code> 設定在 <code>QSPI</code> 模式下，就像這樣
+</p>
+
+
+<div class="figure">
+<p><img src="qspi.png"  />
+</p>
+</div>
+
+<p>
+選擇 <code>Xilinx Tools -&gt; Program FPGA</code> 進行 FPGA 的燒錄。
+</p>
+
+
+<div class="figure">
+<p><img src="d1.png"  />
+</p>
+</div>
+
+<p>
+確認要燒錄的資料無誤後，點選 <code>Program</code> 將位元流 (bitstream) 燒錄到 FPGA 去，燒完後你會發現 LD0 ~ LD3 都是亮燈的狀態，因為我們在 Block Design 預設 AXI_GPIO 輸出為 <code>0xF</code> 。
+</p>
+
+
+<div class="figure">
+<p><img src="d2.png"  />
+</p>
+</div>
+
+
+<p>
+選擇 <code>Run -&gt; Run Configuration</code> 進行執行前的一些設定。
+</p>
+
+
+<div class="figure">
+<p><img src="d3.png"  />
+</p>
+</div>
+
+
+<p>
+我們在 <code>Xilinx C/C++ Application(GDB)</code> 建立一個新的設定，由於我們已經燒錄好 FPGA 因此只需要重起處理器系統 (Processing System, PS)即可。
+</p>
+
+<p>
+確認你有啟用 <code>ps7_init</code> 這些設定，ps7_init 定義了一些初始化的程式，我們之所以能夠使用 <code>printf</code> 將資訊透過 UART 輸出，也是透過 ps7_init 的協助，具體請參考 <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_2/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="noopener">Zynq-7000 All Programmable SoC: Embedded Design Tutorial A Hands-On Guide to Effective Embedded System Design (UG1165)</a>, p.24 頁。
+</p>
+
+
+<div class="figure">
+<p><img src="d4.png"  />
+</p>
+</div>
+
+<p>
+除了這邊設定外，別忘記指定要跑的專案，Xilinx SDK 是允許同份硬體設計檔跑很多種專案的，以本文範例而言，我們要跑得專案叫做 <code>LED</code> 。
+</p>
+
+
+<div class="figure">
+<p><img src="d5.png"  />
+</p>
+</div>
+
+<p>
+都設定好後，點選 <code>Run</code> 然後祈禱一切正常!!
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdd5ec6e" class="outline-2">
+<h2 id="orgdd5ec6e">結果</h2>
+<div class="outline-text-2" id="text-orgdd5ec6e">
+<p>
+在你執行 <i>Program device</i> 以及 <i>Run</i> 後，Xilinx SDK 會將位元流(bitstream) 下載到我們的 Zybo Board，接著重設 CPU 後執行我們下載的程式，最後完成的成果如下
+</p>
+
+
+<div class="figure">
+<p><img src="result.gif"  />
+</p>
+</div>
+
+<p>
+如果你有啟用可以接收 UART 相關的程式，如 gtkterm、teraterm、screen、emacs 等的話，啟動它並開啟 <code>/dev/ttyUSB1</code> 後，設定 baudrate 為 <code>115200</code> ，就會看到我們程式透過 <code>printf</code> 輸出的訊息
+</p>
+
+
+<div class="figure">
+<p><img src="s.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org372761a" class="outline-2">
+<h2 id="org372761a">取得程式碼</h2>
+<div class="outline-text-2" id="text-org372761a">
+<p>
+本文的範例已經放置於 <a href="https://github.com/coldnew/zybo-examples" target="_blank" rel="noopener">GitHub</a> 上，你可以到以下的 repo 去尋找，具體專案對應的教學名稱，則請參考 <code>README.md</code> 檔案
+</p>
+
+<div data-theme="default" data-height="" data-width="400" data-github="coldnew/zybo-examples" class="github-card"></div>
+<script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+</div>
+</div>
+
+<div id="outline-container-org555c4bf" class="outline-2">
+<h2 id="org555c4bf">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org555c4bf">
+<p>
+<code>[1]</code> <a href="http://www.zynqbook.com/" target="_blank" rel="noopener">The Zynq Book</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="http://sunsided.github.io/zybo-tutorial/" target="_blank" rel="noopener">ZYBO Quick-Start Tutorial</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_1/ug1043-embedded-system-tools.pdf" target="_blank" rel="noopener">XILINX - Embedded System Tools Reference Manual</a>
+</p>
+
+<p>
+<code>[4]</code> <a href="http://www.xilinx.com/support/documentation/ip_documentation/axi_gpio/v2_0/pg144-axi-gpio.pdf" target="_blank" rel="noopener">AXI GPIO v2.0 LogiCORE IP Product Guide</a>
+</p>
+
+<p>
+<code>[5]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_3/oslib_rm.pdf" target="_blank" rel="noopener">Xilinx OS and Libraries Document Collection (UG643)</a>
+</p>
+
+<p>
+<code>[6]</code> <a href="http://www.dbrss.org/zybo/tutorial1.html" target="_blank" rel="noopener">ZYBO Zync-7000 Development Board Work - Getting the LEDs to flash</a>
+</p>
+
+<p>
+<code>[7]</code> <a href="http://www.xilinx.com/support/documentation/sw_manuals/xilinx2015_2/ug1165-zynq-embedded-design-tutorial.pdf" target="_blank" rel="noopener">Zynq-7000 All Programmable SoC: Embedded Design Tutorial A Hands-On Guide to Effective Embedded System Design (UG1165)</a>
+</p>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fpga/" rel="tag">#fpga</a>
+          
+            <a href="/tags/xilinx/" rel="tag">#xilinx</a>
+          
+            <a href="/tags/vivado/" rel="tag">#vivado</a>
+          
+            <a href="/tags/zybo/" rel="tag">#zybo</a>
+          
+            <a href="/tags/zynq/" rel="tag">#zynq</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/d9dfdd56/" rel="prev">zybo board 開發記錄: 執行 Linux 作業系統</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/6c5717d7/" rel="next">zybo board 開發記錄: 透過可程式邏輯控制 LED 閃爍</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org072fe33"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2f1acc3"><span class="nav-text">認識 AXI 匯流排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6ebdba7"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0034926"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4e64994"><span class="nav-text">加入 Constraints</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc04af92"><span class="nav-text">ZYBO_Master.xdc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgeb35148"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcf72381"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org104f885"><span class="nav-text">Xilinx SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgde02812"><span class="nav-text">建立 main.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2fe9df6"><span class="nav-text">main.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbd06509"><span class="nav-text">下載到 Zybo board</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgdd5ec6e"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org372761a"><span class="nav-text">取得程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org555c4bf"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>

@@ -1,34 +1,1141 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{% block page_class %}page-post-detail{% endblock %}
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
 
 
-{% block content %}
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="clojure,opencv," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="OpenCV 是一套非常強大且好用的影像處理函式庫，一開始使用 C 語言來進行開發，後來移 植到 C++ 上面，並提供了 Python 的綁定。自 2.4 版本後，OpenCV 開始提供了 JAVA 的 wrpaaer，也因此使用 JAVA 或是 Clojure 的人都可以輕鬆愉快的使用 OpenCV 了。    本文將簡單介紹如何在 Clojure 下寫 OpenCV 的程式，而 OpenC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 clojure 中使用 OpenCV 3.x">
+<meta property="og:url" content="https://coldnew.github.io/2f69a97/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="OpenCV 是一套非常強大且好用的影像處理函式庫，一開始使用 C 語言來進行開發，後來移 植到 C++ 上面，並提供了 Python 的綁定。自 2.4 版本後，OpenCV 開始提供了 JAVA 的 wrpaaer，也因此使用 JAVA 或是 Clojure 的人都可以輕鬆愉快的使用 OpenCV 了。    本文將簡單介紹如何在 Clojure 下寫 OpenCV 的程式，而 OpenC">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/2f69a97/opencv_website.png">
+<meta property="og:image" content="https://coldnew.github.io/2f69a97/sample0.png">
+<meta property="og:image" content="https://coldnew.github.io/2f69a97/example0-gray.png">
+<meta property="og:image" content="https://coldnew.github.io/2f69a97/sample1.png">
+<meta property="og:image" content="https://coldnew.github.io/2f69a97/example1-fdetect.png">
+<meta property="article:published_time" content="2015-10-14T03:38:00.000Z">
+<meta property="article:modified_time" content="2015-10-14T03:38:00.000Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="clojure">
+<meta property="article:tag" content="opencv">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/2f69a97/opencv_website.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 在 clojure 中使用 OpenCV 3.x | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/2f69a97/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              在 clojure 中使用 OpenCV 3.x
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2015-10-14T11:38:00+08:00" content="2015-10-14">
+            2015-10-14
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+OpenCV 是一套非常強大且好用的影像處理函式庫，一開始使用 C 語言來進行開發，後來移
+植到 C++ 上面，並提供了 Python 的綁定。自 2.4 版本後，OpenCV 開始提供了 JAVA 的
+wrpaaer，也因此使用 JAVA 或是 Clojure 的人都可以輕鬆愉快的使用 OpenCV 了。
+</p>
+
+<p>
+本文將簡單介紹如何在 Clojure 下寫 OpenCV 的程式，而 OpenCV 的程式教學則在以後
+(或遙遠的未來) 再來寫 :)
+</p>
+
+<a id="more"></a>
+
+<blockquote>
+<p>
+OpenCV 3.0 和 OpenCV 2.x 的 Java 版本有一些不同，3.0 拿掉了以往可以直接透過
+<i>imshow</i> 進行顯示的功能，因此你必須將圖片存成檔案再透過 Java 的方式去打開，或者
+是透過 <a href="https://github.com/master-atul/ImShow-Java-OpenCV" target="_blank" rel="noopener">ImShow-Java-OpenCV</a> 之類的第三方函式庫來輔助。
+</p>
+
+<p>
+除此之外，在 Java 中有些 Class 的位置也有變動，比如 <i>Core.rectange()</i> 就被移動到
+<i>Imgproc.rectangle()</i> ，因此在找參考資料時要注意對方是否使用 OpenCV 3.0 以上的版
+本。
+</p>
+</blockquote>
+
+<div id="outline-container-org71f274f" class="outline-2">
+<h2 id="org71f274f">下載 OpenCV 原始碼並編譯</h2>
+<div class="outline-text-2" id="text-org71f274f">
+<p>
+OpenCV 官網上面並未提供 Linux 或是 Mac OSX 的二進制檔案，所以就讓我們
+自己動手編譯吧 ~
+</p>
+
+<p>
+首先到 <a href="http://opencv.org/downloads.html" target="_blank" rel="noopener">OpenCV 官方網站</a> 去下載原始碼，這邊我選擇 <code>3.0.0</code> 。
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="opencv_website.png"  />
+</p>
+</div>
+</div>
+
+<p>
+原始碼下載好後解壓縮並進入該資料夾
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/Workspace $ tar xvf opencv-3.0.0.tar.gz &amp;&amp; cd opencv-3.0.0
+</pre>
+
+<p>
+建立一個 build 資料夾，這個資料夾將用來存放編譯出來的檔案以及暫存檔，而我們在使
+用 cmake 進行編譯的時候，額外加上 <code>-DBUILD_SHARED_LIBS=OFF</code> 參數讓我們建制出來的
+library 不依賴其他函式庫。
+</p>
+
+<pre class="example">
+mkdir build &amp;&amp; cd build
+cmake -DBUILD_SHARED_LIBS=OFF ..
+make -j4
+</pre>
+
+<p>
+當編譯完成後，我們可以找到以下兩個提供 Java 呼叫 OpenCV 功能用的檔案:
+</p>
+
+<ul class="org-ul">
+<li><code>bin/opencv-300.jar</code></li>
+<li><code>lib/libopencvj_java300.dylib</code> (linux 下是 <code>lib/libopencv_java300.so</code>)</li>
+</ul>
+
+<p>
+如果你沒有看到 .jar 檔案，請確認在使用 cmake 的時候有通過 Java 測試，以下為我在
+Mac OSX 下編譯的範例
+</p>
+
+<pre class="example">
+coldnew@Sara ~/opencv/build $ cmake -DBUILD_SHARED_LIBS=OFF ..
+(...)
+--   Java:
+--     ant:           /usr/local/bin/ant (ver 1.9.3)
+--     JNI:           /System/Library/Frameworks/JavaVM.framework/Header
+--     Java wrappers:  YES
+--     Java tests:     YES
+(...)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4e44388" class="outline-2">
+<h2 id="org4e44388">將本地端的函式庫打包成 jar 檔案</h2>
+<div class="outline-text-2" id="text-org4e44388">
+<p>
+編譯完 opencv-300.jar 以及 libopencv_java300.dylib 後，我們需要先將動態函式庫
+<code>libopencv_java300.dylib</code> 打包成 .jar 檔案方便日後使用，因此根據你的系統建立
+<code>native/&lt;OS&gt;/&lt;ARCH&gt;/</code> 這樣的目錄，這邊以 Mac OSX 為例:
+</p>
+
+<pre class="example">
+coldnew@Sara ~ $ mkdir -p native/macosx/x86_64
+</pre>
+
+<p>
+如果你的作業系統是 Linux 或是 Windows，可以參照下表去建立你的目錄
+</p>
+
+<pre class="example">
+OS                                         Architectures
+
+Mac OS X -&gt; macosx                         amd64    -&gt; x86_64
+Windows  -&gt; windows                        x86_64   -&gt; x86_64
+Linux    -&gt; linux                          x86      -&gt; x86
+SunOS    -&gt; solaris                        arm      -&gt; arm
+                                           sparc    -&gt; sparc
+</pre>
+
+<p>
+接下來，將 <code>libopencv_java300.dylib</code> 複製到剛剛建立的目錄
+</p>
+
+<pre class="example">
+coldnew@Sara ~ $ cp libopencv_java300.dylib native/macosx/x86_64
+</pre>
+
+<p>
+完成後，整個 native 資料夾內容會變成這個樣子
+</p>
+
+<pre class="example">
+coldnew@Sara ~ $ tree native/
+native/
+└── macosx
+    └── x86_64
+        └── libopencv_java300.dylib
+
+2 directories, 1 file
+</pre>
+
+<p>
+接下來，使用 jar 命令將這個 native 目錄打包成一個 jar 檔案
+</p>
+
+<pre class="example">
+coldnew@Sara ~ $ jar -cMf opencv-native-300.jar native
+</pre>
+
+<p>
+現在我們有 <code>opencv-300.jar</code> 以及 <code>opencv-native-300.jar</code> 兩個檔案，是時候將其放
+入到我們自己電腦上的 maven 倉庫了~
+</p>
+</div>
+</div>
+
+<div id="outline-container-org454f696" class="outline-2">
+<h2 id="org454f696">使用 lein-local 將套件加入本地端的 maven 倉庫</h2>
+<div class="outline-text-2" id="text-org454f696">
+<p>
+為了可以讓之後的專案都使用我們剛剛編譯好的 OpenCV 函式，最好的方式就是將他加入到
+本地倉庫，對於 <i>Leiningen</i> 的使用者而言，我們可以透過 <a href="https://github.com/kumarshantanu/lein-localrepo" target="_blank" rel="noopener">lein-localrepo</a> 來將需要的
+<i>jar</i> 函式庫存放到本地端的 <i>maven</i> 倉庫 (<code>~/.m2/repository</code>)去。
+</p>
+
+<p>
+在使用 <a href="https://github.com/kumarshantanu/lein-localrepo" target="_blank" rel="noopener">lein-localrepo </a>之前，你必須在你的 <code>~/.lein/profiles.clj</code> 加入以下資訊:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">{</span><span style="color: #ccaaff;">:user</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:plugins</span> <span style="color: #aaccff;">[</span><span style="color: #aaeecc;">[</span>lein-localrepo <span style="color: #aadddd;">"0.5.3"</span><span style="color: #aaeecc;">]</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">}</span><span style="color: #aadddd;">}</span>
+</pre>
+</div>
+
+<p>
+接著，我們透過 <a href="https://github.com/kumarshantanu/lein-localrepo" target="_blank" rel="noopener">lein-localrepo</a> 去將 <i>opencv-300.jar</i> 放入本地的 maven 倉庫，並設定
+套件名稱以及版本
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ lein localrepo install opencv-300.jar opencv/opencv 3.0.0
+</pre>
+
+
+<p>
+一樣的作法套用到 <i>opencv-native-300.jar</i>
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ lein localrepo install opencv-native-300.jar opencv/opencv-native 3.0.0
+</pre>
+
+
+<p>
+這樣我們以後要在這台機器使用 opencv，就可以直接使用本地的 maven 倉庫去取得 jar 檔案，不用重新製作~
+</p>
+</div>
+</div>
+
+<div id="outline-container-org16c1651" class="outline-2">
+<h2 id="org16c1651">建立我們的專案</h2>
+<div class="outline-text-2" id="text-org16c1651">
+<p>
+終於到建立專案的時間了，我們一樣使用 lein 預設的樣板來建立我們的專案，這裡建立名為 <i>myapp</i> 的專案
+</p>
+
+<pre class="example">
+coldnew@Rosia ~ $ lein new myapp
+</pre>
+
+<p>
+專案建立完成後，我們要稍微修改一下 <i>project.clj</i> ，在 <code>:dependencies</code> 欄位加上
+opencv 的依賴。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defproject</span> <span style="color: #aaccff;">myapp</span> <span style="color: #aadddd;">"0.1.0-SNAPSHOT"</span>
+  <span style="color: #ccaaff;">:description</span> <span style="color: #aadddd;">"</span><span style="color: #ff3333; font-weight: bold;">FIXME</span><span style="color: #aadddd;">: write description"</span>
+  <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://example.com/FIXME"</span>
+  <span style="color: #ccaaff;">:license</span> <span style="color: #81d4fa;">{</span><span style="color: #ccaaff;">:name</span> <span style="color: #aadddd;">"Eclipse Public License"</span>
+            <span style="color: #ccaaff;">:url</span> <span style="color: #aadddd;">"http://www.eclipse.org/legal/epl-v10.html"</span><span style="color: #81d4fa;">}</span>
+  <span style="color: #ccaaff;">:dependencies</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">[</span><span style="color: #fff59d;">org.clojure</span>/clojure <span style="color: #aadddd;">"1.7.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">opencv</span>/opencv <span style="color: #aadddd;">"3.0.0"</span><span style="color: #aaccff;">]</span>
+                 <span style="color: #aaccff;">[</span><span style="color: #fff59d;">opencv</span>/opencv-native <span style="color: #aadddd;">"3.0.0"</span><span style="color: #aaccff;">]</span><span style="color: #81d4fa;">]</span>
+  <span style="color: #ccaaff;">:injections</span> <span style="color: #81d4fa;">[</span><span style="color: #aaccff;">(</span><span style="color: #fff59d;">clojure.lang.RT</span>/loadLibrary <span style="color: #fff59d;">org.opencv.core.Core</span>/NATIVE_LIBRARY_NAME<span style="color: #aaccff;">)</span><span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+在這邊，我們另外加入了 <code>:injections</code> 這一行來確保 lein 執行的時候會去載入 opencv
+的本地端函式庫，如果你直接使用 <code>lein repl</code> 來測試的話，記得在執行時要輸入:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">user=&gt; <span style="color: #aadddd;">(</span><span style="color: #fff59d;">clojure.lang.RT</span>/loadLibrary <span style="color: #fff59d;">org.opencv.core.Core</span>/NATIVE_LIBRARY_NAME<span style="color: #aadddd;">)</span>
+<span style="color: #ccaaff;">nil</span>
+</pre>
+</div>
+
+<p>
+不然你會遇到像這樣的錯誤:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure">user=&gt; <span style="color: #aadddd;">(</span>import '<span style="color: #81d4fa;">[</span>org.opencv.core Mat CvType<span style="color: #81d4fa;">]</span><span style="color: #aadddd;">)</span>
+org.opencv.core.CvType
+
+user=&gt; <span style="color: #aadddd;">(</span><span style="color: #aaffaa;">def</span> <span style="color: #aaccff;">m</span> <span style="color: #81d4fa;">(</span>Mat. <span style="color: #ccaaff;">7</span> <span style="color: #ccaaff;">7</span> <span style="color: #fff59d;">CvType</span>/CV_64F<span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+CompilerException java.lang.reflect.InvocationTargetException, compiling:<span style="color: #aadddd;">(</span>form-init400412585733312455.clj:1:1<span style="color: #aadddd;">)</span>
+
+user=&gt; <span style="color: #aadddd;">(</span>Mat.<span style="color: #aadddd;">)</span>
+UnsatisfiedLinkError org.opencv.core.Mat.n_Mat<span style="color: #aadddd;">()</span>J  org.opencv.core.Mat.n_Mat <span style="color: #aadddd;">(</span>Mat.java<span style="color: #ccaaff;">:-2</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9ff7c9f" class="outline-2">
+<h2 id="org9ff7c9f">Example 0: 彩色圖變成灰階圖</h2>
+<div class="outline-text-2" id="text-org9ff7c9f">
+<p>
+我們先來個簡單的範例，將一張彩色圖片轉換成灰階圖片，我選用的範例是這張:
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="sample0.png"  />
+</p>
+</div>
+</div>
+
+<p>
+編輯 <code>src/myapp/example0.clj</code> 並添加以下內容:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">myapp.example0</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span>org.opencv.imgcodecs Imgcodecs<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>org.opencv.imgproc Imgproc<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">img-&gt;gray</span> <span style="color: #81d4fa;">[</span>f<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>img <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Imgcodecs</span>/imread f<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgproc</span>/cvtColor img img <span style="color: #fff59d;">Imgproc</span>/COLOR_RGB2GRAY<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgcodecs</span>/imwrite <span style="color: #aadddd;">"example0-gray.png"</span> img<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"generate generate example0-gray.png"</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> arg1
+      <span style="color: #aaeecc;">(</span>img-&gt;gray arg1<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"Error: Please specify filename."</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+使用 <i>lein</i> 執行程式
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/myapp $ lein run -m myapp.example0 sample0.png
+</pre>
+
+<p>
+接著，你就會看到當前目錄出現了 <i>example0-gray.png</i> 這個檔案，而顏色則變成灰階版本了
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="example0-gray.png"  />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb11d130" class="outline-2">
+<h2 id="orgb11d130">Example 1: 動畫人臉偵測</h2>
+<div class="outline-text-2" id="text-orgb11d130">
+<p>
+除了人臉偵測以外，我們也可以對動畫人物進行臉部偵測，這邊使用了 <a href="https://github.com/nagadomi/lbpcascade_animeface" target="_blank" rel="noopener">GitHub/nagadomi</a>
+提供的 <i>lbpcascade_animeface.xml</i> 來作為我們臉部偵測的分類器。
+</p>
+
+<p>
+在這個範例中，我選用了另外一張動畫人物圖 (因為臉比較多)，如下:
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="sample1.png"  />
+</p>
+</div>
+</div>
+
+<p>
+編輯 <code>src/myapp/example1.clj</code> 並添加以下內容:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #aadddd;">(</span><span style="color: #aaffaa;">ns</span> <span style="color: #fff59d;">myapp.example1</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #ccaaff;">:import</span> <span style="color: #aaccff;">[</span>org.opencv.core Mat MatOfRect Point Scalar<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>org.opencv.imgcodecs Imgcodecs<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>org.opencv.imgproc Imgproc<span style="color: #aaccff;">]</span>
+           <span style="color: #aaccff;">[</span>org.opencv.objdetect CascadeClassifier<span style="color: #aaccff;">]</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">face-detect</span> <span style="color: #81d4fa;">[</span>f<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>img <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Imgcodecs</span>/imread f<span style="color: #aaeecc;">)</span>
+        gray <span style="color: #aaeecc;">(</span>Mat.<span style="color: #aaeecc;">)</span>
+        faces <span style="color: #aaeecc;">(</span>MatOfRect.<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+
+    <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Convert image to graylevel and equalize the histogram</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgproc</span>/cvtColor img gray <span style="color: #fff59d;">Imgproc</span>/COLOR_RGB2GRAY<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgproc</span>/equalizeHist gray gray<span style="color: #aaccff;">)</span>
+
+    <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Load the classifier file from</span>
+    <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">https://github.com/nagadomi/lbpcascade_animeface</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">doto</span> <span style="color: #aaeecc;">(</span>CascadeClassifier.<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>.load <span style="color: #aadddd;">"./lbpcascade_animeface.xml"</span><span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>.detectMultiScale gray faces<span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+
+    <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Draw rectangle according to face size</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">doseq</span> <span style="color: #aaeecc;">[</span>face <span style="color: #ccaaff;">(</span>.toList faces<span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">]</span>
+      <span style="color: #aaeecc;">(</span><span style="color: #fff59d;">Imgproc</span>/rectangle img
+                         <span style="color: #ccaaff;">(</span>Point. <span style="color: #fff59d;">(</span>.x face<span style="color: #fff59d;">)</span> <span style="color: #fff59d;">(</span>.y face<span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+                         <span style="color: #ccaaff;">(</span>Point. <span style="color: #fff59d;">(</span>+ <span style="color: #ff8888;">(</span>.x face<span style="color: #ff8888;">)</span> <span style="color: #ff8888;">(</span>.width face<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span>
+                                 <span style="color: #fff59d;">(</span>+ <span style="color: #ff8888;">(</span>.y face<span style="color: #ff8888;">)</span> <span style="color: #ff8888;">(</span>.height face<span style="color: #ff8888;">)</span><span style="color: #fff59d;">)</span><span style="color: #ccaaff;">)</span>
+                         <span style="color: #ccaaff;">(</span>Scalar. <span style="color: #ccaaff;">144</span> <span style="color: #ccaaff;">48</span> <span style="color: #ccaaff;">255</span><span style="color: #ccaaff;">)</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span>
+
+    <span style="color: #5f5f5f; font-style: italic;">;; </span><span style="color: #9ac; font-style: italic;">Write the result</span>
+    <span style="color: #aaccff;">(</span><span style="color: #fff59d;">Imgcodecs</span>/imwrite <span style="color: #aadddd;">"example1-fdetect.png"</span> img<span style="color: #aaccff;">)</span>
+    <span style="color: #aaccff;">(</span>println <span style="color: #aadddd;">"generate generate example1-fdetect.png"</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+
+<span style="color: #aadddd;">(</span><span style="color: #aaffaa;">defn</span> <span style="color: #aaccff;">-main</span> <span style="color: #81d4fa;">[</span>&amp; args<span style="color: #81d4fa;">]</span>
+  <span style="color: #81d4fa;">(</span><span style="color: #aaffaa;">let</span> <span style="color: #aaccff;">[</span>arg1 <span style="color: #aaeecc;">(</span>nth args <span style="color: #ccaaff;">0</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">]</span>
+    <span style="color: #aaccff;">(</span><span style="color: #aaffaa;">if</span> arg1
+      <span style="color: #aaeecc;">(</span>face-detect arg1<span style="color: #aaeecc;">)</span>
+      <span style="color: #aaeecc;">(</span>println <span style="color: #aadddd;">"Error: Please specify filename."</span><span style="color: #aaeecc;">)</span><span style="color: #aaccff;">)</span><span style="color: #81d4fa;">)</span><span style="color: #aadddd;">)</span>
+</pre>
+</div>
+
+<p>
+使用 <i>lein</i> 執行程式
+</p>
+
+<pre class="example">
+coldnew@Rosia ~/myapp $ lein run -m myapp.example1 sample1.png
+</pre>
+
+<p>
+接著，你就會看到當前目錄出現了 <i>example1-fdetect.png</i> 這個檔案，並且動漫人物的臉都被方框框住了~
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="example1-fdetect.png"  />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfc1e139" class="outline-2">
+<h2 id="orgfc1e139">取得範例程式碼</h2>
+<div class="outline-text-2" id="text-orgfc1e139">
+<p>
+本篇文章的範例程式碼已經上傳到 <a href="https://github.com/coldnew/blog-tutorial-examples/tree/master/2015/opencv3_hello" target="_blank" rel="noopener">GitHub</a> 上，你可以使用以下方式取得程式碼
+</p>
+
+<pre class="example">
+git clone https://github.com/coldnew/blog-tutorial-examples.git
+</pre>
+
+
+<p>
+並切換到 <code>2015/opencv3_hello</code> 資料夾去
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">coldnew@Rosia ~ $ cd blog-tutorial-examples/2015/opencv3_hello
+</pre>
+</div>
+
+<p>
+程式的執行方式則和本篇文章相同 ~ Have Fun~~
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2fec6ed" class="outline-2">
+<h2 id="org2fec6ed">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org2fec6ed">
+<p>
+<code>[1]</code> <a href="http://docs.opencv.org/2.4/doc/tutorials/introduction/clojure_dev_intro/clojure_dev_intro.html" target="_blank" rel="noopener">Introduction to OpenCV Development with Clojure</a>
+</p>
+
+<p>
+<code>[2]</code> <a href="http://nils-blum-oeste.net/image-analysis-with-clojure-up-and-running-with-opencv/" target="_blank" rel="noopener">Image analysis with Clojure and OpenCV: A face detection example</a>
+</p>
+
+<p>
+<code>[3]</code> <a href="http://nakkaya.com/2010/01/12/fun-with-clojure-opencv-and-face-detection/" target="_blank" rel="noopener">Fun with Clojure, OpenCV and Face Detection</a>
+</p>
+
+<p>
+<code>[4]</code> <a href="http://tnoda-clojure.tumblr.com/post/104179135029/opencv-%25E3%2581%25A7%25E9%25A1%2594%25E7%2594%25BB%25E5%2583%258F%25E8%25AA%258D%25E8%25AD%2598%25E3%2583%258D%25E3%2582%25A4%25E3%2583%2586%25E3%2582%25A3%25E3%2583%2596%25E3%2583%25A9%25E3%2582%25A4%25E3%2583%2596%25E3%2583%25A9%25E3%2583%25AA%25E3%2582%2592%25E5%2590%25AB%25E3%2582%2580-java-%25E3%2583%25A9%25E3%2582%25A4%25E3%2583%2596%25E3%2583%25A9%25E3%2583%25AA%25E3%2582%2592-leiningen" target="_blank" rel="noopener">OpenCV で顔画像認識（ネイティブライブラリを含む Java ライブラリを Leiningen で使う）</a>
+</p>
+
+<p>
+<code>[5]</code> <a href="http://stackoverflow.com/questions/25059576/highgui-path-is-missing-in-opencv-3-0-0-generated-jar-classnotfoundexception-or" target="_blank" rel="noopener">Highgui path is missing in OpenCV 3.0.0 generated jar. ClassNotFoundException org.opencv.highgui.Highgui</a>
+</p>
+
+<p>
+<code>[6]</code> <a href="http://qiita.com/woxtu/items/bf39e3d53cbf60396d2c" target="_blank" rel="noopener">二次元絵の顔を検出する</a>
+</p>
+
+<p>
+<code>[7]</code> <a href="http://keens.github.io/blog/2015/06/07/clojuredeopencv3_0totawamureru/" target="_blank" rel="noopener">ClojureでOpenCV 3.0と戯れる</a>
+</p>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/clojure/" rel="tag">#clojure</a>
+          
+            <a href="/tags/opencv/" rel="tag">#opencv</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/e71fca4a/" rel="prev">Project Euler 練習</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2e8bd675/" rel="next">qpm - Qt 下的套件管理程式</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
+ </div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org71f274f"><span class="nav-text">下載 OpenCV 原始碼並編譯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4e44388"><span class="nav-text">將本地端的函式庫打包成 jar 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org454f696"><span class="nav-text">使用 lein-local 將套件加入本地端的 maven 倉庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org16c1651"><span class="nav-text">建立我們的專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9ff7c9f"><span class="nav-text">Example 0: 彩色圖變成灰階圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb11d130"><span class="nav-text">Example 1: 動畫人臉偵測</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfc1e139"><span class="nav-text">取得範例程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2fec6ed"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>
