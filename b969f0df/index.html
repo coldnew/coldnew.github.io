@@ -1,0 +1,1336 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+  <head>
+  
+
+<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/responsive.js"></script>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
+
+
+
+  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
+
+
+
+  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="fpga,xilinx,zynqmp,ultra96,ultra96v1," />
+
+
+
+  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="在 Ultra96 開發紀錄: 硬體認識 一文中我們了解了 Ultra96v1 這塊開發板的一些資訊後，就讓我們來開始第一個專案吧。    由於 Ultra96 拉出來的低速擴充腳位(Low Speed Expansion Connector)基本上是以 2.0mm 的寬度為主，不透過擴充板之類的會讓我們不好使用，因此這邊文章將採用傳統的方式，透過 Uart1 來將我們的測試訊息輸出。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ultra96 開發紀錄: Hello Cortex-A53">
+<meta property="og:url" content="https://coldnew.github.io/b969f0df/index.html">
+<meta property="og:site_name" content="coldnew&#39;s blog">
+<meta property="og:description" content="在 Ultra96 開發紀錄: 硬體認識 一文中我們了解了 Ultra96v1 這塊開發板的一些資訊後，就讓我們來開始第一個專案吧。    由於 Ultra96 拉出來的低速擴充腳位(Low Speed Expansion Connector)基本上是以 2.0mm 的寬度為主，不透過擴充板之類的會讓我們不好使用，因此這邊文章將採用傳統的方式，透過 Uart1 來將我們的測試訊息輸出。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/motivation.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/vivado_1.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/vivado_2.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/vivado_3.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/vivado_4.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/vivado_5.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bd_1.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bd_2.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bd_3.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bd_4.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bd_5.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bd_6.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bd_7.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bd_8.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/hdl_1.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/hdl_2.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bs_1.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bs_2.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bs_3.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bs_4.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bs_5.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/bs_6.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/v1.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/v2.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/v3.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/v4.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/v5.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/v6.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/a1.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/a2.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/a3.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/a4.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/a5.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/b_sw2.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/boot_jtag.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/j1.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/j2.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/u1.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/u2.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/u3.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/e1.png">
+<meta property="og:image" content="https://coldnew.github.io/b969f0df/e2.png">
+<meta property="article:published_time" content="2020-09-05T11:10:00.000Z">
+<meta property="article:modified_time" content="2020-09-05T16:36:21.818Z">
+<meta property="article:author" content="Yen-Chin, Lee">
+<meta property="article:tag" content="fpga">
+<meta property="article:tag" content="xilinx">
+<meta property="article:tag" content="zynqmp">
+<meta property="article:tag" content="ultra96">
+<meta property="article:tag" content="ultra96v1">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coldnew.github.io/b969f0df/motivation.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Ultra96 開發紀錄: Hello Cortex-A53 | coldnew&#39;s blog </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
+      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42122243-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container-fluid one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/b969f0df/" />
+<h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">coldnew&#39;s blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Ultra96 開發紀錄: Hello Cortex-A53
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          最後更新
+          <time itemprop="dateCreated" datetime="2020-09-06T00:36:21+08:00" content="2020-09-06">
+            2020-09-06
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/ultra96/" itemprop="url" rel="index">
+                  <span itemprop="name">Ultra96 開發紀錄</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><div id="content">
+<p>
+在 <a href="https://coldnew.github.io/f4865ec/">Ultra96 開發紀錄: 硬體認識</a> 一文中我們了解了 <a href="http://ultra96.org/product/ultra96" target="_blank" rel="noopener">Ultra96v1</a> 這塊開發板的一些資訊後，就讓我們來開始第一個專案吧。
+</p>
+
+<p>
+由於 Ultra96 拉出來的低速擴充腳位(Low Speed Expansion Connector)基本上是以 <code>2.0mm</code> 的寬度為主，不透過擴充板之類的會讓我們不好使用，因此這邊文章將採用傳統的方式，透過 Uart1 來將我們的測試訊息輸出。
+</p>
+
+<p>
+(本文以 <code>Vivado 2020.1</code> 進行開發，請注意文中開發板以 <code>Ultra96v1</code> 為主，但可套用到 <code>Ultra96v2</code> 上。)
+</p>
+
+<a id="more"></a>
+
+<div id="outline-container-org0496593" class="outline-2">
+<h2 id="org0496593">使用設備</h2>
+<div class="outline-text-2" id="text-org0496593">
+<p>
+要完成本篇文章所描述的部份，你需要以下幾種器材:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="noopener">Ultra96</a> (<a href="http://ultra96.org/product/ultra96" target="_blank" rel="noopener">rev1</a> 或是 <a href="http://zedboard.org/product/ultra96-v2-development-board" target="_blank" rel="noopener">rev2</a> 皆可)</li>
+
+<li><a href="http://www.ultra96.org/product/ultra96-usb-jtaguart-pod" target="_blank" rel="noopener">Ultra96 USB-to-JTAG/UART Pod</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc4d68c8" class="outline-2">
+<h2 id="orgc4d68c8">開發目標</h2>
+<div class="outline-text-2" id="text-orgc4d68c8">
+<p>
+由於這是第一個 Ultra96 的專案，當然是從 Hello World 來開始啦~ 我們將透過 <a href="https://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 建立基本的 Ultra96 的系統，並透過 <a href="https://www.xilinx.com/products/design-tools/vitis.html" target="_blank" rel="noopener">Vitis</a> 來建立一個會透過 <code>UART1</code> 顯示 <code>Hello World</code> 的簡單程式，你將可以透過 <a href="http://www.ultra96.org/product/ultra96-usb-jtaguart-pod" target="_blank" rel="noopener">Ultra96 USB-to-JTAG/UART Pod</a> 這邊讀取到顯示的訊息。
+</p>
+
+
+<div class="figure">
+<p><img src="motivation.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaab68ec" class="outline-2">
+<h2 id="orgaab68ec">建立專案</h2>
+<div class="outline-text-2" id="text-orgaab68ec">
+<p>
+首先讓我們打開 <a href="https://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 吧，請確定在進行這一步之前，有先參照 <a href="https://coldnew.github.io/7c056878/">Ultra96 開發紀錄: 讓 Vivado 有 Ultra96 的設定檔</a> 一文的說明，讓我們在建立專案的時候可以找到 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="noopener">ultra96</a> 這塊開發板。
+</p>
+
+<p>
+啟動了 <a href="https://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 後，點選 <code>Create New Project</code> 來建立我們的新專案
+</p>
+
+
+<div class="figure">
+<p><img src="vivado_1.png"  />
+</p>
+</div>
+
+<p>
+接下來指定好專案路徑和名稱
+</p>
+
+
+<div class="figure">
+<p><img src="vivado_2.png"  />
+</p>
+</div>
+
+<p>
+選擇 <code>RTL Project</code> ，由於我們這次不會撰寫硬體描述語言，因此也請勾選 <code>Do not specify sources at this time</code>
+</p>
+
+
+<div class="figure">
+<p><img src="vivado_3.png"  />
+</p>
+</div>
+
+<p>
+根據你是用 <a href="http://ultra96.org/product/ultra96" target="_blank" rel="noopener">Ultra96v1</a> 或是 <a href="http://zedboard.org/product/ultra96-v2-development-board" target="_blank" rel="noopener">Ultra96v2</a> 來選擇你的板子，如果這邊看不到你要找的開發板的話，請再去看一下 <a href="https://coldnew.github.io/7c056878/">Ultra96 開發紀錄: 讓 Vivado 有 Ultra96 的設定檔</a> 一文的說明。
+</p>
+
+
+<div class="figure">
+<p><img src="vivado_4.png"  />
+</p>
+</div>
+
+<p>
+請注意到，截至本文撰寫時間 (2020/09/05)，這邊透過 <code>Install/Update Board</code> 仍舊不會看到 <code>Ultra96v2</code> 的身影，因此如果你是 <code>rev2</code> 的開發板的話，請記得安裝對應的 bd 檔 (Board definition)。
+</p>
+
+
+<div class="figure">
+<p><img src="vivado_5.png"  />
+</p>
+</div>
+
+<p>
+都確定沒問題後，我們就可以來開始我們的專案啦~
+</p>
+</div>
+</div>
+
+<div id="outline-container-org398c093" class="outline-2">
+<h2 id="org398c093">建立 Block Design</h2>
+<div class="outline-text-2" id="text-org398c093">
+<p>
+由於我們的設計需要用到 Xilinx 一些現成的 IP 的時候，就會需要透過 Block Design 來建立我們的電路設計。
+</p>
+
+<p>
+首先點選 <code>IP Integrator -&gt; Create Block Design</code>
+</p>
+
+
+<div class="figure">
+<p><img src="bd_1.png"  />
+</p>
+</div>
+
+<p>
+接著點選 <code>OK</code> 建立我們的 Block Design
+</p>
+
+
+<div class="figure">
+<p><img src="bd_2.png"  />
+</p>
+</div>
+
+<p>
+點選 <code>Add IP</code> 按鈕去增加我們需要的 IP
+</p>
+
+
+<div class="figure">
+<p><img src="bd_3.png"  />
+</p>
+</div>
+
+<p>
+我們首先尋找 <code>Zynq UltraScale+ MPSoC</code> 並將它加入到我們的 <code>Block Design</code> ，並點選 <code>Run BLock Automation</code> 來對該 IP 做一些設定
+</p>
+
+
+<div class="figure">
+<p><img src="bd_4.png"  />
+</p>
+</div>
+
+<p>
+進入到 <code>Run BLock Automation</code> 的設定頁面後，確認 <code>zynq_ultra_ps_e_0</code> 有被勾選到，並且 <code>Apply Board Preset</code> 有被設定起來。
+</p>
+
+<p>
+點選 <code>OK</code> 完成設定。
+</p>
+
+
+<div class="figure">
+<p><img src="bd_5.png"  />
+</p>
+</div>
+
+<p>
+接下來，將 <code>pl_clk0</code> 連接到 <code>maxihpm0_fpd_aclk</code> 以及 <code>maxihpm1_fpd_aclk</code> ， 這是為了讓處理器系統 (Processing System, PS) 到可程式邏輯區 (Programming Logic, PL) 之間資料傳送的界面可以順利運作。
+</p>
+
+
+<div class="figure">
+<p><img src="bd_6.png"  />
+</p>
+</div>
+
+<p>
+(如果你堅持不想將他們接在一起的話，就要知道怎樣關閉 PS to PL AXI Interface, 不然這邊會編譯失敗呦~)
+</p>
+
+<p>
+好了後，點選 <code>Validate Design</code> 按鈕來確認設計沒問題
+</p>
+
+
+<div class="figure">
+<p><img src="bd_7.png"  />
+</p>
+</div>
+
+<p>
+沒問題的話，就讓我們來結束 Block Design 的工作吧
+</p>
+
+
+<div class="figure">
+<p><img src="bd_8.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5bedf87" class="outline-2">
+<h2 id="org5bedf87">產生 HDL Wrapper</h2>
+<div class="outline-text-2" id="text-org5bedf87">
+<p>
+接下來我們要將剛剛用 Block Design 建立的電路變成 verilog 程式碼，因此會需要進行產生 HDL Wrapper 這個步驟。
+</p>
+
+<p>
+對你的 Block Design 檔案點選右鍵，選擇 <code>Create HDL Wrapper</code> ，它會根據你專案設定的語言 (VHDL 或是 Verilog) 來產生相對的 HDL 程式碼。
+</p>
+
+
+<div class="figure">
+<p><img src="hdl_1.png"  />
+</p>
+</div>
+
+<p>
+由於這次我們不需要對產出來的東西進行修改，因此選 <code>Let Vivado manage wrapper and auto-update</code> 即可
+</p>
+
+
+<div class="figure">
+<p><img src="hdl_2.png"  />
+</p>
+</div>
+
+<p>
+好了後，假設你的 Block Design 檔案叫做 <code>design_1.bd</code> ，那就會產生 <code>design_1_wrapper.v</code> 或是 <code>design_1_wrapper.vhdl</code> 這樣的檔案。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9613be4" class="outline-2">
+<h2 id="org9613be4">產生位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-org9613be4">
+<p>
+前面的處理都好了後，接下來點選 <code>Program and Debug -&gt; Generate Bitstream</code> 去讓 Viavado 將這個專案產生出 位元流 (bitstream) ，Zynq UltraScale+ 會在開機的時候根據 bitstream 的資訊對 FPGA 進行設定。
+</p>
+
+
+<div class="figure">
+<p><img src="bs_1.png"  />
+</p>
+</div>
+
+<p>
+這個產生的過程視你的電腦強度如何而決定花多少時間，總之先來泡杯茶吧~
+</p>
+
+<p>
+當 bitstream 完成後，我們準備執行 Xilinx SDK 來透過寫 C 語言專案來讓 Cortex-A53 可以透過 <code>UART1</code> 輸出訊息，因此要先將剛剛產生的硬體資訊輸出給 Xilinx SDK 去。
+</p>
+
+<p>
+點選 <code>File -&gt; Export -&gt; Export Hardware</code>
+</p>
+
+
+<div class="figure">
+<p><img src="bs_2.png"  />
+</p>
+</div>
+
+<p>
+這邊我們選擇 <code>Fixed</code>
+</p>
+
+
+<div class="figure">
+<p><img src="bs_3.png"  />
+</p>
+</div>
+
+<p>
+選擇 <code>Include bitstream</code>
+</p>
+
+
+<div class="figure">
+<p><img src="bs_4.png"  />
+</p>
+</div>
+
+<p>
+確認沒問題後，點選 <code>Finish</code>
+</p>
+
+
+<div class="figure">
+<p><img src="bs_5.png"  />
+</p>
+</div>
+
+<p>
+以我這邊為例，會產生一個名為 <code>design_1_wrapper.xsa</code> 的檔案在 <code>/data/Workspace/ultra96/helloA53</code> ，這個 XSA (Xilinx Support Archive) 檔案是等等要給 <a href="https://www.xilinx.com/products/design-tools/vitis.html" target="_blank" rel="noopener">Vitis</a> 建立我們需要的平台使用。
+</p>
+
+<p>
+確認 OK 後，執行 <a href="https://www.xilinx.com/products/design-tools/vitis.html" target="_blank" rel="noopener">Vitis IDE</a>
+</p>
+
+
+<div class="figure">
+<p><img src="bs_6.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0906e26" class="outline-2">
+<h2 id="org0906e26">Vitis IDE</h2>
+<div class="outline-text-2" id="text-org0906e26">
+<p>
+啟動 Vitis IDE 後，點選 <code>File -&gt; New -&gt; Application Project</code> 去建立新的專案
+</p>
+
+
+<div class="figure">
+<p><img src="v1.png"  />
+</p>
+</div>
+
+<p>
+第一次建立新專案的時候會看到如下的視窗，簡單來說我們剛剛建立的 XSA (Xilinx Support Archive) 檔案，是一個很類似專案的檔案。
+</p>
+
+<p>
+XSA (Xilinx SUpport Archive) 包含了關於這個硬體、IP、記憶體位址設定等資訊，我們可以用它建立我們想要的平台後，重複利用這個平台就可以建立新的 App，就讓我們開始來建立我們的平台吧，點選 <code>Next</code>
+</p>
+
+
+<div class="figure">
+<p><img src="v2.png"  />
+</p>
+</div>
+
+<p>
+由於這是我們第一個專案，還未有任何已經建立的平台 (Platform) ，因此我們要來建立它，點選 <code>Browse</code> 選擇我們剛剛產生的 <code>design_1_wrapper.xsa</code> 。
+</p>
+
+<p>
+另外注意到由於這個建立出來的平台 (Platform) 是可以重複利用的，因此建議命名一個清楚的名字，這邊我將其命名為 <code>ultra96_v1_zynqmp_only</code>
+</p>
+
+
+<div class="figure">
+<p><img src="v3.png"  />
+</p>
+</div>
+
+<p>
+在這邊，我將我們要建立的專案命名為 <code>helloa53</code> ，並指定 <code>psu_cortexa53_0</code> 為這個程式要執行的 CPU。
+</p>
+
+
+<div class="figure">
+<p><img src="v4.png"  />
+</p>
+</div>
+
+<p>
+還記得一開始建立新專案時候 Vitis 告訴我們 Processor、XSA、Domain、App 的關聯嘛? 現在我們就要來建立我們的 Domain 啦。
+</p>
+
+<p>
+這邊選擇 <code>standalone</code> 的作業系統，也就是跑 Baremetal 啦 ~
+</p>
+
+
+<div class="figure">
+<p><img src="v5.png"  />
+</p>
+</div>
+
+<p>
+我們利用 Xilinx 建立好的 Hello World 樣板來作為我們的專案，好了後點選 <code>Finish</code>
+</p>
+
+
+<div class="figure">
+<p><img src="v6.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd3cf0ed" class="outline-2">
+<h2 id="orgd3cf0ed">App</h2>
+<div class="outline-text-2" id="text-orgd3cf0ed">
+<p>
+建立好專案後，會看到這樣的視窗，由於 Ultra96 預設從 JTAG-UART 轉板得到的 UART 訊號是 <code>UART1</code> ，因此我們需要透過 <code>Navigate to BSP Settings</code> 去做些額外的設定。
+</p>
+
+
+<div class="figure">
+<p><img src="a1.png"  />
+</p>
+</div>
+
+<p>
+在我們的 Domain 這邊 (<code>domain_psu_cortexa53_0</code>)，點選 <code>Modify BSP Settings</code>
+</p>
+
+
+<div class="figure">
+<p><img src="a2.png"  />
+</p>
+</div>
+
+<p>
+在這邊，將 <code>stdin</code> 和 <code>stdout</code> 都改成用 <code>psu_uart_1</code> 進行輸出，這樣我們使用 <code>printf()</code> 的時候，訊息就會丟到 <code>UART1</code> 去囉!
+</p>
+
+
+<div class="figure">
+<p><img src="a3.png"  />
+</p>
+</div>
+
+<p>
+由於我們已經透過 Xilinx 的樣板程式建立好我們的專案了，要偷看程式碼的話它就長這樣，這邊就不再對其進行更改。
+</p>
+
+
+<div class="figure">
+<p><img src="a4.png"  />
+</p>
+</div>
+
+<p>
+這樣，程式已經完成囉，先來進行編譯一下
+</p>
+
+
+<div class="figure">
+<p><img src="a5.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf32d49e" class="outline-2">
+<h2 id="orgf32d49e">設定 JTAG 下載</h2>
+<div class="outline-text-2" id="text-orgf32d49e">
+<p>
+為了透過 Micro USB 連接到 Ultra96 上的 JTAG 來進行下載，我們需要對 Ultra96 上的 <code>SW2</code> 要進行一些調整，變成下面這樣。
+</p>
+
+<div class="row "><div class="col-md-5">
+
+<p>
+<b>SW2 位置</b>
+</p>
+
+
+<div class="figure">
+<p><img src="b_sw2.png"  />
+</p>
+</div>
+
+</div><div class="col-md-7">
+
+<p>
+<b>BOOT MODE : JTAG</b>
+</p>
+
+
+<div class="figure">
+<p><img src="boot_jtag.png"  />
+</p>
+</div>
+
+</div> </div>
+
+<p>
+這樣子就可以透過 Micro USB 走 JTAG 下載的路線，將程式下載下去
+</p>
+</div>
+</div>
+
+<div id="outline-container-org81217ed" class="outline-2">
+<h2 id="org81217ed">下載到開發板 (FPGA)</h2>
+<div class="outline-text-2" id="text-org81217ed">
+<p>
+由於我們到目前為止還沒有將編譯好的位元流 (bitstream) 下載到我們的 Ultra96 去，因此先來下載吧。
+</p>
+
+<p>
+點選 <code>Xilinx -&gt; Program FPGA</code> 進入到下載頁面
+</p>
+
+
+<div class="figure">
+<p><img src="j1.png"  />
+</p>
+</div>
+
+<p>
+點選 <code>Program</code> 將我們的位元流 (bitstream) 下載下去
+</p>
+
+
+<div class="figure">
+<p><img src="j2.png"  />
+</p>
+</div>
+
+<p>
+下載好了後，由於我們的程式還沒燒到 Cortex-A53 上，因此要進行下載 ELF 的動作
+</p>
+</div>
+</div>
+
+<div id="outline-container-org61e6d18" class="outline-2">
+<h2 id="org61e6d18">連接 UART</h2>
+<div class="outline-text-2" id="text-org61e6d18">
+<p>
+我們可以在 <a href="https://www.xilinx.com/products/design-tools/vitis.html" target="_blank" rel="noopener">Vitis IDE</a> 上面直接連接 UART，由於這份 Hello World 程式只會輸出訊息一次，因此我們需要先連接上 UART 在執行程式，這樣才可以順利看到訊息。
+</p>
+
+<p>
+點選 <code>Command Shell Console</code> 來讓 Vitis IDE 可以顯示 UART 訊息
+</p>
+
+
+<div class="figure">
+<p><img src="u1.png"  />
+</p>
+</div>
+
+<p>
+接下來，建立新的連線，並設定好 UART 為 115200, 8N1 後，指定好你電腦上的 UART 設備 (圖中以 <code>/dev/ttyUSB1</code> 為例)
+</p>
+
+
+<div class="figure">
+<p><img src="u2.png"  />
+</p>
+</div>
+
+<p>
+完成後，就可以在 IDE 下面看到當前 UART Console 訊息的狀況。
+</p>
+
+
+<div class="figure">
+<p><img src="u3.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc40359e" class="outline-2">
+<h2 id="orgc40359e">下載到開發板 (ELF)</h2>
+<div class="outline-text-2" id="text-orgc40359e">
+<p>
+由於我們沒有修改程式，因此直接跑 <code>Release</code> build 就好，對 <code>Release</code> 點選右鍵，選擇 <code>Run -&gt; Launch on Hardware (Single Application Debug)</code> 這樣 IDE 就會自動幫我們把程式下載下去囉
+</p>
+
+
+<div class="figure">
+<p><img src="e1.png"  />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org38924eb" class="outline-2">
+<h2 id="org38924eb">結果</h2>
+<div class="outline-text-2" id="text-org38924eb">
+<p>
+如果一切都運作正常，你應該會看到 UART Console 裡面顯示 <code>Hello World</code> 的訊息，代表我們的程式至少有跑成功！
+</p>
+
+
+<div class="figure">
+<p><img src="e2.png"  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org946e1e5" class="outline-2">
+<h2 id="org946e1e5">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org946e1e5">
+<ul class="org-ul">
+<li><a href="https://www.hackster.io/adam-taylor/two-methods-of-building-petalinux-for-the-ultra96-77c8e0" target="_blank" rel="noopener">Two Methods of Building PetaLinux for the Ultra96</a></li>
+
+<li><a href="https://www.element14.com/community/roadTestReviews/2888/l/avnet-ultra96-dev-board-review" target="_blank" rel="noopener">Avnet Ultra96 dev board review</a></li>
+
+<li><a href="https://www.xilinx.com/support/documentation/user_guides/ug1085-zynq-ultrascale-trm.pdf" target="_blank" rel="noopener">UG1085 – Zynq UltraScale+ Device Technical Reference Manual</a></li>
+
+<li><a href="https://japan.xilinx.com/support/documentation/quick_start/microblaze-quick-start-guide-with-vitis.pdf" target="_blank" rel="noopener">MicroBlazeSoft Processor for Vitis 2019.2 Quick Start Guide</a></li>
+</ul>
+</div>
+</div>
+</div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fpga/" rel="tag">#fpga</a>
+          
+            <a href="/tags/xilinx/" rel="tag">#xilinx</a>
+          
+            <a href="/tags/zynqmp/" rel="tag">#zynqmp</a>
+          
+            <a href="/tags/ultra96/" rel="tag">#ultra96</a>
+          
+            <a href="/tags/ultra96v1/" rel="tag">#ultra96v1</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/4bc009ef/" rel="next">Ultra96 開發紀錄: Vitis 無法建立 Platform 的處理方式</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+          <div class="comments" id="comments">
+            
+               <div id="gitalk-container"></div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coldnew" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0496593"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc4d68c8"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaab68ec"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org398c093"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5bedf87"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9613be4"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0906e26"><span class="nav-text">Vitis IDE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd3cf0ed"><span class="nav-text">App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf32d49e"><span class="nav-text">設定 JTAG 下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org81217ed"><span class="nav-text">下載到開發板 (FPGA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org61e6d18"><span class="nav-text">連接 UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc40359e"><span class="nav-text">下載到開發板 (ELF)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org38924eb"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org946e1e5"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="container">
+      <div class="footer">
+        <div class="footer-inner"> 
+<div class="copyright" >
+  
+  Copyright  &copy; &nbsp;  2012 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
+   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
+</div>
+
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+ </div>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
+  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+  
+  
+  
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- END LOCAL -->
+    
+      <script type="text/javascript">
+      function renderGitalk(){
+        var gitalk = new Gitalk({
+            owner: 'coldnew',
+            repo: 'coldnew.github.io',
+            clientID: 'b68fc8fd50fcc051b95e',
+            clientSecret: '7f005263788db4a303b57e8296bb6800de1f9acf',
+            admin: 'coldnew',
+            
+              distractionFreeMode: 'true'
+            
+            });
+        gitalk.render('gitalk-container');
+      }
+      renderGitalk();
+      </script>
+    
+
+</body>
+</html>
