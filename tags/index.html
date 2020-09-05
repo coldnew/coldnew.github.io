@@ -1,398 +1,47 @@
-<!doctype html>
-<html class="theme-next use-motion theme-next-mist">
-  <head>
-  
+{% extends '_layout.swig' %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
-<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
-<link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css">
-<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/responsive.js"></script>
+{% block title %}
+  {% set page_title_suffix = ' | ' + config.title %}
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  {% if page.type === "categories" %}
+    {{ __('title.category') + page_title_suffix }}
+  {% elif page.type === "tags" %}
+    {{ __('title.tag') + page_title_suffix }}
+  {% else %}
+    {{ page.title + page_title_suffix }}
+  {% endif %}
+{% endblock %}
 
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-  <meta name="google-site-verification" content="2KupV-VpD04LYh25td4WXU0FNSfAQUQjYs13zPnAXls" />
-
-
-
-  <meta name="msvalidate.01" content="A2F329127555BDD555949FFD886CFF2B" />
-
-
-
-  <meta name="baidu-site-verification" content="fwxmwVqWtK,5z58vsAQKG" />
-
-
-
-
-
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
-
-
-
-
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
-
-
-
-
-  <meta name="keywords" content="coldnew,clojure,clojurescript,lisp,linux" />
-
-
-
-  <link rel="alternate" href="/rss.xml" title="coldnew&#39;s blog" type="application/atom+xml" />
-
-
-
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
-
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="Tagcloud">
-<meta property="og:url" content="https://coldnew.github.io/tags/index.html">
-<meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2015-09-27T09:03:28.000Z">
-<meta property="article:modified_time" content="2017-01-16T06:26:18.000Z">
-<meta property="article:author" content="Yen-Chin, Lee">
-<meta name="twitter:card" content="summary">
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: 'post'
-  };
-</script>
-
-  <title>
-  
-
-  
-    標籤 | coldnew&#39;s blog
-  
-</title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="https://schema.org/WebPage" lang="zh-tw,en,default">
-
-  <!--[if lte IE 8]>
-  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
-    <a href="https://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode" target="_blank" rel="noopener">
-      <img src="https://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
-           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
-           style='margin-left:auto;margin-right:auto;display: block;'/>
-    </a>
-  </div>
-<![endif]-->
-
-  
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-42122243-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-  <div class="container-fluid one-column ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
-      <div class="header-inner"><link rel="canonical" href="https://coldnew.github.io/tags/index.html" />
-<h1 class="site-meta">
-  <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand" rel="start">
-      <span class="logo">
-        <i class="icon-next-logo"></i>
-      </span>
-      <span class="site-title">coldnew&#39;s blog</span>
-  </a>
-  <span class="logo-line-after"><i></i></span>
-</h1>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu ">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br />
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            <i class="menu-item-icon icon-next-categories"></i> <br />
-            分類
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br />
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br />
-            標籤
-          </a>
-        </li>
-      
-
-      
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div id="content" class="content"> 
+{% block content %}
 
   <div id="posts" class="posts-expand">
-    
-    
+    {# tagcloud page support #}
+    {% if page.type === "tags" %}
       <div class="tag-cloud">
         <div class="tag-cloud-title">
-            目前共計 104 個標籤
+            {{ _p('counter.tag_cloud', site.tags.length) }}
         </div>
         <div class="tag-cloud-tags">
-          <a href="/tags/3d-printer/" style="font-size: 14.57px; color: #b1b1b1">3d printer</a> <a href="/tags/altera/" style="font-size: 15.86px; color: #a4a4a4">altera</a> <a href="/tags/android/" style="font-size: 21px; color: #6f6f6f">android</a> <a href="/tags/android-things/" style="font-size: 14.57px; color: #b1b1b1">android things</a> <a href="/tags/arm/" style="font-size: 18.43px; color: #898989">arm</a> <a href="/tags/barebox/" style="font-size: 12px; color: #ccc">barebox</a> <a href="/tags/bash/" style="font-size: 12px; color: #ccc">bash</a> <a href="/tags/c/" style="font-size: 13.29px; color: #bfbfbf">c</a> <a href="/tags/c-c/" style="font-size: 12px; color: #ccc">c/c++</a> <a href="/tags/chroot/" style="font-size: 12px; color: #ccc">chroot</a> <a href="/tags/clojure/" style="font-size: 26.14px; color: #393939">clojure</a> <a href="/tags/clojurescript/" style="font-size: 24.86px; color: #464646">clojurescript</a> <a href="/tags/common-lisp/" style="font-size: 12px; color: #ccc">common lisp</a> <a href="/tags/cyanogenmod/" style="font-size: 14.57px; color: #b1b1b1">cyanogenmod</a> <a href="/tags/de2-115/" style="font-size: 15.86px; color: #a4a4a4">de2-115</a> <a href="/tags/docker/" style="font-size: 12px; color: #ccc">docker</a> <a href="/tags/eeprom/" style="font-size: 12px; color: #ccc">eeprom</a> <a href="/tags/electron/" style="font-size: 12px; color: #ccc">electron</a> <a href="/tags/elisp/" style="font-size: 12px; color: #ccc">elisp</a> <a href="/tags/emacs/" style="font-size: 28.71px; color: #1e1e1e">emacs</a> <a href="/tags/embedded-linux/" style="font-size: 12px; color: #ccc">embedded linux</a> <a href="/tags/emulator/" style="font-size: 12px; color: #ccc">emulator</a> <a href="/tags/endeavoru/" style="font-size: 12px; color: #ccc">endeavoru</a> <a href="/tags/firefoxos/" style="font-size: 15.86px; color: #a4a4a4">firefoxos</a> <a href="/tags/fpga/" style="font-size: 30px; color: #111">fpga</a> <a href="/tags/freescale/" style="font-size: 12px; color: #ccc">freescale</a> <a href="/tags/geeksphone/" style="font-size: 15.86px; color: #a4a4a4">geeksphone</a> <a href="/tags/gentoo/" style="font-size: 18.43px; color: #898989">gentoo</a> <a href="/tags/git/" style="font-size: 13.29px; color: #bfbfbf">git</a> <a href="/tags/graphviz/" style="font-size: 12px; color: #ccc">graphviz</a> <a href="/tags/gtk/" style="font-size: 12px; color: #ccc">gtk</a> <a href="/tags/htc-onex/" style="font-size: 14.57px; color: #b1b1b1">htc onex</a> <a href="/tags/i2c/" style="font-size: 12px; color: #ccc">i2c</a> <a href="/tags/imx6/" style="font-size: 13.29px; color: #bfbfbf">imx6</a> <a href="/tags/imx6solox/" style="font-size: 12px; color: #ccc">imx6solox</a> <a href="/tags/imx8/" style="font-size: 14.57px; color: #b1b1b1">imx8</a> <a href="/tags/iot/" style="font-size: 14.57px; color: #b1b1b1">iot</a> <a href="/tags/iphone/" style="font-size: 13.29px; color: #bfbfbf">iphone</a> <a href="/tags/java/" style="font-size: 14.57px; color: #b1b1b1">java</a> <a href="/tags/javafx/" style="font-size: 13.29px; color: #bfbfbf">javafx</a> <a href="/tags/javascript/" style="font-size: 12px; color: #ccc">javascript</a> <a href="/tags/json/" style="font-size: 12px; color: #ccc">json</a> <a href="/tags/kernel/" style="font-size: 13.29px; color: #bfbfbf">kernel</a> <a href="/tags/latex/" style="font-size: 12px; color: #ccc">latex</a> <a href="/tags/lattice/" style="font-size: 13.29px; color: #bfbfbf">lattice</a> <a href="/tags/launchpad/" style="font-size: 12px; color: #ccc">launchpad</a> <a href="/tags/lein/" style="font-size: 12px; color: #ccc">lein</a> <a href="/tags/librem-5/" style="font-size: 14.57px; color: #b1b1b1">librem-5</a> <a href="/tags/librem-5-dev-kit/" style="font-size: 14.57px; color: #b1b1b1">librem-5-dev-kit</a> <a href="/tags/linux/" style="font-size: 26.14px; color: #393939">linux</a> <a href="/tags/lisp/" style="font-size: 12px; color: #ccc">lisp</a> <a href="/tags/llvm/" style="font-size: 12px; color: #ccc">llvm</a> <a href="/tags/macbook/" style="font-size: 12px; color: #ccc">macbook</a> <a href="/tags/mbed/" style="font-size: 14.57px; color: #b1b1b1">mbed</a> <a href="/tags/meson/" style="font-size: 12px; color: #ccc">meson</a> <a href="/tags/modelsim/" style="font-size: 12px; color: #ccc">modelsim</a> <a href="/tags/mpsoc/" style="font-size: 12px; color: #ccc">mpsoc</a> <a href="/tags/msp430/" style="font-size: 12px; color: #ccc">msp430</a> <a href="/tags/newlisp/" style="font-size: 13.29px; color: #bfbfbf">newlisp</a> <a href="/tags/nix/" style="font-size: 12px; color: #ccc">nix</a> <a href="/tags/nodejs/" style="font-size: 18.43px; color: #898989">nodejs</a> <a href="/tags/note/" style="font-size: 12px; color: #ccc">note</a> <a href="/tags/nucleo/" style="font-size: 13.29px; color: #bfbfbf">nucleo</a> <a href="/tags/opencv/" style="font-size: 12px; color: #ccc">opencv</a> <a href="/tags/orange-pi/" style="font-size: 12px; color: #ccc">orange pi</a> <a href="/tags/org-mode/" style="font-size: 19.71px; color: #7c7c7c">org-mode</a> <a href="/tags/osx/" style="font-size: 14.57px; color: #b1b1b1">osx</a> <a href="/tags/pcl/" style="font-size: 13.29px; color: #bfbfbf">pcl</a> <a href="/tags/petalinux/" style="font-size: 12px; color: #ccc">petalinux</a> <a href="/tags/python/" style="font-size: 12px; color: #ccc">python</a> <a href="/tags/qemu/" style="font-size: 14.57px; color: #b1b1b1">qemu</a> <a href="/tags/qt/" style="font-size: 13.29px; color: #bfbfbf">qt</a> <a href="/tags/raspberry-pi/" style="font-size: 22.29px; color: #616161">raspberry pi</a> <a href="/tags/raspberry-pi-3/" style="font-size: 14.57px; color: #b1b1b1">raspberry pi 3</a> <a href="/tags/riscv/" style="font-size: 14.57px; color: #b1b1b1">riscv</a> <a href="/tags/rtos/" style="font-size: 13.29px; color: #bfbfbf">rtos</a> <a href="/tags/sourcetrail/" style="font-size: 12px; color: #ccc">sourcetrail</a> <a href="/tags/sps-ipc-drive-2017/" style="font-size: 12px; color: #ccc">sps ipc drive 2017</a> <a href="/tags/ssh/" style="font-size: 12px; color: #ccc">ssh</a> <a href="/tags/stm32/" style="font-size: 14.57px; color: #b1b1b1">stm32</a> <a href="/tags/stm32f7-discovery/" style="font-size: 12px; color: #ccc">stm32f7-discovery</a> <a href="/tags/stm32f746/" style="font-size: 12px; color: #ccc">stm32f746</a> <a href="/tags/tinyfpga/" style="font-size: 13.29px; color: #bfbfbf">tinyfpga</a> <a href="/tags/training/" style="font-size: 12px; color: #ccc">training</a> <a href="/tags/travis-ci/" style="font-size: 12px; color: #ccc">travis-ci</a> <a href="/tags/u-boot/" style="font-size: 12px; color: #ccc">u-boot</a> <a href="/tags/ubifs/" style="font-size: 12px; color: #ccc">ubifs</a> <a href="/tags/ultra96/" style="font-size: 19.71px; color: #7c7c7c">ultra96</a> <a href="/tags/ultra96v1/" style="font-size: 18.43px; color: #898989">ultra96v1</a> <a href="/tags/ultrazed-3eg-pciecc/" style="font-size: 15.86px; color: #a4a4a4">ultrazed-3eg-pciecc</a> <a href="/tags/verilog/" style="font-size: 13.29px; color: #bfbfbf">verilog</a> <a href="/tags/vitis/" style="font-size: 12px; color: #ccc">vitis</a> <a href="/tags/vivado/" style="font-size: 23.57px; color: #545454">vivado</a> <a href="/tags/wanqu/" style="font-size: 12px; color: #ccc">wanqu</a> <a href="/tags/watchdog/" style="font-size: 12px; color: #ccc">watchdog</a> <a href="/tags/wayland/" style="font-size: 12px; color: #ccc">wayland</a> <a href="/tags/webos/" style="font-size: 17.14px; color: #979797">webos</a> <a href="/tags/weston/" style="font-size: 12px; color: #ccc">weston</a> <a href="/tags/xilinx/" style="font-size: 27.43px; color: #2c2c2c">xilinx</a> <a href="/tags/yocto/" style="font-size: 17.14px; color: #979797">yocto</a> <a href="/tags/zephyr/" style="font-size: 13.29px; color: #bfbfbf">zephyr</a> <a href="/tags/zybo/" style="font-size: 21px; color: #6f6f6f">zybo</a> <a href="/tags/zynq/" style="font-size: 22.29px; color: #616161">zynq</a> <a href="/tags/zynqmp/" style="font-size: 23.57px; color: #545454">zynqmp</a>
+          {{ tagcloud({min_font: 12, max_font: 30, amount: 200, color: true, start_color: '#ccc', end_color: '#111'}) }}
         </div>
       </div>
-    
-  </div>
-
- </div>
-
-        
+    {% elif page.type === 'categories' %}
+      <div class="category-all-page">
+        <div class="category-all-title">
+            {{ _p('counter.categories', site.categories.length) }}
+        </div>
+        <div class="category-all">
+          {{ list_categories() }}
+        </div>
       </div>
-
-      
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
+    {% else %}
+      {{ page.content }}
+    {% endif %}
   </div>
 
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
+{% endblock %}
 
-      
-
-      <section class="site-overview">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
-          <img class="site-author-image" src="https://www.gravatar.com/avatar/bda0c97c8dca6eb45824d1b83f477ad9" alt="Yen-Chin, Lee" itemprop="image"/>
-          <p class="site-author-name" itemprop="name">Yen-Chin, Lee</p>
-        </div>
-        <p class="site-description motion-element" itemprop="description"></p>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">136</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          <div class="site-state-item site-state-categories">
-            <a href="/categories">
-              <span class="site-state-item-count">16</span>
-              <span class="site-state-item-name">分類</span>
-              </a>
-          </div>
-
-          <div class="site-state-item site-state-tags">
-            <a href="/tags">
-              <span class="site-state-item-count">104</span>
-              <span class="site-state-item-name">標籤</span>
-              </a>
-          </div>
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/rss.xml" rel="alternate">
-              <i class="menu-item-icon icon-next-feed"></i>
-              RSS
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/coldnew" target="_blank">github</a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://plus.google.com/u/0/106837301382084981260/posts" target="_blank">google+</a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.linkedin.com/in/coldnew/" target="_blank">linkedln</a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-          <div class="cc-license motion-element" itemprop="license">
-            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-      </section>
-
-      
-
-    </div>
-  </aside>
-
-
-    </main>
-
-    <footer id="footer" class="container">
-      <div class="footer">
-        <div class="footer-inner"> 
-<div class="copyright" >
-  
-  Copyright  &copy; &nbsp;  2012 - 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="author" itemprop="copyrightHolder">Yen-Chin, Lee</span>
-   &middot;  Powered by  <a href="https://github.com/coldnew/hexo-renderer-org" target="_blank">coldnew/hexo-renderer-org</a>
-</div>
-
-<!--
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
-</div>
--->
-
-
- </div>
-      </div>
-    </footer>
-
-    <div class="back-to-top"></div>
-  </div>
-
-  <!-- <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script> -->
-  <!-- <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css" type="text/css"> -->
-  <!-- <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
-
-  
-  
-  
-    
-  
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
-  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
-
-
-  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
-  
-
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
-
-  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
-
-
-
-
-  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-
-  <script type="text/javascript">
-    $(document).ready(function () {
-      if (CONFIG.sidebar === 'always') {
-        displaySidebar();
-      }
-      if (isMobile()) {
-        FastClick.attach(document.body);
-      }
-    });
-  </script>
-
-  
-
-  
-  
-
-
-  
-  <script type="text/javascript" src="/js/lazyload.js"></script>
-  <script type="text/javascript">
-    $(function () {
-      $("#posts").find('img').lazyload({
-        placeholder: "/images/loading.gif",
-        effect: "fadeIn"
-      });
-    });
-  </script>
-  <script type="text/javascript" src="/js/app.js"></script>
-
-<!-- LOCAL: You can save these files to your site and update links -->
-  
-  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-<!-- END LOCAL -->
-    
-
-</body>
-</html>
+{% block sidebar %}
+  {{ sidebar_template.render(false) }}
+{% endblock %}
