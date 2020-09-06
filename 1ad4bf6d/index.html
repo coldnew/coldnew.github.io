@@ -41,7 +41,7 @@
 
 
 
-  <meta name="keywords" content="arm,qemu,chroot," />
+  <meta name="keywords" content="arm,chroot,qemu," />
 
 
 
@@ -63,8 +63,8 @@
 <meta property="article:modified_time" content="2013-06-27T13:34:00.000Z">
 <meta property="article:author" content="Yen-Chin, Lee">
 <meta property="article:tag" content="arm">
-<meta property="article:tag" content="qemu">
 <meta property="article:tag" content="chroot">
+<meta property="article:tag" content="qemu">
 <meta name="twitter:card" content="summary">
 
 
@@ -234,9 +234,9 @@ QEMU 除了是很棒的虛擬機以外，在 Linux 下我們也可以透過他�
 </p>
 </div>
 
-<div id="outline-container-org5647e8f" class="outline-2">
-<h2 id="org5647e8f">預先準備</h2>
-<div class="outline-text-2" id="text-org5647e8f">
+<div id="outline-container-org0ba5e4d" class="outline-2">
+<h2 id="org0ba5e4d">預先準備</h2>
+<div class="outline-text-2" id="text-org0ba5e4d">
 <p>
 要能夠在 x86/amd64 環境下透過 QEMU 進行 chroot, 必須要有具有 binfmt_misc 的
 linux 系統，如果沒有的話，則必須重新編譯 kernel，並將 kernel 加入以
@@ -250,9 +250,9 @@ Executable file formats / Emulations  ---&gt;
 </div>
 </div>
 
-<div id="outline-container-org6d778c5" class="outline-2">
-<h2 id="org6d778c5">安裝 QEMU</h2>
-<div class="outline-text-2" id="text-org6d778c5">
+<div id="outline-container-orgb5c386e" class="outline-2">
+<h2 id="orgb5c386e">安裝 QEMU</h2>
+<div class="outline-text-2" id="text-orgb5c386e">
 <p>
 既然我們是要使用 QEMU 來幫我們摹擬 ARM 平台的環境，當然 QEMU 也是必備的囉~
 </p>
@@ -261,9 +261,9 @@ Executable file formats / Emulations  ---&gt;
 
 
 <colgroup>
-<col  class="org-left" />
+<col class="org-left">
 
-<col  class="org-left" />
+<col class="org-left">
 </colgroup>
 <thead>
 <tr>
@@ -296,9 +296,9 @@ Executable file formats / Emulations  ---&gt;
 </div>
 </div>
 
-<div id="outline-container-org76c2c22" class="outline-2">
-<h2 id="org76c2c22">安裝 qemu-user</h2>
-<div class="outline-text-2" id="text-org76c2c22">
+<div id="outline-container-orgf680709" class="outline-2">
+<h2 id="orgf680709">安裝 qemu-user</h2>
+<div class="outline-text-2" id="text-orgf680709">
 <p>
 qemu-user 是讓 QEMU 能夠透過 binfmt_misc 進行 chroot 所額外需要的程式。
 </p>
@@ -312,9 +312,9 @@ qemu-user 是讓 QEMU 能夠透過 binfmt_misc 進行 chroot 所額外需要的�
 
 
 <colgroup>
-<col  class="org-left" />
+<col class="org-left">
 
-<col  class="org-left" />
+<col class="org-left">
 </colgroup>
 <thead>
 <tr>
@@ -365,9 +365,9 @@ qemu-user 是讓 QEMU 能夠透過 binfmt_misc 進行 chroot 所額外需要的�
 </div>
 </div>
 
-<div id="outline-container-org9144c77" class="outline-2">
-<h2 id="org9144c77">載入 binfmt_misc 模組並註冊 ARM 平台的資訊到系統</h2>
-<div class="outline-text-2" id="text-org9144c77">
+<div id="outline-container-orgf841818" class="outline-2">
+<h2 id="orgf841818">載入 binfmt_misc 模組並註冊 ARM 平台的資訊到系統</h2>
+<div class="outline-text-2" id="text-orgf841818">
 <p>
 我們要先將 binfmt_misc 模組載入到系統後，並掛載 binfmt_misc 模組，這樣
 才可以使用他
@@ -404,9 +404,9 @@ mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
 </div>
 </div>
 
-<div id="outline-container-org9425b63" class="outline-2">
-<h2 id="org9425b63">檢查是否有註冊資訊成功</h2>
-<div class="outline-text-2" id="text-org9425b63">
+<div id="outline-container-org1e3bf65" class="outline-2">
+<h2 id="org1e3bf65">檢查是否有註冊資訊成功</h2>
+<div class="outline-text-2" id="text-org1e3bf65">
 <p>
 你可以使用以下命令來確認你是否有成功註冊 arm 命令到 binfmt 裏面。
 </p>
@@ -436,9 +436,9 @@ mask ffffffffffffff00fffffffffffffffffeffffff
 </div>
 </div>
 
-<div id="outline-container-org527c5f6" class="outline-2">
-<h2 id="org527c5f6">複製 qemu-user 檔案到 ARM 平台的 root file system  裡</h2>
-<div class="outline-text-2" id="text-org527c5f6">
+<div id="outline-container-org55ddef2" class="outline-2">
+<h2 id="org55ddef2">複製 qemu-user 檔案到 ARM 平台的 root file system  裡</h2>
+<div class="outline-text-2" id="text-org55ddef2">
 <p>
 為了讓這個 ARM 平台的 Root File System 能夠透過 QEMU 進行 chroot，
 還需要將 qemu-static-arm 以及 qemu-static-arm-binfmt 複製到該 Root File System
@@ -470,9 +470,9 @@ mask ffffffffffffff00fffffffffffffffffeffffff
 </div>
 </div>
 
-<div id="outline-container-orga43f8a7" class="outline-2">
-<h2 id="orga43f8a7">chroot 到 ARM 平台的 Root File System</h2>
-<div class="outline-text-2" id="text-orga43f8a7">
+<div id="outline-container-orgaaf5c28" class="outline-2">
+<h2 id="orgaaf5c28">chroot 到 ARM 平台的 Root File System</h2>
+<div class="outline-text-2" id="text-orgaaf5c28">
 <p>
 在 chroot 到 ARM 平台的 Root File System 之前，你必須先掛載以下幾個
 資料夾
@@ -511,9 +511,9 @@ xhost +
 </div>
 </div>
 
-<div id="outline-container-orge70b5eb" class="outline-2">
-<h2 id="orge70b5eb">使用預先做好的腳本</h2>
-<div class="outline-text-2" id="text-orge70b5eb">
+<div id="outline-container-org1e1ee81" class="outline-2">
+<h2 id="org1e1ee81">使用預先做好的腳本</h2>
+<div class="outline-text-2" id="text-org1e1ee81">
 <p>
 如果你覺得每次都要手動進行註冊 ARM 資訊到 QEMU、掛載系統很麻煩，你可以
 試試我寫好的腳本
@@ -552,9 +552,9 @@ xhost +
 </div>
 </div>
 
-<div id="outline-container-orgf1b74e9" class="outline-2">
-<h2 id="orgf1b74e9">參考連結</h2>
-<div class="outline-text-2" id="text-orgf1b74e9">
+<div id="outline-container-org51e8c3b" class="outline-2">
+<h2 id="org51e8c3b">參考連結</h2>
+<div class="outline-text-2" id="text-org51e8c3b">
 <p>
 <code>[1]</code> <a href="http://wiki.sabayon.org/index.php?title%3DHitchhikers_Guide_to_the_BeagleBone_(and_ARMv7a)" target="_blank" rel="noopener">Sabayon Wiki - Hitchhikers Guide to the BeagleBone (and ARMv7a)</a>
 </p>
@@ -587,9 +587,9 @@ xhost +
           
             <a href="/tags/arm/" rel="tag">#arm</a>
           
-            <a href="/tags/qemu/" rel="tag">#qemu</a>
-          
             <a href="/tags/chroot/" rel="tag">#chroot</a>
+          
+            <a href="/tags/qemu/" rel="tag">#qemu</a>
           
         </div>
       
@@ -680,7 +680,7 @@ xhost +
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-count">103</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -735,7 +735,7 @@ xhost +
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org5647e8f"><span class="nav-text">預先準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6d778c5"><span class="nav-text">安裝 QEMU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org76c2c22"><span class="nav-text">安裝 qemu-user</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9144c77"><span class="nav-text">載入 binfmt_misc 模組並註冊 ARM 平台的資訊到系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9425b63"><span class="nav-text">檢查是否有註冊資訊成功</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org527c5f6"><span class="nav-text">複製 qemu-user 檔案到 ARM 平台的 root file system  裡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga43f8a7"><span class="nav-text">chroot 到 ARM 平台的 Root File System</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge70b5eb"><span class="nav-text">使用預先做好的腳本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf1b74e9"><span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0ba5e4d"><span class="nav-text">預先準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb5c386e"><span class="nav-text">安裝 QEMU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf680709"><span class="nav-text">安裝 qemu-user</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf841818"><span class="nav-text">載入 binfmt_misc 模組並註冊 ARM 平台的資訊到系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1e3bf65"><span class="nav-text">檢查是否有註冊資訊成功</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org55ddef2"><span class="nav-text">複製 qemu-user 檔案到 ARM 平台的 root file system  裡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaaf5c28"><span class="nav-text">chroot 到 ARM 平台的 Root File System</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1e1ee81"><span class="nav-text">使用預先做好的腳本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org51e8c3b"><span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

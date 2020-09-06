@@ -242,9 +242,9 @@
 本文將講述如何透過 <a href="https://github.com/CoatiSoftware/Sourcetrail" target="_blank" rel="noopener">Sourcetrail</a> 來協助閱讀以 <a href="https://mesonbuild.com" target="_blank" rel="noopener">meson</a> 編譯系統為主的專案。其中 <a href="https://github.com/CoatiSoftware/Sourcetrail" target="_blank" rel="noopener">Sourcetrail</a> 的安裝方式請自行查找，不額外贅述。
 </p>
 
-<div id="outline-container-org951b8b5" class="outline-2">
-<h2 id="org951b8b5">取得 weston</h2>
-<div class="outline-text-2" id="text-org951b8b5">
+<div id="outline-container-org0cd1d92" class="outline-2">
+<h2 id="org0cd1d92">取得 weston</h2>
+<div class="outline-text-2" id="text-org0cd1d92">
 <p>
 本文以 <a href="https://github.com/wayland-project/weston" target="_blank" rel="noopener">weston</a> 為例，因此我們先來下載 <a href="https://github.com/wayland-project/weston" target="_blank" rel="noopener">weston</a> 的程式碼
 </p>
@@ -290,9 +290,9 @@ HEAD is now at 3180fa8a build: bump to version 7.0.0 for the official release
 </div>
 </div>
 
-<div id="outline-container-org22dc479" class="outline-2">
-<h2 id="org22dc479">安裝編譯用的依賴</h2>
-<div class="outline-text-2" id="text-org22dc479">
+<div id="outline-container-org8eb4ce7" class="outline-2">
+<h2 id="org8eb4ce7">安裝編譯用的依賴</h2>
+<div class="outline-text-2" id="text-org8eb4ce7">
 <p>
 由於我們要查看 weston 的程式碼，因此最好讓系統滿足編譯 weston 的依賴，這樣在查找的時候才不會有什麼東西找不到對應的標頭檔或是對應的程式碼檔案。
 </p>
@@ -310,16 +310,14 @@ coldnew@gentoo ~ $ sudo emerge dev-libs/weston
 </p>
 </div>
 </div>
-<div id="outline-container-org3aaf38c" class="outline-2">
-<h2 id="org3aaf38c">編譯 weston</h2>
-<div class="outline-text-2" id="text-org3aaf38c">
+<div id="outline-container-org57268cb" class="outline-2">
+<h2 id="org57268cb">編譯 weston</h2>
+<div class="outline-text-2" id="text-org57268cb">
 <p>
 安裝好編譯依賴後，由於我們需要透過 <a href="https://github.com/CoatiSoftware/Sourcetrail" target="_blank" rel="noopener">Sourcetrail</a> 來查看 weston 的程式碼，因此需要透過以下命令去讓 <a href="https://mesonbuild.com" target="_blank" rel="noopener">meson</a> 產生一些編譯前資訊
 </p>
 
-<pre><font color="lightgreen" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
-onmousedown="return false;" onselectstart="return false;" ondragstart="return false"><b>coldnew@getnoo</b></font><font color="lightblue" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
-onmousedown="return false;" onselectstart="return false;" ondragstart="return false"><b> ~/weston $</b></font> meson build -Dsimple-dmabuf-drm=auto
+<pre><font color="lightgreen" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" onmousedown="return false;" onselectstart="return false;" ondragstart="return false"><b>coldnew@getnoo</b></font><font color="lightblue" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" onmousedown="return false;" onselectstart="return false;" ondragstart="return false"><b> ~/weston $</b></font> meson build -Dsimple-dmabuf-drm=auto
 <b>The Meson build system</b>
 Version: 0.52.1
 Source dir: <b>/home/coldnew/weston</b>
@@ -349,9 +347,7 @@ Found ninja-1.9.0.git.kitware.dyndep-1.jobserver-1 at /usr/bin/ninja
 另外，由於 <code>weston</code> 會在編譯的時候透過 <code>wayland-scanner</code> 來產生一些需要的 <code>header</code> 以及 <code>.c</code> 檔案，因此我們還是透過 <a href="https://ninja-build.org/manual.html" target="_blank" rel="noopener">ninja</a> 這套編譯系統來將我們的程式碼編譯一下吧~
 </p>
 
-<pre><font color="lightgreen" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
-onmousedown="return false;" onselectstart="return false;" ondragstart="return false"><b>coldnew@getnoo</b></font><font color="lightblue" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
-onmousedown="return false;" onselectstart="return false;" ondragstart="return false"><b> ~/weston $</b></font> ninja -C build
+<pre><font color="lightgreen" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" onmousedown="return false;" onselectstart="return false;" ondragstart="return false"><b>coldnew@getnoo</b></font><font color="lightblue" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" onmousedown="return false;" onselectstart="return false;" ondragstart="return false"><b> ~/weston $</b></font> ninja -C build
 ninja: Entering directory `build/&apos;
 [121/433] Compiling C object &apos;libweston/backend-rdp/13a5658@@rdp-backend@sha/rdp.c.o&apos;.
 <b>../libweston/backend-rdp/rdp.c:</b> In function ‘<b>rdp_peer_context_new</b>’:
@@ -376,16 +372,16 @@ In file included from <b>/usr/include/winpr2/winpr/wtsapi.h:25</b>,
 </div>
 </div>
 
-<div id="outline-container-org7cc40d6" class="outline-2">
-<h2 id="org7cc40d6">Sourcetrail 建立專案</h2>
-<div class="outline-text-2" id="text-org7cc40d6">
+<div id="outline-container-org45c3452" class="outline-2">
+<h2 id="org45c3452">Sourcetrail 建立專案</h2>
+<div class="outline-text-2" id="text-org45c3452">
 <p>
 啟動 <a href="https://github.com/CoatiSoftware/Sourcetrail" target="_blank" rel="noopener">Sourcetrail</a> 後，我們來建立新的專案
 </p>
 
 
 <div class="figure">
-<p><img src="1.png"  />
+<p><img src="1.png">
 </p>
 </div>
 
@@ -395,7 +391,7 @@ In file included from <b>/usr/include/winpr2/winpr/wtsapi.h:25</b>,
 
 
 <div class="figure">
-<p><img src="2.png"  />
+<p><img src="2.png">
 </p>
 </div>
 
@@ -405,7 +401,7 @@ In file included from <b>/usr/include/winpr2/winpr/wtsapi.h:25</b>,
 
 
 <div class="figure">
-<p><img src="3.png"  />
+<p><img src="3.png">
 </p>
 </div>
 
@@ -415,7 +411,7 @@ In file included from <b>/usr/include/winpr2/winpr/wtsapi.h:25</b>,
 
 
 <div class="figure">
-<p><img src="4.png"  />
+<p><img src="4.png">
 </p>
 </div>
 
@@ -425,7 +421,7 @@ In file included from <b>/usr/include/winpr2/winpr/wtsapi.h:25</b>,
 
 
 <div class="figure">
-<p><img src="5.png"  />
+<p><img src="5.png">
 </p>
 </div>
 
@@ -435,30 +431,30 @@ In file included from <b>/usr/include/winpr2/winpr/wtsapi.h:25</b>,
 
 
 <div class="figure">
-<p><img src="6.png"  />
+<p><img src="6.png">
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc6d9a5f" class="outline-2">
-<h2 id="orgc6d9a5f">Sourcetrail 查看程式碼</h2>
-<div class="outline-text-2" id="text-orgc6d9a5f">
+<div id="outline-container-org1df896a" class="outline-2">
+<h2 id="org1df896a">Sourcetrail 查看程式碼</h2>
+<div class="outline-text-2" id="text-org1df896a">
 <p>
 索引完成後，就可以透過 <a href="https://github.com/CoatiSoftware/Sourcetrail" target="_blank" rel="noopener">Sourcetrail</a> 來查找我們的程式碼囉~
 </p>
 
 
 <div class="figure">
-<p><img src="7.png"  />
+<p><img src="7.png">
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8f78ed1" class="outline-2">
-<h2 id="org8f78ed1">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org8f78ed1">
+<div id="outline-container-orgb61e372" class="outline-2">
+<h2 id="orgb61e372">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgb61e372">
 <ul class="org-ul">
 <li><a href="https://sarcasm.github.io/notes/dev/compilation-database.html" target="_blank" rel="noopener">Sarcasm notebook: Compilation database</a></li>
 
@@ -574,7 +570,7 @@ In file included from <b>/usr/include/winpr2/winpr/wtsapi.h:25</b>,
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-count">103</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -629,7 +625,7 @@ In file included from <b>/usr/include/winpr2/winpr/wtsapi.h:25</b>,
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org951b8b5"><span class="nav-text">取得 weston</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org22dc479"><span class="nav-text">安裝編譯用的依賴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3aaf38c"><span class="nav-text">編譯 weston</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7cc40d6"><span class="nav-text">Sourcetrail 建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc6d9a5f"><span class="nav-text">Sourcetrail 查看程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8f78ed1"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org0cd1d92"><span class="nav-text">取得 weston</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8eb4ce7"><span class="nav-text">安裝編譯用的依賴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org57268cb"><span class="nav-text">編譯 weston</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org45c3452"><span class="nav-text">Sourcetrail 建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1df896a"><span class="nav-text">Sourcetrail 查看程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb61e372"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

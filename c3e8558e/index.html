@@ -257,9 +257,9 @@
 本文將以 <a href="http://store.digilentinc.com/zybo-zynq-7000-arm-fpga-soc-trainer-board/" target="_blank" rel="noopener">Zybo Board</a> 作為目標開發板，示範如何使用 Yocto 來構件他的系統。
 </p>
 
-<div id="outline-container-orgae8d35c" class="outline-2">
-<h2 id="orgae8d35c">預先準備</h2>
-<div class="outline-text-2" id="text-orgae8d35c">
+<div id="outline-container-orga60bf0e" class="outline-2">
+<h2 id="orga60bf0e">預先準備</h2>
+<div class="outline-text-2" id="text-orga60bf0e">
 <p>
 根據你使用的 Linux 發行板的不同，你需要安裝一些套件，這邊列出一些發行板的資訊，詳細請參考 <a href="http://www.yoctoproject.org/docs/2.0/ref-manual/ref-manual.html#intro-requirements" target="_blank" rel="noopener">Yocto Project Reference Manual</a>
 </p>
@@ -313,24 +313,24 @@ Python <span style="color: #ccaaff;">2.7.5</span> <span style="color: #aadddd;">
 </div>
 </div>
 
-<div id="outline-container-org5ff31e3" class="outline-2">
-<h2 id="org5ff31e3">格式化 MicroSD 卡</h2>
-<div class="outline-text-2" id="text-org5ff31e3">
+<div id="outline-container-orge321219" class="outline-2">
+<h2 id="orge321219">格式化 MicroSD 卡</h2>
+<div class="outline-text-2" id="text-orge321219">
 <p>
 在這次的開發中，我們要設定 MicroSD 卡片成兩個分區，第一個是 <code>fat32</code> 格式，第二個則使用 <code>ext4</code> 格式，若不會使用 <code>fdisk</code> 命令的話，可以透過 <code>gparted</code> 來進行格式化，以下是我格式化卡片的範例 (8GB 卡片)。
 </p>
 
 
 <div class="figure">
-<p><img src="format.png"  />
+<p><img src="format.png">
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd650c06" class="outline-2">
-<h2 id="orgd650c06">下載 Poky</h2>
-<div class="outline-text-2" id="text-orgd650c06">
+<div id="outline-container-orgb34b17c" class="outline-2">
+<h2 id="orgb34b17c">下載 Poky</h2>
+<div class="outline-text-2" id="text-orgb34b17c">
 <p>
 在開始用 <a href="https://www.yoctoproject.org/" target="_blank" rel="noopener">Yocto Project</a> 之前，我們需要下載 Poky, Poky 是 Yocto 的構建系統，基本上我們會用到的東西都會在 poky 資料夾內
 </p>
@@ -353,9 +353,9 @@ coldnew@gentoo ~/poky $ cd poky
 </div>
 </div>
 
-<div id="outline-container-org87b4556" class="outline-2">
-<h2 id="org87b4556">下載 meta-xilinx</h2>
-<div class="outline-text-2" id="text-org87b4556">
+<div id="outline-container-org3dd8b83" class="outline-2">
+<h2 id="org3dd8b83">下載 meta-xilinx</h2>
+<div class="outline-text-2" id="text-org3dd8b83">
 <p>
 Yocto 對於不同的 SoC 廠商，會有提供不同的 layer 來對特定的開源程式加上合適的 patch，或是添加不同 SoC 廠各自需要的韌體(firmware)，以及各開發板特定的設定。
 在 Xilinx 平台上，我們需要下載 <code>meta-xilinx</code> ，我們需要的 kernel 以及 Zybo board 的設定資訊都在裡面。
@@ -371,9 +371,9 @@ coldnew@gentoo ~/poky $ git clone git://github.com/Xilinx/meta-xilinx -b krogoth
 </div>
 </div>
 
-<div id="outline-container-org6035800" class="outline-2">
-<h2 id="org6035800">切換到編譯用目錄</h2>
-<div class="outline-text-2" id="text-org6035800">
+<div id="outline-container-org5caddd0" class="outline-2">
+<h2 id="org5caddd0">切換到編譯用目錄</h2>
+<div class="outline-text-2" id="text-org5caddd0">
 <p>
 接下來，我們將透過 <code>source</code> 指令暫時修改當前 shell 的環境變數，並切換到 <code>build</code> 資料夾
 </p>
@@ -461,9 +461,9 @@ BBLAYERS ?= <span style="color: #aadddd;">" \</span>
 </div>
 </div>
 
-<div id="outline-container-org326015b" class="outline-2">
-<h2 id="org326015b">編譯 core-image-minimal</h2>
-<div class="outline-text-2" id="text-org326015b">
+<div id="outline-container-org77d450d" class="outline-2">
+<h2 id="org77d450d">編譯 core-image-minimal</h2>
+<div class="outline-text-2" id="text-org77d450d">
 <p>
 Yocto 下有許多預設的 image 可以進行編譯，其中最基本的 image 就是 <code>core-image-minimal</code> 了，裡面只會包含一些幾本的組件而已，我們可以透過他來確認我們編譯出來的 rootfs 是否能用。
 </p>
@@ -568,16 +568,16 @@ coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linu
 </div>
 </div>
 
-<div id="outline-container-org29f5ce9" class="outline-2">
-<h2 id="org29f5ce9">測試開機與結果</h2>
-<div class="outline-text-2" id="text-org29f5ce9">
+<div id="outline-container-org35a1630" class="outline-2">
+<h2 id="org35a1630">測試開機與結果</h2>
+<div class="outline-text-2" id="text-org35a1630">
 <p>
 是時候來測試結果了，要注意到你的 Zybo Board 的 <code>JP5</code> 要設定成下面這樣，這樣給電時，Zynq 才會讀取 SD 卡上面的 u-boot 並將位元流 (bitstream) 燒錄到 FPGA 中。
 </p>
 
 
 <div class="figure">
-<p><img src="sdboot.png"  />
+<p><img src="sdboot.png">
 </p>
 </div>
 
@@ -587,15 +587,15 @@ coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linu
 
 
 <div class="figure">
-<p><img src="console.png"  />
+<p><img src="console.png">
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1407a38" class="outline-2">
-<h2 id="org1407a38">延伸閱讀</h2>
-<div class="outline-text-2" id="text-org1407a38">
+<div id="outline-container-orgd75cce9" class="outline-2">
+<h2 id="orgd75cce9">延伸閱讀</h2>
+<div class="outline-text-2" id="text-orgd75cce9">
 <p>
 <code>[1]</code> <a href="https://github.com/Xilinx/meta-xilinx/blob/master/README.booting.md" target="_blank" rel="noopener">Booting meta-xilinx boards</a>
 </p>
@@ -713,7 +713,7 @@ coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linu
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">104</span>
+              <span class="site-state-item-count">103</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -768,7 +768,7 @@ coldnew@gentoo /tmp/sdc2 $ sudo tar xvf ~/poky/build/tmp/deploy/images/zybo-linu
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgae8d35c"><span class="nav-text">預先準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5ff31e3"><span class="nav-text">格式化 MicroSD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd650c06"><span class="nav-text">下載 Poky</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org87b4556"><span class="nav-text">下載 meta-xilinx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6035800"><span class="nav-text">切換到編譯用目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org326015b"><span class="nav-text">編譯 core-image-minimal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org29f5ce9"><span class="nav-text">測試開機與結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1407a38"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orga60bf0e"><span class="nav-text">預先準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge321219"><span class="nav-text">格式化 MicroSD 卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb34b17c"><span class="nav-text">下載 Poky</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3dd8b83"><span class="nav-text">下載 meta-xilinx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5caddd0"><span class="nav-text">切換到編譯用目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org77d450d"><span class="nav-text">編譯 core-image-minimal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org35a1630"><span class="nav-text">測試開機與結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd75cce9"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
