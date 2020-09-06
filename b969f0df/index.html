@@ -52,12 +52,12 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="在 Ultra96 開發紀錄: 硬體認識 一文中我們了解了 Ultra96v1 這塊開發板的一些資訊後，就讓我們來開始第一個專案吧。    由於 Ultra96 拉出來的低速擴充腳位(Low Speed Expansion Connector)基本上是以 2.0mm 的寬度為主，不透過擴充板之類的會讓我們不好使用，因此這邊文章將採用傳統的方式，透過 Uart1 來將我們的測試訊息輸出。">
+<meta name="description" content="在 Ultra96 開發紀錄: 硬體認識 一文中我們了解了 Ultra96v1 這塊開發板的一些資訊後，就讓我們來開始第一個專案吧。    由於 Ultra96 拉出來的低速擴充腳位(Low Speed Expansion Connector)基本上是以 2.0mm 的寬度為主，並且電壓為 1.8V ，不透過擴充板之類的會讓我們不好使用，因此這邊文章將採用傳統的方式，透過 Uart1 來將我們">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ultra96 開發紀錄: Hello Cortex-A53">
 <meta property="og:url" content="https://coldnew.github.io/b969f0df/index.html">
 <meta property="og:site_name" content="coldnew&#39;s blog">
-<meta property="og:description" content="在 Ultra96 開發紀錄: 硬體認識 一文中我們了解了 Ultra96v1 這塊開發板的一些資訊後，就讓我們來開始第一個專案吧。    由於 Ultra96 拉出來的低速擴充腳位(Low Speed Expansion Connector)基本上是以 2.0mm 的寬度為主，不透過擴充板之類的會讓我們不好使用，因此這邊文章將採用傳統的方式，透過 Uart1 來將我們的測試訊息輸出。">
+<meta property="og:description" content="在 Ultra96 開發紀錄: 硬體認識 一文中我們了解了 Ultra96v1 這塊開發板的一些資訊後，就讓我們來開始第一個專案吧。    由於 Ultra96 拉出來的低速擴充腳位(Low Speed Expansion Connector)基本上是以 2.0mm 的寬度為主，並且電壓為 1.8V ，不透過擴充板之類的會讓我們不好使用，因此這邊文章將採用傳統的方式，透過 Uart1 來將我們">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://coldnew.github.io/b969f0df/motivation.png">
 <meta property="og:image" content="https://coldnew.github.io/b969f0df/vivado_1.png">
@@ -102,7 +102,7 @@
 <meta property="og:image" content="https://coldnew.github.io/b969f0df/e1.png">
 <meta property="og:image" content="https://coldnew.github.io/b969f0df/e2.png">
 <meta property="article:published_time" content="2020-09-05T11:10:00.000Z">
-<meta property="article:modified_time" content="2020-09-05T16:36:21.818Z">
+<meta property="article:modified_time" content="2020-09-06T01:31:54.910Z">
 <meta property="article:author" content="Yen-Chin, Lee">
 <meta property="article:tag" content="fpga">
 <meta property="article:tag" content="xilinx">
@@ -247,7 +247,7 @@
       <div class="post-meta">
         <span class="post-time">
           最後更新
-          <time itemprop="dateCreated" datetime="2020-09-06T00:36:21+08:00" content="2020-09-06">
+          <time itemprop="dateCreated" datetime="2020-09-06T09:31:54+08:00" content="2020-09-06">
             2020-09-06
           </time>
         </span>
@@ -287,7 +287,7 @@
 </p>
 
 <p>
-由於 Ultra96 拉出來的低速擴充腳位(Low Speed Expansion Connector)基本上是以 <code>2.0mm</code> 的寬度為主，不透過擴充板之類的會讓我們不好使用，因此這邊文章將採用傳統的方式，透過 Uart1 來將我們的測試訊息輸出。
+由於 Ultra96 拉出來的低速擴充腳位(Low Speed Expansion Connector)基本上是以 <code>2.0mm</code> 的寬度為主，並且電壓為 <code>1.8V</code> ，不透過擴充板之類的會讓我們不好使用，因此這邊文章將採用傳統的方式，透過 Uart1 來將我們的測試訊息輸出。
 </p>
 
 <p>
@@ -296,9 +296,9 @@
 
 <a id="more"></a>
 
-<div id="outline-container-orgeb98d06" class="outline-2">
-<h2 id="orgeb98d06">使用設備</h2>
-<div class="outline-text-2" id="text-orgeb98d06">
+<div id="outline-container-orgacc5769" class="outline-2">
+<h2 id="orgacc5769">使用設備</h2>
+<div class="outline-text-2" id="text-orgacc5769">
 <p>
 要完成本篇文章所描述的部份，你需要以下幾種器材:
 </p>
@@ -311,9 +311,9 @@
 </div>
 </div>
 
-<div id="outline-container-org00fd32f" class="outline-2">
-<h2 id="org00fd32f">開發目標</h2>
-<div class="outline-text-2" id="text-org00fd32f">
+<div id="outline-container-org942065e" class="outline-2">
+<h2 id="org942065e">開發目標</h2>
+<div class="outline-text-2" id="text-org942065e">
 <p>
 由於這是第一個 Ultra96 的專案，當然是從 Hello World 來開始啦~ 我們將透過 <a href="https://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 建立基本的 Ultra96 的系統，並透過 <a href="https://www.xilinx.com/products/design-tools/vitis.html" target="_blank" rel="noopener">Vitis</a> 來建立一個會透過 <code>UART1</code> 顯示 <code>Hello World</code> 的簡單程式，你將可以透過 <a href="http://www.ultra96.org/product/ultra96-usb-jtaguart-pod" target="_blank" rel="noopener">Ultra96 USB-to-JTAG/UART Pod</a> 這邊讀取到顯示的訊息。
 </p>
@@ -326,9 +326,9 @@
 </div>
 </div>
 
-<div id="outline-container-org8bbac06" class="outline-2">
-<h2 id="org8bbac06">建立專案</h2>
-<div class="outline-text-2" id="text-org8bbac06">
+<div id="outline-container-org4fe2d9a" class="outline-2">
+<h2 id="org4fe2d9a">建立專案</h2>
+<div class="outline-text-2" id="text-org4fe2d9a">
 <p>
 首先讓我們打開 <a href="https://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener">Vivado</a> 吧，請確定在進行這一步之前，有先參照 <a href="https://coldnew.github.io/7c056878/">Ultra96 開發紀錄: 讓 Vivado 有 Ultra96 的設定檔</a> 一文的說明，讓我們在建立專案的時候可以找到 <a href="https://www.96boards.org/product/ultra96/" target="_blank" rel="noopener">ultra96</a> 這塊開發板。
 </p>
@@ -389,9 +389,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgf6ba8a3" class="outline-2">
-<h2 id="orgf6ba8a3">建立 Block Design</h2>
-<div class="outline-text-2" id="text-orgf6ba8a3">
+<div id="outline-container-org19e94b2" class="outline-2">
+<h2 id="org19e94b2">建立 Block Design</h2>
+<div class="outline-text-2" id="text-org19e94b2">
 <p>
 由於我們的設計需要用到 Xilinx 一些現成的 IP 的時候，就會需要透過 Block Design 來建立我們的電路設計。
 </p>
@@ -486,9 +486,9 @@
 </div>
 </div>
 
-<div id="outline-container-orge9e158e" class="outline-2">
-<h2 id="orge9e158e">產生 HDL Wrapper</h2>
-<div class="outline-text-2" id="text-orge9e158e">
+<div id="outline-container-org43f97e0" class="outline-2">
+<h2 id="org43f97e0">產生 HDL Wrapper</h2>
+<div class="outline-text-2" id="text-org43f97e0">
 <p>
 接下來我們要將剛剛用 Block Design 建立的電路變成 verilog 程式碼，因此會需要進行產生 HDL Wrapper 這個步驟。
 </p>
@@ -519,9 +519,9 @@
 </div>
 </div>
 
-<div id="outline-container-org1acd47b" class="outline-2">
-<h2 id="org1acd47b">產生位元流 (bitstream)</h2>
-<div class="outline-text-2" id="text-org1acd47b">
+<div id="outline-container-org9e91084" class="outline-2">
+<h2 id="org9e91084">產生位元流 (bitstream)</h2>
+<div class="outline-text-2" id="text-org9e91084">
 <p>
 前面的處理都好了後，接下來點選 <code>Program and Debug -&gt; Generate Bitstream</code> 去讓 Viavado 將這個專案產生出 位元流 (bitstream) ，Zynq UltraScale+ 會在開機的時候根據 bitstream 的資訊對 FPGA 進行設定。
 </p>
@@ -596,9 +596,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgbe80f15" class="outline-2">
-<h2 id="orgbe80f15">Vitis IDE</h2>
-<div class="outline-text-2" id="text-orgbe80f15">
+<div id="outline-container-orge7c1b55" class="outline-2">
+<h2 id="orge7c1b55">Vitis IDE</h2>
+<div class="outline-text-2" id="text-orge7c1b55">
 <p>
 啟動 Vitis IDE 後，點選 <code>File -&gt; New -&gt; Application Project</code> 去建立新的專案
 </p>
@@ -673,9 +673,9 @@ XSA (Xilinx SUpport Archive) 包含了關於這個硬體、IP、記憶體位址�
 </div>
 </div>
 
-<div id="outline-container-orge3132a0" class="outline-2">
-<h2 id="orge3132a0">App</h2>
-<div class="outline-text-2" id="text-orge3132a0">
+<div id="outline-container-orgbdf6052" class="outline-2">
+<h2 id="orgbdf6052">App</h2>
+<div class="outline-text-2" id="text-orgbdf6052">
 <p>
 建立好專案後，會看到這樣的視窗，由於 Ultra96 預設從 JTAG-UART 轉板得到的 UART 訊號是 <code>UART1</code> ，因此我們需要透過 <code>Navigate to BSP Settings</code> 去做些額外的設定。
 </p>
@@ -728,9 +728,9 @@ XSA (Xilinx SUpport Archive) 包含了關於這個硬體、IP、記憶體位址�
 </div>
 </div>
 
-<div id="outline-container-orgd856962" class="outline-2">
-<h2 id="orgd856962">設定 JTAG 下載</h2>
-<div class="outline-text-2" id="text-orgd856962">
+<div id="outline-container-org9772260" class="outline-2">
+<h2 id="org9772260">設定 JTAG 下載</h2>
+<div class="outline-text-2" id="text-org9772260">
 <p>
 為了透過 Micro USB 連接到 Ultra96 上的 JTAG 來進行下載，我們需要對 Ultra96 上的 <code>SW2</code> 要進行一些調整，變成下面這樣。
 </p>
@@ -767,9 +767,9 @@ XSA (Xilinx SUpport Archive) 包含了關於這個硬體、IP、記憶體位址�
 </div>
 </div>
 
-<div id="outline-container-org05eeb62" class="outline-2">
-<h2 id="org05eeb62">下載到開發板 (FPGA)</h2>
-<div class="outline-text-2" id="text-org05eeb62">
+<div id="outline-container-orgfa0067d" class="outline-2">
+<h2 id="orgfa0067d">下載到開發板 (FPGA)</h2>
+<div class="outline-text-2" id="text-orgfa0067d">
 <p>
 由於我們到目前為止還沒有將編譯好的位元流 (bitstream) 下載到我們的 Ultra96 去，因此先來下載吧。
 </p>
@@ -800,9 +800,9 @@ XSA (Xilinx SUpport Archive) 包含了關於這個硬體、IP、記憶體位址�
 </div>
 </div>
 
-<div id="outline-container-orge2c60a1" class="outline-2">
-<h2 id="orge2c60a1">連接 UART</h2>
-<div class="outline-text-2" id="text-orge2c60a1">
+<div id="outline-container-org7297326" class="outline-2">
+<h2 id="org7297326">連接 UART</h2>
+<div class="outline-text-2" id="text-org7297326">
 <p>
 我們可以在 <a href="https://www.xilinx.com/products/design-tools/vitis.html" target="_blank" rel="noopener">Vitis IDE</a> 上面直接連接 UART，由於這份 Hello World 程式只會輸出訊息一次，因此我們需要先連接上 UART 在執行程式，這樣才可以順利看到訊息。
 </p>
@@ -839,9 +839,9 @@ XSA (Xilinx SUpport Archive) 包含了關於這個硬體、IP、記憶體位址�
 </div>
 </div>
 
-<div id="outline-container-orgea7e2f5" class="outline-2">
-<h2 id="orgea7e2f5">下載到開發板 (ELF)</h2>
-<div class="outline-text-2" id="text-orgea7e2f5">
+<div id="outline-container-orga7814cf" class="outline-2">
+<h2 id="orga7814cf">下載到開發板 (ELF)</h2>
+<div class="outline-text-2" id="text-orga7814cf">
 <p>
 由於我們沒有修改程式，因此直接跑 <code>Release</code> build 就好，對 <code>Release</code> 點選右鍵，選擇 <code>Run -&gt; Launch on Hardware (Single Application Debug)</code> 這樣 IDE 就會自動幫我們把程式下載下去囉
 </p>
@@ -855,9 +855,9 @@ XSA (Xilinx SUpport Archive) 包含了關於這個硬體、IP、記憶體位址�
 </div>
 
 
-<div id="outline-container-org3198ba7" class="outline-2">
-<h2 id="org3198ba7">結果</h2>
-<div class="outline-text-2" id="text-org3198ba7">
+<div id="outline-container-orgc7f2442" class="outline-2">
+<h2 id="orgc7f2442">結果</h2>
+<div class="outline-text-2" id="text-orgc7f2442">
 <p>
 如果一切都運作正常，你應該會看到 UART Console 裡面顯示 <code>Hello World</code> 的訊息，代表我們的程式至少有跑成功！
 </p>
@@ -870,9 +870,9 @@ XSA (Xilinx SUpport Archive) 包含了關於這個硬體、IP、記憶體位址�
 </div>
 </div>
 
-<div id="outline-container-orge07dccc" class="outline-2">
-<h2 id="orge07dccc">延伸閱讀</h2>
-<div class="outline-text-2" id="text-orge07dccc">
+<div id="outline-container-org3b5a4df" class="outline-2">
+<h2 id="org3b5a4df">延伸閱讀</h2>
+<div class="outline-text-2" id="text-org3b5a4df">
 <ul class="org-ul">
 <li><a href="https://www.hackster.io/adam-taylor/two-methods-of-building-petalinux-for-the-ultra96-77c8e0" target="_blank" rel="noopener">Two Methods of Building PetaLinux for the Ultra96</a></li>
 
@@ -1045,7 +1045,7 @@ XSA (Xilinx SUpport Archive) 包含了關於這個硬體、IP、記憶體位址�
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgeb98d06"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org00fd32f"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8bbac06"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf6ba8a3"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge9e158e"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1acd47b"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbe80f15"><span class="nav-text">Vitis IDE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge3132a0"><span class="nav-text">App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd856962"><span class="nav-text">設定 JTAG 下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org05eeb62"><span class="nav-text">下載到開發板 (FPGA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge2c60a1"><span class="nav-text">連接 UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgea7e2f5"><span class="nav-text">下載到開發板 (ELF)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3198ba7"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge07dccc"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgacc5769"><span class="nav-text">使用設備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org942065e"><span class="nav-text">開發目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4fe2d9a"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org19e94b2"><span class="nav-text">建立 Block Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org43f97e0"><span class="nav-text">產生 HDL Wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9e91084"><span class="nav-text">產生位元流 (bitstream)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge7c1b55"><span class="nav-text">Vitis IDE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbdf6052"><span class="nav-text">App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9772260"><span class="nav-text">設定 JTAG 下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfa0067d"><span class="nav-text">下載到開發板 (FPGA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7297326"><span class="nav-text">連接 UART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga7814cf"><span class="nav-text">下載到開發板 (ELF)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc7f2442"><span class="nav-text">結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3b5a4df"><span class="nav-text">延伸閱讀</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
