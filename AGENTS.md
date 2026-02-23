@@ -36,6 +36,10 @@ src/
 ├── styles/         # Global CSS
 ├── assets/         # Images, fonts, etc.
 └── consts.ts       # Global constants
+
+astro-org/          # Custom org-mode integration (can be published as standalone)
+└── src/
+    └── index.ts    # Main integration code
 ```
 
 ### TypeScript Conventions

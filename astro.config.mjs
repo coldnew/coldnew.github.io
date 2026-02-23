@@ -2,7 +2,7 @@
 
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import org from 'astro-org';
+import org from './astro-org/src/index.ts';
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
