@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is an **Astro blog** project - a static site generator using Astro framework with TypeScript, MDX content collections, and minimal styling.
+This is an **Astro blog** project - a static site generator using Astro framework with TypeScript, MDX content collections, org-mode support, and minimal styling.
 
 ## Build Commands
 
@@ -75,11 +75,11 @@ const { title, description, image = FallbackImage } = Astro.props;
 
 ### Content Collections
 
-Define schemas using Zod in `src/content.config.ts`. Use `image()` helper for images, `z.coerce.date()` for dates:
+Define schemas using Zod in `src/content.config.ts`. Use `image()` helper for images, `z.coerce.date()` for dates. The glob pattern supports `.md`, `.mdx`, and `.org` files:
 
 ```typescript
 const blog = defineCollection({
-  loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx,org}' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -135,7 +135,7 @@ import { SITE_TITLE } from '../consts';
 
 ## Dependencies
 
-Core dependencies (do not remove): `astro`, `@astrojs/mdx`, `@astrojs/sitemap`, `@astrojs/rss`, `sharp`
+Core dependencies (do not remove): `astro`, `@astrojs/mdx`, `@astrojs/sitemap`, `@astrojs/rss`, `sharp`, `astro-org`, `uniorg-parse`, `uniorg-rehype`
 
 ---
 
@@ -148,13 +148,22 @@ Create `.env` file for local development if needed. Not required for basic opera
 ## Common Tasks
 
 ### Adding a new blog post
-Create `.md` or `.mdx` file in `src/content/blog/` with frontmatter:
+Create `.md`, `.mdx`, or `.org` file in `src/content/blog/` with frontmatter:
 ```markdown
 ---
 title: 'Post Title'
 description: 'Post description'
 pubDate: '2024-01-01'
 ---
+```
+
+Org-mode files use #+TITLE, #+DESCRIPTION, #+DATE keywords:
+```org
+#+TITLE: Post Title
+#+DESCRIPTION: Post description
+#+DATE: 2024-01-01
+#+STARTUP: content
+* My Post Content
 ```
 
 ### Adding a new component/page
