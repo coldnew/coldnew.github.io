@@ -12,9 +12,9 @@ This is an **Astro blog** project - a static site generator using Astro framewor
 | `npm run build` | Build production site to `./dist/` |
 | `npm run preview` | Preview build locally before deploying |
 | `npm run astro <cmd` | Run Astro CLI commands (e.g., `astro add`, `astro check`) |
-| `npm run lint` | Run Biome linting |
+| `npm run lint` | Run oxlint linting |
 | `npm run lint:fix` | Auto-fix lint issues |
-| `npm run format` | Format code with Biome |
+| `npm run format` | Format code with oxfmt |
 
 ### Running a Single Test
 
