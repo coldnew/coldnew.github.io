@@ -109,7 +109,7 @@ function stringifyFrontmatter(data: Record<string, any>): string {
     }
   }
 
-  lines.push('---');
+  lines.push('---\n');
   return lines.join('\n');
 }
 
