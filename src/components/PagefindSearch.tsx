@@ -19,12 +19,12 @@ interface PagefindResult {
     title: string;
   };
   excerpt: string;
-  score: number;
 }
 
-interface PagefindSearchResult {
-  results: Array<{
-    result: PagefindResult;
+interface PagefindInstance {
+  init: () => Promise<void>;
+  search: (query: string) => Promise<{
+    results: Array<{ data: () => Promise<PagefindResult> }>;
   }>;
 }
 
@@ -36,10 +36,7 @@ interface PagefindSearchDialogProps {
 
 declare global {
   interface Window {
-    pagefind?: {
-      init: () => Promise<void>;
-      search: (query: string) => Promise<PagefindSearchResult>;
-    };
+    pagefind?: PagefindInstance;
   }
 }
 
@@ -54,21 +51,25 @@ export function PagefindSearchDialog({
     Array<{ type: 'page'; id: string; content: string; url: string }>
   >([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [pagefindLoaded, setPagefindLoaded] = useState(false);
+  const [pagefindInstance, setPagefindInstance] =
+    useState<PagefindInstance | null>(null);
 
   useEffect(() => {
-    if (open && !pagefindLoaded) {
-      import('@pagefind/default-ui')
-        .then((pagefind) => {
-          window.pagefind = pagefind as unknown as typeof window.pagefind;
-          window.pagefind?.init();
-          setPagefindLoaded(true);
-        })
-        .catch((err) => {
-          console.error('Failed to load pagefind:', err);
-        });
+    if (open && !pagefindInstance) {
+      const script = document.createElement('script');
+      script.src = '/pagefind/pagefind.js';
+      script.onload = () => {
+        if (window.pagefind) {
+          window.pagefind.init();
+          setPagefindInstance(window.pagefind);
+        }
+      };
+      script.onerror = (err) => {
+        console.error('Failed to load pagefind:', err);
+      };
+      document.head.appendChild(script);
     }
-  }, [open, pagefindLoaded]);
+  }, [open, pagefindInstance]);
 
   useEffect(() => {
     if (!search.trim()) {
@@ -82,21 +83,25 @@ export function PagefindSearchDialog({
       return;
     }
 
-    const runSearch = async () => {
-      if (!window.pagefind) {
-        setResults([]);
-        return;
-      }
+    if (!pagefindInstance) {
+      return;
+    }
 
+    const runSearch = async () => {
       setIsLoading(true);
       try {
-        const searchResult = await window.pagefind.search(search);
-        const items = searchResult.results.slice(0, 10).map((r) => ({
-          type: 'page' as const,
-          id: r.result.url,
-          content: r.result.meta.title,
-          url: r.result.url,
-        }));
+        const searchResult = await pagefindInstance.search(search);
+        const items = await Promise.all(
+          searchResult.results.slice(0, 10).map(async (r) => {
+            const data = await r.data();
+            return {
+              type: 'page' as const,
+              id: data.url,
+              content: data.meta.title,
+              url: data.url,
+            };
+          })
+        );
         setResults(items);
       } catch (err) {
         console.error('Search error:', err);
@@ -108,7 +113,7 @@ export function PagefindSearchDialog({
 
     const debounce = setTimeout(runSearch, 150);
     return () => clearTimeout(debounce);
-  }, [search, links]);
+  }, [search, links, pagefindInstance]);
 
   const onSelect = useCallback(
     (item: { type: string; url: string }) => {
