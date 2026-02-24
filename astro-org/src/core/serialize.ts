@@ -84,13 +84,23 @@ function stringifyFrontmatter(data: Record<string, any>): string {
   for (const [key, value] of Object.entries(data)) {
     if (value === undefined || value === null) continue;
 
-    if (typeof value === 'string') {
-      // Escape special characters in strings
-      const escaped = value
-        .replace(/:/g, '\\:')
-        .replace(/#/g, '\\#')
-        .replace(/\n/g, '\\n');
-      lines.push(`${key}: ${escaped}`);
+    if (value instanceof Date) {
+      lines.push(`${key}: ${value.toISOString()}`);
+    } else if (typeof value === 'string') {
+      if (value.includes('\n')) {
+        lines.push(`${key}: |`);
+        for (const line of value.split('\n')) {
+          lines.push(`  ${line}`);
+        }
+      } else if (
+        value.includes(':') ||
+        value.includes('#') ||
+        value.includes('"')
+      ) {
+        lines.push(`${key}: "${value.replace(/"/g, '\\"')}"`);
+      } else {
+        lines.push(`${key}: ${value}`);
+      }
     } else if (typeof value === 'boolean') {
       lines.push(`${key}: ${value}`);
     } else if (typeof value === 'number') {
@@ -99,7 +109,11 @@ function stringifyFrontmatter(data: Record<string, any>): string {
       lines.push(`${key}:`);
       for (const item of value) {
         if (typeof item === 'string') {
-          lines.push(`  - ${item}`);
+          if (item.includes(':') || item.includes('#') || item.includes('"')) {
+            lines.push(`  - "${item.replace(/"/g, '\\"')}"`);
+          } else {
+            lines.push(`  - ${item}`);
+          }
         } else {
           lines.push(`  - ${JSON.stringify(item)}`);
         }

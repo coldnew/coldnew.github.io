@@ -43,7 +43,16 @@ function parseFrontmatterToData(
     const match = line.match(/^(\w+):\s*(.*)$/);
     if (match) {
       const key = match[1];
-      const value = match[2].trim().replace(/\\:/g, ':').replace(/\\n/g, '\n');
+      let value = match[2].trim().replace(/\\:/g, ':').replace(/\\n/g, '\n');
+
+      // Remove surrounding quotes if present
+      if (
+        (value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'"))
+      ) {
+        value = value.slice(1, -1);
+      }
+
       data[key] = value;
 
       if (key === 'title' || key === 'TITLE') {
@@ -53,7 +62,19 @@ function parseFrontmatterToData(
         data.description = value;
       }
       if (key === 'date' || key === 'DATE') {
-        data.pubDate = new Date(value);
+        // Try to parse date, keep as string if parsing fails
+        const parsedDate = new Date(value);
+        if (!isNaN(parsedDate.getTime())) {
+          data.pubDate = parsedDate.toISOString();
+        } else {
+          // For org-mode dates like <2012-12-15 Sat 14:43>, extract just the date part
+          const dateMatch = value.match(/<(\d{4}-\d{2}-\d{2})/);
+          if (dateMatch) {
+            data.pubDate = dateMatch[1];
+          } else {
+            data.pubDate = value;
+          }
+        }
       }
     }
   }
