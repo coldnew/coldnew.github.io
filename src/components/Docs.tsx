@@ -4,6 +4,7 @@ import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import { DocsPage, type DocsPageProps } from 'fumadocs-ui/layouts/docs/page';
 import { RootProvider } from 'fumadocs-ui/provider/base';
 import type { ReactNode } from 'react';
+import { PagefindSearchDialog } from './PagefindSearch';
 
 interface DocsProps {
   tree: Root;
@@ -41,6 +42,9 @@ export function Docs({
         theme={{
           defaultTheme: 'dark',
           enabled: true,
+        }}
+        search={{
+          SearchDialog: PagefindSearchDialog,
         }}
       >
         <DocsLayout
