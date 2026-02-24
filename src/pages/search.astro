@@ -1,0 +1,28 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import { Docs } from '../components/Docs';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { source } from '../lib/source';
+import Search from 'astro-pagefind/components/Search';
+import '../styles/global.css';
+
+const tree = source.getPageTree();
+const pathname = Astro.url.pathname;
+const q = Astro.url.searchParams.get('q') ?? undefined;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Docs tree={tree} pathname={pathname} disableBreadcrumb={true} disableFooter={true} client:load>
+      <div class="prose max-w-none">
+        <h1>Search</h1>
+        <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false }} query={q} />
+        <div id="search-results"></div>
+      </div>
+    </Docs>
+  </body>
+</html>

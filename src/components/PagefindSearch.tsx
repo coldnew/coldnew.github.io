@@ -20,11 +20,15 @@ interface PagefindResult {
   };
 }
 
-interface PagefindInstance {
-  init: () => Promise<void>;
-  search: (query: string) => Promise<{
-    results: Array<{ data: () => Promise<PagefindResult> }>;
+interface PagefindSearchResult {
+  results: Array<{
+    data: () => Promise<PagefindResult>;
   }>;
+}
+
+interface PagefindModule {
+  init: () => Promise<void>;
+  search: (query: string) => Promise<PagefindSearchResult>;
 }
 
 interface PagefindSearchDialogProps {
@@ -33,15 +37,9 @@ interface PagefindSearchDialogProps {
   links?: Array<[string, string]>;
 }
 
-declare global {
-  interface Window {
-    pagefind?: PagefindInstance;
-  }
-}
-
 export function PagefindSearchDialog({
-  open,
-  onOpenChange,
+  open = false,
+  onOpenChange = () => {},
   links = [],
 }: PagefindSearchDialogProps) {
   const router = useRouter();
@@ -50,9 +48,8 @@ export function PagefindSearchDialog({
     Array<{ type: 'page'; id: string; content: string; url: string }>
   >([]);
   const [isLoading, setIsLoading] = useState(false);
-  const pagefindRef = useRef<PagefindInstance | null>(null);
+  const pagefindRef = useRef<PagefindModule | null>(null);
   const pagefindLoadedRef = useRef(false);
-
   const defaultItems = useMemo(
     () =>
       links.map(([name, link]) => ({
@@ -64,43 +61,25 @@ export function PagefindSearchDialog({
     [links]
   );
 
-  useEffect(() => {
-    if (open && !pagefindLoadedRef.current) {
-      const script = document.createElement('script');
-      script.src = '/pagefind/pagefind.js';
-      script.onload = () => {
-        if (window.pagefind) {
-          window.pagefind.init();
-          pagefindRef.current = window.pagefind;
-          pagefindLoadedRef.current = true;
-        }
-      };
-      script.onerror = (err) => {
-        console.error('Failed to load pagefind:', err);
-      };
-      document.head.appendChild(script);
-    }
-  }, [open]);
+  const searchRef = useRef(search);
+  searchRef.current = search;
 
-  useEffect(() => {
-    if (!search.trim()) {
-      setResults(defaultItems);
-      return;
-    }
+  const runSearch = useCallback(
+    async (query: string) => {
+      const pf = pagefindRef.current;
+      if (!pf) {
+        return;
+      }
 
-    const pf = pagefindRef.current;
-    if (!pf) {
-      return;
-    }
+      if (!query.trim()) {
+        setResults(defaultItems);
+        setIsLoading(false);
+        return;
+      }
 
-    let cancelled = false;
-
-    const runSearch = async () => {
       setIsLoading(true);
       try {
-        const searchResult = await pf.search(search);
-        if (cancelled) return;
-
+        const searchResult = await pf.search(query);
         const items = await Promise.all(
           searchResult.results.slice(0, 10).map(async (r) => {
             const data = await r.data();
@@ -112,32 +91,53 @@ export function PagefindSearchDialog({
             };
           })
         );
-        if (cancelled) return;
         setResults(items);
       } catch (err) {
-        if (cancelled) return;
         console.error('Search error:', err);
         setResults([]);
       } finally {
-        if (!cancelled) {
-          setIsLoading(false);
-        }
+        setIsLoading(false);
       }
-    };
+    },
+    [defaultItems]
+  );
 
-    const debounce = setTimeout(runSearch, 150);
-    return () => {
-      cancelled = true;
-      clearTimeout(debounce);
-    };
-  }, [search, defaultItems]);
+  useEffect(() => {
+    if (open && !pagefindLoadedRef.current) {
+      const loadPagefind = async () => {
+        try {
+          const pagefindModule = (await import(
+            '/pagefind/pagefind.js?url'.replace('?url', '').replace('?', '')
+          )) as unknown as PagefindModule;
+          await pagefindModule.init();
+          pagefindRef.current = pagefindModule;
+          pagefindLoadedRef.current = true;
+          if (searchRef.current.trim()) {
+            runSearch(searchRef.current);
+          }
+        } catch (err) {
+          console.error('Failed to load pagefind:', err);
+        }
+      };
+      loadPagefind();
+    }
+  }, [open, runSearch]);
 
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setSearch(value);
+      runSearch(value);
+    },
+    [runSearch]
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSelect = useCallback(
-    (item: { type: string; url: string }) => {
+    (item: any) => {
       if (item.url) {
         router.push(item.url);
       }
-      onOpenChange?.(false);
+      onOpenChange(false);
     },
     [router, onOpenChange]
   );
@@ -147,7 +147,7 @@ export function PagefindSearchDialog({
       open={open}
       onOpenChange={onOpenChange}
       search={search}
-      onSearchChange={setSearch}
+      onSearchChange={handleSearchChange}
       isLoading={isLoading}
       onSelect={onSelect}
     >
@@ -158,7 +158,7 @@ export function PagefindSearchDialog({
           <SearchDialogInput />
           <SearchDialogClose />
         </SearchDialogHeader>
-        <SearchDialogList items={results.length > 0 ? results : null} />
+        <SearchDialogList items={results.length > 0 ? results : defaultItems} />
       </SearchDialogContent>
     </SearchDialog>
   );

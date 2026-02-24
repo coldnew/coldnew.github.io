@@ -5,6 +5,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
+import pagefind from 'astro-pagefind';
 import {
   rehypeCode,
   remarkCodeTab,
@@ -30,6 +31,7 @@ export default defineConfig({
     }),
     sitemap(),
     org(),
+    pagefind(),
   ],
   vite: {
     plugins: [tailwindcss()],
