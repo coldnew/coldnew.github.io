@@ -2,6 +2,22 @@ import { LANGUAGE_MAPPINGS, MARKERS, PATTERNS } from '../constants';
 import type { CodeBlock } from '../types';
 import type { BlockContext } from './types';
 
+function dedent(content: string): string {
+  const lines = content.split('\n');
+  if (lines.length === 0) return content;
+
+  let minIndent = Infinity;
+  for (const line of lines) {
+    if (line.trim().length === 0) continue;
+    const leadingSpaces = line.match(/^[ \t]*/)?.[0]?.length ?? 0;
+    minIndent = Math.min(minIndent, leadingSpaces);
+  }
+
+  if (minIndent === Infinity || minIndent === 0) return content;
+
+  return lines.map((line) => line.slice(minIndent)).join('\n');
+}
+
 /**
  * Parse header arguments from org-mode src block
  */
@@ -161,13 +177,12 @@ export function restoreCodeBlocks(
             beginIndex + beginMarker.length,
             endIndex
           );
-          // Remove leading/trailing newlines but preserve indentation
-          const trimmedContent = content
-            .replace(/^\n+/, '')
-            .replace(/\n+$/, '');
+          const trimmedContent = dedent(
+            content.replace(/^\n+/, '').replace(/\n+$/, '')
+          );
           return `\`\`\`text\n${trimmedContent}\n\`\`\``;
         }
-        return original; // fallback
+        return original;
       } else if (lang === 'org') {
         // For org blocks, extract content and put in text code block without processing inner blocks
         const beginMarker = '#+begin_src org\n';
@@ -180,13 +195,12 @@ export function restoreCodeBlocks(
             beginIndex + beginMarker.length,
             endIndex
           );
-          // Remove leading/trailing newlines but preserve indentation
-          const trimmedContent = content
-            .replace(/^\n+/, '')
-            .replace(/\n+$/, '');
+          const trimmedContent = dedent(
+            content.replace(/^\n+/, '').replace(/\n+$/, '')
+          );
           return `\`\`\`text\n${trimmedContent}\n\`\`\``;
         }
-        return original; // fallback
+        return original;
       } else {
         // Skip rendering if exports is none
         if (block.exports === 'none') {
@@ -208,10 +222,9 @@ export function restoreCodeBlocks(
                 return restoreCodeBlocks('CODEBLOCKMARKER0', context);
               }
             );
-            // Remove leading/trailing newlines but preserve indentation
-            const trimmedContent = restoredContent
-              .replace(/^\n+/, '')
-              .replace(/\n+$/, '');
+            const trimmedContent = dedent(
+              restoredContent.replace(/^\n+/, '').replace(/\n+$/, '')
+            );
             // Map 'math' language to 'latex' for syntax highlighting
             const language = blockLang === 'math' ? 'latex' : blockLang || '';
             let codeBlock = `\`\`\`${language}\n${trimmedContent}\n\`\`\``;

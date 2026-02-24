@@ -409,4 +409,101 @@ def hello():
     pass
 \`\`\``);
   });
+
+  it('should dedent code block content', () => {
+    const context: BlockContext = {
+      codeBlocks: [
+        {
+          original: `#+begin_src sh
+    # -*- mode: sh -*-
+    export LC_CTYPE="zh_TW.UTF-8"
+
+    # ibus
+    export XMODIFIERS="@im=ibus"
+#+end_src`,
+          lang: 'sh',
+        },
+      ],
+      latexBlocks: [],
+      htmlBlocks: [],
+      jsxBlocks: [],
+      exportHtmlBlocks: [],
+      exportBlocks: [],
+      calloutBlocks: [],
+      exampleBlocks: [],
+    };
+
+    const markdown = 'CODEBLOCKMARKER0';
+    const result = restoreCodeBlocks(markdown, context);
+
+    expect(result).toBe(`\`\`\`sh
+# -*- mode: sh -*-
+export LC_CTYPE="zh_TW.UTF-8"
+
+# ibus
+export XMODIFIERS="@im=ibus"
+\`\`\``);
+  });
+
+  it('should dedent text block content', () => {
+    const context: BlockContext = {
+      codeBlocks: [
+        {
+          original: `#+begin_src text
+    indented text
+    more indented
+#+end_src`,
+          lang: 'text',
+        },
+      ],
+      latexBlocks: [],
+      htmlBlocks: [],
+      jsxBlocks: [],
+      exportHtmlBlocks: [],
+      exportBlocks: [],
+      calloutBlocks: [],
+      exampleBlocks: [],
+    };
+
+    const markdown = 'CODEBLOCKMARKER0';
+    const result = restoreCodeBlocks(markdown, context);
+
+    expect(result).toBe(`\`\`\`text
+indented text
+more indented
+\`\`\``);
+  });
+
+  it('should preserve intentional indentation in dedented content', () => {
+    const context: BlockContext = {
+      codeBlocks: [
+        {
+          original: `#+begin_src python
+def hello():
+    print("world")
+    if True:
+        print("nested")
+#+end_src`,
+          lang: 'python',
+        },
+      ],
+      latexBlocks: [],
+      htmlBlocks: [],
+      jsxBlocks: [],
+      exportHtmlBlocks: [],
+      exportBlocks: [],
+      calloutBlocks: [],
+      exampleBlocks: [],
+    };
+
+    const markdown = 'CODEBLOCKMARKER0';
+    const result = restoreCodeBlocks(markdown, context);
+
+    expect(result).toBe(`\`\`\`python
+def hello():
+    print("world")
+    if True:
+        print("nested")
+\`\`\``);
+  });
 });
