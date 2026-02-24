@@ -15,7 +15,7 @@ import type { OrgConversionResult } from './types';
  */
 export async function convertMdxToOrg(
   mdxContent: string,
-  filename: string
+  _filename: string
 ): Promise<OrgConversionResult> {
   // Extract frontmatter
   const { data: frontmatter, content: mdxWithoutFrontmatter } =
@@ -34,7 +34,7 @@ export async function convertMdxToOrg(
       ) {
         // Check if it's an ISO date string
         const date = new Date(value);
-        if (!isNaN(date.getTime())) {
+        if (!Number.isNaN(date.getTime())) {
           formattedValue = formatAsOrgTimestamp(date);
         }
       }
@@ -45,13 +45,13 @@ export async function convertMdxToOrg(
   // Parse MDX
   const processor = unified().use(remarkParse).use(remarkGfm).use(remarkMdx);
 
-  const tree = processor.parse(mdxWithoutFrontmatter + '\n');
+  const tree = processor.parse(`${mdxWithoutFrontmatter}\n`);
 
   // Convert AST to Org
   const orgContent = astToOrg(tree);
 
   return {
-    keywords: keywords ? keywords + '\n\n' : '',
+    keywords: keywords ? `${keywords}\n\n` : '',
     org: orgContent,
   };
 }
@@ -106,9 +106,9 @@ function astToOrg(node: any, depth = 0): string {
     case 'link':
       return `[[${node.url}][${node.children.map(astToOrg).join('')}]]`;
     case 'strong':
-      return '*' + node.children.map(astToOrg).join('') + '*';
+      return `*${node.children.map(astToOrg).join('')}*`;
     case 'emphasis':
-      return '/' + node.children.map(astToOrg).join('') + '/';
+      return `/${node.children.map(astToOrg).join('')}/`;
     case 'mdxJsxFlowElement': {
       // Handle include tags
       const jsxStringFlow = mdxJsxToString(node);
@@ -162,10 +162,10 @@ function astToOrg(node: any, depth = 0): string {
           const content = cell.children.map(astToOrg).join('');
           return '-'.repeat(content.length + 2); // +2 for spaces around content
         });
-        const separator = '|' + separatorParts.join('|') + '|\n';
+        const separator = `|${separatorParts.join('|')}|\n`;
         rows.splice(1, 0, separator);
       }
-      return rows.join('') + '\n';
+      return `${rows.join('')}\n`;
     }
     default:
       return '';
@@ -192,8 +192,8 @@ function mdxJsxToString(node: any): string {
   const childrenStr = children.map(astToOrg).join('');
 
   if (children.length === 0) {
-    return `<${name}${attrs ? ' ' + attrs : ''} />`;
+    return `<${name}${attrs ? ` ${attrs}` : ''} />`;
   }
 
-  return `<${name}${attrs ? ' ' + attrs : ''}>${childrenStr}</${name}>`;
+  return `<${name}${attrs ? ` ${attrs}` : ''}>${childrenStr}</${name}>`;
 }

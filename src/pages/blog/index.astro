@@ -1,17 +1,14 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import { Docs } from '../../components/Docs';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import { source } from '../../lib/source';
 import '../../styles/global.css';
 
-const posts = (await getCollection('blog')).sort(
+const _posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const tree = source.getPageTree();
-const pathname = Astro.url.pathname;
+const _tree = source.getPageTree();
+const _pathname = Astro.url.pathname;
 ---
 
 <!doctype html>

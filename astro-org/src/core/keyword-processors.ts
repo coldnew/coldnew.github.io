@@ -131,7 +131,7 @@ export const NUMBER_PROCESSOR: KeywordProcessor = {
   },
   process: (value) => {
     const num = Number(value.trim());
-    return isNaN(num) ? value : num;
+    return Number.isNaN(num) ? value : num;
   },
 };
 

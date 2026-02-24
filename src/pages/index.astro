@@ -5,8 +5,8 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { source } from '../lib/source';
 import '../styles/global.css';
 
-const tree = source.getPageTree();
-const pathname = Astro.url.pathname;
+const _tree = source.getPageTree();
+const _pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -15,7 +15,7 @@ const pathname = Astro.url.pathname;
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body>
-    <Docs tree={tree} pathname={pathname} disableBreadcrumb={true} disableFooter={true} client:load>
+    <Docs tree={_tree} pathname={_pathname} disableBreadcrumb={true} disableFooter={true} client:load>
       <div class="prose max-w-none" data-pagefind-body>
         <h1 data-pagefind-meta="title">Welcome to My Blog</h1>
         <p class="text-lg text-fd-muted-foreground mb-8">

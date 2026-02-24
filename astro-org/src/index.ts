@@ -65,7 +65,7 @@ function parseFrontmatterToData(
       if (key === 'date' || key === 'DATE') {
         // Try to parse date, keep as string if parsing fails
         const parsedDate = new Date(value);
-        if (!isNaN(parsedDate.getTime())) {
+        if (!Number.isNaN(parsedDate.getTime())) {
           data.pubDate = parsedDate.toISOString();
         } else {
           // For org-mode dates like <2012-12-15 Sat 14:43>, extract just the date part

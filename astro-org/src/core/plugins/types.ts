@@ -1,10 +1,4 @@
-import type {
-  AstNode,
-  CaptionInfo,
-  CheckboxItem,
-  PluginContext,
-  TableAlignmentInfo,
-} from '../types';
+import type { AstNode, CheckboxItem, PluginContext } from '../types';
 
 /**
  * Plugin function signature

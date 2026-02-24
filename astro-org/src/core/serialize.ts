@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import rehype2remark from 'rehype-remark';
 import remarkGfm from 'remark-gfm';
 import remarkStringify from 'remark-stringify';
@@ -62,7 +62,7 @@ function parseFrontmatter(content: string): {
       result[key] = value.slice(1, -1);
     } else if (value.startsWith("'") && value.endsWith("'")) {
       result[key] = value.slice(1, -1);
-    } else if (!isNaN(Number(value))) {
+    } else if (!Number.isNaN(Number(value))) {
       result[key] = Number(value);
     } else {
       result[key] = value;
@@ -206,7 +206,7 @@ async function processIncludes(
  * Simple synchronous YAML frontmatter parser (no fs dependency)
  * Parses ---frontmatter--- style YAML at the start of the content
  */
-function parseYamlFrontmatterSync(content: string): {
+function _parseYamlFrontmatterSync(content: string): {
   content: string;
   data: Record<string, any>;
 } {
@@ -239,7 +239,7 @@ function parseYamlFrontmatterSync(content: string): {
       result[key] = value.slice(1, -1);
     } else if (value.startsWith("'") && value.endsWith("'")) {
       result[key] = value.slice(1, -1);
-    } else if (!isNaN(Number(value))) {
+    } else if (!Number.isNaN(Number(value))) {
       result[key] = Number(value);
     } else {
       result[key] = value;
@@ -269,7 +269,7 @@ export function convertOrgToMdxSync(
       const parsed = parseFrontmatter(orgContent);
       orgContent = parsed.content;
       yamlFrontmatter = parsed.data;
-    } catch (error) {
+    } catch (_error) {
       // If parsing fails, continue without frontmatter stripping
     }
   }
@@ -374,7 +374,7 @@ export function convertOrgToMdxSync(
 
   // Restore example blocks
   markdown = markdown.replace(/EXAMPLEBLOCKMARKER(\d+)/g, (_, index) => {
-    const block = exampleBlocks[parseInt(index)];
+    const block = exampleBlocks[parseInt(index, 10)];
     const trimmed = block.content.replace(/^\n+/, '').replace(/\n+$/, '');
     return `\`\`\`\n${trimmed}\n\`\`\``;
   });
@@ -413,7 +413,7 @@ export async function convertOrgToMdx(
       const parsed = parseFrontmatter(orgContent);
       orgContent = parsed.content;
       yamlFrontmatter = parsed.data;
-    } catch (error) {
+    } catch (_error) {
       // If parsing fails, continue without frontmatter stripping
     }
   }
@@ -533,7 +533,7 @@ export async function convertOrgToMdx(
 
   // Restore example blocks
   markdown = markdown.replace(/EXAMPLEBLOCKMARKER(\d+)/g, (_, index) => {
-    const block = exampleBlocks[parseInt(index)];
+    const block = exampleBlocks[parseInt(index, 10)];
     const trimmed = block.content.replace(/^\n+/, '').replace(/\n+$/, '');
     return `\`\`\`\n${trimmed}\n\`\`\``;
   });

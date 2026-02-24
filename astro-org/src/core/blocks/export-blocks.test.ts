@@ -5,7 +5,6 @@ import {
   restoreExportBlocks,
   restoreExportHtmlBlocks,
 } from './export-blocks';
-import type { BlockContext } from './types';
 import { createBlockContext, createTestBlockContext } from './types';
 
 describe('processExportHtmlBlocks', () => {

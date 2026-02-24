@@ -6,17 +6,18 @@ import type { BlockContext } from './types';
  */
 export function processDrawerBlocks(
   content: string,
-  context: BlockContext
+  _context: BlockContext
 ): string {
   // Match drawer blocks: :drawername: ... :end:
   // The regex uses non-greedy matching to handle nested content
   const drawerRegex = /:([a-zA-Z][a-zA-Z0-9_]*):\s*\n([\s\S]*?)\s*:end:/g;
 
   let result = content;
-  let match;
+  let match: RegExpExecArray | null;
   let index = 0;
 
-  while ((match = drawerRegex.exec(content)) !== null) {
+  match = drawerRegex.exec(content);
+  while (match !== null) {
     const [, drawerName, drawerContent] = match;
 
     // Skip special drawers that shouldn't be converted to accordions
@@ -36,6 +37,7 @@ export function processDrawerBlocks(
 
     // Replace the drawer block with the accordion
     result = result.replace(match[0], accordionJSX);
+    match = drawerRegex.exec(content);
   }
 
   return result;
@@ -46,7 +48,7 @@ export function processDrawerBlocks(
  */
 export function restoreDrawerBlocks(
   markdown: string,
-  context: BlockContext
+  _context: BlockContext
 ): string {
   // Accordions are final output, no restoration needed
   return markdown;

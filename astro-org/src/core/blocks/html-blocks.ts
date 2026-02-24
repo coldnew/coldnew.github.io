@@ -1,6 +1,5 @@
 import { htmlToJsx } from 'html-to-jsx-transform';
 import { MARKERS } from '../constants';
-import type { HtmlBlock } from '../types';
 import type { BlockContext } from './types';
 
 /**
@@ -34,7 +33,7 @@ export function restoreHtmlBlocks(
   return markdown.replace(
     new RegExp(`${MARKERS.HTML_BLOCK}(\\d+)`, 'g'),
     (_, index: string) => {
-      const blockIndex = parseInt(index);
+      const blockIndex = parseInt(index, 10);
       const block = context.htmlBlocks[blockIndex];
       if (!block) return '';
 

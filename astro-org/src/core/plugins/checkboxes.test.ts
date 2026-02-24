@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createPluginContext, type PluginContext } from '../types';
+import { createPluginContext } from '../types';
 import {
   extractCheckboxes,
   orgCheckboxes,

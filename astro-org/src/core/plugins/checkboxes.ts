@@ -5,7 +5,7 @@ import type { AstNode, CheckboxItem, PluginContext } from '../types';
 /**
  * Plugin to handle Org checkboxes in list items
  */
-export function orgCheckboxes(context: PluginContext) {
+export function orgCheckboxes(_context: PluginContext) {
   return (tree: AstNode) => {
     visit(tree, 'listItem', (node: AstNode) => {
       if ((node as any).checkbox) {
@@ -49,14 +49,16 @@ export function orgCheckboxes(context: PluginContext) {
  */
 export function extractCheckboxes(orgContent: string): CheckboxItem[] {
   const checkboxes: CheckboxItem[] = [];
-  let match;
+  let match: RegExpExecArray | null;
 
-  while ((match = PATTERNS.CHECKBOX_ITEM.exec(orgContent)) !== null) {
+  match = PATTERNS.CHECKBOX_ITEM.exec(orgContent);
+  while (match !== null) {
     checkboxes.push({
       indent: match[1] || '',
       state: match[2],
       text: match[3],
     });
+    match = PATTERNS.CHECKBOX_ITEM.exec(orgContent);
   }
 
   return checkboxes;
@@ -80,7 +82,6 @@ export function restoreCheckboxes(
   for (const checkbox of checkboxes) {
     const checkboxMarker =
       checkbox.state === 'X' ? '[x]' : checkbox.state === ' ' ? '[ ]' : '[-]';
-    const escapedText = checkbox.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     // Find and replace the corresponding markdown list item
     // The markdown has different indentation, so we need to find by text content

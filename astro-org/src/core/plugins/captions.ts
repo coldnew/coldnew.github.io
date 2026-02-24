@@ -1,5 +1,5 @@
 import { visit } from 'unist-util-visit';
-import type { AstNode, LinkNode, ParagraphNode, PluginContext } from '../types';
+import type { AstNode, PluginContext } from '../types';
 
 /**
  * Function to convert Org AST to HTML text (used for captions)
@@ -9,13 +9,11 @@ function astToHtml(ast: AstNode[]): string {
     .map((node) => {
       if (node.type === 'text') return node.value || '';
       if (node.type === 'bold')
-        return '<strong>' + astToHtml(node.children || []) + '</strong>';
+        return `<strong>${astToHtml(node.children || [])}</strong>`;
       if (node.type === 'italic')
-        return '<em>' + astToHtml(node.children || []) + '</em>';
-      if (node.type === 'code')
-        return '<code>' + (node.value || '') + '</code>';
-      if (node.type === 'verbatim')
-        return '<code>' + (node.value || '') + '</code>';
+        return `<em>${astToHtml(node.children || [])}</em>`;
+      if (node.type === 'code') return `<code>${node.value || ''}</code>`;
+      if (node.type === 'verbatim') return `<code>${node.value || ''}</code>`;
       return '';
     })
     .join('');
@@ -30,7 +28,7 @@ export function orgCaptions(context: PluginContext) {
     let captionIndex = 0;
 
     visit(tree, ['paragraph', 'link'], (node: AstNode) => {
-      if ((node as any).affiliated && (node as any).affiliated.CAPTION) {
+      if ((node as any).affiliated?.CAPTION) {
         // This node has a caption
         const caption = astToHtml((node as any).affiliated.CAPTION[0]).trim();
 

@@ -37,7 +37,7 @@ export function parseOrgTimestamp(timestampStr: string): OrgTimestamp | null {
     ,
     openBracket,
     dateStr,
-    day,
+    _day,
     startTime,
     endTime,
     repeat,
@@ -127,7 +127,7 @@ export function parseHugoTime(timeStr: string): Date | null {
   try {
     const date = new Date(timeStr);
     // Check if valid date
-    if (isNaN(date.getTime())) return null;
+    if (Number.isNaN(date.getTime())) return null;
     return date;
   } catch {
     return null;

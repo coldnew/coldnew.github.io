@@ -1,5 +1,4 @@
 import { MARKERS } from '../constants';
-import type { LatexBlock } from '../types';
 import type { BlockContext } from './types';
 
 /**
@@ -36,7 +35,7 @@ export function restoreLatexBlocks(
   return markdown.replace(
     new RegExp(`${MARKERS.LATEX_BLOCK}(\\d+)`, 'g'),
     (_, index: string) => {
-      const blockIndex = parseInt(index);
+      const blockIndex = parseInt(index, 10);
       const block = context.latexBlocks[blockIndex];
       if (!block) return '';
 

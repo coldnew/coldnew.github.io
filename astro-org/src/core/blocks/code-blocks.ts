@@ -1,5 +1,4 @@
-import { LANGUAGE_MAPPINGS, MARKERS, PATTERNS } from '../constants';
-import type { CodeBlock } from '../types';
+import { MARKERS, PATTERNS } from '../constants';
 import type { BlockContext } from './types';
 
 function dedent(content: string): string {
@@ -132,7 +131,7 @@ export function processCodeBlocks(
       _match: string,
       lang: string = '',
       headerArgs: string = '',
-      blockContent: string
+      _blockContent: string
     ) => {
       const normalizedLang = lang.toLowerCase();
       const parsedArgs = parseHeaderArgs(headerArgs);
@@ -159,7 +158,7 @@ export function restoreCodeBlocks(
   return markdown.replace(
     new RegExp(`${MARKERS.CODE_BLOCK}(\\d+)`, 'g'),
     (_: string, index: string) => {
-      const blockIndex = parseInt(index);
+      const blockIndex = parseInt(index, 10);
       const block = context.codeBlocks[blockIndex];
       if (!block) return '';
 

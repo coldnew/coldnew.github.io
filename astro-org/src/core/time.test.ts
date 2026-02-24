@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
   formatAsOrgTimestamp,
   formatToISOString,
-  type OrgTimestamp,
   type ParsedTimestamp,
   parseHugoTime,
   parseOrgTimestamp,

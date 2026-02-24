@@ -1,5 +1,4 @@
 import { MARKERS } from '../constants';
-import type { JsxBlock } from '../types';
 import type { BlockContext } from './types';
 
 /**
@@ -33,7 +32,7 @@ export function restoreJsxBlocks(
   return markdown.replace(
     new RegExp(`${MARKERS.JSX_BLOCK}(\\d+)`, 'g'),
     (_, index: string) => {
-      const blockIndex = parseInt(index);
+      const blockIndex = parseInt(index, 10);
       const block = context.jsxBlocks[blockIndex];
       if (!block) return '';
 

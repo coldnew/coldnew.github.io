@@ -46,11 +46,11 @@ async function main() {
     if (inputExt === '.org') {
       const conversion = await convertOrgToMdx(inputContent, inputBasename);
       result = conversion.frontmatter + conversion.markdown;
-      defaultOutput = join(inputDir, basename(inputFile, '.org') + '.mdx');
+      defaultOutput = join(inputDir, `${basename(inputFile, '.org')}.mdx`);
     } else if (inputExt === '.md' || inputExt === '.mdx') {
       const conversion = await convertMdxToOrg(inputContent, inputBasename);
       result = conversion.org;
-      defaultOutput = join(inputDir, basename(inputFile, inputExt) + '.org');
+      defaultOutput = join(inputDir, `${basename(inputFile, inputExt)}.org`);
     } else {
       console.error(`Error: Unsupported file extension "${inputExt}"`);
       console.error('Supported formats: .org, .md, .mdx');

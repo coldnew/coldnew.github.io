@@ -1,6 +1,5 @@
 import { htmlToJsx } from 'html-to-jsx-transform';
 import { MARKERS } from '../constants';
-import type { ExportBlock, ExportHtmlBlock } from '../types';
 import type { BlockContext } from './types';
 
 /**
@@ -17,7 +16,7 @@ export function processExportHtmlBlocks(
     /#\+begin_export html(.*)?\s*\n([\s\S]*?)#\+end_export/g,
     (_, properties: string, html: string) => {
       // Check for :noexport: property
-      if (properties && properties.trim().includes(':noexport:')) {
+      if (properties?.trim().includes(':noexport:')) {
         return '';
       }
 
@@ -51,7 +50,7 @@ export function processExportBlocks(
       }
 
       // Check for :noexport: property
-      if (properties && properties.trim().includes(':noexport:')) {
+      if (properties?.trim().includes(':noexport:')) {
         return '';
       }
 
@@ -77,7 +76,7 @@ export function restoreExportHtmlBlocks(
   return markdown.replace(
     new RegExp(`${MARKERS.EXPORT_HTML_BLOCK}(\\d+)`, 'g'),
     (_, index: string) => {
-      const blockIndex = parseInt(index);
+      const blockIndex = parseInt(index, 10);
       const block = context.exportHtmlBlocks[blockIndex];
       if (!block) return '';
 
@@ -96,7 +95,7 @@ export function restoreExportBlocks(
   return markdown.replace(
     new RegExp(`${MARKERS.EXPORT_BLOCK}(\\d+)`, 'g'),
     (_, index: string) => {
-      const blockIndex = parseInt(index);
+      const blockIndex = parseInt(index, 10);
       const block = context.exportBlocks[blockIndex];
       if (!block) return '';
 

@@ -37,15 +37,15 @@ export function rehypeCaptionsAndTableAlignment(context: PluginContext) {
             (parent as any).children[0].type === 'text' &&
             (parent as any).children[0].value.includes('\n');
 
-          if (isInline && !isDisplayMath) {
+          if (isInline && !isDisplayMath && index !== undefined) {
             // Replace with $...$
-            (parent as any).children[index!] = {
+            (parent as any).children[index] = {
               type: 'text',
               value: `$${mathContent}$`,
             };
-          } else {
+          } else if (index !== undefined) {
             // Replace with display math $$...$$
-            (parent as any).children[index!] = {
+            (parent as any).children[index] = {
               type: 'text',
               value: `$$\n${mathContent}\n$$`,
             };
@@ -55,7 +55,7 @@ export function rehypeCaptionsAndTableAlignment(context: PluginContext) {
         // Handle captions for images
         if (elem.tagName === 'img') {
           // Handle file: prefix in src
-          if (elem.properties.src && elem.properties.src.startsWith('file:')) {
+          if (elem.properties.src?.startsWith('file:')) {
             elem.properties.src = elem.properties.src.slice(5);
             if (!elem.properties.alt) {
               elem.properties.alt = 'img';
@@ -101,7 +101,7 @@ export function rehypeCaptionsAndTableAlignment(context: PluginContext) {
           const tbody = elem.children?.find(
             (child: any) => child.tagName === 'tbody'
           );
-          if (tbody && tbody.children && tbody.children.length >= 2) {
+          if (tbody?.children && tbody.children.length >= 2) {
             // Assume first row is header, second is separator
             const headerRow = tbody.children[0];
             const separatorRow = tbody.children[1];

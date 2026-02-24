@@ -60,12 +60,12 @@ export function orgTableAlignment(context: PluginContext) {
           // Replace empty header with data row content
           headerRow.children = dataRow.children;
           // Remove the data row (now duplicated)
-          table.children!.splice(3, 1);
+          table.children?.splice(3, 1);
         }
       }
 
       // Remove the alignment row from the table
-      table.children!.splice(2, 1);
+      table.children?.splice(2, 1);
     });
   };
 }
