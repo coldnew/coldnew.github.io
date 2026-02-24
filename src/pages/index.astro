@@ -1,7 +1,7 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { Docs } from '../components/Docs';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { source } from '../lib/source';
 import '../styles/global.css';
 
@@ -15,7 +15,7 @@ const pathname = Astro.url.pathname;
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body>
-    <Docs tree={tree} pathname={pathname} client:load>
+    <Docs tree={tree} pathname={pathname} disableBreadcrumb={true} disableFooter={true} client:load>
       <div class="prose max-w-none">
         <h1>Welcome to My Blog</h1>
         <p class="text-lg text-fd-muted-foreground mb-8">

@@ -2,8 +2,8 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import { Docs } from '../components/Docs';
+import FormattedDate from '../components/FormattedDate.astro';
 import { source } from '../lib/source';
 import '../styles/global.css';
 
@@ -13,6 +13,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 const tree = source.getPageTree();
 const pathname = Astro.url.pathname;
+const isBlogPost = pathname.startsWith('/blog/');
 
 const toc: any[] = [];
 ---
@@ -23,7 +24,7 @@ const toc: any[] = [];
   </head>
 
   <body>
-    <Docs tree={tree} pathname={pathname} page={{ toc }} client:load>
+    <Docs tree={tree} pathname={pathname} page={{ toc }} disableBreadcrumb={!isBlogPost} disableFooter={!isBlogPost} client:load>
       {heroImage && (
         <div class="mb-8">
           <Image

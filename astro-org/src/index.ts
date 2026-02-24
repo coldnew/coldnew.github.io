@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import type { AstroIntegration, HookParameters } from 'astro';
+import { rehypeCode, remarkHeading } from 'fumadocs-core/mdx-plugins';
 import { convertOrgToMdx } from './core/index.js';
 
 type SetupHookParams = HookParameters<'astro:config:setup'> & {
@@ -156,9 +157,12 @@ export default function org(): AstroIntegration {
           },
           handlePropagation: true,
           async getRenderFunction(config: any) {
-            const processor = await createMarkdownProcessor(
-              config.markdown ?? {}
-            );
+            const processor = await createMarkdownProcessor({
+              ...config.markdown,
+              syntaxHighlight: false,
+              remarkPlugins: [remarkHeading],
+              rehypePlugins: [rehypeCode],
+            });
             return async function renderToString(entry: any) {
               const result = await processor.render(entry.body ?? '', {
                 frontmatter: entry.data,

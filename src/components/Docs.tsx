@@ -11,6 +11,8 @@ interface DocsProps {
   pathname: string;
   params?: Record<string, string | string[]>;
   page?: DocsPageProps;
+  disableBreadcrumb?: boolean;
+  disableFooter?: boolean;
 }
 
 export function Docs({
@@ -19,6 +21,8 @@ export function Docs({
   pathname,
   params = {},
   page,
+  disableBreadcrumb = false,
+  disableFooter = false,
 }: DocsProps) {
   return (
     <FrameworkProvider
@@ -59,7 +63,15 @@ export function Docs({
             },
           ]}
         >
-          <DocsPage {...page}>{children}</DocsPage>
+          <DocsPage
+            {...page}
+            breadcrumb={
+              disableBreadcrumb ? { enabled: false } : page?.breadcrumb
+            }
+            footer={disableFooter ? { enabled: false } : page?.footer}
+          >
+            {children}
+          </DocsPage>
         </DocsLayout>
       </RootProvider>
     </FrameworkProvider>
