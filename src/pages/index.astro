@@ -1,9 +1,12 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { Docs } from '../components/Docs';
+import { source } from '../lib/source';
 import '../styles/global.css';
+
+const tree = source.getPageTree();
+const pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -11,40 +14,32 @@ import '../styles/global.css';
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="flex flex-col min-h-screen bg-fd-background text-fd-foreground">
-    <Header />
-    <main class="flex-1">
-      <div class="container mx-auto px-4 py-16">
-        <div class="max-w-3xl mx-auto">
-          <h1 class="text-4xl font-bold mb-6 text-fd-foreground">
-            Welcome to My Blog
-          </h1>
-          <p class="text-lg text-fd-muted-foreground mb-8">
-            A personal blog built with Astro and fumadocs theme.
-          </p>
-          <div class="prose max-w-none">
-            <p>
-              This template serves as a lightweight, styled starting point for
-              anyone looking to build a personal website, blog, or portfolio with
-              Astro.
-            </p>
-            <p>Here are a few ideas on how to get started:</p>
-            <ul>
-              <li>Edit this page in <code>src/pages/index.astro</code></li>
-              <li>Edit the site header items in <code>src/components/Header.astro</code></li>
-              <li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-              <li>Check out the included blog posts in <code>src/content/blog/</code></li>
-              <li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-            </ul>
-            <p>
-              Have fun! If you get stuck, remember to
-              <a href="https://docs.astro.build/">read the docs</a>
-              or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-            </p>
-          </div>
-        </div>
+  <body>
+    <Docs tree={tree} pathname={pathname} client:load>
+      <div class="prose max-w-none">
+        <h1>Welcome to My Blog</h1>
+        <p class="text-lg text-fd-muted-foreground mb-8">
+          A personal blog built with Astro and fumadocs theme.
+        </p>
+        <p>
+          This template serves as a lightweight, styled starting point for
+          anyone looking to build a personal website, blog, or portfolio with
+          Astro.
+        </p>
+        <p>Here are a few ideas on how to get started:</p>
+        <ul>
+          <li>Edit this page in <code>src/pages/index.astro</code></li>
+          <li>Edit the site header items in <code>src/components/Header.astro</code></li>
+          <li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
+          <li>Check out the included blog posts in <code>src/content/blog/</code></li>
+          <li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
+        </ul>
+        <p>
+          Have fun! If you get stuck, remember to
+          <a href="https://docs.astro.build/">read the docs</a>
+          or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
+        </p>
       </div>
-    </main>
-    <Footer />
+    </Docs>
   </body>
 </html>

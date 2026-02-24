@@ -1,16 +1,17 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { Docs } from '../../components/Docs';
+import { source } from '../../lib/source';
 import '../../styles/global.css';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const tree = source.getPageTree();
+const pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -18,41 +19,28 @@ const posts = (await getCollection('blog')).sort(
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="flex flex-col min-h-screen bg-fd-background text-fd-foreground">
-    <Header />
-    <main class="flex-1">
-      <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-8">Blog Posts</h1>
-        <div class="grid gap-6 md:grid-cols-2">
+  <body>
+    <Docs tree={tree} pathname={pathname} client:load>
+      <div class="prose max-w-none">
+        <h1>Blog Posts</h1>
+        <div class="grid gap-4 not-prose">
           {
             posts.map((post) => (
               <a
                 href={`/blog/${post.id}/`}
-                class="group block rounded-lg border border-fd-border bg-fd-card p-4 hover:border-fd-primary transition-colors"
+                class="block rounded-lg border border-fd-border bg-fd-card p-4 hover:border-fd-primary transition-colors"
               >
-                {post.data.heroImage && (
-                  <div class="mb-4 overflow-hidden rounded-lg">
-                    <Image
-                      width={720}
-                      height={360}
-                      src={post.data.heroImage}
-                      alt=""
-                      class="w-full object-cover transition-transform group-hover:scale-105"
-                    />
-                  </div>
-                )}
-                <h2 class="text-xl font-semibold text-fd-foreground group-hover:text-fd-primary transition-colors">
+                <h2 class="text-lg font-semibold text-fd-foreground">
                   {post.data.title}
                 </h2>
-                <p class="mt-2 text-sm text-fd-muted-foreground">
-                  <FormattedDate date={post.data.pubDate} />
+                <p class="text-sm text-fd-muted-foreground mt-1">
+                  {post.data.description}
                 </p>
               </a>
             ))
           }
         </div>
       </div>
-    </main>
-    <Footer />
+    </Docs>
   </body>
 </html>
