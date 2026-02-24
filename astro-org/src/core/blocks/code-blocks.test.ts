@@ -409,4 +409,180 @@ def hello():
     pass
 \`\`\``);
   });
+
+  it('should dedent code block content', () => {
+    const context: BlockContext = {
+      codeBlocks: [
+        {
+          original: `#+begin_src sh
+    # -*- mode: sh -*-
+    export LC_CTYPE="zh_TW.UTF-8"
+
+    # ibus
+    export XMODIFIERS="@im=ibus"
+#+end_src`,
+          lang: 'sh',
+        },
+      ],
+      latexBlocks: [],
+      htmlBlocks: [],
+      jsxBlocks: [],
+      exportHtmlBlocks: [],
+      exportBlocks: [],
+      calloutBlocks: [],
+      exampleBlocks: [],
+    };
+
+    const markdown = 'CODEBLOCKMARKER0';
+    const result = restoreCodeBlocks(markdown, context);
+
+    expect(result).toBe(`\`\`\`sh
+# -*- mode: sh -*-
+export LC_CTYPE="zh_TW.UTF-8"
+
+# ibus
+export XMODIFIERS="@im=ibus"
+\`\`\``);
+  });
+
+  it('should dedent text block content', () => {
+    const context: BlockContext = {
+      codeBlocks: [
+        {
+          original: `#+begin_src text
+    indented text
+    more indented
+#+end_src`,
+          lang: 'text',
+        },
+      ],
+      latexBlocks: [],
+      htmlBlocks: [],
+      jsxBlocks: [],
+      exportHtmlBlocks: [],
+      exportBlocks: [],
+      calloutBlocks: [],
+      exampleBlocks: [],
+    };
+
+    const markdown = 'CODEBLOCKMARKER0';
+    const result = restoreCodeBlocks(markdown, context);
+
+    expect(result).toBe(`\`\`\`text
+indented text
+more indented
+\`\`\``);
+  });
+
+  it('should preserve intentional indentation in dedented content', () => {
+    const context: BlockContext = {
+      codeBlocks: [
+        {
+          original: `#+begin_src python
+def hello():
+    print("world")
+    if True:
+        print("nested")
+#+end_src`,
+          lang: 'python',
+        },
+      ],
+      latexBlocks: [],
+      htmlBlocks: [],
+      jsxBlocks: [],
+      exportHtmlBlocks: [],
+      exportBlocks: [],
+      calloutBlocks: [],
+      exampleBlocks: [],
+    };
+
+    const markdown = 'CODEBLOCKMARKER0';
+    const result = restoreCodeBlocks(markdown, context);
+
+    expect(result).toBe(`\`\`\`python
+def hello():
+    print("world")
+    if True:
+        print("nested")
+\`\`\``);
+  });
+
+  it('should handle uppercase TEXT block', () => {
+    const content = `#+BEGIN_SRC TEXT
+Some text content
+#+END_SRC`;
+
+    const context = createBlockContext();
+    const result = processCodeBlocks(content, context);
+
+    expect(result).toBe('CODEBLOCKMARKER0');
+    expect(context.codeBlocks).toHaveLength(1);
+    expect(context.codeBlocks[0].lang).toBe('text');
+  });
+
+  it('should process and restore uppercase TEXT block', () => {
+    const context: BlockContext = {
+      codeBlocks: [
+        {
+          original: `#+BEGIN_SRC TEXT
+Some text content
+#+END_SRC`,
+          lang: 'text',
+        },
+      ],
+      latexBlocks: [],
+      htmlBlocks: [],
+      jsxBlocks: [],
+      exportHtmlBlocks: [],
+      exportBlocks: [],
+      calloutBlocks: [],
+      exampleBlocks: [],
+    };
+
+    const markdown = 'CODEBLOCKMARKER0';
+    const result = restoreCodeBlocks(markdown, context);
+
+    expect(result).toBe(`\`\`\`text
+Some text content
+\`\`\``);
+  });
+
+  it('should handle deeply indented text block content', () => {
+    const context: BlockContext = {
+      codeBlocks: [
+        {
+          original: `#+begin_src text
+     [I] media-fonts/font-adobe-100dpi
+	  Available versions:  1.0.3-r1 {X nls}
+	  Installed versions:  1.0.3-r1(09:47:42 2020-02-08)(X nls)
+	  Homepage:            https://www.x.org/wiki/
+	  Description:         X.Org Adobe bitmap fonts
+
+     [I] media-fonts/font-adobe-75dpi
+	  Available versions:  1.0.3-r1 {X nls}
+	  Installed versions:  1.0.3-r1(09:47:55 2020-02-08)(X nls)
+	  Homepage:            https://www.x.org/wiki/
+	  Description:         X.Org Adobe bitmap fonts
+#+end_src`,
+          lang: 'text',
+        },
+      ],
+      latexBlocks: [],
+      htmlBlocks: [],
+      jsxBlocks: [],
+      exportHtmlBlocks: [],
+      exportBlocks: [],
+      calloutBlocks: [],
+      exampleBlocks: [],
+    };
+
+    const markdown = 'CODEBLOCKMARKER0';
+    const result = restoreCodeBlocks(markdown, context);
+
+    expect(result).toContain('```text');
+    expect(result).toContain('[I] media-fonts/font-adobe-100dpi');
+    expect(result).toContain('Available versions:  1.0.3-r1 {X nls}');
+    expect(result).not.toContain('     [I]'); // Should be dedented
+    expect(result).toContain('```');
+  });
 });
