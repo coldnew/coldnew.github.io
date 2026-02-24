@@ -41,24 +41,23 @@ function parseHeaderArgs(headerArgs: string): {
 }
 
 /**
- * Find the matching end for nested blocks
+ * Find the matching end for nested blocks (case-insensitive)
  */
 function findMatchingEnd(content: string, startIndex: number): number {
   let nestingLevel = 1;
   let searchIndex = startIndex;
+  const lowerContent = content.toLowerCase();
 
   while (searchIndex < content.length && nestingLevel > 0) {
-    const nextBegin = content.indexOf('#+begin_src', searchIndex);
-    const nextEnd = content.indexOf('#+end_src', searchIndex);
+    const nextBegin = lowerContent.indexOf('#+begin_src', searchIndex);
+    const nextEnd = lowerContent.indexOf('#+end_src', searchIndex);
 
-    if (nextEnd === -1) return -1; // No matching end
+    if (nextEnd === -1) return -1;
 
     if (nextBegin !== -1 && nextBegin < nextEnd) {
-      // Found nested begin_src
       nestingLevel++;
       searchIndex = nextBegin + '#+begin_src'.length;
     } else {
-      // Found end_src
       nestingLevel--;
       if (nestingLevel === 0) {
         return nextEnd + '#+end_src'.length;
@@ -67,7 +66,7 @@ function findMatchingEnd(content: string, startIndex: number): number {
     }
   }
 
-  return -1; // No matching end found
+  return -1;
 }
 
 /**
@@ -80,12 +79,12 @@ export function processCodeBlocks(
   let result = content;
   let codeBlockIndex = 0;
 
-  // Handle text blocks first (with proper nesting support)
+  // Handle text blocks first (with proper nesting support, case-insensitive)
   while (true) {
-    const beginIndex = result.indexOf('#+begin_src text', 0);
+    const lowerResult = result.toLowerCase();
+    const beginIndex = lowerResult.indexOf('#+begin_src text', 0);
     if (beginIndex === -1) break;
 
-    // Find the newline after begin_src text
     const newlineIndex = result.indexOf('\n', beginIndex);
     if (newlineIndex === -1) break;
 
@@ -103,12 +102,12 @@ export function processCodeBlocks(
       result.substring(0, beginIndex) + marker + result.substring(endIndex);
   }
 
-  // Handle org blocks (with proper nesting support)
+  // Handle org blocks (with proper nesting support, case-insensitive)
   while (true) {
-    const beginIndex = result.indexOf('#+begin_src org', 0);
+    const lowerResult = result.toLowerCase();
+    const beginIndex = lowerResult.indexOf('#+begin_src org', 0);
     if (beginIndex === -1) break;
 
-    // Find the newline after begin_src org
     const newlineIndex = result.indexOf('\n', beginIndex);
     if (newlineIndex === -1) break;
 
@@ -135,10 +134,11 @@ export function processCodeBlocks(
       headerArgs: string = '',
       blockContent: string
     ) => {
+      const normalizedLang = lang.toLowerCase();
       const parsedArgs = parseHeaderArgs(headerArgs);
       context.codeBlocks.push({
         original: _match,
-        lang: lang || '',
+        lang: normalizedLang || '',
         tangle: parsedArgs.tangle,
         exports: parsedArgs.exports,
       });
@@ -166,17 +166,14 @@ export function restoreCodeBlocks(
       const { original, lang } = block;
 
       if (lang === 'text') {
-        // For text blocks, extract content between begin and end markers
-        const beginMarker = '#+begin_src text\n';
-        const endMarker = '\n#+end_src';
-        const beginIndex = original.indexOf(beginMarker);
-        const endIndex = original.lastIndexOf(endMarker);
+        // For text blocks, extract content between begin and end markers (case-insensitive)
+        const beginMatch = original.match(/#\+begin_src\s+text\n/i);
+        const endMatch = original.match(/\n?#\+end_src\s*$/i);
 
-        if (beginIndex !== -1 && endIndex !== -1 && endIndex > beginIndex) {
-          const content = original.substring(
-            beginIndex + beginMarker.length,
-            endIndex
-          );
+        if (beginMatch && endMatch && beginMatch.index !== undefined) {
+          const contentStart = beginMatch.index + beginMatch[0].length;
+          const contentEnd = endMatch.index || original.length;
+          const content = original.substring(contentStart, contentEnd);
           const trimmedContent = dedent(
             content.replace(/^\n+/, '').replace(/\n+$/, '')
           );
@@ -185,16 +182,13 @@ export function restoreCodeBlocks(
         return original;
       } else if (lang === 'org') {
         // For org blocks, extract content and put in text code block without processing inner blocks
-        const beginMarker = '#+begin_src org\n';
-        const endMarker = '\n#+end_src';
-        const beginIndex = original.indexOf(beginMarker);
-        const endIndex = original.lastIndexOf(endMarker);
+        const beginMatch = original.match(/#\+begin_src\s+org\n/i);
+        const endMatch = original.match(/\n?#\+end_src\s*$/i);
 
-        if (beginIndex !== -1 && endIndex !== -1 && endIndex > beginIndex) {
-          const content = original.substring(
-            beginIndex + beginMarker.length,
-            endIndex
-          );
+        if (beginMatch && endMatch && beginMatch.index !== undefined) {
+          const contentStart = beginMatch.index + beginMatch[0].length;
+          const contentEnd = endMatch.index || original.length;
+          const content = original.substring(contentStart, contentEnd);
           const trimmedContent = dedent(
             content.replace(/^\n+/, '').replace(/\n+$/, '')
           );
@@ -226,7 +220,9 @@ export function restoreCodeBlocks(
               restoredContent.replace(/^\n+/, '').replace(/\n+$/, '')
             );
             // Map 'math' language to 'latex' for syntax highlighting
-            const language = blockLang === 'math' ? 'latex' : blockLang || '';
+            const normalizedLang = (blockLang || '').toLowerCase();
+            const language =
+              normalizedLang === 'math' ? 'latex' : normalizedLang;
             let codeBlock = `\`\`\`${language}\n${trimmedContent}\n\`\`\``;
             if (block.tangle) {
               codeBlock = `\`\`\`${language} title="${block.tangle}"\n${trimmedContent}\n\`\`\``;
