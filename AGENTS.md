@@ -30,16 +30,16 @@ Run `npx astro check` to type-check the entire project.
 ```
 src/
 ├── components/     # Reusable UI components (.astro files)
-├── content/       # Content collections (blog posts in blog/)
-├── layouts/       # Page layouts
-├── pages/         # File-based routing
-├── styles/        # Global CSS
-├── assets/        # Images, fonts, etc.
-└── consts.ts     # Global constants
+├── content/      # Content collections (blog posts in blog/)
+├── layouts/      # Page layouts
+├── pages/        # File-based routing
+├── styles/      # Global CSS
+├── assets/      # Images, fonts, etc.
+└── consts.ts    # Global constants
 
-astro-org/         # Custom org-mode integration
+astro-org/        # Custom org-mode integration
 └── src/
-    └── index.ts  # Main integration code
+    └── index.ts  # Org-to-MDX converter & Astro integration
 ```
 
 ### TypeScript Conventions
@@ -107,7 +107,7 @@ Use try/catch for async operations, provide fallback values for optional props.
 
 ## Dependencies
 
-Core dependencies: `astro`, `@astrojs/mdx`, `@astrojs/sitemap`, `@astrojs/rss`, `sharp`, `uniorg-parse`, `uniorg-rehype`
+Core dependencies: `astro`, `@astrojs/mdx`, `@astrojs/sitemap`, `@astrojs/rss`, `sharp`, `uniorg-parse`, `uniorg-rehype`, `rehype-remark`, `remark-stringify`
 
 ---
 

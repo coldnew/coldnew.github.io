@@ -1,7 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
-import { parseOrgToHtml } from '../../../astro-org/src/index.ts';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -13,19 +12,9 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
-const isOrg = post.body?.includes('#+TITLE:') || post.body?.includes('#+TITLE :');
-
-let orgHtml = '';
-if (isOrg) {
-	orgHtml = await parseOrgToHtml(post.body);
-}
-const { Content: MdContent } = await render(post);
+const { Content } = await render(post);
 ---
 
 <BlogPost {...post.data}>
-	{isOrg ? <Fragment set:html={orgHtml} /> : <MdContent />}
-</BlogPost>
-
-<BlogPost {...post.data}>
-	{isOrg ? <Fragment set:html={orgHtml} /> : <MdContent />}
+	<Content />
 </BlogPost>
