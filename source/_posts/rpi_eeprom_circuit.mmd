@@ -1,0 +1,47 @@
+graph TD
+    subgraph "Raspberry Pi"
+        RP[RPi GPIO Header]
+        VCC[3.3V Pin]
+        GND[GND Pin]
+        SDA[GPIO 2 / SDA]
+        SCL[GPIO 3 / SCL]
+    end
+    
+    subgraph "EEPROM Device"
+        EEPROM[24C32/24C256 EEPROM IC]
+        VCC_EEPROM[VCC Pin 8]
+        GND_EEPROM[GND Pin 4]
+        SDA_EEPROM[SDA Pin 5]
+        SCL_EEPROM[SCL Pin 6]
+        WP_EEPROM[WP Pin 7]
+        A0[A0 Pin 1]
+        A1[A1 Pin 2]
+        A2[A2 Pin 3]
+    end
+    
+    subgraph "Pull-up Resistors"
+        R1[4.7kΩ]
+        R2[4.7kΩ]
+    end
+    
+    VCC --> VCC_EEPROM
+    GND --> GND_EEPROM
+    
+    SDA --> R1 --> VCC
+    SCL --> R2 --> VCC
+    
+    R1 --> SDA_EEPROM
+    R2 --> SCL_EEPROM
+    
+    SDA --> SDA_EEPROM
+    SCL --> SCL_EEPROM
+    
+    GND --> WP_EEPROM
+    GND --> A0
+    GND --> A1
+    GND --> A2
+    
+    style RP fill:#e1f5fe
+    style EEPROM fill:#f3e5f5
+    style R1 fill:#fff3e0
+    style R2 fill:#fff3e0
