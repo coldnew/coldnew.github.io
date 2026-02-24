@@ -12,6 +12,9 @@ This is an **Astro blog** project - a static site generator using Astro framewor
 | `npm run build` | Build production site to `./dist/` |
 | `npm run preview` | Preview build locally before deploying |
 | `npm run astro <cmd` | Run Astro CLI commands (e.g., `astro add`, `astro check`) |
+| `npm run lint` | Run Biome linting |
+| `npm run lint:fix` | Auto-fix lint issues |
+| `npm run format` | Format code with Biome |
 
 ### Running a Single Test
 
@@ -20,6 +23,25 @@ This is an **Astro blog** project - a static site generator using Astro framewor
 ### Type Checking
 
 Run `npx astro check` to type-check the entire project.
+
+---
+
+## Code Style Guidelines
+
+### Commit Messages
+
+This project uses **Conventional Commits**. Format:
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+[optional footer]
+```
+
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+
+Example: `feat(org): add convertOrgToMdx support`
 
 ---
 
@@ -39,7 +61,8 @@ src/
 
 astro-org/        # Custom org-mode integration
 └── src/
-    └── index.ts  # Org-to-MDX converter & Astro integration
+    ├── core/       # Org-MDX conversion library
+    └── index.ts   # Astro integration entry point
 ```
 
 ### TypeScript Conventions
