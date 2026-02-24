@@ -10,7 +10,7 @@ import type { HTMLAttributes, ReactNode } from 'react';
 
 export const components = {
   pre: (props: HTMLAttributes<HTMLPreElement> & { children?: ReactNode }) => (
-    <CodeBlock {...props}>
+    <CodeBlock keepBackground {...props}>
       <Pre>{props.children}</Pre>
     </CodeBlock>
   ),

@@ -37,12 +37,56 @@ body {
   @apply bg-fd-muted px-1.5 py-0.5 rounded text-sm;
 }
 
+/* Fumadocs code block integration */
 .prose pre {
-  @apply bg-fd-card border border-fd-border rounded-lg p-4 overflow-x-auto;
+  @apply bg-fd-card border border-fd-border rounded-lg overflow-x-auto;
 }
 
-.prose pre code {
+.prose pre[data-fd-codeblock] {
+  @apply p-0 border-0 rounded-lg overflow-hidden;
+}
+
+.prose pre[data-fd-codeblock] code {
   @apply bg-transparent p-0;
+}
+
+/* Shiki code blocks (Astro native + fumadocs) */
+.prose .shiki {
+  @apply my-4 rounded-xl border shadow-sm overflow-hidden text-sm;
+  --padding-left: 1rem;
+  --padding-right: 1rem;
+}
+
+.prose .shiki code {
+  @apply block;
+}
+
+.prose .shiki .line {
+  @apply px-4 py-0.5;
+}
+
+.prose .shiki code > .line:first-child {
+  @apply pt-4;
+}
+
+.prose .shiki code > .line:last-child {
+  @apply pb-4;
+}
+
+.prose .shiki pre {
+  @apply p-0 m-0 bg-transparent border-0;
+}
+
+.prose .shiki code {
+  @apply bg-transparent p-0 text-sm leading-relaxed;
+}
+
+.fd-codeblock {
+  @apply bg-fd-card border border-fd-border rounded-lg overflow-hidden;
+}
+
+.fd-codeblock code {
+  @apply bg-transparent p-0 text-sm leading-relaxed;
 }
 
 .prose ul {
