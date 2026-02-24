@@ -34,6 +34,7 @@ export default defineConfig({
     pagefind(),
   ],
   vite: {
+    // @ts-expect-error - tailwindcss vite plugin type mismatch
     plugins: [tailwindcss()],
     ssr: {
       noExternal: ['tslib', 'fumadocs-ui'],
