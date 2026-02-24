@@ -1,11 +1,6 @@
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import type { AstroIntegration, HookParameters } from 'astro';
-import rehype2remark from 'rehype-remark';
-import remarkGfm from 'remark-gfm';
-import remarkStringify from 'remark-stringify';
-import { unified } from 'unified';
-import parse from 'uniorg-parse';
-import uniorg2rehype from 'uniorg-rehype';
+import { convertOrgToMdx } from './core/index.js';
 
 type SetupHookParams = HookParameters<'astro:config:setup'> & {
   addPageExtension: (extension: string) => void;
@@ -14,54 +9,40 @@ type SetupHookParams = HookParameters<'astro:config:setup'> & {
   updateConfig: (config: any) => void;
 };
 
-function extractMetadata(contents: string): Record<string, any> {
-  const metadata: Record<string, any> = {};
-  const lines = contents.split('\n');
-  const bodyLines: string[] = [];
-  let inFrontmatter = true;
-
-  for (const line of lines) {
-    if (inFrontmatter) {
-      const match = line.match(/^#\+(\w+):\s*(.*)$/);
-      if (match) {
-        const key = match[1].toUpperCase();
-        const value = match[2].trim();
-
-        metadata[key] = value;
-
-        if (key === 'TITLE') {
-          metadata.title = value;
-        }
-        if (key === 'DESCRIPTION') {
-          metadata.description = value;
-        }
-        if (key === 'DATE') {
-          metadata.date = value;
-        }
-      } else if (line.trim() === '' && Object.keys(metadata).length === 0) {
-      } else if (!line.match(/^#\+/) && line.trim() !== '') {
-        inFrontmatter = false;
-        bodyLines.push(line);
-      }
-    } else {
-      bodyLines.push(line);
-    }
-  }
-
-  metadata._body = bodyLines.join('\n');
-  return metadata;
+function getSlug(frontmatter: Record<string, unknown>): string {
+  const slug = frontmatter.SLUG as string | undefined;
+  if (slug) return slug;
+  const title = frontmatter.TITLE as string | undefined;
+  if (title) return title.toLowerCase().replace(/\s+/g, '-');
+  return '';
 }
 
-function orgToMarkdown(orgBody: string): string {
-  const processor = unified()
-    .use(parse)
-    .use(uniorg2rehype)
-    .use(rehype2remark)
-    .use(remarkGfm)
-    .use(remarkStringify);
+function parseFrontmatterToData(
+  frontmatterStr: string
+): Record<string, unknown> {
+  const data: Record<string, unknown> = {};
+  const lines = frontmatterStr.split('\n');
 
-  const result = processor.processSync(orgBody);
-  return String(result);
+  for (const line of lines) {
+    const match = line.match(/^(\w+):\s*(.*)$/);
+    if (match) {
+      const key = match[1];
+      // Unescape escaped characters
+      const value = match[2].trim().replace(/\\:/g, ':').replace(/\\n/g, '\n');
+      data[key] = value;
+
+      if (key === 'title' || key === 'TITLE') {
+        data.title = value;
+      }
+      if (key === 'description' || key === 'DESCRIPTION') {
+        data.description = value;
+      }
+      if (key === 'date' || key === 'DATE') {
+        data.pubDate = new Date(value);
+      }
+    }
+  }
+  return data;
 }
 
 export default function org(): AstroIntegration {
@@ -87,22 +68,13 @@ export default function org(): AstroIntegration {
           extensions: ['.org'],
           name: 'org',
           async getEntryInfo({ contents }: { contents: string }) {
-            const parsed = extractMetadata(contents);
-            const slug =
-              parsed.SLUG ||
-              parsed.TITLE?.toLowerCase().replace(/\s+/g, '-') ||
-              '';
-            const markdownBody = orgToMarkdown(parsed._body || '');
-
-            const frontmatter = {
-              title: parsed.TITLE || parsed.title || '',
-              description: parsed.DESCRIPTION || parsed.description || '',
-              pubDate: parsed.DATE ? new Date(parsed.DATE) : undefined,
-            };
+            const result = await convertOrgToMdx(contents, 'untitled.org');
+            const frontmatterData = parseFrontmatterToData(result.frontmatter);
+            const slug = getSlug(frontmatterData);
 
             return {
-              data: frontmatter,
-              body: markdownBody,
+              data: frontmatterData,
+              body: result.markdown,
               slug,
               rawData: contents,
             };
