@@ -11,14 +11,13 @@ import {
   SearchDialogList,
   SearchDialogOverlay,
 } from 'fumadocs-ui/components/dialog/search';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 interface PagefindResult {
   url: string;
   meta: {
     title: string;
   };
-  excerpt: string;
 }
 
 interface PagefindInstance {
@@ -51,17 +50,29 @@ export function PagefindSearchDialog({
     Array<{ type: 'page'; id: string; content: string; url: string }>
   >([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [pagefindInstance, setPagefindInstance] =
-    useState<PagefindInstance | null>(null);
+  const pagefindRef = useRef<PagefindInstance | null>(null);
+  const pagefindLoadedRef = useRef(false);
+
+  const defaultItems = useMemo(
+    () =>
+      links.map(([name, link]) => ({
+        type: 'page' as const,
+        id: name,
+        content: name,
+        url: link,
+      })),
+    [links]
+  );
 
   useEffect(() => {
-    if (open && !pagefindInstance) {
+    if (open && !pagefindLoadedRef.current) {
       const script = document.createElement('script');
       script.src = '/pagefind/pagefind.js';
       script.onload = () => {
         if (window.pagefind) {
           window.pagefind.init();
-          setPagefindInstance(window.pagefind);
+          pagefindRef.current = window.pagefind;
+          pagefindLoadedRef.current = true;
         }
       };
       script.onerror = (err) => {
@@ -69,28 +80,27 @@ export function PagefindSearchDialog({
       };
       document.head.appendChild(script);
     }
-  }, [open, pagefindInstance]);
+  }, [open]);
 
   useEffect(() => {
     if (!search.trim()) {
-      const defaultItems = links.map(([name, link]) => ({
-        type: 'page' as const,
-        id: name,
-        content: name,
-        url: link,
-      }));
       setResults(defaultItems);
       return;
     }
 
-    if (!pagefindInstance) {
+    const pf = pagefindRef.current;
+    if (!pf) {
       return;
     }
+
+    let cancelled = false;
 
     const runSearch = async () => {
       setIsLoading(true);
       try {
-        const searchResult = await pagefindInstance.search(search);
+        const searchResult = await pf.search(search);
+        if (cancelled) return;
+
         const items = await Promise.all(
           searchResult.results.slice(0, 10).map(async (r) => {
             const data = await r.data();
@@ -102,18 +112,25 @@ export function PagefindSearchDialog({
             };
           })
         );
+        if (cancelled) return;
         setResults(items);
       } catch (err) {
+        if (cancelled) return;
         console.error('Search error:', err);
         setResults([]);
       } finally {
-        setIsLoading(false);
+        if (!cancelled) {
+          setIsLoading(false);
+        }
       }
     };
 
     const debounce = setTimeout(runSearch, 150);
-    return () => clearTimeout(debounce);
-  }, [search, links, pagefindInstance]);
+    return () => {
+      cancelled = true;
+      clearTimeout(debounce);
+    };
+  }, [search, defaultItems]);
 
   const onSelect = useCallback(
     (item: { type: string; url: string }) => {

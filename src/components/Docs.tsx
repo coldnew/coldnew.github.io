@@ -50,7 +50,7 @@ export function Docs({
         <DocsLayout
           tree={tree}
           nav={{
-            title: 'My Blog',
+            title: 'coldnew\'s blog',
           }}
           links={[
             {
