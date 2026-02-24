@@ -1,6 +1,10 @@
 ---
+import BaseHead from '../components/BaseHead.astro';
+import { Docs } from '../components/Docs';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { source } from '../lib/source';
 import '../styles/global.css';
+import Search from 'astro-pagefind/components/Search';
 
 const _tree = source.getPageTree();
 const _pathname = Astro.url.pathname;
@@ -13,10 +17,10 @@ const _q = Astro.url.searchParams.get('q') ?? undefined;
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body>
-    <Docs tree={tree} pathname={pathname} disableBreadcrumb={true} disableFooter={true} client:load>
+    <Docs tree={_tree} pathname={_pathname} disableBreadcrumb={true} disableFooter={true} client:load>
       <div class="prose max-w-none">
         <h1>Search</h1>
-        <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false }} query={q} />
+        <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false }} query={_q} />
         <div id="search-results"></div>
       </div>
     </Docs>

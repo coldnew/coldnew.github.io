@@ -1,10 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 import { source } from '../../lib/source';
+import BaseHead from '../../components/BaseHead.astro';
+import { Docs } from '../../components/Docs';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import '../../styles/global.css';
 
 const _posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
 const _tree = source.getPageTree();
@@ -17,7 +20,7 @@ const _pathname = Astro.url.pathname;
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body>
-    <Docs tree={tree} pathname={pathname} client:load>
+    <Docs tree={_tree} pathname={_pathname} client:load>
       <div class="prose max-w-none">
         <h1>Blog Posts</h1>
         <div class="grid gap-4 not-prose">
