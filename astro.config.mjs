@@ -36,7 +36,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     ssr: {
-      noExternal: ['tslib'],
+      noExternal: ['tslib', 'fumadocs-ui'],
     },
   },
 });
