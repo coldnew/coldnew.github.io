@@ -59,11 +59,28 @@ src/
 ├── assets/      # Images, fonts, etc.
 └── consts.ts    # Global constants
 
-astro-org/        # Custom org-mode integration
-└── src/
-    ├── core/       # Org-MDX conversion library
-    └── index.ts   # Astro integration entry point
+astro/
+├── mdx/          # Custom MDX integration for Astro
+│   └── src/
+│       ├── integration.ts  # Astro integration with getRenderModule
+│       ├── vite-plugin.ts  # Vite plugin for MDX compilation
+│       └── server.ts       # Server-side JSX renderer
+└── org/          # Custom org-mode integration
+    └── src/
+        ├── core/           # Org→MDX conversion library
+        ├── index.ts        # Astro integration entry point
+        └── toolbar-app.ts  # Dev toolbar extension
 ```
+
+### Org-Mode Rendering Pipeline
+
+Org-mode files (`.org`) are rendered via the following pipeline:
+
+1. **Conversion**: `astro/org/src/core/` converts org-mode to MDX using `uniorg-parse` → `uniorg-rehype` → `rehype-remark` → `remark-stringify`
+2. **Compilation**: The generated MDX is compiled to JSX using `@mdx-js/mdx` with the same plugins as `.mdx` files
+3. **Rendering**: `astro/mdx/src/server.ts` renders the JSX to HTML
+
+Both `astro/mdx` and `astro/org` integrations use `getRenderModule` for deferred rendering, enabling proper dev mode support.
 
 ### TypeScript Conventions
 
@@ -130,7 +147,7 @@ Use try/catch for async operations, provide fallback values for optional props.
 
 ## Dependencies
 
-Core dependencies: `astro`, `@astrojs/mdx`, `@astrojs/sitemap`, `@astrojs/rss`, `sharp`, `uniorg-parse`, `uniorg-rehype`, `rehype-remark`, `remark-stringify`
+Core dependencies: `astro`, `@astrojs/sitemap`, `@astrojs/rss`, `sharp`, `uniorg-parse`, `uniorg-rehype`, `rehype-remark`, `remark-stringify`, `@mdx-js/mdx`
 
 ---
 
@@ -165,7 +182,7 @@ See `.vscode/extensions.json` for recommended extensions.
 <!-- gitnexus:start -->
 # GitNexus MCP
 
-This project is indexed by GitNexus as **blog** (11639 symbols, 31133 relationships, 300 execution flows).
+This project is indexed by GitNexus as **blog** (11655 symbols, 31078 relationships, 300 execution flows).
 
 GitNexus provides a knowledge graph over this codebase — call chains, blast radius, execution flows, and semantic search.
 
