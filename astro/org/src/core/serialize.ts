@@ -21,6 +21,7 @@ import {
   rehypeCaptionsAndTableAlignment,
   restoreCheckboxes,
 } from './plugins';
+import { remarkCodeFigure } from './plugins/remark-code-figure.js';
 import type { ConversionOptions, ConversionResult } from './types';
 import { createPluginContext } from './types';
 import { generateDefaultTitle } from './utils';
@@ -503,6 +504,7 @@ export async function convertOrgToMdx(
     .use(uniorg2rehype)
     .use(rehypeCaptionsAndTableAlignment, pluginContext)
     .use(convertFiguresToHtml)
+    .use(remarkCodeFigure)
     .use(rehype2remark)
     .use(remarkGfm)
     .use(remarkStringify);

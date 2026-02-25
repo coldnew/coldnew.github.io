@@ -1,7 +1,11 @@
 import { fileURLToPath } from 'node:url';
-import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import { createProcessor, nodeTypes } from '@mdx-js/mdx';
 import type { AstroIntegration, HookParameters } from 'astro';
-import { rehypeCode, remarkHeading } from 'fumadocs-core/mdx-plugins';
+import { init, parse } from 'es-module-lexer';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
+import { VFile } from 'vfile';
+import type { Plugin } from 'vite';
 import { convertOrgToMdx } from './core/index.js';
 
 type SetupHookParams = HookParameters<'astro:config:setup'> & {
@@ -46,7 +50,6 @@ function parseFrontmatterToData(
       const key = match[1];
       let value = match[2].trim().replace(/\\:/g, ':').replace(/\\n/g, '\n');
 
-      // Remove surrounding quotes if present
       if (
         (value.startsWith('"') && value.endsWith('"')) ||
         (value.startsWith("'") && value.endsWith("'"))
@@ -63,12 +66,10 @@ function parseFrontmatterToData(
         data.description = value;
       }
       if (key === 'date' || key === 'DATE') {
-        // Try to parse date, keep as string if parsing fails
         const parsedDate = new Date(value);
         if (!Number.isNaN(parsedDate.getTime())) {
           data.pubDate = parsedDate.toISOString();
         } else {
-          // For org-mode dates like <2012-12-15 Sat 14:43>, extract just the date part
           const dateMatch = value.match(/<(\d{4}-\d{2}-\d{2})/);
           if (dateMatch) {
             data.pubDate = dateMatch[1];
@@ -82,7 +83,136 @@ function parseFrontmatterToData(
   return data;
 }
 
-export default function org(): AstroIntegration {
+function createOrgMdxProcessor(options: any) {
+  const remarkPlugins: any[] = [];
+  const rehypePlugins: any[] = [];
+
+  if (options?.gfm !== false) {
+    remarkPlugins.push(remarkGfm);
+  }
+  rehypePlugins.push([rehypeRaw, { passThrough: nodeTypes }]);
+
+  // Add custom plugins from options
+  if (options?.remarkPlugins) {
+    remarkPlugins.push(...options.remarkPlugins);
+  }
+  if (options?.rehypePlugins) {
+    rehypePlugins.push(...options.rehypePlugins);
+  }
+
+  return createProcessor({
+    remarkPlugins,
+    rehypePlugins,
+    recmaPlugins: options?.recmaPlugins,
+    jsxImportSource: 'astro',
+    format: 'mdx',
+    mdExtensions: [],
+    elementAttributeNameCase: 'html',
+  });
+}
+
+async function transformMdxOutput(code: string): Promise<string> {
+  await init;
+  const [imports] = parse(code) as any;
+
+  const hasFragment = imports.some((imp: any) => {
+    if (imp.n !== 'astro/jsx-runtime') return false;
+    const stmt = code.slice(imp.ss, imp.se);
+    return /[\s,{]Fragment[\s,}]/.test(stmt);
+  });
+
+  if (!hasFragment) {
+    code += `\nimport { Fragment as _Fragment } from 'astro/jsx-runtime';`;
+  }
+
+  code += `\nexport const frontmatter = {};`;
+
+  if (code.includes('export const Content')) return code;
+
+  code = code.replace(
+    'export default function MDXContent',
+    'function MDXContent'
+  );
+
+  code += `
+export const Content = (props = {}) => MDXContent({
+  ...props,
+  components: { Fragment: _Fragment, ...props.components },
+});
+export default Content;`;
+
+  code += `\nContent[Symbol.for('mdx-component')] = true;`;
+  code += `\nContent[Symbol.for('astro.needsHeadRendering')] = true;`;
+  code += `\nContent.moduleId = 'virtual.org';`;
+  code += `\nimport { __astro_tag_component__ } from 'astro/runtime/server/index.js';`;
+  code += `\n__astro_tag_component__(Content, 'astro:jsx');`;
+
+  return code;
+}
+
+function vitePluginOrg(options: any): Plugin {
+  let processor: ReturnType<typeof createOrgMdxProcessor>;
+
+  return {
+    name: 'astro-org:compile',
+    enforce: 'pre',
+    config() {
+      console.log('[astro-org] config hook called');
+    },
+    buildStart() {
+      console.log('[astro-org] buildStart hook called');
+    },
+    transform: {
+      handler: async (code: string, id: string) => {
+        const normalizedId = id.split('?')[0];
+
+        // Skip content collection files - they are handled by getRenderModule
+        if (
+          normalizedId.includes('/src/content/') &&
+          normalizedId.endsWith('.org')
+        ) {
+          return undefined;
+        }
+
+        if (!normalizedId.endsWith('.org')) return undefined;
+
+        const result = await convertOrgToMdx(code, id);
+        const mdxSource = result.markdown;
+        console.log('[astro-org] converted to mdx, length:', mdxSource.length);
+
+        if (!processor) {
+          processor = createOrgMdxProcessor(options);
+        }
+
+        const vfile = new VFile({
+          value: mdxSource,
+          path: id,
+        });
+
+        const compiled = await processor.process(vfile);
+        let outputCode = String(compiled.value);
+        outputCode = await transformMdxOutput(outputCode);
+
+        return {
+          code: outputCode,
+          map: compiled.map,
+        };
+      },
+    },
+  };
+}
+
+export interface OrgOptions {
+  mdxOptions?: {
+    remarkPlugins?: any[];
+    rehypePlugins?: any[];
+    recmaPlugins?: any[];
+    gfm?: boolean;
+    sourcemap?: boolean;
+  };
+}
+
+export default function org(options: OrgOptions = {}): AstroIntegration {
   return {
     name: 'org-mode',
     hooks: {
@@ -110,7 +240,9 @@ export default function org(): AstroIntegration {
 
         addRenderer({
           name: 'astro:jsx',
-          serverEntrypoint: '@astrojs/mdx/server.js',
+          serverEntrypoint: fileURLToPath(
+            new URL('../mdx/src/server.ts', import.meta.url)
+          ),
         });
 
         addPageExtension('.org');
@@ -118,6 +250,26 @@ export default function org(): AstroIntegration {
         const contentEntryType: any = {
           extensions: ['.org'],
           name: 'org',
+          contentModuleTypes: `
+declare module 'astro:content' {
+  interface RenderResult {
+    '.org': {
+      Content: (props: any) => any;
+      frontmatter: Record<string, any>;
+      headings: { depth: number; slug: string; text: string }[];
+      components: Record<string, any>;
+    };
+  }
+  interface Render {
+    '.org': Promise<{
+      Content: (props: any) => any;
+      frontmatter: Record<string, any>;
+      headings: { depth: number; slug: string; text: string }[];
+      components: Record<string, any>;
+    }>;
+  }
+}
+`,
           async getEntryInfo({
             contents,
             fileUrl,
@@ -125,6 +277,8 @@ export default function org(): AstroIntegration {
             contents: string;
             fileUrl: string | URL;
           }) {
+            console.log('[astro-org] getEntryInfo called for:', fileUrl);
+            console.log('[astro-org] contents length:', contents.length);
             const result = await convertOrgToMdx(contents, 'untitled.org');
             const frontmatterData = parseFrontmatterToData(result.frontmatter);
 
@@ -148,6 +302,7 @@ export default function org(): AstroIntegration {
               });
             }
 
+            console.log('[astro-org] body length:', result.markdown.length);
             return {
               data: frontmatterData,
               body: result.markdown,
@@ -155,28 +310,27 @@ export default function org(): AstroIntegration {
               rawData: contents,
             };
           },
-          handlePropagation: true,
-          async getRenderFunction(config: any) {
-            const processor = await createMarkdownProcessor({
-              ...config.markdown,
-              syntaxHighlight: false,
-              remarkPlugins: [remarkHeading],
-              rehypePlugins: [rehypeCode],
+          async getRenderModule({ contents, fileUrl, viteId }) {
+            console.log('[astro-org] getRenderModule called for:', viteId);
+            const result = await convertOrgToMdx(contents, 'untitled.org');
+            const mdxSource = result.markdown;
+            console.log(
+              '[astro-org] converted to mdx, length:',
+              mdxSource.length
+            );
+
+            const processor = createOrgMdxProcessor(options.mdxOptions);
+            const vfile = new VFile({
+              value: mdxSource,
+              path: fileUrl instanceof URL ? fileUrl : new URL(fileUrl),
             });
-            return async function renderToString(entry: any) {
-              const result = await processor.render(entry.body ?? '', {
-                frontmatter: entry.data,
-              });
-              return {
-                html: result.code,
-                metadata: {
-                  ...result.metadata,
-                  imagePaths: result.metadata.localImagePaths.concat(
-                    result.metadata.remoteImagePaths
-                  ),
-                },
-              };
-            };
+
+            const compiled = await processor.process(vfile);
+            let outputCode = String(compiled.value);
+            outputCode = await transformMdxOutput(outputCode);
+            console.log('[astro-org] compiled code length:', outputCode.length);
+
+            return { code: outputCode };
           },
         };
 
@@ -184,11 +338,11 @@ export default function org(): AstroIntegration {
 
         updateConfig({
           vite: {
-            plugins: [],
+            plugins: [vitePluginOrg(options.mdxOptions)],
           },
         });
       },
-      'astro:server:setup': ({ toolbar }) => {
+      'astro:server:setup': ({ toolbar }: any) => {
         toolbar.on('org-mode:get-markdown', (data: { path: string }) => {
           const path = data.path;
 
