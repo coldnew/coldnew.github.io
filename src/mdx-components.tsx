@@ -1,25 +1,11 @@
-import {
-  CodeBlock,
-  CodeBlockTab,
-  CodeBlockTabs,
-  CodeBlockTabsList,
-  CodeBlockTabsTrigger,
-  Pre,
-} from 'fumadocs-ui/components/codeblock';
-import type { HTMLAttributes, ReactNode } from 'react';
+import defaultMdxComponents from 'fumadocs-ui/mdx';
+import type { MDXComponents } from 'mdx/types';
 
-export const components = {
-  pre: (props: HTMLAttributes<HTMLPreElement> & { children?: ReactNode }) => {
-    return (
-      <CodeBlock {...props}>
-        <Pre>{props.children}</Pre>
-      </CodeBlock>
-    );
-  },
-  CodeBlockTab,
-  CodeBlockTabs,
-  CodeBlockTabsList,
-  CodeBlockTabsTrigger,
-};
+export function getMDXComponents(components?: MDXComponents): MDXComponents {
+  return {
+    ...defaultMdxComponents,
+    ...components,
+  };
+}
 
-export default components;
+export default defaultMdxComponents;

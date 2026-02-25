@@ -42,16 +42,41 @@ const _pathname = Astro.url.pathname;
       </div>
     </Docs>
     <script>
-      document.querySelectorAll('.shiki').forEach((el) => {
-        const classes = el.className.split(' ');
-        const idx = classes.indexOf('shiki-themes');
-        if (idx !== -1) {
-          classes.splice(idx, 0, 'shiki');
-        } else {
-          classes.push('shiki', 'shiki-themes', 'github-light', 'github-dark');
-        }
-        el.className = classes.join(' ');
-      });
+      function initCodeBlocks() {
+        document.querySelectorAll('.shiki').forEach((el) => {
+          const classes = el.className.split(' ');
+          const idx = classes.indexOf('shiki-themes');
+          if (idx !== -1) {
+            classes.splice(idx, 0, 'shiki');
+          } else {
+            classes.push('shiki', 'shiki-themes', 'github-light', 'github-dark');
+          }
+          el.className = classes.join(' ');
+        });
+
+        document.querySelectorAll('[aria-label="Copy Text"]').forEach((btn) => {
+          btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const codeBlock = btn.closest('.shiki');
+            const code = codeBlock?.querySelector('code');
+            const text = code?.innerText;
+            if (text) {
+              await navigator.clipboard.writeText(text);
+              btn.setAttribute('data-checked', 'true');
+              setTimeout(() => btn.removeAttribute('data-checked'), 2000);
+            }
+          }, true);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCodeBlocks);
+      } else {
+        initCodeBlocks();
+      }
+
+      document.addEventListener('astro:page-load', initCodeBlocks);
     </script>
   </body>
 </html>
