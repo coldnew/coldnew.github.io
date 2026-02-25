@@ -1,7 +1,7 @@
 <!-- gitnexus:start -->
 # GitNexus MCP
 
-This project is indexed by GitNexus as **blog** (11639 symbols, 31133 relationships, 300 execution flows).
+This project is indexed by GitNexus as **blog** (11655 symbols, 31078 relationships, 300 execution flows).
 
 GitNexus provides a knowledge graph over this codebase — call chains, blast radius, execution flows, and semantic search.
 

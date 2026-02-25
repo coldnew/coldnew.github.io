@@ -42,13 +42,18 @@ const _q = Astro.url.searchParams.get('q') ?? undefined;
           btn.addEventListener('click', async (e) => {
             e.preventDefault();
             e.stopPropagation();
-            const codeBlock = btn.closest('.shiki');
+            const currentBtn = e.currentTarget as HTMLButtonElement;
+            const codeBlock = currentBtn.closest('.shiki');
             const code = codeBlock?.querySelector('code');
             const text = code?.innerText;
             if (text) {
               await navigator.clipboard.writeText(text);
-              btn.setAttribute('data-checked', 'true');
-              setTimeout(() => btn.removeAttribute('data-checked'), 2000);
+              currentBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+              currentBtn.setAttribute('aria-label', 'Copied Text');
+              setTimeout(() => {
+                currentBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg>';
+                currentBtn.setAttribute('aria-label', 'Copy Text');
+              }, 2000);
             }
           }, true);
         });
