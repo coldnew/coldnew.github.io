@@ -40,7 +40,7 @@ export function Docs({
     >
       <RootProvider
         theme={{
-          defaultTheme: 'dark',
+          defaultTheme: 'light',
           enabled: true,
         }}
         search={{
