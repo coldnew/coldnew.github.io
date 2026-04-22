@@ -1,0 +1,1 @@
+import{r as t}from"./index.CzxEEz7Y.js";function i({enabled:e=!0}){const[n,r]=t.useState();return t.useEffect(()=>{if(!e)return;const t=()=>{r(window.scrollY<10)};return t(),window.addEventListener("scroll",t),()=>{window.removeEventListener("scroll",t)}},[e]),n}export{i as u};
