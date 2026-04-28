@@ -1,0 +1,1 @@
+function r(o,n=!1){const t=o;for(const o in t){if(void 0===t[o]&&delete t[o],!n)continue;const e=t[o];if("object"!=typeof e||null===e){if(Array.isArray(e))for(const o of e)r(o,n)}else r(e,n)}return o}export{r};
