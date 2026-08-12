@@ -1,0 +1,1 @@
+import{j as u,D as x}from"./Docs.Cuw-VRxj.js";function e({tree:e,children:a,pathname:r,page:s,sidebarTabs:t=[]}){return u.jsx(x,{tree:e,pathname:r,page:s,sidebarTabs:t,children:a})}export{e as FluxLayoutWrapper};

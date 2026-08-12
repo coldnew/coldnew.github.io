@@ -1,0 +1,1 @@
+import{j as o,D as t}from"./Docs.Cuw-VRxj.js";function i({children:e,pathname:r}){return o.jsx(t,{tree:{children:[],files:[]},pathname:r,children:e})}export{i as HomeLayoutWrapper};

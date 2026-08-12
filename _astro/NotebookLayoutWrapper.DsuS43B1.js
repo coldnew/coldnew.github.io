@@ -1,0 +1,1 @@
+import{j as p,D as a}from"./Docs.Cuw-VRxj.js";function u({tree:e,children:r,pathname:s,page:t,sidebarTabs:o=[]}){return p.jsx(a,{tree:e,pathname:s,page:t,sidebarTabs:o,children:r})}export{u as NotebookLayoutWrapper};
