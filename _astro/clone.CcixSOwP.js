@@ -1,1 +1,0 @@
-import{b as r}from"./graph.5P2wPSnz.js";var e=4;function a(a){return r(a,e)}export{a as c};
